@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的商品",
+  "usingComponents": {
+    "loading": "/components/Loading/index"
+  }
+}

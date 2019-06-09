@@ -1,0 +1,103 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		 {
+		    "path" : "pages/manage/good_add/good_add",
+		    "style" : {
+					"navigationBarTitleText": "新建产品"
+				}
+		},
+		
+			{
+			    "path" : "pages/manage/goods/goods",
+					"style": {
+						"navigationBarTitleText": "我的产品",
+						"titleNView": {
+							"searchInput": {
+                            "backgroundColor": "#fff",
+                            "borderRadius": "6px", //输入框圆角
+                            "placeholder": "请输入搜索内容"
+                           
+                        },
+                "buttons" : [  
+                    {  
+                        "text" : "添加",  
+                        "fontSize" : "14"
+                    },  
+                    {  
+                        "text" : "筛选",  
+                        "fontSize" : "14"
+                    }  
+                ]    
+            }  
+				 }
+			},
+		
+		
+			{
+		          "path" : "pages/manage/manage",
+		          "style": {
+		          	"navigationBarTitleText": "管理"
+		          }
+		      }
+		      ,{
+		          "path" : "pages/report/report",
+		          "style": {
+		          	"navigationBarTitleText": "报表"
+		          }
+		      }
+		      ,{
+		          "path" : "pages/mine/mine",
+		          "style": {
+		          	"navigationBarTitleText": "我的"
+		          }
+		      }
+		      
+		      ,{
+		          "path" : "pages/manage/good_det/good_det",
+		          "style": {
+		          	"navigationBarTitleText": "产品详情"
+		          }
+		      }
+    ],
+	"tabBar": {
+		"color": "#000",
+		"selectedColor": "#426ab3",
+		"backgroundColor": "#fff",
+		"borderStyle": "white",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/chuan.png",
+				"selectedIconPath": "static/chuan.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/manage/manage",
+				"iconPath": "static/manage.png",
+				"selectedIconPath": "static/manage.png",
+				"text": "管理"
+			}, {
+				"pagePath": "pages/report/report",
+				"iconPath": "static/report.png",
+				"selectedIconPath": "static/report.png",
+				"text": "记录"
+			}, {
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/person.png",
+				"selectedIconPath": "static/person.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "积木舟",
+		"navigationBarBackgroundColor": "#426ab3",
+		"backgroundColor": "#fff"
+	}
+}

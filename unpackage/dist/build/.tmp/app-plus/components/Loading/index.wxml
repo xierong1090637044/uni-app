@@ -1,0 +1,1 @@
+<view class="Loading_view" bind:__l="__l"><image class="loading_image" src="/static/timg.gif"></image></view>
