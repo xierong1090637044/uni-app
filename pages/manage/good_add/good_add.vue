@@ -103,6 +103,8 @@
 	let that;
 	let tempFilePaths;
 	let uid = uni.getStorageSync('uid');
+	let producttime;
+	let nousetime;
 	export default {
 		components: {
 			faIcon,
@@ -119,11 +121,15 @@
 		},
 		methods: {
 			bindproducttimeChange: function(e) {
-          this.producttime = e.target.value
+				 let date = new Date(e.target.value);
+         this.producttime = e.target.value;
+				 producttime = date.getTime();
        },
 			 
 			bindDateChange: function(e) {
-          this.nousetime = e.target.value
+				let date = new Date(e.target.value);
+        this.nousetime = e.target.value;
+				nousetime = date.getTime();
        },
 			//保存提交
 			formSubmit: function(e) {
@@ -155,6 +161,8 @@
 								 			goodsName:good.goodsName,
 											costPrice:good.costPrice,
 											retailPrice:good.retailPrice,
+											producttime:producttime,
+											nousetime:nousetime,
 											regNumber:good.regNumber,
 								 			reserve:good.reserve,
 											productCode:good.productCode,
@@ -179,6 +187,8 @@
 							 			goodsName:good.goodsName,
 							 			costPrice:good.costPrice,
 							 			retailPrice:good.retailPrice,
+										producttime:producttime,
+										nousetime:nousetime,
 							 			regNumber:good.regNumber,
 							 			reserve:good.reserve,
 							 			productCode:good.productCode,

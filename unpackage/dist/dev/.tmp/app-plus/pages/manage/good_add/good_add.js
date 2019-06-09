@@ -202,7 +202,9 @@ __webpack_require__.r(__webpack_exports__);
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/kilvn-fa-icon/fa-icon.vue"));};
 var that;
 var tempFilePaths;
-var uid = uni.getStorageSync('uid');var _default =
+var uid = uni.getStorageSync('uid');
+var producttime;
+var nousetime;var _default =
 {
   components: {
     faIcon: faIcon },
@@ -219,11 +221,15 @@ var uid = uni.getStorageSync('uid');var _default =
   },
   methods: {
     bindproducttimeChange: function bindproducttimeChange(e) {
+      var date = new Date(e.target.value);
       this.producttime = e.target.value;
+      producttime = date.getTime();
     },
 
     bindDateChange: function bindDateChange(e) {
+      var date = new Date(e.target.value);
       this.nousetime = e.target.value;
+      nousetime = date.getTime();
     },
     //保存提交
     formSubmit: function formSubmit(e) {var _this = this;
@@ -255,6 +261,8 @@ var uid = uni.getStorageSync('uid');var _default =
               goodsName: good.goodsName,
               costPrice: good.costPrice,
               retailPrice: good.retailPrice,
+              producttime: producttime,
+              nousetime: nousetime,
               regNumber: good.regNumber,
               reserve: good.reserve,
               productCode: good.productCode,
@@ -267,7 +275,7 @@ var uid = uni.getStorageSync('uid');var _default =
                 'Content-Type': 'application/x-www-form-urlencoded' //自定义请求头信息
               } }).
             then(function (res) {
-              console.log(res, " at pages\\manage\\good_add\\good_add.vue:170");
+              console.log(res, " at pages\\manage\\good_add\\good_add.vue:178");
               uni.showToast({ title: "上传成功" });
             }).catch(function (err) {
 
@@ -279,6 +287,8 @@ var uid = uni.getStorageSync('uid');var _default =
             goodsName: good.goodsName,
             costPrice: good.costPrice,
             retailPrice: good.retailPrice,
+            producttime: producttime,
+            nousetime: nousetime,
             regNumber: good.regNumber,
             reserve: good.reserve,
             productCode: good.productCode,
