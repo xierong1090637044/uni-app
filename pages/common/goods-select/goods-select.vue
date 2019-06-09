@@ -6,19 +6,24 @@
 		<view v-else class="content">
 			<!--<uni-nav-bar left-icon="back" right-text="菜单" left-text="返回" title="标题" @click-left="back" />-->
 			<scroll-view class="uni-product-list">
-				<view class="uni-product" v-for="(product,index) in productList" :key="index">
-					<view>
-						<image v-if="product.image" class="product_image" :src="product.image" mode="widthFix" lazy-load="true"></image>
-						<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
-					</view>
-					
-					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.id)">
-						<view style="font-size: 30rpx;" class="product_name">{{product.name}}</view>
-						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
-					</view>
-					
-					<fa-icon type="arrow-circle-right " size="20" color="#426ab3"></fa-icon>
+				<view  v-for="(product,index) in productList" :key="index">
+					<radio-group style="display: flex;align-items: center;" @change="radioChange">
+						<view><radio  :value="index"  style="transform:scale(0.9)" color="#426ab3"/></view>
+						
+						<view class="uni-product">
+							<view>
+								<image v-if="product.image" class="product_image" :src="product.image" mode="widthFix" lazy-load="true"></image>
+								<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+							</view>
+							
+							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.id)">
+								<view style="font-size: 30rpx;" class="product_name">{{product.name}}</view>
+								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
+							</view>
+						</view>
+						
+					</radio-group>
 				</view>
 			</scroll-view>
 		</view>
@@ -50,7 +55,7 @@
 		//监听原生标题栏按钮点击事件
 		onNavigationBarButtonTap(Object) {  
         console.log(Object);
-				if(Object.text == "添加"){
+				if(Object.text == "确定"){
 					this.goAdd();
 				}
 				
@@ -76,9 +81,10 @@
 		},
 		
 		methods: {
-			//点击去到详情
-			goDetail(value){
-				uni.navigateTo({url:"../good_det/good_det?id="+value})
+			radioChange: function(e) {
+				//console.log(e.detail.value)
+				let index = e.detail.value;
+				console.log(this.productList[index])
 			},
 			
 			//点击去到添加产品
@@ -112,6 +118,8 @@
 	border-bottom: 1px solid#ddd;
 	justify-content: space-between;
 	align-items: center;
+	width: 100%;
+	margin-left: 20rpx;
 }
 .product_image
 {

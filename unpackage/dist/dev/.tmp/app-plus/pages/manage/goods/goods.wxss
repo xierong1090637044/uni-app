@@ -33,6 +33,7 @@
 .product_image
 {
 	width: 80rpx;
+	height: 80rpx;
 }
 .product_name
 {

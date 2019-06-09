@@ -1,17 +1,42 @@
 {
 	"pages": [
-		
-		 {
-		    "path" : "pages/manage/good_add/good_add",
-		    "style" : {
-					"navigationBarTitleText": "新建产品"
-				}
-		},
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
+		},
+		{
+		    "path" : "pages/common/goods-select/goods-select",
+		    "style" : {
+					"navigationBarTitleText": "选择产品",
+					"titleNView": {
+						"searchInput": {
+					                "backgroundColor": "#fff",
+					                "borderRadius": "6px", //输入框圆角
+					                "placeholder": "请输入搜索内容"
+					               
+					            },
+					    "buttons" : [  
+					        {  
+					            "text" : "确定",  
+					            "fontSize" : "14"
+					        },  
+					        {  
+					            "text" : "筛选",  
+					            "fontSize" : "14"
+					        }  
+					    ]    
+					} 
+				}
+		},
+		 
+		
+		{
+		    "path" : "pages/manage/good_add/good_add",
+		    "style" : {
+					"navigationBarTitleText": "新建产品"
+				}
 		},
 		
 			{
@@ -65,6 +90,7 @@
 		          	"navigationBarTitleText": "产品详情"
 		          }
 		      }
+        
     ],
 	"tabBar": {
 		"color": "#000",

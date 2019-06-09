@@ -29,6 +29,8 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
+	width: 100%;
+	margin-left: 20rpx;
 }
 .product_image
 {

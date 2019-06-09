@@ -19,7 +19,7 @@
 				<view class="second_one">
 					<view>品牌: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
 					<view>条码: <text class="second_right_text">{{product.productCode?product.productCode:product.objectId}}</text></view>
-					<view>型号: <text class="second_right_text">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+					<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
 					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 				</view>
 				

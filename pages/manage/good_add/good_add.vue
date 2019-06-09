@@ -6,7 +6,7 @@
 
 				<view style="width: 100%;padding-bottom: 20rpx;">
 					<view class="upload_image" @click="upload_image">
-						<image :src="goodsIcon" v-if="goodsIcon" style="width: 100%;" mode="widthFix"></image>
+						<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
 						<fa-icon type="plus-square-o" size="40" color="#f58220" v-else></fa-icon>
 					</view>
 					<input name="goodsIcon" v-show="false" :value="goodsIcon"/>
