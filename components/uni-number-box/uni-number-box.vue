@@ -98,7 +98,7 @@
 		display: inline-flex;
 		flex-direction: row;
 		justify-content: flex-start;
-		height: 70upx;
+		height: 50upx;
 		position: relative
 	}
 
@@ -124,7 +124,7 @@
 		width: 70upx;
 		font-size: 40upx;
 		height: 100%;
-		line-height: 70upx;
+		line-height: 50upx;
 		text-align: center;
 		display: inline-flex;
 		align-items: center;

@@ -6,25 +6,24 @@
 		<view v-else class="content">
 			<!--<uni-nav-bar left-icon="back" right-text="菜单" left-text="返回" title="标题" @click-left="back" />-->
 			<scroll-view class="uni-product-list">
-				<view  v-for="(product,index) in productList" :key="index">
-					<radio-group style="display: flex;align-items: center;" @change="radioChange">
-						<view><radio  :value="index"  style="transform:scale(0.9)" color="#426ab3"/></view>
-						
-						<view class="uni-product">
-							<view>
-								<image v-if="product.image" class="product_image" :src="product.image" mode="widthFix" lazy-load="true"></image>
-								<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
-							</view>
+					<checkbox-group  @change="radioChange">
+						<view  v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
+							<view><checkbox :value="index"  style="transform:scale(0.9)" color="#426ab3" :data="index"/></view>
 							
-							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.id)">
-								<view style="font-size: 30rpx;" class="product_name">{{product.name}}</view>
-								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
+							<view class="uni-product">
+								<view>
+									<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
+									<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+								</view>
+								
+								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
+									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+									<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
+								</view>
 							</view>
 						</view>
-						
-					</radio-group>
-				</view>
+					</checkbox-group>
 			</scroll-view>
 		</view>
 		
@@ -38,6 +37,8 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	
+	let products =[];
+	let indexs = [];
 	export default {
 		components: {
 			loading,
@@ -56,7 +57,7 @@
 		onNavigationBarButtonTap(Object) {  
         console.log(Object);
 				if(Object.text == "确定"){
-					this.goAdd();
+					this.go_goodsconfrim();
 				}
 				
     },
@@ -65,7 +66,9 @@
 		onLoad() {
 			
 		},
+		
 		onShow() {
+			this.handle_data();
 			let uid = uni.getStorageSync('uid');
 			
 			this.$http.post('/do_getdata.php', {userid:uid}, {
@@ -81,16 +84,36 @@
 		},
 		
 		methods: {
+			
+			//多选选择触发
 			radioChange: function(e) {
-				//console.log(e.detail.value)
-				let index = e.detail.value;
-				console.log(this.productList[index])
+				indexs = e.detail.value;
+				console.log(indexs)
 			},
 			
 			//点击去到添加产品
-			goAdd(){
-				uni.navigateTo({url:"../good_add/good_add"})
-			}
+			go_goodsconfrim(){
+				console.log(indexs)
+				if(indexs.length == 0)
+				{
+					uni.showToast({title:"请选择产品",icon:"none"})
+				}else{
+					for(let i =0;i<indexs.length;i++)
+					{
+						this.productList[indexs[i]].num = 1;
+						this.productList[indexs[i]].total_money = 1*this.productList[indexs[i]].retailPrice;
+						this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
+						products.push(this.productList[indexs[i]])
+					}
+					uni.setStorageSync("products",products);
+					uni.navigateTo({url:"../good_confrim/good_confrim"})
+				}
+			},
+			
+			//数据重置
+			handle_data(){
+				products =[];
+			},
 			
 		}
 	}

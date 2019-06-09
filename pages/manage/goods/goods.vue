@@ -8,12 +8,12 @@
 			<scroll-view class="uni-product-list">
 				<view class="uni-product" v-for="(product,index) in productList" :key="index">
 					<view>
-						<image v-if="product.image" class="product_image" :src="product.image" mode="widthFix" lazy-load="true"></image>
+						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
 						<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 					</view>
 					
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.id)">
-						<view style="font-size: 30rpx;" class="product_name">{{product.name}}</view>
+						<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
 					</view>

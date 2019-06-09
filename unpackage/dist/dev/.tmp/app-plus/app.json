@@ -1,7 +1,9 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
+    "pages/common/good_confrim/good_confrim",
+    "pages/index/index",
     "pages/manage/good_add/good_add",
     "pages/manage/goods/goods",
     "pages/manage/manage",

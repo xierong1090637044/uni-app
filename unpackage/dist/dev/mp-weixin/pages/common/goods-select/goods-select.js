@@ -131,7 +131,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _config = _interopRequireDefault(__webpack_require__(/*! ../../../utils/config.js */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/config.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -164,8 +163,12 @@ var _config = _interopRequireDefault(__webpack_require__(/*! ../../../utils/conf
 //
 //
 //
-//
-var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/Loading/index.vue"));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/uni-nav-bar/uni-nav-bar.vue"));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/uni-icon/uni-icon.vue"));};var _default = { components: { loading: loading, uniNavBar: uniNavBar, faIcon: faIcon, uniIcon: uniIcon }, data: function data() {return { loading: true, productList: null };}, onLoad: function onLoad() {}, onShow: function onShow() {var _this = this;
+var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/Loading/index.vue"));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/uni-nav-bar/uni-nav-bar.vue"));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/uni-icon/uni-icon.vue"));};var products = [];var indexs = [];var _default = { components: { loading: loading, uniNavBar: uniNavBar, faIcon: faIcon, uniIcon: uniIcon }, data: function data() {return { loading: true, productList: null };}, onLoad: function onLoad() {
+
+  },
+
+  onShow: function onShow() {var _this = this;
+    this.handle_data();
     var uid = uni.getStorageSync('uid');
 
     this.$http.post('/do_getdata.php', { userid: uid }, {
@@ -181,15 +184,35 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
   },
 
   methods: {
+
+    //多选选择触发
     radioChange: function radioChange(e) {
-      //console.log(e.detail.value)
-      var index = e.detail.value;
-      console.log(this.productList[index]);
+      indexs = e.detail.value;
+      console.log(indexs);
     },
 
     //点击去到添加产品
-    goAdd: function goAdd() {
-      uni.navigateTo({ url: "../good_add/good_add" });
+    go_goodsconfrim: function go_goodsconfrim() {
+      console.log(indexs);
+      if (indexs.length == 0)
+      {
+        uni.showToast({ title: "请选择产品", icon: "none" });
+      } else {
+        for (var i = 0; i < indexs.length; i++)
+        {
+          this.productList[indexs[i]].num = 1;
+          this.productList[indexs[i]].total_money = 1 * this.productList[indexs[i]].retailPrice;
+          this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
+          products.push(this.productList[indexs[i]]);
+        }
+        uni.setStorageSync("products", products);
+        uni.navigateTo({ url: "../good_confrim/good_confrim" });
+      }
+    },
+
+    //数据重置
+    handle_data: function handle_data() {
+      products = [];
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
