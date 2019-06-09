@@ -1,19 +1,19 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js":
-/*!*****************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js ***!
-  \*****************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js":
+/*!*********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createApp) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createApp) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../Desktop/新建文件夹 (7)/my_stock/App.vue"));
-var _faIcon = _interopRequireDefault(__webpack_require__(/*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/components/kilvn-fa-icon/fa-icon.vue"));
-var _request = __webpack_require__(/*! @/utils/request */ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/request/index.js");
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/App.vue"));
+var _faIcon = _interopRequireDefault(__webpack_require__(/*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/components/kilvn-fa-icon/fa-icon.vue"));
+var _request = __webpack_require__(/*! @/utils/request */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/request/index.js");
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
 _bmob.default.initialize("afaa8342776ad99ff0d49bca224de9b2", "9eed865dc5914f2ecedcd63be31e33e9", "47f76baf4ee4d90630d7b2bc17f7505c");
 _vue.default.prototype.$http = _request.http;
@@ -33,129 +33,129 @@ createApp(app).$mount();
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Findex%2Findex\"}":
-/*!**************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \**************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Findex%2Findex\"}":
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/index/index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/index/index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Fmanage%2Fgood_add%2Fgood_add\"}":
-/*!*****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
-  \*****************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Fmanage%2Fgood_add%2Fgood_add\"}":
+/*!*********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
+  \*********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/manage/good_add/good_add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/manage/good_add/good_add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_add.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Fmanage%2Fgood_det%2Fgood_det\"}":
-/*!*****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
-  \*****************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Fmanage%2Fgood_det%2Fgood_det\"}":
+/*!*********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
+  \*********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/manage/good_det/good_det.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/manage/good_det/good_det.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_det.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Fmanage%2Fgoods%2Fgoods\"}":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
-  \***********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Fmanage%2Fgoods%2Fgoods\"}":
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/manage/goods/goods.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/manage/goods/goods.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_goods.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Fmanage%2Fmanage\"}":
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
-  \****************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Fmanage%2Fmanage\"}":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/manage/manage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/manage/manage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_manage.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
-/*!************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/mine/mine.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_mine.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/main.js?{\"page\":\"pages%2Freport%2Freport\"}":
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
 /*!****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/main.js?{"page":"pages%2Freport%2Freport"} ***!
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
   \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages/report/report.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/mine/mine.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_mine.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/main.js?{\"page\":\"pages%2Freport%2Freport\"}":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/main.js?{"page":"pages%2Freport%2Freport"} ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages/report/report.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_report.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/pages.json":
-/*!********************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/pages.json ***!
-  \********************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/pages.json":
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/pages.json ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -164,10 +164,10 @@ createPage(_report.default);
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/bmob.js":
-/*!***********************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/utils/bmob.js ***!
-  \***********************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/bmob.js":
+/*!***************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/utils/bmob.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -187,10 +187,10 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/config.js":
-/*!*************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/utils/config.js ***!
-  \*************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/config.js":
+/*!*****************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/utils/config.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -218,15 +218,15 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/request/index.js":
-/*!********************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/utils/request/index.js ***!
-  \********************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/request/index.js":
+/*!************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/utils/request/index.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.test = exports.http = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/request/request.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+Object.defineProperty(exports, "__esModule", { value: true });exports.test = exports.http = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/request/request.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 var test = new _request.default();exports.test = test;
 test.setConfig(function (config) {/* 设置全局配置 */
   config.baseUrl = 'https://www.jimuzhou.com/stock/res';
@@ -279,10 +279,10 @@ http.interceptor.response(function (response) {/* 请求之后拦截器 */
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock/utils/request/request.js":
-/*!**********************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock/utils/request/request.js ***!
-  \**********************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹 (7)/my_stock_uni/utils/request/request.js":
+/*!**************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (7)/my_stock_uni/utils/request/request.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
