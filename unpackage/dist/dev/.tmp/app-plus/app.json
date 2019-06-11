@@ -16,7 +16,9 @@
     "pages/common/goods_out/goods_out",
     "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_return/good_return",
-    "pages/common/good_return/return_detail/return_detail"
+    "pages/common/good_return/return_detail/return_detail",
+    "pages/common/good_count/good_count",
+    "pages/common/good_count/count_detail/count_detail"
   ],
   "subPackages": [],
   "window": {

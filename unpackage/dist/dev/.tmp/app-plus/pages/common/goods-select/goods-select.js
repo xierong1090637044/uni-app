@@ -175,6 +175,8 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
       this.url = "../goods_out/goods_out";
     } else if (option.type == "returing") {
       this.url = "../good_return/good_return";
+    } else if (option.type == "counting") {
+      this.url = "../good_count/good_count";
     }
 
     uid = uni.getStorageSync('uid');
@@ -201,7 +203,7 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
     //多选选择触发
     radioChange: function radioChange(e) {
       indexs = e.detail.value;
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:104");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:106");
 
       /*products =[];
                                                                                     for(let i =0;i<indexs.length;i++)
@@ -217,7 +219,7 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
 
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:120");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:122");
       if (indexs.length == 0)
       {
         uni.showToast({ title: "请选择产品", icon: "none" });

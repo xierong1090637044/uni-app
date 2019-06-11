@@ -175,6 +175,8 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
       this.url = "../goods_out/goods_out";
     } else if (option.type == "returing") {
       this.url = "../good_return/good_return";
+    } else if (option.type == "counting") {
+      this.url = "../good_count/good_count";
     }
 
     uid = uni.getStorageSync('uid');
