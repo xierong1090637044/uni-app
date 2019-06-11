@@ -1,9 +1,6 @@
 <template>
 	<view class="page">
-		<loading v-if="loading"></loading>
 		
-		<view v-else>
-			
 			<view class="frist">
 				<image v-if="product.goodsIcon" :src="product.goodsIcon" style="width: 100%;height: 100%;"></image>
 				<image v-else src="/static/goods-default.png" style="height: 100%;"></image>
@@ -42,41 +39,23 @@
 				<fa-icon type="share-alt-square" size="30" color="#1d953f"></fa-icon>
 			</view>
 			
-		</view>
 	</view>
 </template>
 
 <script>
-	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	export default {
 		components: {
 			faIcon,
-			loading,
 		},
 		data() {
 			return {
-				loading:true,
 				product_id:"",
 				product:"",
 			}
 		},
-		onLoad(options) {
-			console.log(options)
-			//this.product_id = options.id;
-			this.product_id = options.id;
-			
-			this.$http.post('/product/detail.php', {product_id:options.id}, {
-			     header: {
-			         'Content-Type': 'application/x-www-form-urlencoded' //自定义请求头信息
-			     },
-			  }).then(res => {
-					console.log(res)
-					this.loading = false;
-					this.product = res.data.data;
-			  }).catch(err => {
-			
-			  });
+		onLoad() {
+			this.product = uni.getStorageSync("now_product");
 		},
 		methods: {
 			

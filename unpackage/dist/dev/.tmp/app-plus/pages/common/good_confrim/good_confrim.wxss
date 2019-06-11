@@ -39,11 +39,13 @@
 	    -ms-flex-pack: end;
 	        justify-content: flex-end;
 	padding: 4rpx 12rpx;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 }
 .input_label{
 	border: 1rpx solid#ddd;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 	padding: 0 6rpx;
 	width: 140rpx;
 	color: #aa2116;

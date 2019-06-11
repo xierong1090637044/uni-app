@@ -4,13 +4,13 @@
     "iPhone",
     "iPad"
   ],
-  "id": "",
-  "name": "my_stock",
+  "id": "__UNI__F367A00",
+  "name": "my_stock2",
   "version": {
-    "name": "1.0.0",
-    "code": "100"
+    "name": "1.0.1",
+    "code": 200
   },
-  "description": "",
+  "description": "dsadasdasd",
   "launch_path": "__uniapptabbar.html",
   "developer": {
     "name": "",
@@ -46,7 +46,28 @@
     "distribute": {
       "icons": {
         "ios": {
-          "appstore": "static/chuan.png"
+          "appstore": "static/chuan.png",
+          "ipad": {
+            "app": "unpackage/res/icons/76x76.png",
+            "app@2x": "unpackage/res/icons/152x152.png",
+            "notification": "unpackage/res/icons/20x20.png",
+            "notification@2x": "unpackage/res/icons/40x40.png",
+            "proapp@2x": "unpackage/res/icons/167x167.png",
+            "settings": "unpackage/res/icons/29x29.png",
+            "settings@2x": "unpackage/res/icons/58x58.png",
+            "spotlight": "unpackage/res/icons/40x40.png",
+            "spotlight@2x": "unpackage/res/icons/80x80.png"
+          },
+          "iphone": {
+            "app@2x": "unpackage/res/icons/120x120.png",
+            "app@3x": "unpackage/res/icons/180x180.png",
+            "notification@2x": "unpackage/res/icons/40x40.png",
+            "notification@3x": "unpackage/res/icons/60x60.png",
+            "settings@2x": "unpackage/res/icons/58x58.png",
+            "settings@3x": "unpackage/res/icons/87x87.png",
+            "spotlight@2x": "unpackage/res/icons/80x80.png",
+            "spotlight@3x": "unpackage/res/icons/120x120.png"
+          }
         },
         "android": {
           "mdpi": "static/customs.png",

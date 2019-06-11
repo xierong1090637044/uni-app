@@ -103,8 +103,8 @@
 	let that;
 	let tempFilePaths;
 	let uid = uni.getStorageSync('uid');
-	let producttime;
-	let nousetime;
+	let producttime = 0;
+	let nousetime = 0;
 	export default {
 		components: {
 			faIcon,
@@ -112,8 +112,6 @@
 		data() {
 			return {
 				goodsIcon:"",//产品图片
-				nousetime:"",//失效时间
-				producttime:"",//生产日期
 			}
 		},
 		onLoad() {
@@ -122,13 +120,11 @@
 		methods: {
 			bindproducttimeChange: function(e) {
 				 let date = new Date(e.target.value);
-         this.producttime = e.target.value;
 				 producttime = date.getTime();
        },
 			 
 			bindDateChange: function(e) {
 				let date = new Date(e.target.value);
-        this.nousetime = e.target.value;
 				nousetime = date.getTime();
        },
 			//保存提交
@@ -146,7 +142,9 @@
 						 	  title:"请输入产品库存",
 								icon:"none"
 						 })
-					 }else{				 
+					 }else{
+						 console.log(producttime,nousetime)
+						 uni.showLoading({title:"上传中..."});
 						 if(tempFilePaths)
 						 {
 							 let file;
@@ -156,55 +154,10 @@
 							 }
 							 file.save().then(res => {
 								 that.goodsIcon = JSON.parse(res).url;
-								 let params = {
-								 			goodsIcon:that.goodsIcon,
-								 			goodsName:good.goodsName,
-											costPrice:good.costPrice,
-											retailPrice:good.retailPrice,
-											producttime:producttime,
-											nousetime:nousetime,
-											regNumber:good.regNumber,
-								 			reserve:good.reserve,
-											productCode:good.productCode,
-											product_info:good.product_info,
-											producer:good.producer,
-											userid:uid,
-								 }
-								 this.$http.post('/product/add.php', params, {
-								      header: {
-								          'Content-Type': 'application/x-www-form-urlencoded' //自定义请求头信息
-								      },
-								   }).then(res => {
-								 		console.log(res)
-										uni.showToast({title:"上传成功"})
-								   }).catch(err => {
-								 
-								 });
+								 that.upload_good(good)
 							 })
 						 }else{
-							 let params = {
-							 			goodsIcon:"",
-							 			goodsName:good.goodsName,
-							 			costPrice:good.costPrice,
-							 			retailPrice:good.retailPrice,
-										producttime:producttime,
-										nousetime:nousetime,
-							 			regNumber:good.regNumber,
-							 			reserve:good.reserve,
-							 			productCode:good.productCode,
-							 			product_info:good.product_info,
-							 			producer:good.producer,
-							 			userid:uid,
-							 }
-							 this.$http.post('/product/add.php', params, {
-							      header: {
-							          'Content-Type': 'application/x-www-form-urlencoded' //自定义请求头信息
-							      },
-							   }).then(res => {
-							 		uni.showToast({title:"上传成功"})
-							   }).catch(err => {
-							 
-							 });
+							 that.upload_good(good)
 						 }
 					 }
         },
@@ -221,6 +174,32 @@
 						tempFilePaths = res.tempFilePaths;
 					},
 				});
+			},
+			
+			//上传商品
+			upload_good(good){
+				const pointer = Bmob.Pointer('_User')
+				const userid = pointer.set(uid)
+				
+				const query = Bmob.Query('Goods');
+				query.set("goodsIcon",that.goodsIcon)
+				query.set("goodsName",good.goodsName)
+				query.set("costPrice",good.costPrice?good.costPrice:"0")
+				query.set("retailPrice",good.retailPrice?good.retailPrice:"0")
+				query.set("producttime_t",producttime)
+				query.set("nousetime_t",nousetime)
+				query.set("regNumber",good.regNumber)
+				query.set("reserve",Number(good.reserve))
+				query.set("productCode",good.productCode)
+				query.set("product_info",good.product_info)
+				query.set("producer",good.producer)
+				query.set("userId",userid)
+				query.save().then(res => {
+					uni.hideLoading();
+				  uni.showToast({title:"上传成功"})
+				}).catch(err => {
+				  console.log(err)
+				})
 			},
 			
 		}

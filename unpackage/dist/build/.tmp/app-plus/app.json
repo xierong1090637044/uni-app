@@ -1,11 +1,16 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/common/good_confrim/good_enter/good_enter",
+    "pages/common/goods-select/goods-select",
+    "pages/common/good_confrim/good_confrim",
+    "pages/manage/good_add/good_add",
     "pages/manage/goods/goods",
     "pages/manage/manage",
     "pages/report/report",
     "pages/mine/mine",
-    "pages/manage/good_det/good_det"
+    "pages/manage/good_det/good_det",
+    "pages/report/EnteringHistory/EnteringHistory"
   ],
   "subPackages": [],
   "window": {
@@ -50,7 +55,7 @@
     "alwaysShowBeforeRender": true,
     "autoclose": false
   },
-  "appname": "my_stock",
+  "appname": "my_stock2",
   "compilerVersion": "1.9.9",
   "usingComponents": {}
 }

@@ -78,7 +78,7 @@
 						query.get(this.products[i].objectId).then(res => {
 							//console.log(res)
 							res.set('reserve', num)
-							//res.set('stocktype', (num > this.products[i].warning_num)?1:0 )
+							res.set('stocktype', (num > this.products[i].warning_num)?1:0 )
 							res.save()
 						}).catch(err => {
 							  console.log(err)

@@ -12,7 +12,7 @@
 						<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 					</view>
 					
-					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.id)">
+					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 						<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
@@ -77,10 +77,16 @@
 			});
 		},
 		
+		onUnload() {
+			uni.removeStorageSync("now_product")
+		},
+		
 		methods: {
 			//点击去到详情
 			goDetail(value){
-				uni.navigateTo({url:"../good_det/good_det?id="+value})
+				console.log(value)
+				uni.setStorageSync("now_product",value);
+				uni.navigateTo({url:"../good_det/good_det"})
 			},
 			
 			//点击去到添加产品

@@ -4,6 +4,7 @@
   color: #4d4d4d;
 	background: #f6f5ec;
 	font-size: 28rpx;
+	height: 100vh;
 	overflow: scroll;
 }
 .pro_list
@@ -33,6 +34,7 @@
 }
 .beizhu_style
 {
+  width: -webkit-calc(100% - 40rpx);
   width: calc(100% - 40rpx);
   background-color: #fff;
   padding:20rpx;
@@ -40,9 +42,10 @@
   max-height: 100rpx;
 }
 .confrim_button{
-	background: #aa2116;
+	background: #aa2116	;
 	color: #fff;
 	font-weight: bold;
+	font-size: 32rpx;
 }
 
 

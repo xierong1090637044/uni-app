@@ -19,7 +19,7 @@
 								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-									<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
+									<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 								</view>
 							</view>
 						</view>
@@ -36,9 +36,11 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import Bmob from '@/utils/bmob.js'
 	
 	let products =[];
 	let indexs = [];
+	let uid;
 	export default {
 		components: {
 			loading,
@@ -50,6 +52,7 @@
 			return {
 				loading:true,
 				productList:null,
+				url:null,
 			}
 		},
 		// #ifdef APP-PLUS
@@ -63,24 +66,32 @@
     },
 		// #endif
 		
-		onLoad() {
+		onLoad(option) {
+			console.log(option)
+			if(option.type ="entering")
+			{
+				this.url = "../good_confrim/good_confrim"
+			}else if(option.type ="delivery"){
+				this.url = "../good_out/good_out"
+			}
 			
+			uid = uni.getStorageSync('uid');
 		},
 		
 		onShow() {
 			this.handle_data();
-			let uid = uni.getStorageSync('uid');
-			
-			this.$http.post('/do_getdata.php', {userid:uid}, {
-			     header: {
-			         'Content-Type': 'application/x-www-form-urlencoded' //自定义请求头信息
-			     },
-			  }).then(res => {
-					this.productList = res.data.alldata;
-					this.loading = false;
-			  }).catch(err => {
-			
-			  });
+						
+			const query = Bmob.Query("Goods");
+			query.equalTo("userId","==", uid);
+			query.limit(500);
+			query.order("-createdAt"); //按照时间降序
+			query.include("userId");
+			query.include("goodsClass");
+			query.find().then(res => {
+				//console.log(res)
+				this.productList = res;
+				this.loading = false;
+			});
 		},
 		
 		methods: {
@@ -117,7 +128,7 @@
 						products.push(this.productList[indexs[i]])
 					}
 					uni.setStorageSync("products",products);
-					uni.navigateTo({url:"../good_confrim/good_confrim"})
+					uni.navigateTo({url:this.url})
 				}
 			},
 			

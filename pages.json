@@ -1,6 +1,19 @@
 {
 	"pages": [
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+		    "path" : "pages/landing/landing",
+		    "style" : {
+				"navigationBarTitleText": "登陆"
+			}
+		},
+		
+		{
 		    "path" : "pages/common/good_confrim/good_enter/good_enter",
 		    "style" : {
 					"navigationBarTitleText": "产品入库"
@@ -44,15 +57,6 @@
 					} 
 				}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		
-		 
-		
 		{
 		    "path" : "pages/manage/good_add/good_add",
 		    "style" : {
@@ -111,6 +115,31 @@
 		          	"navigationBarTitleText": "产品详情"
 		          }
 		      }
+        ,{
+            "path" : "pages/report/EnteringHistory/EnteringHistory",
+            "style" : {
+				"navigationBarTitleText": "入库详情"
+			}
+        }
+        ,{
+            "path" : "pages/report/EnteringHistory/detail/detail",
+            "style" : {
+				"navigationBarTitleText": "明细"
+			}
+        }
+        ,{
+            "path" : "pages/common/goods_out/goods_out",
+            "style" : {
+				"navigationBarTitleText": "产品出库"
+			}
+        }
+        ,{
+            "path" : "pages/common/goods_out/out_detail/out_detail",
+            "style" : {
+				"navigationBarTitleText": "出库详情"
+			}
+        }
+ 
     ],
 	"tabBar": {
 		"color": "#000",

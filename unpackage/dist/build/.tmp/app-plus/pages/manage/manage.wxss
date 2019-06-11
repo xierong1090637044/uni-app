@@ -85,7 +85,7 @@
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 15rpx 0;
+  padding: 30rpx 0;
   border-bottom: 1rpx solid#ddd;
 }
 .o_left_item
