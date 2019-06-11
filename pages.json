@@ -140,6 +140,14 @@
 			}
         }
  
+        ,{
+            "path" : "pages/common/good_return/good_return",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/common/good_return/return_detail/return_detail",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

@@ -169,10 +169,12 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-nav-bar/uni-nav-bar.vue"));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-icon/uni-icon.vue"));};var products = [];var indexs = [];var uid;var _default = { components: { loading: loading, uniNavBar: uniNavBar, faIcon: faIcon, uniIcon: uniIcon }, data: function data() {return { loading: true, productList: null, url: null };}, //监听原生标题栏按钮点击事件
-  onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {console.log(Object, " at pages\\common\\goods-select\\goods-select.vue:61");if (Object.text == "确定") {this.go_goodsconfrim();}}, onLoad: function onLoad(option) {console.log(option, " at pages\\common\\goods-select\\goods-select.vue:70");if (option.type = "entering") {
+  onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {console.log(Object, " at pages\\common\\goods-select\\goods-select.vue:61");if (Object.text == "确定") {this.go_goodsconfrim();}}, onLoad: function onLoad(option) {console.log(option, " at pages\\common\\goods-select\\goods-select.vue:70");if (option.type == "entering") {
       this.url = "../good_confrim/good_confrim";
-    } else if (option.type = "delivery") {
-      this.url = "../good_out/good_out";
+    } else if (option.type == "delivery") {
+      this.url = "../goods_out/goods_out";
+    } else if (option.type == "returing") {
+      this.url = "../good_return/good_return";
     }
 
     uid = uni.getStorageSync('uid');
@@ -199,7 +201,7 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
     //多选选择触发
     radioChange: function radioChange(e) {
       indexs = e.detail.value;
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:102");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:104");
 
       /*products =[];
                                                                                     for(let i =0;i<indexs.length;i++)
@@ -215,7 +217,7 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
 
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:118");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:120");
       if (indexs.length == 0)
       {
         uni.showToast({ title: "请选择产品", icon: "none" });

@@ -68,11 +68,13 @@
 		
 		onLoad(option) {
 			console.log(option)
-			if(option.type ="entering")
+			if(option.type == "entering")
 			{
 				this.url = "../good_confrim/good_confrim"
-			}else if(option.type ="delivery"){
-				this.url = "../good_out/good_out"
+			}else if(option.type == "delivery"){
+				this.url = "../goods_out/goods_out"
+			}else if(option.type == "returing"){
+				this.url = "../good_return/good_return"
 			}
 			
 			uid = uni.getStorageSync('uid');

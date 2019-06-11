@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/landing/landing",
     "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",
@@ -10,7 +11,10 @@
     "pages/report/report",
     "pages/mine/mine",
     "pages/manage/good_det/good_det",
-    "pages/report/EnteringHistory/EnteringHistory"
+    "pages/report/EnteringHistory/EnteringHistory",
+    "pages/report/EnteringHistory/detail/detail",
+    "pages/common/goods_out/goods_out",
+    "pages/common/goods_out/out_detail/out_detail"
   ],
   "subPackages": [],
   "window": {
@@ -51,11 +55,12 @@
       }
     ]
   },
+  "nvueCompiler": "weex",
   "splashscreen": {
     "alwaysShowBeforeRender": true,
     "autoclose": false
   },
   "appname": "my_stock2",
-  "compilerVersion": "1.9.9",
+  "compilerVersion": "2.0.0",
   "usingComponents": {}
 }

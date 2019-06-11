@@ -14,7 +14,9 @@
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/report/EnteringHistory/detail/detail",
     "pages/common/goods_out/goods_out",
-    "pages/common/goods_out/out_detail/out_detail"
+    "pages/common/goods_out/out_detail/out_detail",
+    "pages/common/good_return/good_return",
+    "pages/common/good_return/return_detail/return_detail"
   ],
   "subPackages": [],
   "window": {

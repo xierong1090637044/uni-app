@@ -46,7 +46,7 @@
     "distribute": {
       "icons": {
         "ios": {
-          "appstore": "static/chuan.png",
+          "appstore": "unpackage/res/icons/1024x1024.png",
           "ipad": {
             "app": "unpackage/res/icons/76x76.png",
             "app@2x": "unpackage/res/icons/152x152.png",
@@ -72,21 +72,21 @@
         "android": {
           "mdpi": "static/customs.png",
           "ldpi": "static/return_goods.png",
-          "hdpi": "static/return_goods.png",
-          "xhdpi": "static/return_goods.png",
-          "xxhdpi": "static/return_goods.png",
-          "xxxhdpi": "static/stocking.png"
+          "hdpi": "unpackage/res/icons/72x72.png",
+          "xhdpi": "unpackage/res/icons/96x96.png",
+          "xxhdpi": "unpackage/res/icons/144x144.png",
+          "xxxhdpi": "unpackage/res/icons/192x192.png"
         }
       },
       "splashscreen": {
         "android": {
-          "hdpi": "static/chuan.png",
-          "xhdpi": "static/stocking.png",
-          "xxhdpi": "static/stocking.png"
+          "hdpi": "static/lanuch.png",
+          "xhdpi": "static/lanuch.png",
+          "xxhdpi": "static/lanuch.png"
         },
         "ios": {
           "iphone": {
-            "portrait-896h@3x": "static/chuan.png",
+            "portrait-896h@3x": "static/lanuch.png",
             "retina35": "static/chuan.png",
             "retina40l": "static/chuan.png",
             "retina40": "static/chuan.png"
