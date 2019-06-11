@@ -11,6 +11,7 @@
 .uni-product-list
 {
 	padding: 0 10rpx;
+	width: -webkit-calc(100% - 20rpx);
 	width: calc(100% - 20rpx);
 }
 .uni-product

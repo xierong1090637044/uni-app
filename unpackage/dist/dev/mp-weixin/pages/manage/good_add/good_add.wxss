@@ -8,12 +8,13 @@ background-color: transparent;
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb
 {
-border-radius: 10px;
+-webkit-border-radius: 10px;
+        border-radius: 10px;
 background-color: #999;
 }
 .page{
 		font-size: 28rpx;
-		background: #f6f5ec;
+		background: #FAFAFA;
 		height: 100vh;
 		overflow: scroll;
 }
@@ -46,7 +47,8 @@ background-color: #999;
 .submit_button
 {
 	background: #f58220;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	margin: 30rpx;
 	height: 88rpx;
 	line-height: 88rpx;
@@ -59,6 +61,7 @@ background-color: #999;
 	line-height: 220rpx;
 	text-align: center;
 	border: 1rpx solid#999;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 }
 

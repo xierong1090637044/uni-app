@@ -7,9 +7,9 @@
     "urlCheck": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.6.4",
+  "libVersion": "2.7.0",
   "appid": "touristappid",
-  "projectname": "my_stock",
+  "projectname": "my_stock2",
   "condition": {
     "search": {
       "current": -1,
