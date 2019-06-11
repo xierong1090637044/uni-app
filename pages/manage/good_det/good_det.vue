@@ -89,7 +89,8 @@
 {
 	height: 100vh;
 	overflow: scroll;
-	background: #f2eada;
+	background: #FAFAFA;
+	font-size: 28rpx;
 }
 .frist
 {

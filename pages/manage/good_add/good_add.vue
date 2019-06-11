@@ -243,7 +243,7 @@ background-color: #999;
 
 	.page{
 		font-size: 28rpx;
-		background: #f6f5ec;
+		background: #FAFAFA;
 		height: 100vh;
 		overflow: scroll;
 	}

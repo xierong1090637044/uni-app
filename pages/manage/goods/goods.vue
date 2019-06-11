@@ -15,7 +15,7 @@
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.id)">
 						<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdTime}}</text></view>
+						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 					</view>
 					
 					<fa-icon type="arrow-circle-right " size="20" color="#426ab3"></fa-icon>
@@ -32,6 +32,9 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import Bmob from '@/utils/bmob.js'
+	
+	let uid;
 	
 	export default {
 		components: {
@@ -58,21 +61,20 @@
 		// #endif
 		
 		onLoad() {
-			
+			uid = uni.getStorageSync('uid');
 		},
 		onShow() {
-			let uid = uni.getStorageSync('uid');
-			
-			this.$http.post('/do_getdata.php', {userid:uid}, {
-			     header: {
-			         'Content-Type': 'application/x-www-form-urlencoded' //自定义请求头信息
-			     },
-			  }).then(res => {
-					this.productList = res.data.alldata;
-					this.loading = false;
-			  }).catch(err => {
-			
-			  });
+			const query = Bmob.Query("Goods");
+			query.equalTo("userId","==", uid);
+			query.limit(500);
+			query.order("-createdAt"); //按照时间降序
+			query.include("userId");
+			query.include("goodsClass");
+			query.find().then(res => {
+				//console.log(res)
+				this.productList = res;
+				this.loading = false;
+			});
 		},
 		
 		methods: {
