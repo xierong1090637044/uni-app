@@ -1,7 +1,10 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/landing/landing",
+    "pages/mine/setting/setting",
+    "pages/mine/mine",
+    "pages/manage/category/category",
+    "pages/index/index",
     "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",
@@ -9,12 +12,15 @@
     "pages/manage/goods/goods",
     "pages/manage/manage",
     "pages/report/report",
-    "pages/mine/mine",
     "pages/manage/good_det/good_det",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/report/EnteringHistory/detail/detail",
     "pages/common/goods_out/goods_out",
-    "pages/common/goods_out/out_detail/out_detail"
+    "pages/common/goods_out/out_detail/out_detail",
+    "pages/common/good_return/good_return",
+    "pages/common/good_return/return_detail/return_detail",
+    "pages/common/good_count/good_count",
+    "pages/common/good_count/count_detail/count_detail"
   ],
   "subPackages": [],
   "window": {
@@ -61,6 +67,6 @@
     "autoclose": false
   },
   "appname": "my_stock2",
-  "compilerVersion": "2.0.0",
+  "compilerVersion": "2.0.1",
   "usingComponents": {}
 }

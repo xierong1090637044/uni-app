@@ -1,9 +1,10 @@
 {
   "pages": [
     "pages/mine/mine",
+    "pages/mine/setting/setting",
+    "pages/landing/landing",
     "pages/manage/category/category",
     "pages/index/index",
-    "pages/landing/landing",
     "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",

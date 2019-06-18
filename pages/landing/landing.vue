@@ -96,6 +96,9 @@
 			    Bmob.User.signOrLoginByMobilePhone(phone, sms_code).then(res => {
 			      console.log(res);
 			      uni.setStorageSync("user",res)
+						uni.switchTab({
+							url:"/pages/index/index"
+						});
 			    }).catch(err => {
 			      uni.showToast({ title: '验证码或手机号错误', icon: "none" })
 			    });

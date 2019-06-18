@@ -1,7 +1,7 @@
 <script>
 	import config from 'utils/config.js'	export default {		onLaunch: function() {
 						//console.log('App Launch')
-			/*uni.getStorage({
+			uni.getStorage({
 			  key: 'user',
 				 success: function (res) {
 				  console.log(res.data);
@@ -10,4 +10,9 @@
 				  	url:'/pages/index/index'
 				  })
 				},
-			});*/		},		onShow: function() {			//console.log('App Show')		},		onHide: function() {			//console.log('App Hide')		}	}</script><style>	/*每个页面公共css */</style>
+				fail:function(){
+					uni.reLaunch({
+						url:'/pages/landing/landing'
+					})
+				},
+			});		},		onShow: function() {			//console.log('App Show')		},		onHide: function() {			//console.log('App Hide')		}	}</script><style>	/*每个页面公共css */</style>

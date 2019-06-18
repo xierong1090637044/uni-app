@@ -199,10 +199,9 @@
 <style>
 .page
 {
-  padding: 40rpx 0;
   color: #4d4d4d;
   height: 100vh;
-	overflow: scroll;
+	overflow-y: scroll;
 	background: #FAFAFA;
 	font-size: 28rpx;
 }
@@ -242,7 +241,7 @@
 }
 .detail_bottom
 {
-  width: 100%;
+  width: calc(100% - 40rpx);
   background-color: #fff;
   padding: 20rpx;
 }

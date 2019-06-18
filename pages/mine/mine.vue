@@ -31,11 +31,11 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
-				<view class="li noborder">
+				<navigator class="li noborder" hover-class="none" url="setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>
+				</navigator>
 			</view>
 			<view class="list">
 				<view class="li ">
@@ -60,28 +60,32 @@
 				</view>
 			</view>
 			<view class="list">
-				<view class="li noborder">
+				<navigator class="li noborder" hover-class="none" url="/pages/landing/landing">
 					<fa-icon type="sign-out" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">退出登录</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>
+				</navigator>
 			</view>
 		</view>
 	</view>
 </template>
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	let that;
 	export default {
 		components: {
 			faIcon
 		},
 		data() {
 			return {
-				user: uni.getStorageSync("user")
+				user: null,
 			};
 		},
 		onLoad() {
-			console.log(this.user)
+			that = this;
+		},
+		onShow() {
+			that.user = uni.getStorageSync("user");
 		},
 		methods: {
 
