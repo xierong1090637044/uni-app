@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/mine/mine",
+    "pages/manage/category/category",
     "pages/index/index",
     "pages/landing/landing",
     "pages/common/good_confrim/good_enter/good_enter",
@@ -9,7 +11,6 @@
     "pages/manage/goods/goods",
     "pages/manage/manage",
     "pages/report/report",
-    "pages/mine/mine",
     "pages/manage/good_det/good_det",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/report/EnteringHistory/detail/detail",
@@ -65,6 +66,6 @@
     "autoclose": false
   },
   "appname": "my_stock2",
-  "compilerVersion": "2.0.0",
+  "compilerVersion": "2.0.1",
   "usingComponents": {}
 }
