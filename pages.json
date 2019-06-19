@@ -1,6 +1,28 @@
 {
 	"pages": [
 		{
+		      "path" : "pages/manage/operations/operations",
+		      "style" : {
+						"navigationBarTitleText": "操作详情",
+						"app-plus": {
+							"titleNView": {
+								"searchInput": {
+									"backgroundColor": "#fff",
+									"borderRadius": "6px", //输入框圆角
+									"placeholder": "请输入搜索内容"
+							
+								},
+								"buttons": [
+									{
+										"text": "排序",
+										"fontSize": "14"
+									}
+								]
+							}
+						}
+					}
+		  },
+		{
 			"path": "pages/manage/manage",
 			"style": {
 				"navigationBarTitleText": "管理"
@@ -194,7 +216,7 @@
 				"navigationBarTitleText": "盘点详情"
 			}
 		}
-	],
+    ],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",

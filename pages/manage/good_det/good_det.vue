@@ -28,10 +28,10 @@
 
 		</view>
 
-		<view class="thrid">
+		<navigator class="thrid" hover-class="none" url="../operations/operations">
 			<view>此产品的操作记录</view>
 			<fa-icon type="arrow-circle-right " size="20" color="#426ab3"></fa-icon>
-		</view>
+		</navigator>
 
 		<!--<view class="four">
 				<fa-icon type="edit" size="30" color="#e0861a"></fa-icon>

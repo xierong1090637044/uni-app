@@ -305,6 +305,23 @@ createPage(_manage.default);
 
 /***/ }),
 
+/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Foperations%2Foperations\"}":
+/*!********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Foperations%2Foperations"} ***!
+  \********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/operations/operations.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_operations.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
 /*!***********************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
