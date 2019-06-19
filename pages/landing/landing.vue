@@ -96,6 +96,7 @@
 			    Bmob.User.signOrLoginByMobilePhone(phone, sms_code).then(res => {
 			      console.log(res);
 			      uni.setStorageSync("user",res)
+						uni.setStorageSync("uid",res.objectId)
 						uni.switchTab({
 							url:"/pages/index/index"
 						});
