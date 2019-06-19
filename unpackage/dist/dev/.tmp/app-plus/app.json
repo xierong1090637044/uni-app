@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/manage/manage",
     "pages/mine/mine",
     "pages/mine/setting/setting",
     "pages/landing/landing",
@@ -10,7 +11,6 @@
     "pages/common/good_confrim/good_confrim",
     "pages/manage/good_add/good_add",
     "pages/manage/goods/goods",
-    "pages/manage/manage",
     "pages/report/report",
     "pages/manage/good_det/good_det",
     "pages/report/EnteringHistory/EnteringHistory",

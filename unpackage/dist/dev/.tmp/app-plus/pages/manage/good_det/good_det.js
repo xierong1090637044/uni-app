@@ -157,7 +157,30 @@ __webpack_require__.r(__webpack_exports__);
   onLoad: function onLoad() {
     this.product = uni.getStorageSync("now_product");
   },
-  methods: {} };exports.default = _default;
+  methods: {},
+
+
+
+
+  //监听原生标题栏按钮点击事件
+  onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
+    uni.showActionSheet({
+      itemList: ['编辑', '删除', '分享'],
+      success: function success(res) {
+        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:70");
+        if (res.tapIndex == 0) {
+          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:72");
+        } else if (res.tapIndex == 1) {
+          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:74");
+        } else {
+          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:76");
+        }
+      },
+      fail: function fail(res) {
+        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:80");
+      } });
+
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),

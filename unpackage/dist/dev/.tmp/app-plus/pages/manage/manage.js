@@ -120,7 +120,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   data: function data() {
     return {
       optionsLists: [
-      { name: '产品管理', icon: 'envelope-open-o', url: '/pages/manage/goods/goods', color: "#af42b3" }] };
+      { name: '产品管理', icon: 'envelope-open-o', url: '/pages/manage/goods/goods', color: "#af42b3" },
+      { name: '产品类别管理', icon: 'list', url: '/pages/manage/category/category', color: "#426ab3" }] };
 
 
 

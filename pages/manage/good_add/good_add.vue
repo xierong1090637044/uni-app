@@ -21,9 +21,13 @@
 					<view class="right_input"><input placeholder="产品名称" name="goodsName"></input></view>
 				</view>
 				
-				<view class="input_item">
-					<view class="left_item">类别</view>
-					<view class="right_input"><input placeholder="产品类别" name="goodsClass"></input></view>
+				<view class="input_item1">
+					<view style="display: flex;align-items: center;">
+						<view class="left_item">类别</view>
+						<view class="right_input"><input placeholder="产品类别" name="goodsClass"></input></view>
+					</view>
+					
+					<view><fa-icon type="angle-right" size="20" color="#999"></fa-icon></view>
 				</view>
 				
 				<view class="input_item">
@@ -235,6 +239,14 @@ background-color: #999;
 {
 	display: flex;
 	align-items: center;
+	line-height: 80rpx;
+	border-bottom: 1rpx solid#f6f5ec;
+}
+.input_item1
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	line-height: 80rpx;
 	border-bottom: 1rpx solid#f6f5ec;
 }

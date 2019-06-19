@@ -1,6 +1,12 @@
 {
 	"pages": [
 		{
+			"path": "pages/manage/manage",
+			"style": {
+				"navigationBarTitleText": "管理"
+			}
+		},
+		{
 			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的"
@@ -106,12 +112,7 @@
 		},
 
 
-		{
-			"path": "pages/manage/manage",
-			"style": {
-				"navigationBarTitleText": "管理"
-			}
-		}, {
+		 {
 			"path": "pages/report/report",
 			"style": {
 				"navigationBarTitleText": "报表"
@@ -119,7 +120,18 @@
 		}, {
 			"path": "pages/manage/good_det/good_det",
 			"style": {
-				"navigationBarTitleText": "产品详情"
+				"navigationBarTitleText": "产品详情",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue537",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#fff"
+						}]
+					}
+				}
 			}
 		}, {
 			"path": "pages/report/EnteringHistory/EnteringHistory",
