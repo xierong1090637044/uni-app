@@ -111,37 +111,12 @@
 				      query.set("opreater", poiID);
 				      query.set("master", poiID);
 				      query.set('goodsName', that.products[0].goodsName);
-				      query.set('real_money', Number(that.real_money));
-				      query.set('debt', that.all_money - Number(that.real_money));
-				
-				      if (that.producer) {
-				        let producer = Bmob.Pointer('producers');
-				        let producerID = producer.set(this.producer.objectId);
-				        query.set("producer", producerID);
-				
-				        //如果客户有欠款
-				        if ((that.all_money - Number(that.real_money)) > 0) {
-				          let query = Bmob.Query('producers');
-				          query.get(that.producer.objectId).then(res => {
-				            var debt = (res.debt == null) ? 0 : res.debt;
-				            debt = debt + (that.all_money - Number(that.real_money));
-				            console.log(debt);
-				            let query = Bmob.Query('customs');
-				            query.get(that.producer.objectId).then(res => {
-				              res.set('debt', debt)
-				              res.save()
-				            })
-				          })
-				        }
-				      }
-				
-				      query.set("all_money", that.all_money);
+							
 				      query.save().then(res => {
 				        console.log("添加操作历史记录成功", res);
 								uni.hideLoading();
-				        uni.removeStorageSync("customs");//移除这个缓存
 				        uni.showToast({
-				          title: '产品出库成功',
+				          title: '产品盘点成功',
 				          icon: 'success',
 				          success: function () {
 										that.button_disabled = false;

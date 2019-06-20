@@ -105,7 +105,7 @@
 				indexs = e.detail.value;
 				console.log(indexs)
 				
-				products =[];
+				/*products =[];
 				for(let i =0;i<indexs.length;i++)
 				{
 					this.productList[indexs[i]].num = 1;
@@ -113,7 +113,7 @@
 					this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
 					products.push(this.productList[indexs[i]])
 				}
-				uni.setStorageSync("products",products);
+				uni.setStorageSync("products",products);*/
 				
 			},
 			
