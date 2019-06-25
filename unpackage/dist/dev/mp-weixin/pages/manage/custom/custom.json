@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "客户管理",
-  "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
-  }
-}

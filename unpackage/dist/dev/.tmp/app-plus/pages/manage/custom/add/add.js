@@ -151,15 +151,35 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var type;var that;var uid = uni.getStorageSync('uid');var _default = { data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this; //type = "customs"
-    if (type == "customs") {uni.setNavigationBarTitle({ title: '新增客户' });} else {uni.setNavigationBarTitle({ title: '新增供货商' });}
+var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = { data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this; //type = "customs"
+    if (type == "customs") {uni.setNavigationBarTitle({ title: '新增客户' });} else {uni.setNavigationBarTitle({ title: '新增供货商' });
+    }
   },
+
+  onShow: function onShow() {
+    type = uni.getStorageSync("custom_type");
+    custom = uni.getStorageSync("customs");
+
+    if (type == "customs") {
+      that.name = custom.custom_name;
+      that.address = custom.custom_address;
+      that.phone = custom.custom_phone;
+      that.debt = custom.debt;
+    } else {
+      that.name = custom.producer_name;
+      that.address = custom.producer_address;
+      that.phone = custom.producer_phone;
+      that.debt = custom.debt;
+    }
+
+  },
+
   methods: {
 
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.name, " at pages\\manage\\custom\\add\\add.vue:62");
+      console.log(this.name, " at pages\\manage\\custom\\add\\add.vue:82");
       if (this.name == null) {
         uni.showToast({
           title: "请输入姓名",
@@ -178,6 +198,7 @@ var type;var that;var uid = uni.getStorageSync('uid');var _default = { data: fun
         var pointer = _bmob.default.Pointer('_User');
         var poiID = pointer.set(uid);
 
+        if (custom) query.set("id", custom.objectId);
         query.set("custom_name", that.name);
         query.set("custom_phone", that.phone ? that.phone : '');
         query.set("custom_address", that.address ? that.address : '');
@@ -185,18 +206,26 @@ var type;var that;var uid = uni.getStorageSync('uid');var _default = { data: fun
         query.set("parent", poiID);
         //query.set("beizhu", "Bmob")
         query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\custom\\add\\add.vue:88");
-          uni.showToast({
-            title: "添加成功" });
+          console.log(res, " at pages\\manage\\custom\\add\\add.vue:109");
+          if (custom) {
+            uni.showToast({
+              title: "修改成功" });
+
+          } else {
+            uni.showToast({
+              title: "添加成功" });
+
+          }
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\custom\\add\\add.vue:93");
+          console.log(err, " at pages\\manage\\custom\\add\\add.vue:121");
         });
       } else {
         var _query = _bmob.default.Query("producers");
         var _pointer = _bmob.default.Pointer('_User');
         var _poiID = _pointer.set(uid);
 
+        if (custom) _query.set("id", custom.objectId);
         _query.set("producer_name", that.name);
         _query.set("producer_phone", that.phone ? that.phone : '');
         _query.set("producer_address", that.address ? that.address : '');
@@ -204,12 +233,18 @@ var type;var that;var uid = uni.getStorageSync('uid');var _default = { data: fun
         _query.set("parent", _poiID);
         //query.set("beizhu", "Bmob")
         _query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\custom\\add\\add.vue:107");
-          uni.showToast({
-            title: "添加成功" });
+          console.log(res, " at pages\\manage\\custom\\add\\add.vue:136");
+          if (custom) {
+            uni.showToast({
+              title: "修改成功" });
 
+          } else {
+            uni.showToast({
+              title: "添加成功" });
+
+          }
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\custom\\add\\add.vue:112");
+          console.log(err, " at pages\\manage\\custom\\add\\add.vue:147");
         });
       }
 

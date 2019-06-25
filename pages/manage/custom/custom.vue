@@ -6,24 +6,39 @@
 		<scroll-view class="content" scroll-y="true">
 
 			<view v-show="current === 0" class="info_item">
-				<view v-for="(item,index) in people" :key="index" class="display_flex_bet item">
-					<view>
-						<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.custom_name}}</view>
-						<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
-						<view style="color: #999;">创建时间：{{item.createdAt}}</view>
+				<view v-for="(item,index) in people" :key="index" class="item">
+					<view class="display_flex_bet">
+						<view>
+							<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.custom_name}}</view>
+							<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
+							<view style="color: #999;">创建时间：{{item.createdAt}}</view>
+						</view>
+						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 					</view>
-					<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+					<view class="display_flex" style="justify-content: flex-end;">
+						<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
+						<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+					</view>
+
 				</view>
 			</view>
 
 			<view v-show="current === 1" class="info_item">
-				<view v-for="(item,index) in people" :key="index" class="display_flex_bet item">
-					<view>
-						<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.producer_name}}</view>
-						<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
-						<view style="color: #999;">创建时间：{{item.createdAt}}</view>
+				<view v-for="(item,index) in people" :key="index" class="item">
+					<view class="display_flex_bet">
+						<view>
+							<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.producer_name}}</view>
+							<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
+							<view style="color: #999;">创建时间：{{item.createdAt}}</view>
+						</view>
+						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 					</view>
-					<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+					<view class="display_flex" style="justify-content: flex-end;">
+						<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
+						<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+
+					</view>
+
 				</view>
 			</view>
 
@@ -59,7 +74,8 @@
 		},
 
 		onShow() {
-
+			uni.removeStorageSync("customs")
+			uni.removeStorageSync("custom_type")
 			if (that.current == 0) {
 				that.load_data("customs")
 			} else {
@@ -68,6 +84,54 @@
 
 		},
 		methods: {
+
+			//编辑操作
+			edit(item) {
+				uni.setStorageSync("customs", item);
+				if (that.current == 0) {
+					uni.setStorageSync("custom_type", "customs");
+				} else {
+					uni.setStorageSync("custom_type", "producers");
+				}
+				uni.navigateTo({
+					url: "add/add"
+				})
+			},
+
+			//删除操作
+			delete_this(id) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除此客户',
+					success: function(res) {
+						if (res.confirm) {
+							console.log(id);
+							if (that.current == 0) {
+								that.delete_data("customs", id)
+							} else {
+								that.delete_data("producers", id)
+							}
+						}
+					}
+				});
+			},
+
+			//删除数据
+			delete_data(type, id) {
+				console.log(id)
+				const query = Bmob.Query(type);
+				query.destroy(id).then(res => {
+					console.log(res)
+					uni.showToast({
+						title: "删除成功",
+						icon: "none"
+					})
+					that.load_data(type)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+
 			// #ifdef APP-PLUS
 			//监听原生标题栏按钮点击事件
 			onNavigationBarButtonTap(Object) {
@@ -125,13 +189,17 @@
 				const query = Bmob.Query(type);
 				query.equalTo("parent", "==", uid);
 				query.limit(500);
-				if(search_text) {
-					if(type == "customs"){
-						query.equalTo("custom_name","==", { "$regex": "" + search_text + ".*" });
-					}else{
-						query.equalTo("producer_name","==", { "$regex": "" + search_text + ".*" });
+				if (search_text) {
+					if (type == "customs") {
+						query.equalTo("custom_name", "==", {
+							"$regex": "" + search_text + ".*"
+						});
+					} else {
+						query.equalTo("producer_name", "==", {
+							"$regex": "" + search_text + ".*"
+						});
 					}
-					
+
 				}
 				query.find().then(res => {
 					console.log(res)

@@ -3,22 +3,22 @@
 		<view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">姓名</text>
-				<input placeholder="请输入姓名" v-model="name" />
+				<input placeholder="请输入姓名" v-model="name"  style="width: calc(100% - 200rpx)"/>
 			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">联系地址</text>
-				<input placeholder="请输入地址" v-model="address" />
+				<input placeholder="请输入地址" v-model="address"   style="width: calc(100% - 200rpx)"/>
 			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">联系电话</text>
-				<input placeholder="请输入电话" v-model="phone" type="number" maxlength="11" />
+				<input placeholder="请输入电话" v-model="phone" type="number" maxlength="11"   style="width: calc(100% - 200rpx)"/>
 			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">欠款金额</text>
-				<input placeholder="请输入起初欠款金额" v-model="debt" type="digit" />
+				<input placeholder="请输入起初欠款金额" v-model="debt" type="digit"   style="width: calc(100% - 200rpx)"/>
 			</view>
 		</view>
 	</view>
@@ -29,6 +29,7 @@
 
 	let type;
 	let that;
+	let custom;
 	let uid = uni.getStorageSync('uid');
 	export default {
 		data() {
@@ -54,6 +55,25 @@
 				});
 			}
 		},
+
+		onShow() {
+			type = uni.getStorageSync("custom_type");
+			custom = uni.getStorageSync("customs");
+
+			if (type == "customs") {
+				that.name = custom.custom_name
+				that.address = custom.custom_address
+				that.phone = custom.custom_phone
+				that.debt = custom.debt
+			} else {
+				that.name = custom.producer_name
+				that.address = custom.producer_address
+				that.phone = custom.producer_phone
+				that.debt = custom.debt
+			}
+
+		},
+
 		methods: {
 
 			// #ifdef APP-PLUS
@@ -78,6 +98,7 @@
 					const pointer = Bmob.Pointer('_User')
 					const poiID = pointer.set(uid)
 
+					if (custom) query.set("id", custom.objectId)
 					query.set("custom_name", that.name)
 					query.set("custom_phone", that.phone ? that.phone : '')
 					query.set("custom_address", that.address ? that.address : '')
@@ -86,9 +107,16 @@
 					//query.set("beizhu", "Bmob")
 					query.save().then(res => {
 						console.log(res)
-						uni.showToast({
-							title: "添加成功",
-						})
+						if (custom) {
+							uni.showToast({
+								title: "修改成功",
+							})
+						} else {
+							uni.showToast({
+								title: "添加成功",
+							})
+						}
+
 					}).catch(err => {
 						console.log(err)
 					})
@@ -96,7 +124,8 @@
 					const query = Bmob.Query("producers");
 					const pointer = Bmob.Pointer('_User')
 					const poiID = pointer.set(uid)
-					
+
+					if (custom) query.set("id", custom.objectId)
 					query.set("producer_name", that.name)
 					query.set("producer_phone", that.phone ? that.phone : '')
 					query.set("producer_address", that.address ? that.address : '')
@@ -105,9 +134,15 @@
 					//query.set("beizhu", "Bmob")
 					query.save().then(res => {
 						console.log(res)
-						uni.showToast({
-							title: "添加成功",
-						})
+						if (custom) {
+							uni.showToast({
+								title: "修改成功",
+							})
+						} else {
+							uni.showToast({
+								title: "添加成功",
+							})
+						}
 					}).catch(err => {
 						console.log(err)
 					})

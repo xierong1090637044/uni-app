@@ -133,6 +133,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};
 
 
@@ -159,7 +174,8 @@ var uid = uni.getStorageSync('uid');var _default =
   },
 
   onShow: function onShow() {
-
+    uni.removeStorageSync("customs");
+    uni.removeStorageSync("custom_type");
     if (that.current == 0) {
       that.load_data("customs");
     } else {
@@ -169,12 +185,60 @@ var uid = uni.getStorageSync('uid');var _default =
   },
   methods: {
 
+    //编辑操作
+    edit: function edit(item) {
+      uni.setStorageSync("customs", item);
+      if (that.current == 0) {
+        uni.setStorageSync("custom_type", "customs");
+      } else {
+        uni.setStorageSync("custom_type", "producers");
+      }
+      uni.navigateTo({
+        url: "add/add" });
+
+    },
+
+    //删除操作
+    delete_this: function delete_this(id) {
+      uni.showModal({
+        title: '提示',
+        content: '是否删除此客户',
+        success: function success(res) {
+          if (res.confirm) {
+            console.log(id, " at pages\\manage\\custom\\custom.vue:108");
+            if (that.current == 0) {
+              that.delete_data("customs", id);
+            } else {
+              that.delete_data("producers", id);
+            }
+          }
+        } });
+
+    },
+
+    //删除数据
+    delete_data: function delete_data(type, id) {
+      console.log(id, " at pages\\manage\\custom\\custom.vue:121");
+      var query = _bmob.default.Query(type);
+      query.destroy(id).then(function (res) {
+        console.log(res, " at pages\\manage\\custom\\custom.vue:124");
+        uni.showToast({
+          title: "删除成功",
+          icon: "none" });
+
+        that.load_data(type);
+      }).catch(function (err) {
+        console.log(err, " at pages\\manage\\custom\\custom.vue:131");
+      });
+    },
+
+
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
       uni.showActionSheet({
         itemList: ['新增客户', '新增供货商'],
         success: function success(res) {
-          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\custom\\custom.vue:77");
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\custom\\custom.vue:141");
           if (res.tapIndex == 0) {
             uni.navigateTo({
               url: "add/add?type=customs" });
@@ -186,7 +250,7 @@ var uid = uni.getStorageSync('uid');var _default =
           }
         },
         fail: function fail(res) {
-          console.log(res.errMsg, " at pages\\manage\\custom\\custom.vue:89");
+          console.log(res.errMsg, " at pages\\manage\\custom\\custom.vue:153");
         } });
 
 
@@ -194,7 +258,7 @@ var uid = uni.getStorageSync('uid');var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\custom\\custom.vue:97");
+      console.log(e.text, " at pages\\manage\\custom\\custom.vue:161");
       search_text = e.text;
       if (this.current == 0) {
         that.load_data("customs");
@@ -227,14 +291,18 @@ var uid = uni.getStorageSync('uid');var _default =
       query.limit(500);
       if (search_text) {
         if (type == "customs") {
-          query.equalTo("custom_name", "==", { "$regex": "" + search_text + ".*" });
+          query.equalTo("custom_name", "==", {
+            "$regex": "" + search_text + ".*" });
+
         } else {
-          query.equalTo("producer_name", "==", { "$regex": "" + search_text + ".*" });
+          query.equalTo("producer_name", "==", {
+            "$regex": "" + search_text + ".*" });
+
         }
 
       }
       query.find().then(function (res) {
-        console.log(res, " at pages\\manage\\custom\\custom.vue:137");
+        console.log(res, " at pages\\manage\\custom\\custom.vue:205");
         uni.hideLoading();
         that.people = res;
       });

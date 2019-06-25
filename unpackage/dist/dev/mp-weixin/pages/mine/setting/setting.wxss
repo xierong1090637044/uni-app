@@ -1,9 +1,0 @@
-
-.item {
-	background: #fff;
-	padding: 4rpx 8rpx;
-}
-.uni-input {
-	border-bottom: 1rpx solid#ccc;
-}
-

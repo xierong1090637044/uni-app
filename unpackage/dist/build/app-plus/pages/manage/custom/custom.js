@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"uni-common-mt { padding: ",[0,30],"; }\n",],undefined,{path:"./pages/manage/custom/custom.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/manage/custom/custom.wxml') } }));

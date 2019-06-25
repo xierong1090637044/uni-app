@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "明细",
-  "usingComponents": {
-    "loading": "/components/Loading/index"
-  }
-}
