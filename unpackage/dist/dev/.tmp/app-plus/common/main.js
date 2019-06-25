@@ -180,9 +180,9 @@ var _config = _interopRequireDefault(__webpack_require__(/*! utils/config.js */ 
       success: function success(res) {
         console.log(res.data, " at App.vue:10");
         uni.setStorageSync('uid', res.data.objectId); //缓存测试
-        uni.switchTab({
-          url: '/pages/index/index' });
-
+        /*uni.switchTab({
+        	url:'/pages/index/index'
+        })*/
       },
       fail: function fail() {
         uni.reLaunch({

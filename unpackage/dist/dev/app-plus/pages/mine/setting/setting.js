@@ -1,1 +1,2 @@
+setCssToHead([".",[1],"item { background: #fff; padding: ",[0,4]," ",[0,8],"; }\n.",[1],"uni-input { border-bottom: ",[0,1]," solid#ccc; }\n",],undefined,{path:"./pages/mine/setting/setting.wxss"})();
 document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/mine/setting/setting.wxml') } }));

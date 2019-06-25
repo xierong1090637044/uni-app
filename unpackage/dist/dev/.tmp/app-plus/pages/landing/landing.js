@@ -196,6 +196,7 @@ var that;var phone_number = "";var _default = { data: function data() {return { 
         _bmob.default.User.signOrLoginByMobilePhone(phone, sms_code).then(function (res) {
           console.log(res, " at pages\\landing\\landing.vue:97");
           uni.setStorageSync("user", res);
+          uni.setStorageSync("uid", res.objectId);
           uni.switchTab({
             url: "/pages/index/index" });
 

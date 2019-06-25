@@ -1,5 +1,16 @@
 {
   "navigationBarTitleText": "产品详情",
+  "bounce": "vertical",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "",
+        "fontSrc": "/static/uni.ttf",
+        "fontSize": "22px",
+        "color": "#fff"
+      }
+    ]
+  },
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }

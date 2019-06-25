@@ -1,5 +1,44 @@
 {
 	"pages": [
+		
+		{
+		    "path" : "pages/manage/custom/custom",
+		    "style": {
+		    	"navigationBarTitleText": "客户管理",
+		    	"app-plus": {
+		    		"titleNView": {
+							"searchInput": {
+								"backgroundColor": "#fff",
+								"borderRadius": "6px", //输入框圆角
+								"placeholder": "请输入搜索内容"
+							
+							},
+		    			"buttons": [
+								{
+									"text": "新增",
+									"fontSize": "14"
+								}
+		    			]
+		    		}
+		    	}
+		    }
+		},
+		
+		{
+		    "path" : "pages/manage/custom/add/add",
+		    "style": {
+		    	"app-plus": {
+		    		"titleNView": {
+		    			"buttons": [
+		    				{
+		    					"text": "保存",
+		    					"fontSize": "14"
+		    				}
+		    			]
+		    		}
+		    	}
+		    }
+		},
 		{
 			"path": "pages/mine/setting/setting",
 			"style": {

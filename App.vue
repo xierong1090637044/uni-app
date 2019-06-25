@@ -6,9 +6,9 @@
 				 success: function (res) {
 				  console.log(res.data);
 				  uni.setStorageSync('uid', res.data.objectId);//缓存测试
-				  uni.switchTab({
+				  /*uni.switchTab({
 				  	url:'/pages/index/index'
-				  })
+				  })*/
 				},
 				fail:function(){
 					uni.reLaunch({

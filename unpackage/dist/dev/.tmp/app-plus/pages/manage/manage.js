@@ -121,9 +121,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     return {
       optionsLists: [
       { name: '产品管理', icon: 'envelope-open-o', url: '/pages/manage/goods/goods', color: "#af42b3" },
-      { name: '产品类别管理', icon: 'list', url: '/pages/manage/category/category', color: "#426ab3" }] };
-
-
+      { name: '产品类别管理', icon: 'list', url: '/pages/manage/category/category', color: "#426ab3" },
+      //{ name: '员工管理', icon: 'group', url: '/pages/second/staff/staff', color: "#b38c42" },
+      { name: '客户管理', icon: 'address-card', url: '/pages/manage/custom/custom', color: "#82b342" }] };
 
 
 

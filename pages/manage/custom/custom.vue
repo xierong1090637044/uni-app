@@ -1,0 +1,172 @@
+<template>
+	<view>
+		<view class="uni-common-mt">
+			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
+		</view>
+		<scroll-view class="content" scroll-y="true">
+
+			<view v-show="current === 0" class="info_item">
+				<view v-for="(item,index) in people" :key="index" class="display_flex_bet item">
+					<view>
+						<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.custom_name}}</view>
+						<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
+						<view style="color: #999;">创建时间：{{item.createdAt}}</view>
+					</view>
+					<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+				</view>
+			</view>
+
+			<view v-show="current === 1" class="info_item">
+				<view v-for="(item,index) in people" :key="index" class="display_flex_bet item">
+					<view>
+						<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.producer_name}}</view>
+						<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
+						<view style="color: #999;">创建时间：{{item.createdAt}}</view>
+					</view>
+					<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+				</view>
+			</view>
+
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import Bmob from '@/utils/bmob.js';
+	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
+
+	let that;
+	let search_text;
+	let uid = uni.getStorageSync('uid');
+	export default {
+		components: {
+			faIcon,
+			uniSegmentedControl
+		},
+		data() {
+			return {
+				items: [
+					'销售客户',
+					'供货商',
+				],
+				current: 0,
+				people: null, //获得人员数组
+			}
+		},
+		onLoad() {
+			that = this;
+		},
+
+		onShow() {
+
+			if (that.current == 0) {
+				that.load_data("customs")
+			} else {
+				that.load_data("producers")
+			}
+
+		},
+		methods: {
+			// #ifdef APP-PLUS
+			//监听原生标题栏按钮点击事件
+			onNavigationBarButtonTap(Object) {
+				uni.showActionSheet({
+					itemList: ['新增客户', '新增供货商'],
+					success: function(res) {
+						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+						if (res.tapIndex == 0) {
+							uni.navigateTo({
+								url: "add/add?type=customs"
+							})
+						} else {
+							uni.navigateTo({
+								url: "add/add?type=producers"
+							})
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
+
+			},
+
+			//原生导航栏输入确认的时候
+			onNavigationBarSearchInputConfirmed(e) {
+				console.log(e.text)
+				search_text = e.text
+				if (this.current == 0) {
+					that.load_data("customs")
+				} else {
+					that.load_data("producers")
+				}
+			},
+			// #endif
+
+			//tab点击
+			onClickItem(index) {
+				if (this.current !== index) {
+					this.current = index
+
+					if (this.current == 0) {
+						that.load_data("customs")
+					} else {
+						that.load_data("producers")
+					}
+				}
+			},
+
+			//加载数据
+			load_data(type) {
+				uni.showLoading({
+					title: "加载中..."
+				})
+				const query = Bmob.Query(type);
+				query.equalTo("parent", "==", uid);
+				query.limit(500);
+				if(search_text) {
+					if(type == "customs"){
+						query.equalTo("custom_name","==", { "$regex": "" + search_text + ".*" });
+					}else{
+						query.equalTo("producer_name","==", { "$regex": "" + search_text + ".*" });
+					}
+					
+				}
+				query.find().then(res => {
+					console.log(res)
+					uni.hideLoading();
+					that.people = res;
+				});
+			},
+
+		}
+	}
+</script>
+
+<style>
+	page {
+		background: #FAFAFA;
+	}
+
+	.uni-common-mt {
+		padding: 30rpx;
+	}
+
+	.content {
+		height: calc(100vh - 124rpx);
+		background: #fff;
+	}
+
+	.info_item {
+		padding: 20rpx 30rpx;
+		background: #fff;
+		;
+	}
+
+	.item {
+		border-bottom: 1rpx solid#ccc;
+		padding-bottom: 10rpx;
+		margin-bottom: 10rpx;
+	}
+</style>

@@ -1,12 +1,14 @@
 {
   "pages": [
+    "pages/manage/custom/custom",
+    "pages/manage/custom/add/add",
+    "pages/mine/setting/setting",
+    "pages/index/index",
     "pages/manage/operations/operations",
     "pages/manage/manage",
     "pages/mine/mine",
-    "pages/mine/setting/setting",
     "pages/landing/landing",
     "pages/manage/category/category",
-    "pages/index/index",
     "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",
