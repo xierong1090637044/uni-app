@@ -3,7 +3,7 @@
 <view class='o_list'>
   <navigator v-for="(value,index) in optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
     <view class='o_left_item'>
-      <view><fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon></view>
+			<view><fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon></view>
       <span class='o_text'>{{value.name}}</span>
     </view>
     <view><fa-icon type="angle-right" size="20" color="#999" /></view>
@@ -22,9 +22,10 @@
 				optionsLists:[
 					{ name: '产品管理', icon: 'envelope-open-o', url: '/pages/manage/goods/goods', color: "#af42b3" },
 					{ name: '员工管理', icon: 'user', url: '/pages/manage/staff/staff', color: "#b38c42" },
+					{ name: '仓库管理', icon: 'home', url: '/pages/manage/warehouse/warehouse', color: "#b34742", },
+					{ name: '门店管理', icon: 'shopping-cart', url: '/pages/manage/shops/shops', color: "#6f60aa", },
 					{ name: '客户管理', icon: 'address-card', url: '/pages/manage/custom/custom', color: "#82b342" },
 					{ name: '产品类别管理', icon: 'list', url: '/pages/manage/category/category', color: "#426ab3" },
-					//{ name: '仓库管理', icon: 'homepage', url: '/pages/manage/add_warehouse/add_warehouse', color: "#b34742" },
 					
 				]
 			}
@@ -37,6 +38,11 @@
 
 <style>
 /* pages/home/index/index.wxss */
+.manage_icon{
+	width: 60rpx;
+	height: 60rpx;
+	border-radius: 50%;
+}
 .item
 {
   display: flex;
