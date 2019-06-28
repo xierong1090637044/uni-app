@@ -170,7 +170,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! utils/config.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/config.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+var _config = _interopRequireDefault(__webpack_require__(/*! utils/config.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/config.js"));
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+
 {
   onLaunch: function onLaunch() {
 
@@ -178,17 +180,25 @@ var _config = _interopRequireDefault(__webpack_require__(/*! utils/config.js */ 
     uni.getStorage({
       key: 'user',
       success: function success(res) {
-        console.log(res.data, " at App.vue:10");
+        //console.log(res.data);
         uni.setStorageSync('uid', res.data.objectId); //缓存测试
+        var query = _bmob.default.Query("setting");
+        query.equalTo("parent", "==", res.data.objectId);
+        query.find().then(function (res) {
+          //console.log(res)
+          uni.setStorageSync("setting", res[0]);
+        });
         /*uni.switchTab({
-        	url:'/pages/index/index'
-        })*/
+            	url:'/pages/index/index'
+            })*/
       },
       fail: function fail() {
         uni.reLaunch({
           url: '/pages/landing/landing' });
 
       } });
+
+
 
   },
   onShow: function onShow() {

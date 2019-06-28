@@ -153,7 +153,7 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 
 var that;
 var search_text;
-var uid = uni.getStorageSync('uid');var _default =
+var uid;var _default =
 {
   components: {
     faIcon: faIcon,
@@ -171,6 +171,7 @@ var uid = uni.getStorageSync('uid');var _default =
   },
   onLoad: function onLoad() {
     that = this;
+    uid = uni.getStorageSync('uid');
   },
 
   onShow: function onShow() {
@@ -205,7 +206,7 @@ var uid = uni.getStorageSync('uid');var _default =
         content: '是否删除此客户',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\custom\\custom.vue:108");
+            console.log(id, " at pages\\manage\\custom\\custom.vue:109");
             if (that.current == 0) {
               that.delete_data("customs", id);
             } else {
@@ -218,17 +219,17 @@ var uid = uni.getStorageSync('uid');var _default =
 
     //删除数据
     delete_data: function delete_data(type, id) {
-      console.log(id, " at pages\\manage\\custom\\custom.vue:121");
+      console.log(id, " at pages\\manage\\custom\\custom.vue:122");
       var query = _bmob.default.Query(type);
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\custom\\custom.vue:124");
+        console.log(res, " at pages\\manage\\custom\\custom.vue:125");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.load_data(type);
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\custom\\custom.vue:131");
+        console.log(err, " at pages\\manage\\custom\\custom.vue:132");
       });
     },
 
@@ -238,7 +239,7 @@ var uid = uni.getStorageSync('uid');var _default =
       uni.showActionSheet({
         itemList: ['新增客户', '新增供货商'],
         success: function success(res) {
-          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\custom\\custom.vue:141");
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\custom\\custom.vue:142");
           if (res.tapIndex == 0) {
             uni.navigateTo({
               url: "add/add?type=customs" });
@@ -250,7 +251,7 @@ var uid = uni.getStorageSync('uid');var _default =
           }
         },
         fail: function fail(res) {
-          console.log(res.errMsg, " at pages\\manage\\custom\\custom.vue:153");
+          console.log(res.errMsg, " at pages\\manage\\custom\\custom.vue:154");
         } });
 
 
@@ -258,7 +259,7 @@ var uid = uni.getStorageSync('uid');var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\custom\\custom.vue:161");
+      console.log(e.text, " at pages\\manage\\custom\\custom.vue:162");
       search_text = e.text;
       if (this.current == 0) {
         that.load_data("customs");
@@ -302,7 +303,7 @@ var uid = uni.getStorageSync('uid');var _default =
 
       }
       query.find().then(function (res) {
-        console.log(res, " at pages\\manage\\custom\\custom.vue:205");
+        console.log(res, " at pages\\manage\\custom\\custom.vue:206");
         uni.hideLoading();
         that.people = res;
       });

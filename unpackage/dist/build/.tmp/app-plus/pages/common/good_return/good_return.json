@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "产品退货",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "确定",
+        "fontSize": "14"
+      }
+    ]
+  },
+  "usingComponents": {
+    "unicard": "/components/uni-card/uni-card",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uninumberbox": "/components/uni-number-box/uni-number-box"
+  }
+}

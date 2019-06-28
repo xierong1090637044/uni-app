@@ -4,7 +4,7 @@
     "iPhone",
     "iPad"
   ],
-  "id": "__UNI__F367A00",
+  "id": "__UNI__3F9221C",
   "name": "my_stock2",
   "version": {
     "name": "1.0.1",
@@ -87,9 +87,9 @@
         "ios": {
           "iphone": {
             "portrait-896h@3x": "static/lanuch.png",
-            "retina35": "static/chuan.png",
-            "retina40l": "static/chuan.png",
-            "retina40": "static/chuan.png"
+            "retina35": "static/lanuch.png",
+            "retina40l": "static/lanuch.png",
+            "retina40": "static/lanuch.png"
           }
         }
       },
@@ -143,10 +143,7 @@
     "secondwebview": {
       "id": "1",
       "launch_path": "__uniappview.html",
-      "kernel": "WKWebview",
-      "mode": "child",
-      "top": 0,
-      "bottom": 56
+      "kernel": "WKWebview"
     }
   }
 }

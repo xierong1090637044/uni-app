@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "新增门店",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

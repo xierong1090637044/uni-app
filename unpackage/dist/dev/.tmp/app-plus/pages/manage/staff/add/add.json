@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "新增员工",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "保存",
+        "fontSize": "14"
+      }
+    ]
+  },
+  "usingComponents": {
+    "uni-collapse": "/components/uni-collapse/uni-collapse",
+    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item"
+  }
+}

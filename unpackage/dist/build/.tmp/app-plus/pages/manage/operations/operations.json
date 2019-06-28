@@ -1,0 +1,17 @@
+{
+  "navigationBarTitleText": "操作详情",
+  "titleNView": {
+    "searchInput": {
+      "backgroundColor": "#fff",
+      "borderRadius": "6px",
+      "placeholder": "请输入搜索内容"
+    },
+    "buttons": [
+      {
+        "text": "排序",
+        "fontSize": "14"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

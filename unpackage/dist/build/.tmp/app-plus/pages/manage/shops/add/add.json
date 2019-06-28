@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "新增门店",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "保存",
+        "fontSize": "14"
+      }
+    ]
+  },
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

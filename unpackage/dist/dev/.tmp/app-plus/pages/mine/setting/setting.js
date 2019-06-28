@@ -98,43 +98,102 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var uid = uni.getStorageSync('uid');var that;var setting;var _default = { data: function data() {return { show_float: null, USER: null, UKEY: null, number: null };}, onLoad: function onLoad() {that = this;uni.getStorage({ key: 'setting', success: function success(res) {setting = res.data;that.show_float = setting.show_float;that.USER = setting.USER;that.UKEY = setting.UKEY;that.number = setting.number;} });
 
   },
   methods: {
-    set_show_float: function set_show_float(e)
-    {
-      console.log(e, " at pages\\mine\\setting\\setting.vue:36");
+
+    //监听原生标题栏按钮点击事件
+    onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
+      //console.log(that.show_float, that.USER, that.UKEY, that.number)
+
+      uni.showLoading({ title: "上传中" });
+      var query = _bmob.default.Query("setting");
+      var pointer = _bmob.default.Pointer('_User');
+      var poiID = pointer.set(uid);
+
+      if (setting) query.set("id", setting.objectId);
+      query.set("show_float", Number(that.show_float));
+      query.set("USER", that.USER);
+      query.set("UKEY", that.UKEY);
+      query.set("number", that.number);
+      query.set("parent", poiID);
+      //query.set("beizhu", "Bmob")
+      query.save().then(function (res) {
+        console.log(res, " at pages\\mine\\setting\\setting.vue:74");
+        uni.hideLoading();
+        uni.showToast({
+          title: "保存成功" });
+
+        that.query_setting();
+
+      }).catch(function (err) {
+        console.log(err, " at pages\\mine\\setting\\setting.vue:82");
+      });
+    },
+
+
+    //查询当前用户的设置
+    query_setting: function query_setting() {
+      var query = _bmob.default.Query("setting");
+      query.equalTo("parent", "==", res.data.objectId);
+      query.find().then(function (res) {
+        //console.log(res)
+        uni.setStorageSync("setting", res[0]);
+      });
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),
 

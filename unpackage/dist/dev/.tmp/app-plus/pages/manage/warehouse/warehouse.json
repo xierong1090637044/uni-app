@@ -1,0 +1,20 @@
+{
+  "navigationBarTitleText": "仓库管理",
+  "titleNView": {
+    "searchInput": {
+      "backgroundColor": "#fff",
+      "borderRadius": "6px",
+      "placeholder": "请输入仓库名"
+    },
+    "buttons": [
+      {
+        "text": "新增",
+        "fontSize": "14"
+      }
+    ]
+  },
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index"
+  }
+}

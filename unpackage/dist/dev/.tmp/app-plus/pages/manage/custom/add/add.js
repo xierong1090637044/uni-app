@@ -151,8 +151,9 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = { data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this; //type = "customs"
+var type;var that;var custom;var uid;var _default = { data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this;uid = uni.getStorageSync('uid'); //type = "customs"
     if (type == "customs") {uni.setNavigationBarTitle({ title: '新增客户' });} else {uni.setNavigationBarTitle({ title: '新增供货商' });
+
     }
   },
 
@@ -179,7 +180,7 @@ var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = 
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.name, " at pages\\manage\\custom\\add\\add.vue:82");
+      console.log(this.name, " at pages\\manage\\custom\\add\\add.vue:83");
       if (this.name == null) {
         uni.showToast({
           title: "请输入姓名",
@@ -206,7 +207,7 @@ var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = 
         query.set("parent", poiID);
         //query.set("beizhu", "Bmob")
         query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\custom\\add\\add.vue:109");
+          console.log(res, " at pages\\manage\\custom\\add\\add.vue:110");
           if (custom) {
             uni.showToast({
               title: "修改成功" });
@@ -218,7 +219,7 @@ var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = 
           }
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\custom\\add\\add.vue:121");
+          console.log(err, " at pages\\manage\\custom\\add\\add.vue:122");
         });
       } else {
         var _query = _bmob.default.Query("producers");
@@ -233,7 +234,7 @@ var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = 
         _query.set("parent", _poiID);
         //query.set("beizhu", "Bmob")
         _query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\custom\\add\\add.vue:136");
+          console.log(res, " at pages\\manage\\custom\\add\\add.vue:137");
           if (custom) {
             uni.showToast({
               title: "修改成功" });
@@ -244,7 +245,7 @@ var type;var that;var custom;var uid = uni.getStorageSync('uid');var _default = 
 
           }
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\custom\\add\\add.vue:147");
+          console.log(err, " at pages\\manage\\custom\\add\\add.vue:148");
         });
       }
 

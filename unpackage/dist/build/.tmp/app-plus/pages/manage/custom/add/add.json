@@ -1,0 +1,11 @@
+{
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "保存",
+        "fontSize": "14"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

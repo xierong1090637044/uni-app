@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "产品详情",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}
