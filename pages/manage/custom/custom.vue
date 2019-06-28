@@ -53,7 +53,7 @@
 
 	let that;
 	let search_text;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		components: {
 			faIcon,
@@ -71,6 +71,7 @@
 		},
 		onLoad() {
 			that = this;
+			uid = uni.getStorageSync('uid');
 		},
 
 		onShow() {

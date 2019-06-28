@@ -50,7 +50,7 @@
 	let charge;//负责人
 	let shop;//门店
 	let shopId;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		components: {
 			faIcon
@@ -67,7 +67,7 @@
 		},
 		onLoad(options) {
 			that = this;
-
+			uid = uni.getStorageSync('uid');
 		},
 
 		onShow() {
@@ -88,7 +88,7 @@
 				});
 			}else{
 				uni.setNavigationBarTitle({
-					title: '新增仓库'
+					title: '修改仓库信息'
 				});
 			}
 			

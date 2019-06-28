@@ -1,12 +1,6 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		{
 			"path": "pages/manage/staff/staff",
 			"style": {
 				"navigationBarTitleText": "员工管理",
@@ -26,6 +20,13 @@
 				}
 			}
 		}, 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		
 		{
 			"path": "pages/manage/shops/shops",
 			"style": {

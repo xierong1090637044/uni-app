@@ -56,8 +56,8 @@
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
 	let that;
-	const user = uni.getStorageSync("user");
-	const uid = uni.getStorageSync("uid");
+	let user;
+	let uid;
 	export default {
 		components: {
 			loading,
@@ -79,6 +79,8 @@
 		},
 		onLoad() {
 			that = this;
+			user = uni.getStorageSync("user");
+			uid = uni.getStorageSync("uid");
 		},
 		onShow() {
 			that.get_category();

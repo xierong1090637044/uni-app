@@ -35,7 +35,7 @@
 	let that;
 	let shop;//仓库
 	let charge;//负责人
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		components: {
 			faIcon
@@ -51,7 +51,7 @@
 		},
 		onLoad(options) {
 			that = this;
-
+			uid = uni.getStorageSync('uid');
 		},
 
 		onShow() {

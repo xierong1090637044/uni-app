@@ -31,14 +31,16 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import loading from "@/components/Loading/index.vue"
 	import Bmob from '@/utils/bmob.js';
 
 	let that;
 	let search_text;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		components: {
 			faIcon,
+			loading
 		},
 		data() {
 			return {
@@ -49,7 +51,7 @@
 
 		onLoad() {
 			that = this;
-
+			uid = uni.getStorageSync('uid');
 		},
 		onShow() {
 			uni.removeStorageSync("warehouse")
@@ -153,7 +155,7 @@
 	}
 
 	.stock_avatar {
-		width: 100rpx;
+		width: 82rpx;
 		height: 70rpx;
 		margin-right: 20rpx;
 	}

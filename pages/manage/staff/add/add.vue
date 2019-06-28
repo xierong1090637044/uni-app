@@ -57,7 +57,7 @@
 
 	let that;
 	let staff;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	let rights = {};
 	export default {
 		components: {
@@ -117,7 +117,7 @@
 		},
 		onLoad(options) {
 			that = this;
-
+			uid = uni.getStorageSync('uid');
 		},
 
 		onShow() {

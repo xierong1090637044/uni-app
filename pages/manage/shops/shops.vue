@@ -14,7 +14,7 @@
 							<view class='shop_name'>{{shop.name}}</view>
 							<view class='shop_mobile'>地址：{{shop.address}}</view>
 							
-							<view class="display_flex" style="justify-content: flex-end;width: 100rpx;" v-if="is_choose" @click="select_this(shop)">
+							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(shop)">
 								<text style="color: #f69c9f;">选择</text>
 							</view>
 							
@@ -35,15 +35,17 @@
 </template>
 
 <script>
+	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 
 	let that;
 	let search_text;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		components: {
 			faIcon,
+			loading
 		},
 		data() {
 			return {
@@ -55,7 +57,8 @@
 
 		onLoad(options) {
 			that = this;
-			console.log(options)
+			uid = uni.getStorageSync('uid');
+			
 			if (options.type == "choose") {
 				that.is_choose = true
 			}
@@ -70,7 +73,7 @@
 			select_this(shop) {
 				uni.setStorageSync("shop", shop)
 				uni.navigateBack({
-					delta: 2
+					delta: 1
 				})
 			},
 
@@ -140,7 +143,7 @@
 
 				}
 				query.find().then(res => {
-					//console.log(res)
+					console.log(res,uid)
 					that.loading = false;
 					that.shops = res;
 				});
@@ -169,7 +172,7 @@
 	}
 
 	.shop_avatar {
-		width: 100rpx;
+		width: 90rpx;
 		height: 70rpx;
 		margin-right: 20rpx;
 	}

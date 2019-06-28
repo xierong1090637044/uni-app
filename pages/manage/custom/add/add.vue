@@ -30,7 +30,7 @@
 	let type;
 	let that;
 	let custom;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		data() {
 			return {
@@ -43,6 +43,7 @@
 		onLoad(options) {
 			type = options.type
 			that = this;
+			uid = uni.getStorageSync('uid');
 			//type = "customs"
 
 			if (type == "customs") {

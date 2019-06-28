@@ -13,7 +13,7 @@
 								<view class='staff_name'>{{staff.username}}</view>
 								<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
 								
-								<view class="display_flex" style="justify-content: flex-end;width: 100rpx;" v-if="is_choose" @click="select_this(staff)">
+								<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(staff)">
 									<text style="color: #f69c9f;">选择</text>
 								</view>
 								
@@ -34,15 +34,17 @@
 </template>
 
 <script>
+	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 
 	let that;
 	let search_text;
-	let uid = uni.getStorageSync('uid');
+	let uid;
 	export default {
 		components: {
 			faIcon,
+			loading
 		},
 		data() {
 			return {
@@ -54,6 +56,7 @@
 
 		onLoad(options) {
 			that = this;
+			uid= uni.getStorageSync('uid')
 			console.log(options)
 			if(options.type =="choose"){
 				that.is_choose = true
@@ -70,7 +73,7 @@
 			select_this(charge){
 				uni.setStorageSync("charge",charge)
 				uni.navigateBack({
-					delta:2
+					delta:1
 				})
 			},
 			
