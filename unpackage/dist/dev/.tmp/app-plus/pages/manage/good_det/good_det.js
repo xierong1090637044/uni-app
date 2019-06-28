@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -144,20 +144,79 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var tkiQrcode = function tkiQrcode() {return Promise.all(/*! import() | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-qrcode/tki-qrcode.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/tki-qrcode.vue"));};
+
+var that;var _default =
 {
   components: {
-    faIcon: faIcon },
+    faIcon: faIcon,
+    tkiQrcode: tkiQrcode },
 
   data: function data() {
     return {
-      product_id: "",
-      product: "" };
+      product: "",
+
+      is_show: false };
 
   },
   onLoad: function onLoad() {
+    that = this;
     this.product = uni.getStorageSync("now_product");
   },
-  methods: {},
+  methods: {
+    //二维码路径
+    qrR: function qrR(res) {
+      this.src = res;
+    },
+
+    //点击条形码保存
+    saveQrcode: function saveQrcode() {
+      this.$refs.qrcode._saveCode();
+    },
+
+    //删除商品
+    delete: function _delete() {
+      uni.showModal({
+        title: '提示',
+        content: '是否删除该商品',
+        success: function success(res) {
+          if (res.confirm) {
+
+            var query = _bmob.default.Query('Goods');
+            query.set('id', that.product.objectId); //需要修改的objectId
+            query.set('status', -1);
+            query.save().then(function (res) {
+              uni.showToast({
+                title: "删除成功" });
+
+            }).catch(function (err) {
+              console.log(err, " at pages\\manage\\good_det\\good_det.vue:112");
+            });
+
+          }
+        } });
+
+
+    } },
 
 
 
@@ -167,17 +226,18 @@ __webpack_require__.r(__webpack_exports__);
     uni.showActionSheet({
       itemList: ['编辑', '删除', '分享'],
       success: function success(res) {
-        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:70");
+        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:129");
         if (res.tapIndex == 0) {
-          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:72");
+          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:131");
         } else if (res.tapIndex == 1) {
-          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:74");
+          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:133");
+          that.delete();
         } else {
-          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:76");
+          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:136");
         }
       },
       fail: function fail(res) {
-        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:80");
+        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:140");
       } });
 
   } };exports.default = _default;
@@ -211,6 +271,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.is_show = true
+    }
+
+    _vm.e1 = function($event) {
+      _vm.is_show = false
+    }
+  }
 }
 var staticRenderFns = []
 render._withStripped = true

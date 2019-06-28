@@ -28,9 +28,14 @@
 
 		</view>
 
+		<view class="thrid" @click="is_show = true">
+			<view>生成条码</view>
+			<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
+		</view>
+
 		<navigator class="thrid" hover-class="none" url="../operations/operations">
 			<view>此产品的操作记录</view>
-			<fa-icon type="arrow-circle-right " size="20" color="#426ab3"></fa-icon>
+			<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 		</navigator>
 
 		<!--<view class="four">
@@ -39,25 +44,79 @@
 				<fa-icon type="share-alt-square" size="30" color="#1d953f"></fa-icon>
 			</view>-->
 
+		<view class="qrimg" v-if="is_show">
+			<view style="text-align: right;margin-right: 20rpx;" @click="is_show = false">
+				<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
+			</view>
+			<view style="margin-top: 20%;" @tap="saveQrcode">
+				<tki-qrcode cid="qrcode" ref="qrcode" :val="product.objectId" size="200" loadMake="true" usingComponents="true"
+				 unit="rpx" background="#426ab3" foreground="#fff" pdground='#426ab3' @result="qrR" />
+				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
+				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
+			</view>
+
+		</view>
+
 	</view>
 </template>
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
+	import Bmob from '@/utils/bmob.js'
+	
+	let that;
 	export default {
 		components: {
 			faIcon,
+			tkiQrcode
 		},
 		data() {
 			return {
-				product_id: "",
 				product: "",
+
+				is_show: false,
 			}
 		},
 		onLoad() {
+			that = this;
 			this.product = uni.getStorageSync("now_product");
 		},
 		methods: {
+			//二维码路径
+			qrR(res) {
+				this.src = res
+			},
+
+			//点击条形码保存
+			saveQrcode() {
+				this.$refs.qrcode._saveCode()
+			},
+
+			//删除商品
+			delete() {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除该商品',
+					success: function(res) {
+						if (res.confirm) {
+
+							const query = Bmob.Query('Goods');
+							query.set('id', that.product.objectId) //需要修改的objectId
+							query.set('status', -1)
+							query.save().then(res => {
+								uni.showToast({
+									title: "删除成功"
+								})
+							}).catch(err => {
+								console.log(err)
+							})
+
+						}
+					}
+				});
+
+			},
 
 		},
 
@@ -72,6 +131,7 @@
 						console.log("编辑")
 					} else if (res.tapIndex == 1) {
 						console.log("删除")
+						that.delete()
 					} else {
 						console.log("分享")
 					}
@@ -136,5 +196,15 @@
 		display: flex;
 		justify-content: space-around;
 		margin: 30rpx 0 60rpx;
+	}
+
+	.qrimg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #426ab3;
+		text-align: center;
 	}
 </style>

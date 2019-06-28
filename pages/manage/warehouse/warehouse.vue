@@ -12,13 +12,17 @@
 						<view class="right_item">
 							<view class='stock_name'>{{stock.stock_name}}</view>
 							<view class='stock_mobile'>负责人：{{stock.charge.nickName}}</view>
-							<view class="display_flex" style="justify-content: flex-end;">
+							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(stock)">
+								<text style="color: #f69c9f;">选择</text>
+							</view>
+
+							<view class="display_flex" style="justify-content: flex-end;" v-else>
 								<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(stock.objectId)"></fa-icon>
 								<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(stock)"></fa-icon>
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
-						
+
 					</view>
 
 
@@ -44,20 +48,35 @@
 		},
 		data() {
 			return {
+				is_choose: false,
 				loading: true,
 				stocks: null,
 			}
 		},
 
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+			console.log(options)
+			if (options.type == "choose") {
+				that.is_choose = true
+			}
 		},
 		onShow() {
+			
 			uni.removeStorageSync("warehouse")
 			that.getstock_list()
 		},
 		methods: {
+
+			//选择此仓库
+			select_this(charge) {
+				uni.setStorageSync("warehouse", charge)
+				uni.navigateBack({
+					delta: 1
+				})
+			},
 
 			//编辑操作
 			edit(item) {
@@ -162,6 +181,6 @@
 
 	.content {
 		padding: 0rpx 30rpx;
-		
+
 	}
 </style>

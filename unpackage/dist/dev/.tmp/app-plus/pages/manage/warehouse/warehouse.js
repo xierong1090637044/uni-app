@@ -132,6 +132,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};
 
 var that;
@@ -144,20 +148,35 @@ var uid;var _default =
 
   data: function data() {
     return {
+      is_choose: false,
       loading: true,
       stocks: null };
 
   },
 
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
     that = this;
     uid = uni.getStorageSync('uid');
+
+    console.log(options, " at pages\\manage\\warehouse\\warehouse.vue:61");
+    if (options.type == "choose") {
+      that.is_choose = true;
+    }
   },
   onShow: function onShow() {
+
     uni.removeStorageSync("warehouse");
     that.getstock_list();
   },
   methods: {
+
+    //选择此仓库
+    select_this: function select_this(charge) {
+      uni.setStorageSync("warehouse", charge);
+      uni.navigateBack({
+        delta: 1 });
+
+    },
 
     //编辑操作
     edit: function edit(item) {
@@ -174,7 +193,7 @@ var uid;var _default =
         content: '是否删除此仓库',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:77");
+            console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:96");
             that.delete_data(id);
           }
         } });
@@ -183,17 +202,17 @@ var uid;var _default =
 
     //删除数据
     delete_data: function delete_data(id) {
-      console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:86");
+      console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:105");
       var query = _bmob.default.Query("stocks");
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\warehouse\\warehouse.vue:89");
+        console.log(res, " at pages\\manage\\warehouse\\warehouse.vue:108");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.getstock_list();
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\warehouse\\warehouse.vue:96");
+        console.log(err, " at pages\\manage\\warehouse\\warehouse.vue:115");
       });
     },
 
@@ -207,7 +226,7 @@ var uid;var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\warehouse\\warehouse.vue:110");
+      console.log(e.text, " at pages\\manage\\warehouse\\warehouse.vue:129");
       search_text = e.text;
       that.getstock_list();
     },

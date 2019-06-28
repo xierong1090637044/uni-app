@@ -1,7 +1,9 @@
 {
   "pages": [
-    "pages/manage/staff/staff",
     "pages/index/index",
+    "pages/manage/good_add/good_add",
+    "pages/manage/goods/goods",
+    "pages/manage/staff/staff",
     "pages/manage/shops/shops",
     "pages/manage/warehouse/warehouse",
     "pages/manage/warehouse/add/add",
@@ -18,8 +20,6 @@
     "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",
-    "pages/manage/good_add/good_add",
-    "pages/manage/goods/goods",
     "pages/report/report",
     "pages/manage/good_det/good_det",
     "pages/report/EnteringHistory/EnteringHistory",

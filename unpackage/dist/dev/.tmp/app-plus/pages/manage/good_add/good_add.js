@@ -203,23 +203,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 var that;
 var tempFilePaths;
 var uid = uni.getStorageSync('uid');
 var producttime = 0;
 var nousetime = 0;var _default =
+
 {
   components: {
     faIcon: faIcon },
 
   data: function data() {
     return {
+      stocks: "", //存放的仓库
+      reserve: 0,
       goodsIcon: "" //产品图片
     };
   },
   onLoad: function onLoad() {
     that = this;
+  },
+  onShow: function onShow() {
+    that.stocks = uni.getStorageSync("warehouse");
   },
   methods: {
     bindproducttimeChange: function bindproducttimeChange(e) {
@@ -247,7 +261,7 @@ var nousetime = 0;var _default =
           icon: "none" });
 
       } else {
-        console.log(producttime, nousetime, " at pages\\manage\\good_add\\good_add.vue:150");
+        console.log(producttime, nousetime, " at pages\\manage\\good_add\\good_add.vue:164");
         uni.showLoading({ title: "上传中..." });
         if (tempFilePaths)
         {
@@ -302,7 +316,7 @@ var nousetime = 0;var _default =
         uni.hideLoading();
         uni.showToast({ title: "上传成功" });
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\good_add\\good_add.vue:205");
+        console.log(err, " at pages\\manage\\good_add\\good_add.vue:219");
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))

@@ -132,6 +132,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};
 
 var that;
@@ -144,20 +148,35 @@ var uid;var _default =
 
   data: function data() {
     return {
+      is_choose: false,
       loading: true,
       stocks: null };
 
   },
 
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
     that = this;
     uid = uni.getStorageSync('uid');
+
+    console.log(options);
+    if (options.type == "choose") {
+      that.is_choose = true;
+    }
   },
   onShow: function onShow() {
+
     uni.removeStorageSync("warehouse");
     that.getstock_list();
   },
   methods: {
+
+    //选择此仓库
+    select_this: function select_this(charge) {
+      uni.setStorageSync("warehouse", charge);
+      uni.navigateBack({
+        delta: 1 });
+
+    },
 
     //编辑操作
     edit: function edit(item) {

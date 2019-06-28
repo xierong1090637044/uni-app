@@ -59,9 +59,17 @@
 			</view>
 			
 			<view class="frist">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+					<view style="display: flex;align-items: center;">
+						<view class="left_item">存放仓库</view>
+						<view class="right_input"><input placeholder="存放仓库" name="stocks" v-model="stocks.stock_name"></input></view>
+					</view>
+					
+					<view><fa-icon type="angle-right" size="20" color="#999"></fa-icon></view>
+				</navigator>
 				<view class="input_item">
 					<view class="left_item">初始库存<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
-					<view class="right_input"><input placeholder="初始库存" name="reserve" type="digit"></input></view>
+					<view class="right_input"><input placeholder="初始库存" name="reserve" type="digit" v-model="reserve"></input></view>
 				</view>
 				<view class="input_item">
 					<view class="left_item">预警库存</view>
@@ -109,17 +117,23 @@
 	let uid = uni.getStorageSync('uid');
 	let producttime = 0;
 	let nousetime = 0;
+	
 	export default {
 		components: {
 			faIcon,
 		},
 		data() {
 			return {
+				stocks:"",//存放的仓库
+				reserve:0,
 				goodsIcon:"",//产品图片
 			}
 		},
 		onLoad() {
 			that = this;
+		},
+		onShow() {
+			that.stocks = uni.getStorageSync("warehouse")
 		},
 		methods: {
 			bindproducttimeChange: function(e) {

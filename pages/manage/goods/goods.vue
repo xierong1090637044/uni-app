@@ -9,7 +9,7 @@
 				<view class="uni-product" v-for="(product,index) in productList" :key="index">
 					<view>
 						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-						<image src="../../../static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 					</view>
 					
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
@@ -18,7 +18,7 @@
 						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 					</view>
 					
-					<fa-icon type="arrow-circle-right " size="20" color="#426ab3"></fa-icon>
+					<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 				</view>
 			</scroll-view>
 		</view>
