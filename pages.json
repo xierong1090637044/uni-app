@@ -25,7 +25,77 @@
 					}
 				}
 			}
-		},{
+		}, 
+		{
+			"path": "pages/manage/shops/shops",
+			"style": {
+				"navigationBarTitleText": "门店管理",
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "请输入门名"
+			
+						},
+						"buttons": [{
+							"text": "新增",
+							"fontSize": "14"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/manage/warehouse/warehouse",
+			"style": {
+				"navigationBarTitleText": "仓库管理",
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "请输入仓库名"
+		
+						},
+						"buttons": [{
+							"text": "新增",
+							"fontSize": "14"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/manage/warehouse/add/add",
+			"style": {
+				"navigationBarTitleText": "新增仓库",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "保存",
+							"fontSize": "14"
+						}]
+					}
+				}
+			}
+		},
+		
+		{
+			"path": "pages/manage/shops/add/add",
+			"style": {
+				"navigationBarTitleText": "新增门店",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "保存",
+							"fontSize": "14"
+						}]
+					}
+				}
+			}
+		}, 
+		{
 			"path": "pages/manage/staff/add/add",
 			"style": {
 				"navigationBarTitleText": "新增员工",
@@ -295,11 +365,7 @@
 				"navigationBarTitleText": "盘点详情"
 			}
 		}
-	    ,{
-            "path" : "pages/manage/warehouse/warehouse",
-            "style" : {}
-        }
-    ],
+	],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",
