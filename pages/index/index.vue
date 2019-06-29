@@ -29,8 +29,6 @@
 </template>
 
 <script>
-	import config from '../../utils/config.js';
-	
 	let uid = uni.getStorageSync('uid');
 	export default {
 		data() {

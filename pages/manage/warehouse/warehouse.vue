@@ -6,12 +6,17 @@
 		<view wx:else>
 			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(stock,index) in stocks" :key="index">
-					<view class='content display_flex_bet'>
-						<image src="/static/warehouse.png" class="stock_avatar"></image>
+					<view class='content'>
+						<view class="display_flex">
+							<image src="/static/warehouse.png" class="stock_avatar"></image>
+							<view>
+								<view class='stock_name'>{{stock.stock_name}}</view>
+								<view class='stock_mobile'>负责人：{{stock.charge.nickName}}</view>
+							</view>
+						</view>
+						
 						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;" v-else></fa-icon>-->
 						<view class="right_item">
-							<view class='stock_name'>{{stock.stock_name}}</view>
-							<view class='stock_mobile'>负责人：{{stock.charge.nickName}}</view>
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(stock)">
 								<text style="color: #f69c9f;">选择</text>
 							</view>
@@ -22,10 +27,7 @@
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
-
 					</view>
-
-
 				</view>
 			</scroll-view>
 
@@ -57,16 +59,19 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
+
 			console.log(options)
 			if (options.type == "choose") {
 				that.is_choose = true
 			}
 		},
 		onShow() {
-			
+
 			uni.removeStorageSync("warehouse")
 			that.getstock_list()
+		},
+		onUnload() {
+			search_text =""
 		},
 		methods: {
 
@@ -134,6 +139,7 @@
 
 			//得到仓库列表
 			getstock_list: function() {
+				that.loading = true;
 				const query = Bmob.Query("stocks");
 				query.order("-num");
 				query.include("charge")
@@ -156,6 +162,11 @@
 </script>
 
 <style>
+	page {
+		height: 100vh;
+		background: #FAFAFA;
+	}
+
 	.stock_name {
 		font-weight: bold;
 		font-size: 30rpx;
@@ -168,9 +179,9 @@
 	}
 
 	.right_item {
-		padding: 10rpx 0;
 		width: 100%;
 		border-bottom: 1rpx solid#ccc;
+		padding-bottom: 10rpx;
 	}
 
 	.stock_avatar {
@@ -180,7 +191,7 @@
 	}
 
 	.content {
-		padding: 0rpx 30rpx;
-
+		padding: 10rpx 30rpx;
+		background: #FFFFFF;
 	}
 </style>

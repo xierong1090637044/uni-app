@@ -31,7 +31,6 @@
 </template>
 
 <script>
-	import config from '../../../utils/config.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'

@@ -7,13 +7,18 @@
 			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(shop,index) in shops" :key="index">
 
-					<view class='content display_flex_bet'>
-						<image src="/static/shop.png" class="shop_avatar"></image>
+					<view class='content'>
+						<view class="display_flex">
+							<image src="/static/shop.png" class="shop_avatar"></image>
+							<view>
+								<view class='shop_name'>{{shop.name}}</view>
+								<view class='shop_mobile'>地址：{{shop.address}}</view>
+							</view>
+							
+						</view>
+						
 						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>-->
 						<view class="right_item">
-							<view class='shop_name'>{{shop.name}}</view>
-							<view class='shop_mobile'>地址：{{shop.address}}</view>
-							
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(shop)">
 								<text style="color: #f69c9f;">选择</text>
 							</view>
@@ -66,6 +71,9 @@
 		onShow() {
 			uni.removeStorageSync("shop")
 			that.getshop_list()
+		},
+		onUnload() {
+			search_text =""
 		},
 		methods: {
 
@@ -133,6 +141,7 @@
 
 			//得到门店列表
 			getshop_list: function() {
+				that.loading = true;
 				const query = Bmob.Query("shops");
 				query.order("num");
 				query.equalTo("parent", "==", uid);
@@ -154,6 +163,11 @@
 </script>
 
 <style>
+	page {
+		height: 100vh;
+		background: #FAFAFA;
+	}
+	
 	.shop_name {
 		font-weight: bold;
 		font-size: 30rpx;
@@ -166,7 +180,7 @@
 	}
 
 	.right_item {
-		padding: 10rpx 0;
+		padding-bottom: 10rpx;
 		width: 100%;
 		border-bottom: 1rpx solid#ccc;
 	}
@@ -178,7 +192,7 @@
 	}
 
 	.content {
-		padding: 0rpx 30rpx;
-
+		padding: 10rpx 30rpx;
+		background: #FFFFFF;
 	}
 </style>

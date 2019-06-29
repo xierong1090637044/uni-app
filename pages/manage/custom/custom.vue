@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<loading v-if="loading"></loading>
+		
 		<view class="uni-common-mt">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
 		</view>
@@ -47,6 +49,7 @@
 </template>
 
 <script>
+	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
@@ -56,11 +59,13 @@
 	let uid;
 	export default {
 		components: {
+			loading,
 			faIcon,
 			uniSegmentedControl
 		},
 		data() {
 			return {
+				loading: true,
 				items: [
 					'销售客户',
 					'供货商',
@@ -83,6 +88,9 @@
 				that.load_data("producers")
 			}
 
+		},
+		onUnload() {
+			search_text =""
 		},
 		methods: {
 
@@ -184,9 +192,7 @@
 
 			//加载数据
 			load_data(type) {
-				uni.showLoading({
-					title: "加载中..."
-				})
+				that.loading = true;
 				const query = Bmob.Query(type);
 				query.equalTo("parent", "==", uid);
 				query.limit(500);
@@ -204,7 +210,7 @@
 				}
 				query.find().then(res => {
 					console.log(res)
-					uni.hideLoading();
+					that.loading = false;
 					that.people = res;
 				});
 			},

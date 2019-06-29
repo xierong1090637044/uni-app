@@ -119,7 +119,7 @@
 						title: "请输入仓库名字",
 						icon: "none"
 					})
-				} else if (this.warehouse_charge == '') {
+				} else if (this.warehouse_charge == ''||this.warehouse_charge == null) {
 					uni.showToast({
 						title: "请选择仓库负责人",
 						icon: "none"

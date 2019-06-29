@@ -6,26 +6,31 @@
 		<view wx:else>
 			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(staff,index) in staffs" :key="index">
-						<view class='content display_flex_bet'>
-							<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
+					<view class='content'>
+						<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
+						<view class="display_flex">
 							<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
-							<view class="right_item">
+							<view>
 								<view class='staff_name'>{{staff.username}}</view>
 								<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
-								
-								<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(staff)">
-									<text style="color: #f69c9f;">选择</text>
-								</view>
-								
-								<view class="display_flex" style="justify-content: flex-end;" v-else>
-									<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
-									<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(staff)"></fa-icon>
-								</view>
 							</view>
-							<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
-							
+
 						</view>
-						
+
+						<view class="right_item">
+							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(staff)">
+								<text style="color: #f69c9f;">选择</text>
+							</view>
+
+							<view class="display_flex" style="justify-content: flex-end;" v-else>
+								<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
+								<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(staff)"></fa-icon>
+							</view>
+						</view>
+						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
+
+					</view>
+
 				</view>
 			</scroll-view>
 
@@ -50,15 +55,15 @@
 			return {
 				loading: true,
 				staffs: null,
-				is_choose:false
+				is_choose: false
 			}
 		},
 
 		onLoad(options) {
 			that = this;
-			uid= uni.getStorageSync('uid')
+			uid = uni.getStorageSync('uid')
 			console.log(options)
-			if(options.type =="choose"){
+			if (options.type == "choose") {
 				that.is_choose = true
 			}
 		},
@@ -67,16 +72,19 @@
 			uni.removeStorageSync("charge")
 			that.getstaff_list()
 		},
+		onUnload() {
+			search_text = ""
+		},
 		methods: {
-			
+
 			//选择此员工当负责人
-			select_this(charge){
-				uni.setStorageSync("charge",charge)
+			select_this(charge) {
+				uni.setStorageSync("charge", charge)
 				uni.navigateBack({
-					delta:1
+					delta: 1
 				})
 			},
-			
+
 			//编辑操作
 			edit(item) {
 				uni.setStorageSync("staff", item);
@@ -84,7 +92,7 @@
 					url: "add/add"
 				})
 			},
-			
+
 			//删除操作
 			delete_this(id) {
 				uni.showModal({
@@ -98,7 +106,7 @@
 					}
 				});
 			},
-			
+
 			//删除数据
 			delete_data(id) {
 				console.log(id)
@@ -119,10 +127,10 @@
 			//监听原生标题栏按钮点击事件
 			onNavigationBarButtonTap(Object) {
 				uni.navigateTo({
-					url:"add/add"
+					url: "add/add"
 				})
 			},
-			
+
 			//原生导航栏输入确认的时候
 			onNavigationBarSearchInputConfirmed(e) {
 				console.log(e.text)
@@ -130,9 +138,10 @@
 				that.getstaff_list();
 			},
 			// #endif
-			
+
 			//得到员工列表
 			getstaff_list: function() {
+				that.loading = true;
 				const query = Bmob.Query("staffs");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
@@ -154,8 +163,12 @@
 </script>
 
 <style>
-	
-.staff_name {
+	page {
+		height: 100vh;
+		background: #FAFAFA;
+	}
+
+	.staff_name {
 		font-weight: bold;
 		font-size: 30rpx;
 		color: #3D3D3D;
@@ -167,7 +180,6 @@
 	}
 
 	.right_item {
-		padding: 10rpx 0;
 		width: 100%;
 		border-bottom: 1rpx solid#ccc;
 	}
@@ -179,7 +191,7 @@
 	}
 
 	.content {
-		padding: 0rpx 30rpx;
-		
+		padding: 10rpx 30rpx;
+		background: #FFFFFF;
 	}
 </style>

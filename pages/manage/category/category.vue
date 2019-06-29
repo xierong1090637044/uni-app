@@ -95,21 +95,18 @@
 					that.frist_class = res;
 
 					that.get_second_category(res[0].objectId)
-					that.loading = false
 				});
 			},
 
 			//得到二级分类
 			get_second_category(id) {
+				that.loading = true;
 				that.selected_id = id;
-				uni.showLoading({
-					title: "获取中..."
-				})
 				const query = Bmob.Query('class_user')
 				query.field('second', id)
 				query.relation('second_class').then(res => {
 					console.log(res);
-					uni.hideLoading();
+					that.loading = false;
 					that.second_class = res.results;
 				})
 			},

@@ -1,5 +1,4 @@
 <script>
-	import config from 'utils/config.js'
 	import Bmob from '@/utils/bmob.js';
 	
 	export default {

@@ -58,20 +58,25 @@
 		},
 
 		onShow() {
-			type = uni.getStorageSync("custom_type");
+			
 			custom = uni.getStorageSync("customs");
-
-			if (type == "customs") {
-				that.name = custom.custom_name
-				that.address = custom.custom_address
-				that.phone = custom.custom_phone
-				that.debt = custom.debt
-			} else {
-				that.name = custom.producer_name
-				that.address = custom.producer_address
-				that.phone = custom.producer_phone
-				that.debt = custom.debt
+			
+			if(custom){
+				type = uni.getStorageSync("custom_type");
+				if (type == "customs") {
+					that.name = custom.custom_name
+					that.address = custom.custom_address
+					that.phone = custom.custom_phone
+					that.debt = custom.debt
+				} else {
+					that.name = custom.producer_name
+					that.address = custom.producer_address
+					that.phone = custom.producer_phone
+					that.debt = custom.debt
+				}
 			}
+
+			
 
 		},
 

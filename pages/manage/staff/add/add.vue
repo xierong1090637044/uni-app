@@ -21,8 +21,8 @@
 				<uni-collapse-item :show-animation="true" title="管理权限">
 					<view style="padding: 30rpx;">
 						<checkbox-group @change="checkboxChange">
-							<view class="display_flex rights_item" v-for="item in manage" :key="item.id">
-								<checkbox :value="item.id" :checked="item.checked" />
+							<view class="display_flex rights_item" v-for="(item,index) in manage" :key="index">
+								<checkbox :value="index" :checked="item.checked" />
 								<text>{{item.name}}</text>
 							</view>
 						</checkbox-group>
@@ -35,8 +35,8 @@
 					<uni-collapse-item :show-animation="true" title="查看权限">
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_record">
-								<view class="display_flex rights_item" v-for="item in recode" :key="item.id">
-									<checkbox :value="item.id" :checked="item.checked" />
+								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="index">
+									<checkbox :value="index" :checked="item.checked" />
 									<text>{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -127,6 +127,17 @@
 				that.staff_name = staff.username
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
+				
+				for(let i of staff.rights.current)
+				{
+					console.log(i)
+					that.manage[i].checked = true;
+				}
+				
+				for(let i of staff.rights.recodecurrent)
+				{
+					that.recode[i].checked = true;
+				}
 			}
 
 		},
