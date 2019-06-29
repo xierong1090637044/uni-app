@@ -136,6 +136,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};
 
 var that;
@@ -164,17 +166,35 @@ var uid;var _default =
     }
   },
   onShow: function onShow() {
-
-    uni.removeStorageSync("warehouse");
     that.getstock_list();
+  },
+  onUnload: function onUnload() {
+    search_text = "";
   },
   methods: {
 
     //选择此仓库
-    select_this: function select_this(charge) {
-      uni.setStorageSync("warehouse", charge);
-      uni.navigateBack({
-        delta: 1 });
+    select_this: function select_this(item) {
+      var warehouse = uni.getStorageSync("warehouse") || [];
+      var _stocks = {};
+
+      _stocks.stock = item;
+      _stocks.reserve = 0;
+
+      if (JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) == -1) {
+        warehouse.push(_stocks);
+
+        uni.setStorageSync("warehouse", warehouse);
+        uni.navigateBack({
+          delta: 1 });
+
+
+      } else {
+        uni.showToast({
+          title: "已选择此仓库",
+          icon: "none" });
+
+      }
 
     },
 
@@ -234,6 +254,7 @@ var uid;var _default =
 
     //得到仓库列表
     getstock_list: function getstock_list() {
+      that.loading = true;
       var query = _bmob.default.Query("stocks");
       query.order("-num");
       query.include("charge");

@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/manage/good_add/good_add",
+    "pages/index/index",
     "pages/manage/goods/goods",
     "pages/manage/staff/staff",
     "pages/manage/shops/shops",
@@ -75,6 +75,5 @@
       "desc": ""
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap75.json"
+  "usingComponents": {}
 }

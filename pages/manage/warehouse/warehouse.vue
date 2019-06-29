@@ -18,12 +18,12 @@
 						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;" v-else></fa-icon>-->
 						<view class="right_item">
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(stock)">
-								<text style="color: #f69c9f;">选择</text>
+								<text style="color: #d93a49;">选择</text>
 							</view>
 
 							<view class="display_flex" style="justify-content: flex-end;" v-else>
-								<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(stock.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(stock)"></fa-icon>
+								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(stock.objectId)"></fa-icon>
+								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(stock)"></fa-icon>
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
@@ -66,8 +66,6 @@
 			}
 		},
 		onShow() {
-
-			uni.removeStorageSync("warehouse")
 			that.getstock_list()
 		},
 		onUnload() {
@@ -76,11 +74,28 @@
 		methods: {
 
 			//选择此仓库
-			select_this(charge) {
-				uni.setStorageSync("warehouse", charge)
-				uni.navigateBack({
-					delta: 1
-				})
+			select_this(item) {
+				let warehouse = uni.getStorageSync("warehouse") || [];
+				let _stocks ={};
+				
+				_stocks.stock = item;
+				_stocks.reserve = 0;
+				
+				if(JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) ==-1){
+					warehouse.push(_stocks);
+					
+					uni.setStorageSync("warehouse", warehouse)
+					uni.navigateBack({
+						delta: 1
+					})
+					
+				}else{
+					uni.showToast({
+						title:"已选择此仓库",
+						icon:"none"
+					})
+				}
+				
 			},
 
 			//编辑操作

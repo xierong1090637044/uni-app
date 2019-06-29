@@ -166,8 +166,6 @@ var uid;var _default =
     }
   },
   onShow: function onShow() {
-
-    uni.removeStorageSync("warehouse");
     that.getstock_list();
   },
   onUnload: function onUnload() {
@@ -176,10 +174,27 @@ var uid;var _default =
   methods: {
 
     //选择此仓库
-    select_this: function select_this(charge) {
-      uni.setStorageSync("warehouse", charge);
-      uni.navigateBack({
-        delta: 1 });
+    select_this: function select_this(item) {
+      var warehouse = uni.getStorageSync("warehouse") || [];
+      var _stocks = {};
+
+      _stocks.stock = item;
+      _stocks.reserve = 0;
+
+      if (JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) == -1) {
+        warehouse.push(_stocks);
+
+        uni.setStorageSync("warehouse", warehouse);
+        uni.navigateBack({
+          delta: 1 });
+
+
+      } else {
+        uni.showToast({
+          title: "已选择此仓库",
+          icon: "none" });
+
+      }
 
     },
 
@@ -198,7 +213,7 @@ var uid;var _default =
         content: '是否删除此仓库',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:101");
+            console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:116");
             that.delete_data(id);
           }
         } });
@@ -207,17 +222,17 @@ var uid;var _default =
 
     //删除数据
     delete_data: function delete_data(id) {
-      console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:110");
+      console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:125");
       var query = _bmob.default.Query("stocks");
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\warehouse\\warehouse.vue:113");
+        console.log(res, " at pages\\manage\\warehouse\\warehouse.vue:128");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.getstock_list();
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\warehouse\\warehouse.vue:120");
+        console.log(err, " at pages\\manage\\warehouse\\warehouse.vue:135");
       });
     },
 
@@ -231,7 +246,7 @@ var uid;var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\warehouse\\warehouse.vue:134");
+      console.log(e.text, " at pages\\manage\\warehouse\\warehouse.vue:149");
       search_text = e.text;
       that.getstock_list();
     },

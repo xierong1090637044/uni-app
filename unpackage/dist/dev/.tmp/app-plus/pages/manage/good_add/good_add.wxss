@@ -1,30 +1,28 @@
 
-::-webkit-scrollbar
-{
-width: 2px;
-height: 6px;
-background-color: transparent;
+::-webkit-scrollbar {
+	width: 2px;
+	height: 6px;
+	background-color: transparent;
 }
+
 /*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb
-{
--webkit-border-radius: 10px;
-        border-radius: 10px;
-background-color: #999;
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 10px;
+	        border-radius: 10px;
+	background-color: #999;
 }
-.page{
-		font-size: 28rpx;
-		background: #FAFAFA;
-		height: 100vh;
-		overflow: scroll;
+.page {
+	font-size: 28rpx;
+	background: #FAFAFA;
+	height: 100vh;
+	overflow: scroll;
 }
-.frist{
-		padding: 0 20rpx;
-		background: #FFFFFF;
-		margin-top: 30rpx;
+.frist {
+	padding: 0 20rpx;
+	background: #FFFFFF;
+	margin-top: 30rpx;
 }
-.input_item
-{
+.input_item {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -36,8 +34,7 @@ background-color: #999;
 	line-height: 80rpx;
 	border-bottom: 1rpx solid#f6f5ec;
 }
-.input_item1
-{
+.input_item1 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -53,16 +50,13 @@ background-color: #999;
 	line-height: 80rpx;
 	border-bottom: 1rpx solid#f6f5ec;
 }
-.left_item
-{
+.left_item {
 	width: 150rpx;
 }
-.right_input
-{
+.right_input {
 	margin-left: 20rpx;
 }
-.submit_button
-{
+.submit_button {
 	background: #f58220;
 	-webkit-border-radius: 40rpx;
 	        border-radius: 40rpx;
@@ -71,8 +65,7 @@ background-color: #999;
 	line-height: 88rpx;
 	color: #fff;
 }
-.upload_image
-{
+.upload_image {
 	width: 180rpx;
 	height: 180rpx;
 	line-height: 220rpx;

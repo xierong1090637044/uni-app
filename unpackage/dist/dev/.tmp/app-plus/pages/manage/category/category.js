@@ -150,6 +150,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -201,23 +204,37 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uniPopup = function uniPopup() {return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-popup/uni-popup.vue"));};var that;var user;var uid;var _default = { components: { loading: loading, faIcon: faIcon, uniPopup: uniPopup }, data: function data() {return { loading: true, frist_class: null, //一级分类
+//
+//
+//
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uniPopup = function uniPopup() {return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-popup/uni-popup.vue"));};var that;var user;var uid;var _default = { components: { loading: loading, faIcon: faIcon, uniPopup: uniPopup }, data: function data() {return { is_choose: false, loading: true, frist_class: null, //一级分类
       second_class: null, //二级分类
       selected_id: null, //选择的id
       class_text: null, //分类的输入内容
       input_class_text: null, //已经输入的内容
-      middle: false, popup_editshow: false, Popup_title: "一级分类" };}, onLoad: function onLoad() {that = this;user = uni.getStorageSync("user");uid = uni.getStorageSync("uid");}, onShow: function onShow() {that.get_category();}, methods: { //得到一级分类
-    get_category: function get_category() {var query = _bmob.default.Query("class_user");query.equalTo("parent", "==", user.objectId);query.find().then(function (res) {console.log(res, " at pages\\manage\\category\\category.vue:94");that.frist_class = res;that.get_second_category(res[0].objectId);});}, //得到二级分类
-    get_second_category: function get_second_category(id) {that.loading = true;that.selected_id = id;var query = _bmob.default.Query('class_user');query.field('second', id);query.relation('second_class').then(function (res) {console.log(res, " at pages\\manage\\category\\category.vue:108");that.loading = false;that.second_class = res.results;});
+      middle: false, popup_editshow: false, Popup_title: "一级分类" };}, onLoad: function onLoad(options) {that = this;user = uni.getStorageSync("user");uid = uni.getStorageSync("uid");if (options.type == "choose") {that.is_choose = true;}}, onShow: function onShow() {that.get_category();}, methods: { //选择分类的情况下选择分类
+    select_this: function select_this(item) {uni.setStorageSync("category", item);uni.navigateBack({ delta: 1 });}, //得到一级分类
+    get_category: function get_category() {var query = _bmob.default.Query("class_user");query.equalTo("parent", "==", user.objectId);query.find().then(function (res) {console.log(res, " at pages\\manage\\category\\category.vue:111");that.frist_class = res;that.get_second_category(res[0].objectId);});},
+    //得到二级分类
+    get_second_category: function get_second_category(id) {
+      that.loading = true;
+      that.selected_id = id;
+      var query = _bmob.default.Query('class_user');
+      query.field('second', id);
+      query.relation('second_class').then(function (res) {
+        console.log(res, " at pages\\manage\\category\\category.vue:125");
+        that.loading = false;
+        that.second_class = res.results;
+      });
     },
 
     //点击编辑图标
     showoption: function showoption(id, type, value) {
-      console.log(id, type, value, " at pages\\manage\\category\\category.vue:116");
+      console.log(id, type, value, " at pages\\manage\\category\\category.vue:133");
       uni.showActionSheet({
         itemList: ['删除', '编辑'],
         success: function success(res) {
-          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\category\\category.vue:120");
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\category\\category.vue:137");
           if (res.tapIndex == 0) {
             if (type === 1) {
               that.delete(id, "class_user");
@@ -238,7 +255,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
           }
         },
         fail: function fail(res) {
-          console.log(res.errMsg, " at pages\\manage\\category\\category.vue:141");
+          console.log(res.errMsg, " at pages\\manage\\category\\category.vue:158");
         } });
 
     },
@@ -268,12 +285,12 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
       } else {
         dbname = "second_class";
       }
-      console.log(that.selected_id, dbname, " at pages\\manage\\category\\category.vue:171");
+      console.log(that.selected_id, dbname, " at pages\\manage\\category\\category.vue:188");
       var query = _bmob.default.Query(dbname);
       query.set('id', that.selected_id); //需要修改的objectId
       query.set('class_text', that.input_class_text);
       query.save().then(function (res) {
-        console.log(res, " at pages\\manage\\category\\category.vue:176");
+        console.log(res, " at pages\\manage\\category\\category.vue:193");
         uni.showToast({
           title: '修改成功' });
 
@@ -282,7 +299,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
         that.middle = false;
         that.popup_editshow = false;
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\category\\category.vue:185");
+        console.log(err, " at pages\\manage\\category\\category.vue:202");
       });
     },
 
@@ -295,14 +312,14 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
           if (res.confirm) {
             var query = _bmob.default.Query(dbname);
             query.destroy(id).then(function (res) {
-              console.log(res, " at pages\\manage\\category\\category.vue:198");
+              console.log(res, " at pages\\manage\\category\\category.vue:215");
               uni.showToast({
                 title: '删除成功',
                 duration: 1000 });
 
               that.get_category();
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\category\\category.vue:205");
+              console.log(err, " at pages\\manage\\category\\category.vue:222");
             });
           }
         } });
@@ -331,7 +348,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
             _this.middle = false;
             _this.class_text = null;
           }).catch(function (err) {
-            console.log(err, " at pages\\manage\\category\\category.vue:234");
+            console.log(err, " at pages\\manage\\category\\category.vue:251");
           });
         }
       } else {
@@ -358,7 +375,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
             _this.class_text = null;
           });
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\category\\category.vue:261");
+          console.log(err, " at pages\\manage\\category\\category.vue:278");
         });
 
       }

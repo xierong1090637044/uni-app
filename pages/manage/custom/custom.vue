@@ -18,8 +18,8 @@
 						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 					</view>
 					<view class="display_flex" style="justify-content: flex-end;">
-						<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
-						<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+						<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
+						<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
 					</view>
 
 				</view>
@@ -36,8 +36,8 @@
 						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 					</view>
 					<view class="display_flex" style="justify-content: flex-end;">
-						<fa-icon type="trash" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
-						<fa-icon type="pencil-square-o" size="20" color="#f69c9f" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+						<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
+						<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
 
 					</view>
 

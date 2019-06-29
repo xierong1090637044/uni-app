@@ -21,7 +21,10 @@
 				<view style="height: calc(100vh - 80rpx);overflow: scroll;">
 					<view v-for="(item,index) in second_class" :key="index" class="class_item" style="color: #333333;">
 						<view class="class_texxt_view">{{item.class_text}}</view>
-						<fa-icon type="pencil-square-o" size="20" color="#3d3d3d" @click.stop="showoption(item.objectId,2,item.class_text)" />
+						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(item)">
+							<text style="color: #d93a49;">选择</text>
+						</view>
+						<fa-icon v-else type="pencil-square-o" size="20" color="#3d3d3d" @click.stop="showoption(item.objectId,2,item.class_text)" />
 					</view>
 				</view>
 				<view class="class_item_bottom" @click="add_secondclass">
@@ -66,6 +69,7 @@
 		},
 		data() {
 			return {
+				is_choose:false,
 				loading: true,
 				frist_class: null, //一级分类
 				second_class: null, //二级分类
@@ -77,15 +81,28 @@
 				Popup_title: "一级分类",
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			user = uni.getStorageSync("user");
 			uid = uni.getStorageSync("uid");
+			
+			if(options.type =="choose"){
+				that.is_choose = true
+			}
 		},
 		onShow() {
 			that.get_category();
 		},
 		methods: {
+			
+			//选择分类的情况下选择分类
+			select_this(item){
+				uni.setStorageSync("category", item)
+				uni.navigateBack({
+					delta: 1
+				})
+			},
+			
 			//得到一级分类
 			get_category() {
 				const query = Bmob.Query("class_user");

@@ -136,6 +136,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
@@ -166,6 +171,9 @@ var uid;var _default =
     uni.removeStorageSync("staff");
     uni.removeStorageSync("charge");
     that.getstaff_list();
+  },
+  onUnload: function onUnload() {
+    search_text = "";
   },
   methods: {
 
@@ -233,6 +241,7 @@ var uid;var _default =
 
     //得到员工列表
     getstaff_list: function getstaff_list() {
+      that.loading = true;
       var query = _bmob.default.Query("staffs");
       query.order("-createdAt");
       query.equalTo("masterId", "==", uid);

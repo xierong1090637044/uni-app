@@ -148,7 +148,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};
 
 
 var that;
@@ -156,11 +159,13 @@ var search_text;
 var uid;var _default =
 {
   components: {
+    loading: loading,
     faIcon: faIcon,
     uniSegmentedControl: uniSegmentedControl },
 
   data: function data() {
     return {
+      loading: true,
       items: [
       '销售客户',
       '供货商'],
@@ -183,6 +188,9 @@ var uid;var _default =
       that.load_data("producers");
     }
 
+  },
+  onUnload: function onUnload() {
+    search_text = "";
   },
   methods: {
 
@@ -284,9 +292,7 @@ var uid;var _default =
 
     //加载数据
     load_data: function load_data(type) {
-      uni.showLoading({
-        title: "加载中..." });
-
+      that.loading = true;
       var query = _bmob.default.Query(type);
       query.equalTo("parent", "==", uid);
       query.limit(500);
@@ -304,7 +310,7 @@ var uid;var _default =
       }
       query.find().then(function (res) {
         console.log(res);
-        uni.hideLoading();
+        that.loading = false;
         that.people = res;
       });
     } } };exports.default = _default;
