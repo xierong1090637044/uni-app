@@ -18,8 +18,14 @@
 						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 					</view>
 					<view class="display_flex" style="justify-content: flex-end;">
-						<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
-						<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_custom" @click="select_this('custom',item)">
+							<text style="color: #d93a49;">选择</text>
+						</view>
+						<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
+							<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
+							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+						</view>
+						
 					</view>
 
 				</view>
@@ -36,9 +42,15 @@
 						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 					</view>
 					<view class="display_flex" style="justify-content: flex-end;">
-						<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
-						<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
-
+						
+						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_producer" @click="select_this('producer',item)">
+							<text style="color: #d93a49;">选择</text>
+						</view>
+						<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
+							<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
+							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(item)"></fa-icon>
+						</view>
+						
 					</view>
 
 				</view>
@@ -72,11 +84,23 @@
 				],
 				current: 0,
 				people: null, //获得人员数组
+				is_producer: false,
+				is_custom:false
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+			if (options.type == "producer") {
+				that.is_producer = true,
+				that.current = 1,
+				that.load_data("producers")
+			}else if(options.type == "custom"){
+				that.is_custom = true,
+				that.current = 0,
+				that.load_data("customs")
+			}
 		},
 
 		onShow() {
@@ -93,6 +117,14 @@
 			search_text =""
 		},
 		methods: {
+			
+			//选择此供货商
+			select_this(type,producer) {
+				uni.setStorageSync(type, producer)
+				uni.navigateBack({
+					delta: 1
+				})
+			},
 
 			//编辑操作
 			edit(item) {

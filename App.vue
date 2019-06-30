@@ -41,4 +41,12 @@
 <style>
 	/*每个页面公共css */
 	@import 'uni.css';
+	
+	.kaidan_detail{
+		background: #fff;
+		padding:10rpx;
+	}
+	.kaidan_rightinput{
+		margin-left: 10rpx;
+	}
 </style>

@@ -139,7 +139,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -181,22 +215,10 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       producer: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);});
-
-        //单据
-        var tempBills = _bmob.default.Query('Bills');
-        var pointer = _bmob.default.Pointer('_User');
-        var user = pointer.set(uid);
-
-        var pointer1 = _bmob.default.Pointer('Goods');
-        var tempGoods_id = pointer1.set(_this.products[i].objectId);
-        tempBills.set('goodsName', _this.products[i].goodsName);
-        tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
-        tempBills.set('num', _this.products[i].num);
-        tempBills.set('total_money', _this.products[i].total_money);
-        tempBills.set('goodsId', tempGoods_id);
-        tempBills.set('userId', user);
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");uni.removeStorageSync("producer"); //移除这个缓存
+    this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}this.real_money = this.all_money;}, onShow: function onShow() {that.producer = uni.getStorageSync("producer");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);}); //单据
+        var tempBills = _bmob.default.Query('Bills');var pointer = _bmob.default.Pointer('_User');var user = pointer.set(uid);var pointer1 = _bmob.default.Pointer('Goods');var tempGoods_id = pointer1.set(_this.products[i].objectId);tempBills.set('goodsName', _this.products[i].goodsName);tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());tempBills.set('num', _this.products[i].num);tempBills.set('total_money', _this.products[i].total_money);tempBills.set('goodsId', tempGoods_id);tempBills.set('userId', user);
         tempBills.set('type', 1);
 
         billsObj.push(tempBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);
@@ -227,7 +249,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
 
             if (that.producer) {
               var producer = _bmob.default.Pointer('producers');
-              var producerID = producer.set(this.producer.objectId);
+              var producerID = producer.set(that.producer.objectId);
               query.set("producer", producerID);
 
               //如果客户有欠款
@@ -250,7 +272,6 @@ var uid;var that;var _default = { data: function data() {return { products: null
             query.save().then(function (res) {
               console.log("添加操作历史记录成功", res);
               uni.hideLoading();
-              uni.removeStorageSync("producer"); //移除这个缓存
               uni.showToast({
                 title: '产品入库成功',
                 icon: 'success',

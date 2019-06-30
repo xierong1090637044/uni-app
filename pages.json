@@ -1,18 +1,38 @@
 {
 	"pages": [
-		{
-			"path": "pages/manage/good_add/good_add",
-			"style": {
-				"navigationBarTitleText": "新建产品"
-			}
-		},
+
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},
-		 {
+		{
+			"path": "pages/common/good_return/return_detail/return_detail",
+			"style": {
+				"navigationBarTitleText": "退货详情"
+			}
+		},
+		{
+			"path": "pages/common/goods_out/out_detail/out_detail",
+			"style": {
+				"navigationBarTitleText": "出库详情"
+			}
+		},
+		{
+			"path": "pages/common/good_confrim/good_enter/good_enter",
+			"style": {
+				"navigationBarTitleText": "入库详情"
+			}
+		},
+		{
+			"path": "pages/manage/good_add/good_add",
+			"style": {
+				"navigationBarTitleText": "新建产品"
+			}
+		},
+
+		{
 			"path": "pages/manage/goods/goods",
 			"style": {
 				"navigationBarTitleText": "我的产品",
@@ -200,12 +220,6 @@
 				"navigationBarTitleText": "操作详情",
 				"app-plus": {
 					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容"
-
-						},
 						"buttons": [{
 							"text": "排序",
 							"fontSize": "14"
@@ -240,35 +254,30 @@
 				"navigationBarTitleText": "类别管理"
 			}
 		},
-
-
-
-		{
-			"path": "pages/common/good_confrim/good_enter/good_enter",
-			"style": {
-				"navigationBarTitleText": "入库详情"
-			}
-		},
 		{
 			"path": "pages/common/goods-select/goods-select",
 			"style": {
 				"navigationBarTitleText": "选择产品",
-				"titleNView": {
-					"searchInput": {
-						"backgroundColor": "#fff",
-						"borderRadius": "6px", //输入框圆角
-						"placeholder": "请输入搜索内容"
+				"app-plus": {
+					"bounce": "vertical",
 
-					},
-					"buttons": [{
-							"text": "确定",
-							"fontSize": "14"
+					"titleNView": {
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "请输入搜索内容"
+
 						},
-						{
-							"text": "筛选",
-							"fontSize": "14"
-						}
-					]
+						"buttons": [{
+								"text": "确定",
+								"fontSize": "14"
+							},
+							{
+								"text": "筛选",
+								"fontSize": "14"
+							}
+						]
+					}
 				}
 			}
 		},
@@ -276,11 +285,15 @@
 			"path": "pages/common/good_confrim/good_confrim",
 			"style": {
 				"navigationBarTitleText": "产品入库",
-				"titleNView": {
-					"buttons": [{
-						"text": "确定",
-						"fontSize": "14"
-					}]
+				"app-plus": {
+					"bounce": "vertical",
+
+					"titleNView": {
+						"buttons": [{
+							"text": "确定",
+							"fontSize": "14"
+						}]
+					}
 				}
 			}
 		},
@@ -328,13 +341,6 @@
 				}
 			}
 		}, {
-			"path": "pages/common/goods_out/out_detail/out_detail",
-			"style": {
-				"navigationBarTitleText": "出库详情"
-			}
-		}
-
-		, {
 			"path": "pages/common/good_return/good_return",
 			"style": {
 				"navigationBarTitleText": "产品退货",
@@ -344,11 +350,6 @@
 						"fontSize": "14"
 					}]
 				}
-			}
-		}, {
-			"path": "pages/common/good_return/return_detail/return_detail",
-			"style": {
-				"navigationBarTitleText": "退货详情"
 			}
 		}, {
 			"path": "pages/common/good_count/good_count",
@@ -399,7 +400,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "积木舟",
+		"navigationBarTitleText": "库存表",
 		"navigationBarBackgroundColor": "#426ab3",
 		"backgroundColor": "#fff"
 	}

@@ -200,6 +200,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -301,10 +326,35 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var that;var id;var _default = { components: { loading: loading }, data: function data() {return { loading: true, products: null, detail: null };}, onLoad: function onLoad(options) {console.log(options, " at pages\\report\\EnteringHistory\\detail\\detail.vue:120");that = this;id = options.id;that.getdetail(id);}, methods: { getdetail: function getdetail(id) {var query = _bmob.default.Query('order_opreations');query.include("opreater", "custom", "producer");query.get(id).then(function (res) {//console.log(res);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var that;var id;var _default = { components: { loading: loading }, data: function data() {return { loading: true, products: null, detail: null };}, onLoad: function onLoad(options) {console.log(options, " at pages\\report\\EnteringHistory\\detail\\detail.vue:145");that = this;id = options.id;that.getdetail(id);}, methods: { getdetail: function getdetail(id) {var query = _bmob.default.Query('order_opreations');query.include("opreater", "custom", "producer");query.get(id).then(function (res) {//console.log(res);
         that.detail = res;var query = _bmob.default.Query('order_opreations');query.include("goodsId");query.field('relations', res.objectId);query.relation('Bills').then(function (res) {//console.log(res);
-          that.products = res.results;that.loading = false;});}).catch(function (err) {console.log(err, " at pages\\report\\EnteringHistory\\detail\\detail.vue:142");});}, //数据撤销点击
-    revoke: function revoke() {wx.showModal({ title: '提示', content: '数据撤销后不可恢复，请谨慎撤销！', success: function success(res) {if (res.confirm) {uni.showLoading({ title: '撤销中...' });var query = _bmob.default.Query('order_opreations');query.destroy(that.detail.objectId).then(function (res) {for (var i = 0; i < that.products.length; i++) {that.delete_bill(i);}}).catch(function (err) {console.log(err, " at pages\\report\\EnteringHistory\\detail\\detail.vue:161");});}} });}, delete_bill: function delete_bill(i) {var product = that.products[i];var query = _bmob.default.Query('Bills');query.destroy(product.objectId).then(function (res) {var query1 = _bmob.default.Query('Goods');query1.set('id', product.goodsId.objectId);if (product.type == 1) {query1.set('reserve', product.goodsId.reserve - product.num);} else if (product.type == -1) {query1.set('reserve', product.goodsId.reserve + product.num);}query1.save().then(function (res) {if (i == that.products.length - 1) {uni.hideLoading();uni.navigateBack({ delta: 1 });setTimeout(function () {uni.showToast({ title: '撤销成功' });}, 1000);}});});} } };exports.default = _default;
+          that.products = res.results;that.loading = false;});}).catch(function (err) {console.log(err, " at pages\\report\\EnteringHistory\\detail\\detail.vue:166");});}, //数据撤销点击
+    revoke: function revoke() {wx.showModal({ title: '提示', content: '数据撤销后不可恢复，请谨慎撤销！', success: function success(res) {if (res.confirm) {uni.showLoading({ title: '撤销中...' });var query = _bmob.default.Query('order_opreations');query.destroy(that.detail.objectId).then(function (res) {for (var i = 0; i < that.products.length; i++) {that.delete_bill(i);}}).catch(function (err) {console.log(err, " at pages\\report\\EnteringHistory\\detail\\detail.vue:186");});}} });}, delete_bill: function delete_bill(i) {var product = that.products[i];var query = _bmob.default.Query('Bills');query.destroy(product.objectId).then(function (res) {var query1 = _bmob.default.Query('Goods');query1.set('id', product.goodsId.objectId);if (product.type == 1) {query1.set('reserve', product.goodsId.reserve - product.num);} else if (product.type == -1) {query1.set('reserve', product.goodsId.reserve + product.num);}query1.save().then(function (res) {if (i == that.products.length - 1) {uni.hideLoading();uni.navigateBack({ delta: 1 });setTimeout(function () {uni.showToast({ title: '撤销成功' });}, 1000);}});});} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),

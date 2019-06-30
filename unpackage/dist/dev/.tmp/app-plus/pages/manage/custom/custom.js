@@ -151,6 +151,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};
 
 
@@ -171,12 +183,24 @@ var uid;var _default =
       '供货商'],
 
       current: 0,
-      people: null //获得人员数组
-    };
+      people: null, //获得人员数组
+      is_producer: false,
+      is_custom: false };
+
   },
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
     that = this;
     uid = uni.getStorageSync('uid');
+
+    if (options.type == "producer") {
+      that.is_producer = true,
+      that.current = 1,
+      that.load_data("producers");
+    } else if (options.type == "custom") {
+      that.is_custom = true,
+      that.current = 0,
+      that.load_data("customs");
+    }
   },
 
   onShow: function onShow() {
@@ -193,6 +217,14 @@ var uid;var _default =
     search_text = "";
   },
   methods: {
+
+    //选择此供货商
+    select_this: function select_this(type, producer) {
+      uni.setStorageSync(type, producer);
+      uni.navigateBack({
+        delta: 1 });
+
+    },
 
     //编辑操作
     edit: function edit(item) {
@@ -214,7 +246,7 @@ var uid;var _default =
         content: '是否删除此客户',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\custom\\custom.vue:117");
+            console.log(id, " at pages\\manage\\custom\\custom.vue:149");
             if (that.current == 0) {
               that.delete_data("customs", id);
             } else {
@@ -227,17 +259,17 @@ var uid;var _default =
 
     //删除数据
     delete_data: function delete_data(type, id) {
-      console.log(id, " at pages\\manage\\custom\\custom.vue:130");
+      console.log(id, " at pages\\manage\\custom\\custom.vue:162");
       var query = _bmob.default.Query(type);
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\custom\\custom.vue:133");
+        console.log(res, " at pages\\manage\\custom\\custom.vue:165");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.load_data(type);
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\custom\\custom.vue:140");
+        console.log(err, " at pages\\manage\\custom\\custom.vue:172");
       });
     },
 
@@ -247,7 +279,7 @@ var uid;var _default =
       uni.showActionSheet({
         itemList: ['新增客户', '新增供货商'],
         success: function success(res) {
-          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\custom\\custom.vue:150");
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\custom\\custom.vue:182");
           if (res.tapIndex == 0) {
             uni.navigateTo({
               url: "add/add?type=customs" });
@@ -259,7 +291,7 @@ var uid;var _default =
           }
         },
         fail: function fail(res) {
-          console.log(res.errMsg, " at pages\\manage\\custom\\custom.vue:162");
+          console.log(res.errMsg, " at pages\\manage\\custom\\custom.vue:194");
         } });
 
 
@@ -267,7 +299,7 @@ var uid;var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\custom\\custom.vue:170");
+      console.log(e.text, " at pages\\manage\\custom\\custom.vue:202");
       search_text = e.text;
       if (this.current == 0) {
         that.load_data("customs");
@@ -309,7 +341,7 @@ var uid;var _default =
 
       }
       query.find().then(function (res) {
-        console.log(res, " at pages\\manage\\custom\\custom.vue:212");
+        console.log(res, " at pages\\manage\\custom\\custom.vue:244");
         that.loading = false;
         that.people = res;
       });

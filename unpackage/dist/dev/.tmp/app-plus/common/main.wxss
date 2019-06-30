@@ -153,6 +153,13 @@ page {
 	    -ms-flex: 1;
 	        flex: 1;
 }
+.kaidan_detail{
+	background: #fff;
+	padding:10rpx;
+}
+.kaidan_rightinput{
+	margin-left: 10rpx;
+}
 
 
 @font-face {

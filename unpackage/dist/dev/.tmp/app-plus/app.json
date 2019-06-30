@@ -1,7 +1,10 @@
 {
   "pages": [
-    "pages/manage/good_add/good_add",
     "pages/index/index",
+    "pages/common/good_return/return_detail/return_detail",
+    "pages/common/goods_out/out_detail/out_detail",
+    "pages/common/good_confrim/good_enter/good_enter",
+    "pages/manage/good_add/good_add",
     "pages/manage/goods/goods",
     "pages/manage/staff/staff",
     "pages/manage/shops/shops",
@@ -17,7 +20,6 @@
     "pages/mine/mine",
     "pages/landing/landing",
     "pages/manage/category/category",
-    "pages/common/good_confrim/good_enter/good_enter",
     "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",
     "pages/report/report",
@@ -25,16 +27,14 @@
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/report/EnteringHistory/detail/detail",
     "pages/common/goods_out/goods_out",
-    "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_return/good_return",
-    "pages/common/good_return/return_detail/return_detail",
     "pages/common/good_count/good_count",
     "pages/common/good_count/count_detail/count_detail"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "积木舟",
+    "navigationBarTitleText": "库存表",
     "navigationBarBackgroundColor": "#426ab3",
     "backgroundColor": "#fff"
   },

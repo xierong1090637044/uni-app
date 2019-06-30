@@ -3,7 +3,7 @@
 <view class='o_list'>
   <navigator v-for="(value,index) in optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
     <view class='o_left_item'>
-			<view><fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon></view>
+			<view style="width: 50rpx;"><fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon></view>
       <span class='o_text'>{{value.name}}</span>
     </view>
     <view><fa-icon type="angle-right" size="20" color="#999" /></view>

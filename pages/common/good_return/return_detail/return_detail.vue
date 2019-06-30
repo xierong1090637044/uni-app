@@ -17,11 +17,16 @@
      <view class='pro_allmoney'>总计：￥{{all_money}}</view>
 
     <form @submit="formSubmit">
-    <!--<i-panel title="开单明细（用于记录是否有无欠款）">
-      <i-input title="供应商姓名" value="{{producer.producer_name}}" placeholder="选择供货商" disabled="true" bindtap='choose_producer'/>
-      <i-input title="实际应付" value="{{all_money}}" placeholder="选择供货商" disabled="true"/>
-      <i-input title="实际付款（可修改）" value="{{real_money}}" placeholder="输入实际付款金额" bindchange='getreal_money'/>
-    </i-panel>-->
+    <view style="margin: 30rpx 0;">
+    	<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录退货客户）</view>
+    	<view class="kaidan_detail">
+    		
+    		<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
+    			<view>客户姓名</view>
+    			<view class="kaidan_rightinput"><input placeholder="选择客户" disabled="true" :value="custom.custom_name"/></view>
+    		</navigator>
+    	</view>
+    </view>
 
     <view style='margin-top:20px'>
 			<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
@@ -50,7 +55,7 @@
 				beizhu_text: "",
 				real_money: 0,//实际付款金额
 				all_money:0,//总价
-				producer:null,//制造商
+				custom:null,//制造商
 			}
 		},
 		onLoad() {
@@ -62,6 +67,9 @@
 			{
 				this.all_money = this.products[i].total_money+this.all_money
 			}
+		},
+		onShow() {
+			that.custom = uni.getStorageSync("custom")
 		},
 		methods: {
 			
@@ -125,25 +133,10 @@
 				      query.set('real_money', Number(that.real_money));
 				      query.set('debt', that.all_money - Number(that.real_money));
 				
-				      if (that.producer) {
-				        let producer = Bmob.Pointer('producers');
-				        let producerID = producer.set(this.producer.objectId);
-				        query.set("producer", producerID);
-				
-				        //如果客户有欠款
-				        if ((that.all_money - Number(that.real_money)) > 0) {
-				          let query = Bmob.Query('producers');
-				          query.get(that.producer.objectId).then(res => {
-				            var debt = (res.debt == null) ? 0 : res.debt;
-				            debt = debt + (that.all_money - Number(that.real_money));
-				            console.log(debt);
-				            let query = Bmob.Query('customs');
-				            query.get(that.producer.objectId).then(res => {
-				              res.set('debt', debt)
-				              res.save()
-				            })
-				          })
-				        }
+				      if (that.custom) {
+				        let custom = Bmob.Pointer('customs');
+				        let customID = custom.set(that.custom.objectId);
+				        query.set("custom", customID);
 				      }
 				
 				      query.set("all_money", that.all_money);

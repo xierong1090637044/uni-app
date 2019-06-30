@@ -163,26 +163,62 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var tkiQrcode = function tkiQrcode() {return Promise.all(/*! import() | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-qrcode/tki-qrcode.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-qrcode/tki-qrcode.vue"));};
+
+
+
+
+
+
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var tkiQrcode = function tkiQrcode() {return Promise.all(/*! import() | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-qrcode/tki-qrcode.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-qrcode/tki-qrcode.vue"));};var tkiBarcode = function tkiBarcode() {return Promise.all(/*! import() | components/tki-barcode/tki-barcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-barcode/tki-barcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-barcode/tki-barcode.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/tki-barcode.vue"));};
 
 var that;var _default =
 {
   components: {
     faIcon: faIcon,
-    tkiQrcode: tkiQrcode },
+    tkiQrcode: tkiQrcode,
+    tkiBarcode: tkiBarcode },
 
   data: function data() {
     return {
+      opations: {
+        width: 2,
+        height: 60,
+        background: "#FFFFFF",
+        displayValue: true },
+
       product: "",
-
-      is_show: false };
-
+      is_show: false, //二维码显示
+      bar_code_show: false //条形码显示
+    };
   },
   onLoad: function onLoad() {
     that = this;
     this.product = uni.getStorageSync("now_product");
   },
   methods: {
+
+    //点击显示二维码的操作
+    showcode_option: function showcode_option() {
+      uni.showActionSheet({
+        itemList: ['二维码', '条形码'],
+        success: function success(res) {
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:110");
+          if (res.tapIndex == 0) {
+            that.is_show = true;
+          } else {
+            that.bar_code_show = true;
+          }
+        },
+        fail: function fail(res) {
+          console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:118");
+        } });
+
+    },
     //二维码路径
     qrR: function qrR(res) {
       this.src = res;
@@ -209,7 +245,7 @@ var that;var _default =
                 title: "删除成功" });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\good_det\\good_det.vue:112");
+              console.log(err, " at pages\\manage\\good_det\\good_det.vue:148");
             });
 
           }
@@ -226,18 +262,18 @@ var that;var _default =
     uni.showActionSheet({
       itemList: ['编辑', '删除', '分享'],
       success: function success(res) {
-        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:129");
+        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:165");
         if (res.tapIndex == 0) {
-          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:131");
+          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:167");
         } else if (res.tapIndex == 1) {
-          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:133");
+          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:169");
           that.delete();
         } else {
-          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:136");
+          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:172");
         }
       },
       fail: function fail(res) {
-        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:140");
+        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:176");
       } });
 
   } };exports.default = _default;
@@ -273,11 +309,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
-      _vm.is_show = true
+      _vm.is_show = false
     }
 
     _vm.e1 = function($event) {
-      _vm.is_show = false
+      _vm.bar_code_show = false
     }
   }
 }

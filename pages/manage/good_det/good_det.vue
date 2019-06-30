@@ -28,7 +28,7 @@
 
 		</view>
 
-		<view class="thrid" @click="is_show = true">
+		<view class="thrid" @click="showcode_option">
 			<view>生成条码</view>
 			<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 		</view>
@@ -54,7 +54,17 @@
 				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
 				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
 			</view>
+		</view>
 
+		<view class="qrimg" v-if="bar_code_show">
+			<view style="text-align: right;margin-right: 20rpx;" @click="bar_code_show = false">
+				<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
+			</view>
+			<view style="margin-top: 20%;text-align: center;" @tap="saveQrcode">
+				<tki-barcode  ref="barcode" :val="product.objectId" loadMake="true" :opations="opations" onval="true"
+				 unit="upx" @result="qrR" />
+				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击条形码可下载)</view>
+			</view>
 		</view>
 
 	</view>
@@ -63,19 +73,27 @@
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
+	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
 	import Bmob from '@/utils/bmob.js'
-	
+
 	let that;
 	export default {
 		components: {
 			faIcon,
-			tkiQrcode
+			tkiQrcode,
+			tkiBarcode
 		},
 		data() {
 			return {
+				opations: {
+					width:2,
+					height:60,
+					background: "#FFFFFF",
+					displayValue:true,
+				},
 				product: "",
-
-				is_show: false,
+				is_show: false, //二维码显示
+				bar_code_show: false, //条形码显示
 			}
 		},
 		onLoad() {
@@ -83,6 +101,24 @@
 			this.product = uni.getStorageSync("now_product");
 		},
 		methods: {
+
+			//点击显示二维码的操作
+			showcode_option() {
+				uni.showActionSheet({
+					itemList: ['二维码', '条形码'],
+					success: function(res) {
+						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+						if(res.tapIndex == 0){
+							that.is_show = true
+						}else{
+							that.bar_code_show = true
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
+			},
 			//二维码路径
 			qrR(res) {
 				this.src = res

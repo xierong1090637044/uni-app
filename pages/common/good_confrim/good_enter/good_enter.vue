@@ -17,11 +17,28 @@
      <view class='pro_allmoney'>总计：￥{{all_money}}</view>
 
     <form @submit="formSubmit">
-    <!--<i-panel title="开单明细（用于记录是否有无欠款）">
-      <i-input title="供应商姓名" value="{{producer.producer_name}}" placeholder="选择供货商" disabled="true" bindtap='choose_producer'/>
-      <i-input title="实际应付" value="{{all_money}}" placeholder="选择供货商" disabled="true"/>
-      <i-input title="实际付款（可修改）" value="{{real_money}}" placeholder="输入实际付款金额" bindchange='getreal_money'/>
-    </i-panel>-->
+		
+		<view style="margin: 30rpx 0;">
+			<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
+			<view class="kaidan_detail">
+				
+				<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=producer">
+					<view>供应商姓名</view>
+					<view class="kaidan_rightinput"><input placeholder="选择供货商" disabled="true" :value="producer.producer_name"/></view>
+				</navigator>
+				
+				<view class="display_flex">
+					<view>实际应付</view>
+					<view class="kaidan_rightinput"><input placeholder="选择供货商" disabled="true" :value="all_money"/></view>
+				</view>
+				
+				<view class="display_flex">
+					<view>实际付款（可修改）</view>
+					<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit"/></view>
+				</view>
+			</view>
+		</view>
+		
 
     <view style='margin-top:20px'>
 			<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
@@ -56,12 +73,17 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			
+			uni.removeStorageSync("producer");//移除这个缓存
 			this.products = uni.getStorageSync("products");
 			for(let i =0;i<this.products.length;i++)
 			{
 				this.all_money = this.products[i].total_money+this.all_money
 			}
+			this.real_money = this.all_money
+		},
+		
+		onShow() {
+			that.producer = uni.getStorageSync("producer")
 		},
 		methods: {
 			
@@ -127,7 +149,7 @@
 				
 				      if (that.producer) {
 				        let producer = Bmob.Pointer('producers');
-				        let producerID = producer.set(this.producer.objectId);
+				        let producerID = producer.set(that.producer.objectId);
 				        query.set("producer", producerID);
 				
 				        //如果客户有欠款
@@ -150,7 +172,6 @@
 				      query.save().then(res => {
 				        console.log("添加操作历史记录成功", res);
 								uni.hideLoading();
-				        uni.removeStorageSync("producer");//移除这个缓存
 				        uni.showToast({
 				          title: '产品入库成功',
 				          icon: 'success',

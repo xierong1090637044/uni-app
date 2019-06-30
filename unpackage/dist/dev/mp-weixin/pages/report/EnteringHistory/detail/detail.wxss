@@ -1,82 +1,70 @@
 
-.page
-{
-  color: #4d4d4d;
-  height: 100vh;
+.page {
+	color: #4d4d4d;
+	height: 100vh;
 	overflow-y: scroll;
 	background: #FAFAFA;
 	font-size: 28rpx;
 }
-.pro_list
-{
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+.pro_list {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
 }
-.pro_listitem
-{
-  background-color: #fff;
-  padding: 10rpx 20rpx;
-  border-bottom: 1rpx solid#ddd;
+.pro_listitem {
+	background-color: #fff;
+	padding: 10rpx 20rpx;
+	border-bottom: 1rpx solid#ddd;
 }
-.pro_allmoney
-{
-  background-color: #fff;
-  padding: 10rpx 20rpx;
-  text-align: right;
-  font-size: 32rpx;
-  color: #f30;
+.pro_allmoney {
+	background-color: #fff;
+	padding: 10rpx 20rpx;
+	text-align: right;
+	font-size: 32rpx;
+	color: #f30;
 }
-.beizhu_style
-{
-  width: 100%;
-  background-color: #fff;
-  padding:20rpx;
-  font-size: 32rpx;
+.beizhu_style {
+	width: 100%;
+	background-color: #fff;
+	padding: 20rpx;
+	font-size: 32rpx;
 }
-.confrim_button
-{
-  width: 60%;
-  background: #426ab3;
-  color: #fff;
-  font-size: 32rpx;
-  margin-top: 10%;
+.confrim_button {
+	width: 60%;
+	background: #426ab3;
+	color: #fff;
+	font-size: 32rpx;
+	margin-top: 10%;
 }
-.detail_bottom
-{
-  width: -webkit-calc(100% - 40rpx);
-  width: calc(100% - 40rpx);
-  background-color: #fff;
-  padding: 20rpx;
+.detail_bottom {
+	width: -webkit-calc(100% - 40rpx);
+	width: calc(100% - 40rpx);
+	background-color: #fff;
+	padding: 20rpx;
 }
-.avatar
-{
-  width: 80rpx;
-  height: 80rpx;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+.avatar {
+	width: 80rpx;
+	height: 80rpx;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 }
-.common_style
-{
-  line-height:80rpx;
-  margin-left:20rpx;
-  color: #000;
+.common_style {
+	line-height: 80rpx;
+	margin-left: 20rpx;
+	color: #000;
 }
-.real_color
-{
-  color: #f30!important;
+.real_color {
+	color: #f30 !important;
 }
-.kaidanmx
-{
+.kaidanmx {
 	margin-top: 30rpx;
 }
-.display_flex
-{
+.display_flex {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -88,8 +76,7 @@
 	background: #FFFFFF;
 	padding: 15rpx 30rpx;
 }
-.left_content
-{
+.left_content {
 	width: 150rpx;
 }
 

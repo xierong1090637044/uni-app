@@ -196,13 +196,17 @@ var uid;var _default =
       _this.loading = false;
     });
   },
+  onUnload: function onUnload() {//数组重置
+    products = [];
+    indexs = [];
+  },
 
   methods: {
 
     //多选选择触发
     radioChange: function radioChange(e) {
       indexs = e.detail.value;
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:105");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:109");
 
       /*products =[];
                                                                                     for(let i =0;i<indexs.length;i++)
@@ -218,7 +222,7 @@ var uid;var _default =
 
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:121");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:125");
       if (indexs.length == 0)
       {
         uni.showToast({ title: "请选择产品", icon: "none" });

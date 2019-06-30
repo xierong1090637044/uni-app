@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "选择产品",
+  "bounce": "vertical",
   "titleNView": {
     "searchInput": {
       "backgroundColor": "#fff",

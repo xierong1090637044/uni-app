@@ -59,8 +59,8 @@
 <script>
 	import Bmob from '@/utils/bmob.js';
 	let that;
-	let uid = wx.getStorageSync("uid");
-	let goodsId = "5ca2ad2594";
+	let uid;
+	let goodsId;
 
 	export default {
 		components: {
@@ -87,6 +87,8 @@
 		},
 		onLoad() {
 			that = this;
+			uid = wx.getStorageSync("uid");
+			goodsId = uni.getStorageSync("now_product").objectId;
 			that.getdetail();
 		},
 		methods: {

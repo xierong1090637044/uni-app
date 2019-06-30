@@ -139,7 +139,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
 //
 //
 //
@@ -180,11 +190,9 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
-      producer: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);});
-
-        //单据
+      custom: null //制造商
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);}); //单据
         var tempBills = _bmob.default.Query('Bills');
         var pointer = _bmob.default.Pointer('_User');
         var user = pointer.set(uid);
@@ -225,25 +233,10 @@ var uid;var that;var _default = { data: function data() {return { products: null
             query.set('real_money', Number(that.real_money));
             query.set('debt', that.all_money - Number(that.real_money));
 
-            if (that.producer) {
-              var producer = _bmob.default.Pointer('producers');
-              var producerID = producer.set(this.producer.objectId);
-              query.set("producer", producerID);
-
-              //如果客户有欠款
-              if (that.all_money - Number(that.real_money) > 0) {
-                var _query = _bmob.default.Query('producers');
-                _query.get(that.producer.objectId).then(function (res) {
-                  var debt = res.debt == null ? 0 : res.debt;
-                  debt = debt + (that.all_money - Number(that.real_money));
-                  console.log(debt);
-                  var query = _bmob.default.Query('customs');
-                  query.get(that.producer.objectId).then(function (res) {
-                    res.set('debt', debt);
-                    res.save();
-                  });
-                });
-              }
+            if (that.custom) {
+              var custom = _bmob.default.Pointer('customs');
+              var customID = custom.set(that.custom.objectId);
+              query.set("custom", customID);
             }
 
             query.set("all_money", that.all_money);

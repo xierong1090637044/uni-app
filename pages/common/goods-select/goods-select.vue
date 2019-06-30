@@ -96,6 +96,10 @@
 				this.loading = false;
 			});
 		},
+		onUnload() {//数组重置
+			products =[];
+			indexs = [];
+		},
 		
 		methods: {
 			

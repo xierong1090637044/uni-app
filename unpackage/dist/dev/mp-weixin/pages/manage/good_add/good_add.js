@@ -222,6 +222,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 var that;
 var tempFilePaths;
@@ -245,11 +262,13 @@ var uid = uni.getStorageSync('uid');var _default =
       reserve: [0], //初始库存
       goodsIcon: "", //产品图片
       producttime: "",
-      nousetime: "" };
+      nousetime: "",
+      productCode: "" };
 
   },
   onLoad: function onLoad() {
     that = this;
+    uni.removeStorageSync("category");
     uni.removeStorageSync("warehouse");
   },
   onShow: function onShow() {
@@ -270,7 +289,25 @@ var uid = uni.getStorageSync('uid');var _default =
     }
   },
 
+  onUnload: function onUnload() {
+    tempFilePaths = "";
+    p_class_user_id = "";
+    p_second_class_id = "";
+  },
+
   methods: {
+
+    //扫码操作
+    scan_code: function scan_code() {
+      uni.scanCode({
+        onlyFromCamera: true,
+        success: function success(res) {
+          console.log('条码类型：' + res.scanType);
+          console.log('条码内容：' + res.result);
+          that.productCode = res.result;
+        } });
+
+    },
 
     //移除这个仓库
     remove_this: function remove_this(index) {
@@ -359,8 +396,6 @@ var uid = uni.getStorageSync('uid');var _default =
               var pointer1 = _bmob.default.Pointer('stocks');
               var p_stock_id = pointer1.set(stock_id); //仓库的id关联
 
-              console.log(reserve, stock_id, p_stock_id);
-
               var _query = _bmob.default.Query('Goods');
               _query.set("goodsIcon", that.goodsIcon);
               _query.set("goodsName", good.goodsName);
@@ -374,10 +409,12 @@ var uid = uni.getStorageSync('uid');var _default =
               _query.set("stocks", p_stock_id);
               _query.set("product_info", good.product_info);
               _query.set("producer", good.producer);
-
-              _query.set("second_class", p_second_class_id);
-              _query.set("goodsClass", p_class_user_id);
-
+              _query.set("packingUnit", good.packingUnit);
+              _query.set("packageContent", good.packageContent);
+              if (uni.getStorageSync("warehouse")) {//存在此缓存证明选择了仓库
+                _query.set("second_class", p_second_class_id);
+                _query.set("goodsClass", p_class_user_id);
+              }
               _query.set("userId", userid);
               _query.save().then(function (res) {
                 uni.hideLoading();

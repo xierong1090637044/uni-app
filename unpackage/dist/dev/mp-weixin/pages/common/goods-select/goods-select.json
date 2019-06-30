@@ -1,22 +1,5 @@
 {
   "navigationBarTitleText": "选择产品",
-  "titleNView": {
-    "searchInput": {
-      "backgroundColor": "#fff",
-      "borderRadius": "6px",
-      "placeholder": "请输入搜索内容"
-    },
-    "buttons": [
-      {
-        "text": "确定",
-        "fontSize": "14"
-      },
-      {
-        "text": "筛选",
-        "fontSize": "14"
-      }
-    ]
-  },
   "usingComponents": {
     "loading": "/components/Loading/index",
     "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",

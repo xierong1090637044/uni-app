@@ -1,5 +1,2742 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
 
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcode.js":
+/*!**************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcode.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/index.js")['default'];
+var _barcode = {};
+(function () {
+  // 初始化
+  _barcode = function barcode(cont, ctxid, options, ctxsize, result) {
+    var ops = {},newOptions,encodings,globaContext,ctx,globaCtxid,cbCanvasSize,cbResult;
+    globaCtxid = ctxid;
+    cbCanvasSize = ctxsize;
+    cbResult = result;
+    newOptions = Object.assign(ops, options);
+    // 修成margin
+    fixMargin(newOptions);
+    // 处理options 数据
+    if (newOptions.text == '' || cont == '') {
+      return false;
+    }
+    // 获取ctx
+    globaContext = cont;
+    ctx = uni.createCanvasContext(globaCtxid, globaContext);
+    // 获取编码数据
+    encodings = new barcodes[newOptions.format.toUpperCase()](newOptions.text, newOptions).encode();
+    var fixencodings = fixEncodings(encodings, newOptions);
+    // 返回canvas实际大小
+    cbCanvasSize({ width: fixencodings.width, height: fixencodings.height });
+    // 绘制canvas
+    setTimeout(function () {
+      drawCanvas.render(newOptions, fixencodings);
+    }, 10);
+    // 绘制canvas
+    var drawCanvas = {
+      render: function render(options, encoding) {var _this = this;
+        this.prepare(options, encoding);
+        encoding.encodings.forEach(function (v, i) {
+          _this.barcode(options, v);
+          _this.text(options, v);
+          _this.move(v);
+        });
+        this.draw(options, encoding);
+      },
+      barcode: function barcode(options, encoding) {
+        var binary = encoding.data;
+        var yFrom;
+        if (options.textPosition == "top") {
+          yFrom = options.marginTop + options.fontSize + options.textMargin;
+        } else {
+          yFrom = options.marginTop;
+        }
+        // 绘制条码
+        ctx.fillStyle = options.lineColor;
+        for (var b = 0; b < binary.length; b++) {
+          var x = b * options.width + encoding.barcodePadding;
+          var height = options.height;
+          if (encoding.options) {
+            if (encoding.options.height != undefined) {
+              height = encoding.options.height;
+            }
+          }
+          if (binary[b] === "1") {
+            ctx.fillRect(x, yFrom, options.width, height);
+          } else if (binary[b]) {
+            ctx.fillRect(x, yFrom, options.width, height * binary[b]);
+          }
+        }
+      },
+      text: function text(options, encoding) {
+        if (options.displayValue) {
+          var x, y, align, size;
+          if (options.textPosition == "top") {
+            y = options.marginTop + options.fontSize;
+          } else {
+            y = options.height + options.textMargin + options.marginTop + options.fontSize;
+          }
+          if (encoding.options) {
+            if (encoding.options.textAlign != undefined) {
+              align = encoding.options.textAlign;
+            }
+            if (encoding.options.fontSize != undefined) {
+              size = encoding.options.fontSize;
+            }
+          } else {
+            align = options.textAlign;
+            size = options.fontSize;
+          }
+          ctx.setFontSize(size);
+          if (align == "left" || encoding.barcodePadding > 0) {
+            x = 0;
+            ctx.setTextAlign('left');
+          } else if (align == "right") {
+            x = encoding.width - 1;
+            ctx.setTextAlign('right');
+          } else
+          {
+            x = encoding.width / 2;
+            ctx.setTextAlign('center');
+          }
+          ctx.fillStyle = options.fontColor;
+          if (encoding.text != undefined) {
+            ctx.fillText(encoding.text, x, y);
+          }
+        }
+      },
+      move: function move(encoding) {
+        ctx.translate(encoding.width, 0);
+      },
+      prepare: function prepare(options, encoding) {
+        // 绘制背景
+        if (options.background) {
+          ctx.fillStyle = options.background;
+          ctx.fillRect(0, 0, encoding.width, encoding.height);
+        }
+        ctx.translate(options.marginLeft, 0);
+      },
+      draw: function draw(options, encoding) {var _this2 = this;
+        ctx.draw(false, function () {
+          _this2.toImgs(options, encoding);
+        });
+      },
+      toImgs: function toImgs(options, encoding) {
+        setTimeout(function () {
+          uni.canvasToTempFilePath({
+            width: encoding.width,
+            height: encoding.height,
+            destWidth: encoding.width,
+            destHeight: encoding.height,
+            canvasId: globaCtxid,
+            fileType: 'png',
+            success: function success(res) {
+              cbResult(res.tempFilePath);
+            },
+            fail: function fail(res) {
+              cbResult(res);
+            },
+            complete: function complete() {
+              uni.hideLoading();
+            } },
+          globaContext);
+        }, options.text.length + 100);
+      } };
+
+    // 混入canvas数据
+    function fixEncodings(encoding, options) {
+      var encodingArr = [],width = options.marginLeft + options.marginRight,height;
+      if (!Array.isArray(encoding)) {
+        encodingArr[0] = JSON.parse(JSON.stringify(encoding));
+      } else {
+        encodingArr = _toConsumableArray(encoding);
+      }
+      encodingArr.forEach(function (v, i) {
+        // 获取文本宽度
+        var textWidth = ctx.measureText(encodingArr[i].text ? encodingArr[i].text : '').width;
+        // 获取条形码宽度
+        var barcodeWidth = encodingArr[i].data.length * options.width;
+        // 获取内边距
+        var barcodePadding = 0;
+        if (options.displayValue && barcodeWidth < textWidth) {
+          if (options.textAlign == "center") {
+            barcodePadding = Math.floor((textWidth - barcodeWidth) / 2);
+          } else if (options.textAlign == "left") {
+            barcodePadding = 0;
+          } else if (options.textAlign == "right") {
+            barcodePadding = Math.floor(textWidth - barcodeWidth);
+          }
+        }
+        // 混入encodingArr[i]
+        encodingArr[i].barcodePadding = barcodePadding;
+        encodingArr[i].width = Math.ceil(Math.max(textWidth, barcodeWidth));
+        width += encodingArr[i].width;
+        if (encodingArr[i].options) {
+          if (encodingArr[i].options.height != undefined) {
+            encodingArr[i].height = encodingArr[i].options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
+          } else {
+            encodingArr[i].height = height = options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
+          }
+        } else {
+          encodingArr[i].height = height = options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
+        }
+      });
+      return { encodings: encodingArr, width: width, height: height };
+    }
+    // 修正Margin
+    function fixMargin(options) {
+      options.marginTop = options.marginTop == undefined ? options.margin : options.marginTop;
+      options.marginBottom = options.marginBottom == undefined ? options.margin : options.marginBottom;
+      options.marginRight = options.marginRight == undefined ? options.margin : options.marginRight;
+      options.marginLeft = options.marginLeft == undefined ? options.margin : options.marginLeft;
+    }
+  };
+})();var _default =
+
+_barcode;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+var Barcode = function Barcode(data, options) {
+  _classCallCheck(this, Barcode);
+
+  this.data = data;
+  this.text = options.text || data;
+  this.options = options;
+};
+
+exports.default = Barcode;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js":
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+// This is the master class,
+// it does require the start code to be included in the string
+var CODE128 = function (_Barcode) {
+  _inherits(CODE128, _Barcode);
+
+  function CODE128(data, options) {
+    _classCallCheck(this, CODE128);
+
+    // Get array of ascii codes from data
+    var _this = _possibleConstructorReturn(this, (CODE128.__proto__ || Object.getPrototypeOf(CODE128)).call(this, data.substring(1), options));
+
+    _this.bytes = data.split('').map(function (char) {
+      return char.charCodeAt(0);
+    });
+    return _this;
+  }
+
+  _createClass(CODE128, [{
+    key: 'valid',
+    value: function valid() {
+      // ASCII value ranges 0-127, 200-211
+      return /^[\x00-\x7F\xC8-\xD3]+$/.test(this.data);
+
+    }
+
+    // The public encoding function
+  },
+  {
+    key: 'encode',
+    value: function encode() {
+      var bytes = this.bytes;
+      // Remove the start code from the bytes and set its index
+      var startIndex = bytes.shift() - 105;
+      // Get start set by index
+      var startSet = _constants.SET_BY_CODE[startIndex];
+
+      if (startSet === undefined) {
+        throw new RangeError('The encoding does not start with a start character.');
+      }
+
+      if (this.shouldEncodeAsEan128() === true) {
+        bytes.unshift(_constants.FNC1);
+      }
+
+      // Start encode with the right type
+      var encodingResult = CODE128.next(bytes, 1, startSet);
+
+      return {
+        text: this.text === this.data ? this.text.replace(/[^\x20-\x7E]/g, '') : this.text,
+        data:
+        // Add the start bits
+        CODE128.getBar(startIndex) +
+        // Add the encoded bits
+        encodingResult.result +
+        // Add the checksum
+        CODE128.getBar((encodingResult.checksum + startIndex) % _constants.MODULO) +
+        // Add the end bits
+        CODE128.getBar(_constants.STOP) };
+
+    }
+
+    // GS1-128/EAN-128
+  },
+  {
+    key: 'shouldEncodeAsEan128',
+    value: function shouldEncodeAsEan128() {
+      var isEAN128 = this.options.ean128 || false;
+      if (typeof isEAN128 === 'string') {
+        isEAN128 = isEAN128.toLowerCase() === 'true';
+      }
+      return isEAN128;
+    }
+
+    // Get a bar symbol by index
+  }],
+  [{
+    key: 'getBar',
+    value: function getBar(index) {
+      return _constants.BARS[index] ? _constants.BARS[index].toString() : '';
+    }
+
+    // Correct an index by a set and shift it from the bytes array
+  },
+  {
+    key: 'correctIndex',
+    value: function correctIndex(bytes, set) {
+      if (set === _constants.SET_A) {
+        var charCode = bytes.shift();
+        return charCode < 32 ? charCode + 64 : charCode - 32;
+      } else if (set === _constants.SET_B) {
+        return bytes.shift() - 32;
+      } else {
+        return (bytes.shift() - 48) * 10 + bytes.shift() - 48;
+      }
+    } },
+  {
+    key: 'next',
+    value: function next(bytes, pos, set) {
+      if (!bytes.length) {
+        return { result: '', checksum: 0 };
+      }
+
+      var nextCode = void 0,
+      index = void 0;
+
+      // Special characters
+      if (bytes[0] >= 200) {
+        index = bytes.shift() - 105;
+        var nextSet = _constants.SWAP[index];
+
+        // Swap to other set
+        if (nextSet !== undefined) {
+          nextCode = CODE128.next(bytes, pos + 1, nextSet);
+        }
+        // Continue on current set but encode a special character
+        else {
+            // Shift
+            if ((set === _constants.SET_A || set === _constants.SET_B) && index === _constants.SHIFT) {
+              // Convert the next character so that is encoded correctly
+              bytes[0] = set === _constants.SET_A ? bytes[0] > 95 ? bytes[0] - 96 : bytes[0] : bytes[0] < 32 ? bytes[0] + 96 : bytes[0];
+            }
+            nextCode = CODE128.next(bytes, pos + 1, set);
+          }
+      }
+      // Continue encoding
+      else {
+          index = CODE128.correctIndex(bytes, set);
+          nextCode = CODE128.next(bytes, pos + 1, set);
+        }
+
+      // Get the correct binary encoding and calculate the weight
+      var enc = CODE128.getBar(index);
+      var weight = index * pos;
+
+      return {
+        result: enc + nextCode.result,
+        checksum: weight + nextCode.checksum };
+
+    } }]);
+
+
+  return CODE128;
+}(_Barcode3.default);
+
+exports.default = CODE128;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128A = function (_CODE) {
+  _inherits(CODE128A, _CODE);
+
+  function CODE128A(string, options) {
+    _classCallCheck(this, CODE128A);
+
+    return _possibleConstructorReturn(this, (CODE128A.__proto__ || Object.getPrototypeOf(CODE128A)).call(this, _constants.A_START_CHAR + string, options));
+  }
+
+  _createClass(CODE128A, [{
+    key: 'valid',
+    value: function valid() {
+      return new RegExp('^' + _constants.A_CHARS + '+$').test(this.data);
+    } }]);
+
+
+  return CODE128A;
+}(_CODE3.default);
+
+exports.default = CODE128A;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128B = function (_CODE) {
+  _inherits(CODE128B, _CODE);
+
+  function CODE128B(string, options) {
+    _classCallCheck(this, CODE128B);
+
+    return _possibleConstructorReturn(this, (CODE128B.__proto__ || Object.getPrototypeOf(CODE128B)).call(this, _constants.B_START_CHAR + string, options));
+  }
+
+  _createClass(CODE128B, [{
+    key: 'valid',
+    value: function valid() {
+      return new RegExp('^' + _constants.B_CHARS + '+$').test(this.data);
+    } }]);
+
+
+  return CODE128B;
+}(_CODE3.default);
+
+exports.default = CODE128B;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128C = function (_CODE) {
+  _inherits(CODE128C, _CODE);
+
+  function CODE128C(string, options) {
+    _classCallCheck(this, CODE128C);
+
+    return _possibleConstructorReturn(this, (CODE128C.__proto__ || Object.getPrototypeOf(CODE128C)).call(this, _constants.C_START_CHAR + string, options));
+  }
+
+  _createClass(CODE128C, [{
+    key: 'valid',
+    value: function valid() {
+      return new RegExp('^' + _constants.C_CHARS + '+$').test(this.data);
+    } }]);
+
+
+  return CODE128C;
+}(_CODE3.default);
+
+exports.default = CODE128C;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _CODE2 = __webpack_require__(/*! ./CODE128 */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _auto = __webpack_require__(/*! ./auto */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/auto.js");
+
+var _auto2 = _interopRequireDefault(_auto);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128AUTO = function (_CODE) {
+  _inherits(CODE128AUTO, _CODE);
+
+  function CODE128AUTO(data, options) {
+    _classCallCheck(this, CODE128AUTO);
+
+    // ASCII value ranges 0-127, 200-211
+    if (/^[\x00-\x7F\xC8-\xD3]+$/.test(data)) {
+      var _this = _possibleConstructorReturn(this, (CODE128AUTO.__proto__ || Object.getPrototypeOf(CODE128AUTO)).call(this, (0, _auto2.default)(data), options));
+    } else {
+      var _this = _possibleConstructorReturn(this, (CODE128AUTO.__proto__ || Object.getPrototypeOf(CODE128AUTO)).call(this, data, options));
+    }
+    return _possibleConstructorReturn(_this);
+  }
+
+  return CODE128AUTO;
+}(_CODE3.default);
+
+exports.default = CODE128AUTO;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/auto.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/auto.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+
+// Match Set functions
+var matchSetALength = function matchSetALength(string) {
+  return string.match(new RegExp('^' + _constants.A_CHARS + '*'))[0].length;
+};
+var matchSetBLength = function matchSetBLength(string) {
+  return string.match(new RegExp('^' + _constants.B_CHARS + '*'))[0].length;
+};
+var matchSetC = function matchSetC(string) {
+  return string.match(new RegExp('^' + _constants.C_CHARS + '*'))[0];
+};
+
+// CODE128A or CODE128B
+function autoSelectFromAB(string, isA) {
+  var ranges = isA ? _constants.A_CHARS : _constants.B_CHARS;
+  var untilC = string.match(new RegExp('^(' + ranges + '+?)(([0-9]{2}){2,})([^0-9]|$)'));
+
+  if (untilC) {
+    return untilC[1] + String.fromCharCode(204) + autoSelectFromC(string.substring(untilC[1].length));
+  }
+
+  var chars = string.match(new RegExp('^' + ranges + '+'))[0];
+
+  if (chars.length === string.length) {
+    return string;
+  }
+
+  return chars + String.fromCharCode(isA ? 205 : 206) + autoSelectFromAB(string.substring(chars.length), !isA);
+}
+
+// CODE128C
+function autoSelectFromC(string) {
+  var cMatch = matchSetC(string);
+  var length = cMatch.length;
+
+  if (length === string.length) {
+    return string;
+  }
+
+  string = string.substring(length);
+
+  // Select A/B depending on the longest match
+  var isA = matchSetALength(string) >= matchSetBLength(string);
+  return cMatch + String.fromCharCode(isA ? 206 : 205) + autoSelectFromAB(string, isA);
+}
+
+// Detect Code Set (A, B or C) and format the string
+
+exports.default = function (string) {
+  var newString = void 0;
+  var cLength = matchSetC(string).length;
+
+  // Select 128C if the string start with enough digits
+  if (cLength >= 2) {
+    newString = _constants.C_START_CHAR + autoSelectFromC(string);
+  } else {
+    // Select A/B depending on the longest match
+    var isA = matchSetALength(string) > matchSetBLength(string);
+    newString = (isA ? _constants.A_START_CHAR : _constants.B_START_CHAR) + autoSelectFromAB(string, isA);
+  }
+
+  return newString.replace(/[\xCD\xCE]([^])[\xCD\xCE]/, // Any sequence between 205 and 206 characters
+  function (match, char) {
+    return String.fromCharCode(203) + char;
+  });
+};
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js":
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _SET_BY_CODE;
+
+function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+
+// constants for internal usage
+var SET_A = exports.SET_A = 0;
+var SET_B = exports.SET_B = 1;
+var SET_C = exports.SET_C = 2;
+
+// Special characters
+var SHIFT = exports.SHIFT = 98;
+var START_A = exports.START_A = 103;
+var START_B = exports.START_B = 104;
+var START_C = exports.START_C = 105;
+var MODULO = exports.MODULO = 103;
+var STOP = exports.STOP = 106;
+var FNC1 = exports.FNC1 = 207;
+
+// Get set by start code
+var SET_BY_CODE = exports.SET_BY_CODE = (_SET_BY_CODE = {}, _defineProperty(_SET_BY_CODE, START_A, SET_A), _defineProperty(_SET_BY_CODE, START_B, SET_B), _defineProperty(_SET_BY_CODE, START_C, SET_C), _SET_BY_CODE);
+
+// Get next set by code
+var SWAP = exports.SWAP = {
+  101: SET_A,
+  100: SET_B,
+  99: SET_C };
+
+
+var A_START_CHAR = exports.A_START_CHAR = String.fromCharCode(208); // START_A + 105
+var B_START_CHAR = exports.B_START_CHAR = String.fromCharCode(209); // START_B + 105
+var C_START_CHAR = exports.C_START_CHAR = String.fromCharCode(210); // START_C + 105
+
+// 128A (Code Set A)
+// ASCII characters 00 to 95 (0–9, A–Z and control codes), special characters, and FNC 1–4
+var A_CHARS = exports.A_CHARS = "[\x00-\x5F\xC8-\xCF]";
+
+// 128B (Code Set B)
+// ASCII characters 32 to 127 (0–9, A–Z, a–z), special characters, and FNC 1–4
+var B_CHARS = exports.B_CHARS = "[\x20-\x7F\xC8-\xCF]";
+
+// 128C (Code Set C)
+// 00–99 (encodes two digits with a single code point) and FNC1
+var C_CHARS = exports.C_CHARS = "(\xCF*[0-9]{2}\xCF*)";
+
+// CODE128 includes 107 symbols:
+// 103 data symbols, 3 start symbols (A, B and C), and 1 stop symbol (the last one)
+// Each symbol consist of three black bars (1) and three white spaces (0).
+var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 10010001100, 10001001100, 10011001000, 10011000100, 10001100100, 11001001000, 11001000100, 11000100100, 10110011100, 10011011100, 10011001110, 10111001100, 10011101100, 10011100110, 11001110010, 11001011100, 11001001110, 11011100100, 11001110100, 11101101110, 11101001100, 11100101100, 11100100110, 11101100100, 11100110100, 11100110010, 11011011000, 11011000110, 11000110110, 10100011000, 10001011000, 10001000110, 10110001000, 10001101000, 10001100010, 11010001000, 11000101000, 11000100010, 10110111000, 10110001110, 10001101110, 10111011000, 10111000110, 10001110110, 11101110110, 11010001110, 11000101110, 11011101000, 11011100010, 11011101110, 11101011000, 11101000110, 11100010110, 11101101000, 11101100010, 11100011010, 11101111010, 11001000010, 11110001010, 10100110000, 10100001100, 10010110000, 10010000110, 10000101100, 10000100110, 10110010000, 10110000100, 10011010000, 10011000010, 10000110100, 10000110010, 11000010010, 11001010000, 11110111010, 11000010100, 10001111010, 10100111100, 10010111100, 10010011110, 10111100100, 10011110100, 10011110010, 11110100100, 11110010100, 11110010010, 11011011110, 11011110110, 11110110110, 10101111000, 10100011110, 10001011110, 10111101000, 10111100010, 11110101000, 11110100010, 10111011110, 10111101110, 11101011110, 11110101110, 11010000100, 11010010000, 11010011100, 1100011101011];
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/index.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/index.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
+
+var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js");
+
+var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
+
+var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js");
+
+var _CODE128A2 = _interopRequireDefault(_CODE128A);
+
+var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js");
+
+var _CODE128B2 = _interopRequireDefault(_CODE128B);
+
+var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js");
+
+var _CODE128C2 = _interopRequireDefault(_CODE128C);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.CODE128 = _CODE128_AUTO2.default;
+exports.CODE128A = _CODE128A2.default;
+exports.CODE128B = _CODE128B2.default;
+exports.CODE128C = _CODE128C2.default;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE39/index.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE39/index.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.CODE39 = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/Code_39#Encoding
+
+var CODE39 = function (_Barcode) {
+  _inherits(CODE39, _Barcode);
+
+  function CODE39(data, options) {
+    _classCallCheck(this, CODE39);
+
+    data = data.toUpperCase();
+
+    // Calculate mod43 checksum if enabled
+    if (options.mod43) {
+      data += getCharacter(mod43checksum(data));
+    }
+
+    return _possibleConstructorReturn(this, (CODE39.__proto__ || Object.getPrototypeOf(CODE39)).call(this, data, options));
+  }
+
+  _createClass(CODE39, [{
+    key: "encode",
+    value: function encode() {
+      // First character is always a *
+      var result = getEncoding("*");
+
+      // Take every character and add the binary representation to the result
+      for (var i = 0; i < this.data.length; i++) {
+        result += getEncoding(this.data[i]) + "0";
+      }
+
+      // Last character is always a *
+      result += getEncoding("*");
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[0-9A-Z\-\.\ \$\/\+\%]+$/) !== -1;
+    } }]);
+
+
+  return CODE39;
+}(_Barcode3.default);
+
+// All characters. The position in the array is the (checksum) value
+
+
+var characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "-", ".", " ", "$", "/", "+", "%", "*"];
+
+// The decimal representation of the characters, is converted to the
+// corresponding binary with the getEncoding function
+var encodings = [20957, 29783, 23639, 30485, 20951, 29813, 23669, 20855, 29789, 23645, 29975, 23831, 30533, 22295, 30149, 24005, 21623, 29981, 23837, 22301, 30023, 23879, 30545, 22343, 30161, 24017, 21959, 30065, 23921, 22385, 29015, 18263, 29141, 17879, 29045, 18293, 17783, 29021, 18269, 17477, 17489, 17681, 20753, 35770];
+
+// Get the binary representation of a character by converting the encodings
+// from decimal to binary
+function getEncoding(character) {
+  return getBinary(characterValue(character));
+}
+
+function getBinary(characterValue) {
+  return encodings[characterValue].toString(2);
+}
+
+function getCharacter(characterValue) {
+  return characters[characterValue];
+}
+
+function characterValue(character) {
+  return characters.indexOf(character);
+}
+
+function mod43checksum(data) {
+  var checksum = 0;
+  for (var i = 0; i < data.length; i++) {
+    checksum += characterValue(data[i]);
+  }
+
+  checksum = checksum % 43;
+  return checksum;
+}
+
+exports.CODE39 = CODE39;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+// Base class for EAN8 & EAN13
+var EAN = function (_Barcode) {
+  _inherits(EAN, _Barcode);
+
+  function EAN(data, options) {
+    _classCallCheck(this, EAN);
+
+    // Make sure the font is not bigger than the space between the guard bars
+    var _this = _possibleConstructorReturn(this, (EAN.__proto__ || Object.getPrototypeOf(EAN)).call(this, data, options));
+
+    _this.fontSize = !options.flat && options.fontSize > options.width * 10 ? options.width * 10 : options.fontSize;
+
+    // Make the guard bars go down half the way of the text
+    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
+    return _this;
+  }
+
+  _createClass(EAN, [{
+    key: 'encode',
+    value: function encode() {
+      return this.options.flat ? this.encodeFlat() : this.encodeGuarded();
+    } },
+  {
+    key: 'leftText',
+    value: function leftText(from, to) {
+      return this.text.substr(from, to);
+    } },
+  {
+    key: 'leftEncode',
+    value: function leftEncode(data, structure) {
+      return (0, _encoder2.default)(data, structure);
+    } },
+  {
+    key: 'rightText',
+    value: function rightText(from, to) {
+      return this.text.substr(from, to);
+    } },
+  {
+    key: 'rightEncode',
+    value: function rightEncode(data, structure) {
+      return (0, _encoder2.default)(data, structure);
+    } },
+  {
+    key: 'encodeGuarded',
+    value: function encodeGuarded() {
+      var textOptions = { fontSize: this.fontSize };
+      var guardOptions = { height: this.guardHeight };
+
+      return [{ data: _constants.SIDE_BIN, options: guardOptions }, { data: this.leftEncode(), text: this.leftText(), options: textOptions }, { data: _constants.MIDDLE_BIN, options: guardOptions }, { data: this.rightEncode(), text: this.rightText(), options: textOptions }, { data: _constants.SIDE_BIN, options: guardOptions }];
+    } },
+  {
+    key: 'encodeFlat',
+    value: function encodeFlat() {
+      var data = [_constants.SIDE_BIN, this.leftEncode(), _constants.MIDDLE_BIN, this.rightEncode(), _constants.SIDE_BIN];
+
+      return {
+        data: data.join(''),
+        text: this.text };
+
+    } }]);
+
+
+  return EAN;
+}(_Barcode3.default);
+
+exports.default = EAN;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+
+var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
+
+var _EAN3 = _interopRequireDefault(_EAN2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Binary_encoding_of_data_digits_into_EAN-13_barcode
+
+// Calculate the checksum digit
+// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Calculation_of_checksum_digit
+var checksum = function checksum(number) {
+  var res = number.substr(0, 12).split('').map(function (n) {
+    return +n;
+  }).reduce(function (sum, a, idx) {
+    return idx % 2 ? sum + a * 3 : sum + a;
+  }, 0);
+
+  return (10 - res % 10) % 10;
+};
+
+var EAN13 = function (_EAN) {
+  _inherits(EAN13, _EAN);
+
+  function EAN13(data, options) {
+    _classCallCheck(this, EAN13);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{12}$/) !== -1) {
+      data += checksum(data);
+    }
+
+    // Adds a last character to the end of the barcode
+    var _this = _possibleConstructorReturn(this, (EAN13.__proto__ || Object.getPrototypeOf(EAN13)).call(this, data, options));
+
+    _this.lastChar = options.lastChar;
+    return _this;
+  }
+
+  _createClass(EAN13, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{13}$/) !== -1 && +this.data[12] === checksum(this.data);
+    } },
+  {
+    key: 'leftText',
+    value: function leftText() {
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'leftText', this).call(this, 1, 6);
+    } },
+  {
+    key: 'leftEncode',
+    value: function leftEncode() {
+      var data = this.data.substr(1, 6);
+      var structure = _constants.EAN13_STRUCTURE[this.data[0]];
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'leftEncode', this).call(this, data, structure);
+    } },
+  {
+    key: 'rightText',
+    value: function rightText() {
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'rightText', this).call(this, 7, 6);
+    } },
+  {
+    key: 'rightEncode',
+    value: function rightEncode() {
+      var data = this.data.substr(7, 6);
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'rightEncode', this).call(this, data, 'RRRRRR');
+    }
+
+    // The "standard" way of printing EAN13 barcodes with guard bars
+  },
+  {
+    key: 'encodeGuarded',
+    value: function encodeGuarded() {
+      var data = _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'encodeGuarded', this).call(this);
+
+      // Extend data with left digit & last character
+      if (this.options.displayValue) {
+        data.unshift({
+          data: '000000000000',
+          text: this.text.substr(0, 1),
+          options: { textAlign: 'left', fontSize: this.fontSize } });
+
+
+        if (this.options.lastChar) {
+          data.push({
+            data: '00' });
+
+          data.push({
+            data: '00000',
+            text: this.options.lastChar,
+            options: { fontSize: this.fontSize } });
+
+        }
+      }
+
+      return data;
+    } }]);
+
+
+  return EAN13;
+}(_EAN3.default);
+
+exports.default = EAN13;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/EAN_2#Encoding
+
+var EAN2 = function (_Barcode) {
+  _inherits(EAN2, _Barcode);
+
+  function EAN2(data, options) {
+    _classCallCheck(this, EAN2);
+
+    return _possibleConstructorReturn(this, (EAN2.__proto__ || Object.getPrototypeOf(EAN2)).call(this, data, options));
+  }
+
+  _createClass(EAN2, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{2}$/) !== -1;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      // Choose the structure based on the number mod 4
+      var structure = _constants.EAN2_STRUCTURE[parseInt(this.data) % 4];
+      return {
+        // Start bits + Encode the two digits with 01 in between
+        data: '1011' + (0, _encoder2.default)(this.data, structure, '01'),
+        text: this.text };
+
+    } }]);
+
+
+  return EAN2;
+}(_Barcode3.default);
+
+exports.default = EAN2;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/EAN_5#Encoding
+
+var checksum = function checksum(data) {
+  var result = data.split('').map(function (n) {
+    return +n;
+  }).reduce(function (sum, a, idx) {
+    return idx % 2 ? sum + a * 9 : sum + a * 3;
+  }, 0);
+  return result % 10;
+};
+
+var EAN5 = function (_Barcode) {
+  _inherits(EAN5, _Barcode);
+
+  function EAN5(data, options) {
+    _classCallCheck(this, EAN5);
+
+    return _possibleConstructorReturn(this, (EAN5.__proto__ || Object.getPrototypeOf(EAN5)).call(this, data, options));
+  }
+
+  _createClass(EAN5, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{5}$/) !== -1;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      var structure = _constants.EAN5_STRUCTURE[checksum(this.data)];
+      return {
+        data: '1011' + (0, _encoder2.default)(this.data, structure, '01'),
+        text: this.text };
+
+    } }]);
+
+
+  return EAN5;
+}(_Barcode3.default);
+
+exports.default = EAN5;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
+
+var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
+
+var _EAN3 = _interopRequireDefault(_EAN2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// http://www.barcodeisland.com/ean8.phtml
+
+// Calculate the checksum digit
+var checksum = function checksum(number) {
+  var res = number.substr(0, 7).split('').map(function (n) {
+    return +n;
+  }).reduce(function (sum, a, idx) {
+    return idx % 2 ? sum + a : sum + a * 3;
+  }, 0);
+
+  return (10 - res % 10) % 10;
+};
+
+var EAN8 = function (_EAN) {
+  _inherits(EAN8, _EAN);
+
+  function EAN8(data, options) {
+    _classCallCheck(this, EAN8);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{7}$/) !== -1) {
+      data += checksum(data);
+    }
+
+    return _possibleConstructorReturn(this, (EAN8.__proto__ || Object.getPrototypeOf(EAN8)).call(this, data, options));
+  }
+
+  _createClass(EAN8, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{8}$/) !== -1 && +this.data[7] === checksum(this.data);
+    } },
+  {
+    key: 'leftText',
+    value: function leftText() {
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'leftText', this).call(this, 0, 4);
+    } },
+  {
+    key: 'leftEncode',
+    value: function leftEncode() {
+      var data = this.data.substr(0, 4);
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'leftEncode', this).call(this, data, 'LLLL');
+    } },
+  {
+    key: 'rightText',
+    value: function rightText() {
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'rightText', this).call(this, 4, 4);
+    } },
+  {
+    key: 'rightEncode',
+    value: function rightEncode() {
+      var data = this.data.substr(4, 4);
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'rightEncode', this).call(this, data, 'RRRR');
+    } }]);
+
+
+  return EAN8;
+}(_EAN3.default);
+
+exports.default = EAN8;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+exports.checksum = checksum;
+
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/Universal_Product_Code#Encoding
+
+var UPC = function (_Barcode) {
+  _inherits(UPC, _Barcode);
+
+  function UPC(data, options) {
+    _classCallCheck(this, UPC);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{11}$/) !== -1) {
+      data += checksum(data);
+    }
+
+    var _this = _possibleConstructorReturn(this, (UPC.__proto__ || Object.getPrototypeOf(UPC)).call(this, data, options));
+
+    _this.displayValue = options.displayValue;
+
+    // Make sure the font is not bigger than the space between the guard bars
+    if (options.fontSize > options.width * 10) {
+      _this.fontSize = options.width * 10;
+    } else {
+      _this.fontSize = options.fontSize;
+    }
+
+    // Make the guard bars go down half the way of the text
+    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
+    return _this;
+  }
+
+  _createClass(UPC, [{
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[0-9]{12}$/) !== -1 && this.data[11] == checksum(this.data);
+    } },
+  {
+    key: "encode",
+    value: function encode() {
+      if (this.options.flat) {
+        return this.flatEncoding();
+      } else {
+        return this.guardedEncoding();
+      }
+    } },
+  {
+    key: "flatEncoding",
+    value: function flatEncoding() {
+      var result = "";
+
+      result += "101";
+      result += (0, _encoder2.default)(this.data.substr(0, 6), "LLLLLL");
+      result += "01010";
+      result += (0, _encoder2.default)(this.data.substr(6, 6), "RRRRRR");
+      result += "101";
+
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: "guardedEncoding",
+    value: function guardedEncoding() {
+      var result = [];
+
+      // Add the first digit
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text.substr(0, 1),
+          options: { textAlign: "left", fontSize: this.fontSize } });
+
+      }
+
+      // Add the guard bars
+      result.push({
+        data: "101" + (0, _encoder2.default)(this.data[0], "L"),
+        options: { height: this.guardHeight } });
+
+
+      // Add the left side
+      result.push({
+        data: (0, _encoder2.default)(this.data.substr(1, 5), "LLLLL"),
+        text: this.text.substr(1, 5),
+        options: { fontSize: this.fontSize } });
+
+
+      // Add the middle bits
+      result.push({
+        data: "01010",
+        options: { height: this.guardHeight } });
+
+
+      // Add the right side
+      result.push({
+        data: (0, _encoder2.default)(this.data.substr(6, 5), "RRRRR"),
+        text: this.text.substr(6, 5),
+        options: { fontSize: this.fontSize } });
+
+
+      // Add the end bits
+      result.push({
+        data: (0, _encoder2.default)(this.data[11], "R") + "101",
+        options: { height: this.guardHeight } });
+
+
+      // Add the last digit
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text.substr(11, 1),
+          options: { textAlign: "right", fontSize: this.fontSize } });
+
+      }
+
+      return result;
+    } }]);
+
+
+  return UPC;
+}(_Barcode3.default);
+
+// Calulate the checksum digit
+// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Calculation_of_checksum_digit
+
+
+function checksum(number) {
+  var result = 0;
+
+  var i;
+  for (i = 1; i < 11; i += 2) {
+    result += parseInt(number[i]);
+  }
+  for (i = 0; i < 11; i += 2) {
+    result += parseInt(number[i]) * 3;
+  }
+
+  return (10 - result % 10) % 10;
+}
+
+exports.default = UPC;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/Universal_Product_Code#Encoding
+//
+// UPC-E documentation:
+// https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
+
+var EXPANSIONS = ["XX00000XXX", "XX10000XXX", "XX20000XXX", "XXX00000XX", "XXXX00000X", "XXXXX00005", "XXXXX00006", "XXXXX00007", "XXXXX00008", "XXXXX00009"];
+
+var PARITIES = [["EEEOOO", "OOOEEE"], ["EEOEOO", "OOEOEE"], ["EEOOEO", "OOEEOE"], ["EEOOOE", "OOEEEO"], ["EOEEOO", "OEOOEE"], ["EOOEEO", "OEEOOE"], ["EOOOEE", "OEEEOO"], ["EOEOEO", "OEOEOE"], ["EOEOOE", "OEOEEO"], ["EOOEOE", "OEEOEO"]];
+
+var UPCE = function (_Barcode) {
+  _inherits(UPCE, _Barcode);
+
+  function UPCE(data, options) {
+    _classCallCheck(this, UPCE);
+
+    var _this = _possibleConstructorReturn(this, (UPCE.__proto__ || Object.getPrototypeOf(UPCE)).call(this, data, options));
+    // Code may be 6 or 8 digits;
+    // A 7 digit code is ambiguous as to whether the extra digit
+    // is a UPC-A check or number system digit.
+
+
+    _this.isValid = false;
+    if (data.search(/^[0-9]{6}$/) !== -1) {
+      _this.middleDigits = data;
+      _this.upcA = expandToUPCA(data, "0");
+      _this.text = options.text || '' + _this.upcA[0] + data + _this.upcA[_this.upcA.length - 1];
+      _this.isValid = true;
+    } else if (data.search(/^[01][0-9]{7}$/) !== -1) {
+      _this.middleDigits = data.substring(1, data.length - 1);
+      _this.upcA = expandToUPCA(_this.middleDigits, data[0]);
+
+      if (_this.upcA[_this.upcA.length - 1] === data[data.length - 1]) {
+        _this.isValid = true;
+      } else {
+        // checksum mismatch
+        return _possibleConstructorReturn(_this);
+      }
+    } else {
+      return _possibleConstructorReturn(_this);
+    }
+
+    _this.displayValue = options.displayValue;
+
+    // Make sure the font is not bigger than the space between the guard bars
+    if (options.fontSize > options.width * 10) {
+      _this.fontSize = options.width * 10;
+    } else {
+      _this.fontSize = options.fontSize;
+    }
+
+    // Make the guard bars go down half the way of the text
+    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
+    return _this;
+  }
+
+  _createClass(UPCE, [{
+    key: 'valid',
+    value: function valid() {
+      return this.isValid;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      if (this.options.flat) {
+        return this.flatEncoding();
+      } else {
+        return this.guardedEncoding();
+      }
+    } },
+  {
+    key: 'flatEncoding',
+    value: function flatEncoding() {
+      var result = "";
+
+      result += "101";
+      result += this.encodeMiddleDigits();
+      result += "010101";
+
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: 'guardedEncoding',
+    value: function guardedEncoding() {
+      var result = [];
+
+      // Add the UPC-A number system digit beneath the quiet zone
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text[0],
+          options: { textAlign: "left", fontSize: this.fontSize } });
+
+      }
+
+      // Add the guard bars
+      result.push({
+        data: "101",
+        options: { height: this.guardHeight } });
+
+
+      // Add the 6 UPC-E digits
+      result.push({
+        data: this.encodeMiddleDigits(),
+        text: this.text.substring(1, 7),
+        options: { fontSize: this.fontSize } });
+
+
+      // Add the end bits
+      result.push({
+        data: "010101",
+        options: { height: this.guardHeight } });
+
+
+      // Add the UPC-A check digit beneath the quiet zone
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text[7],
+          options: { textAlign: "right", fontSize: this.fontSize } });
+
+      }
+
+      return result;
+    } },
+  {
+    key: 'encodeMiddleDigits',
+    value: function encodeMiddleDigits() {
+      var numberSystem = this.upcA[0];
+      var checkDigit = this.upcA[this.upcA.length - 1];
+      var parity = PARITIES[parseInt(checkDigit)][parseInt(numberSystem)];
+      return (0, _encoder2.default)(this.middleDigits, parity);
+    } }]);
+
+
+  return UPCE;
+}(_Barcode3.default);
+
+function expandToUPCA(middleDigits, numberSystem) {
+  var lastUpcE = parseInt(middleDigits[middleDigits.length - 1]);
+  var expansion = EXPANSIONS[lastUpcE];
+
+  var result = "";
+  var digitIndex = 0;
+  for (var i = 0; i < expansion.length; i++) {
+    var c = expansion[i];
+    if (c === 'X') {
+      result += middleDigits[digitIndex++];
+    } else {
+      result += c;
+    }
+  }
+
+  result = '' + numberSystem + result;
+  return '' + result + (0, _UPC.checksum)(result);
+}
+
+exports.default = UPCE;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js":
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+// Standard start end and middle bits
+var SIDE_BIN = exports.SIDE_BIN = '101';
+var MIDDLE_BIN = exports.MIDDLE_BIN = '01010';
+
+var BINARIES = exports.BINARIES = {
+  'L': [// The L (left) type of encoding
+  '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
+  'G': [// The G type of encoding
+  '0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'],
+  'R': [// The R (right) type of encoding
+  '1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100'],
+  'O': [// The O (odd) encoding for UPC-E
+  '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
+  'E': [// The E (even) encoding for UPC-E
+  '0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'] };
+
+
+// Define the EAN-2 structure
+var EAN2_STRUCTURE = exports.EAN2_STRUCTURE = ['LL', 'LG', 'GL', 'GG'];
+
+// Define the EAN-5 structure
+var EAN5_STRUCTURE = exports.EAN5_STRUCTURE = ['GGLLL', 'GLGLL', 'GLLGL', 'GLLLG', 'LGGLL', 'LLGGL', 'LLLGG', 'LGLGL', 'LGLLG', 'LLGLG'];
+
+// Define the EAN-13 structure
+var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', 'LLGGGL', 'LGLLGG', 'LGGLLG', 'LGGGLL', 'LGLGLG', 'LGLGGL', 'LGGLGL'];
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js":
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+
+// Encode data string
+var encode = function encode(data, structure, separator) {
+  var encoded = data.split('').map(function (val, idx) {
+    return _constants.BINARIES[structure[idx]];
+  }).map(function (val, idx) {
+    return val ? val[data[idx]] : '';
+  });
+
+  if (separator) {
+    var last = data.length - 1;
+    encoded = encoded.map(function (val, idx) {
+      return idx < last ? val + separator : val;
+    });
+  }
+
+  return encoded.join('');
+};
+
+exports.default = encode;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
+
+var _EAN = __webpack_require__(/*! ./EAN13.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js");
+
+var _EAN2 = _interopRequireDefault(_EAN);
+
+var _EAN3 = __webpack_require__(/*! ./EAN8.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js");
+
+var _EAN4 = _interopRequireDefault(_EAN3);
+
+var _EAN5 = __webpack_require__(/*! ./EAN5.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js");
+
+var _EAN6 = _interopRequireDefault(_EAN5);
+
+var _EAN7 = __webpack_require__(/*! ./EAN2.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js");
+
+var _EAN8 = _interopRequireDefault(_EAN7);
+
+var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
+
+var _UPC2 = _interopRequireDefault(_UPC);
+
+var _UPCE = __webpack_require__(/*! ./UPCE.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js");
+
+var _UPCE2 = _interopRequireDefault(_UPCE);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.EAN13 = _EAN2.default;
+exports.EAN8 = _EAN4.default;
+exports.EAN5 = _EAN6.default;
+exports.EAN2 = _EAN8.default;
+exports.UPC = _UPC2.default;
+exports.UPCE = _UPCE2.default;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.GenericBarcode = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var GenericBarcode = function (_Barcode) {
+  _inherits(GenericBarcode, _Barcode);
+
+  function GenericBarcode(data, options) {
+    _classCallCheck(this, GenericBarcode);
+
+    return _possibleConstructorReturn(this, (GenericBarcode.__proto__ || Object.getPrototypeOf(GenericBarcode)).call(this, data, options)); // Sets this.data and this.text
+  }
+
+  // Return the corresponding binary numbers for the data provided
+
+
+  _createClass(GenericBarcode, [{
+    key: "encode",
+    value: function encode() {
+      return {
+        data: "10101010101010101010101010101010101010101",
+        text: this.text };
+
+    }
+
+    // Resturn true/false if the string provided is valid for this encoder
+  },
+  {
+    key: "valid",
+    value: function valid() {
+      return true;
+    } }]);
+
+
+  return GenericBarcode;
+}(_Barcode3.default);
+
+exports.GenericBarcode = GenericBarcode;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/constants.js");
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var ITF = function (_Barcode) {
+  _inherits(ITF, _Barcode);
+
+  function ITF() {
+    _classCallCheck(this, ITF);
+
+    return _possibleConstructorReturn(this, (ITF.__proto__ || Object.getPrototypeOf(ITF)).apply(this, arguments));
+  }
+
+  _createClass(ITF, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^([0-9]{2})+$/) !== -1;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      var _this2 = this;
+
+      // Calculate all the digit pairs
+      var encoded = this.data.match(/.{2}/g).map(function (pair) {
+        return _this2.encodePair(pair);
+      }).join('');
+
+      return {
+        data: _constants.START_BIN + encoded + _constants.END_BIN,
+        text: this.text };
+
+    }
+
+    // Calculate the data of a number pair
+  },
+  {
+    key: 'encodePair',
+    value: function encodePair(pair) {
+      var second = _constants.BINARIES[pair[1]];
+
+      return _constants.BINARIES[pair[0]].split('').map(function (first, idx) {
+        return (first === '1' ? '111' : '1') + (second[idx] === '1' ? '000' : '0');
+      }).join('');
+    } }]);
+
+
+  return ITF;
+}(_Barcode3.default);
+
+exports.default = ITF;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _ITF2 = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
+
+var _ITF3 = _interopRequireDefault(_ITF2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+// Calculate the checksum digit
+var checksum = function checksum(data) {
+  var res = data.substr(0, 13).split('').map(function (num) {
+    return parseInt(num, 10);
+  }).reduce(function (sum, n, idx) {
+    return sum + n * (3 - idx % 2 * 2);
+  }, 0);
+
+  return Math.ceil(res / 10) * 10 - res;
+};
+
+var ITF14 = function (_ITF) {
+  _inherits(ITF14, _ITF);
+
+  function ITF14(data, options) {
+    _classCallCheck(this, ITF14);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{13}$/) !== -1) {
+      data += checksum(data);
+    }
+    return _possibleConstructorReturn(this, (ITF14.__proto__ || Object.getPrototypeOf(ITF14)).call(this, data, options));
+  }
+
+  _createClass(ITF14, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{14}$/) !== -1 && +this.data[13] === checksum(this.data);
+    } }]);
+
+
+  return ITF14;
+}(_ITF3.default);
+
+exports.default = ITF14;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/constants.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/constants.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+var START_BIN = exports.START_BIN = '1010';
+var END_BIN = exports.END_BIN = '11101';
+
+var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', '10100', '01100', '00011', '10010', '01010'];
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/index.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/index.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.ITF14 = exports.ITF = undefined;
+
+var _ITF = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
+
+var _ITF2 = _interopRequireDefault(_ITF);
+
+var _ITF3 = __webpack_require__(/*! ./ITF14 */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js");
+
+var _ITF4 = _interopRequireDefault(_ITF3);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.ITF = _ITF2.default;
+exports.ITF14 = _ITF4.default;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation
+// https://en.wikipedia.org/wiki/MSI_Barcode#Character_set_and_binary_lookup
+
+var MSI = function (_Barcode) {
+  _inherits(MSI, _Barcode);
+
+  function MSI(data, options) {
+    _classCallCheck(this, MSI);
+
+    return _possibleConstructorReturn(this, (MSI.__proto__ || Object.getPrototypeOf(MSI)).call(this, data, options));
+  }
+
+  _createClass(MSI, [{
+    key: "encode",
+    value: function encode() {
+      // Start bits
+      var ret = "110";
+
+      for (var i = 0; i < this.data.length; i++) {
+        // Convert the character to binary (always 4 binary digits)
+        var digit = parseInt(this.data[i]);
+        var bin = digit.toString(2);
+        bin = addZeroes(bin, 4 - bin.length);
+
+        // Add 100 for every zero and 110 for every 1
+        for (var b = 0; b < bin.length; b++) {
+          ret += bin[b] == "0" ? "100" : "110";
+        }
+      }
+
+      // End bits
+      ret += "1001";
+
+      return {
+        data: ret,
+        text: this.text };
+
+    } },
+  {
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[0-9]+$/) !== -1;
+    } }]);
+
+
+  return MSI;
+}(_Barcode3.default);
+
+function addZeroes(number, n) {
+  for (var i = 0; i < n; i++) {
+    number = "0" + number;
+  }
+  return number;
+}
+
+exports.default = MSI;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI10 = function (_MSI) {
+  _inherits(MSI10, _MSI);
+
+  function MSI10(data, options) {
+    _classCallCheck(this, MSI10);
+
+    return _possibleConstructorReturn(this, (MSI10.__proto__ || Object.getPrototypeOf(MSI10)).call(this, data + (0, _checksums.mod10)(data), options));
+  }
+
+  return MSI10;
+}(_MSI3.default);
+
+exports.default = MSI10;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI1010 = function (_MSI) {
+  _inherits(MSI1010, _MSI);
+
+  function MSI1010(data, options) {
+    _classCallCheck(this, MSI1010);
+
+    data += (0, _checksums.mod10)(data);
+    data += (0, _checksums.mod10)(data);
+    return _possibleConstructorReturn(this, (MSI1010.__proto__ || Object.getPrototypeOf(MSI1010)).call(this, data, options));
+  }
+
+  return MSI1010;
+}(_MSI3.default);
+
+exports.default = MSI1010;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI11 = function (_MSI) {
+  _inherits(MSI11, _MSI);
+
+  function MSI11(data, options) {
+    _classCallCheck(this, MSI11);
+
+    return _possibleConstructorReturn(this, (MSI11.__proto__ || Object.getPrototypeOf(MSI11)).call(this, data + (0, _checksums.mod11)(data), options));
+  }
+
+  return MSI11;
+}(_MSI3.default);
+
+exports.default = MSI11;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI1110 = function (_MSI) {
+  _inherits(MSI1110, _MSI);
+
+  function MSI1110(data, options) {
+    _classCallCheck(this, MSI1110);
+
+    data += (0, _checksums.mod11)(data);
+    data += (0, _checksums.mod10)(data);
+    return _possibleConstructorReturn(this, (MSI1110.__proto__ || Object.getPrototypeOf(MSI1110)).call(this, data, options));
+  }
+
+  return MSI1110;
+}(_MSI3.default);
+
+exports.default = MSI1110;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.mod10 = mod10;
+exports.mod11 = mod11;
+function mod10(number) {
+  var sum = 0;
+  for (var i = 0; i < number.length; i++) {
+    var n = parseInt(number[i]);
+    if ((i + number.length) % 2 === 0) {
+      sum += n;
+    } else {
+      sum += n * 2 % 10 + Math.floor(n * 2 / 10);
+    }
+  }
+  return (10 - sum % 10) % 10;
+}
+
+function mod11(number) {
+  var sum = 0;
+  var weights = [2, 3, 4, 5, 6, 7];
+  for (var i = 0; i < number.length; i++) {
+    var n = parseInt(number[number.length - 1 - i]);
+    sum += weights[i % weights.length] * n;
+  }
+  return (11 - sum % 11) % 11;
+}
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/index.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/index.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
+
+var _MSI = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+
+var _MSI2 = _interopRequireDefault(_MSI);
+
+var _MSI3 = __webpack_require__(/*! ./MSI10.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js");
+
+var _MSI4 = _interopRequireDefault(_MSI3);
+
+var _MSI5 = __webpack_require__(/*! ./MSI11.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js");
+
+var _MSI6 = _interopRequireDefault(_MSI5);
+
+var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js");
+
+var _MSI8 = _interopRequireDefault(_MSI7);
+
+var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js");
+
+var _MSI10 = _interopRequireDefault(_MSI9);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.MSI = _MSI2.default;
+exports.MSI10 = _MSI4.default;
+exports.MSI11 = _MSI6.default;
+exports.MSI1010 = _MSI8.default;
+exports.MSI1110 = _MSI10.default;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/codabar/index.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/codabar/index.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.codabar = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding specification:
+// http://www.barcodeisland.com/codabar.phtml
+
+var codabar = function (_Barcode) {
+  _inherits(codabar, _Barcode);
+
+  function codabar(data, options) {
+    _classCallCheck(this, codabar);
+
+    if (data.search(/^[0-9\-\$\:\.\+\/]+$/) === 0) {
+      data = "A" + data + "A";
+    }
+
+    var _this = _possibleConstructorReturn(this, (codabar.__proto__ || Object.getPrototypeOf(codabar)).call(this, data.toUpperCase(), options));
+
+    _this.text = _this.options.text || _this.text.replace(/[A-D]/g, '');
+    return _this;
+  }
+
+  _createClass(codabar, [{
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[A-D][0-9\-\$\:\.\+\/]+[A-D]$/) !== -1;
+    } },
+  {
+    key: "encode",
+    value: function encode() {
+      var result = [];
+      var encodings = this.getEncodings();
+      for (var i = 0; i < this.data.length; i++) {
+        result.push(encodings[this.data.charAt(i)]);
+        // for all characters except the last, append a narrow-space ("0")
+        if (i !== this.data.length - 1) {
+          result.push("0");
+        }
+      }
+      return {
+        text: this.text,
+        data: result.join('') };
+
+    } },
+  {
+    key: "getEncodings",
+    value: function getEncodings() {
+      return {
+        "0": "101010011",
+        "1": "101011001",
+        "2": "101001011",
+        "3": "110010101",
+        "4": "101101001",
+        "5": "110101001",
+        "6": "100101011",
+        "7": "100101101",
+        "8": "100110101",
+        "9": "110100101",
+        "-": "101001101",
+        "$": "101100101",
+        ":": "1101011011",
+        "/": "1101101011",
+        ".": "1101101101",
+        "+": "101100110011",
+        "A": "1011001001",
+        "B": "1001001011",
+        "C": "1010010011",
+        "D": "1010011001" };
+
+    } }]);
+
+
+  return codabar;
+}(_Barcode3.default);
+
+exports.codabar = codabar;
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/index.js":
+/*!*********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/index.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _CODE = __webpack_require__(/*! ./CODE39/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE39/index.js");
+
+var _CODE2 = __webpack_require__(/*! ./CODE128/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/index.js");
+
+var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js");
+
+var _ITF = __webpack_require__(/*! ./ITF/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/index.js");
+
+var _MSI = __webpack_require__(/*! ./MSI/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/index.js");
+
+var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/pharmacode/index.js");
+
+var _codabar = __webpack_require__(/*! ./codabar */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/codabar/index.js");
+
+var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js");
+
+exports.default = {
+  CODE39: _CODE.CODE39,
+  CODE128: _CODE2.CODE128, CODE128A: _CODE2.CODE128A, CODE128B: _CODE2.CODE128B, CODE128C: _CODE2.CODE128C,
+  EAN13: _EAN_UPC.EAN13, EAN8: _EAN_UPC.EAN8, EAN5: _EAN_UPC.EAN5, EAN2: _EAN_UPC.EAN2,
+  UPC: _EAN_UPC.UPC, UPCE: _EAN_UPC.UPCE,
+  ITF14: _ITF.ITF14,
+  ITF: _ITF.ITF,
+  MSI: _MSI.MSI, MSI10: _MSI.MSI10, MSI11: _MSI.MSI11, MSI1010: _MSI.MSI1010, MSI1110: _MSI.MSI1110,
+  PHARMACODE: _pharmacode.pharmacode,
+  CODABAR: _codabar.codabar,
+  GENERICBARCODE: _GenericBarcode.GenericBarcode };
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/pharmacode/index.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/pharmacode/index.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.pharmacode = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation
+// http://www.gomaro.ch/ftproot/Laetus_PHARMA-CODE.pdf
+
+var pharmacode = function (_Barcode) {
+  _inherits(pharmacode, _Barcode);
+
+  function pharmacode(data, options) {
+    _classCallCheck(this, pharmacode);
+
+    var _this = _possibleConstructorReturn(this, (pharmacode.__proto__ || Object.getPrototypeOf(pharmacode)).call(this, data, options));
+
+    _this.number = parseInt(data, 10);
+    return _this;
+  }
+
+  _createClass(pharmacode, [{
+    key: "encode",
+    value: function encode() {
+      var z = this.number;
+      var result = "";
+
+      // http://i.imgur.com/RMm4UDJ.png
+      // (source: http://www.gomaro.ch/ftproot/Laetus_PHARMA-CODE.pdf, page: 34)
+      while (!isNaN(z) && z != 0) {
+        if (z % 2 === 0) {
+          // Even
+          result = "11100" + result;
+          z = (z - 2) / 2;
+        } else {
+          // Odd
+          result = "100" + result;
+          z = (z - 1) / 2;
+        }
+      }
+
+      // Remove the two last zeroes
+      result = result.slice(0, -2);
+
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: "valid",
+    value: function valid() {
+      return this.number >= 3 && this.number <= 131070;
+    } }]);
+
+
+  return pharmacode;
+}(_Barcode3.default);
+
+exports.pharmacode = pharmacode;
+
+/***/ }),
+
 /***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-qrcode/qrcode.js":
 /*!************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-qrcode/qrcode.js ***!
@@ -2289,7 +5026,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8465,7 +11202,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8486,14 +11223,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8562,7 +11299,7 @@ var patch = function(oldVnode, vnode) {
         });
         var diffData = diff(data, mpData);
         if (Object.keys(diffData).length) {
-            if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
                 console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
                     ']差量更新',
                     JSON.stringify(diffData));

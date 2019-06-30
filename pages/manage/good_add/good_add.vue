@@ -2,20 +2,22 @@
 	<view class="page">
 		<form @submit="formSubmit">
 			<view class="frist">
-				<view style="padding: 20rpx 0;">产品图</view>
+				<view class="notice_text">产品图</view>
 
 				<view style="width: 100%;padding-bottom: 20rpx;">
 					<view class="upload_image" @click="upload_image">
 						<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
-						<fa-icon type="plus-square-o" size="40" color="#f58220" v-else></fa-icon>
+						<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else></fa-icon>
 					</view>
 					<input name="goodsIcon" v-show="false" :value="goodsIcon" />
 
 				</view>
 
 			</view>
-
+			
+			
 			<view class="frist">
+				<view class="notice_text">基本信息</view>
 				<view class="input_item">
 					<view class="left_item">名称<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
 					<view class="right_input"><input placeholder="产品名称" name="goodsName"></input></view>
@@ -40,6 +42,14 @@
 				<view class="input_item">
 					<view class="left_item">售价</view>
 					<view class="right_input"><input placeholder="产品售价" name="retailPrice" type="digit"></input></view>
+				</view>
+				<view class="input_item">
+					<view class="left_item">包装含量</view>
+					<view class="right_input"><input placeholder="包装含量" name="packageContent"></input></view>
+				</view>
+				<view class="input_item">
+					<view class="left_item">包装单位</view>
+					<view class="right_input"><input placeholder="包装单位" name="packingUnit"></input></view>
 				</view>
 			</view>
 
@@ -97,9 +107,16 @@
 					<view class="left_item">货号</view>
 					<view class="right_input"><input placeholder="货号" name="regNumber"></input></view>
 				</view>
-				<view class="input_item">
-					<view class="left_item">条码</view>
-					<view class="right_input"><input placeholder="条码" name="productCode"></input></view>
+				<view class="input_item1">
+
+					<view style="display: flex;align-items: center;">
+						<view class="left_item">条码</view>
+						<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
+					</view>
+
+					<view>
+						<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
+					</view>
 				</view>
 				<view class="input_item">
 					<view class="left_item">货架位置</view>
@@ -146,10 +163,12 @@
 				goodsIcon: "", //产品图片
 				producttime: "",
 				nousetime: "",
+				productCode: "",
 			}
 		},
 		onLoad() {
 			that = this;
+			uni.removeStorageSync("category")
 			uni.removeStorageSync("warehouse")
 		},
 		onShow() {
@@ -170,7 +189,25 @@
 			}
 		},
 
+		onUnload() {
+			tempFilePaths = "";
+			p_class_user_id = "";
+			p_second_class_id = "";
+		},
+
 		methods: {
+
+			//扫码操作
+			scan_code() {
+				uni.scanCode({
+					onlyFromCamera: true,
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						that.productCode = res.result
+					}
+				});
+			},
 
 			//移除这个仓库
 			remove_this(index) {
@@ -246,21 +283,19 @@
 				query.equalTo("goodsName", "==", good.goodsName);
 				query.find().then(res => {
 					console.log(res)
-					if(res.length >=1){
+					if (res.length >= 1) {
 						uni.showToast({
-							title:"你的库存中已存在此产品",
-							icon:'none'
+							title: "你的库存中已存在此产品",
+							icon: 'none'
 						})
-					}else{
+					} else {
 						for (let item of that.stocks) {
 							let reserve = item.reserve
 							let stock_id = item.stock.objectId || ""
-						
+
 							const pointer1 = Bmob.Pointer('stocks')
 							const p_stock_id = pointer1.set(stock_id) //仓库的id关联
-						
-							console.log(reserve, stock_id, p_stock_id)
-						
+
 							const query = Bmob.Query('Goods');
 							query.set("goodsIcon", that.goodsIcon)
 							query.set("goodsName", good.goodsName)
@@ -274,10 +309,12 @@
 							query.set("stocks", p_stock_id)
 							query.set("product_info", good.product_info)
 							query.set("producer", good.producer)
-						
-							query.set("second_class", p_second_class_id)
-							query.set("goodsClass", p_class_user_id)
-						
+							query.set("packingUnit", good.packingUnit)
+							query.set("packageContent", good.packageContent)
+							if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+								query.set("second_class", p_second_class_id)
+								query.set("goodsClass", p_class_user_id)
+							}
 							query.set("userId", userid)
 							query.save().then(res => {
 								uni.hideLoading();
@@ -291,7 +328,7 @@
 					}
 				});
 
-				
+
 
 			},
 
@@ -349,7 +386,7 @@
 	}
 
 	.submit_button {
-		background: #f58220;
+		background: #426ab3;
 		border-radius: 40rpx;
 		margin: 30rpx;
 		height: 88rpx;
@@ -364,5 +401,11 @@
 		text-align: center;
 		border: 1rpx solid#999;
 		border-radius: 8rpx;
+	}
+	.notice_text{
+		padding-top: 20rpx;
+		font-size: 32rpx;
+		color: #3D3D3D;
+		font-weight: bold;
 	}
 </style>

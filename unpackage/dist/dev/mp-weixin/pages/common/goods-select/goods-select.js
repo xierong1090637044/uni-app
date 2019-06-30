@@ -196,6 +196,10 @@ var uid;var _default =
       _this.loading = false;
     });
   },
+  onUnload: function onUnload() {//数组重置
+    products = [];
+    indexs = [];
+  },
 
   methods: {
 
