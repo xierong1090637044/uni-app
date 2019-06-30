@@ -160,6 +160,30 @@ page {
 .kaidan_rightinput{
 	margin-left: 10rpx;
 }
+.good_option_view{
+	padding:16rpx 10rpx;
+	border-bottom: 1rpx solid#CCCCCC;
+}
+.good_option{
+	width: 25%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	border-right: 1rpx solid#ccc;
+}
+.option_selected{
+	color: #1d953f;
+	font-weight: bold;
+}
 
 
 @font-face {

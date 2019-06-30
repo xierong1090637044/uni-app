@@ -49,4 +49,20 @@
 	.kaidan_rightinput{
 		margin-left: 10rpx;
 	}
+	
+	.good_option_view{
+		padding:16rpx 10rpx;
+		border-bottom: 1rpx solid#CCCCCC;
+	}
+	.good_option{
+		width: 25%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-right: 1rpx solid#ccc;
+	}
+	.option_selected{
+		color: #1d953f;
+		font-weight: bold;
+	}
 </style>

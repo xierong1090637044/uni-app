@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/manage/goods/goods",
     "pages/index/index",
     "pages/common/good_return/return_detail/return_detail",
     "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_confrim/good_enter/good_enter",
     "pages/manage/good_add/good_add",
-    "pages/manage/goods/goods",
     "pages/manage/staff/staff",
     "pages/manage/shops/shops",
     "pages/manage/warehouse/warehouse",

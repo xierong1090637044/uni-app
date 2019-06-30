@@ -131,10 +131,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/Loading/index.vue"));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-nav-bar/uni-nav-bar.vue"));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/uni-icon/uni-icon.vue"));};
 
-var uid;var _default =
-
+var uid;
+var that;
+var search_text = '';
+var page_size = 50;var _default =
 {
   components: {
     loading: loading,
@@ -144,10 +189,18 @@ var uid;var _default =
 
   data: function data() {
     return {
+      showOptions: true, //是否显示筛选
       loading: true,
-      productList: null };
+      productList: null,
+      checked_option: 'createdAt' };
 
   },
+
+
+
+
+
+
 
 
 
@@ -160,37 +213,65 @@ var uid;var _default =
 
 
   onLoad: function onLoad() {
+    that = this;
     uid = uni.getStorageSync('uid');
   },
-  onShow: function onShow() {var _this = this;
-    var query = _bmob.default.Query("Goods");
-    query.equalTo("userId", "==", uid);
-    query.limit(500);
-    query.order("-createdAt"); //按照时间降序
-    query.include("userId");
-    query.include("goodsClass");
-    query.find().then(function (res) {
-      //console.log(res)
-      _this.productList = res;
-      _this.loading = false;
-    });
+  onShow: function onShow() {
+    uni.removeStorageSync("now_product");
+    that.get_productList();
   },
 
   onUnload: function onUnload() {
-    uni.removeStorageSync("now_product");
+    search_text = '';
+    page_size = 50;
   },
 
   methods: {
+    //头部的options选择
+    selectd: function selectd(type) {
+      page_size = 50;
+      that.checked_option = type;
+      that.get_productList();
+    },
+
+    //加载更多
+    load_more: function load_more() {
+      page_size += 50;
+      that.get_productList();
+    },
+
     //点击去到详情
     goDetail: function goDetail(value) {
       console.log(value);
       uni.setStorageSync("now_product", value);
-      uni.navigateTo({ url: "../good_det/good_det" });
+      uni.navigateTo({
+        url: "../good_det/good_det" });
+
     },
 
     //点击去到添加产品
     goAdd: function goAdd() {
-      uni.navigateTo({ url: "../good_add/good_add" });
+      uni.navigateTo({
+        url: "../good_add/good_add" });
+
+    },
+
+    //查询产品列表
+    get_productList: function get_productList() {var _this = this;
+      var query = _bmob.default.Query("Goods");
+      query.equalTo("userId", "==", uid);
+      query.limit(page_size);
+      query.order("-" + that.checked_option); //按照时间降序
+      query.equalTo("goodsName", "==", {
+        "$regex": "" + search_text + ".*" });
+
+      query.include("userId");
+      query.include("goodsClass");
+      query.find().then(function (res) {
+        //console.log(res)
+        _this.productList = res;
+        _this.loading = false;
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
