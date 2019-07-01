@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/manage/goods/goods",
     "pages/mine/mine",
+    "pages/manage/goods/goods",
     "pages/mine/logs/logs",
     "pages/index/index",
     "pages/report/EnteringHistory/EnteringHistory",
@@ -30,7 +30,9 @@
     "pages/common/goods_out/goods_out",
     "pages/common/good_return/good_return",
     "pages/common/good_count/good_count",
-    "pages/common/good_count/count_detail/count_detail"
+    "pages/common/good_count/count_detail/count_detail",
+    "pages/mine/about_us/about_us",
+    "pages/mine/home_page/home_page"
   ],
   "subPackages": [],
   "window": {

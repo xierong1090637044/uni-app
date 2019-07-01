@@ -150,7 +150,6 @@ var page_size = 50;var _default =
     that = this;
     masterId = uni.getStorageSync("masterId");
     that.get_logsList(0);
-
   },
   methods: {
     //滚动到底部加载更多
@@ -164,11 +163,11 @@ var page_size = 50;var _default =
         this.current = index;
 
         if (index == 0) {
-          that.get_logsList(0);
+          that.get_logsList(1);
         } else if (index == 1) {
-          that.get_logsList(7);
+          that.get_logsList(-7);
         } else {
-          that.get_logsList(30);
+          that.get_logsList(-30);
         }
       }
     },

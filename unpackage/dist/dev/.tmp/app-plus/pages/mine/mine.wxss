@@ -192,6 +192,8 @@ page {
       color: #3d3d3d;
       font-weight: bold;
       font-size: 26rpx;
+      border: unset;
+      text-align: left;
 }
 .list .li .to {
       -webkit-flex-shrink: 0;

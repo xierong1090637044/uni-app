@@ -21,10 +21,10 @@
 							<view class="icon"><image src="/static/warning.png"></image></view>
 							<view class="text">预警记录</view>
 						</view>
-						<view class="item">
+						<navigator class="item" hover-class="none" url="home_page/home_page">
 							<view class="icon"><image src="/static/account.png"></image></view>
 							<view class="text">账号信息</view>
-						</view>
+						</navigator>
 					</view>
 				</view>
 			</view>
@@ -38,24 +38,20 @@
 				</navigator>
 			</view>
 			<view class="list">
+
 				<view class="li ">
-					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">主题切换</view>
-					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>
-				<view class="li ">
-					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
+					<fa-icon type="handshake-o" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">帮助中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</view>
-				<view class="li ">
-					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
+				<navigator class="li " hover-class="none" url="about_us/about_us">
+					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>
+				</navigator>
 				<view class="li ">
-					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">意见反馈</view>
+					<fa-icon type="envira" size="18" color="#3d3d3d3"></fa-icon>
+					<button class="text" plain="true" open-type="feedback">意见反馈</button>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</view>
 			</view>
@@ -231,6 +227,8 @@
 				color: #3d3d3d;
 				font-weight: bold;
 				font-size: 26rpx;
+				border: unset;
+				text-align: left;
 			}
 
 			.to {
