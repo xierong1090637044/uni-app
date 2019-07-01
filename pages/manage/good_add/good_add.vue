@@ -142,9 +142,9 @@
 	import Bmob from '@/utils/bmob.js';
 	let that;
 	let tempFilePaths;
-	let p_class_user_id;
-	let p_second_class_id;
-	let uid = uni.getStorageSync('uid');
+	let p_class_user_id ="";
+	let p_second_class_id ="";
+	let uid ;
 
 	export default {
 		components: {
@@ -168,6 +168,7 @@
 		},
 		onLoad() {
 			that = this;
+			uid = uni.getStorageSync('uid');
 			uni.removeStorageSync("category")
 			uni.removeStorageSync("warehouse")
 		},
@@ -311,7 +312,7 @@
 							query.set("producer", good.producer)
 							query.set("packingUnit", good.packingUnit)
 							query.set("packageContent", good.packageContent)
-							if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+							if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 								query.set("second_class", p_second_class_id)
 								query.set("goodsClass", p_class_user_id)
 							}

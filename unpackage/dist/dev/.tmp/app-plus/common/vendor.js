@@ -1,14 +1,14 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcode.js":
-/*!******************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcode.js ***!
-  \******************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcode.js":
+/*!**************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcode.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/index.js")['default'];
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/index.js")['default'];
 var _barcode = {};
 (function () {
   // 初始化
@@ -202,10 +202,10 @@ _barcode;exports.default = _default;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js ***!
-  \***************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -230,10 +230,10 @@ exports.default = Barcode;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
-  \***********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js":
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -246,11 +246,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -408,10 +408,10 @@ exports.default = CODE128;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
-  \************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -424,11 +424,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -461,10 +461,10 @@ exports.default = CODE128A;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
-  \************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -477,11 +477,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -514,10 +514,10 @@ exports.default = CODE128B;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
-  \************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -530,11 +530,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -567,10 +567,10 @@ exports.default = CODE128C;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
-  \****************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -581,11 +581,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE2 = __webpack_require__(/*! ./CODE128 */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
+var _CODE2 = __webpack_require__(/*! ./CODE128 */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _auto = __webpack_require__(/*! ./auto */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/auto.js");
+var _auto = __webpack_require__(/*! ./auto */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/auto.js");
 
 var _auto2 = _interopRequireDefault(_auto);
 
@@ -619,10 +619,10 @@ exports.default = CODE128AUTO;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/auto.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/auto.js ***!
-  \********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/auto.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/auto.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -633,7 +633,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
 
 // Match Set functions
 var matchSetALength = function matchSetALength(string) {
@@ -703,10 +703,10 @@ exports.default = function (string) {
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js ***!
-  \*************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js":
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/constants.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -768,10 +768,10 @@ var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 1
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/index.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/index.js ***!
-  \*********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/index.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/index.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -783,19 +783,19 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
 
-var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js");
+var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js");
 
 var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
 
-var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js");
+var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js");
 
 var _CODE128A2 = _interopRequireDefault(_CODE128A);
 
-var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js");
+var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js");
 
 var _CODE128B2 = _interopRequireDefault(_CODE128B);
 
-var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js");
+var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js");
 
 var _CODE128C2 = _interopRequireDefault(_CODE128C);
 
@@ -808,10 +808,10 @@ exports.CODE128C = _CODE128C2.default;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE39/index.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE39/index.js ***!
-  \********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE39/index.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE39/index.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -825,7 +825,7 @@ exports.CODE39 = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -923,10 +923,10 @@ exports.CODE39 = CODE39;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
-  \*******************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -939,13 +939,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
 
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -1026,10 +1026,10 @@ exports.default = EAN;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
-  \*********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1044,9 +1044,9 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
+var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -1156,10 +1156,10 @@ exports.default = EAN13;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
-  \********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1172,13 +1172,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
 
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -1225,10 +1225,10 @@ exports.default = EAN2;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
-  \********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1241,13 +1241,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
 
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -1301,10 +1301,10 @@ exports.default = EAN5;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
-  \********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1319,7 +1319,7 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
+var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -1393,10 +1393,10 @@ exports.default = EAN8;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
-  \*******************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1411,11 +1411,11 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 exports.checksum = checksum;
 
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -1569,10 +1569,10 @@ exports.default = UPC;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
-  \********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js":
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1585,15 +1585,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
+var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
+var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -1765,10 +1765,10 @@ exports.default = UPCE;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
-  \*************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js":
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1806,10 +1806,10 @@ var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', '
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
-  \***********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js":
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1820,7 +1820,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
 
 // Encode data string
 var encode = function encode(data, structure, separator) {
@@ -1844,10 +1844,10 @@ exports.default = encode;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
-  \*********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1859,27 +1859,27 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
 
-var _EAN = __webpack_require__(/*! ./EAN13.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js");
+var _EAN = __webpack_require__(/*! ./EAN13.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js");
 
 var _EAN2 = _interopRequireDefault(_EAN);
 
-var _EAN3 = __webpack_require__(/*! ./EAN8.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js");
+var _EAN3 = __webpack_require__(/*! ./EAN8.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js");
 
 var _EAN4 = _interopRequireDefault(_EAN3);
 
-var _EAN5 = __webpack_require__(/*! ./EAN5.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js");
+var _EAN5 = __webpack_require__(/*! ./EAN5.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js");
 
 var _EAN6 = _interopRequireDefault(_EAN5);
 
-var _EAN7 = __webpack_require__(/*! ./EAN2.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js");
+var _EAN7 = __webpack_require__(/*! ./EAN2.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js");
 
 var _EAN8 = _interopRequireDefault(_EAN7);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
+var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
 
 var _UPC2 = _interopRequireDefault(_UPC);
 
-var _UPCE = __webpack_require__(/*! ./UPCE.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js");
+var _UPCE = __webpack_require__(/*! ./UPCE.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js");
 
 var _UPCE2 = _interopRequireDefault(_UPCE);
 
@@ -1894,10 +1894,10 @@ exports.UPCE = _UPCE2.default;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
-  \****************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1911,7 +1911,7 @@ exports.GenericBarcode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -1960,10 +1960,10 @@ exports.GenericBarcode = GenericBarcode;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js ***!
-  \***************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1976,9 +1976,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/constants.js");
+var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/constants.js");
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -2040,10 +2040,10 @@ exports.default = ITF;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js ***!
-  \*****************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2056,7 +2056,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _ITF2 = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
+var _ITF2 = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
 
 var _ITF3 = _interopRequireDefault(_ITF2);
 
@@ -2106,10 +2106,10 @@ exports.default = ITF14;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/constants.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/constants.js ***!
-  \*********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/constants.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/constants.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2126,10 +2126,10 @@ var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', 
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/index.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/index.js ***!
-  \*****************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/index.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/index.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2141,11 +2141,11 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.ITF14 = exports.ITF = undefined;
 
-var _ITF = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
+var _ITF = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
 
 var _ITF2 = _interopRequireDefault(_ITF);
 
-var _ITF3 = __webpack_require__(/*! ./ITF14 */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js");
+var _ITF3 = __webpack_require__(/*! ./ITF14 */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js");
 
 var _ITF4 = _interopRequireDefault(_ITF3);
 
@@ -2156,10 +2156,10 @@ exports.ITF14 = _ITF4.default;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js ***!
-  \***************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2172,7 +2172,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -2241,10 +2241,10 @@ exports.default = MSI;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js ***!
-  \*****************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2255,11 +2255,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -2285,10 +2285,10 @@ exports.default = MSI10;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
-  \*******************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2299,11 +2299,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -2331,10 +2331,10 @@ exports.default = MSI1010;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js ***!
-  \*****************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2345,11 +2345,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -2375,10 +2375,10 @@ exports.default = MSI11;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
-  \*******************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2389,11 +2389,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
+var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -2421,10 +2421,10 @@ exports.default = MSI1110;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js ***!
-  \*********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/checksums.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2461,10 +2461,10 @@ function mod11(number) {
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/index.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/index.js ***!
-  \*****************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/index.js":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/index.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2476,23 +2476,23 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
 
-var _MSI = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
+var _MSI = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
 
 var _MSI2 = _interopRequireDefault(_MSI);
 
-var _MSI3 = __webpack_require__(/*! ./MSI10.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js");
+var _MSI3 = __webpack_require__(/*! ./MSI10.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js");
 
 var _MSI4 = _interopRequireDefault(_MSI3);
 
-var _MSI5 = __webpack_require__(/*! ./MSI11.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js");
+var _MSI5 = __webpack_require__(/*! ./MSI11.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js");
 
 var _MSI6 = _interopRequireDefault(_MSI5);
 
-var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js");
+var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js");
 
 var _MSI8 = _interopRequireDefault(_MSI7);
 
-var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js");
+var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js");
 
 var _MSI10 = _interopRequireDefault(_MSI9);
 
@@ -2506,10 +2506,10 @@ exports.MSI1110 = _MSI10.default;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/codabar/index.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/codabar/index.js ***!
-  \*********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/codabar/index.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/codabar/index.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2523,7 +2523,7 @@ exports.codabar = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -2609,10 +2609,10 @@ exports.codabar = codabar;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/index.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/index.js ***!
-  \*************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/index.js":
+/*!*********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/index.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2623,21 +2623,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE = __webpack_require__(/*! ./CODE39/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE39/index.js");
+var _CODE = __webpack_require__(/*! ./CODE39/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE39/index.js");
 
-var _CODE2 = __webpack_require__(/*! ./CODE128/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/index.js");
+var _CODE2 = __webpack_require__(/*! ./CODE128/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/CODE128/index.js");
 
-var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js");
+var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js");
 
-var _ITF = __webpack_require__(/*! ./ITF/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/index.js");
+var _ITF = __webpack_require__(/*! ./ITF/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/ITF/index.js");
 
-var _MSI = __webpack_require__(/*! ./MSI/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/index.js");
+var _MSI = __webpack_require__(/*! ./MSI/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/MSI/index.js");
 
-var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/pharmacode/index.js");
+var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/pharmacode/index.js");
 
-var _codabar = __webpack_require__(/*! ./codabar */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/codabar/index.js");
+var _codabar = __webpack_require__(/*! ./codabar */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/codabar/index.js");
 
-var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js");
+var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js");
 
 exports.default = {
   CODE39: _CODE.CODE39,
@@ -2653,10 +2653,10 @@ exports.default = {
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/pharmacode/index.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/pharmacode/index.js ***!
-  \************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/pharmacode/index.js":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/pharmacode/index.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2670,7 +2670,7 @@ exports.pharmacode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹/uni-app/components/tki-barcode/barcodes/Barcode.js");
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -2737,10 +2737,10 @@ exports.pharmacode = pharmacode;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/qrcode.js":
-/*!****************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/qrcode.js ***!
-  \****************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/components/tki-qrcode/qrcode.js":
+/*!************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/components/tki-qrcode/qrcode.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3955,19 +3955,19 @@ QRCode;exports.default = _default;
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js":
-/*!****************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js ***!
-  \****************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js":
+/*!************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createApp) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createApp) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../Desktop/新建文件夹 (8)/uni-app/App.vue"));
-var _faIcon = _interopRequireDefault(__webpack_require__(/*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../Desktop/新建文件夹/uni-app/App.vue"));
+var _faIcon = _interopRequireDefault(__webpack_require__(/*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹/uni-app/components/kilvn-fa-icon/fa-icon.vue"));
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
 _bmob.default.initialize("afaa8342776ad99ff0d49bca224de9b2", "9eed865dc5914f2ecedcd63be31e33e9", "47f76baf4ee4d90630d7b2bc17f7505c");
 _vue.default.config.productionTip = false;
@@ -3986,571 +3986,571 @@ createApp(app).$mount();
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim\"}":
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim"} ***!
-  \************************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim\"}":
+/*!********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim"} ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_confrim = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_confrim.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_confrim/good_confrim.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_confrim = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_confrim.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/good_confrim/good_confrim.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_confrim.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter\"}":
-/*!***********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter"} ***!
-  \***********************************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter\"}":
+/*!*******************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter"} ***!
+  \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_enter = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_enter/good_enter.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_confrim/good_enter/good_enter.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_enter = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_enter/good_enter.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/good_confrim/good_enter/good_enter.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_enter.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail\"}":
-/*!*************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail"} ***!
-  \*************************************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail\"}":
+/*!*********************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail"} ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _count_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/count_detail/count_detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_count/count_detail/count_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _count_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/count_detail/count_detail.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/good_count/count_detail/count_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_count_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_count%2Fgood_count\"}":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fgood_count"} ***!
-  \********************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_count%2Fgood_count\"}":
+/*!****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fgood_count"} ***!
+  \****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_count = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/good_count.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_count/good_count.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_count = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/good_count.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/good_count/good_count.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_count.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_return%2Fgood_return\"}":
-/*!**********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Fgood_return"} ***!
-  \**********************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_return%2Fgood_return\"}":
+/*!******************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Fgood_return"} ***!
+  \******************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_return = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/good_return.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_return/good_return.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_return = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/good_return.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/good_return/good_return.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_return.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail\"}":
-/*!****************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail"} ***!
-  \****************************************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail\"}":
+/*!************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail"} ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _return_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/return_detail/return_detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_return/return_detail/return_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _return_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/return_detail/return_detail.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/good_return/return_detail/return_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_return_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods-select%2Fgoods-select\"}":
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods-select%2Fgoods-select"} ***!
-  \************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goodsSelect = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods-select/goods-select.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/goods-select/goods-select.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goodsSelect.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods_out%2Fgoods_out\"}":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fgoods_out"} ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goods_out = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/goods_out.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/goods_out/goods_out.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goods_out.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail\"}":
-/*!********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail"} ***!
-  \********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _out_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/out_detail/out_detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/goods_out/out_detail/out_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_out_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Findex%2Findex\"}":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/index/index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_index.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Flanding%2Flanding\"}":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Flanding%2Flanding"} ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _landing = _interopRequireDefault(__webpack_require__(/*! ./pages/landing/landing.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/landing/landing.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_landing.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcategory%2Fcategory\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fcategory%2Fcategory"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/category/category.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/category/category.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_category.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcustom%2Fadd%2Fadd\"}":
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fadd%2Fadd"} ***!
-  \***************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/custom/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcustom%2Fcustom\"}":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom"} ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _custom = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/custom/custom.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_custom.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgood_add%2Fgood_add\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/good_add/good_add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgood_det%2Fgood_det\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/good_det/good_det.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_det.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgoods%2Fgoods\"}":
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/goods/goods.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goods.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fmanage\"}":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/manage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_manage.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Foperations%2Foperations\"}":
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods-select%2Fgoods-select\"}":
 /*!********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Foperations%2Foperations"} ***!
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods-select%2Fgoods-select"} ***!
   \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/operations/operations.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_operations.default);
+var _goodsSelect = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods-select/goods-select.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/goods-select/goods-select.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goodsSelect.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fadd%2Fadd\"}":
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods_out%2Fgoods_out\"}":
 /*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fadd%2Fadd"} ***!
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fgoods_out"} ***!
   \**************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
+var _goods_out = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/goods_out.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/goods_out/goods_out.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goods_out.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fshops\"}":
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fshops"} ***!
-  \**********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail\"}":
+/*!****************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail"} ***!
+  \****************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _shops = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/shops.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/shops.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_shops.default);
+var _out_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/out_detail/out_detail.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/common/goods_out/out_detail/out_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_out_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fadd%2Fadd\"}":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
-  \**************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Findex%2Findex\"}":
+/*!*********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/staff/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/index/index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fstaff\"}":
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fstaff"} ***!
-  \**********************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Flanding%2Flanding\"}":
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Flanding%2Flanding"} ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _staff = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/staff.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/staff/staff.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_staff.default);
+var _landing = _interopRequireDefault(__webpack_require__(/*! ./pages/landing/landing.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/landing/landing.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_landing.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd\"}":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd"} ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/warehouse/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fwarehouse\"}":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fwarehouse"} ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _warehouse = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/warehouse.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/warehouse/warehouse.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_warehouse.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fabout_us%2Fabout_us\"}":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fabout_us%2Fabout_us"} ***!
-  \**************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _about_us = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/about_us/about_us.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/about_us/about_us.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_about_us.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fhome_page%2Fhome_page\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fhome_page%2Fhome_page"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _home_page = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/home_page/home_page.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/home_page/home_page.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_home_page.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Flogs%2Flogs\"}":
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/logs/logs.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_logs.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/mine.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_mine.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fsetting%2Fsetting\"}":
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcategory%2Fcategory\"}":
 /*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fsetting%2Fsetting"} ***!
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fcategory%2Fcategory"} ***!
   \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/setting/setting.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/setting/setting.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/category/category.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/category/category.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_category.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcustom%2Fadd%2Fadd\"}":
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fadd%2Fadd"} ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/add/add.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/custom/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcustom%2Fcustom\"}":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom"} ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _custom = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/custom/custom.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_custom.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgood_add%2Fgood_add\"}":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/good_add/good_add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgood_det%2Fgood_det\"}":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/good_det/good_det.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_det.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgoods%2Fgoods\"}":
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/goods/goods.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goods.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fmanage\"}":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/manage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_manage.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Foperations%2Foperations\"}":
+/*!****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Foperations%2Foperations"} ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/operations/operations.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_operations.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fadd%2Fadd\"}":
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fadd%2Fadd"} ***!
+  \**********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/add/add.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/shops/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fshops\"}":
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fshops"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _shops = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/shops.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/shops/shops.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_shops.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fadd%2Fadd\"}":
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
+  \**********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/add/add.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/staff/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fstaff\"}":
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fstaff"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _staff = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/staff.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/staff/staff.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_staff.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd\"}":
+/*!**************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd"} ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/add/add.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/warehouse/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fwarehouse\"}":
+/*!**************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fwarehouse"} ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _warehouse = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/warehouse.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/manage/warehouse/warehouse.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_warehouse.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fabout_us%2Fabout_us\"}":
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmine%2Fabout_us%2Fabout_us"} ***!
+  \**********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _about_us = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/about_us/about_us.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/mine/about_us/about_us.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_about_us.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fhome_page%2Fhome_page\"}":
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmine%2Fhome_page%2Fhome_page"} ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _home_page = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/home_page/home_page.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/mine/home_page/home_page.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_home_page.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmine%2Flogs%2Flogs\"}":
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/mine/logs/logs.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_logs.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
+/*!*******************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/mine/mine.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_mine.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fsetting%2Fsetting\"}":
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Fmine%2Fsetting%2Fsetting"} ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/setting/setting.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/mine/setting/setting.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_setting.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2FEnteringHistory%2FEnteringHistory\"}":
-/*!******************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2FEnteringHistory%2FEnteringHistory"} ***!
-  \******************************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Freport%2FEnteringHistory%2FEnteringHistory\"}":
+/*!**************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Freport%2FEnteringHistory%2FEnteringHistory"} ***!
+  \**************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _EnteringHistory = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/EnteringHistory.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/EnteringHistory/EnteringHistory.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _EnteringHistory = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/EnteringHistory.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/report/EnteringHistory/EnteringHistory.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_EnteringHistory.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail\"}":
-/*!******************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail"} ***!
-  \******************************************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail\"}":
+/*!**************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail"} ***!
+  \**************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/detail/detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/EnteringHistory/detail/detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/detail/detail.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/report/EnteringHistory/detail/detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2Freport\"}":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2Freport"} ***!
-  \***************************************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/main.js?{\"page\":\"pages%2Freport%2Freport\"}":
+/*!***********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/main.js?{"page":"pages%2Freport%2Freport"} ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹/uni-app/pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/report.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ "../../../../../Desktop/新建文件夹/uni-app/pages/report/report.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_report.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json":
-/*!*******************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/pages.json ***!
-  \*******************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/pages.json":
+/*!***************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/pages.json ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4559,10 +4559,10 @@ createPage(_report.default);
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js":
-/*!**********************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/utils/bmob.js ***!
-  \**********************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js":
+/*!******************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/utils/bmob.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4582,15 +4582,15 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js":
-/*!************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/utils/common.js ***!
-  \************************************************************************/
+/***/ "../../../../../Desktop/新建文件夹/uni-app/utils/common.js":
+/*!********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹/uni-app/utils/common.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 module.exports = {
   //日志功能
@@ -5133,7 +5133,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"app-plus","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"app-plus","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -11331,7 +11331,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"app-plus","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"app-plus","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11352,14 +11352,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"app-plus","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"app-plus","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"app-plus","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"app-plus","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11428,7 +11428,7 @@ var patch = function(oldVnode, vnode) {
         });
         var diffData = diff(data, mpData);
         if (Object.keys(diffData).length) {
-            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"app-plus","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            if (Object({"VUE_APP_PLATFORM":"app-plus","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
                 console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
                     ']差量更新',
                     JSON.stringify(diffData));
