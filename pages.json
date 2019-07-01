@@ -1,6 +1,39 @@
 {
 	"pages": [
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/common/goods-select/goods-select",
+			"style": {
+				"navigationBarTitleText": "选择产品",
+				"app-plus": {
+					"bounce": "vertical",
+		
+					"titleNView": {
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "请输入搜索内容"
+		
+						},
+						"buttons": [{
+								"text": "确定",
+								"fontSize": "14"
+							},
+							{
+								"text": "筛选",
+								"fontSize": "14"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/manage/goods/goods",
 			"style": {
 				"navigationBarTitleText": "我的产品",
@@ -25,12 +58,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
+		
 		{
 			"path": "pages/common/good_return/return_detail/return_detail",
 			"style": {
@@ -251,33 +279,7 @@
 				"navigationBarTitleText": "类别管理"
 			}
 		},
-		{
-			"path": "pages/common/goods-select/goods-select",
-			"style": {
-				"navigationBarTitleText": "选择产品",
-				"app-plus": {
-					"bounce": "vertical",
-
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容"
-
-						},
-						"buttons": [{
-								"text": "确定",
-								"fontSize": "14"
-							},
-							{
-								"text": "筛选",
-								"fontSize": "14"
-							}
-						]
-					}
-				}
-			}
-		},
+		
 		{
 			"path": "pages/common/good_confrim/good_confrim",
 			"style": {
@@ -330,11 +332,13 @@
 			"path": "pages/common/goods_out/goods_out",
 			"style": {
 				"navigationBarTitleText": "产品出库",
+				"app-plus": {
 				"titleNView": {
 					"buttons": [{
 						"text": "确定",
 						"fontSize": "14"
 					}]
+				}
 				}
 			}
 		}, {

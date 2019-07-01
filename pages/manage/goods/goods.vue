@@ -27,6 +27,7 @@
 
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 						<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+						<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 					</view>
@@ -37,34 +38,37 @@
 		</view>
 
 		<!--筛选模板-->
-		<view v-if="showOptions" class="showOptions">
-			<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
-				<view style="display: flex;align-items: center;">
-					<view class="left_item">类别</view>
-					<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text"></input></view>
-				</view>
-
-				<view>
-					<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-				</view>
-			</navigator>
+		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
+			<view class="showOptions">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
+					<view style="display: flex;align-items: center;width: 100%;">
+						<view class="left_item">类别</view>
+						<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true"></input></view>
+					</view>
 			
-			<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
-				<view style="display: flex;align-items: center;">
-					<view class="left_item">仓库</view>
-					<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name"></input></view>
+					<view>
+						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</view>
+				</navigator>
+				
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+					<view style="display: flex;align-items: center;width: 100%;">
+						<view class="left_item">仓库</view>
+						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
+					</view>
+				
+					<view>
+						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</view>
+				</navigator>
+				
+				<view class="option_bottom">
+					<view class="selection"  @click="option_reset">重置</view>
+					<view class="selection1" @click="option_confrim">确定</view>
 				</view>
-			
-				<view>
-					<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-				</view>
-			</navigator>
-			
-			<view class="option_bottom">
-				<view>重置</view>
-				<view>确定</view>
 			</view>
 		</view>
+		
 
 	</view>
 </template>
@@ -89,10 +93,12 @@
 		},
 		data() {
 			return {
-				showOptions: true, //是否显示筛选
+				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
-				checked_option: 'createdAt',
+				checked_option: 'createdAt',//tab的筛选条件
+				category:"",//选择的类别
+				stock:"",//选择的仓库
 			}
 		},
 		// #ifdef APP-PLUS
@@ -101,6 +107,10 @@
 			console.log(Object);
 			if (Object.text == "添加") {
 				this.goAdd();
+			}
+			
+			if (Object.text == "筛选") {
+				that.showOptions = true;
 			}
 
 		},
@@ -114,19 +124,55 @@
 
 		onLoad() {
 			that = this;
+			uni.removeStorageSync("now_product");
+			uni.removeStorageSync("category");
+			uni.removeStorageSync("warehouse");
+			
 			uid = uni.getStorageSync('uid');
+			
+			that.get_productList();
 		},
 		onShow() {
-			uni.removeStorageSync("now_product")
-			that.get_productList()
+			if(uni.getStorageSync("category")){
+				that.category = uni.getStorageSync("category")
+			}
+			
+			if(uni.getStorageSync("warehouse")){
+				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
+			}
 		},
 
 		onUnload() {
+			//数据重置
 			search_text = '';
 			page_size = 50;
 		},
 
 		methods: {
+			
+			//modal重置的确认点击
+			option_reset(){
+				uni.removeStorageSync("category");
+				uni.removeStorageSync("warehouse");
+				that.category ="";
+				that.stock ="";
+				that.showOptions= false;
+				that.get_productList()
+			},
+			
+			//modal筛选的确认点击
+			option_confrim(){
+				if(uni.getStorageSync("category")){
+					that.category = uni.getStorageSync("category")
+				}
+				
+				if(uni.getStorageSync("warehouse")){
+					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
+				}
+				that.showOptions= false;
+				that.get_productList()
+			},
+			
 			//头部的options选择
 			selectd(type) {
 				page_size = 50;
@@ -160,13 +206,17 @@
 			get_productList() {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
-				query.limit(page_size);
-				query.order("-" + that.checked_option); //按照时间降序
+				query.equalTo("stocks", "==", that.stock.objectId);
+				query.equalTo("status", "!=", -1);
+				query.equalTo("second_class", "==", that.category.objectId);
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});
+				query.limit(page_size);
+				query.order("-" + that.checked_option); //按照条件降序
 				query.include("userId");
 				query.include("goodsClass");
+				query.include("stocks");
 				query.find().then(res => {
 					//console.log(res)
 					this.productList = res;
@@ -178,7 +228,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.text_notice {
 		margin-left: 6rpx;
 	}
@@ -217,31 +267,5 @@
 		font-size: 24rpx;
 		font-weight: bold;
 	}
-
-	.showOptions {
-		position: fixed;
-		top: 0;
-		left: 0;
-		background: #fff;
-		width: calc(100% - 60rpx);
-		padding: 20rpx 30rpx;
-		background: #fffef9;
-		box-shadow: 0 10rpx 10rpx rgba(0,122,255,0.2);
-	}
-
-	.input_item1 {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		line-height: 80rpx;
-		border-bottom: 1rpx solid#ccc;
-	}
-
-	.left_item {
-		width: 150rpx;
-	}
-
-	.right_input {
-		margin-left: 20rpx;
-	}
+		
 </style>

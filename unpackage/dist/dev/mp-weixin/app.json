@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/manage/goods/goods",
     "pages/index/index",
+    "pages/common/goods-select/goods-select",
+    "pages/manage/goods/goods",
     "pages/common/good_return/return_detail/return_detail",
     "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_confrim/good_enter/good_enter",
@@ -20,7 +21,6 @@
     "pages/mine/mine",
     "pages/landing/landing",
     "pages/manage/category/category",
-    "pages/common/goods-select/goods-select",
     "pages/common/good_confrim/good_confrim",
     "pages/report/report",
     "pages/manage/good_det/good_det",

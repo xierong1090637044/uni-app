@@ -177,6 +177,7 @@
 				          icon: 'success',
 				          success: function () {
 										that.button_disabled = false;
+										uni.setStorageSync("is_option",true);
 				            setTimeout(() => {
 				              uni.navigateBack({
 				                delta: 2
