@@ -153,8 +153,8 @@ __webpack_require__.r(__webpack_exports__);
     //数量改变
     handleNumChange: function handleNumChange($event, index) {
       //console.log($event,index)
-      this.products[index].num = $event;
-      this.products[index].total_money = $event * Number(this.products[index].modify_retailPrice);
+      this.products[index].num = Number($event);
+      this.products[index].total_money = Number($event) * Number(this.products[index].modify_retailPrice);
       uni.setStorageSync("products", this.products);
     },
 

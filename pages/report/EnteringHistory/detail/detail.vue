@@ -44,11 +44,11 @@
 						<view class='pro_list'>
 							<view v-if="item.type == -1">实际卖出价：￥{{item.retailPrice}}（X{{item.num}}）</view>
 							<view v-else>实际进货价：￥{{item.retailPrice}}（X{{item.num}}）</view>
-							<view>总价：￥{{item.total_money.toFixed(2)}}</view>
+							<view>总价：￥{{item.total_money }}</view>
 						</view>
 					</view>
 				</view>
-				<view class='pro_allmoney'>总计：￥{{detail.all_money.toFixed(2)}}</view>
+				<view class='pro_allmoney'>总计：￥{{detail.all_money }}</view>
 			</view>
 
 			<view v-if="detail.type == -1">
@@ -60,7 +60,7 @@
 					</view>
 					<view class="display_flex">
 						<view class="left_content">实际付款</view>
-						<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money.toFixed(2)}}</view>
+						<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 					</view>
 					<view class="display_flex" v-if="detail.debt > 0">
 						<view class="left_content">欠款</view>
@@ -78,7 +78,7 @@
 					</view>
 					<view class="display_flex">
 						<view class="left_content">实际付款</view>
-						<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money.toFixed(2)}}</view>
+						<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 					</view>
 					<view class="display_flex" v-if="detail.debt > 0">
 						<view class="left_content">欠款</view>

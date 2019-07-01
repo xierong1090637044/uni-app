@@ -227,7 +227,6 @@ var page_size = 50;var _default =
     uni.removeStorageSync("category");
     uni.removeStorageSync("warehouse");
 
-    console.log(option, " at pages\\common\\goods-select\\goods-select.vue:130");
     if (option.type == "entering")
     {
       this.url = "../good_confrim/good_confrim";
@@ -309,7 +308,7 @@ var page_size = 50;var _default =
 
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:212");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:211");
       if (indexs.length == 0)
       {
         uni.showToast({ title: "请选择产品", icon: "none" });
@@ -350,8 +349,6 @@ var page_size = 50;var _default =
 
     //数据重置
     handle_data: function handle_data() {
-      products = [];
-      indexs = [];
       search_text = '';
       page_size = 50;
     } } };exports.default = _default;

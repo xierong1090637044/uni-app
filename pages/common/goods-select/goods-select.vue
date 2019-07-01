@@ -126,8 +126,7 @@
 			that = this;
 			uni.removeStorageSync("category");
 			uni.removeStorageSync("warehouse");
-			
-			console.log(option)
+
 			if(option.type == "entering")
 			{
 				this.url = "../good_confrim/good_confrim"
@@ -250,8 +249,6 @@
 			
 			//数据重置
 			handle_data(){
-				products =[];
-				indexs = [];
 				search_text = '';
 				page_size = 50;
 			},

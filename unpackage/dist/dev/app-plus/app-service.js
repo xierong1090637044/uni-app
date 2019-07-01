@@ -3374,7 +3374,7 @@ return root;
 
 
 
-__wxAppCode__['app.json']={"pages":["pages/manage/goods/goods","pages/index/index","pages/common/good_return/return_detail/return_detail","pages/common/goods_out/out_detail/out_detail","pages/common/good_confrim/good_enter/good_enter","pages/manage/good_add/good_add","pages/manage/staff/staff","pages/manage/shops/shops","pages/manage/warehouse/warehouse","pages/manage/warehouse/add/add","pages/manage/shops/add/add","pages/manage/staff/add/add","pages/mine/setting/setting","pages/manage/custom/custom","pages/manage/custom/add/add","pages/manage/operations/operations","pages/manage/manage","pages/mine/mine","pages/landing/landing","pages/manage/category/category","pages/common/goods-select/goods-select","pages/common/good_confrim/good_confrim","pages/report/report","pages/manage/good_det/good_det","pages/report/EnteringHistory/EnteringHistory","pages/report/EnteringHistory/detail/detail","pages/common/goods_out/goods_out","pages/common/good_return/good_return","pages/common/good_count/good_count","pages/common/good_count/count_detail/count_detail"],"subPackages":[],"window":{"navigationBarTextStyle":"white","navigationBarTitleText":"库存表","navigationBarBackgroundColor":"#426ab3","backgroundColor":"#fff"},"tabBar":{"color":"#000","selectedColor":"#426ab3","backgroundColor":"#fff","borderStyle":"white","list":[{"pagePath":"pages/index/index","iconPath":"static/chuan.png","selectedIconPath":"static/chuan.png","text":"首页"},{"pagePath":"pages/manage/manage","iconPath":"static/manage.png","selectedIconPath":"static/manage.png","text":"管理"},{"pagePath":"pages/report/report","iconPath":"static/report.png","selectedIconPath":"static/report.png","text":"记录"},{"pagePath":"pages/mine/mine","iconPath":"static/person.png","selectedIconPath":"static/person.png","text":"我的"}]},"nvueCompiler":"weex","splashscreen":{"alwaysShowBeforeRender":true,"autoclose":false},"appname":"my_stock2","compilerVersion":"2.0.1","usingComponents":{}};
+__wxAppCode__['app.json']={"pages":["pages/index/index","pages/common/goods-select/goods-select","pages/manage/goods/goods","pages/common/good_return/return_detail/return_detail","pages/common/goods_out/out_detail/out_detail","pages/common/good_confrim/good_enter/good_enter","pages/manage/good_add/good_add","pages/manage/staff/staff","pages/manage/shops/shops","pages/manage/warehouse/warehouse","pages/manage/warehouse/add/add","pages/manage/shops/add/add","pages/manage/staff/add/add","pages/mine/setting/setting","pages/manage/custom/custom","pages/manage/custom/add/add","pages/manage/operations/operations","pages/manage/manage","pages/mine/mine","pages/landing/landing","pages/manage/category/category","pages/common/good_confrim/good_confrim","pages/report/report","pages/manage/good_det/good_det","pages/report/EnteringHistory/EnteringHistory","pages/report/EnteringHistory/detail/detail","pages/common/goods_out/goods_out","pages/common/good_return/good_return","pages/common/good_count/good_count","pages/common/good_count/count_detail/count_detail"],"subPackages":[],"window":{"navigationBarTextStyle":"white","navigationBarTitleText":"库存表","navigationBarBackgroundColor":"#426ab3","backgroundColor":"#fff"},"tabBar":{"color":"#000","selectedColor":"#426ab3","backgroundColor":"#fff","borderStyle":"white","list":[{"pagePath":"pages/index/index","iconPath":"static/chuan.png","selectedIconPath":"static/chuan.png","text":"首页"},{"pagePath":"pages/manage/manage","iconPath":"static/manage.png","selectedIconPath":"static/manage.png","text":"管理"},{"pagePath":"pages/report/report","iconPath":"static/report.png","selectedIconPath":"static/report.png","text":"记录"},{"pagePath":"pages/mine/mine","iconPath":"static/person.png","selectedIconPath":"static/person.png","text":"我的"}]},"nvueCompiler":"weex","splashscreen":{"alwaysShowBeforeRender":true,"autoclose":false},"appname":"my_stock2","compilerVersion":"2.0.1","usingComponents":{}};
 __wxAppCode__['app.wxml']=$gwx('./app.wxml');
 
 __wxAppCode__['components/kilvn-fa-icon/fa-icon.json']={"usingComponents":{},"component":true};
@@ -19271,7 +19271,6 @@ var page_size = 50;var _default =
     uni.removeStorageSync("category");
     uni.removeStorageSync("warehouse");
 
-    console.log(option, " at pages\\common\\goods-select\\goods-select.vue:130");
     if (option.type == "entering")
     {
       this.url = "../good_confrim/good_confrim";
@@ -19353,7 +19352,7 @@ var page_size = 50;var _default =
 
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
-      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:212");
+      console.log(indexs, " at pages\\common\\goods-select\\goods-select.vue:211");
       if (indexs.length == 0)
       {
         uni.showToast({ title: "请选择产品", icon: "none" });
@@ -19394,8 +19393,6 @@ var page_size = 50;var _default =
 
     //数据重置
     handle_data: function handle_data() {
-      products = [];
-      indexs = [];
       search_text = '';
       page_size = 50;
     } } };exports.default = _default;
@@ -25704,8 +25701,8 @@ __webpack_require__.r(__webpack_exports__);
     //数量改变
     handleNumChange: function handleNumChange($event, index) {
       //console.log($event,index)
-      this.products[index].num = $event;
-      this.products[index].total_money = $event * Number(this.products[index].modify_retailPrice);
+      this.products[index].num = Number($event);
+      this.products[index].total_money = Number($event) * Number(this.products[index].modify_retailPrice);
       uni.setStorageSync("products", this.products);
     },
 
@@ -26904,27 +26901,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.products.map(function(item, index) {
-    var g0 = item.total_money.toFixed(2)
-    return {
-      $orig: _vm.__get_orig(item),
-      g0: g0
-    }
-  })
-  var g1 = _vm.detail.all_money.toFixed(2)
-  var g2 = _vm.detail.real_money.toFixed(2)
-  var g3 = _vm.detail.real_money.toFixed(2)
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        l0: l0,
-        g1: g1,
-        g2: g2,
-        g3: g3
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true

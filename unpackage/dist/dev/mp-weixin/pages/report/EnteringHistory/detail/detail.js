@@ -385,27 +385,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.products.map(function(item, index) {
-    var g0 = item.total_money.toFixed(2)
-    return {
-      $orig: _vm.__get_orig(item),
-      g0: g0
-    }
-  })
-  var g1 = _vm.detail.all_money.toFixed(2)
-  var g2 = _vm.detail.real_money.toFixed(2)
-  var g3 = _vm.detail.real_money.toFixed(2)
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        l0: l0,
-        g1: g1,
-        g2: g2,
-        g3: g3
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
