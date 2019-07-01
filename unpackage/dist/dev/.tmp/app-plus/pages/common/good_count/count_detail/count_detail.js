@@ -131,8 +131,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //
@@ -167,9 +167,11 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       producer: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e, " at pages\\common\\good_count\\count_detail\\count_detail.vue:58");this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          res.set('reserve', _this.products[i].num);res.set('stocktype', _this.products[i].num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {
-          console.log(err, " at pages\\common\\good_count\\count_detail\\count_detail.vue:72");
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e, " at pages\\common\\good_count\\count_detail\\count_detail.vue:60");this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+          res.set('reserve', _this.products[i].num);res.set('stocktype', _this.products[i].num > _this.products[i].warning_num ? 1 : 0);
+          res.save();
+        }).catch(function (err) {
+          console.log(err, " at pages\\common\\good_count\\count_detail\\count_detail.vue:74");
         });
 
         //单据
@@ -204,6 +206,14 @@ var uid;var that;var _default = { data: function data() {return { products: null
             var pointer = _bmob.default.Pointer('_User');
             var poiID = pointer.set(uid);
 
+            var poiID1 = void 0;
+            if (uni.getStorageSync("identity") == 1) {
+              var masterId = uni.getStorageSync("masterId");
+
+              var pointer1 = _bmob.default.Pointer('_User');
+              poiID1 = pointer1.set(masterId);
+            }
+
             var query = _bmob.default.Query('order_opreations');
             query.set("relations", relID);
             query.set("beizhu", e.detail.value.input_beizhu);
@@ -213,7 +223,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
             query.set('goodsName', that.products[0].goodsName);
 
             query.save().then(function (res) {
-              console.log("添加操作历史记录成功", res, " at pages\\common\\good_count\\count_detail\\count_detail.vue:116");
+              console.log("添加操作历史记录成功", res, " at pages\\common\\good_count\\count_detail\\count_detail.vue:126");
               uni.hideLoading();
               uni.showToast({
                 title: '产品盘点成功',
@@ -222,6 +232,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
                   that.button_disabled = false;
                   uni.setStorageSync("is_option", true);
                   setTimeout(function () {
+                    _common.default.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products.length + "商品");
                     uni.navigateBack({
                       delta: 2 });
 
@@ -235,7 +246,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
       },
       function (error) {
         // 批量新增异常处理
-        console.log("异常处理", " at pages\\common\\good_count\\count_detail\\count_detail.vue:138");
+        console.log("异常处理", " at pages\\common\\good_count\\count_detail\\count_detail.vue:149");
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))

@@ -133,6 +133,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -167,16 +194,64 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uid = uni.getStorageSync("uid");var that;var opeart_type;var _default = { components: { loading: loading, faIcon: faIcon }, data: function data() {return { loading: true, list: null };}, onLoad: function onLoad(options) {that = this;opeart_type = Number(options.type);if (opeart_type == 1) {uni.setNavigationBarTitle({ title: "入库详情" });} else if (opeart_type == -1) {uni.setNavigationBarTitle({ title: "出库详情" });} else if (opeart_type == 2) {uni.setNavigationBarTitle({ title: "退货详情" });} else if (opeart_type == 3) {uni.setNavigationBarTitle({ title: "盘点详情" });}}, onShow: function onShow() {
-    this.get_list();
-  },
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var uid;var that;var opeart_type;var _default = { components: { loading: loading, faIcon: faIcon }, data: function data() {return { loading: true, list: null, showOptions: false, //是否显示筛选
+      goodsName: "", //输入的操作产品名字
+      staff: "" //选择的操作者
+    };}, onLoad: function onLoad(options) {that = this; //opeart_type = Number(options.type);
+    opeart_type = 1;uid = uni.getStorageSync("uid");uni.removeStorageSync("charge");if (opeart_type == 1) {uni.setNavigationBarTitle({ title: "入库详情" });} else if (opeart_type == -1) {uni.setNavigationBarTitle({ title: "出库详情" });} else if (opeart_type == 2) {uni.setNavigationBarTitle({ title: "退货详情" });} else if (opeart_type == 3) {uni.setNavigationBarTitle({ title: "盘点详情" });}}, onShow: function onShow() {this.get_list();if (uni.getStorageSync("charge")) {that.staff = uni.getStorageSync("charge");}},
   methods: {
+
+    //modal重置的确认点击
+    option_reset: function option_reset() {
+      uni.removeStorageSync("charge");
+      that.goodsName = "";
+      that.staff = "";
+      that.showOptions = false;
+      that.get_list();
+    },
+
+    //modal筛选的确认点击
+    option_confrim: function option_confrim() {
+      that.showOptions = false;
+      that.get_list();
+    },
+
     //得到列表
     get_list: function get_list() {var _this = this;
       var query = _bmob.default.Query("order_opreations");
       query.equalTo("master", "==", uid);
       query.equalTo("type", '==', opeart_type);
+      query.equalTo("opreater", '==', that.staff.objectId);
+      query.equalTo("goodsName", "==", {
+        "$regex": "" + that.goodsName + ".*" });
+
       query.include("opreater");
       query.order("-createdAt");
       query.find().then(function (res) {
@@ -187,8 +262,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
     },
 
     //点击得到详情
-    get_detail: function get_detail(id)
-    {
+    get_detail: function get_detail(id) {
       wx.navigateTo({
         url: 'detail/detail?id=' + id });
 
@@ -223,6 +297,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      $event.stopPropagation()
+      _vm.showOptions = false
+    }
+  }
 }
 var staticRenderFns = []
 render._withStripped = true

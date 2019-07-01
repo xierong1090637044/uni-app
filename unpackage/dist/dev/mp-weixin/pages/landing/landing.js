@@ -196,6 +196,8 @@ var that;var phone_number = "";var _default = { data: function data() {return { 
         _bmob.default.User.signOrLoginByMobilePhone(phone, sms_code).then(function (res) {
           console.log(res);
           uni.setStorageSync("user", res);
+          uni.setStorageSync("masterId", res.objectId);
+          uni.setStorageSync("identity", 1); //1是老板，2是员工
           uni.setStorageSync("uid", res.objectId);
           uni.switchTab({
             url: "/pages/index/index" });

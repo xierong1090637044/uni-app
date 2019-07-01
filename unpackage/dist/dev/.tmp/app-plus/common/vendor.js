@@ -4531,6 +4531,35 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 
 /***/ }),
 
+/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js":
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/utils/common.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+module.exports = {
+  //日志功能
+  log: function log(_log) {
+    var pointer = _bmob.default.Pointer('_User');
+    var userid = pointer.set(uni.getStorageSync("uid"));
+
+    var query = _bmob.default.Query('logs');
+    query.set("parent", userid);
+    query.set("log", _log);
+    query.save().then(function (res) {
+      console.log(res, " at utils\\common.js:13");
+    }).catch(function (err) {
+      console.log(err, " at utils\\common.js:15");
+    });
+  } };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
+
+/***/ }),
+
 /***/ "./node_modules/@dcloudio/uni-app-plus/dist/index.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@dcloudio/uni-app-plus/dist/index.js ***!

@@ -55,8 +55,10 @@
 </template>
 
 <script>
-	let uid;
 	import Bmob from '@/utils/bmob.js';
+	import common from '@/utils/common.js';
+	
+	let uid;
 	let that;
 	
 	export default {
@@ -133,15 +135,23 @@
 							
 				      let relation = Bmob.Relation('Bills'); // 需要关联的表
 				      let relID = relation.add(operation_ids);
-				
-				      let pointer = Bmob.Pointer('_User')
-				      let poiID = pointer.set(uid);
+							
+							let pointer = Bmob.Pointer('_User')
+							let poiID = pointer.set(uid);
+							
+							let poiID1;
+							if(uni.getStorageSync("identity") == 1){
+								let masterId = uni.getStorageSync("masterId");
+								
+								let pointer1 = Bmob.Pointer('_User')
+								poiID1 = pointer1.set(masterId);
+							}
 				
 				      let query = Bmob.Query('order_opreations');
 				      query.set("relations", relID);
 				      query.set("beizhu", e.detail.value.input_beizhu);
 				      query.set("type", 1);
-				      query.set("opreater", poiID);
+				      query.set("opreater", poiID1);
 				      query.set("master", poiID);
 				      query.set('goodsName', that.products[0].goodsName);
 				      query.set('real_money', Number(that.real_money));
@@ -179,6 +189,7 @@
 										that.button_disabled = false;
 										uni.setStorageSync("is_option",true);
 				            setTimeout(() => {
+											common.log(uni.getStorageSync("user").nickName+"入库了'"+that.products[0].goodsName+"'等"+that.products.length+"商品");
 				              uni.navigateBack({
 				                delta: 2
 				              });

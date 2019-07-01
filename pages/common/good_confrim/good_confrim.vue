@@ -9,7 +9,7 @@
             <view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/></view>
         </view>
         <view class='margin-t-5'>
-          入库量：<uninumberbox :value="item.num" min="1" max="10000" @change="handleNumChange($event, index)" />
+          入库量：<uninumberbox min="1" @change="handleNumChange($event, index)" />
 				</view>
         <view class="bottom_del">
 					<view class='del' @click="handleDel(index)">
@@ -48,6 +48,9 @@
 		// #endif
 		onLoad() {
 			this.products = uni.getStorageSync("products");
+		},
+		onUnload() {
+			uni.removeStorageSync("products");
 		},
 		methods: {
 			//数量改变

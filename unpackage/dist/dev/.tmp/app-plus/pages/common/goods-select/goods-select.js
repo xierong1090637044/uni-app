@@ -184,7 +184,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-nav-bar/uni-nav-bar.vue"));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-icon/uni-icon.vue"));};
 
-var products = [];
 var indexs = [];
 var uid;
 var that;
@@ -244,6 +243,7 @@ var page_size = 50;var _default =
 
   onShow: function onShow() {
     this.handle_data();
+    uni.removeStorageSync("products");
 
     if (uni.getStorageSync("category")) {
       that.category = uni.getStorageSync("category");
@@ -261,7 +261,7 @@ var page_size = 50;var _default =
     //数据重置
     search_text = '';
     page_size = 50;
-    uni.removeStorageSync("is_option");
+    uni.removeStorageSync("is_option"); //用于判断是否进行了操作
   },
 
   methods: {
@@ -313,6 +313,7 @@ var page_size = 50;var _default =
       {
         uni.showToast({ title: "请选择产品", icon: "none" });
       } else {
+        var products = [];
         for (var i = 0; i < indexs.length; i++)
         {
           this.productList[indexs[i]].num = 1;

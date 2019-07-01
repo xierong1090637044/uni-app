@@ -45,6 +45,9 @@
 		onLoad() {
 			this.products = uni.getStorageSync("products");
 		},
+		onUnload() {
+			uni.removeStorageSync("products");
+		},
 		methods: {
 			//数量改变
 			handleNumChange($event, index){

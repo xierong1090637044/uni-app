@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
     "pages/manage/goods/goods",
     "pages/common/good_return/return_detail/return_detail",
@@ -24,7 +25,6 @@
     "pages/common/good_confrim/good_confrim",
     "pages/report/report",
     "pages/manage/good_det/good_det",
-    "pages/report/EnteringHistory/EnteringHistory",
     "pages/report/EnteringHistory/detail/detail",
     "pages/common/goods_out/goods_out",
     "pages/common/good_return/good_return",

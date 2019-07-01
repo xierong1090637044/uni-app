@@ -84,7 +84,6 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import Bmob from '@/utils/bmob.js'
 	
-	let products =[];
 	let indexs = [];
 	let uid;
 	let that;
@@ -144,6 +143,7 @@
 		
 		onShow() {
 			this.handle_data();
+			uni.removeStorageSync("products");
 						
 			if(uni.getStorageSync("category")){
 				that.category = uni.getStorageSync("category")
@@ -161,7 +161,7 @@
 			//数据重置
 			search_text = '';
 			page_size = 50;
-			uni.removeStorageSync("is_option");
+			uni.removeStorageSync("is_option");//用于判断是否进行了操作
 		},
 		
 		methods: {
@@ -213,6 +213,7 @@
 				{
 					uni.showToast({title:"请选择产品",icon:"none"})
 				}else{
+					let products =[];
 					for(let i =0;i<indexs.length;i++)
 					{
 						this.productList[indexs[i]].num = 1;

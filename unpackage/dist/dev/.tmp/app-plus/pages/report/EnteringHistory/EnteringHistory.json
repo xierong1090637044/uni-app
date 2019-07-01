@@ -1,5 +1,13 @@
 {
-  "navigationBarTitleText": "入库详情",
+  "bounce": "vertical",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "筛选",
+        "fontSize": "14"
+      }
+    ]
+  },
   "usingComponents": {
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"

@@ -149,6 +149,9 @@ __webpack_require__.r(__webpack_exports__);
   onLoad: function onLoad() {
     this.products = uni.getStorageSync("products");
   },
+  onUnload: function onUnload() {
+    uni.removeStorageSync("products");
+  },
   methods: {
     //数量改变
     handleNumChange: function handleNumChange($event, index) {

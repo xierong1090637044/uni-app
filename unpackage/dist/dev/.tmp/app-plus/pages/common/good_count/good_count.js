@@ -144,6 +144,9 @@ __webpack_require__.r(__webpack_exports__);
   onLoad: function onLoad() {
     this.products = uni.getStorageSync("products");
   },
+  onUnload: function onUnload() {
+    uni.removeStorageSync("products");
+  },
   methods: {
     //数量改变
     handleNumChange: function handleNumChange($event, index) {
@@ -155,7 +158,7 @@ __webpack_require__.r(__webpack_exports__);
 
     //删除点击
     handleDel: function handleDel(index) {
-      console.log(index, " at pages\\common\\good_count\\good_count.vue:58");
+      console.log(index, " at pages\\common\\good_count\\good_count.vue:61");
       if (this.products.length == 1)
       {
         uni.showToast({ title: "最少选择一个产品", icon: "none" });

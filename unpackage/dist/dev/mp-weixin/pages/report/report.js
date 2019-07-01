@@ -113,17 +113,40 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
 {
   components: {
     faIcon: faIcon },
 
   data: function data() {
     return {
-      optionsLists: [
-      { name: '入库记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=1', color: "#2ca879" },
-      { name: '出库记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=-1', color: "#f30" },
-      { name: '客户退货记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=2', color: "#b3b242" },
-      { name: '盘点记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=3', color: "#b3424a" }] };
+      optionsLists: [{
+        name: '入库记录',
+        icon: 'file-o',
+        url: '/pages/report/EnteringHistory/EnteringHistory?type=1',
+        color: "#2ca879" },
+
+      {
+        name: '出库记录',
+        icon: 'file-o',
+        url: '/pages/report/EnteringHistory/EnteringHistory?type=-1',
+        color: "#f30" },
+
+      {
+        name: '客户退货记录',
+        icon: 'file-o',
+        url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
+        color: "#b3b242" },
+
+      {
+        name: '盘点记录',
+        icon: 'file-o',
+        url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
+        color: "#b3424a" }] };
+
 
 
 

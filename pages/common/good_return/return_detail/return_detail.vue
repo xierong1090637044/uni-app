@@ -43,8 +43,10 @@
 </template>
 
 <script>
-	let uid;
 	import Bmob from '@/utils/bmob.js';
+	import common from '@/utils/common.js';
+	
+	let uid;
 	let that;
 	
 	export default {
@@ -122,6 +124,14 @@
 				
 				      let pointer = Bmob.Pointer('_User')
 				      let poiID = pointer.set(uid);
+							
+							let poiID1;
+							if(uni.getStorageSync("identity") == 1){
+								let masterId = uni.getStorageSync("masterId");
+								
+								let pointer1 = Bmob.Pointer('_User')
+								poiID1 = pointer1.set(masterId);
+							}
 				
 				      let query = Bmob.Query('order_opreations');
 				      query.set("relations", relID);
@@ -151,6 +161,7 @@
 										that.button_disabled = false;
 										uni.setStorageSync("is_option",true);
 				            setTimeout(() => {
+											common.log(uni.getStorageSync("user").nickName+"处理了'"+that.products[0].goodsName+"'等"+that.products.length+"商品的退货");
 				              uni.navigateBack({
 				                delta: 2
 				              });
