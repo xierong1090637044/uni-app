@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "产品入库",
+  "bounce": "vertical",
   "titleNView": {
     "buttons": [
       {

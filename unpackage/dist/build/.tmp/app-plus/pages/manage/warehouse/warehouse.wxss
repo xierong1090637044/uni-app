@@ -1,17 +1,8 @@
 
-.Loading_view{
+page {
 	height: 100vh;
-	width: 100%;
-	text-align: center;
-	background: #fff;
+	background: #FAFAFA;
 }
-.loading_image{
-	width: 600rpx;
-	height: 600rpx;
-	margin-top: 30%;
-}
-
-
 .stock_name {
 	font-weight: bold;
 	font-size: 30rpx;
@@ -22,16 +13,17 @@
 	color: #999;
 }
 .right_item {
-	padding: 10rpx 0;
 	width: 100%;
 	border-bottom: 1rpx solid#ccc;
+	padding-bottom: 10rpx;
 }
 .stock_avatar {
-	width: 100rpx;
+	width: 82rpx;
 	height: 70rpx;
 	margin-right: 20rpx;
 }
 .content {
-	padding: 0rpx 30rpx;
+	padding: 10rpx 30rpx;
+	background: #FFFFFF;
 }
 

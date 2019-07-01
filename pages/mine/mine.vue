@@ -13,17 +13,17 @@
 						</view>
 					</view>
 					<view class="box-bd">
+						<navigator class="item" hover-class="none" url="logs/logs">
+							<view class="icon"><image src="/static/logs.png"></image></view>
+							<view class="text">操作日志</view>
+						</navigator>
 						<view class="item">
-
-							<view class="text">我的通知</view>
+							<view class="icon"><image src="/static/warning.png"></image></view>
+							<view class="text">预警记录</view>
 						</view>
 						<view class="item">
-
-							<view class="text">我的收藏</view>
-						</view>
-						<view class="item">
-
-							<view class="text">我的客服</view>
+							<view class="icon"><image src="/static/account.png"></image></view>
+							<view class="text">账号信息</view>
 						</view>
 					</view>
 				</view>
@@ -168,10 +168,10 @@
 				}
 
 				.icon {
-					width: 60rpx;
-					height: 60rpx;
+					width: 50rpx;
+					height: 50rpx;
 
-					img {
+					image {
 						width: 100%;
 						height: 100%;
 					}
@@ -181,6 +181,9 @@
 					width: 100%;
 					text-align: center;
 					margin-top: 10rpx;
+					color: #426ab3;
+					font-weight: bold;
+					font-size: 24rpx;
 				}
 			}
 		}

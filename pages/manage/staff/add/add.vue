@@ -6,8 +6,8 @@
 				<input placeholder="请输入姓名" v-model="staff_name" style="width: calc(100% - 200rpx)" />
 			</view>
 			<view class="display_flex item">
-				<text style="margin-right: 20rpx;">联系电话</text>
-				<input placeholder="请输入电话" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<text style="margin-right: 20rpx;">账号</text>
+				<input placeholder="最好是手机的电话号码" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<view class="display_flex item" style="margin-bottom:60rpx">

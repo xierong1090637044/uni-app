@@ -4411,6 +4411,23 @@ createPage(_warehouse.default);
 
 /***/ }),
 
+/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Flogs%2Flogs\"}":
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/logs/logs.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_logs.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
 /*!***********************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
@@ -4543,18 +4560,47 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 
 module.exports = {
   //日志功能
-  log: function log(_log) {
+  log: function log(_log, type, id) {
     var pointer = _bmob.default.Pointer('_User');
     var userid = pointer.set(uni.getStorageSync("uid"));
 
     var query = _bmob.default.Query('logs');
     query.set("parent", userid);
     query.set("log", _log);
+    query.set("detail_id", id);
+    query.set("type", type);
     query.save().then(function (res) {
       console.log(res);
     }).catch(function (err) {
       console.log(err);
     });
+  },
+
+  //获取时间
+  getDay: function getDay(day, is_full) {
+    var that = this;
+    var today = new Date();
+    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    today.setTime(targetday_milliseconds);
+    var tYear = today.getFullYear();
+    var tMonth = today.getMonth();
+    var tDate = today.getDate();
+    tMonth = that.handleMonth(tMonth + 1);
+    tDate = that.handleMonth(tDate);
+    if (is_full) {
+      return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
+    } else {
+      return tYear + "-" + tMonth + "-" + tDate;
+    }
+
+  },
+
+  handleMonth: function handleMonth(month) {
+    var m = month;
+    if (month.toString().length == 1) {
+      m = "0" + month;
+    }
+    return m;
   } };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 

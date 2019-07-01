@@ -255,13 +255,13 @@ var uid;var that;var _default = { data: function data() {return { products: null
               uni.hideLoading();
               uni.removeStorageSync("customs"); //移除这个缓存
               uni.showToast({
-                title: '产品出库成功',
+                title: '产品退货成功',
                 icon: 'success',
                 success: function success() {
                   that.button_disabled = false;
                   uni.setStorageSync("is_option", true);
                   setTimeout(function () {
-                    _common.default.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that.products.length + "商品的退货");
+                    _common.default.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that.products.length + "商品的退货", 2, res.objectId);
                     uni.navigateBack({
                       delta: 2 });
 

@@ -12,6 +12,8 @@
     ]
   },
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "tki-qrcode": "/components/tki-qrcode/tki-qrcode",
+    "tki-barcode": "/components/tki-barcode/tki-barcode"
   }
 }

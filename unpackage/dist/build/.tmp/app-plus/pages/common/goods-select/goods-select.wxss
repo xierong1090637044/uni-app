@@ -13,6 +13,8 @@
 	padding: 0 10rpx;
 	width: -webkit-calc(100% - 20rpx);
 	width: calc(100% - 20rpx);
+	height: -webkit-calc(100vh - 80rpx);
+	height: calc(100vh - 80rpx);
 }
 .uni-product
 {

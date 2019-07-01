@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/mine/mine",
+    "pages/mine/logs/logs",
     "pages/index/index",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
@@ -19,7 +21,6 @@
     "pages/manage/custom/add/add",
     "pages/manage/operations/operations",
     "pages/manage/manage",
-    "pages/mine/mine",
     "pages/landing/landing",
     "pages/manage/category/category",
     "pages/common/good_confrim/good_confrim",
