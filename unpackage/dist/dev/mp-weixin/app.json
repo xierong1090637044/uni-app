@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/manage/goods/goods",
     "pages/mine/mine",
     "pages/mine/logs/logs",
     "pages/index/index",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
-    "pages/manage/goods/goods",
     "pages/common/good_return/return_detail/return_detail",
     "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_confrim/good_enter/good_enter",

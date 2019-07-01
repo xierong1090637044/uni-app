@@ -174,6 +174,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var tkiQrcode = function tkiQrcode() {return Promise.all(/*! import() | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-qrcode/tki-qrcode.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/tki-qrcode.vue"));};var tkiBarcode = function tkiBarcode() {return Promise.all(/*! import() | components/tki-barcode/tki-barcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-barcode/tki-barcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-barcode/tki-barcode.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/tki-barcode.vue"));};
 
 var that;var _default =
@@ -187,9 +193,10 @@ var that;var _default =
     return {
       opations: {
         width: 2,
-        height: 60,
-        background: "#FFFFFF",
-        displayValue: true },
+        height: 80,
+        displayValue: true,
+        marginTop: 50,
+        marginLeft: 98 },
 
       product: "",
       is_show: false, //二维码显示
@@ -207,7 +214,7 @@ var that;var _default =
       uni.showActionSheet({
         itemList: ['二维码', '条形码'],
         success: function success(res) {
-          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:110");
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:117");
           if (res.tapIndex == 0) {
             that.is_show = true;
           } else {
@@ -215,13 +222,21 @@ var that;var _default =
           }
         },
         fail: function fail(res) {
-          console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:118");
+          console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:125");
         } });
 
     },
     //二维码路径
     qrR: function qrR(res) {
       this.src = res;
+    },
+
+    bcR: function bcR(res) {
+      this.src = res;
+    },
+
+    saveBccode: function saveBccode() {
+      this.$refs.barcode._saveCode();
     },
 
     //点击条形码保存
@@ -245,7 +260,7 @@ var that;var _default =
                 title: "删除成功" });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\good_det\\good_det.vue:148");
+              console.log(err, " at pages\\manage\\good_det\\good_det.vue:163");
             });
 
           }
@@ -262,18 +277,18 @@ var that;var _default =
     uni.showActionSheet({
       itemList: ['编辑', '删除', '分享'],
       success: function success(res) {
-        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:165");
+        console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\good_det\\good_det.vue:180");
         if (res.tapIndex == 0) {
-          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:167");
+          console.log("编辑", " at pages\\manage\\good_det\\good_det.vue:182");
         } else if (res.tapIndex == 1) {
-          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:169");
+          console.log("删除", " at pages\\manage\\good_det\\good_det.vue:184");
           that.delete();
         } else {
-          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:172");
+          console.log("分享", " at pages\\manage\\good_det\\good_det.vue:187");
         }
       },
       fail: function fail(res) {
-        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:176");
+        console.log(res.errMsg, " at pages\\manage\\good_det\\good_det.vue:191");
       } });
 
   } };exports.default = _default;

@@ -49,8 +49,11 @@
 				<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
 			</view>
 			<view style="margin-top: 20%;" @tap="saveQrcode">
-				<tki-qrcode cid="qrcode" ref="qrcode" :val="product.objectId" size="200" loadMake="true" usingComponents="true"
-				 unit="rpx" background="#426ab3" foreground="#fff" pdground='#426ab3' @result="qrR" />
+				<view style="padding: 20rpx;background: #fff;">
+					<tki-qrcode cid="qrcode" ref="qrcode" :val="product.objectId" size="200" loadMake="true" usingComponents="true"
+					 unit="rpx"  @result="qrR" />
+				</view>
+				
 				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
 				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
 			</view>
@@ -60,9 +63,12 @@
 			<view style="text-align: right;margin-right: 20rpx;" @click="bar_code_show = false">
 				<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
 			</view>
-			<view style="margin-top: 20%;text-align: center;" @tap="saveQrcode">
-				<tki-barcode  ref="barcode" :val="product.objectId" loadMake="true" :opations="opations" onval="true"
-				 unit="upx" @result="qrR" />
+			<view style="margin-top: 20%;text-align: center;" @tap="saveBccode">
+				<view style="padding: 20rpx;background: #fff;">
+					<tki-barcode  ref="barcode" :val="product.objectId" loadMake="true" :opations="opations" onval="true" format="code128"
+					 unit="upx" @result="bcR" />
+				</view>
+				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
 				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击条形码可下载)</view>
 			</view>
 		</view>
@@ -87,9 +93,10 @@
 			return {
 				opations: {
 					width:2,
-					height:60,
-					background: "#FFFFFF",
+					height:80,
 					displayValue:true,
+					marginTop:50,
+					marginLeft:98
 				},
 				product: "",
 				is_show: false, //二维码显示
@@ -122,6 +129,14 @@
 			//二维码路径
 			qrR(res) {
 				this.src = res
+			},
+			
+			bcR(res) {
+				this.src = res
+			},
+			
+			saveBccode(){
+				this.$refs.barcode._saveCode()
 			},
 
 			//点击条形码保存
