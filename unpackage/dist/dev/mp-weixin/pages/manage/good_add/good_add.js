@@ -242,9 +242,9 @@ __webpack_require__.r(__webpack_exports__);
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 var that;
 var tempFilePaths;
-var p_class_user_id;
-var p_second_class_id;
-var uid = uni.getStorageSync('uid');var _default =
+var p_class_user_id = "";
+var p_second_class_id = "";
+var uid;var _default =
 
 {
   components: {
@@ -268,6 +268,7 @@ var uid = uni.getStorageSync('uid');var _default =
   },
   onLoad: function onLoad() {
     that = this;
+    uid = uni.getStorageSync('uid');
     uni.removeStorageSync("category");
     uni.removeStorageSync("warehouse");
   },
@@ -411,7 +412,7 @@ var uid = uni.getStorageSync('uid');var _default =
               _query.set("producer", good.producer);
               _query.set("packingUnit", good.packingUnit);
               _query.set("packageContent", good.packageContent);
-              if (uni.getStorageSync("warehouse")) {//存在此缓存证明选择了仓库
+              if (uni.getStorageSync("category")) {//存在此缓存证明选择了仓库
                 _query.set("second_class", p_second_class_id);
                 _query.set("goodsClass", p_class_user_id);
               }

@@ -229,6 +229,9 @@
 </script>
 
 <style lang="scss">
+	page{
+		background: #fff;
+	}
 	.text_notice {
 		margin-left: 6rpx;
 	}

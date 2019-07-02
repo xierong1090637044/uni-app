@@ -182,6 +182,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-nav-bar/uni-nav-bar.vue"));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-icon/uni-icon.vue"));};
 
 var indexs = [];
@@ -226,8 +228,7 @@ var page_size = 50;var _default =
     uni.removeStorageSync("category");
     uni.removeStorageSync("warehouse");
 
-    if (option.type == "entering")
-    {
+    if (option.type == "entering") {
       this.url = "../good_confrim/good_confrim";
     } else if (option.type == "delivery") {
       this.url = "../goods_out/goods_out";
@@ -309,20 +310,23 @@ var page_size = 50;var _default =
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
       console.log(indexs);
-      if (indexs.length == 0)
-      {
-        uni.showToast({ title: "请选择产品", icon: "none" });
+      if (indexs.length == 0) {
+        uni.showToast({
+          title: "请选择产品",
+          icon: "none" });
+
       } else {
         var products = [];
-        for (var i = 0; i < indexs.length; i++)
-        {
+        for (var i = 0; i < indexs.length; i++) {
           this.productList[indexs[i]].num = 1;
           this.productList[indexs[i]].total_money = 1 * this.productList[indexs[i]].retailPrice;
           this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
           products.push(this.productList[indexs[i]]);
         }
         uni.setStorageSync("products", products);
-        uni.navigateTo({ url: this.url });
+        uni.navigateTo({
+          url: this.url });
+
       }
     },
 

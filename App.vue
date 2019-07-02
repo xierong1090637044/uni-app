@@ -41,6 +41,8 @@
 <style lang="scss">
 	/*每个页面公共css */
 	@import 'uni.css';
+	@import "colorui/main.css";
+	@import "colorui/icon.css";
 	
 	.kaidan_detail{
 		background: #fff;

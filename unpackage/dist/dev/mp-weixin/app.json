@@ -78,5 +78,6 @@
       "desc": ""
     }
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }
