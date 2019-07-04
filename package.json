@@ -1,0 +1,23 @@
+{
+  "name": "uni-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xierong1090637044/uni-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xierong1090637044/uni-app/issues"
+  },
+  "homepage": "https://github.com/xierong1090637044/uni-app#readme",
+  "dependencies": {
+    "vue-i18n": "^8.11.2"
+  }
+}

@@ -145,9 +145,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         name: '盘点记录',
         icon: 'file-o',
         url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
-        color: "#b3424a" }] };
+        color: "#b3424a" },
 
-
+      { name: '经营状况', icon: 'recycle', url: '/pages/report/operational_status/operational_status', color: "#426ab3" }] };
 
 
   },

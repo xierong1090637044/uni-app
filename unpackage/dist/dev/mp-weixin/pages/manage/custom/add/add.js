@@ -174,10 +174,22 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
         that.phone = custom.producer_phone;
         that.debt = custom.debt;
       }
+    } else {
+      if (type == "customs") {
+        uni.setNavigationBarTitle({
+          title: '修改客户' });
+
+      } else {
+        uni.setNavigationBarTitle({
+          title: '修改供货商' });
+
+      }
     }
+  },
 
-
-
+  onUnload: function onUnload() {
+    uni.removeStorageSync("custom_type");
+    uni.removeStorageSync("customs");
   },
 
   methods: {

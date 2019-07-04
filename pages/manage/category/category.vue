@@ -287,6 +287,9 @@
 </script>
 
 <style>
+	.page{
+		background: #fff;
+	}
 	.content {
 		display: flex;
 	}

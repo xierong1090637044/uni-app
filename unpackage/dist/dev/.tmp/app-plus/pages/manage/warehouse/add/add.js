@@ -184,11 +184,11 @@ var uid;var _default =
       that.warehouse_beizhu = warehouse.beizhu;
       that.disabled = warehouse.disabled;
       uni.setNavigationBarTitle({
-        title: '新增仓库' });
+        title: '修改仓库信息' });
 
     } else {
       uni.setNavigationBarTitle({
-        title: '修改仓库信息' });
+        title: '新增仓库' });
 
     }
 
@@ -203,6 +203,12 @@ var uid;var _default =
 
   },
 
+  onUnload: function onUnload() {
+    uni.removeStorageSync('warehouse');
+    uni.removeStorageSync('shop');
+    uni.removeStorageSync('charge');
+  },
+
   methods: {
 
     //启用的switech
@@ -213,7 +219,7 @@ var uid;var _default =
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.warehouse_name, " at pages\\manage\\warehouse\\add\\add.vue:116");
+      console.log(this.warehouse_name, " at pages\\manage\\warehouse\\add\\add.vue:122");
       if (this.warehouse_name == '') {
         uni.showToast({
           title: "请输入仓库名字",
@@ -254,12 +260,12 @@ var uid;var _default =
         query.set("id", warehouse.objectId);
         query.save().then(function (res) {
           uni.hideLoading();
-          console.log(res, " at pages\\manage\\warehouse\\add\\add.vue:157");
+          console.log(res, " at pages\\manage\\warehouse\\add\\add.vue:163");
           uni.showToast({
             title: "修改成功" });
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\warehouse\\add\\add.vue:162");
+          console.log(err, " at pages\\manage\\warehouse\\add\\add.vue:168");
 
         });
       } else {
@@ -268,7 +274,7 @@ var uid;var _default =
         _query.equalTo("parent", "==", uid);
         _query.equalTo("stock_name", "==", that.warehouse_name);
         _query.find().then(function (res) {
-          console.log(res, " at pages\\manage\\warehouse\\add\\add.vue:171");
+          console.log(res, " at pages\\manage\\warehouse\\add\\add.vue:177");
           if (res.length == 0) {
 
             //console.log(that.warehouse_name,that.warehouse_num,chargeId,that.warehouse_beizhu,that.disabled)
@@ -282,13 +288,13 @@ var uid;var _default =
             _query2.set("disabled", !that.disabled);
             _query2.set("parent", poiID);
             _query2.save().then(function (res) {
-              console.log(res, " at pages\\manage\\warehouse\\add\\add.vue:185");
+              console.log(res, " at pages\\manage\\warehouse\\add\\add.vue:191");
               uni.hideLoading();
               uni.showToast({
                 title: "添加成功" });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\warehouse\\add\\add.vue:191");
+              console.log(err, " at pages\\manage\\warehouse\\add\\add.vue:197");
 
             });
           } else {

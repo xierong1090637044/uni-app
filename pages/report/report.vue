@@ -47,7 +47,7 @@
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
 						color: "#b3424a"
 					},
-					//{ name: '货损记录', icon: 'document', url: '/pages/record/bad_history/bad_history', color: "#426ab3" },
+					{ name: '经营状况', icon: 'recycle', url: '/pages/report/operational_status/operational_status', color: "#426ab3" },
 				]
 			}
 		},

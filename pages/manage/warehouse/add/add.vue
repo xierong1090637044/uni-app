@@ -84,11 +84,11 @@
 				that.warehouse_beizhu = warehouse.beizhu
 				that.disabled = warehouse.disabled;
 				uni.setNavigationBarTitle({
-					title: '新增仓库'
+					title: '修改仓库信息'
 				});
 			}else{
 				uni.setNavigationBarTitle({
-					title: '修改仓库信息'
+					title: '新增仓库'
 				});
 			}
 			
@@ -101,6 +101,12 @@
 			
 			that.warehouse_charge = charge.username
 
+		},
+		
+		onUnload() {
+			uni.removeStorageSync('warehouse')
+			uni.removeStorageSync('shop')
+			uni.removeStorageSync('charge')
 		},
 
 		methods: {

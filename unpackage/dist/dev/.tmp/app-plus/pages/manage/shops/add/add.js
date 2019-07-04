@@ -159,7 +159,7 @@ var uid;var _default =
 
     if (shop) {
       uni.setNavigationBarTitle({
-        title: '新增门店' });
+        title: '修改门店' });
 
       that.shop_name = shop.name;
       that.shop_address = shop.address;
@@ -168,10 +168,13 @@ var uid;var _default =
       that.shop_beizhu = shop.beizhu;
     } else {
       uni.setNavigationBarTitle({
-        title: '修改门店' });
+        title: '新增门店' });
 
     }
 
+  },
+  onUnload: function onUnload() {
+    uni.removeStorageSync("shop");
   },
 
   methods: {
@@ -179,7 +182,7 @@ var uid;var _default =
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.shop_name, " at pages\\manage\\shops\\add\\add.vue:82");
+      console.log(this.shop_name, " at pages\\manage\\shops\\add\\add.vue:85");
       if (this.shop_name == '') {
         uni.showToast({
           title: "请输入门店名字",
@@ -211,12 +214,12 @@ var uid;var _default =
         query.set("id", shop.objectId);
         query.save().then(function (res) {
           uni.hideLoading();
-          console.log(res, " at pages\\manage\\shops\\add\\add.vue:114");
+          console.log(res, " at pages\\manage\\shops\\add\\add.vue:117");
           uni.showToast({
             title: "修改成功" });
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\shops\\add\\add.vue:119");
+          console.log(err, " at pages\\manage\\shops\\add\\add.vue:122");
 
         });
       } else {
@@ -225,7 +228,7 @@ var uid;var _default =
         _query.equalTo("parent", "==", uid);
         _query.equalTo("name", "==", that.shop_name);
         _query.find().then(function (res) {
-          console.log(res, " at pages\\manage\\shops\\add\\add.vue:128");
+          console.log(res, " at pages\\manage\\shops\\add\\add.vue:131");
           if (res.length == 0) {
             var _query2 = _bmob.default.Query('shops');
             _query2.set("name", that.shop_name);
@@ -235,13 +238,13 @@ var uid;var _default =
             _query2.set("beizhu", that.shop_beizhu);
             _query2.set("parent", poiID);
             _query2.save().then(function (res) {
-              console.log(res, " at pages\\manage\\shops\\add\\add.vue:138");
+              console.log(res, " at pages\\manage\\shops\\add\\add.vue:141");
               uni.hideLoading();
               uni.showToast({
                 title: "添加成功" });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\shops\\add\\add.vue:144");
+              console.log(err, " at pages\\manage\\shops\\add\\add.vue:147");
 
             });
           } else {

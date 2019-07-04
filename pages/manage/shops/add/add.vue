@@ -59,7 +59,7 @@
 
 			if (shop) {
 				uni.setNavigationBarTitle({
-					title: '新增门店'
+					title: '修改门店'
 				});
 				that.shop_name = shop.name
 				that.shop_address = shop.address
@@ -68,10 +68,13 @@
 				that.shop_beizhu = shop.beizhu
 			}else{
 				uni.setNavigationBarTitle({
-					title: '修改门店'
+					title: '新增门店'
 				});
 			}
 
+		},
+		onUnload() {
+			uni.removeStorageSync("shop")
 		},
 
 		methods: {

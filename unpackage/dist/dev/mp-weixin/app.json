@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/mine/mine",
+    "pages/report/operational_status/operational_status",
     "pages/manage/goods/goods",
     "pages/mine/logs/logs",
     "pages/index/index",
@@ -78,6 +79,7 @@
       "desc": ""
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
 }

@@ -174,10 +174,22 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
         that.phone = custom.producer_phone;
         that.debt = custom.debt;
       }
+    } else {
+      if (type == "customs") {
+        uni.setNavigationBarTitle({
+          title: '修改客户' });
+
+      } else {
+        uni.setNavigationBarTitle({
+          title: '修改供货商' });
+
+      }
     }
+  },
 
-
-
+  onUnload: function onUnload() {
+    uni.removeStorageSync("custom_type");
+    uni.removeStorageSync("customs");
   },
 
   methods: {
@@ -185,7 +197,7 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.name, " at pages\\manage\\custom\\add\\add.vue:88");
+      console.log(this.name, " at pages\\manage\\custom\\add\\add.vue:100");
       if (this.name == null) {
         uni.showToast({
           title: "请输入姓名",
@@ -212,7 +224,7 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
         query.set("parent", poiID);
         //query.set("beizhu", "Bmob")
         query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\custom\\add\\add.vue:115");
+          console.log(res, " at pages\\manage\\custom\\add\\add.vue:127");
           if (custom) {
             uni.showToast({
               title: "修改成功" });
@@ -224,7 +236,7 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
           }
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\custom\\add\\add.vue:127");
+          console.log(err, " at pages\\manage\\custom\\add\\add.vue:139");
         });
       } else {
         var _query = _bmob.default.Query("producers");
@@ -239,7 +251,7 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
         _query.set("parent", _poiID);
         //query.set("beizhu", "Bmob")
         _query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\custom\\add\\add.vue:142");
+          console.log(res, " at pages\\manage\\custom\\add\\add.vue:154");
           if (custom) {
             uni.showToast({
               title: "修改成功" });
@@ -250,7 +262,7 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
 
           }
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\custom\\add\\add.vue:153");
+          console.log(err, " at pages\\manage\\custom\\add\\add.vue:165");
         });
       }
 
