@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/mine/mine",
+    "pages/manage/warehouse/detail/detail",
     "pages/report/operational_status/operational_status",
     "pages/manage/goods/goods",
     "pages/mine/logs/logs",

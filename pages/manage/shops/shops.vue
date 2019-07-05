@@ -25,7 +25,7 @@
 							
 							<view class="display_flex" style="justify-content: flex-end;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(shop.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(shop)"></fa-icon>
+								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(stock)"></fa-icon>
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->

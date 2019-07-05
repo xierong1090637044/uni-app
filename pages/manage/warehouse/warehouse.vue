@@ -7,12 +7,16 @@
 			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(stock,index) in stocks" :key="index">
 					<view class='content'>
-						<view class="display_flex">
-							<image src="/static/warehouse.png" class="stock_avatar"></image>
-							<view>
-								<view class='stock_name'>{{stock.stock_name}}</view>
-								<view class='stock_mobile'>负责人：{{stock.charge.nickName}}</view>
+						<view class="display_flex_bet" @click="goto_detail(stock)">
+							<view class="display_flex">
+								<image src="/static/warehouse.png" class="stock_avatar"></image>
+								<view>
+									<view class='stock_name'>{{stock.stock_name}}</view>
+									<view class='stock_mobile'>负责人：{{stock.charge.nickName}}</view>
+								</view>
 							</view>
+							
+							<fa-icon type="angle-right" size="20" color="#999" />
 						</view>
 						
 						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;" v-else></fa-icon>-->
@@ -23,7 +27,7 @@
 
 							<view class="display_flex" style="justify-content: flex-end;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(stock.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="edit(stock)"></fa-icon>
+								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 8rpx;" @click="edit(stock)"></fa-icon>
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
@@ -72,6 +76,14 @@
 			search_text =""
 		},
 		methods: {
+			
+			//点击仓库去到详情
+			goto_detail(stock){
+				uni.setStorageSync("stock",stock)
+				uni.navigateTo({
+					url:"detail/detail"
+				})
+			},
 
 			//选择此仓库
 			select_this(item) {
@@ -101,6 +113,8 @@
 			//编辑操作
 			edit(item) {
 				uni.setStorageSync("warehouse", item);
+				uni.setStorageSync("charge", item.charge);
+				uni.setStorageSync("shop", item.shop);
 				uni.navigateTo({
 					url: "add/add"
 				})
@@ -154,7 +168,6 @@
 
 			//得到仓库列表
 			getstock_list: function() {
-				that.loading = true;
 				const query = Bmob.Query("stocks");
 				query.order("-num");
 				query.include("charge")
