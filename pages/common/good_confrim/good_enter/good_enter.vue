@@ -139,14 +139,10 @@
 							let pointer = Bmob.Pointer('_User')
 							let poiID = pointer.set(uid);
 							
-							let poiID1;
-							if(uni.getStorageSync("identity") == 1){
-								let masterId = uni.getStorageSync("masterId");
-								
-								let pointer1 = Bmob.Pointer('_User')
-								poiID1 = pointer1.set(masterId);
-							}
-				
+							let masterId = uni.getStorageSync("masterId");
+							let pointer1 = Bmob.Pointer('_User')
+							let poiID1 = pointer1.set(masterId);
+		
 				      let query = Bmob.Query('order_opreations');
 				      query.set("relations", relID);
 				      query.set("beizhu", e.detail.value.input_beizhu);

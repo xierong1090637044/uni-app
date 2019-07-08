@@ -23,7 +23,7 @@
 						</view>
 						<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 							<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
-							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(stock)"></fa-icon>
+							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(item)"></fa-icon>
 						</view>
 						
 					</view>
@@ -48,7 +48,7 @@
 						</view>
 						<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 							<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
-							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(stock)"></fa-icon>
+							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(item)"></fa-icon>
 						</view>
 						
 					</view>

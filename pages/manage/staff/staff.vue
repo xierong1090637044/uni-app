@@ -24,7 +24,7 @@
 
 							<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(stock)"></fa-icon>
+								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(staff)"></fa-icon>
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
@@ -141,7 +141,6 @@
 
 			//得到员工列表
 			getstaff_list: function() {
-				that.loading = true;
 				const query = Bmob.Query("staffs");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);

@@ -420,6 +420,12 @@
             }
         }
         
+        ,{
+            "path" : "pages/staff_landing/staff_landing",
+            "style" : {
+							"navigationBarTitleText": "员工登陆"
+						}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

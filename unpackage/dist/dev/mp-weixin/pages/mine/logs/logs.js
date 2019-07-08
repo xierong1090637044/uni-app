@@ -130,7 +130,8 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 
 
 var that;
-var masterId;
+var day;
+var uid;
 var page_size = 50;var _default =
 {
   components: {
@@ -147,15 +148,16 @@ var page_size = 50;var _default =
 
   },
   onLoad: function onLoad() {
+    day = 1;
     that = this;
-    masterId = uni.getStorageSync("masterId");
+    uid = uni.getStorageSync("uid");
     that.get_logsList(0);
   },
   methods: {
     //滚动到底部加载更多
     load_more: function load_more() {
       page_size += 50;
-      that.get_logsList();
+      that.get_logsList(day, true);
     },
     //tab点击
     onClickItem: function onClickItem(index) {
@@ -163,11 +165,18 @@ var page_size = 50;var _default =
         this.current = index;
 
         if (index == 0) {
-          that.get_logsList(1);
+          day = 0;
+          that.get_logsList(0);
+          console.log(_common.default.getDay(1, true));
         } else if (index == 1) {
+          day = -7;
           that.get_logsList(-7);
+          console.log(_common.default.getDay(-7, true));
         } else {
+          day = -30;
           that.get_logsList(-30);
+
+          console.log(_common.default.getDay(-30, true));
         }
       }
     },
@@ -175,7 +184,7 @@ var page_size = 50;var _default =
     //得到日志列表
     get_logsList: function get_logsList(day) {
       var query = _bmob.default.Query("logs");
-      query.equalTo("parent", "==", masterId);
+      query.equalTo("parent", "==", uid);
       query.equalTo("createdAt", ">=", _common.default.getDay(day, true));
       query.order("-createdAt");
       query.limit(page_size);

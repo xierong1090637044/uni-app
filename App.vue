@@ -9,7 +9,7 @@
 				key: 'user',
 				success: function(res) {
 					//console.log(res.data);
-					uni.setStorageSync('uid', res.data.objectId); //缓存测试
+					/*uni.setStorageSync('uid', res.data.objectId); //缓存测试
 					const query = Bmob.Query("setting");
 					query.equalTo("parent", "==", res.data.objectId);
 					query.find().then(res => {
@@ -19,6 +19,16 @@
 					/*uni.switchTab({
 						url:'/pages/index/index'
 					})*/
+
+					if (uni.getStorageSync("identity") == "2") {
+						const query = Bmob.Query('staffs');
+						query.get(uni.getStorageSync("user").objectId).then(res => {
+							console.log(res)
+							uni.setStorageSync("user",res)
+						}).catch(err => {
+							console.log(err)
+						})
+					}
 				},
 				fail: function() {
 					uni.reLaunch({

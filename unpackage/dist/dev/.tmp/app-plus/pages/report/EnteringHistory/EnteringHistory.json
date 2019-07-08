@@ -9,7 +9,7 @@
     ]
   },
   "usingComponents": {
-    "loading": "/components/Loading/index",
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index"
   }
 }

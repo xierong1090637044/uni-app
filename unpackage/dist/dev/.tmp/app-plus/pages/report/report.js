@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 
 
@@ -117,12 +117,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+var that;var _default =
 {
   components: {
     faIcon: faIcon },
 
   data: function data() {
     return {
+      now_optionsLists: [],
       optionsLists: [{
         name: '入库记录',
         icon: 'file-o',
@@ -147,11 +150,38 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
         color: "#b3424a" },
 
-      { name: '经营状况', icon: 'recycle', url: '/pages/report/operational_status/operational_status', color: "#426ab3" }] };
+      {
+        name: '经营状况',
+        icon: 'recycle',
+        url: '/pages/report/operational_status/operational_status',
+        color: "#426ab3" }] };
+
 
 
   },
+  onLoad: function onLoad() {
+    that = this;
+  },
+  onShow: function onShow() {
+    uni.getStorage({
+      key: 'identity',
+      success: function success(res) {
+        if (res.data == "2") {
+          var rights = uni.getStorageSync("user").rights.recodecurrent;
+          var manage_rights = [];
+          for (var item in rights) {
+            manage_rights.push(that.optionsLists[item]);
+          }
+          that.now_optionsLists = manage_rights;
+        } else if (res.data == "1") {
+          that.now_optionsLists = that.optionsLists;
+        }
+      } });
+
+  },
+
   methods: {} };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),
 

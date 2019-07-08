@@ -239,13 +239,9 @@ var uid;var that;var _default = { data: function data() {return { products: null
             var pointer = _bmob.default.Pointer('_User');
             var poiID = pointer.set(uid);
 
-            var poiID1 = void 0;
-            if (uni.getStorageSync("identity") == 1) {
-              var masterId = uni.getStorageSync("masterId");
-
-              var pointer1 = _bmob.default.Pointer('_User');
-              poiID1 = pointer1.set(masterId);
-            }
+            var masterId = uni.getStorageSync("masterId");
+            var pointer1 = _bmob.default.Pointer('_User');
+            var poiID1 = pointer1.set(masterId);
 
             var query = _bmob.default.Query('order_opreations');
             query.set("relations", relID);
@@ -268,7 +264,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
                 _query.get(that.producer.objectId).then(function (res) {
                   var debt = res.debt == null ? 0 : res.debt;
                   debt = debt + (that.all_money - Number(that.real_money));
-                  console.log(debt, " at pages\\common\\good_confrim\\good_enter\\good_enter.vue:171");
+                  console.log(debt, " at pages\\common\\good_confrim\\good_enter\\good_enter.vue:167");
                   var query = _bmob.default.Query('producers');
                   query.get(that.producer.objectId).then(function (res) {
                     res.set('debt', debt);
@@ -280,7 +276,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
 
             query.set("all_money", that.all_money);
             query.save().then(function (res) {
-              console.log("添加操作历史记录成功", res, " at pages\\common\\good_confrim\\good_enter\\good_enter.vue:183");
+              console.log("添加操作历史记录成功", res, " at pages\\common\\good_confrim\\good_enter\\good_enter.vue:179");
               uni.hideLoading();
               uni.showToast({
                 title: '产品入库成功',
@@ -303,7 +299,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
       },
       function (error) {
         // 批量新增异常处理
-        console.log("异常处理", " at pages\\common\\good_confrim\\good_enter\\good_enter.vue:206");
+        console.log("异常处理", " at pages\\common\\good_confrim\\good_enter\\good_enter.vue:202");
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))

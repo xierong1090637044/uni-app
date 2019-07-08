@@ -149,7 +149,8 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var uid = uni.getStorageSync('uid');var that;var setting;var _default = { data: function data() {return { show_float: null, USER: null, UKEY: null, number: null };}, onLoad: function onLoad() {that = this;uni.getStorage({ key: 'setting', success: function success(res) {setting = res.data;that.show_float = setting.show_float;that.USER = setting.USER;that.UKEY = setting.UKEY;that.number = setting.number;} });
+var uid;var that;var setting;var _default = { data: function data() {return { show_float: null, USER: null, UKEY: null, number: null };}, onLoad: function onLoad() {that = this;uid = wx.getStorageSync("uid");uni.getStorage({ key: 'setting', success: function success(res) {setting = res.data;that.show_float = setting.show_float;that.USER = setting.USER;that.UKEY = setting.UKEY;that.number = setting.number;
+      } });
 
   },
   methods: {
@@ -171,7 +172,7 @@ var uid = uni.getStorageSync('uid');var that;var setting;var _default = { data: 
       query.set("parent", poiID);
       //query.set("beizhu", "Bmob")
       query.save().then(function (res) {
-        console.log(res, " at pages\\mine\\setting\\setting.vue:74");
+        console.log(res, " at pages\\mine\\setting\\setting.vue:75");
         uni.hideLoading();
         uni.showToast({
           title: "保存成功" });
@@ -179,7 +180,7 @@ var uid = uni.getStorageSync('uid');var that;var setting;var _default = { data: 
         that.query_setting();
 
       }).catch(function (err) {
-        console.log(err, " at pages\\mine\\setting\\setting.vue:82");
+        console.log(err, " at pages\\mine\\setting\\setting.vue:83");
       });
     },
 

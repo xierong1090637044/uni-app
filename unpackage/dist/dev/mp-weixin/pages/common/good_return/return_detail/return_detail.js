@@ -192,7 +192,8 @@ var uid;var that;var _default = { data: function data() {return { products: null
       all_money: 0, //总价
       custom: null //制造商
     };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);});
+          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);
+        });
 
         //单据
         var tempBills = _bmob.default.Query('Bills');
@@ -225,13 +226,9 @@ var uid;var that;var _default = { data: function data() {return { products: null
             var pointer = _bmob.default.Pointer('_User');
             var poiID = pointer.set(uid);
 
-            var poiID1 = void 0;
-            if (uni.getStorageSync("identity") == 1) {
-              var masterId = uni.getStorageSync("masterId");
-
-              var pointer1 = _bmob.default.Pointer('_User');
-              poiID1 = pointer1.set(masterId);
-            }
+            var masterId = uni.getStorageSync("masterId");
+            var pointer1 = _bmob.default.Pointer('_User');
+            var poiID1 = pointer1.set(masterId);
 
             var query = _bmob.default.Query('order_opreations');
             query.set("relations", relID);
@@ -261,7 +258,8 @@ var uid;var that;var _default = { data: function data() {return { products: null
                   that.button_disabled = false;
                   uni.setStorageSync("is_option", true);
                   setTimeout(function () {
-                    _common.default.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that.products.length + "商品的退货", 2, res.objectId);
+                    _common.default.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that.
+                    products.length + "商品的退货", 2, res.objectId);
                     uni.navigateBack({
                       delta: 2 });
 

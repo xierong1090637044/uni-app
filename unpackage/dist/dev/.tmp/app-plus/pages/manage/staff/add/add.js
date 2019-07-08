@@ -151,6 +151,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -203,12 +206,17 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-collapse/uni-collapse.vue"));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-collapse-item/uni-collapse-item.vue"));};var that;var staff;var uid;var rights = {};var _default = { components: { uniCollapse: uniCollapse, uniCollapseItem: uniCollapseItem }, data: function data() {return { staff_name: null, staff_address: null, staff_phone: null, manage: [{ id: 1, name: '员工管理' }, { id: 2, name: '产品管理' }, { id: 3, name: '客户管理' }, { id: 4, name: '仓库管理' }, { id: 5, name: '产品类别管理' }], recode: [{ id: 1, name: '入库记录' }, { id: 2, name: '出库记录' }, { id: 3, name: '客户退货记录' }, { id: 4,
+//
+//
+//
+var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-collapse/uni-collapse.vue"));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-collapse-item/uni-collapse-item.vue"));};var that;var staff;var uid;var rights = {};var _default = { components: { uniCollapse: uniCollapse, uniCollapseItem: uniCollapseItem }, data: function data() {return { staff_name: '', staff_address: '', staff_phone: '', staff_password: '', manage: [{ id: 1, name: '产品管理' }, { id: 2, name: '员工管理' }, { id: 3, name: '仓库管理' }, { id: 4, name: '门店管理' }, { id: 5, name: '客户管理' }, { id: 6, name: '产品类别管理' }], recode: [{ id: 1, name: '入库记录' }, { id: 2, name: '出库记录' }, { id: 3, name: '客户退货记录' },
+      {
+        id: 4,
         name: '盘点记录' },
 
       {
         id: 5,
-        name: '货损记录' }],
+        name: '经营状况' }],
 
 
       current: [],
@@ -224,13 +232,17 @@ var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! impor
     staff = uni.getStorageSync("staff");
 
     if (staff) {
+      uni.setNavigationBarTitle({
+        title: "修改员工信息" });
+
       that.staff_name = staff.username;
       that.staff_address = staff.address;
-      that.staff_phone = staff.mobilePhoneNumber;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+      that.staff_phone = staff.mobilePhoneNumber;
+      that.staff_password = staff.password;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
 
         for (var _iterator = staff.rights.current[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true)
         {var i = _step.value;
-          console.log(i, " at pages\\manage\\staff\\add\\add.vue:133");
+          console.log(i, " at pages\\manage\\staff\\add\\add.vue:145");
           that.manage[i].checked = true;
         }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {
 
@@ -258,15 +270,20 @@ var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! impor
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.staff_name, " at pages\\manage\\staff\\add\\add.vue:161");
+      console.log(this.staff_name, " at pages\\manage\\staff\\add\\add.vue:173");
       if (this.staff_name == null) {
         uni.showToast({
           title: "请输入姓名",
           icon: "none" });
 
-      } else if (this.staff_phone == null) {
+      } else if (this.staff_phone.length < 11) {
         uni.showToast({
-          title: "请输入账号",
+          title: "请输入正确的手机号",
+          icon: "none" });
+
+      } else if (this.staff_password.length < 6) {
+        uni.showToast({
+          title: "密码不能少于6位",
           icon: "none" });
 
       } else {
@@ -290,20 +307,20 @@ var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! impor
         var query = _bmob.default.Query('staffs');
         query.set("username", that.staff_name);
         query.set("nickName", that.staff_name);
-        query.set("password", that.staff_phone);
+        query.set("password", that.staff_password);
         query.set("mobilePhoneNumber", that.staff_phone);
         query.set("rights", rights);
         query.set("address", that.staff_address == null ? '' : that.staff_address);
-        //query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
+        query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
         query.set("masterId", poiID);
         query.set("id", staff.objectId);
         query.save().then(function (res) {
-          console.log(res, " at pages\\manage\\staff\\add\\add.vue:201");
+          console.log(res, " at pages\\manage\\staff\\add\\add.vue:218");
           uni.showToast({
             title: "修改成功" });
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\staff\\add\\add.vue:206");
+          console.log(err, " at pages\\manage\\staff\\add\\add.vue:223");
 
         });
       } else {
@@ -312,7 +329,7 @@ var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! impor
         _query.equalTo("masterId", "==", uid);
         _query.equalTo("mobilePhoneNumber", "==", that.staff_phone);
         _query.find().then(function (res) {
-          console.log(res, " at pages\\manage\\staff\\add\\add.vue:215");
+          console.log(res, " at pages\\manage\\staff\\add\\add.vue:232");
           if (res.length == 0) {
             uni.hideLoading();
 
@@ -323,19 +340,19 @@ var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! impor
             var _query2 = _bmob.default.Query('staffs');
             _query2.set("username", that.staff_name);
             _query2.set("nickName", that.staff_name);
-            _query2.set("password", that.staff_phone);
+            _query2.set("password", that.staff_password);
             _query2.set("mobilePhoneNumber", that.staff_phone);
             _query2.set("rights", rights);
             _query2.set("address", that.staff_address == null ? '' : that.staff_address);
-            //query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
+            _query2.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
             _query2.set("masterId", _poiID);
             _query2.save().then(function (res) {
-              console.log(res, " at pages\\manage\\staff\\add\\add.vue:233");
+              console.log(res, " at pages\\manage\\staff\\add\\add.vue:250");
               uni.showToast({
                 title: "添加成功" });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\staff\\add\\add.vue:238");
+              console.log(err, " at pages\\manage\\staff\\add\\add.vue:255");
 
             });
           } else {

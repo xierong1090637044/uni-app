@@ -90,16 +90,26 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
       key: 'user',
       success: function success(res) {
         //console.log(res.data);
-        uni.setStorageSync('uid', res.data.objectId); //缓存测试
-        var query = _bmob.default.Query("setting");
+        /*uni.setStorageSync('uid', res.data.objectId); //缓存测试
+        const query = Bmob.Query("setting");
         query.equalTo("parent", "==", res.data.objectId);
-        query.find().then(function (res) {
-          //console.log(res)
-          uni.setStorageSync("setting", res[0]);
+        query.find().then(res => {
+        	//console.log(res)
+        	uni.setStorageSync("setting", res[0])
         });
         /*uni.switchTab({
-            	url:'/pages/index/index'
-            })*/
+        	url:'/pages/index/index'
+        })*/
+
+        if (uni.getStorageSync("identity") == "2") {
+          var query = _bmob.default.Query('staffs');
+          query.get(uni.getStorageSync("user").objectId).then(function (res) {
+            console.log(res, " at App.vue:26");
+            uni.setStorageSync("user", res);
+          }).catch(function (err) {
+            console.log(err, " at App.vue:29");
+          });
+        }
       },
       fail: function fail() {
         uni.reLaunch({

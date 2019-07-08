@@ -25,7 +25,7 @@
 
 <script>
 	import Bmob from '@/utils/bmob.js';
-	let uid = uni.getStorageSync('uid');
+	let uid;
 
 	let that;
 	let setting;
@@ -40,7 +40,8 @@
 		},
 		onLoad() {
 			that = this;
-
+			uid = wx.getStorageSync("uid")
+			
 			uni.getStorage({
 				key: 'setting',
 				success: function(res) {

@@ -30,7 +30,8 @@
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 
 	let that;
-	let masterId;
+	let day;
+	let uid;
 	let page_size = 50;
 	export default {
 		components: {
@@ -47,15 +48,16 @@
 			}
 		},
 		onLoad() {
+			day = 1;
 			that = this;
-			masterId = uni.getStorageSync("masterId");
+			uid = uni.getStorageSync("uid");
 			that.get_logsList(0);
 		},
 		methods: {
 			//滚动到底部加载更多
 			load_more() {
 				page_size += 50;
-				that.get_logsList();
+				that.get_logsList(day,true);
 			},
 			//tab点击
 			onClickItem(index) {
@@ -63,11 +65,18 @@
 					this.current = index
 
 					if (index == 0) {
-						that.get_logsList(1)
+						day = 0;
+						that.get_logsList(0)
+						console.log(common.getDay(1, true))
 					} else if (index == 1) {
+						day = -7;
 						that.get_logsList(-7)
+						console.log(common.getDay(-7, true))
 					} else {
+						day = -30;
 						that.get_logsList(-30)
+						
+						console.log(common.getDay(-30, true))
 					}
 				}
 			},
@@ -75,7 +84,7 @@
 			//得到日志列表
 			get_logsList(day) {
 				const query = Bmob.Query("logs");
-				query.equalTo("parent", "==", masterId);
+				query.equalTo("parent", "==", uid);
 				query.equalTo("createdAt", ">=", common.getDay(day, true));
 				query.order("-createdAt")
 				query.limit(page_size);

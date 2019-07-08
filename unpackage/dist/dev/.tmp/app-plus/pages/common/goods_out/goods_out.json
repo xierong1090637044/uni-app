@@ -9,8 +9,8 @@
     ]
   },
   "usingComponents": {
-    "unicard": "/components/uni-card/uni-card",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "unicard": "/components/uni-card/uni-card",
     "uninumberbox": "/components/uni-number-box/uni-number-box"
   }
 }

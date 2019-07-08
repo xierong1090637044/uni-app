@@ -7,9 +7,12 @@
 			</view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">账号</text>
-				<input placeholder="最好是手机的电话号码" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<input placeholder="请输入手机号" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
-
+			<view class="display_flex item">
+				<text style="margin-right: 20rpx;">密码</text>
+				<input placeholder="请输入登录密码" v-model="staff_password" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+			</view>
 			<view class="display_flex item" style="margin-bottom:60rpx">
 				<text style="margin-right: 20rpx;">联系地址</text>
 				<input placeholder="请输入地址" v-model="staff_address" style="width: calc(100% - 200rpx)" />
@@ -22,8 +25,8 @@
 					<view style="padding: 30rpx;">
 						<checkbox-group @change="checkboxChange">
 							<view class="display_flex rights_item" v-for="(item,index) in manage" :key="index">
-								<checkbox :value="index" :checked="item.checked" />
-								<text>{{item.name}}</text>
+								<checkbox :value="index" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
+								<text style="margin-left: 20rpx;">{{item.name}}</text>
 							</view>
 						</checkbox-group>
 					</view>
@@ -36,8 +39,8 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_record">
 								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="index">
-									<checkbox :value="index" :checked="item.checked" />
-									<text>{{item.name}}</text>
+									<checkbox :value="index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
+									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
 						</view>
@@ -66,27 +69,32 @@
 		},
 		data() {
 			return {
-				staff_name: null,
-				staff_address: null,
-				staff_phone: null,
+				staff_name: '',
+				staff_address: '',
+				staff_phone: '',
+				staff_password:'',
 				manage: [{
 						id: 1,
-						name: '员工管理'
-					},
-					{
-						id: 2,
 						name: '产品管理'
 					},
 					{
-						id: 3,
-						name: '客户管理'
+						id: 2,
+						name: '员工管理'
 					},
 					{
-						id: 4,
+						id: 3,
 						name: '仓库管理'
 					},
 					{
+						id: 4,
+						name: '门店管理'
+					},
+					{
 						id: 5,
+						name: '客户管理'
+					},
+					{
+						id: 6,
 						name: '产品类别管理'
 					}
 				],
@@ -108,7 +116,7 @@
 					},
 					{
 						id: 5,
-						name: '货损记录'
+						name: '经营状况'
 					},
 				],
 				current: [],
@@ -124,9 +132,13 @@
 			staff = uni.getStorageSync("staff");
 
 			if (staff) {
+				uni.setNavigationBarTitle({
+					title:"修改员工信息"
+				});
 				that.staff_name = staff.username
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
+				that.staff_password = staff.password
 				
 				for(let i of staff.rights.current)
 				{
@@ -164,9 +176,14 @@
 						title: "请输入姓名",
 						icon: "none"
 					})
-				} else if (this.staff_phone == null) {
+				} else if (this.staff_phone.length < 11) {
 					uni.showToast({
-						title: "请输入账号",
+						title: "请输入正确的手机号",
+						icon: "none"
+					})
+				}else if(this.staff_password.length <6){
+					uni.showToast({
+						title: "密码不能少于6位",
 						icon: "none"
 					})
 				} else {
@@ -190,11 +207,11 @@
 					const query = Bmob.Query('staffs');
 					query.set("username", that.staff_name);
 					query.set("nickName", that.staff_name);
-					query.set("password", that.staff_phone);
+					query.set("password", that.staff_password);
 					query.set("mobilePhoneNumber", that.staff_phone);
 					query.set("rights", rights);
 					query.set("address", (that.staff_address == null) ? '' : that.staff_address);
-					//query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
+					query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 					query.set("masterId", poiID);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
@@ -223,11 +240,11 @@
 							const query = Bmob.Query('staffs');
 							query.set("username", that.staff_name);
 							query.set("nickName", that.staff_name);
-							query.set("password", that.staff_phone);
+							query.set("password", that.staff_password);
 							query.set("mobilePhoneNumber", that.staff_phone);
 							query.set("rights", rights);
 							query.set("address", (that.staff_address == null) ? '' : that.staff_address);
-							//query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
+							query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 							query.set("masterId", poiID);
 							query.save().then(res => {
 								console.log(res)

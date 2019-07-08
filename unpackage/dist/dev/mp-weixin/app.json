@@ -34,7 +34,8 @@
     "pages/common/good_count/good_count",
     "pages/common/good_count/count_detail/count_detail",
     "pages/mine/about_us/about_us",
-    "pages/mine/home_page/home_page"
+    "pages/mine/home_page/home_page",
+    "pages/staff_landing/staff_landing"
   ],
   "subPackages": [],
   "window": {
@@ -82,5 +83,6 @@
   },
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

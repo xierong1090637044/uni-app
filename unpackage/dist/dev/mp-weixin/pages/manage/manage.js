@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 
 
@@ -113,24 +113,80 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+var that;var _default =
 {
   components: {
     faIcon: faIcon },
 
   data: function data() {
     return {
-      optionsLists: [
-      { name: '产品管理', icon: 'envelope-open-o', url: '/pages/manage/goods/goods', color: "#af42b3" },
-      { name: '员工管理', icon: 'user', url: '/pages/manage/staff/staff', color: "#b38c42" },
-      { name: '仓库管理', icon: 'home', url: '/pages/manage/warehouse/warehouse', color: "#b34742" },
-      { name: '门店管理', icon: 'shopping-cart', url: '/pages/manage/shops/shops', color: "#6f60aa" },
-      { name: '客户管理', icon: 'address-card', url: '/pages/manage/custom/custom', color: "#82b342" },
-      { name: '产品类别管理', icon: 'list', url: '/pages/manage/category/category', color: "#426ab3" }] };
+      now_optionsLists: [],
+      optionsLists: [{
+        name: '产品管理',
+        icon: 'envelope-open-o',
+        url: '/pages/manage/goods/goods',
+        color: "#af42b3" },
+
+      {
+        name: '员工管理',
+        icon: 'user',
+        url: '/pages/manage/staff/staff',
+        color: "#b38c42" },
+
+      {
+        name: '仓库管理',
+        icon: 'home',
+        url: '/pages/manage/warehouse/warehouse',
+        color: "#b34742" },
+
+      {
+        name: '门店管理',
+        icon: 'shopping-cart',
+        url: '/pages/manage/shops/shops',
+        color: "#6f60aa" },
+
+      {
+        name: '客户管理',
+        icon: 'address-card',
+        url: '/pages/manage/custom/custom',
+        color: "#82b342" },
+
+      {
+        name: '产品类别管理',
+        icon: 'list',
+        url: '/pages/manage/category/category',
+        color: "#426ab3" }] };
 
 
 
   },
+  onLoad: function onLoad() {
+    that = this;
+  },
+  onShow: function onShow() {
+    uni.getStorage({
+      key: 'identity',
+      success: function success(res) {
+        if (res.data == "2") {
+          var rights = uni.getStorageSync("user").rights.current;
+          var manage_rights = [];
+          for (var item in rights) {
+            manage_rights.push(that.optionsLists[item]);
+          }
+          that.now_optionsLists = manage_rights;
+        } else if (res.data == "1") {
+          that.now_optionsLists = that.optionsLists;
+        }
+      } });
+
+  },
   methods: {} };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
 

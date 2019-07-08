@@ -241,7 +241,6 @@ var uid;var _default =
 
     //得到员工列表
     getstaff_list: function getstaff_list() {
-      that.loading = true;
       var query = _bmob.default.Query("staffs");
       query.order("-createdAt");
       query.equalTo("masterId", "==", uid);
