@@ -92,10 +92,10 @@
 						<fa-icon type="plus" size="20" color="#fff"></fa-icon>
 					</view>
 				</navigator>
-				<!--<view class="input_item">
+				<view class="input_item">
 					<view class="left_item">预警库存</view>
 					<view class="right_input"><input placeholder="预警库存" name="warning_num" type="digit"></input></view>
-				</view>-->
+				</view>
 			</view>
 
 			<view class="frist">
@@ -312,6 +312,8 @@
 							query.set("producer", good.producer)
 							query.set("packingUnit", good.packingUnit)
 							query.set("packageContent", good.packageContent)
+							query.set("warning_num", Number(good.warning_num))
+							query.set("stocktype", (Number(good.warning_num)>=Number(reserve)) ? 0:1)//库存数量类型 0代表库存不足 1代表库存充足
 							if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 								query.set("second_class", p_second_class_id)
 								query.set("goodsClass", p_class_user_id)

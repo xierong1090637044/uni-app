@@ -1,10 +1,14 @@
 <template>
-	<view>
+	<view style="height: 100vh;">
 
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
+			<view class="uni-common-mt">
+				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
+			</view>
+			
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 124rpx)' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(stock,index) in stocks" :key="index">
 					<view class='content'>
 						<view class="display_flex_bet" @click="goto_detail(stock)">
@@ -40,6 +44,7 @@
 </template>
 
 <script>
+	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import Bmob from '@/utils/bmob.js';
@@ -49,6 +54,7 @@
 	let uid;
 	export default {
 		components: {
+			uniSegmentedControl,
 			faIcon,
 			loading
 		},
@@ -57,6 +63,9 @@
 				is_choose: false,
 				loading: true,
 				stocks: null,
+				items: ['已启用', '未启用'],
+				current: 0,
+				disabled:false
 			}
 		},
 
@@ -76,6 +85,21 @@
 			search_text =""
 		},
 		methods: {
+			
+			//tab点击
+			onClickItem(index) {
+				if (this.current !== index) {
+					this.current = index
+			
+					if (index == 0) {
+						that.disabled = false,
+						that.getstock_list()
+					} else if (index == 1) {
+						that.disabled = true,
+						that.getstock_list()
+					} 
+				}
+			},
 			
 			//点击仓库去到详情
 			goto_detail(stock){
@@ -124,7 +148,7 @@
 			delete_this(id) {
 				uni.showModal({
 					title: '提示',
-					content: '是否删除此仓库',
+					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此仓库',
 					success: function(res) {
 						if (res.confirm) {
 							console.log(id);
@@ -172,6 +196,7 @@
 				query.order("-num");
 				query.include("charge")
 				query.equalTo("parent", "==", uid);
+				query.equalTo("disabled", "==", that.disabled);
 				if (search_text) {
 					query.equalTo("stock_name", "==", {
 						"$regex": "" + search_text + ".*"
@@ -194,7 +219,9 @@
 		height: 100vh;
 		background: #FAFAFA;
 	}
-
+	.uni-common-mt {
+		padding: 20rpx 0;
+	}
 	.stock_name {
 		font-weight: bold;
 		font-size: 30rpx;

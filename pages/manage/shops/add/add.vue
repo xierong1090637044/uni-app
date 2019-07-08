@@ -18,6 +18,10 @@
 				<text style="margin-right: 6rpx;">排序</text><text style="color: #d93a49;margin-right: 20rpx;">*</text>
 				<input placeholder="请输入排序(数值越小,排列越靠前)" v-model="shop_num" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
+			<view class="display_flex_bet item" style="margin-bottom:60rpx">
+				<text style="margin-right: 20rpx;">启用</text>
+				<switch :checked="disabled" @change="switchChange" />
+			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">备注</text>
@@ -42,6 +46,7 @@
 		},
 		data() {
 			return {
+				disabled: true, //是否启用
 				shop_name: '', //名称
 				shop_address: '', //地址
 				shop_num: 0, //排序
@@ -79,6 +84,11 @@
 
 		methods: {
 			
+			//启用的switech
+			switchChange(e){
+				that.disabled = e.detail.value;
+			},
+			
 			// #ifdef APP-PLUS
 			//监听原生标题栏按钮点击事件
 			onNavigationBarButtonTap(Object) {
@@ -111,6 +121,7 @@
 					query.set("phone", that.shop_phone);
 					query.set("beizhu", that.shop_beizhu);
 					query.set("parent", poiID);
+					query.set("disabled", !that.disabled);
 					query.set("id", shop.objectId);
 					query.save().then(res => {
 						uni.hideLoading();
@@ -136,6 +147,7 @@
 							query.set("address", that.shop_address);
 							query.set("phone", that.shop_phone);
 							query.set("beizhu", that.shop_beizhu);
+							query.set("disabled", !that.disabled);
 							query.set("parent", poiID);
 							query.save().then(res => {
 								console.log(res)

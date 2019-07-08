@@ -15,6 +15,7 @@
   },
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
     "loading": "/components/Loading/index"
   }
 }

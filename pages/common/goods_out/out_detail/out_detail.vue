@@ -100,6 +100,8 @@
 					const query = Bmob.Query('Goods');
 					query.get(this.products[i].objectId).then(res => {
 						//console.log(res)
+						common.log(this.products[i].goodsName+"出库了"+this.products[i].num+"件，已经低于预警数量"+this.products[i].warning_num, -2, this.products[i].objectId);
+						
 						res.set('reserve', num)
 						res.set('stocktype', (num > this.products[i].warning_num) ? 1 : 0)
 						res.save()
@@ -186,8 +188,7 @@
 											uni.setStorageSync("is_option", true);
 
 											setTimeout(() => {
-												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that
-													.products.length + "商品", -1, res.objectId);
+												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products.length + "商品", -1, res.objectId);
 												uni.navigateBack({
 													delta: 2
 												});

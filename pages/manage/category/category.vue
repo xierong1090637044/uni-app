@@ -106,7 +106,7 @@
 			//得到一级分类
 			get_category() {
 				const query = Bmob.Query("class_user");
-				query.equalTo("parent", "==", user.objectId);
+				query.equalTo("parent", "==", uid);
 				query.find().then(res => {
 					console.log(res)
 					that.frist_class = res;

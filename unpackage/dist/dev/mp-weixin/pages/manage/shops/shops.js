@@ -142,13 +142,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
 var search_text;
 var uid;var _default =
 {
   components: {
+    uniSegmentedControl: uniSegmentedControl,
     faIcon: faIcon,
     loading: loading },
 
@@ -156,7 +162,10 @@ var uid;var _default =
     return {
       loading: true,
       shops: null,
-      is_choose: false };
+      is_choose: false,
+      items: ['已启用', '未启用'],
+      current: 0,
+      disabled: false };
 
   },
 
@@ -176,6 +185,21 @@ var uid;var _default =
     search_text = "";
   },
   methods: {
+
+    //tab点击
+    onClickItem: function onClickItem(index) {
+      if (this.current !== index) {
+        this.current = index;
+
+        if (index == 0) {
+          that.disabled = false,
+          that.getshop_list();
+        } else if (index == 1) {
+          that.disabled = true,
+          that.getshop_list();
+        }
+      }
+    },
 
     //选择此门店
     select_this: function select_this(shop) {
@@ -241,10 +265,10 @@ var uid;var _default =
 
     //得到门店列表
     getshop_list: function getshop_list() {
-      that.loading = true;
       var query = _bmob.default.Query("shops");
       query.order("num");
       query.equalTo("parent", "==", uid);
+      query.equalTo("disabled", "==", that.disabled);
       if (search_text) {
         query.equalTo("name", "==", {
           "$regex": "" + search_text + ".*" });

@@ -4,7 +4,10 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
+			<view class="uni-common-mt">
+				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
+			</view>
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 124rpx)' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(staff,index) in staffs" :key="index">
 					<view class='content'>
 						<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
@@ -39,6 +42,7 @@
 </template>
 
 <script>
+	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
@@ -48,6 +52,7 @@
 	let uid;
 	export default {
 		components: {
+			uniSegmentedControl,
 			faIcon,
 			loading
 		},
@@ -55,7 +60,10 @@
 			return {
 				loading: true,
 				staffs: null,
-				is_choose: false
+				is_choose: false,
+				items: ['已启用', '未启用'],
+				current: 0,
+				disabled:false
 			}
 		},
 
@@ -68,14 +76,28 @@
 			}
 		},
 		onShow() {
-			uni.removeStorageSync("staff")
-			uni.removeStorageSync("charge")
+
 			that.getstaff_list()
 		},
 		onUnload() {
 			search_text = ""
 		},
 		methods: {
+			
+			//tab点击
+			onClickItem(index) {
+				if (this.current !== index) {
+					this.current = index
+			
+					if (index == 0) {
+						that.disabled = false,
+						that.getstaff_list()
+					} else if (index == 1) {
+						that.disabled = true,
+						that.getstaff_list()
+					} 
+				}
+			},
 
 			//选择此员工当负责人
 			select_this(charge) {
@@ -87,6 +109,7 @@
 
 			//编辑操作
 			edit(item) {
+				console.log(item)
 				uni.setStorageSync("staff", item);
 				uni.navigateTo({
 					url: "add/add"
@@ -144,6 +167,7 @@
 				const query = Bmob.Query("staffs");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
+				query.equalTo("disabled", "==", that.disabled);
 				if (search_text) {
 					query.equalTo("username", "==", {
 						"$regex": "" + search_text + ".*"
@@ -165,6 +189,10 @@
 	page {
 		height: 100vh;
 		background: #FAFAFA;
+	}
+	
+	.uni-common-mt {
+		padding: 20rpx 0;
 	}
 
 	.staff_name {

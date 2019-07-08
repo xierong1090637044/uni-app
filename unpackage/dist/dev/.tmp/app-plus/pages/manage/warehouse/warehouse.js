@@ -142,13 +142,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};
 
 var that;
 var search_text;
 var uid;var _default =
 {
   components: {
+    uniSegmentedControl: uniSegmentedControl,
     faIcon: faIcon,
     loading: loading },
 
@@ -156,7 +162,10 @@ var uid;var _default =
     return {
       is_choose: false,
       loading: true,
-      stocks: null };
+      stocks: null,
+      items: ['已启用', '未启用'],
+      current: 0,
+      disabled: false };
 
   },
 
@@ -164,7 +173,7 @@ var uid;var _default =
     that = this;
     uid = uni.getStorageSync('uid');
 
-    console.log(options, " at pages\\manage\\warehouse\\warehouse.vue:67");
+    console.log(options, " at pages\\manage\\warehouse\\warehouse.vue:76");
     if (options.type == "choose") {
       that.is_choose = true;
     }
@@ -176,6 +185,21 @@ var uid;var _default =
     search_text = "";
   },
   methods: {
+
+    //tab点击
+    onClickItem: function onClickItem(index) {
+      if (this.current !== index) {
+        this.current = index;
+
+        if (index == 0) {
+          that.disabled = false,
+          that.getstock_list();
+        } else if (index == 1) {
+          that.disabled = true,
+          that.getstock_list();
+        }
+      }
+    },
 
     //点击仓库去到详情
     goto_detail: function goto_detail(stock) {
@@ -224,10 +248,10 @@ var uid;var _default =
     delete_this: function delete_this(id) {
       uni.showModal({
         title: '提示',
-        content: '是否删除此仓库',
+        content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此仓库',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:130");
+            console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:154");
             that.delete_data(id);
           }
         } });
@@ -236,17 +260,17 @@ var uid;var _default =
 
     //删除数据
     delete_data: function delete_data(id) {
-      console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:139");
+      console.log(id, " at pages\\manage\\warehouse\\warehouse.vue:163");
       var query = _bmob.default.Query("stocks");
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\warehouse\\warehouse.vue:142");
+        console.log(res, " at pages\\manage\\warehouse\\warehouse.vue:166");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.getstock_list();
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\warehouse\\warehouse.vue:149");
+        console.log(err, " at pages\\manage\\warehouse\\warehouse.vue:173");
       });
     },
 
@@ -260,7 +284,7 @@ var uid;var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\warehouse\\warehouse.vue:163");
+      console.log(e.text, " at pages\\manage\\warehouse\\warehouse.vue:187");
       search_text = e.text;
       that.getstock_list();
     },
@@ -272,6 +296,7 @@ var uid;var _default =
       query.order("-num");
       query.include("charge");
       query.equalTo("parent", "==", uid);
+      query.equalTo("disabled", "==", that.disabled);
       if (search_text) {
         query.equalTo("stock_name", "==", {
           "$regex": "" + search_text + ".*" });

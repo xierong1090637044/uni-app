@@ -412,6 +412,8 @@ var uid;var _default =
               _query.set("producer", good.producer);
               _query.set("packingUnit", good.packingUnit);
               _query.set("packageContent", good.packageContent);
+              _query.set("warning_num", Number(good.warning_num));
+              _query.set("stocktype", Number(good.warning_num) >= Number(reserve) ? 0 : 1); //库存数量类型 0代表库存不足 1代表库存充足
               if (uni.getStorageSync("category")) {//存在此缓存证明选择了仓库
                 _query.set("second_class", p_second_class_id);
                 _query.set("goodsClass", p_class_user_id);
@@ -423,7 +425,7 @@ var uid;var _default =
                   title: "上传成功" });
 
               }).catch(function (err) {
-                console.log(err, " at pages\\manage\\good_add\\good_add.vue:326");
+                console.log(err, " at pages\\manage\\good_add\\good_add.vue:328");
               });
             }} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}
         }

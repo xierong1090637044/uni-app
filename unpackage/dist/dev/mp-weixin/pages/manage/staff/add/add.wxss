@@ -5,6 +5,7 @@ page {
 .item {
 	padding: 20rpx 30rpx;
 	background: #FFFFFF;
+	border-bottom: 1rpx solid#f6f5ec;
 }
 .rights_item {
 	margin-bottom: 20rpx;

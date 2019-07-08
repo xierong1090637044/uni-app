@@ -55,7 +55,8 @@
 						icon: "none"
 					})
 				} else {
-
+					
+					uni.showLoading({title:"登录中..."})
 					const query = Bmob.Query("staffs");
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
 					query.equalTo("password", "==", that.password);
@@ -65,6 +66,7 @@
 						let now_staff = res[0]
 
 						if (now_staff.userId) {
+							uni.hideLoading();
 							uni.setStorageSync("user", now_staff)
 							uni.setStorageSync("identity", 2) //1是老板，2是员工
 							uni.setStorageSync("masterId", now_staff.userId.objectId)
@@ -95,6 +97,7 @@
 								query.set('userId', poiID)
 								query.save().then(res => {
 									console.log(res)
+									uni.hideLoading();
 
 									uni.setStorageSync("user", now_staff)
 									uni.setStorageSync("identity", 2) //1是老板，2是员工

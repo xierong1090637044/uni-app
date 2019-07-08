@@ -141,13 +141,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
 var search_text;
 var uid;var _default =
 {
   components: {
+    uniSegmentedControl: uniSegmentedControl,
     faIcon: faIcon,
     loading: loading },
 
@@ -155,27 +160,44 @@ var uid;var _default =
     return {
       loading: true,
       staffs: null,
-      is_choose: false };
+      is_choose: false,
+      items: ['已启用', '未启用'],
+      current: 0,
+      disabled: false };
 
   },
 
   onLoad: function onLoad(options) {
     that = this;
     uid = uni.getStorageSync('uid');
-    console.log(options, " at pages\\manage\\staff\\staff.vue:65");
+    console.log(options, " at pages\\manage\\staff\\staff.vue:73");
     if (options.type == "choose") {
       that.is_choose = true;
     }
   },
   onShow: function onShow() {
-    uni.removeStorageSync("staff");
-    uni.removeStorageSync("charge");
+
     that.getstaff_list();
   },
   onUnload: function onUnload() {
     search_text = "";
   },
   methods: {
+
+    //tab点击
+    onClickItem: function onClickItem(index) {
+      if (this.current !== index) {
+        this.current = index;
+
+        if (index == 0) {
+          that.disabled = false,
+          that.getstaff_list();
+        } else if (index == 1) {
+          that.disabled = true,
+          that.getstaff_list();
+        }
+      }
+    },
 
     //选择此员工当负责人
     select_this: function select_this(charge) {
@@ -187,6 +209,7 @@ var uid;var _default =
 
     //编辑操作
     edit: function edit(item) {
+      console.log(item, " at pages\\manage\\staff\\staff.vue:112");
       uni.setStorageSync("staff", item);
       uni.navigateTo({
         url: "add/add" });
@@ -200,7 +223,7 @@ var uid;var _default =
         content: '是否删除此员工',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\staff\\staff.vue:103");
+            console.log(id, " at pages\\manage\\staff\\staff.vue:126");
             that.delete_data(id);
           }
         } });
@@ -209,17 +232,17 @@ var uid;var _default =
 
     //删除数据
     delete_data: function delete_data(id) {
-      console.log(id, " at pages\\manage\\staff\\staff.vue:112");
+      console.log(id, " at pages\\manage\\staff\\staff.vue:135");
       var query = _bmob.default.Query("staffs");
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\staff\\staff.vue:115");
+        console.log(res, " at pages\\manage\\staff\\staff.vue:138");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.getstaff_list();
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\staff\\staff.vue:122");
+        console.log(err, " at pages\\manage\\staff\\staff.vue:145");
       });
     },
 
@@ -233,7 +256,7 @@ var uid;var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\staff\\staff.vue:136");
+      console.log(e.text, " at pages\\manage\\staff\\staff.vue:159");
       search_text = e.text;
       that.getstaff_list();
     },
@@ -244,6 +267,7 @@ var uid;var _default =
       var query = _bmob.default.Query("staffs");
       query.order("-createdAt");
       query.equalTo("masterId", "==", uid);
+      query.equalTo("disabled", "==", that.disabled);
       if (search_text) {
         query.equalTo("username", "==", {
           "$regex": "" + search_text + ".*" });

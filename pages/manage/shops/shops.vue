@@ -4,7 +4,11 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<scroll-view scroll-y class="indexes" style='height:100vh' scroll-with-animation="true" enable-back-to-top="true">
+			<view class="uni-common-mt">
+				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
+			</view>
+			
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 124rpx)' scroll-with-animation="true" enable-back-to-top="true">
 				<view v-for="(shop,index) in shops" :key="index">
 
 					<view class='content'>
@@ -40,6 +44,7 @@
 </template>
 
 <script>
+	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
@@ -49,6 +54,7 @@
 	let uid;
 	export default {
 		components: {
+			uniSegmentedControl,
 			faIcon,
 			loading
 		},
@@ -56,7 +62,10 @@
 			return {
 				loading: true,
 				shops: null,
-				is_choose: false
+				is_choose: false,
+				items: ['已启用', '未启用'],
+				current: 0,
+				disabled:false
 			}
 		},
 
@@ -76,6 +85,21 @@
 			search_text =""
 		},
 		methods: {
+			
+			//tab点击
+			onClickItem(index) {
+				if (this.current !== index) {
+					this.current = index
+			
+					if (index == 0) {
+						that.disabled = false,
+						that.getshop_list()
+					} else if (index == 1) {
+						that.disabled = true,
+						that.getshop_list()
+					} 
+				}
+			},
 
 			//选择此门店
 			select_this(shop) {
@@ -141,10 +165,10 @@
 
 			//得到门店列表
 			getshop_list: function() {
-				that.loading = true;
 				const query = Bmob.Query("shops");
 				query.order("num");
 				query.equalTo("parent", "==", uid);
+				query.equalTo("disabled", "==", that.disabled);
 				if (search_text) {
 					query.equalTo("name", "==", {
 						"$regex": "" + search_text + ".*"
@@ -166,6 +190,10 @@
 	page {
 		height: 100vh;
 		background: #FAFAFA;
+	}
+	
+	.uni-common-mt {
+		padding: 20rpx 0;
 	}
 	
 	.shop_name {

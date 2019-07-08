@@ -13,12 +13,22 @@
 				<text style="margin-right: 20rpx;">密码</text>
 				<input placeholder="请输入登录密码" v-model="staff_password" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
-			<view class="display_flex item" style="margin-bottom:60rpx">
+			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">联系地址</text>
 				<input placeholder="请输入地址" v-model="staff_address" style="width: calc(100% - 200rpx)" />
 			</view>
-
-
+			<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
+				<view class="display_flex">
+					<text style="margin-right: 20rpx;">门店</text>
+					<input placeholder="请选择门店" v-model="shop_name" style="width: calc(100% - 200rpx)" />
+				</view>
+			
+				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+			</navigator>
+			<view class="display_flex_bet item" style="margin-bottom:60rpx">
+				<text style="margin-right: 20rpx;">启用</text>
+				<switch :checked="disabled" @change="switchChange" />
+			</view>
 
 			<uni-collapse>
 				<uni-collapse-item :show-animation="true" title="管理权限">
@@ -54,21 +64,27 @@
 </template>
 
 <script>
+	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 
 	let that;
+	let shopId;
+	let shop;//门店
 	let staff;
 	let uid;
 	let rights = {};
 	export default {
 		components: {
+			faIcon,
 			uniCollapse,
 			uniCollapseItem,
 		},
 		data() {
 			return {
+				disabled: true, //是否启用
+				shop_name:'',
 				staff_name: '',
 				staff_address: '',
 				staff_phone: '',
@@ -130,7 +146,8 @@
 
 		onShow() {
 			staff = uni.getStorageSync("staff");
-
+			shop = uni.getStorageSync("shop");
+			
 			if (staff) {
 				uni.setNavigationBarTitle({
 					title:"修改员工信息"
@@ -151,10 +168,22 @@
 					that.recode[i].checked = true;
 				}
 			}
+			
+			if(shop){
+				that.shop_name = shop.name
+				
+				const pointer = Bmob.Pointer('shops');
+				shopId = pointer.set(shop.objectId);
+			}
 
 		},
 
 		methods: {
+			
+			//启用的switech
+			switchChange(e){
+				that.disabled = e.detail.value;
+			},
 
 			//管理权限
 			checkboxChange(e) {
@@ -213,6 +242,8 @@
 					query.set("address", (that.staff_address == null) ? '' : that.staff_address);
 					query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 					query.set("masterId", poiID);
+					query.set("disabled", !that.disabled);
+					if(shop) query.set("shop",shopId);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
 						console.log(res)
@@ -239,6 +270,7 @@
 
 							const query = Bmob.Query('staffs');
 							query.set("username", that.staff_name);
+							if(shop) query.set("shop",shopId);
 							query.set("nickName", that.staff_name);
 							query.set("password", that.staff_password);
 							query.set("mobilePhoneNumber", that.staff_phone);
@@ -246,6 +278,7 @@
 							query.set("address", (that.staff_address == null) ? '' : that.staff_address);
 							query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 							query.set("masterId", poiID);
+							query.set("disabled", !that.disabled);
 							query.save().then(res => {
 								console.log(res)
 								uni.showToast({
@@ -280,6 +313,7 @@
 	.item {
 		padding: 20rpx 30rpx;
 		background: #FFFFFF;
+		border-bottom: 1rpx solid#f6f5ec;
 	}
 
 	.rights_item {

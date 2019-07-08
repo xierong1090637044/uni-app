@@ -14,15 +14,21 @@
 					</view>
 					<view class="box-bd">
 						<navigator class="item" hover-class="none" url="logs/logs">
-							<view class="icon"><image src="/static/logs.png"></image></view>
-							<view class="text">操作日志</view>
+							<view class="icon">
+								<image src="/static/logs.png"></image>
+							</view>
+							<view class="text">操作记录</view>
 						</navigator>
-						<view class="item">
-							<view class="icon"><image src="/static/warning.png"></image></view>
+						<navigator class="item" hover-class="none" url="warning_log/warning_log">
+							<view class="icon">
+								<image src="/static/warning.png"></image>
+							</view>
 							<view class="text">预警记录</view>
-						</view>
+						</navigator>
 						<navigator class="item" hover-class="none" url="home_page/home_page">
-							<view class="icon"><image src="/static/account.png"></image></view>
+							<view class="icon">
+								<image src="/static/account.png"></image>
+							</view>
 							<view class="text">账号信息</view>
 						</navigator>
 					</view>

@@ -130,6 +130,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
@@ -142,6 +146,7 @@ var uid;var _default =
 
   data: function data() {
     return {
+      disabled: true, //是否启用
       shop_name: '', //名称
       shop_address: '', //地址
       shop_num: 0, //排序
@@ -179,6 +184,11 @@ var uid;var _default =
 
   methods: {
 
+    //启用的switech
+    switchChange: function switchChange(e) {
+      that.disabled = e.detail.value;
+    },
+
 
 
 
@@ -211,6 +221,7 @@ var uid;var _default =
         query.set("phone", that.shop_phone);
         query.set("beizhu", that.shop_beizhu);
         query.set("parent", poiID);
+        query.set("disabled", !that.disabled);
         query.set("id", shop.objectId);
         query.save().then(function (res) {
           uni.hideLoading();
@@ -236,6 +247,7 @@ var uid;var _default =
             _query2.set("address", that.shop_address);
             _query2.set("phone", that.shop_phone);
             _query2.set("beizhu", that.shop_beizhu);
+            _query2.set("disabled", !that.disabled);
             _query2.set("parent", poiID);
             _query2.save().then(function (res) {
               console.log(res);

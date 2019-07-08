@@ -82,7 +82,7 @@
 				that.warehouse_num = warehouse.num
 				that.warehouse_charge = warehouse.charge
 				that.warehouse_beizhu = warehouse.beizhu
-				that.disabled = warehouse.disabled;
+				that.disabled = !warehouse.disabled;
 				uni.setNavigationBarTitle({
 					title: '修改仓库信息'
 				});

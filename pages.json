@@ -1,7 +1,7 @@
 {
 	"pages": [
-		
-		
+
+
 		{
 			"path": "pages/mine/mine",
 			"style": {
@@ -9,19 +9,19 @@
 			}
 		},
 		{
-		    "path" : "pages/manage/warehouse/detail/detail",
-		    "style" : {
-					"navigationBarTitleText": "仓库详情"
-				}
+			"path": "pages/manage/warehouse/detail/detail",
+			"style": {
+				"navigationBarTitleText": "仓库详情"
+			}
 		},
 		{
-		    "path" : "pages/report/operational_status/operational_status",
-		    "style" : {
-					"navigationBarTitleText": "经营状况"
-				}
+			"path": "pages/report/operational_status/operational_status",
+			"style": {
+				"navigationBarTitleText": "经营状况"
+			}
 		},
-		
-		
+
+
 		{
 			"path": "pages/manage/goods/goods",
 			"style": {
@@ -32,7 +32,7 @@
 							"backgroundColor": "#fff",
 							"borderRadius": "6px", //输入框圆角
 							"placeholder": "请输入搜索内容"
-		
+
 						},
 						"buttons": [{
 								"text": "添加",
@@ -47,8 +47,8 @@
 				}
 			}
 		},
-		
-		
+
+
 		{
 			"path": "pages/mine/logs/logs",
 			"style": {
@@ -104,7 +104,7 @@
 				}
 			}
 		},
-		
+
 
 		{
 			"path": "pages/common/good_return/return_detail/return_detail",
@@ -394,11 +394,13 @@
 			"path": "pages/common/good_count/good_count",
 			"style": {
 				"navigationBarTitleText": "产品盘点",
-				"titleNView": {
-					"buttons": [{
-						"text": "确定",
-						"fontSize": "14"
-					}]
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "确定",
+							"fontSize": "14"
+						}]
+					}
 				}
 			}
 		}, {
@@ -406,27 +408,30 @@
 			"style": {
 				"navigationBarTitleText": "盘点详情"
 			}
+		}, {
+			"path": "pages/mine/about_us/about_us",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		}, {
+			"path": "pages/mine/home_page/home_page",
+			"style": {
+				"navigationBarTitleText": "账号信息"
+			}
 		}
-	    ,{
-            "path" : "pages/mine/about_us/about_us",
-            "style" : {
-							"navigationBarTitleText": "关于我们"
-						}
-        }
-        ,{
-            "path" : "pages/mine/home_page/home_page",
-            "style" : {
-            	"navigationBarTitleText": "账号信息"
-            }
-        }
-        
-        ,{
-            "path" : "pages/staff_landing/staff_landing",
-            "style" : {
-							"navigationBarTitleText": "员工登陆"
-						}
-        }
-    ],
+
+		, {
+			"path": "pages/staff_landing/staff_landing",
+			"style": {
+				"navigationBarTitleText": "员工登陆"
+			}
+		}, {
+			"path": "pages/mine/warning_log/warning_log",
+			"style": {
+				"navigationBarTitleText": "预警记录"
+			}
+		}
+	],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",

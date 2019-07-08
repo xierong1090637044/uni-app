@@ -163,8 +163,10 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 //
-var that;var _default = { data: function data() {return { phone: "", password: "" };}, onLoad: function onLoad() {that = this;}, methods: { staff_login: function staff_login() {console.log(that.phone);console.log(that.password);if (that.phone.length < 1 || that.password.length < 1) {uni.showToast({ title: '请填写完整', icon: "none" });} else {var query = _bmob.default.Query("staffs");query.equalTo("mobilePhoneNumber", "==", that.phone);query.equalTo("password", "==", that.password);query.find().then(function (res) {console.log(res[0]);var now_staff = res[0];
+var that;var _default = { data: function data() {return { phone: "", password: "" };}, onLoad: function onLoad() {that = this;}, methods: { staff_login: function staff_login() {console.log(that.phone);console.log(that.password);if (that.phone.length < 1 || that.password.length < 1) {uni.showToast({ title: '请填写完整', icon: "none" });} else {uni.showLoading({ title: "登录中..." });var query = _bmob.default.Query("staffs");query.equalTo("mobilePhoneNumber", "==", that.phone);query.equalTo("password", "==", that.password);query.find().then(function (res) {console.log(res[0]);var now_staff = res[0];
+
           if (now_staff.userId) {
+            uni.hideLoading();
             uni.setStorageSync("user", now_staff);
             uni.setStorageSync("identity", 2); //1是老板，2是员工
             uni.setStorageSync("masterId", now_staff.userId.objectId);
@@ -195,6 +197,7 @@ var that;var _default = { data: function data() {return { phone: "", password: "
               query.set('userId', poiID);
               query.save().then(function (res) {
                 console.log(res);
+                uni.hideLoading();
 
                 uni.setStorageSync("user", now_staff);
                 uni.setStorageSync("identity", 2); //1是老板，2是员工

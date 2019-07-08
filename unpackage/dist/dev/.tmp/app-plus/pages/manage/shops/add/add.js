@@ -130,6 +130,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
@@ -142,6 +146,7 @@ var uid;var _default =
 
   data: function data() {
     return {
+      disabled: true, //是否启用
       shop_name: '', //名称
       shop_address: '', //地址
       shop_num: 0, //排序
@@ -179,10 +184,15 @@ var uid;var _default =
 
   methods: {
 
+    //启用的switech
+    switchChange: function switchChange(e) {
+      that.disabled = e.detail.value;
+    },
+
 
     //监听原生标题栏按钮点击事件
     onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {
-      console.log(this.shop_name, " at pages\\manage\\shops\\add\\add.vue:85");
+      console.log(this.shop_name, " at pages\\manage\\shops\\add\\add.vue:95");
       if (this.shop_name == '') {
         uni.showToast({
           title: "请输入门店名字",
@@ -211,15 +221,16 @@ var uid;var _default =
         query.set("phone", that.shop_phone);
         query.set("beizhu", that.shop_beizhu);
         query.set("parent", poiID);
+        query.set("disabled", !that.disabled);
         query.set("id", shop.objectId);
         query.save().then(function (res) {
           uni.hideLoading();
-          console.log(res, " at pages\\manage\\shops\\add\\add.vue:117");
+          console.log(res, " at pages\\manage\\shops\\add\\add.vue:128");
           uni.showToast({
             title: "修改成功" });
 
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\shops\\add\\add.vue:122");
+          console.log(err, " at pages\\manage\\shops\\add\\add.vue:133");
 
         });
       } else {
@@ -228,7 +239,7 @@ var uid;var _default =
         _query.equalTo("parent", "==", uid);
         _query.equalTo("name", "==", that.shop_name);
         _query.find().then(function (res) {
-          console.log(res, " at pages\\manage\\shops\\add\\add.vue:131");
+          console.log(res, " at pages\\manage\\shops\\add\\add.vue:142");
           if (res.length == 0) {
             var _query2 = _bmob.default.Query('shops');
             _query2.set("name", that.shop_name);
@@ -236,15 +247,16 @@ var uid;var _default =
             _query2.set("address", that.shop_address);
             _query2.set("phone", that.shop_phone);
             _query2.set("beizhu", that.shop_beizhu);
+            _query2.set("disabled", !that.disabled);
             _query2.set("parent", poiID);
             _query2.save().then(function (res) {
-              console.log(res, " at pages\\manage\\shops\\add\\add.vue:141");
+              console.log(res, " at pages\\manage\\shops\\add\\add.vue:153");
               uni.hideLoading();
               uni.showToast({
                 title: "添加成功" });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\shops\\add\\add.vue:147");
+              console.log(err, " at pages\\manage\\shops\\add\\add.vue:159");
 
             });
           } else {
