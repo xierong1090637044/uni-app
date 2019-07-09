@@ -1,12 +1,4 @@
 {
   "navigationBarTitleText": "操作详情",
-  "titleNView": {
-    "buttons": [
-      {
-        "text": "排序",
-        "fontSize": "14"
-      }
-    ]
-  },
   "usingComponents": {}
 }

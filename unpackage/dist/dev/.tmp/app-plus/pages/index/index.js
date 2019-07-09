@@ -149,59 +149,114 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));
-var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var that;var uid;var _default = { data: function data() {return { optionsLists: [{ name: '产品入库', icon: '/static/entering.png', url: '/pages/common/goods-select/goods-select?type=entering' }, { name: '产品出库', icon: '/static/delivery.png', url: '/pages/common/goods-select/goods-select?type=delivery' }, { name: '退货入库', icon: '/static/return_goods.png', url: '/pages/common/goods-select/goods-select?type=returing' }, { name: '库存盘点', icon: '/static/stocking.png', url: '/pages/common/goods-select/goods-select?type=counting' }], get_reserve: 0, out_reserve: 0, total_reserve: 0, total_money: 0, total_products: 0 };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync('uid');that.gettoday_detail();that.loadallGoods();}, methods: { //得到今日概况
-    gettoday_detail: function gettoday_detail() {var get_reserve = 0;var out_reserve = 0;var get_reserve_real_money = 0;var out_reserve_real_money = 0;var get_reserve_num = 0;var out_reserve_num = 0;var query = _bmob.default.Query("Bills");
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
+var that;
+var uid;var _default =
+
+{
+  components: {
+    faIcon: faIcon },
+
+  data: function data() {
+    return {
+      optionsLists: [{
+        name: '产品入库',
+        icon: '/static/entering.png',
+        url: '/pages/common/goods-select/goods-select?type=entering' },
+
+      {
+        name: '产品出库',
+        icon: '/static/delivery.png',
+        url: '/pages/common/goods-select/goods-select?type=delivery' },
+
+      {
+        name: '退货入库',
+        icon: '/static/return_goods.png',
+        url: '/pages/common/goods-select/goods-select?type=returing' },
+
+      {
+        name: '库存盘点',
+        icon: '/static/stocking.png',
+        url: '/pages/common/goods-select/goods-select?type=counting' }],
+
+
+      get_reserve: 0,
+      out_reserve: 0,
+      total_reserve: 0,
+      total_money: 0,
+      total_products: 0 };
+
+  },
+  onLoad: function onLoad() {
+    that = this;
+    uid = uni.getStorageSync('uid');
+    that.gettoday_detail();
+    that.loadallGoods();
+  },
+  methods: {
+    //点击扫描产品条形码
+    scan_code: function scan_code() {
+      uni.showActionSheet({
+        itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
+        success: function success(res) {
+          that.scan(res.tapIndex);
+        },
+        fail: function fail(res) {
+          console.log(res.errMsg, " at pages\\index\\index.vue:112");
+        } });
+
+    },
+
+    //扫码操作
+    scan: function scan(type) {
+      uni.scanCode({
+        success: function success(res) {
+          var result = res.result;
+          var array = result.split("-");
+
+          if (type == 0) {
+            uni.navigateTo({
+              url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] });
+
+          } else if (type == 1) {
+            uni.navigateTo({
+              url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] });
+
+          } else if (type == 2) {
+            uni.navigateTo({
+              url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] });
+
+          } else if (type == 3) {
+            uni.navigateTo({
+              url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1] });
+
+          }
+        },
+        fail: function fail(res) {
+          uni.showToast({
+            title: '未识别到条形码',
+            icon: "none" });
+
+        } });
+
+    },
+    //得到今日概况
+    gettoday_detail: function gettoday_detail() {
+      var get_reserve = 0;
+      var out_reserve = 0;
+      var get_reserve_real_money = 0;
+      var out_reserve_real_money = 0;
+      var get_reserve_num = 0;
+      var out_reserve_num = 0;
+
+      var query = _bmob.default.Query("Bills");
       query.equalTo("userId", "==", uid);
       query.equalTo("createdAt", ">=", _common.default.getDay(0, true));
       query.equalTo("createdAt", "<=", _common.default.getDay(1, true));

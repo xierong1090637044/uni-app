@@ -214,7 +214,13 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
       input_class_text: null, //已经输入的内容
       middle: false, popup_editshow: false, Popup_title: "一级分类" };}, onLoad: function onLoad(options) {that = this;user = uni.getStorageSync("user");uid = uni.getStorageSync("uid");if (options.type == "choose") {that.is_choose = true;}}, onShow: function onShow() {that.get_category();}, methods: { //选择分类的情况下选择分类
     select_this: function select_this(item) {uni.setStorageSync("category", item);uni.navigateBack({ delta: 1 });}, //得到一级分类
-    get_category: function get_category() {var query = _bmob.default.Query("class_user");query.equalTo("parent", "==", uid);query.find().then(function (res) {console.log(res);that.frist_class = res;that.get_second_category(res[0].objectId);});},
+    get_category: function get_category() {var query = _bmob.default.Query("class_user");query.equalTo("parent", "==", uid);query.find().then(function (res) {console.log(res);that.frist_class = res;if (res.length == 0) {that.loading = false;} else {that.get_second_category(res[0].objectId);
+        }
+
+
+      });
+    },
+
     //得到二级分类
     get_second_category: function get_second_category(id) {
       that.loading = true;

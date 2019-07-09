@@ -182,7 +182,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var tkiQrcode = function tkiQrcode() {return Promise.all(/*! import() | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-qrcode/tki-qrcode.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/tki-qrcode.vue"));};var tkiBarcode = function tkiBarcode() {return Promise.all(/*! import() | components/tki-barcode/tki-barcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-barcode/tki-barcode")]).then(__webpack_require__.bind(null, /*! @/components/tki-barcode/tki-barcode.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/tki-barcode.vue"));};
 
-var that;var _default =
+var that;
+var uid;var _default =
 {
   components: {
     faIcon: faIcon,
@@ -203,9 +204,29 @@ var that;var _default =
       bar_code_show: false //条形码显示
     };
   },
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {var _this = this;
     that = this;
-    this.product = uni.getStorageSync("now_product");
+    uid = uni.getStorageSync("uid");
+
+    console.log(options);
+
+    if (options.id) {
+      var query = _bmob.default.Query('Goods');
+      if (options.type == "true") {
+        query.equalTo("productCode", "==", options.id);
+      } else {
+        query.equalTo("objectId", "==", options.id);
+      }
+      query.equalTo("userId", "==", uid);
+      query.find().then(function (res) {
+        console.log(res);
+        _this.product = res[0];
+      });
+    } else {
+      this.product = uni.getStorageSync("now_product");
+    }
+
+
   },
   methods: {
 

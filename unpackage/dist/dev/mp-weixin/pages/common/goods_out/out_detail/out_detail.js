@@ -249,7 +249,7 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
 
         billsObj.push(tempBills);
 
-        _common.default.record_staffOut(shop.have_out + _this.products[i].num);};for (var i = 0; i < this.products.length; i++) {_loop(i);
+        _common.default.record_staffOut(_this.products[i].num);};for (var i = 0; i < this.products.length; i++) {_loop(i);
       }
       //插入单据
       _bmob.default.Query('Bills').saveAll(billsObj).then(function (res) {

@@ -13,7 +13,7 @@
 						<view>今日出库</view>
 					</view>
 				</swiper-item>
-				
+
 				<swiper-item class="item">
 					<view class='every_item'>
 						<view class='s_num'>{{total_reserve}}</view>
@@ -24,7 +24,7 @@
 						<view>库存成本</view>
 					</view>
 				</swiper-item>
-				
+
 				<swiper-item class="item">
 					<view class='every_item'>
 						<view class='s_num'>{{total_products}}</view>
@@ -44,17 +44,26 @@
 			</navigator>
 		</view>
 
+		<view class='scan_code display_flex' @click='scan_code'>
+			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
+			<text>扫描产品条形码</text>
+		</view>
+
 	</view>
 
 </template>
 
 <script>
+	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 	let that;
 	let uid;
-	
+
 	export default {
+		components: {
+			faIcon
+		},
 		data() {
 			return {
 				optionsLists: [{
@@ -78,11 +87,11 @@
 						url: '/pages/common/goods-select/goods-select?type=counting'
 					},
 				],
-				get_reserve:0,
-				out_reserve:0,
-				total_reserve:0,
-				total_money:0,
-				total_products:0,
+				get_reserve: 0,
+				out_reserve: 0,
+				total_reserve: 0,
+				total_money: 0,
+				total_products: 0,
 			}
 		},
 		onLoad() {
@@ -92,6 +101,52 @@
 			that.loadallGoods()
 		},
 		methods: {
+			//点击扫描产品条形码
+			scan_code: function() {
+				uni.showActionSheet({
+					itemList: ['扫码出库', '扫码入库', '扫码盘点',  '查看详情'],
+					success(res) {
+						that.scan(res.tapIndex);
+					},
+					fail(res) {
+						console.log(res.errMsg)
+					}
+				})
+			},
+
+			//扫码操作
+			scan: function(type) {
+				uni.scanCode({
+					success(res) {
+						var result = res.result;
+						var array = result.split("-");
+						
+						if (type == 0) {
+							uni.navigateTo({
+								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 1) {
+							uni.navigateTo({
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 2) {
+							uni.navigateTo({
+								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 3) {
+							uni.navigateTo({
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						}
+					},
+					fail(res) {
+						uni.showToast({
+							title: '未识别到条形码',
+							icon: "none"
+						})
+					}
+				})
+			},
 			//得到今日概况
 			gettoday_detail: function() {
 				let get_reserve = 0;
@@ -103,8 +158,8 @@
 
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("createdAt", ">=", common.getDay(0,true));
-				query.equalTo("createdAt", "<=", common.getDay(1,true));
+				query.equalTo("createdAt", ">=", common.getDay(0, true));
+				query.equalTo("createdAt", "<=", common.getDay(1, true));
 
 				query.include("goodsId");
 				query.find().then(res => {
@@ -119,7 +174,7 @@
 							out_reserve_num = out_reserve_num + res[i].total_money;
 						}
 					}
-					
+
 					that.get_reserve = get_reserve.toFixed(wx.getStorageSync("print_setting").show_float)
 					that.out_reserve = out_reserve.toFixed(wx.getStorageSync("print_setting").show_float)
 				})
@@ -148,12 +203,12 @@
 								}
 							})
 							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-							that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-							that.total_products = res.length
+								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+								that.total_products = res.length
 						} else {
 							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-							that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-							that.total_products = res.length
+								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+								that.total_products = res.length
 						}
 					}
 
@@ -165,6 +220,24 @@
 </script>
 
 <style>
+	.scan_code {
+		position: fixed;
+		width: calc(100% - 60rpx);
+		left: 30rpx;
+		right: 30rpx;
+		bottom: 10%;
+		background: linear-gradient(to right, #426ab3, #118fff);
+		line-height: 80rpx;
+		text-align: center;
+		border-radius: 4px;
+		color: #fff;
+		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2)
+	}
+
+	.icon-scan {
+		margin-right: 20rpx;
+	}
+
 	/* pages/home/index/index.wxss */
 	.swiper {
 		background: #426ab3;
@@ -218,16 +291,17 @@
 
 	.scan_code {
 		position: fixed;
-		width: calc(100% - 30px);
-		left: 15px;
-		right: 15px;
+		width: calc(100% - 60rpx);
+		left: 30rpx;
+		right: 30rpx;
 		bottom: 10%;
 		background: linear-gradient(to right, #426ab3, #118fff);
-		line-height: 40px;
+		line-height: 80rpx;
 		text-align: center;
-		border-radius: 4px;
+		border-radius: 8rpx;
 		color: #fff;
-		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2)
+		box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.2);
+		justify-content: center;
 	}
 
 	.icon-scan {

@@ -195,13 +195,17 @@ var uid;var _default =
     //点击选择操作列表
     choose_way: function choose_way(shopId) {
       uni.showActionSheet({
-        itemList: ['员工列表', '销售记录'],
+        itemList: ['员工列表', '查看记录'],
         success: function success(res) {
           console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
 
           if (res.tapIndex == 0) {
             uni.navigateTo({
               url: "staff_in/staff_in?shopId=" + shopId });
+
+          } else {
+            uni.navigateTo({
+              url: "record/record?shopId=" + shopId });
 
           }
         },

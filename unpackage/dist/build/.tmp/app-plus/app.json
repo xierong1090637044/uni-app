@@ -1,9 +1,13 @@
 {
   "pages": [
+    "pages/mine/mine",
+    "pages/manage/warehouse/detail/detail",
+    "pages/report/operational_status/operational_status",
+    "pages/manage/goods/goods",
+    "pages/mine/logs/logs",
     "pages/index/index",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
-    "pages/manage/goods/goods",
     "pages/common/good_return/return_detail/return_detail",
     "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_confrim/good_enter/good_enter",
@@ -19,7 +23,6 @@
     "pages/manage/custom/add/add",
     "pages/manage/operations/operations",
     "pages/manage/manage",
-    "pages/mine/mine",
     "pages/landing/landing",
     "pages/manage/category/category",
     "pages/common/good_confrim/good_confrim",
@@ -29,7 +32,13 @@
     "pages/common/goods_out/goods_out",
     "pages/common/good_return/good_return",
     "pages/common/good_count/good_count",
-    "pages/common/good_count/count_detail/count_detail"
+    "pages/common/good_count/count_detail/count_detail",
+    "pages/mine/about_us/about_us",
+    "pages/mine/home_page/home_page",
+    "pages/staff_landing/staff_landing",
+    "pages/mine/warning_log/warning_log",
+    "pages/manage/shops/staff_in/staff_in",
+    "pages/manage/shops/record/record"
   ],
   "subPackages": [],
   "window": {
@@ -77,5 +86,7 @@
   },
   "appname": "my_stock2",
   "compilerVersion": "2.0.1",
-  "usingComponents": {}
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
 }

@@ -50,10 +50,10 @@
 			</view>
 			<view style="margin-top: 20%;" @tap="saveQrcode">
 				<view style="padding: 20rpx;background: #fff;">
-					<tki-qrcode cid="qrcode" ref="qrcode" :val="product.objectId" size="200" loadMake="true" usingComponents="true"
-					 unit="rpx"  @result="qrR" />
+					<tki-qrcode cid="qrcode" ref="qrcode" :val="(product.productCode)?product.productCode+'-'+true:product.objectId+'-'+false"
+					 size="200" loadMake="true" usingComponents="true" unit="rpx" @result="qrR" />
 				</view>
-				
+
 				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
 				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
 			</view>
@@ -65,8 +65,8 @@
 			</view>
 			<view style="margin-top: 20%;text-align: center;" @tap="saveBccode">
 				<view style="padding: 20rpx;background: #fff;">
-					<tki-barcode  ref="barcode" :val="product.objectId" loadMake="true" :opations="opations" onval="true" format="code128"
-					 unit="upx" @result="bcR" />
+					<tki-barcode ref="barcode" :val="(product.productCode)?product.productCode+'-'+true:product.objectId+'-'+false"
+					 loadMake="true" :opations="opations" onval="true" format="code128" unit="upx" @result="bcR" />
 				</view>
 				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
 				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击条形码可下载)</view>
@@ -83,6 +83,7 @@
 	import Bmob from '@/utils/bmob.js'
 
 	let that;
+	let uid;
 	export default {
 		components: {
 			faIcon,
@@ -92,20 +93,40 @@
 		data() {
 			return {
 				opations: {
-					width:2,
-					height:80,
-					displayValue:true,
-					marginTop:50,
-					marginLeft:98
+					width: 2,
+					height: 80,
+					displayValue: true,
+					marginTop: 50,
+					marginLeft: 98
 				},
 				product: "",
 				is_show: false, //二维码显示
 				bar_code_show: false, //条形码显示
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
-			this.product = uni.getStorageSync("now_product");
+			uid = uni.getStorageSync("uid");
+			
+			console.log(options)
+
+			if (options.id) {
+				const query = Bmob.Query('Goods');
+				if (options.type == "true") {
+					query.equalTo("productCode", "==", options.id)
+				} else {
+					query.equalTo("objectId", "==", options.id);
+				}
+				query.equalTo("userId", "==", uid);
+				query.find().then(res => {
+					console.log(res)
+					this.product = res[0];
+				})
+			}else{
+				this.product = uni.getStorageSync("now_product");
+			}
+
+			
 		},
 		methods: {
 
@@ -115,9 +136,9 @@
 					itemList: ['二维码', '条形码'],
 					success: function(res) {
 						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-						if(res.tapIndex == 0){
+						if (res.tapIndex == 0) {
 							that.is_show = true
-						}else{
+						} else {
 							that.bar_code_show = true
 						}
 					},
@@ -130,12 +151,12 @@
 			qrR(res) {
 				this.src = res
 			},
-			
+
 			bcR(res) {
 				this.src = res
 			},
-			
-			saveBccode(){
+
+			saveBccode() {
 				this.$refs.barcode._saveCode()
 			},
 

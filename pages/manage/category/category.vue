@@ -110,8 +110,14 @@
 				query.find().then(res => {
 					console.log(res)
 					that.frist_class = res;
+					
+					if(res.length == 0){
+						that.loading = false;
+					}else{
+						that.get_second_category(res[0].objectId)
+					}
 
-					that.get_second_category(res[0].objectId)
+					
 				});
 			},
 

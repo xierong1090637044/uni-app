@@ -214,7 +214,13 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
       input_class_text: null, //已经输入的内容
       middle: false, popup_editshow: false, Popup_title: "一级分类" };}, onLoad: function onLoad(options) {that = this;user = uni.getStorageSync("user");uid = uni.getStorageSync("uid");if (options.type == "choose") {that.is_choose = true;}}, onShow: function onShow() {that.get_category();}, methods: { //选择分类的情况下选择分类
     select_this: function select_this(item) {uni.setStorageSync("category", item);uni.navigateBack({ delta: 1 });}, //得到一级分类
-    get_category: function get_category() {var query = _bmob.default.Query("class_user");query.equalTo("parent", "==", uid);query.find().then(function (res) {console.log(res, " at pages\\manage\\category\\category.vue:111");that.frist_class = res;that.get_second_category(res[0].objectId);});},
+    get_category: function get_category() {var query = _bmob.default.Query("class_user");query.equalTo("parent", "==", uid);query.find().then(function (res) {console.log(res, " at pages\\manage\\category\\category.vue:111");that.frist_class = res;if (res.length == 0) {that.loading = false;} else {that.get_second_category(res[0].objectId);
+        }
+
+
+      });
+    },
+
     //得到二级分类
     get_second_category: function get_second_category(id) {
       that.loading = true;
@@ -222,7 +228,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
       var query = _bmob.default.Query('class_user');
       query.field('second', id);
       query.relation('second_class').then(function (res) {
-        console.log(res, " at pages\\manage\\category\\category.vue:125");
+        console.log(res, " at pages\\manage\\category\\category.vue:131");
         that.loading = false;
         that.second_class = res.results;
       });
@@ -230,11 +236,11 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
 
     //点击编辑图标
     showoption: function showoption(id, type, value) {
-      console.log(id, type, value, " at pages\\manage\\category\\category.vue:133");
+      console.log(id, type, value, " at pages\\manage\\category\\category.vue:139");
       uni.showActionSheet({
         itemList: ['删除', '编辑'],
         success: function success(res) {
-          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\category\\category.vue:137");
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\category\\category.vue:143");
           if (res.tapIndex == 0) {
             if (type === 1) {
               that.delete(id, "class_user");
@@ -255,7 +261,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
           }
         },
         fail: function fail(res) {
-          console.log(res.errMsg, " at pages\\manage\\category\\category.vue:158");
+          console.log(res.errMsg, " at pages\\manage\\category\\category.vue:164");
         } });
 
     },
@@ -285,12 +291,12 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
       } else {
         dbname = "second_class";
       }
-      console.log(that.selected_id, dbname, " at pages\\manage\\category\\category.vue:188");
+      console.log(that.selected_id, dbname, " at pages\\manage\\category\\category.vue:194");
       var query = _bmob.default.Query(dbname);
       query.set('id', that.selected_id); //需要修改的objectId
       query.set('class_text', that.input_class_text);
       query.save().then(function (res) {
-        console.log(res, " at pages\\manage\\category\\category.vue:193");
+        console.log(res, " at pages\\manage\\category\\category.vue:199");
         uni.showToast({
           title: '修改成功' });
 
@@ -299,7 +305,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
         that.middle = false;
         that.popup_editshow = false;
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\category\\category.vue:202");
+        console.log(err, " at pages\\manage\\category\\category.vue:208");
       });
     },
 
@@ -312,14 +318,14 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
           if (res.confirm) {
             var query = _bmob.default.Query(dbname);
             query.destroy(id).then(function (res) {
-              console.log(res, " at pages\\manage\\category\\category.vue:215");
+              console.log(res, " at pages\\manage\\category\\category.vue:221");
               uni.showToast({
                 title: '删除成功',
                 duration: 1000 });
 
               that.get_category();
             }).catch(function (err) {
-              console.log(err, " at pages\\manage\\category\\category.vue:222");
+              console.log(err, " at pages\\manage\\category\\category.vue:228");
             });
           }
         } });
@@ -348,7 +354,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
             _this.middle = false;
             _this.class_text = null;
           }).catch(function (err) {
-            console.log(err, " at pages\\manage\\category\\category.vue:251");
+            console.log(err, " at pages\\manage\\category\\category.vue:257");
           });
         }
       } else {
@@ -375,7 +381,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
             _this.class_text = null;
           });
         }).catch(function (err) {
-          console.log(err, " at pages\\manage\\category\\category.vue:278");
+          console.log(err, " at pages\\manage\\category\\category.vue:284");
         });
 
       }

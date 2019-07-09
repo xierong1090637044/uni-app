@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var unicard = function unicard() {return __webpack_require__.e(/*! import() | components/uni-card/uni-card */ "components/uni-card/uni-card").then(__webpack_require__.bind(null, /*! @/components/uni-card/uni-card.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-card/uni-card.vue"));};var uninumberbox = function uninumberbox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-number-box/uni-number-box.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -121,6 +121,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var unicard = function unicard() {return __webpack_require__.e(/*! import() | components/uni-card/uni-card */ "components/uni-card/uni-card").then(__webpack_require__.bind(null, /*! @/components/uni-card/uni-card.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-card/uni-card.vue"));};var uninumberbox = function uninumberbox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-number-box/uni-number-box.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
+
+var uid;var _default =
 {
   components: {
     unicard: unicard,
@@ -141,8 +145,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-  onLoad: function onLoad() {
-    this.products = uni.getStorageSync("products");
+
+
+  onLoad: function onLoad(options) {var _this = this;
+    uid = uni.getStorageSync("uid");
+
+    if (options.id) {
+      var query = _bmob.default.Query('Goods');
+      if (options.type == "true") {
+        query.equalTo("productCode", "==", options.id);
+      } else {
+        query.equalTo("objectId", "==", options.id);
+      }
+      query.equalTo("userId", "==", uid);
+      query.find().then(function (res) {
+        console.log(res);
+        res[0].num = 1;
+        res[0].total_money = 1 * res[0].retailPrice;
+        res[0].modify_retailPrice = res[0].retailPrice;
+        _this.products = res;
+      });
+    } else {
+      this.products = uni.getStorageSync("products");
+    }
+
   },
   onUnload: function onUnload() {
     uni.removeStorageSync("products");
@@ -159,9 +185,11 @@ __webpack_require__.r(__webpack_exports__);
     //删除点击
     handleDel: function handleDel(index) {
       console.log(index);
-      if (this.products.length == 1)
-      {
-        uni.showToast({ title: "最少选择一个产品", icon: "none" });
+      if (this.products.length == 1) {
+        uni.showToast({
+          title: "最少选择一个产品",
+          icon: "none" });
+
       } else {
         this.products.splice(index, 1);
         uni.setStorageSync("products", this.products);

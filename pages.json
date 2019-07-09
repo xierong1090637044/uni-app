@@ -1,7 +1,11 @@
 {
 	"pages": [
-
-
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
 		{
 			"path": "pages/mine/mine",
 			"style": {
@@ -55,12 +59,7 @@
 				"navigationBarTitleText": "操作记录"
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
+		
 		{
 			"path": "pages/report/EnteringHistory/EnteringHistory",
 			"style": {

@@ -26,6 +26,9 @@
 	import unicard from '@/components/uni-card/uni-card.vue'
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import Bmob from '@/utils/bmob.js'
+	
+	let uid;
 	export default {
 		components: {
 			unicard,
@@ -46,8 +49,28 @@
 				
 		},
 		// #endif
-		onLoad() {
-			this.products = uni.getStorageSync("products");
+		onLoad(options) {
+			uid = uni.getStorageSync("uid")
+			
+			if (options.id) {
+				const query = Bmob.Query('Goods');
+				if (options.type == "true") {
+					query.equalTo("productCode", "==", options.id)
+				} else {
+					query.equalTo("objectId", "==", options.id);
+				}
+				query.equalTo("userId", "==", uid);
+				query.find().then(res => {
+					console.log(res)
+					res[0].num = 1;
+					res[0].total_money = 1 * res[0].retailPrice;
+					res[0].modify_retailPrice = res[0].retailPrice;
+					this.products = res;
+				})
+			}else{
+				this.products = uni.getStorageSync("products");
+			}
+			
 		},
 		onUnload() {
 			uni.removeStorageSync("products");

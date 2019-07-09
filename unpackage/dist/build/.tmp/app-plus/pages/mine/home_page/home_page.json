@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "账号信息",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

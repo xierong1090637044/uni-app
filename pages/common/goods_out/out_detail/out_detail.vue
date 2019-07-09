@@ -23,7 +23,7 @@
 					<view class="kaidan_detail">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
-							<view>选择门店</view>
+							<view>选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">

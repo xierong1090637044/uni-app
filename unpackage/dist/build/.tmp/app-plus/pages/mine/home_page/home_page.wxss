@@ -1,0 +1,42 @@
+
+.avatar
+{
+  width: 100rpx;
+  height: 100rpx;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+}
+.thumb_background
+{
+  width: 100rpx;
+  height: 100rpx;
+}
+.frist
+{
+  padding: 0 20rpx;
+  background: #fff;
+}
+.item
+{
+  padding: 8rpx 0;
+  border-bottom: 1rpx solid#ddd;
+}
+.item1
+{
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid#ddd;
+}
+.icon_enter
+{
+  margin-left: 20rpx;
+}
+.right_item
+{
+  color: #999;
+}
+.grjj
+{
+  padding: 20rpx 0rpx;
+  border-bottom: 1rpx solid#ccc;
+}
+

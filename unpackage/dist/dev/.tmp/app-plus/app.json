@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/mine/mine",
     "pages/manage/warehouse/detail/detail",
     "pages/report/operational_status/operational_status",
     "pages/manage/goods/goods",
     "pages/mine/logs/logs",
-    "pages/index/index",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
     "pages/common/good_return/return_detail/return_detail",

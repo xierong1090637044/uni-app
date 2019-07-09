@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "预警记录",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
+  }
+}

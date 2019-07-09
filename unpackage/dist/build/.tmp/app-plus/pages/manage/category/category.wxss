@@ -1,4 +1,7 @@
 
+.page{
+	background: #fff;
+}
 .content {
 	display: -webkit-box;
 	display: -webkit-flex;

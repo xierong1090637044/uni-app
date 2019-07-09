@@ -1,0 +1,29 @@
+
+page {
+	font-size: 28rpx;
+	color: #3D3D3D;
+	background: #FFFFFF;
+}
+.content {
+	width: 100%;
+	padding: 10rpx 30rpx;
+	width: -webkit-calc(100% - 60rpx);
+	width: calc(100% - 60rpx);
+	height: -webkit-calc(100vh - 122rpx);
+	height: calc(100vh - 122rpx);
+}
+.content_time{
+	text-align: right;
+	color: #999;
+}
+.detail_item{
+	border-bottom: 1rpx solid#ccc;
+	margin-bottom: 10rpx;
+	padding-bottom: 10rpx;
+}
+.detail_name{
+	font-size: 32rpx;
+	margin-bottom: 6rpx;
+	font-weight: bold;
+}
+
