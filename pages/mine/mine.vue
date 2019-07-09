@@ -46,7 +46,7 @@
 			<view class="list">
 
 				<view class="li ">
-					<fa-icon type="handshake-o" size="18" color="#3d3d3d3"></fa-icon>
+					<fa-icon type="yelp" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">帮助中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</view>

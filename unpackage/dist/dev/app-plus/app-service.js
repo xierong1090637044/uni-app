@@ -2144,7 +2144,7 @@ Z([3,'li '])
 Z(z[0])
 Z(z[10])
 Z(z[2])
-Z([3,'handshake-o'])
+Z([3,'yelp'])
 Z([3,'4'])
 Z(z[0])
 Z(z[15])
@@ -22764,6 +22764,7 @@ var page_size = 50;var _default =
     get_logsList: function get_logsList(day) {
       var query = _bmob.default.Query("logs");
       query.equalTo("parent", "==", uid);
+      query.equalTo("type", "!=", -2);
       query.equalTo("createdAt", ">=", _common.default.getDay(day, true));
       query.order("-createdAt");
       query.limit(page_size);
@@ -22917,53 +22918,167 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-var uid = uni.getStorageSync('uid');var _default =
-{
-  data: function data() {
-    return {
-      optionsLists: [{ name: '产品入库', icon: '/static/entering.png', url: '/pages/common/goods-select/goods-select?type=entering' },
-      { name: '产品出库', icon: '/static/delivery.png', url: '/pages/common/goods-select/goods-select?type=delivery' },
-      { name: '退货入库', icon: '/static/return_goods.png', url: '/pages/common/goods-select/goods-select?type=returing' },
-      { name: '库存盘点', icon: '/static/stocking.png', url: '/pages/common/goods-select/goods-select?type=counting' }],
-      total_reserve: 0,
-      total_money: 0 };
 
-  },
-  onLoad: function onLoad() {
 
-  },
-  methods: {} };exports.default = _default;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var that;var uid;var _default = { data: function data() {return { optionsLists: [{ name: '产品入库', icon: '/static/entering.png', url: '/pages/common/goods-select/goods-select?type=entering' }, { name: '产品出库', icon: '/static/delivery.png', url: '/pages/common/goods-select/goods-select?type=delivery' }, { name: '退货入库', icon: '/static/return_goods.png', url: '/pages/common/goods-select/goods-select?type=returing' }, { name: '库存盘点', icon: '/static/stocking.png', url: '/pages/common/goods-select/goods-select?type=counting' }], get_reserve: 0, out_reserve: 0, total_reserve: 0, total_money: 0, total_products: 0 };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync('uid');that.gettoday_detail();that.loadallGoods();}, methods: { //得到今日概况
+    gettoday_detail: function gettoday_detail() {var get_reserve = 0;var out_reserve = 0;var get_reserve_real_money = 0;var out_reserve_real_money = 0;var get_reserve_num = 0;var out_reserve_num = 0;var query = _bmob.default.Query("Bills");
+      query.equalTo("userId", "==", uid);
+      query.equalTo("createdAt", ">=", _common.default.getDay(0, true));
+      query.equalTo("createdAt", "<=", _common.default.getDay(1, true));
+
+      query.include("goodsId");
+      query.find().then(function (res) {
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].type == 1) {
+            get_reserve = get_reserve + res[i].num;
+            get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
+            get_reserve_num = get_reserve_num + res[i].total_money;
+          } else if (res[i].type == -1) {
+            out_reserve = out_reserve + res[i].num;
+            out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
+            out_reserve_num = out_reserve_num + res[i].total_money;
+          }
+        }
+
+        that.get_reserve = get_reserve.toFixed(wx.getStorageSync("print_setting").show_float);
+        that.out_reserve = out_reserve.toFixed(wx.getStorageSync("print_setting").show_float);
+      });
+    },
+
+    //得到总库存数和总金额
+    loadallGoods: function loadallGoods() {
+      var total_reserve = 0;
+      var total_money = 0;
+      var query = _bmob.default.Query("Goods");
+      query.equalTo("userId", "==", uid);
+      query.limit(500);
+      query.find().then(function (res) {
+        for (var i = 0; i < res.length; i++) {
+          total_reserve = total_reserve + res[i].reserve;
+          total_money = total_money + res[i].reserve * res[i].costPrice;
+          if (i == res.length - 1 && res.length == 500) {
+            var _query = _bmob.default.Query("Goods");
+            _query.equalTo("userId", "==", uid);
+            _query.skip(500);
+            _query.limit(500);
+            _query.find().then(function (res) {
+              for (var i = 0; i < res.length; i++) {
+                total_reserve = total_reserve + res[i].reserve;
+                total_money = total_money + res[i].reserve * res[i].costPrice;
+              }
+            });
+            that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
+            that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+            that.total_products = res.length;
+          } else {
+            that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
+            that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+            that.total_products = res.length;
+          }
+        }
+
+      });
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),

@@ -185,6 +185,7 @@ var page_size = 50;var _default =
     get_logsList: function get_logsList(day) {
       var query = _bmob.default.Query("logs");
       query.equalTo("parent", "==", uid);
+      query.equalTo("type", "!=", -2);
       query.equalTo("createdAt", ">=", _common.default.getDay(day, true));
       query.order("-createdAt");
       query.limit(page_size);

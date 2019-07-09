@@ -85,6 +85,7 @@
 			get_logsList(day) {
 				const query = Bmob.Query("logs");
 				query.equalTo("parent", "==", uid);
+				query.equalTo("type", "!=", -2);
 				query.equalTo("createdAt", ">=", common.getDay(day, true));
 				query.order("-createdAt")
 				query.limit(page_size);
