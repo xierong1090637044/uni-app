@@ -150,6 +150,9 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
 //
 //
 var uid;var that;var setting;var _default = { data: function data() {return { show_float: null, USER: null, UKEY: null, number: null };}, onLoad: function onLoad() {that = this;uid = wx.getStorageSync("uid");uni.getStorage({ key: 'setting', success: function success(res) {setting = res.data;that.show_float = setting.show_float;that.USER = setting.USER;that.UKEY = setting.UKEY;that.number = setting.number;
+      },
+      fail: function fail() {
+        that.query_setting();
       } });
 
   },
@@ -172,7 +175,7 @@ var uid;var that;var setting;var _default = { data: function data() {return { sh
       query.set("parent", poiID);
       //query.set("beizhu", "Bmob")
       query.save().then(function (res) {
-        console.log(res, " at pages\\mine\\setting\\setting.vue:75");
+        console.log(res, " at pages\\mine\\setting\\setting.vue:78");
         uni.hideLoading();
         uni.showToast({
           title: "保存成功" });
@@ -180,7 +183,7 @@ var uid;var that;var setting;var _default = { data: function data() {return { sh
         that.query_setting();
 
       }).catch(function (err) {
-        console.log(err, " at pages\\mine\\setting\\setting.vue:83");
+        console.log(err, " at pages\\mine\\setting\\setting.vue:86");
       });
     },
 
@@ -188,10 +191,14 @@ var uid;var that;var setting;var _default = { data: function data() {return { sh
     //查询当前用户的设置
     query_setting: function query_setting() {
       var query = _bmob.default.Query("setting");
-      query.equalTo("parent", "==", res.data.objectId);
+      query.equalTo("parent", "==", uid);
       query.find().then(function (res) {
         //console.log(res)
         uni.setStorageSync("setting", res[0]);
+        that.show_float = res[0].show_float;
+        that.USER = res[0].USER;
+        that.UKEY = res[0].UKEY;
+        that.number = res[0].number;
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))

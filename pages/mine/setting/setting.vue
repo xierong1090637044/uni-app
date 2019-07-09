@@ -51,6 +51,9 @@
 					that.UKEY = setting.UKEY;
 					that.number = setting.number;
 				},
+				fail() {
+					that.query_setting()
+				}
 			})
 		},
 		methods: {
@@ -88,10 +91,14 @@
 			//查询当前用户的设置
 			query_setting(){
 				const query = Bmob.Query("setting");
-				query.equalTo("parent", "==", res.data.objectId);
+				query.equalTo("parent", "==", uid);
 				query.find().then(res => {
 					//console.log(res)
 					uni.setStorageSync("setting",res[0])
+					that.show_float = res[0].show_float;
+					that.USER = res[0].USER;
+					that.UKEY = res[0].UKEY;
+					that.number = res[0].number;
 				});
 			},
 			

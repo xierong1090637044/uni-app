@@ -7,7 +7,7 @@
 		</view>
 
 		<view class='header_text'>
-			<view>登陆</view>
+			<view>注册</view>
 			<view class='iconImage'>
 				<image src='/static/chuan.png' style='width:100%;height:100%'></image>
 			</view>
@@ -22,18 +22,18 @@
 					<view><button plain="true" class='get_smscode' @click='get_smscode' :disabled='code_button_state'>{{code_text}}</button></view>
 				</view>
 
-				<view><button class='login_button' plain="true" form-type="submit" hover-class="bg_button">登陆</button></view>
-				<navigator open-type='navigate' url='../staff_landing/staff_landing'><button class='staff_login_button' plain="true"
-					 hover-class="bg_button">员工登陆</button></navigator>
+				<view><button class='login_button' plain="true" form-type="submit" hover-class="bg_button">注册</button></view>
+
+				<view class="footer">
+					<text @tap="isShowAgree" :class="showAgree?'cuIcon-radiobox':'cuIcon-round'" style="margin-right: 10rpx;"></text>
+					<text>同意</text>
+					<!-- 协议地址 -->
+					<navigator url="user_protocol/user_protocol" open-type="navigate" style="font-size: 24rpx;">《用户协议》</navigator>
+				</view>
+
 			</form>
 		</view>
-		
-		<!-- 底部信息 -->
-		<view class="footer">
-			<navigator url="forget" open-type="navigate">找回密码</navigator>
-			<text style="margin:0 20rpx">|</text>
-			<navigator url="/pages/register/register" open-type="navigate">注册账号</navigator>
-		</view>
+
 
 	</view>
 </template>
@@ -46,6 +46,7 @@
 	export default {
 		data() {
 			return {
+				showAgree: true, //协议是否选择
 				code_text: "验证码",
 				code_button_state: false
 			}
@@ -54,6 +55,12 @@
 			that = this;
 		},
 		methods: {
+
+			isShowAgree() {
+				//是否选择协议
+				this.showAgree = !this.showAgree;
+			},
+
 			//手机输入触发
 			get_InputPhone(e) {
 				phone_number = e.detail.value;
@@ -108,26 +115,42 @@
 						title: '手机格式错误',
 						icon: "none"
 					})
+				} else if (this.showAgree == false) {
+					uni.showToast({
+						title: '请勾选用户协议',
+						icon: "none"
+					})
 				} else if (e.detail.value.sms_code < 6) {
 					uni.showToast({
 						title: '验证码格式错误',
 						icon: "none"
 					})
 				} else {
-					Bmob.User.signOrLoginByMobilePhone(phone, sms_code).then(res => {
-						console.log(res);
-						uni.setStorageSync("user", res)
-						uni.setStorageSync("masterId", res.objectId)
-						uni.setStorageSync("identity", 1); //1是老板，2是员工
-						uni.setStorageSync("uid", res.objectId)
-						uni.switchTab({
-							url: "/pages/index/index"
+					let params = {
+						username: String(phone),
+						password: String(phone),
+						mobilePhoneNumber: String(phone),
+						nickName: String(phone),
+						avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png"
+					}
+					Bmob.User.register(params).then(res => {
+						console.log(res)
+						uni.showToast({
+							title:"注册成功"
+						}),
+						Bmob.User.login(String(phone), String(phone)).then(res => {
+							uni.setStorageSync("user", res)
+							uni.setStorageSync("masterId", res.objectId)
+							uni.setStorageSync("identity", 1); //1是老板，2是员工
+							uni.setStorageSync("uid", res.objectId)
+							uni.switchTab({
+								url: "/pages/index/index"
+							});
+						}).catch(err => {
+							console.log(err)
 						});
 					}).catch(err => {
-						uni.showToast({
-							title: '验证码或手机号错误',
-							icon: "none"
-						})
+						console.log(err)
 					});
 				}
 
@@ -137,20 +160,9 @@
 	}
 </script>
 
-<style>
-	.footer{
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		font-size: 28upx;
-		margin-top: 180upx;
-		color: rgba(0,0,0,0.7);
-		text-align: center;
-		height: 40upx;
-		line-height: 40upx;
-	}
-	
+<style lang="scss">
+	@import url("icon.css");
+
 	page {
 		background: #fff;
 		text-align: center;
@@ -251,5 +263,22 @@
 		font-weight: bold;
 		background: #f1f1f1 !important;
 		border: unset !important;
+	}
+
+	.footer {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		font-size: 28upx;
+		margin-top: 80upx;
+		color: rgba(0, 0, 0, 0.7);
+		text-align: center;
+		height: 40upx;
+		line-height: 40upx;
+	}
+
+	.footer text {
+		font-size: 24rpx
 	}
 </style>

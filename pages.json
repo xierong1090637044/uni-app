@@ -7,6 +7,19 @@
 			}
 		},
 		{
+			"path": "pages/landing/landing",
+			"style": {
+				"navigationBarTitleText": "登陆",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+		    "path" : "pages/register/register",
+		    "style" : {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
 			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的"
@@ -306,12 +319,7 @@
 			}
 		},
 
-		{
-			"path": "pages/landing/landing",
-			"style": {
-				"navigationBarTitleText": "登陆"
-			}
-		},
+		
 
 		{
 			"path": "pages/manage/category/category",
@@ -440,6 +448,13 @@
             "path" : "pages/manage/shops/record/record",
             "style" : {
 							"navigationBarTitleText": "全部记录"
+						}
+        }
+        
+        ,{
+            "path" : "pages/register/user_protocol/user_protocol",
+            "style" : {
+							"navigationBarTitleText": "用户协议"
 						}
         }
     ],
