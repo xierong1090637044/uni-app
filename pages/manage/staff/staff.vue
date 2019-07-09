@@ -76,7 +76,7 @@
 			}
 		},
 		onShow() {
-
+			uni.removeStorageSync("staff")
 			that.getstaff_list()
 		},
 		onUnload() {

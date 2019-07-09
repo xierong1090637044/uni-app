@@ -294,7 +294,7 @@ var uid;var _default =
     getstock_list: function getstock_list() {
       var query = _bmob.default.Query("stocks");
       query.order("-num");
-      query.include("charge");
+      query.include("charge", "shop");
       query.equalTo("parent", "==", uid);
       query.equalTo("disabled", "==", that.disabled);
       if (search_text) {

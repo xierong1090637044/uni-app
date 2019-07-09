@@ -18,6 +18,32 @@ module.exports = {
 		})
 	},
 
+	//记录门店的出库数量
+	record_shopOut(id,have_out) {
+		console.log(id,have_out)
+		const query = Bmob.Query('shops');
+		query.set('id', id) //需要修改的objectId
+		query.set('have_out', have_out)
+		query.save().then(res => {
+			console.log(res)
+		}).catch(err => {
+			console.log(err)
+		})
+	},
+	
+	//记录员工的出库数量
+	record_staffOut(have_out) {
+		console.log(have_out,uni.getStorageSync("user").have_out)
+		const query = Bmob.Query('staffs');
+		query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
+		query.set('have_out', have_out+uni.getStorageSync("user").have_out)
+		query.save().then(res => {
+			console.log(res)
+		}).catch(err => {
+			console.log(err)
+		})
+	},
+
 	//获得库存成本和总库存
 	get_allCost() {
 		let userid = uni.getStorageSync("uid")
@@ -30,7 +56,7 @@ module.exports = {
 			let all_reserve = 0;
 			for (let item of res) {
 				console.log(item)
-				reserve_money += Number(item.costPrice)*item.reserve
+				reserve_money += Number(item.costPrice) * item.reserve
 				all_reserve += item.reserve
 			}
 		});

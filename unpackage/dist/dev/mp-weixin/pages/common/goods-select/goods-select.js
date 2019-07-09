@@ -225,8 +225,6 @@ var page_size = 50;var _default =
 
   onLoad: function onLoad(option) {
     that = this;
-    uni.removeStorageSync("category");
-    uni.removeStorageSync("warehouse");
 
     if (option.type == "entering") {
       this.url = "../good_confrim/good_confrim";
@@ -354,6 +352,10 @@ var page_size = 50;var _default =
 
     //数据重置
     handle_data: function handle_data() {
+      uni.removeStorageSync("category");
+      uni.removeStorageSync("warehouse");
+      uni.removeStorageSync("shop");
+
       search_text = '';
       page_size = 50;
     } } };exports.default = _default;

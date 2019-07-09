@@ -100,16 +100,6 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ ".
         /*uni.switchTab({
         	url:'/pages/index/index'
         })*/
-
-        if (uni.getStorageSync("identity") == "2") {
-          var query = _bmob.default.Query('staffs');
-          query.get(uni.getStorageSync("user").objectId).then(function (res) {
-            console.log(res, " at App.vue:26");
-            uni.setStorageSync("user", res);
-          }).catch(function (err) {
-            console.log(err, " at App.vue:29");
-          });
-        }
       },
       fail: function fail() {
         uni.reLaunch({

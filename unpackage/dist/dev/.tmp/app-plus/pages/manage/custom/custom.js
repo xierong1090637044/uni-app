@@ -324,7 +324,6 @@ var uid;var _default =
 
     //加载数据
     load_data: function load_data(type) {
-      that.loading = true;
       var query = _bmob.default.Query(type);
       query.equalTo("parent", "==", uid);
       query.limit(500);
@@ -341,7 +340,7 @@ var uid;var _default =
 
       }
       query.find().then(function (res) {
-        console.log(res, " at pages\\manage\\custom\\custom.vue:244");
+        console.log(res, " at pages\\manage\\custom\\custom.vue:243");
         that.loading = false;
         that.people = res;
       });

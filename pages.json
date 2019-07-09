@@ -289,15 +289,15 @@
 		{
 			"path": "pages/manage/operations/operations",
 			"style": {
-				"navigationBarTitleText": "操作详情",
-				"app-plus": {
+				"navigationBarTitleText": "操作详情"
+				/*"app-plus": {
 					"titleNView": {
 						"buttons": [{
 							"text": "排序",
 							"fontSize": "14"
 						}]
 					}
-				}
+				}*/
 			}
 		},
 		{
@@ -431,7 +431,19 @@
 				"navigationBarTitleText": "预警记录"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/manage/shops/staff_in/staff_in",
+            "style" : {
+							"navigationBarTitleText": "员工列表"
+						}
+        }
+        ,{
+            "path" : "pages/manage/shops/record/record",
+            "style" : {
+							"navigationBarTitleText": "全部记录"
+						}
+        }
+    ],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",

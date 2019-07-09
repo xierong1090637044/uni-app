@@ -154,6 +154,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -210,12 +213,27 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 //
 //
 //
-var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
+//
+//
+//
+var uid;var that;var shopId;var shop; //门店
+var _default = { data: function data() {return { shop_name: '', products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       custom: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}this.real_money = this.all_money;}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:90");this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) - _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          _common.default.log(_this.products[i].goodsName + "出库了" + _this.products[i].num + "件，已经低于预警数量" + _this.products[i].warning_num, -2, _this.products[i].objectId);res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:109");}); //单据
-        var tempBills = _bmob.default.Query('Bills');var pointer = _bmob.default.Pointer('_User');var user = pointer.set(uid);var pointer1 = _bmob.default.Pointer('Goods');var tempGoods_id = pointer1.set(_this.products[i].objectId);
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}this.real_money = this.all_money;}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:104");this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) - _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+          _common.default.log(_this.products[i].goodsName + "出库了" + _this.products[i].num + "件，已经低于预警数量" + _this.products[i].warning_num, -2, _this.products[i].objectId);res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:124");
+        });
+
+        //单据
+        var tempBills = _bmob.default.Query('Bills');
+        var pointer = _bmob.default.Pointer('_User');
+        var user = pointer.set(uid);
+
+        var pointer2 = _bmob.default.Pointer('_User');
+        var operater = pointer2.set(uni.getStorageSync("masterId"));
+
+        var pointer1 = _bmob.default.Pointer('Goods');
+        var tempGoods_id = pointer1.set(_this.products[i].objectId);
         tempBills.set('goodsName', _this.products[i].goodsName);
         tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
         tempBills.set('num', _this.products[i].num);
@@ -223,8 +241,15 @@ var uid;var that;var _default = { data: function data() {return { products: null
         tempBills.set('goodsId', tempGoods_id);
         tempBills.set('userId', user);
         tempBills.set('type', -1);
+        tempBills.set('operater', operater);
+        if (shop) {
+          tempBills.set("shop", shopId);
+          _common.default.record_shopOut(shop.objectId, shop.have_out + _this.products[i].num);
+        }
 
-        billsObj.push(tempBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);
+        billsObj.push(tempBills);
+
+        _common.default.record_staffOut(_this.products[i].num);};for (var i = 0; i < this.products.length; i++) {_loop(i);
       }
       //插入单据
       _bmob.default.Query('Bills').saveAll(billsObj).then(function (res) {
@@ -253,6 +278,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
             query.set('goodsName', that.products[0].goodsName);
             query.set('real_money', Number(that.real_money));
             query.set('debt', that.all_money - Number(that.real_money));
+            if (shop) query.set("shop", shopId);
 
             if (that.custom) {
               var custom = _bmob.default.Pointer('customs');
@@ -265,7 +291,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
                 _query.get(that.custom.objectId).then(function (res) {
                   var debt = res.debt == null ? 0 : res.debt;
                   debt = debt + (that.all_money - Number(that.real_money));
-                  console.log(debt, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:168");
+                  console.log(debt, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:194");
                   var query = _bmob.default.Query('customs');
                   query.get(that.custom.objectId).then(function (res) {
                     res.set('debt', debt);
@@ -277,7 +303,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
 
             query.set("all_money", that.all_money);
             query.save().then(function (res) {
-              console.log("添加操作历史记录成功", res, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:180");
+              console.log("添加操作历史记录成功", res, " at pages\\common\\goods_out\\out_detail\\out_detail.vue:206");
               uni.hideLoading();
               uni.removeStorageSync("customs"); //移除这个缓存
               uni.showToast({
@@ -288,7 +314,8 @@ var uid;var that;var _default = { data: function data() {return { products: null
                   uni.setStorageSync("is_option", true);
 
                   setTimeout(function () {
-                    _common.default.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products.length + "商品", -1, res.objectId);
+                    _common.default.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.
+                    products.length + "商品", -1, res.objectId);
                     uni.navigateBack({
                       delta: 2 });
 
@@ -302,7 +329,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
       },
       function (error) {
         // 批量新增异常处理
-        console.log("异常处理", " at pages\\common\\goods_out\\out_detail\\out_detail.vue:205");
+        console.log("异常处理", " at pages\\common\\goods_out\\out_detail\\out_detail.vue:232");
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))

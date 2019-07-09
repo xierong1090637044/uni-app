@@ -147,6 +147,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
@@ -185,6 +191,25 @@ var uid;var _default =
     search_text = "";
   },
   methods: {
+
+    //点击选择操作列表
+    choose_way: function choose_way(shopId) {
+      uni.showActionSheet({
+        itemList: ['员工列表', '销售记录'],
+        success: function success(res) {
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+
+          if (res.tapIndex == 0) {
+            uni.navigateTo({
+              url: "staff_in/staff_in?shopId=" + shopId });
+
+          }
+        },
+        fail: function fail(res) {
+          console.log(res.errMsg);
+        } });
+
+    },
 
     //tab点击
     onClickItem: function onClickItem(index) {

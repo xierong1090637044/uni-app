@@ -224,7 +224,6 @@
 
 			//加载数据
 			load_data(type) {
-				that.loading = true;
 				const query = Bmob.Query(type);
 				query.equalTo("parent", "==", uid);
 				query.limit(500);

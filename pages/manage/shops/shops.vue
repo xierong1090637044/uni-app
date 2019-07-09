@@ -7,33 +7,39 @@
 			<view class="uni-common-mt">
 				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
-			
-			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 124rpx)' scroll-with-animation="true" enable-back-to-top="true">
+
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 124rpx)' scroll-with-animation="true"
+			 enable-back-to-top="true">
 				<view v-for="(shop,index) in shops" :key="index">
 
 					<view class='content'>
-						<view class="display_flex">
-							<image src="/static/shop.png" class="shop_avatar"></image>
-							<view>
-								<view class='shop_name'>{{shop.name}}</view>
-								<view class='shop_mobile'>地址：{{shop.address}}</view>
+						<view class="display_flex_bet" @click="choose_way(shop.objectId)">
+							<view class="display_flex">
+								<image src="/static/shop.png" class="shop_avatar"></image>
+								<view>
+									<view class='shop_name'>{{shop.name}}</view>
+									<view class='shop_mobile'>地址：{{shop.address}}</view>
+								</view>
 							</view>
-							
+
+
+							<fa-icon type="angle-right" size="20" color="#999" />
+
 						</view>
-						
+
 						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>-->
 						<view class="right_item">
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(shop)">
 								<text style="color: #d93a49;">选择</text>
 							</view>
-							
+
 							<view class="display_flex" style="justify-content: flex-end;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(shop.objectId)"></fa-icon>
 								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(stock)"></fa-icon>
 							</view>
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
-						
+
 					</view>
 
 				</view>
@@ -65,14 +71,14 @@
 				is_choose: false,
 				items: ['已启用', '未启用'],
 				current: 0,
-				disabled:false
+				disabled: false
 			}
 		},
 
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
+
 			if (options.type == "choose") {
 				that.is_choose = true
 			}
@@ -82,22 +88,45 @@
 			that.getshop_list()
 		},
 		onUnload() {
-			search_text =""
+			search_text = ""
 		},
 		methods: {
-			
+
+			//点击选择操作列表
+			choose_way(shopId) {
+				uni.showActionSheet({
+					itemList: ['员工列表', '查看记录'],
+					success: function(res) {
+						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+						
+						if(res.tapIndex == 0){
+							uni.navigateTo({
+								url:"staff_in/staff_in?shopId="+shopId
+							})
+						}else{
+							uni.navigateTo({
+								url:"record/record?shopId="+shopId
+							})
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
+			},
+
 			//tab点击
 			onClickItem(index) {
 				if (this.current !== index) {
 					this.current = index
-			
+
 					if (index == 0) {
 						that.disabled = false,
-						that.getshop_list()
+							that.getshop_list()
 					} else if (index == 1) {
 						that.disabled = true,
-						that.getshop_list()
-					} 
+							that.getshop_list()
+					}
 				}
 			},
 
@@ -176,7 +205,7 @@
 
 				}
 				query.find().then(res => {
-					console.log(res,uid)
+					console.log(res, uid)
 					that.loading = false;
 					that.shops = res;
 				});
@@ -191,11 +220,11 @@
 		height: 100vh;
 		background: #FAFAFA;
 	}
-	
+
 	.uni-common-mt {
 		padding: 20rpx 0;
 	}
-	
+
 	.shop_name {
 		font-weight: bold;
 		font-size: 30rpx;

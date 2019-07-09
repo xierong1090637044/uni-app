@@ -125,8 +125,6 @@
 
 		onLoad(option) {
 			that = this;
-			uni.removeStorageSync("category");
-			uni.removeStorageSync("warehouse");
 
 			if (option.type == "entering") {
 				this.url = "../good_confrim/good_confrim"
@@ -254,6 +252,10 @@
 
 			//数据重置
 			handle_data() {
+				uni.removeStorageSync("category");
+				uni.removeStorageSync("warehouse");
+				uni.removeStorageSync("shop");
+				
 				search_text = '';
 				page_size = 50;
 			},

@@ -378,6 +378,7 @@ var rights = {};var _default =
             _query2.set("address", that.staff_address == null ? '' : that.staff_address);
             _query2.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
             _query2.set("masterId", _poiID);
+            _query2.set("have_out", 0);
             _query2.set("disabled", !that.disabled);
             _query2.save().then(function (res) {
               console.log(res);

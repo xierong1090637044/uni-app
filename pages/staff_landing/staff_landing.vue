@@ -110,10 +110,20 @@
 
 								}).catch(err => {
 									console.log(err)
+									uni.hideLoading();
+									uni,uni.showToast({
+										title: '账户名或者密码错误',
+										icon:"none"
+									});
 								})
 
 							}).catch(err => {
 								console.log(err)
+								uni.hideLoading();
+								uni,uni.showToast({
+									title: '账户名或者密码错误',
+									icon:"none"
+								});
 							});
 						}
 

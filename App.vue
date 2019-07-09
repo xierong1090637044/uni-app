@@ -19,16 +19,6 @@
 					/*uni.switchTab({
 						url:'/pages/index/index'
 					})*/
-
-					if (uni.getStorageSync("identity") == "2") {
-						const query = Bmob.Query('staffs');
-						query.get(uni.getStorageSync("user").objectId).then(res => {
-							console.log(res)
-							uni.setStorageSync("user",res)
-						}).catch(err => {
-							console.log(err)
-						})
-					}
 				},
 				fail: function() {
 					uni.reLaunch({
@@ -53,6 +43,14 @@
 	@import 'uni.css';
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
+	
+	.user_avatar
+	{
+		width: 60rpx;
+		height: 60rpx;
+		border-radius: 50%;
+		margin-right: 20rpx;
+	}
 
 	.kaidan_detail {
 		background: #fff;

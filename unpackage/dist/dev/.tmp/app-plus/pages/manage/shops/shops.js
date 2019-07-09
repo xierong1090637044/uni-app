@@ -147,6 +147,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/uni-segmented-control/uni-segmented-control.vue"));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/Loading/index.vue"));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
 
 var that;
@@ -186,6 +192,29 @@ var uid;var _default =
   },
   methods: {
 
+    //点击选择操作列表
+    choose_way: function choose_way(shopId) {
+      uni.showActionSheet({
+        itemList: ['员工列表', '查看记录'],
+        success: function success(res) {
+          console.log('选中了第' + (res.tapIndex + 1) + '个按钮', " at pages\\manage\\shops\\shops.vue:100");
+
+          if (res.tapIndex == 0) {
+            uni.navigateTo({
+              url: "staff_in/staff_in?shopId=" + shopId });
+
+          } else {
+            uni.navigateTo({
+              url: "record/record?shopId=" + shopId });
+
+          }
+        },
+        fail: function fail(res) {
+          console.log(res.errMsg, " at pages\\manage\\shops\\shops.vue:113");
+        } });
+
+    },
+
     //tab点击
     onClickItem: function onClickItem(index) {
       if (this.current !== index) {
@@ -224,7 +253,7 @@ var uid;var _default =
         content: '是否删除此门店',
         success: function success(res) {
           if (res.confirm) {
-            console.log(id, " at pages\\manage\\shops\\shops.vue:127");
+            console.log(id, " at pages\\manage\\shops\\shops.vue:156");
             that.delete_data(id);
           }
         } });
@@ -233,17 +262,17 @@ var uid;var _default =
 
     //删除数据
     delete_data: function delete_data(id) {
-      console.log(id, " at pages\\manage\\shops\\shops.vue:136");
+      console.log(id, " at pages\\manage\\shops\\shops.vue:165");
       var query = _bmob.default.Query("shops");
       query.destroy(id).then(function (res) {
-        console.log(res, " at pages\\manage\\shops\\shops.vue:139");
+        console.log(res, " at pages\\manage\\shops\\shops.vue:168");
         uni.showToast({
           title: "删除成功",
           icon: "none" });
 
         that.getshop_list();
       }).catch(function (err) {
-        console.log(err, " at pages\\manage\\shops\\shops.vue:146");
+        console.log(err, " at pages\\manage\\shops\\shops.vue:175");
       });
     },
 
@@ -257,7 +286,7 @@ var uid;var _default =
 
     //原生导航栏输入确认的时候
     onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-      console.log(e.text, " at pages\\manage\\shops\\shops.vue:160");
+      console.log(e.text, " at pages\\manage\\shops\\shops.vue:189");
       search_text = e.text;
       that.getshop_list();
     },
@@ -276,7 +305,7 @@ var uid;var _default =
 
       }
       query.find().then(function (res) {
-        console.log(res, uid, " at pages\\manage\\shops\\shops.vue:179");
+        console.log(res, uid, " at pages\\manage\\shops\\shops.vue:208");
         that.loading = false;
         that.shops = res;
       });

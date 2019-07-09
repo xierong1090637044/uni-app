@@ -247,6 +247,7 @@ var uid;var _default =
             _query2.set("address", that.shop_address);
             _query2.set("phone", that.shop_phone);
             _query2.set("beizhu", that.shop_beizhu);
+            _query2.set("have_out", 0);
             _query2.set("disabled", !that.disabled);
             _query2.set("parent", poiID);
             _query2.save().then(function (res) {

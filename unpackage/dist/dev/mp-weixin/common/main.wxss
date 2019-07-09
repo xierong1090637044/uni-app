@@ -4977,6 +4977,13 @@ scroll-view.cu-steps .cu-item {
 .cuIcon-btn:before {
 	content: "\E601";
 }
+.user_avatar {
+  width: 60rpx;
+  height: 60rpx;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  margin-right: 20rpx;
+}
 .kaidan_detail {
   background: #fff;
   padding: 10rpx;

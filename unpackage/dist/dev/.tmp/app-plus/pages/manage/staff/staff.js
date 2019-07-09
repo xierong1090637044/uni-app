@@ -176,7 +176,7 @@ var uid;var _default =
     }
   },
   onShow: function onShow() {
-
+    uni.removeStorageSync("staff");
     that.getstaff_list();
   },
   onUnload: function onUnload() {

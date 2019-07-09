@@ -147,6 +147,7 @@
 							query.set("address", that.shop_address);
 							query.set("phone", that.shop_phone);
 							query.set("beizhu", that.shop_beizhu);
+							query.set("have_out", 0);
 							query.set("disabled", !that.disabled);
 							query.set("parent", poiID);
 							query.save().then(res => {

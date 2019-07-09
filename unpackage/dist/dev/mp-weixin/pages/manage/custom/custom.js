@@ -324,7 +324,6 @@ var uid;var _default =
 
     //加载数据
     load_data: function load_data(type) {
-      that.loading = true;
       var query = _bmob.default.Query(type);
       query.equalTo("parent", "==", uid);
       query.limit(500);

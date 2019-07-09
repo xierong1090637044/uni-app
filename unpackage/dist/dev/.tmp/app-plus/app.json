@@ -36,7 +36,9 @@
     "pages/mine/about_us/about_us",
     "pages/mine/home_page/home_page",
     "pages/staff_landing/staff_landing",
-    "pages/mine/warning_log/warning_log"
+    "pages/mine/warning_log/warning_log",
+    "pages/manage/shops/staff_in/staff_in",
+    "pages/manage/shops/record/record"
   ],
   "subPackages": [],
   "window": {

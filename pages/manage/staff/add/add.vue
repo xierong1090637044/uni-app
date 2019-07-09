@@ -278,6 +278,7 @@
 							query.set("address", (that.staff_address == null) ? '' : that.staff_address);
 							query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 							query.set("masterId", poiID);
+							query.set("have_out", 0);
 							query.set("disabled", !that.disabled);
 							query.save().then(res => {
 								console.log(res)

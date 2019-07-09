@@ -4367,6 +4367,23 @@ createPage(_shops.default);
 
 /***/ }),
 
+/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fstaff_in%2Fstaff_in\"}":
+/*!************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fstaff_in%2Fstaff_in"} ***!
+  \************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _staff_in = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/staff_in/staff_in.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/staff_in/staff_in.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_staff_in.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fadd%2Fadd\"}":
 /*!**************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
@@ -6587,6 +6604,32 @@ module.exports = {
     query.set("log", _log);
     query.set("detail_id", id);
     query.set("type", type);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  },
+
+  //记录门店的出库数量
+  record_shopOut: function record_shopOut(id, have_out) {
+    console.log(id, have_out);
+    var query = _bmob.default.Query('shops');
+    query.set('id', id); //需要修改的objectId
+    query.set('have_out', have_out);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  },
+
+  //记录员工的出库数量
+  record_staffOut: function record_staffOut(have_out) {
+    console.log(have_out);
+    var query = _bmob.default.Query('staffs');
+    query.set('id', uni.getStorageSync("masterId")); //需要修改的objectId
+    query.set('have_out', have_out);
     query.save().then(function (res) {
       console.log(res);
     }).catch(function (err) {

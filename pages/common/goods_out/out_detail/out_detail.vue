@@ -22,14 +22,17 @@
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail">
 
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
+							<view>选择门店</view>
+							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
+						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
 							<view>客户姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择客户" disabled="true" :value="custom.custom_name" /></view>
 						</navigator>
-
 						<view class="display_flex">
 							<view>实际应付</view>
-							<view class="kaidan_rightinput"><input placeholder="选择供货商" disabled="true" :value="all_money" /></view>
+							<view class="kaidan_rightinput"><input placeholder="实际应付" disabled="true" :value="all_money" /></view>
 						</view>
 
 						<view class="display_flex">
@@ -59,10 +62,13 @@
 
 	let uid;
 	let that;
+	let shopId;
+	let shop; //门店
 
 	export default {
 		data() {
 			return {
+				shop_name: '',
 				products: null,
 				button_disabled: false,
 				beizhu_text: "",
@@ -83,6 +89,14 @@
 		},
 		onShow() {
 			that.custom = uni.getStorageSync("custom")
+			shop = uni.getStorageSync("shop");
+
+			if (shop) {
+				that.shop_name = shop.name
+
+				const pointer = Bmob.Pointer('shops');
+				shopId = pointer.set(shop.objectId);
+			}
 		},
 		methods: {
 
@@ -100,8 +114,9 @@
 					const query = Bmob.Query('Goods');
 					query.get(this.products[i].objectId).then(res => {
 						//console.log(res)
-						common.log(this.products[i].goodsName+"出库了"+this.products[i].num+"件，已经低于预警数量"+this.products[i].warning_num, -2, this.products[i].objectId);
-						
+						common.log(this.products[i].goodsName + "出库了" + this.products[i].num + "件，已经低于预警数量" + this.products[i].warning_num,
+							-2, this.products[i].objectId);
+
 						res.set('reserve', num)
 						res.set('stocktype', (num > this.products[i].warning_num) ? 1 : 0)
 						res.save()
@@ -113,6 +128,9 @@
 					let tempBills = Bmob.Query('Bills');
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
+					
+					let pointer2 = Bmob.Pointer('_User')
+					let operater = pointer2.set(uni.getStorageSync("masterId"))
 
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
@@ -123,8 +141,15 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
+					tempBills.set('operater', operater);
+					if (shop) {
+						tempBills.set("shop", shopId);
+						common.record_shopOut(shop.objectId,shop.have_out+this.products[i].num)
+					}
 
 					billsObj.push(tempBills)
+					
+					common.record_staffOut(this.products[i].num)
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
@@ -153,6 +178,7 @@
 								query.set('goodsName', that.products[0].goodsName);
 								query.set('real_money', Number(that.real_money));
 								query.set('debt', that.all_money - Number(that.real_money));
+								if (shop) query.set("shop", shopId);
 
 								if (that.custom) {
 									let custom = Bmob.Pointer('customs');
@@ -188,7 +214,8 @@
 											uni.setStorageSync("is_option", true);
 
 											setTimeout(() => {
-												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products.length + "商品", -1, res.objectId);
+												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that
+													.products.length + "商品", -1, res.objectId);
 												uni.navigateBack({
 													delta: 2
 												});

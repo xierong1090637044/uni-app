@@ -210,10 +210,20 @@ var that;var _default = { data: function data() {return { phone: "", password: "
 
               }).catch(function (err) {
                 console.log(err, " at pages\\staff_landing\\staff_landing.vue:112");
+                uni.hideLoading();
+                uni, uni.showToast({
+                  title: '账户名或者密码错误',
+                  icon: "none" });
+
               });
 
             }).catch(function (err) {
-              console.log(err, " at pages\\staff_landing\\staff_landing.vue:116");
+              console.log(err, " at pages\\staff_landing\\staff_landing.vue:121");
+              uni.hideLoading();
+              uni, uni.showToast({
+                title: '账户名或者密码错误',
+                icon: "none" });
+
             });
           }
 
