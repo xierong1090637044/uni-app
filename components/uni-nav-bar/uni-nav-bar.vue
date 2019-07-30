@@ -107,20 +107,22 @@
 		position: relative;
 		width: 100%;
 		background-color: #fff;
-		overflow: hidden
+		overflow: hidden;
+		padding: 0 30rpx;
+		width: calc(100% - 60rpx);
 	}
 
 	.uni-navbar__content view {
-		line-height: 44px
+		line-height: 88rpx
 	}
 
 	.uni-navbar__header {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
-		height: 44px;
-		line-height: 44px;
-		font-size: 16px
+		height: 88rpx;
+		line-height: 88rpx;
+		font-size: 30rpx;
 	}
 
 	.uni-navbar__header-btns {
@@ -150,7 +152,7 @@
 	}
 
 	.uni-navbar__placeholder-view {
-		height: 44px
+		height: 88rpx
 	}
 
 	.uni-navbar--fixed {

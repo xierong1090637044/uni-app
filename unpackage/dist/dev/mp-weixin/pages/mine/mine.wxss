@@ -42,8 +42,7 @@ page {
 .box {
   width: 650rpx;
   height: 280rpx;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-radius: 20rpx;
   margin: 0 auto;
   background: #fff;
   -webkit-box-shadow: 0 5rpx 20rpx 0rpx rgba(0, 0, 150, 0.2);
@@ -72,8 +71,7 @@ page {
       height: 120rpx;
       background: #fff;
       border: 5rpx solid #fff;
-      -webkit-border-radius: 50%;
-              border-radius: 50%;
+      border-radius: 50%;
       margin-top: -80rpx;
       overflow: hidden;
 }

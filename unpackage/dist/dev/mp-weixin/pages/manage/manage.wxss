@@ -96,8 +96,7 @@
 .manage_icon {
 	width: 60rpx;
 	height: 60rpx;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
+	border-radius: 50%;
 }
 .item {
 	display: -webkit-box;

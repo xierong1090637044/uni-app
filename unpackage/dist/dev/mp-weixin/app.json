@@ -81,11 +81,7 @@
       }
     ]
   },
-  "permission": {
-    "scope.userLocation": {
-      "desc": ""
-    }
-  },
+  "permission": {},
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }

@@ -6,7 +6,6 @@ page {
 	padding: 30rpx;
 }
 .content {
-	height: -webkit-calc(100vh - 124rpx);
 	height: calc(100vh - 124rpx);
 	background: #fff;
 }

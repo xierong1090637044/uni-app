@@ -1020,8 +1020,7 @@ input:focus {
 .login_button {
   width: 90%;
   margin: 0 auto;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   background: #f1f1f1 !important;
   border: unset !important;
   color: #999;
@@ -1033,8 +1032,7 @@ input:focus {
 .staff_login_button {
   width: 90%;
   margin: 0 auto;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   background: #b34257 !important;
   border: unset !important;
   color: #fff !important;
@@ -1046,8 +1044,7 @@ input:focus {
 .confirm_btton {
   width: 90%;
   margin: 0 auto;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   background: #42b35f !important;
   border: unset !important;
   color: #fff;
@@ -1072,8 +1069,7 @@ input:focus {
 }
 .get_smscode {
   font-size: 24rpx;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   color: #999;
   font-weight: bold;
   background: #f1f1f1 !important;

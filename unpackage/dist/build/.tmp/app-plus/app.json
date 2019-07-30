@@ -1,11 +1,13 @@
 {
   "pages": [
+    "pages/index/index",
+    "pages/landing/landing",
+    "pages/register/register",
     "pages/mine/mine",
     "pages/manage/warehouse/detail/detail",
     "pages/report/operational_status/operational_status",
     "pages/manage/goods/goods",
     "pages/mine/logs/logs",
-    "pages/index/index",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
     "pages/common/good_return/return_detail/return_detail",
@@ -23,7 +25,6 @@
     "pages/manage/custom/add/add",
     "pages/manage/operations/operations",
     "pages/manage/manage",
-    "pages/landing/landing",
     "pages/manage/category/category",
     "pages/common/good_confrim/good_confrim",
     "pages/report/report",
@@ -38,7 +39,8 @@
     "pages/staff_landing/staff_landing",
     "pages/mine/warning_log/warning_log",
     "pages/manage/shops/staff_in/staff_in",
-    "pages/manage/shops/record/record"
+    "pages/manage/shops/record/record",
+    "pages/register/user_protocol/user_protocol"
   ],
   "subPackages": [],
   "window": {

@@ -94,8 +94,7 @@
 		
 		onLoad(options) {
 			that = this;
-			//opeart_type = Number(options.type);
-			opeart_type =1;
+			opeart_type = Number(options.type);
 			uid = uni.getStorageSync("uid");
 			uni.removeStorageSync("charge");
 			

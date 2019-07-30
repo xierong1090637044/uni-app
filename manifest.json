@@ -105,16 +105,13 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-        "appid" : "",
+        "appid" : "wxd732ba05c712a198",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6" : true
         },
         "usingComponents" : true,
-        "permission" : {
-            "scope.userLocation" : {
-                "desc" : ""
-            }
-        }
+        "permission" : {}
     },
     "h5" : {
         "title" : "my_stock2",

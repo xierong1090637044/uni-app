@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"content{ padding: ",[0,30],"; }\n.",[1],"p_tag{ font-size: ",[0,32],"; }\n",],undefined,{path:"./pages/register/user_protocol/user_protocol.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/register/user_protocol/user_protocol.wxml') } }));

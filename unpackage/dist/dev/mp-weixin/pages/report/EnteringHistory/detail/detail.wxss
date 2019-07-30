@@ -42,7 +42,6 @@
 	margin-top: 10%;
 }
 .detail_bottom {
-	width: -webkit-calc(100% - 40rpx);
 	width: calc(100% - 40rpx);
 	background-color: #fff;
 	padding: 20rpx;
@@ -50,8 +49,7 @@
 .avatar {
 	width: 80rpx;
 	height: 80rpx;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
+	border-radius: 50%;
 }
 .common_style {
 	line-height: 80rpx;

@@ -34,7 +34,6 @@
 }
 .beizhu_style
 {
-  width: -webkit-calc(100% - 40rpx);
   width: calc(100% - 40rpx);
   background-color: #fff;
   padding:20rpx;

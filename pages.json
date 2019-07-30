@@ -9,8 +9,7 @@
 		{
 			"path": "pages/landing/landing",
 			"style": {
-				"navigationBarTitleText": "登陆",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "登陆"
 			}
 		},
 		{

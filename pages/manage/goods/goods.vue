@@ -4,6 +4,12 @@
 		<loading v-if="loading"></loading>
 
 		<view v-else class="content">
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-left="shaixuan" @click-right="goto_add" left-text="筛选">
+				<view class="input-view">
+					<uni-icon type="search" size="22" color="#666666" />
+					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="confirm" />
+				</view>
+			</uni-nav-bar>
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('createdAt')">
 					<text :class="(checked_option == 'createdAt')?'option_selected':''">创建时间</text>
@@ -150,6 +156,16 @@
 
 		methods: {
 			
+			//筛选点击
+			shaixuan(){
+				that.showOptions = true;
+			},
+			
+			//确定点击
+			goto_add(){
+				this.goAdd();
+			},
+			
 			//modal重置的确认点击
 			option_reset(){
 				uni.removeStorageSync("category");
@@ -244,7 +260,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 80rpx);
+		height: calc(100vh - 164rpx);
 	}
 
 	.uni-product {
@@ -269,6 +285,46 @@
 		color: #6C757D;
 		font-size: 24rpx;
 		font-weight: bold;
+	}
+	
+	.title {
+		font-size: 15px;
+		line-height: 20px;
+		color: #333333;
+		padding: 15px;
+	}
+	
+	.city {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		margin-left: 8px;
+		white-space: nowrap;
+	}
+	
+	.input-view {
+		width: 92%;
+		display: flex;
+		background-color: #e7e7e7;
+		height: 30px;
+		border-radius: 15px;
+		padding: 0 4%;
+		flex-wrap: nowrap;
+		margin: 7px 0;
+		line-height: 30px;
+	}
+	
+	.input-view .uni-icon {
+		line-height: 30px !important;
+	}
+	
+	.input-view .input {
+		height: 30px;
+		line-height: 30px;
+		width: 94%;
+		padding: 0 3%;
 	}
 		
 </style>

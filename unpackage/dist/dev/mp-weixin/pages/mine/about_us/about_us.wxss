@@ -48,8 +48,7 @@ page {
 }
 image {
   width: 70%;
-  -webkit-border-radius: 2px;
-          border-radius: 2px;
+  border-radius: 2px;
   margin: 0 auto;
   -webkit-box-shadow: 0px 3px 20px #333;
   box-shadow: 0px 3px 20px #333;

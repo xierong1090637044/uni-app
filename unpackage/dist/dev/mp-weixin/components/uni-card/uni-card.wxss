@@ -31,8 +31,7 @@
 	right: -50%;
 	bottom: -50%;
 	border: 1px solid #c8c7cc;
-	-webkit-border-radius: 12rpx;
-	        border-radius: 12rpx;
+	border-radius: 12rpx;
 	-webkit-transform: scale(.5);
 	    -ms-transform: scale(.5);
 	        transform: scale(.5)

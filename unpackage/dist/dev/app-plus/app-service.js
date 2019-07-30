@@ -24061,8 +24061,7 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
       goodsName: "", //输入的操作产品名字
       staff: "" //选择的操作者
     };}, //监听原生标题栏按钮点击事件
-  onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {if (Object.text == "筛选") {that.showOptions = true;}}, onLoad: function onLoad(options) {that = this; //opeart_type = Number(options.type);
-    opeart_type = 1;uid = uni.getStorageSync("uid");uni.removeStorageSync("charge");if (opeart_type == 1) {uni.setNavigationBarTitle({ title: "入库详情" });} else if (opeart_type == -1) {uni.setNavigationBarTitle({ title: "出库详情" });} else if (opeart_type == 2) {uni.setNavigationBarTitle({ title: "退货详情" });} else if (opeart_type == 3) {uni.setNavigationBarTitle({ title: "盘点详情" });}}, onShow: function onShow() {this.get_list();if (uni.getStorageSync("charge")) {that.staff = uni.getStorageSync("charge");}}, methods: {
+  onNavigationBarButtonTap: function onNavigationBarButtonTap(Object) {if (Object.text == "筛选") {that.showOptions = true;}}, onLoad: function onLoad(options) {that = this;opeart_type = Number(options.type);uid = uni.getStorageSync("uid");uni.removeStorageSync("charge");if (opeart_type == 1) {uni.setNavigationBarTitle({ title: "入库详情" });} else if (opeart_type == -1) {uni.setNavigationBarTitle({ title: "出库详情" });} else if (opeart_type == 2) {uni.setNavigationBarTitle({ title: "退货详情" });} else if (opeart_type == 3) {uni.setNavigationBarTitle({ title: "盘点详情" });}}, onShow: function onShow() {this.get_list();if (uni.getStorageSync("charge")) {that.staff = uni.getStorageSync("charge");}}, methods: {
 
     //modal重置的确认点击
     option_reset: function option_reset() {

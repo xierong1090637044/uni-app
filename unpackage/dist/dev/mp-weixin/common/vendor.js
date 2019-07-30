@@ -1,3974 +1,19 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcode.js":
-/*!******************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcode.js ***!
-  \******************************************************************************************/
+/***/ 0:
+/*!***************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/index.js")['default'];
-var _barcode = {};
-(function () {
-  // 初始化
-  _barcode = function barcode(cont, ctxid, options, ctxsize, result) {
-    var ops = {},newOptions,encodings,globaContext,ctx,globaCtxid,cbCanvasSize,cbResult;
-    globaCtxid = ctxid;
-    cbCanvasSize = ctxsize;
-    cbResult = result;
-    newOptions = Object.assign(ops, options);
-    // 修成margin
-    fixMargin(newOptions);
-    // 处理options 数据
-    if (newOptions.text == '' || cont == '') {
-      return false;
-    }
-    // 获取ctx
-    globaContext = cont;
-    ctx = uni.createCanvasContext(globaCtxid, globaContext);
-    // 获取编码数据
-    encodings = new barcodes[newOptions.format.toUpperCase()](newOptions.text, newOptions).encode();
-    var fixencodings = fixEncodings(encodings, newOptions);
-    // 返回canvas实际大小
-    cbCanvasSize({ width: fixencodings.width, height: fixencodings.height });
-    // 绘制canvas
-    setTimeout(function () {
-      drawCanvas.render(newOptions, fixencodings);
-    }, 10);
-    // 绘制canvas
-    var drawCanvas = {
-      render: function render(options, encoding) {var _this = this;
-        this.prepare(options, encoding);
-        encoding.encodings.forEach(function (v, i) {
-          _this.barcode(options, v);
-          _this.text(options, v);
-          _this.move(v);
-        });
-        this.draw(options, encoding);
-      },
-      barcode: function barcode(options, encoding) {
-        var binary = encoding.data;
-        var yFrom;
-        if (options.textPosition == "top") {
-          yFrom = options.marginTop + options.fontSize + options.textMargin;
-        } else {
-          yFrom = options.marginTop;
-        }
-        // 绘制条码
-        ctx.fillStyle = options.lineColor;
-        for (var b = 0; b < binary.length; b++) {
-          var x = b * options.width + encoding.barcodePadding;
-          var height = options.height;
-          if (encoding.options) {
-            if (encoding.options.height != undefined) {
-              height = encoding.options.height;
-            }
-          }
-          if (binary[b] === "1") {
-            ctx.fillRect(x, yFrom, options.width, height);
-          } else if (binary[b]) {
-            ctx.fillRect(x, yFrom, options.width, height * binary[b]);
-          }
-        }
-      },
-      text: function text(options, encoding) {
-        if (options.displayValue) {
-          var x, y, align, size;
-          if (options.textPosition == "top") {
-            y = options.marginTop + options.fontSize;
-          } else {
-            y = options.height + options.textMargin + options.marginTop + options.fontSize;
-          }
-          if (encoding.options) {
-            if (encoding.options.textAlign != undefined) {
-              align = encoding.options.textAlign;
-            }
-            if (encoding.options.fontSize != undefined) {
-              size = encoding.options.fontSize;
-            }
-          } else {
-            align = options.textAlign;
-            size = options.fontSize;
-          }
-          ctx.setFontSize(size);
-          if (align == "left" || encoding.barcodePadding > 0) {
-            x = 0;
-            ctx.setTextAlign('left');
-          } else if (align == "right") {
-            x = encoding.width - 1;
-            ctx.setTextAlign('right');
-          } else
-          {
-            x = encoding.width / 2;
-            ctx.setTextAlign('center');
-          }
-          ctx.fillStyle = options.fontColor;
-          if (encoding.text != undefined) {
-            ctx.fillText(encoding.text, x, y);
-          }
-        }
-      },
-      move: function move(encoding) {
-        ctx.translate(encoding.width, 0);
-      },
-      prepare: function prepare(options, encoding) {
-        // 绘制背景
-        if (options.background) {
-          ctx.fillStyle = options.background;
-          ctx.fillRect(0, 0, encoding.width, encoding.height);
-        }
-        ctx.translate(options.marginLeft, 0);
-      },
-      draw: function draw(options, encoding) {var _this2 = this;
-        ctx.draw(false, function () {
-          _this2.toImgs(options, encoding);
-        });
-      },
-      toImgs: function toImgs(options, encoding) {
-        setTimeout(function () {
-          uni.canvasToTempFilePath({
-            width: encoding.width,
-            height: encoding.height,
-            destWidth: encoding.width,
-            destHeight: encoding.height,
-            canvasId: globaCtxid,
-            fileType: 'png',
-            success: function success(res) {
-              cbResult(res.tempFilePath);
-            },
-            fail: function fail(res) {
-              cbResult(res);
-            },
-            complete: function complete() {
-              uni.hideLoading();
-            } },
-          globaContext);
-        }, options.text.length + 100);
-      } };
-
-    // 混入canvas数据
-    function fixEncodings(encoding, options) {
-      var encodingArr = [],width = options.marginLeft + options.marginRight,height;
-      if (!Array.isArray(encoding)) {
-        encodingArr[0] = JSON.parse(JSON.stringify(encoding));
-      } else {
-        encodingArr = _toConsumableArray(encoding);
-      }
-      encodingArr.forEach(function (v, i) {
-        // 获取文本宽度
-        var textWidth = ctx.measureText(encodingArr[i].text ? encodingArr[i].text : '').width;
-        // 获取条形码宽度
-        var barcodeWidth = encodingArr[i].data.length * options.width;
-        // 获取内边距
-        var barcodePadding = 0;
-        if (options.displayValue && barcodeWidth < textWidth) {
-          if (options.textAlign == "center") {
-            barcodePadding = Math.floor((textWidth - barcodeWidth) / 2);
-          } else if (options.textAlign == "left") {
-            barcodePadding = 0;
-          } else if (options.textAlign == "right") {
-            barcodePadding = Math.floor(textWidth - barcodeWidth);
-          }
-        }
-        // 混入encodingArr[i]
-        encodingArr[i].barcodePadding = barcodePadding;
-        encodingArr[i].width = Math.ceil(Math.max(textWidth, barcodeWidth));
-        width += encodingArr[i].width;
-        if (encodingArr[i].options) {
-          if (encodingArr[i].options.height != undefined) {
-            encodingArr[i].height = encodingArr[i].options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
-          } else {
-            encodingArr[i].height = height = options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
-          }
-        } else {
-          encodingArr[i].height = height = options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
-        }
-      });
-      return { encodings: encodingArr, width: width, height: height };
-    }
-    // 修正Margin
-    function fixMargin(options) {
-      options.marginTop = options.marginTop == undefined ? options.margin : options.marginTop;
-      options.marginBottom = options.marginBottom == undefined ? options.margin : options.marginBottom;
-      options.marginRight = options.marginRight == undefined ? options.margin : options.marginRight;
-      options.marginLeft = options.marginLeft == undefined ? options.margin : options.marginLeft;
-    }
-  };
-})();var _default =
-
-_barcode;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-var Barcode = function Barcode(data, options) {
-  _classCallCheck(this, Barcode);
-
-  this.data = data;
-  this.text = options.text || data;
-  this.options = options;
-};
-
-exports.default = Barcode;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
-  \***********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-// This is the master class,
-// it does require the start code to be included in the string
-var CODE128 = function (_Barcode) {
-  _inherits(CODE128, _Barcode);
-
-  function CODE128(data, options) {
-    _classCallCheck(this, CODE128);
-
-    // Get array of ascii codes from data
-    var _this = _possibleConstructorReturn(this, (CODE128.__proto__ || Object.getPrototypeOf(CODE128)).call(this, data.substring(1), options));
-
-    _this.bytes = data.split('').map(function (char) {
-      return char.charCodeAt(0);
-    });
-    return _this;
-  }
-
-  _createClass(CODE128, [{
-    key: 'valid',
-    value: function valid() {
-      // ASCII value ranges 0-127, 200-211
-      return /^[\x00-\x7F\xC8-\xD3]+$/.test(this.data);
-
-    }
-
-    // The public encoding function
-  },
-  {
-    key: 'encode',
-    value: function encode() {
-      var bytes = this.bytes;
-      // Remove the start code from the bytes and set its index
-      var startIndex = bytes.shift() - 105;
-      // Get start set by index
-      var startSet = _constants.SET_BY_CODE[startIndex];
-
-      if (startSet === undefined) {
-        throw new RangeError('The encoding does not start with a start character.');
-      }
-
-      if (this.shouldEncodeAsEan128() === true) {
-        bytes.unshift(_constants.FNC1);
-      }
-
-      // Start encode with the right type
-      var encodingResult = CODE128.next(bytes, 1, startSet);
-
-      return {
-        text: this.text === this.data ? this.text.replace(/[^\x20-\x7E]/g, '') : this.text,
-        data:
-        // Add the start bits
-        CODE128.getBar(startIndex) +
-        // Add the encoded bits
-        encodingResult.result +
-        // Add the checksum
-        CODE128.getBar((encodingResult.checksum + startIndex) % _constants.MODULO) +
-        // Add the end bits
-        CODE128.getBar(_constants.STOP) };
-
-    }
-
-    // GS1-128/EAN-128
-  },
-  {
-    key: 'shouldEncodeAsEan128',
-    value: function shouldEncodeAsEan128() {
-      var isEAN128 = this.options.ean128 || false;
-      if (typeof isEAN128 === 'string') {
-        isEAN128 = isEAN128.toLowerCase() === 'true';
-      }
-      return isEAN128;
-    }
-
-    // Get a bar symbol by index
-  }],
-  [{
-    key: 'getBar',
-    value: function getBar(index) {
-      return _constants.BARS[index] ? _constants.BARS[index].toString() : '';
-    }
-
-    // Correct an index by a set and shift it from the bytes array
-  },
-  {
-    key: 'correctIndex',
-    value: function correctIndex(bytes, set) {
-      if (set === _constants.SET_A) {
-        var charCode = bytes.shift();
-        return charCode < 32 ? charCode + 64 : charCode - 32;
-      } else if (set === _constants.SET_B) {
-        return bytes.shift() - 32;
-      } else {
-        return (bytes.shift() - 48) * 10 + bytes.shift() - 48;
-      }
-    } },
-  {
-    key: 'next',
-    value: function next(bytes, pos, set) {
-      if (!bytes.length) {
-        return { result: '', checksum: 0 };
-      }
-
-      var nextCode = void 0,
-      index = void 0;
-
-      // Special characters
-      if (bytes[0] >= 200) {
-        index = bytes.shift() - 105;
-        var nextSet = _constants.SWAP[index];
-
-        // Swap to other set
-        if (nextSet !== undefined) {
-          nextCode = CODE128.next(bytes, pos + 1, nextSet);
-        }
-        // Continue on current set but encode a special character
-        else {
-            // Shift
-            if ((set === _constants.SET_A || set === _constants.SET_B) && index === _constants.SHIFT) {
-              // Convert the next character so that is encoded correctly
-              bytes[0] = set === _constants.SET_A ? bytes[0] > 95 ? bytes[0] - 96 : bytes[0] : bytes[0] < 32 ? bytes[0] + 96 : bytes[0];
-            }
-            nextCode = CODE128.next(bytes, pos + 1, set);
-          }
-      }
-      // Continue encoding
-      else {
-          index = CODE128.correctIndex(bytes, set);
-          nextCode = CODE128.next(bytes, pos + 1, set);
-        }
-
-      // Get the correct binary encoding and calculate the weight
-      var enc = CODE128.getBar(index);
-      var weight = index * pos;
-
-      return {
-        result: enc + nextCode.result,
-        checksum: weight + nextCode.checksum };
-
-    } }]);
-
-
-  return CODE128;
-}(_Barcode3.default);
-
-exports.default = CODE128;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
-
-var _CODE3 = _interopRequireDefault(_CODE2);
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var CODE128A = function (_CODE) {
-  _inherits(CODE128A, _CODE);
-
-  function CODE128A(string, options) {
-    _classCallCheck(this, CODE128A);
-
-    return _possibleConstructorReturn(this, (CODE128A.__proto__ || Object.getPrototypeOf(CODE128A)).call(this, _constants.A_START_CHAR + string, options));
-  }
-
-  _createClass(CODE128A, [{
-    key: 'valid',
-    value: function valid() {
-      return new RegExp('^' + _constants.A_CHARS + '+$').test(this.data);
-    } }]);
-
-
-  return CODE128A;
-}(_CODE3.default);
-
-exports.default = CODE128A;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
-
-var _CODE3 = _interopRequireDefault(_CODE2);
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var CODE128B = function (_CODE) {
-  _inherits(CODE128B, _CODE);
-
-  function CODE128B(string, options) {
-    _classCallCheck(this, CODE128B);
-
-    return _possibleConstructorReturn(this, (CODE128B.__proto__ || Object.getPrototypeOf(CODE128B)).call(this, _constants.B_START_CHAR + string, options));
-  }
-
-  _createClass(CODE128B, [{
-    key: 'valid',
-    value: function valid() {
-      return new RegExp('^' + _constants.B_CHARS + '+$').test(this.data);
-    } }]);
-
-
-  return CODE128B;
-}(_CODE3.default);
-
-exports.default = CODE128B;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
-
-var _CODE3 = _interopRequireDefault(_CODE2);
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var CODE128C = function (_CODE) {
-  _inherits(CODE128C, _CODE);
-
-  function CODE128C(string, options) {
-    _classCallCheck(this, CODE128C);
-
-    return _possibleConstructorReturn(this, (CODE128C.__proto__ || Object.getPrototypeOf(CODE128C)).call(this, _constants.C_START_CHAR + string, options));
-  }
-
-  _createClass(CODE128C, [{
-    key: 'valid',
-    value: function valid() {
-      return new RegExp('^' + _constants.C_CHARS + '+$').test(this.data);
-    } }]);
-
-
-  return CODE128C;
-}(_CODE3.default);
-
-exports.default = CODE128C;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _CODE2 = __webpack_require__(/*! ./CODE128 */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128.js");
-
-var _CODE3 = _interopRequireDefault(_CODE2);
-
-var _auto = __webpack_require__(/*! ./auto */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/auto.js");
-
-var _auto2 = _interopRequireDefault(_auto);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var CODE128AUTO = function (_CODE) {
-  _inherits(CODE128AUTO, _CODE);
-
-  function CODE128AUTO(data, options) {
-    _classCallCheck(this, CODE128AUTO);
-
-    // ASCII value ranges 0-127, 200-211
-    if (/^[\x00-\x7F\xC8-\xD3]+$/.test(data)) {
-      var _this = _possibleConstructorReturn(this, (CODE128AUTO.__proto__ || Object.getPrototypeOf(CODE128AUTO)).call(this, (0, _auto2.default)(data), options));
-    } else {
-      var _this = _possibleConstructorReturn(this, (CODE128AUTO.__proto__ || Object.getPrototypeOf(CODE128AUTO)).call(this, data, options));
-    }
-    return _possibleConstructorReturn(_this);
-  }
-
-  return CODE128AUTO;
-}(_CODE3.default);
-
-exports.default = CODE128AUTO;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/auto.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/auto.js ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js");
-
-// Match Set functions
-var matchSetALength = function matchSetALength(string) {
-  return string.match(new RegExp('^' + _constants.A_CHARS + '*'))[0].length;
-};
-var matchSetBLength = function matchSetBLength(string) {
-  return string.match(new RegExp('^' + _constants.B_CHARS + '*'))[0].length;
-};
-var matchSetC = function matchSetC(string) {
-  return string.match(new RegExp('^' + _constants.C_CHARS + '*'))[0];
-};
-
-// CODE128A or CODE128B
-function autoSelectFromAB(string, isA) {
-  var ranges = isA ? _constants.A_CHARS : _constants.B_CHARS;
-  var untilC = string.match(new RegExp('^(' + ranges + '+?)(([0-9]{2}){2,})([^0-9]|$)'));
-
-  if (untilC) {
-    return untilC[1] + String.fromCharCode(204) + autoSelectFromC(string.substring(untilC[1].length));
-  }
-
-  var chars = string.match(new RegExp('^' + ranges + '+'))[0];
-
-  if (chars.length === string.length) {
-    return string;
-  }
-
-  return chars + String.fromCharCode(isA ? 205 : 206) + autoSelectFromAB(string.substring(chars.length), !isA);
-}
-
-// CODE128C
-function autoSelectFromC(string) {
-  var cMatch = matchSetC(string);
-  var length = cMatch.length;
-
-  if (length === string.length) {
-    return string;
-  }
-
-  string = string.substring(length);
-
-  // Select A/B depending on the longest match
-  var isA = matchSetALength(string) >= matchSetBLength(string);
-  return cMatch + String.fromCharCode(isA ? 206 : 205) + autoSelectFromAB(string, isA);
-}
-
-// Detect Code Set (A, B or C) and format the string
-
-exports.default = function (string) {
-  var newString = void 0;
-  var cLength = matchSetC(string).length;
-
-  // Select 128C if the string start with enough digits
-  if (cLength >= 2) {
-    newString = _constants.C_START_CHAR + autoSelectFromC(string);
-  } else {
-    // Select A/B depending on the longest match
-    var isA = matchSetALength(string) > matchSetBLength(string);
-    newString = (isA ? _constants.A_START_CHAR : _constants.B_START_CHAR) + autoSelectFromAB(string, isA);
-  }
-
-  return newString.replace(/[\xCD\xCE]([^])[\xCD\xCE]/, // Any sequence between 205 and 206 characters
-  function (match, char) {
-    return String.fromCharCode(203) + char;
-  });
-};
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/constants.js ***!
-  \*************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _SET_BY_CODE;
-
-function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
-
-// constants for internal usage
-var SET_A = exports.SET_A = 0;
-var SET_B = exports.SET_B = 1;
-var SET_C = exports.SET_C = 2;
-
-// Special characters
-var SHIFT = exports.SHIFT = 98;
-var START_A = exports.START_A = 103;
-var START_B = exports.START_B = 104;
-var START_C = exports.START_C = 105;
-var MODULO = exports.MODULO = 103;
-var STOP = exports.STOP = 106;
-var FNC1 = exports.FNC1 = 207;
-
-// Get set by start code
-var SET_BY_CODE = exports.SET_BY_CODE = (_SET_BY_CODE = {}, _defineProperty(_SET_BY_CODE, START_A, SET_A), _defineProperty(_SET_BY_CODE, START_B, SET_B), _defineProperty(_SET_BY_CODE, START_C, SET_C), _SET_BY_CODE);
-
-// Get next set by code
-var SWAP = exports.SWAP = {
-  101: SET_A,
-  100: SET_B,
-  99: SET_C };
-
-
-var A_START_CHAR = exports.A_START_CHAR = String.fromCharCode(208); // START_A + 105
-var B_START_CHAR = exports.B_START_CHAR = String.fromCharCode(209); // START_B + 105
-var C_START_CHAR = exports.C_START_CHAR = String.fromCharCode(210); // START_C + 105
-
-// 128A (Code Set A)
-// ASCII characters 00 to 95 (0–9, A–Z and control codes), special characters, and FNC 1–4
-var A_CHARS = exports.A_CHARS = "[\x00-\x5F\xC8-\xCF]";
-
-// 128B (Code Set B)
-// ASCII characters 32 to 127 (0–9, A–Z, a–z), special characters, and FNC 1–4
-var B_CHARS = exports.B_CHARS = "[\x20-\x7F\xC8-\xCF]";
-
-// 128C (Code Set C)
-// 00–99 (encodes two digits with a single code point) and FNC1
-var C_CHARS = exports.C_CHARS = "(\xCF*[0-9]{2}\xCF*)";
-
-// CODE128 includes 107 symbols:
-// 103 data symbols, 3 start symbols (A, B and C), and 1 stop symbol (the last one)
-// Each symbol consist of three black bars (1) and three white spaces (0).
-var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 10010001100, 10001001100, 10011001000, 10011000100, 10001100100, 11001001000, 11001000100, 11000100100, 10110011100, 10011011100, 10011001110, 10111001100, 10011101100, 10011100110, 11001110010, 11001011100, 11001001110, 11011100100, 11001110100, 11101101110, 11101001100, 11100101100, 11100100110, 11101100100, 11100110100, 11100110010, 11011011000, 11011000110, 11000110110, 10100011000, 10001011000, 10001000110, 10110001000, 10001101000, 10001100010, 11010001000, 11000101000, 11000100010, 10110111000, 10110001110, 10001101110, 10111011000, 10111000110, 10001110110, 11101110110, 11010001110, 11000101110, 11011101000, 11011100010, 11011101110, 11101011000, 11101000110, 11100010110, 11101101000, 11101100010, 11100011010, 11101111010, 11001000010, 11110001010, 10100110000, 10100001100, 10010110000, 10010000110, 10000101100, 10000100110, 10110010000, 10110000100, 10011010000, 10011000010, 10000110100, 10000110010, 11000010010, 11001010000, 11110111010, 11000010100, 10001111010, 10100111100, 10010111100, 10010011110, 10111100100, 10011110100, 10011110010, 11110100100, 11110010100, 11110010010, 11011011110, 11011110110, 11110110110, 10101111000, 10100011110, 10001011110, 10111101000, 10111100010, 11110101000, 11110100010, 10111011110, 10111101110, 11101011110, 11110101110, 11010000100, 11010010000, 11010011100, 1100011101011];
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/index.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/index.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
-
-var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js");
-
-var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
-
-var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128A.js");
-
-var _CODE128A2 = _interopRequireDefault(_CODE128A);
-
-var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128B.js");
-
-var _CODE128B2 = _interopRequireDefault(_CODE128B);
-
-var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/CODE128C.js");
-
-var _CODE128C2 = _interopRequireDefault(_CODE128C);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-exports.CODE128 = _CODE128_AUTO2.default;
-exports.CODE128A = _CODE128A2.default;
-exports.CODE128B = _CODE128B2.default;
-exports.CODE128C = _CODE128C2.default;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE39/index.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE39/index.js ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.CODE39 = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// https://en.wikipedia.org/wiki/Code_39#Encoding
-
-var CODE39 = function (_Barcode) {
-  _inherits(CODE39, _Barcode);
-
-  function CODE39(data, options) {
-    _classCallCheck(this, CODE39);
-
-    data = data.toUpperCase();
-
-    // Calculate mod43 checksum if enabled
-    if (options.mod43) {
-      data += getCharacter(mod43checksum(data));
-    }
-
-    return _possibleConstructorReturn(this, (CODE39.__proto__ || Object.getPrototypeOf(CODE39)).call(this, data, options));
-  }
-
-  _createClass(CODE39, [{
-    key: "encode",
-    value: function encode() {
-      // First character is always a *
-      var result = getEncoding("*");
-
-      // Take every character and add the binary representation to the result
-      for (var i = 0; i < this.data.length; i++) {
-        result += getEncoding(this.data[i]) + "0";
-      }
-
-      // Last character is always a *
-      result += getEncoding("*");
-      return {
-        data: result,
-        text: this.text };
-
-    } },
-  {
-    key: "valid",
-    value: function valid() {
-      return this.data.search(/^[0-9A-Z\-\.\ \$\/\+\%]+$/) !== -1;
-    } }]);
-
-
-  return CODE39;
-}(_Barcode3.default);
-
-// All characters. The position in the array is the (checksum) value
-
-
-var characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "-", ".", " ", "$", "/", "+", "%", "*"];
-
-// The decimal representation of the characters, is converted to the
-// corresponding binary with the getEncoding function
-var encodings = [20957, 29783, 23639, 30485, 20951, 29813, 23669, 20855, 29789, 23645, 29975, 23831, 30533, 22295, 30149, 24005, 21623, 29981, 23837, 22301, 30023, 23879, 30545, 22343, 30161, 24017, 21959, 30065, 23921, 22385, 29015, 18263, 29141, 17879, 29045, 18293, 17783, 29021, 18269, 17477, 17489, 17681, 20753, 35770];
-
-// Get the binary representation of a character by converting the encodings
-// from decimal to binary
-function getEncoding(character) {
-  return getBinary(characterValue(character));
-}
-
-function getBinary(characterValue) {
-  return encodings[characterValue].toString(2);
-}
-
-function getCharacter(characterValue) {
-  return characters[characterValue];
-}
-
-function characterValue(character) {
-  return characters.indexOf(character);
-}
-
-function mod43checksum(data) {
-  var checksum = 0;
-  for (var i = 0; i < data.length; i++) {
-    checksum += characterValue(data[i]);
-  }
-
-  checksum = checksum % 43;
-  return checksum;
-}
-
-exports.CODE39 = CODE39;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
-
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
-
-var _encoder2 = _interopRequireDefault(_encoder);
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-// Base class for EAN8 & EAN13
-var EAN = function (_Barcode) {
-  _inherits(EAN, _Barcode);
-
-  function EAN(data, options) {
-    _classCallCheck(this, EAN);
-
-    // Make sure the font is not bigger than the space between the guard bars
-    var _this = _possibleConstructorReturn(this, (EAN.__proto__ || Object.getPrototypeOf(EAN)).call(this, data, options));
-
-    _this.fontSize = !options.flat && options.fontSize > options.width * 10 ? options.width * 10 : options.fontSize;
-
-    // Make the guard bars go down half the way of the text
-    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
-    return _this;
-  }
-
-  _createClass(EAN, [{
-    key: 'encode',
-    value: function encode() {
-      return this.options.flat ? this.encodeFlat() : this.encodeGuarded();
-    } },
-  {
-    key: 'leftText',
-    value: function leftText(from, to) {
-      return this.text.substr(from, to);
-    } },
-  {
-    key: 'leftEncode',
-    value: function leftEncode(data, structure) {
-      return (0, _encoder2.default)(data, structure);
-    } },
-  {
-    key: 'rightText',
-    value: function rightText(from, to) {
-      return this.text.substr(from, to);
-    } },
-  {
-    key: 'rightEncode',
-    value: function rightEncode(data, structure) {
-      return (0, _encoder2.default)(data, structure);
-    } },
-  {
-    key: 'encodeGuarded',
-    value: function encodeGuarded() {
-      var textOptions = { fontSize: this.fontSize };
-      var guardOptions = { height: this.guardHeight };
-
-      return [{ data: _constants.SIDE_BIN, options: guardOptions }, { data: this.leftEncode(), text: this.leftText(), options: textOptions }, { data: _constants.MIDDLE_BIN, options: guardOptions }, { data: this.rightEncode(), text: this.rightText(), options: textOptions }, { data: _constants.SIDE_BIN, options: guardOptions }];
-    } },
-  {
-    key: 'encodeFlat',
-    value: function encodeFlat() {
-      var data = [_constants.SIDE_BIN, this.leftEncode(), _constants.MIDDLE_BIN, this.rightEncode(), _constants.SIDE_BIN];
-
-      return {
-        data: data.join(''),
-        text: this.text };
-
-    } }]);
-
-
-  return EAN;
-}(_Barcode3.default);
-
-exports.default = EAN;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
-
-var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
-
-var _EAN3 = _interopRequireDefault(_EAN2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Binary_encoding_of_data_digits_into_EAN-13_barcode
-
-// Calculate the checksum digit
-// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Calculation_of_checksum_digit
-var checksum = function checksum(number) {
-  var res = number.substr(0, 12).split('').map(function (n) {
-    return +n;
-  }).reduce(function (sum, a, idx) {
-    return idx % 2 ? sum + a * 3 : sum + a;
-  }, 0);
-
-  return (10 - res % 10) % 10;
-};
-
-var EAN13 = function (_EAN) {
-  _inherits(EAN13, _EAN);
-
-  function EAN13(data, options) {
-    _classCallCheck(this, EAN13);
-
-    // Add checksum if it does not exist
-    if (data.search(/^[0-9]{12}$/) !== -1) {
-      data += checksum(data);
-    }
-
-    // Adds a last character to the end of the barcode
-    var _this = _possibleConstructorReturn(this, (EAN13.__proto__ || Object.getPrototypeOf(EAN13)).call(this, data, options));
-
-    _this.lastChar = options.lastChar;
-    return _this;
-  }
-
-  _createClass(EAN13, [{
-    key: 'valid',
-    value: function valid() {
-      return this.data.search(/^[0-9]{13}$/) !== -1 && +this.data[12] === checksum(this.data);
-    } },
-  {
-    key: 'leftText',
-    value: function leftText() {
-      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'leftText', this).call(this, 1, 6);
-    } },
-  {
-    key: 'leftEncode',
-    value: function leftEncode() {
-      var data = this.data.substr(1, 6);
-      var structure = _constants.EAN13_STRUCTURE[this.data[0]];
-      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'leftEncode', this).call(this, data, structure);
-    } },
-  {
-    key: 'rightText',
-    value: function rightText() {
-      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'rightText', this).call(this, 7, 6);
-    } },
-  {
-    key: 'rightEncode',
-    value: function rightEncode() {
-      var data = this.data.substr(7, 6);
-      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'rightEncode', this).call(this, data, 'RRRRRR');
-    }
-
-    // The "standard" way of printing EAN13 barcodes with guard bars
-  },
-  {
-    key: 'encodeGuarded',
-    value: function encodeGuarded() {
-      var data = _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'encodeGuarded', this).call(this);
-
-      // Extend data with left digit & last character
-      if (this.options.displayValue) {
-        data.unshift({
-          data: '000000000000',
-          text: this.text.substr(0, 1),
-          options: { textAlign: 'left', fontSize: this.fontSize } });
-
-
-        if (this.options.lastChar) {
-          data.push({
-            data: '00' });
-
-          data.push({
-            data: '00000',
-            text: this.options.lastChar,
-            options: { fontSize: this.fontSize } });
-
-        }
-      }
-
-      return data;
-    } }]);
-
-
-  return EAN13;
-}(_EAN3.default);
-
-exports.default = EAN13;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
-
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
-
-var _encoder2 = _interopRequireDefault(_encoder);
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// https://en.wikipedia.org/wiki/EAN_2#Encoding
-
-var EAN2 = function (_Barcode) {
-  _inherits(EAN2, _Barcode);
-
-  function EAN2(data, options) {
-    _classCallCheck(this, EAN2);
-
-    return _possibleConstructorReturn(this, (EAN2.__proto__ || Object.getPrototypeOf(EAN2)).call(this, data, options));
-  }
-
-  _createClass(EAN2, [{
-    key: 'valid',
-    value: function valid() {
-      return this.data.search(/^[0-9]{2}$/) !== -1;
-    } },
-  {
-    key: 'encode',
-    value: function encode() {
-      // Choose the structure based on the number mod 4
-      var structure = _constants.EAN2_STRUCTURE[parseInt(this.data) % 4];
-      return {
-        // Start bits + Encode the two digits with 01 in between
-        data: '1011' + (0, _encoder2.default)(this.data, structure, '01'),
-        text: this.text };
-
-    } }]);
-
-
-  return EAN2;
-}(_Barcode3.default);
-
-exports.default = EAN2;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
-
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
-
-var _encoder2 = _interopRequireDefault(_encoder);
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// https://en.wikipedia.org/wiki/EAN_5#Encoding
-
-var checksum = function checksum(data) {
-  var result = data.split('').map(function (n) {
-    return +n;
-  }).reduce(function (sum, a, idx) {
-    return idx % 2 ? sum + a * 9 : sum + a * 3;
-  }, 0);
-  return result % 10;
-};
-
-var EAN5 = function (_Barcode) {
-  _inherits(EAN5, _Barcode);
-
-  function EAN5(data, options) {
-    _classCallCheck(this, EAN5);
-
-    return _possibleConstructorReturn(this, (EAN5.__proto__ || Object.getPrototypeOf(EAN5)).call(this, data, options));
-  }
-
-  _createClass(EAN5, [{
-    key: 'valid',
-    value: function valid() {
-      return this.data.search(/^[0-9]{5}$/) !== -1;
-    } },
-  {
-    key: 'encode',
-    value: function encode() {
-      var structure = _constants.EAN5_STRUCTURE[checksum(this.data)];
-      return {
-        data: '1011' + (0, _encoder2.default)(this.data, structure, '01'),
-        text: this.text };
-
-    } }]);
-
-
-  return EAN5;
-}(_Barcode3.default);
-
-exports.default = EAN5;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
-
-var _EAN2 = __webpack_require__(/*! ./EAN */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN.js");
-
-var _EAN3 = _interopRequireDefault(_EAN2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// http://www.barcodeisland.com/ean8.phtml
-
-// Calculate the checksum digit
-var checksum = function checksum(number) {
-  var res = number.substr(0, 7).split('').map(function (n) {
-    return +n;
-  }).reduce(function (sum, a, idx) {
-    return idx % 2 ? sum + a : sum + a * 3;
-  }, 0);
-
-  return (10 - res % 10) % 10;
-};
-
-var EAN8 = function (_EAN) {
-  _inherits(EAN8, _EAN);
-
-  function EAN8(data, options) {
-    _classCallCheck(this, EAN8);
-
-    // Add checksum if it does not exist
-    if (data.search(/^[0-9]{7}$/) !== -1) {
-      data += checksum(data);
-    }
-
-    return _possibleConstructorReturn(this, (EAN8.__proto__ || Object.getPrototypeOf(EAN8)).call(this, data, options));
-  }
-
-  _createClass(EAN8, [{
-    key: 'valid',
-    value: function valid() {
-      return this.data.search(/^[0-9]{8}$/) !== -1 && +this.data[7] === checksum(this.data);
-    } },
-  {
-    key: 'leftText',
-    value: function leftText() {
-      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'leftText', this).call(this, 0, 4);
-    } },
-  {
-    key: 'leftEncode',
-    value: function leftEncode() {
-      var data = this.data.substr(0, 4);
-      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'leftEncode', this).call(this, data, 'LLLL');
-    } },
-  {
-    key: 'rightText',
-    value: function rightText() {
-      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'rightText', this).call(this, 4, 4);
-    } },
-  {
-    key: 'rightEncode',
-    value: function rightEncode() {
-      var data = this.data.substr(4, 4);
-      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'rightEncode', this).call(this, data, 'RRRR');
-    } }]);
-
-
-  return EAN8;
-}(_EAN3.default);
-
-exports.default = EAN8;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-exports.checksum = checksum;
-
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
-
-var _encoder2 = _interopRequireDefault(_encoder);
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// https://en.wikipedia.org/wiki/Universal_Product_Code#Encoding
-
-var UPC = function (_Barcode) {
-  _inherits(UPC, _Barcode);
-
-  function UPC(data, options) {
-    _classCallCheck(this, UPC);
-
-    // Add checksum if it does not exist
-    if (data.search(/^[0-9]{11}$/) !== -1) {
-      data += checksum(data);
-    }
-
-    var _this = _possibleConstructorReturn(this, (UPC.__proto__ || Object.getPrototypeOf(UPC)).call(this, data, options));
-
-    _this.displayValue = options.displayValue;
-
-    // Make sure the font is not bigger than the space between the guard bars
-    if (options.fontSize > options.width * 10) {
-      _this.fontSize = options.width * 10;
-    } else {
-      _this.fontSize = options.fontSize;
-    }
-
-    // Make the guard bars go down half the way of the text
-    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
-    return _this;
-  }
-
-  _createClass(UPC, [{
-    key: "valid",
-    value: function valid() {
-      return this.data.search(/^[0-9]{12}$/) !== -1 && this.data[11] == checksum(this.data);
-    } },
-  {
-    key: "encode",
-    value: function encode() {
-      if (this.options.flat) {
-        return this.flatEncoding();
-      } else {
-        return this.guardedEncoding();
-      }
-    } },
-  {
-    key: "flatEncoding",
-    value: function flatEncoding() {
-      var result = "";
-
-      result += "101";
-      result += (0, _encoder2.default)(this.data.substr(0, 6), "LLLLLL");
-      result += "01010";
-      result += (0, _encoder2.default)(this.data.substr(6, 6), "RRRRRR");
-      result += "101";
-
-      return {
-        data: result,
-        text: this.text };
-
-    } },
-  {
-    key: "guardedEncoding",
-    value: function guardedEncoding() {
-      var result = [];
-
-      // Add the first digit
-      if (this.displayValue) {
-        result.push({
-          data: "00000000",
-          text: this.text.substr(0, 1),
-          options: { textAlign: "left", fontSize: this.fontSize } });
-
-      }
-
-      // Add the guard bars
-      result.push({
-        data: "101" + (0, _encoder2.default)(this.data[0], "L"),
-        options: { height: this.guardHeight } });
-
-
-      // Add the left side
-      result.push({
-        data: (0, _encoder2.default)(this.data.substr(1, 5), "LLLLL"),
-        text: this.text.substr(1, 5),
-        options: { fontSize: this.fontSize } });
-
-
-      // Add the middle bits
-      result.push({
-        data: "01010",
-        options: { height: this.guardHeight } });
-
-
-      // Add the right side
-      result.push({
-        data: (0, _encoder2.default)(this.data.substr(6, 5), "RRRRR"),
-        text: this.text.substr(6, 5),
-        options: { fontSize: this.fontSize } });
-
-
-      // Add the end bits
-      result.push({
-        data: (0, _encoder2.default)(this.data[11], "R") + "101",
-        options: { height: this.guardHeight } });
-
-
-      // Add the last digit
-      if (this.displayValue) {
-        result.push({
-          data: "00000000",
-          text: this.text.substr(11, 1),
-          options: { textAlign: "right", fontSize: this.fontSize } });
-
-      }
-
-      return result;
-    } }]);
-
-
-  return UPC;
-}(_Barcode3.default);
-
-// Calulate the checksum digit
-// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Calculation_of_checksum_digit
-
-
-function checksum(number) {
-  var result = 0;
-
-  var i;
-  for (i = 1; i < 11; i += 2) {
-    result += parseInt(number[i]);
-  }
-  for (i = 0; i < 11; i += 2) {
-    result += parseInt(number[i]) * 3;
-  }
-
-  return (10 - result % 10) % 10;
-}
-
-exports.default = UPC;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
-  \********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _encoder = __webpack_require__(/*! ./encoder */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js");
-
-var _encoder2 = _interopRequireDefault(_encoder);
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
-// https://en.wikipedia.org/wiki/Universal_Product_Code#Encoding
-//
-// UPC-E documentation:
-// https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
-
-var EXPANSIONS = ["XX00000XXX", "XX10000XXX", "XX20000XXX", "XXX00000XX", "XXXX00000X", "XXXXX00005", "XXXXX00006", "XXXXX00007", "XXXXX00008", "XXXXX00009"];
-
-var PARITIES = [["EEEOOO", "OOOEEE"], ["EEOEOO", "OOEOEE"], ["EEOOEO", "OOEEOE"], ["EEOOOE", "OOEEEO"], ["EOEEOO", "OEOOEE"], ["EOOEEO", "OEEOOE"], ["EOOOEE", "OEEEOO"], ["EOEOEO", "OEOEOE"], ["EOEOOE", "OEOEEO"], ["EOOEOE", "OEEOEO"]];
-
-var UPCE = function (_Barcode) {
-  _inherits(UPCE, _Barcode);
-
-  function UPCE(data, options) {
-    _classCallCheck(this, UPCE);
-
-    var _this = _possibleConstructorReturn(this, (UPCE.__proto__ || Object.getPrototypeOf(UPCE)).call(this, data, options));
-    // Code may be 6 or 8 digits;
-    // A 7 digit code is ambiguous as to whether the extra digit
-    // is a UPC-A check or number system digit.
-
-
-    _this.isValid = false;
-    if (data.search(/^[0-9]{6}$/) !== -1) {
-      _this.middleDigits = data;
-      _this.upcA = expandToUPCA(data, "0");
-      _this.text = options.text || '' + _this.upcA[0] + data + _this.upcA[_this.upcA.length - 1];
-      _this.isValid = true;
-    } else if (data.search(/^[01][0-9]{7}$/) !== -1) {
-      _this.middleDigits = data.substring(1, data.length - 1);
-      _this.upcA = expandToUPCA(_this.middleDigits, data[0]);
-
-      if (_this.upcA[_this.upcA.length - 1] === data[data.length - 1]) {
-        _this.isValid = true;
-      } else {
-        // checksum mismatch
-        return _possibleConstructorReturn(_this);
-      }
-    } else {
-      return _possibleConstructorReturn(_this);
-    }
-
-    _this.displayValue = options.displayValue;
-
-    // Make sure the font is not bigger than the space between the guard bars
-    if (options.fontSize > options.width * 10) {
-      _this.fontSize = options.width * 10;
-    } else {
-      _this.fontSize = options.fontSize;
-    }
-
-    // Make the guard bars go down half the way of the text
-    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
-    return _this;
-  }
-
-  _createClass(UPCE, [{
-    key: 'valid',
-    value: function valid() {
-      return this.isValid;
-    } },
-  {
-    key: 'encode',
-    value: function encode() {
-      if (this.options.flat) {
-        return this.flatEncoding();
-      } else {
-        return this.guardedEncoding();
-      }
-    } },
-  {
-    key: 'flatEncoding',
-    value: function flatEncoding() {
-      var result = "";
-
-      result += "101";
-      result += this.encodeMiddleDigits();
-      result += "010101";
-
-      return {
-        data: result,
-        text: this.text };
-
-    } },
-  {
-    key: 'guardedEncoding',
-    value: function guardedEncoding() {
-      var result = [];
-
-      // Add the UPC-A number system digit beneath the quiet zone
-      if (this.displayValue) {
-        result.push({
-          data: "00000000",
-          text: this.text[0],
-          options: { textAlign: "left", fontSize: this.fontSize } });
-
-      }
-
-      // Add the guard bars
-      result.push({
-        data: "101",
-        options: { height: this.guardHeight } });
-
-
-      // Add the 6 UPC-E digits
-      result.push({
-        data: this.encodeMiddleDigits(),
-        text: this.text.substring(1, 7),
-        options: { fontSize: this.fontSize } });
-
-
-      // Add the end bits
-      result.push({
-        data: "010101",
-        options: { height: this.guardHeight } });
-
-
-      // Add the UPC-A check digit beneath the quiet zone
-      if (this.displayValue) {
-        result.push({
-          data: "00000000",
-          text: this.text[7],
-          options: { textAlign: "right", fontSize: this.fontSize } });
-
-      }
-
-      return result;
-    } },
-  {
-    key: 'encodeMiddleDigits',
-    value: function encodeMiddleDigits() {
-      var numberSystem = this.upcA[0];
-      var checkDigit = this.upcA[this.upcA.length - 1];
-      var parity = PARITIES[parseInt(checkDigit)][parseInt(numberSystem)];
-      return (0, _encoder2.default)(this.middleDigits, parity);
-    } }]);
-
-
-  return UPCE;
-}(_Barcode3.default);
-
-function expandToUPCA(middleDigits, numberSystem) {
-  var lastUpcE = parseInt(middleDigits[middleDigits.length - 1]);
-  var expansion = EXPANSIONS[lastUpcE];
-
-  var result = "";
-  var digitIndex = 0;
-  for (var i = 0; i < expansion.length; i++) {
-    var c = expansion[i];
-    if (c === 'X') {
-      result += middleDigits[digitIndex++];
-    } else {
-      result += c;
-    }
-  }
-
-  result = '' + numberSystem + result;
-  return '' + result + (0, _UPC.checksum)(result);
-}
-
-exports.default = UPCE;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js":
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
-  \*************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-// Standard start end and middle bits
-var SIDE_BIN = exports.SIDE_BIN = '101';
-var MIDDLE_BIN = exports.MIDDLE_BIN = '01010';
-
-var BINARIES = exports.BINARIES = {
-  'L': [// The L (left) type of encoding
-  '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
-  'G': [// The G type of encoding
-  '0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'],
-  'R': [// The R (right) type of encoding
-  '1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100'],
-  'O': [// The O (odd) encoding for UPC-E
-  '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
-  'E': [// The E (even) encoding for UPC-E
-  '0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'] };
-
-
-// Define the EAN-2 structure
-var EAN2_STRUCTURE = exports.EAN2_STRUCTURE = ['LL', 'LG', 'GL', 'GG'];
-
-// Define the EAN-5 structure
-var EAN5_STRUCTURE = exports.EAN5_STRUCTURE = ['GGLLL', 'GLGLL', 'GLLGL', 'GLLLG', 'LGGLL', 'LLGGL', 'LLLGG', 'LGLGL', 'LGLLG', 'LLGLG'];
-
-// Define the EAN-13 structure
-var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', 'LLGGGL', 'LGLLGG', 'LGGLLG', 'LGGGLL', 'LGLGLG', 'LGLGGL', 'LGGLGL'];
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
-  \***********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/constants.js");
-
-// Encode data string
-var encode = function encode(data, structure, separator) {
-  var encoded = data.split('').map(function (val, idx) {
-    return _constants.BINARIES[structure[idx]];
-  }).map(function (val, idx) {
-    return val ? val[data[idx]] : '';
-  });
-
-  if (separator) {
-    var last = data.length - 1;
-    encoded = encoded.map(function (val, idx) {
-      return idx < last ? val + separator : val;
-    });
-  }
-
-  return encoded.join('');
-};
-
-exports.default = encode;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
-
-var _EAN = __webpack_require__(/*! ./EAN13.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN13.js");
-
-var _EAN2 = _interopRequireDefault(_EAN);
-
-var _EAN3 = __webpack_require__(/*! ./EAN8.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN8.js");
-
-var _EAN4 = _interopRequireDefault(_EAN3);
-
-var _EAN5 = __webpack_require__(/*! ./EAN5.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN5.js");
-
-var _EAN6 = _interopRequireDefault(_EAN5);
-
-var _EAN7 = __webpack_require__(/*! ./EAN2.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/EAN2.js");
-
-var _EAN8 = _interopRequireDefault(_EAN7);
-
-var _UPC = __webpack_require__(/*! ./UPC.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPC.js");
-
-var _UPC2 = _interopRequireDefault(_UPC);
-
-var _UPCE = __webpack_require__(/*! ./UPCE.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/UPCE.js");
-
-var _UPCE2 = _interopRequireDefault(_UPCE);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-exports.EAN13 = _EAN2.default;
-exports.EAN8 = _EAN4.default;
-exports.EAN5 = _EAN6.default;
-exports.EAN2 = _EAN8.default;
-exports.UPC = _UPC2.default;
-exports.UPCE = _UPCE2.default;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.GenericBarcode = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var GenericBarcode = function (_Barcode) {
-  _inherits(GenericBarcode, _Barcode);
-
-  function GenericBarcode(data, options) {
-    _classCallCheck(this, GenericBarcode);
-
-    return _possibleConstructorReturn(this, (GenericBarcode.__proto__ || Object.getPrototypeOf(GenericBarcode)).call(this, data, options)); // Sets this.data and this.text
-  }
-
-  // Return the corresponding binary numbers for the data provided
-
-
-  _createClass(GenericBarcode, [{
-    key: "encode",
-    value: function encode() {
-      return {
-        data: "10101010101010101010101010101010101010101",
-        text: this.text };
-
-    }
-
-    // Resturn true/false if the string provided is valid for this encoder
-  },
-  {
-    key: "valid",
-    value: function valid() {
-      return true;
-    } }]);
-
-
-  return GenericBarcode;
-}(_Barcode3.default);
-
-exports.GenericBarcode = GenericBarcode;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _constants = __webpack_require__(/*! ./constants */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/constants.js");
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var ITF = function (_Barcode) {
-  _inherits(ITF, _Barcode);
-
-  function ITF() {
-    _classCallCheck(this, ITF);
-
-    return _possibleConstructorReturn(this, (ITF.__proto__ || Object.getPrototypeOf(ITF)).apply(this, arguments));
-  }
-
-  _createClass(ITF, [{
-    key: 'valid',
-    value: function valid() {
-      return this.data.search(/^([0-9]{2})+$/) !== -1;
-    } },
-  {
-    key: 'encode',
-    value: function encode() {
-      var _this2 = this;
-
-      // Calculate all the digit pairs
-      var encoded = this.data.match(/.{2}/g).map(function (pair) {
-        return _this2.encodePair(pair);
-      }).join('');
-
-      return {
-        data: _constants.START_BIN + encoded + _constants.END_BIN,
-        text: this.text };
-
-    }
-
-    // Calculate the data of a number pair
-  },
-  {
-    key: 'encodePair',
-    value: function encodePair(pair) {
-      var second = _constants.BINARIES[pair[1]];
-
-      return _constants.BINARIES[pair[0]].split('').map(function (first, idx) {
-        return (first === '1' ? '111' : '1') + (second[idx] === '1' ? '000' : '0');
-      }).join('');
-    } }]);
-
-
-  return ITF;
-}(_Barcode3.default);
-
-exports.default = ITF;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _ITF2 = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
-
-var _ITF3 = _interopRequireDefault(_ITF2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-// Calculate the checksum digit
-var checksum = function checksum(data) {
-  var res = data.substr(0, 13).split('').map(function (num) {
-    return parseInt(num, 10);
-  }).reduce(function (sum, n, idx) {
-    return sum + n * (3 - idx % 2 * 2);
-  }, 0);
-
-  return Math.ceil(res / 10) * 10 - res;
-};
-
-var ITF14 = function (_ITF) {
-  _inherits(ITF14, _ITF);
-
-  function ITF14(data, options) {
-    _classCallCheck(this, ITF14);
-
-    // Add checksum if it does not exist
-    if (data.search(/^[0-9]{13}$/) !== -1) {
-      data += checksum(data);
-    }
-    return _possibleConstructorReturn(this, (ITF14.__proto__ || Object.getPrototypeOf(ITF14)).call(this, data, options));
-  }
-
-  _createClass(ITF14, [{
-    key: 'valid',
-    value: function valid() {
-      return this.data.search(/^[0-9]{14}$/) !== -1 && +this.data[13] === checksum(this.data);
-    } }]);
-
-
-  return ITF14;
-}(_ITF3.default);
-
-exports.default = ITF14;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/constants.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/constants.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-var START_BIN = exports.START_BIN = '1010';
-var END_BIN = exports.END_BIN = '11101';
-
-var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', '10100', '01100', '00011', '10010', '01010'];
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/index.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/index.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.ITF14 = exports.ITF = undefined;
-
-var _ITF = __webpack_require__(/*! ./ITF */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF.js");
-
-var _ITF2 = _interopRequireDefault(_ITF);
-
-var _ITF3 = __webpack_require__(/*! ./ITF14 */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/ITF14.js");
-
-var _ITF4 = _interopRequireDefault(_ITF3);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-exports.ITF = _ITF2.default;
-exports.ITF14 = _ITF4.default;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation
-// https://en.wikipedia.org/wiki/MSI_Barcode#Character_set_and_binary_lookup
-
-var MSI = function (_Barcode) {
-  _inherits(MSI, _Barcode);
-
-  function MSI(data, options) {
-    _classCallCheck(this, MSI);
-
-    return _possibleConstructorReturn(this, (MSI.__proto__ || Object.getPrototypeOf(MSI)).call(this, data, options));
-  }
-
-  _createClass(MSI, [{
-    key: "encode",
-    value: function encode() {
-      // Start bits
-      var ret = "110";
-
-      for (var i = 0; i < this.data.length; i++) {
-        // Convert the character to binary (always 4 binary digits)
-        var digit = parseInt(this.data[i]);
-        var bin = digit.toString(2);
-        bin = addZeroes(bin, 4 - bin.length);
-
-        // Add 100 for every zero and 110 for every 1
-        for (var b = 0; b < bin.length; b++) {
-          ret += bin[b] == "0" ? "100" : "110";
-        }
-      }
-
-      // End bits
-      ret += "1001";
-
-      return {
-        data: ret,
-        text: this.text };
-
-    } },
-  {
-    key: "valid",
-    value: function valid() {
-      return this.data.search(/^[0-9]+$/) !== -1;
-    } }]);
-
-
-  return MSI;
-}(_Barcode3.default);
-
-function addZeroes(number, n) {
-  for (var i = 0; i < n; i++) {
-    number = "0" + number;
-  }
-  return number;
-}
-
-exports.default = MSI;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
-
-var _MSI3 = _interopRequireDefault(_MSI2);
-
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var MSI10 = function (_MSI) {
-  _inherits(MSI10, _MSI);
-
-  function MSI10(data, options) {
-    _classCallCheck(this, MSI10);
-
-    return _possibleConstructorReturn(this, (MSI10.__proto__ || Object.getPrototypeOf(MSI10)).call(this, data + (0, _checksums.mod10)(data), options));
-  }
-
-  return MSI10;
-}(_MSI3.default);
-
-exports.default = MSI10;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
-
-var _MSI3 = _interopRequireDefault(_MSI2);
-
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var MSI1010 = function (_MSI) {
-  _inherits(MSI1010, _MSI);
-
-  function MSI1010(data, options) {
-    _classCallCheck(this, MSI1010);
-
-    data += (0, _checksums.mod10)(data);
-    data += (0, _checksums.mod10)(data);
-    return _possibleConstructorReturn(this, (MSI1010.__proto__ || Object.getPrototypeOf(MSI1010)).call(this, data, options));
-  }
-
-  return MSI1010;
-}(_MSI3.default);
-
-exports.default = MSI1010;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
-
-var _MSI3 = _interopRequireDefault(_MSI2);
-
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var MSI11 = function (_MSI) {
-  _inherits(MSI11, _MSI);
-
-  function MSI11(data, options) {
-    _classCallCheck(this, MSI11);
-
-    return _possibleConstructorReturn(this, (MSI11.__proto__ || Object.getPrototypeOf(MSI11)).call(this, data + (0, _checksums.mod11)(data), options));
-  }
-
-  return MSI11;
-}(_MSI3.default);
-
-exports.default = MSI11;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
-
-var _MSI3 = _interopRequireDefault(_MSI2);
-
-var _checksums = __webpack_require__(/*! ./checksums.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js");
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
-
-var MSI1110 = function (_MSI) {
-  _inherits(MSI1110, _MSI);
-
-  function MSI1110(data, options) {
-    _classCallCheck(this, MSI1110);
-
-    data += (0, _checksums.mod11)(data);
-    data += (0, _checksums.mod10)(data);
-    return _possibleConstructorReturn(this, (MSI1110.__proto__ || Object.getPrototypeOf(MSI1110)).call(this, data, options));
-  }
-
-  return MSI1110;
-}(_MSI3.default);
-
-exports.default = MSI1110;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/checksums.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.mod10 = mod10;
-exports.mod11 = mod11;
-function mod10(number) {
-  var sum = 0;
-  for (var i = 0; i < number.length; i++) {
-    var n = parseInt(number[i]);
-    if ((i + number.length) % 2 === 0) {
-      sum += n;
-    } else {
-      sum += n * 2 % 10 + Math.floor(n * 2 / 10);
-    }
-  }
-  return (10 - sum % 10) % 10;
-}
-
-function mod11(number) {
-  var sum = 0;
-  var weights = [2, 3, 4, 5, 6, 7];
-  for (var i = 0; i < number.length; i++) {
-    var n = parseInt(number[number.length - 1 - i]);
-    sum += weights[i % weights.length] * n;
-  }
-  return (11 - sum % 11) % 11;
-}
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/index.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/index.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
-
-var _MSI = __webpack_require__(/*! ./MSI.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI.js");
-
-var _MSI2 = _interopRequireDefault(_MSI);
-
-var _MSI3 = __webpack_require__(/*! ./MSI10.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI10.js");
-
-var _MSI4 = _interopRequireDefault(_MSI3);
-
-var _MSI5 = __webpack_require__(/*! ./MSI11.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI11.js");
-
-var _MSI6 = _interopRequireDefault(_MSI5);
-
-var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1010.js");
-
-var _MSI8 = _interopRequireDefault(_MSI7);
-
-var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/MSI1110.js");
-
-var _MSI10 = _interopRequireDefault(_MSI9);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-exports.MSI = _MSI2.default;
-exports.MSI10 = _MSI4.default;
-exports.MSI11 = _MSI6.default;
-exports.MSI1010 = _MSI8.default;
-exports.MSI1110 = _MSI10.default;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/codabar/index.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/codabar/index.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.codabar = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding specification:
-// http://www.barcodeisland.com/codabar.phtml
-
-var codabar = function (_Barcode) {
-  _inherits(codabar, _Barcode);
-
-  function codabar(data, options) {
-    _classCallCheck(this, codabar);
-
-    if (data.search(/^[0-9\-\$\:\.\+\/]+$/) === 0) {
-      data = "A" + data + "A";
-    }
-
-    var _this = _possibleConstructorReturn(this, (codabar.__proto__ || Object.getPrototypeOf(codabar)).call(this, data.toUpperCase(), options));
-
-    _this.text = _this.options.text || _this.text.replace(/[A-D]/g, '');
-    return _this;
-  }
-
-  _createClass(codabar, [{
-    key: "valid",
-    value: function valid() {
-      return this.data.search(/^[A-D][0-9\-\$\:\.\+\/]+[A-D]$/) !== -1;
-    } },
-  {
-    key: "encode",
-    value: function encode() {
-      var result = [];
-      var encodings = this.getEncodings();
-      for (var i = 0; i < this.data.length; i++) {
-        result.push(encodings[this.data.charAt(i)]);
-        // for all characters except the last, append a narrow-space ("0")
-        if (i !== this.data.length - 1) {
-          result.push("0");
-        }
-      }
-      return {
-        text: this.text,
-        data: result.join('') };
-
-    } },
-  {
-    key: "getEncodings",
-    value: function getEncodings() {
-      return {
-        "0": "101010011",
-        "1": "101011001",
-        "2": "101001011",
-        "3": "110010101",
-        "4": "101101001",
-        "5": "110101001",
-        "6": "100101011",
-        "7": "100101101",
-        "8": "100110101",
-        "9": "110100101",
-        "-": "101001101",
-        "$": "101100101",
-        ":": "1101011011",
-        "/": "1101101011",
-        ".": "1101101101",
-        "+": "101100110011",
-        "A": "1011001001",
-        "B": "1001001011",
-        "C": "1010010011",
-        "D": "1010011001" };
-
-    } }]);
-
-
-  return codabar;
-}(_Barcode3.default);
-
-exports.codabar = codabar;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/index.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/index.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _CODE = __webpack_require__(/*! ./CODE39/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE39/index.js");
-
-var _CODE2 = __webpack_require__(/*! ./CODE128/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/CODE128/index.js");
-
-var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/EAN_UPC/index.js");
-
-var _ITF = __webpack_require__(/*! ./ITF/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/ITF/index.js");
-
-var _MSI = __webpack_require__(/*! ./MSI/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/MSI/index.js");
-
-var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/pharmacode/index.js");
-
-var _codabar = __webpack_require__(/*! ./codabar */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/codabar/index.js");
-
-var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/GenericBarcode/index.js");
-
-exports.default = {
-  CODE39: _CODE.CODE39,
-  CODE128: _CODE2.CODE128, CODE128A: _CODE2.CODE128A, CODE128B: _CODE2.CODE128B, CODE128C: _CODE2.CODE128C,
-  EAN13: _EAN_UPC.EAN13, EAN8: _EAN_UPC.EAN8, EAN5: _EAN_UPC.EAN5, EAN2: _EAN_UPC.EAN2,
-  UPC: _EAN_UPC.UPC, UPCE: _EAN_UPC.UPCE,
-  ITF14: _ITF.ITF14,
-  ITF: _ITF.ITF,
-  MSI: _MSI.MSI, MSI10: _MSI.MSI10, MSI11: _MSI.MSI11, MSI1010: _MSI.MSI1010, MSI1110: _MSI.MSI1110,
-  PHARMACODE: _pharmacode.pharmacode,
-  CODABAR: _codabar.codabar,
-  GENERICBARCODE: _GenericBarcode.GenericBarcode };
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/pharmacode/index.js":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/pharmacode/index.js ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.pharmacode = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-barcode/barcodes/Barcode.js");
-
-var _Barcode3 = _interopRequireDefault(_Barcode2);
-
-function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation
-// http://www.gomaro.ch/ftproot/Laetus_PHARMA-CODE.pdf
-
-var pharmacode = function (_Barcode) {
-  _inherits(pharmacode, _Barcode);
-
-  function pharmacode(data, options) {
-    _classCallCheck(this, pharmacode);
-
-    var _this = _possibleConstructorReturn(this, (pharmacode.__proto__ || Object.getPrototypeOf(pharmacode)).call(this, data, options));
-
-    _this.number = parseInt(data, 10);
-    return _this;
-  }
-
-  _createClass(pharmacode, [{
-    key: "encode",
-    value: function encode() {
-      var z = this.number;
-      var result = "";
-
-      // http://i.imgur.com/RMm4UDJ.png
-      // (source: http://www.gomaro.ch/ftproot/Laetus_PHARMA-CODE.pdf, page: 34)
-      while (!isNaN(z) && z != 0) {
-        if (z % 2 === 0) {
-          // Even
-          result = "11100" + result;
-          z = (z - 2) / 2;
-        } else {
-          // Odd
-          result = "100" + result;
-          z = (z - 1) / 2;
-        }
-      }
-
-      // Remove the two last zeroes
-      result = result.slice(0, -2);
-
-      return {
-        data: result,
-        text: this.text };
-
-    } },
-  {
-    key: "valid",
-    value: function valid() {
-      return this.number >= 3 && this.number <= 131070;
-    } }]);
-
-
-  return pharmacode;
-}(_Barcode3.default);
-
-exports.pharmacode = pharmacode;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/qrcode.js":
-/*!****************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/components/tki-qrcode/qrcode.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var QRCode = {};
-(function () {
-  /**
-               * 获取单个字符的utf8编码
-               * unicode BMP平面约65535个字符
-               * @param {num} code
-               * return {array}
-               */
-  function unicodeFormat8(code) {
-    // 1 byte
-    var c0, c1, c2;
-    if (code < 128) {
-      return [code];
-      // 2 bytes
-    } else if (code < 2048) {
-      c0 = 192 + (code >> 6);
-      c1 = 128 + (code & 63);
-      return [c0, c1];
-      // 3 bytes
-    } else {
-      c0 = 224 + (code >> 12);
-      c1 = 128 + (code >> 6 & 63);
-      c2 = 128 + (code & 63);
-      return [c0, c1, c2];
-    }
-  }
-  /**
-     * 获取字符串的utf8编码字节串
-     * @param {string} string
-     * @return {array}
-     */
-  function getUTF8Bytes(string) {
-    var utf8codes = [];
-    for (var i = 0; i < string.length; i++) {
-      var code = string.charCodeAt(i);
-      var utf8 = unicodeFormat8(code);
-      for (var j = 0; j < utf8.length; j++) {
-        utf8codes.push(utf8[j]);
-      }
-    }
-    return utf8codes;
-  }
-  /**
-     * 二维码算法实现
-     * @param {string} data              要编码的信息字符串
-     * @param {num} errorCorrectLevel 纠错等级
-     */
-  function QRCodeAlg(data, errorCorrectLevel) {
-    this.typeNumber = -1; //版本
-    this.errorCorrectLevel = errorCorrectLevel;
-    this.modules = null; //二维矩阵，存放最终结果
-    this.moduleCount = 0; //矩阵大小
-    this.dataCache = null; //数据缓存
-    this.rsBlocks = null; //版本数据信息
-    this.totalDataCount = -1; //可使用的数据量
-    this.data = data;
-    this.utf8bytes = getUTF8Bytes(data);
-    this.make();
-  }
-  QRCodeAlg.prototype = {
-    constructor: QRCodeAlg,
-    /**
-                             * 获取二维码矩阵大小
-                             * @return {num} 矩阵大小
-                             */
-    getModuleCount: function getModuleCount() {
-      return this.moduleCount;
-    },
-    /**
-        * 编码
-        */
-    make: function make() {
-      this.getRightType();
-      this.dataCache = this.createData();
-      this.createQrcode();
-    },
-    /**
-        * 设置二位矩阵功能图形
-        * @param  {bool} test 表示是否在寻找最好掩膜阶段
-        * @param  {num} maskPattern 掩膜的版本
-        */
-    makeImpl: function makeImpl(maskPattern) {
-      this.moduleCount = this.typeNumber * 4 + 17;
-      this.modules = new Array(this.moduleCount);
-      for (var row = 0; row < this.moduleCount; row++) {
-        this.modules[row] = new Array(this.moduleCount);
-      }
-      this.setupPositionProbePattern(0, 0);
-      this.setupPositionProbePattern(this.moduleCount - 7, 0);
-      this.setupPositionProbePattern(0, this.moduleCount - 7);
-      this.setupPositionAdjustPattern();
-      this.setupTimingPattern();
-      this.setupTypeInfo(true, maskPattern);
-      if (this.typeNumber >= 7) {
-        this.setupTypeNumber(true);
-      }
-      this.mapData(this.dataCache, maskPattern);
-    },
-    /**
-        * 设置二维码的位置探测图形
-        * @param  {num} row 探测图形的中心横坐标
-        * @param  {num} col 探测图形的中心纵坐标
-        */
-    setupPositionProbePattern: function setupPositionProbePattern(row, col) {
-      for (var r = -1; r <= 7; r++) {
-        if (row + r <= -1 || this.moduleCount <= row + r) continue;
-        for (var c = -1; c <= 7; c++) {
-          if (col + c <= -1 || this.moduleCount <= col + c) continue;
-          if (0 <= r && r <= 6 && (c == 0 || c == 6) || 0 <= c && c <= 6 && (r == 0 || r == 6) || 2 <= r && r <= 4 && 2 <= c && c <= 4) {
-            this.modules[row + r][col + c] = true;
-          } else {
-            this.modules[row + r][col + c] = false;
-          }
-        }
-      }
-    },
-    /**
-        * 创建二维码
-        * @return {[type]} [description]
-        */
-    createQrcode: function createQrcode() {
-      var minLostPoint = 0;
-      var pattern = 0;
-      var bestModules = null;
-      for (var i = 0; i < 8; i++) {
-        this.makeImpl(i);
-        var lostPoint = QRUtil.getLostPoint(this);
-        if (i == 0 || minLostPoint > lostPoint) {
-          minLostPoint = lostPoint;
-          pattern = i;
-          bestModules = this.modules;
-        }
-      }
-      this.modules = bestModules;
-      this.setupTypeInfo(false, pattern);
-      if (this.typeNumber >= 7) {
-        this.setupTypeNumber(false);
-      }
-    },
-    /**
-        * 设置定位图形
-        * @return {[type]} [description]
-        */
-    setupTimingPattern: function setupTimingPattern() {
-      for (var r = 8; r < this.moduleCount - 8; r++) {
-        if (this.modules[r][6] != null) {
-          continue;
-        }
-        this.modules[r][6] = r % 2 == 0;
-        if (this.modules[6][r] != null) {
-          continue;
-        }
-        this.modules[6][r] = r % 2 == 0;
-      }
-    },
-    /**
-        * 设置矫正图形
-        * @return {[type]} [description]
-        */
-    setupPositionAdjustPattern: function setupPositionAdjustPattern() {
-      var pos = QRUtil.getPatternPosition(this.typeNumber);
-      for (var i = 0; i < pos.length; i++) {
-        for (var j = 0; j < pos.length; j++) {
-          var row = pos[i];
-          var col = pos[j];
-          if (this.modules[row][col] != null) {
-            continue;
-          }
-          for (var r = -2; r <= 2; r++) {
-            for (var c = -2; c <= 2; c++) {
-              if (r == -2 || r == 2 || c == -2 || c == 2 || r == 0 && c == 0) {
-                this.modules[row + r][col + c] = true;
-              } else {
-                this.modules[row + r][col + c] = false;
-              }
-            }
-          }
-        }
-      }
-    },
-    /**
-        * 设置版本信息（7以上版本才有）
-        * @param  {bool} test 是否处于判断最佳掩膜阶段
-        * @return {[type]}      [description]
-        */
-    setupTypeNumber: function setupTypeNumber(test) {
-      var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
-      for (var i = 0; i < 18; i++) {
-        var mod = !test && (bits >> i & 1) == 1;
-        this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
-        this.modules[i % 3 + this.moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
-      }
-    },
-    /**
-        * 设置格式信息（纠错等级和掩膜版本）
-        * @param  {bool} test
-        * @param  {num} maskPattern 掩膜版本
-        * @return {}
-        */
-    setupTypeInfo: function setupTypeInfo(test, maskPattern) {
-      var data = QRErrorCorrectLevel[this.errorCorrectLevel] << 3 | maskPattern;
-      var bits = QRUtil.getBCHTypeInfo(data);
-      // vertical
-      for (var i = 0; i < 15; i++) {
-        var mod = !test && (bits >> i & 1) == 1;
-        if (i < 6) {
-          this.modules[i][8] = mod;
-        } else if (i < 8) {
-          this.modules[i + 1][8] = mod;
-        } else {
-          this.modules[this.moduleCount - 15 + i][8] = mod;
-        }
-        // horizontal
-        var mod = !test && (bits >> i & 1) == 1;
-        if (i < 8) {
-          this.modules[8][this.moduleCount - i - 1] = mod;
-        } else if (i < 9) {
-          this.modules[8][15 - i - 1 + 1] = mod;
-        } else {
-          this.modules[8][15 - i - 1] = mod;
-        }
-      }
-      // fixed module
-      this.modules[this.moduleCount - 8][8] = !test;
-    },
-    /**
-        * 数据编码
-        * @return {[type]} [description]
-        */
-    createData: function createData() {
-      var buffer = new QRBitBuffer();
-      var lengthBits = this.typeNumber > 9 ? 16 : 8;
-      buffer.put(4, 4); //添加模式
-      buffer.put(this.utf8bytes.length, lengthBits);
-      for (var i = 0, l = this.utf8bytes.length; i < l; i++) {
-        buffer.put(this.utf8bytes[i], 8);
-      }
-      if (buffer.length + 4 <= this.totalDataCount * 8) {
-        buffer.put(0, 4);
-      }
-      // padding
-      while (buffer.length % 8 != 0) {
-        buffer.putBit(false);
-      }
-      // padding
-      while (true) {
-        if (buffer.length >= this.totalDataCount * 8) {
-          break;
-        }
-        buffer.put(QRCodeAlg.PAD0, 8);
-        if (buffer.length >= this.totalDataCount * 8) {
-          break;
-        }
-        buffer.put(QRCodeAlg.PAD1, 8);
-      }
-      return this.createBytes(buffer);
-    },
-    /**
-        * 纠错码编码
-        * @param  {buffer} buffer 数据编码
-        * @return {[type]}
-        */
-    createBytes: function createBytes(buffer) {
-      var offset = 0;
-      var maxDcCount = 0;
-      var maxEcCount = 0;
-      var length = this.rsBlock.length / 3;
-      var rsBlocks = new Array();
-      for (var i = 0; i < length; i++) {
-        var count = this.rsBlock[i * 3 + 0];
-        var totalCount = this.rsBlock[i * 3 + 1];
-        var dataCount = this.rsBlock[i * 3 + 2];
-        for (var j = 0; j < count; j++) {
-          rsBlocks.push([dataCount, totalCount]);
-        }
-      }
-      var dcdata = new Array(rsBlocks.length);
-      var ecdata = new Array(rsBlocks.length);
-      for (var r = 0; r < rsBlocks.length; r++) {
-        var dcCount = rsBlocks[r][0];
-        var ecCount = rsBlocks[r][1] - dcCount;
-        maxDcCount = Math.max(maxDcCount, dcCount);
-        maxEcCount = Math.max(maxEcCount, ecCount);
-        dcdata[r] = new Array(dcCount);
-        for (var i = 0; i < dcdata[r].length; i++) {
-          dcdata[r][i] = 0xff & buffer.buffer[i + offset];
-        }
-        offset += dcCount;
-        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-        var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
-        var modPoly = rawPoly.mod(rsPoly);
-        ecdata[r] = new Array(rsPoly.getLength() - 1);
-        for (var i = 0; i < ecdata[r].length; i++) {
-          var modIndex = i + modPoly.getLength() - ecdata[r].length;
-          ecdata[r][i] = modIndex >= 0 ? modPoly.get(modIndex) : 0;
-        }
-      }
-      var data = new Array(this.totalDataCount);
-      var index = 0;
-      for (var i = 0; i < maxDcCount; i++) {
-        for (var r = 0; r < rsBlocks.length; r++) {
-          if (i < dcdata[r].length) {
-            data[index++] = dcdata[r][i];
-          }
-        }
-      }
-      for (var i = 0; i < maxEcCount; i++) {
-        for (var r = 0; r < rsBlocks.length; r++) {
-          if (i < ecdata[r].length) {
-            data[index++] = ecdata[r][i];
-          }
-        }
-      }
-      return data;
-
-    },
-    /**
-        * 布置模块，构建最终信息
-        * @param  {} data
-        * @param  {} maskPattern
-        * @return {}
-        */
-    mapData: function mapData(data, maskPattern) {
-      var inc = -1;
-      var row = this.moduleCount - 1;
-      var bitIndex = 7;
-      var byteIndex = 0;
-      for (var col = this.moduleCount - 1; col > 0; col -= 2) {
-        if (col == 6) col--;
-        while (true) {
-          for (var c = 0; c < 2; c++) {
-            if (this.modules[row][col - c] == null) {
-              var dark = false;
-              if (byteIndex < data.length) {
-                dark = (data[byteIndex] >>> bitIndex & 1) == 1;
-              }
-              var mask = QRUtil.getMask(maskPattern, row, col - c);
-              if (mask) {
-                dark = !dark;
-              }
-              this.modules[row][col - c] = dark;
-              bitIndex--;
-              if (bitIndex == -1) {
-                byteIndex++;
-                bitIndex = 7;
-              }
-            }
-          }
-          row += inc;
-          if (row < 0 || this.moduleCount <= row) {
-            row -= inc;
-            inc = -inc;
-            break;
-          }
-        }
-      }
-    } };
-
-  /**
-          * 填充字段
-          */
-  QRCodeAlg.PAD0 = 0xEC;
-  QRCodeAlg.PAD1 = 0x11;
-  //---------------------------------------------------------------------
-  // 纠错等级对应的编码
-  //---------------------------------------------------------------------
-  var QRErrorCorrectLevel = [1, 0, 3, 2];
-  //---------------------------------------------------------------------
-  // 掩膜版本
-  //---------------------------------------------------------------------
-  var QRMaskPattern = {
-    PATTERN000: 0,
-    PATTERN001: 1,
-    PATTERN010: 2,
-    PATTERN011: 3,
-    PATTERN100: 4,
-    PATTERN101: 5,
-    PATTERN110: 6,
-    PATTERN111: 7 };
-
-  //---------------------------------------------------------------------
-  // 工具类
-  //---------------------------------------------------------------------
-  var QRUtil = {
-    /*
-                 每个版本矫正图形的位置
-                  */
-    PATTERN_POSITION_TABLE: [
-    [],
-    [6, 18],
-    [6, 22],
-    [6, 26],
-    [6, 30],
-    [6, 34],
-    [6, 22, 38],
-    [6, 24, 42],
-    [6, 26, 46],
-    [6, 28, 50],
-    [6, 30, 54],
-    [6, 32, 58],
-    [6, 34, 62],
-    [6, 26, 46, 66],
-    [6, 26, 48, 70],
-    [6, 26, 50, 74],
-    [6, 30, 54, 78],
-    [6, 30, 56, 82],
-    [6, 30, 58, 86],
-    [6, 34, 62, 90],
-    [6, 28, 50, 72, 94],
-    [6, 26, 50, 74, 98],
-    [6, 30, 54, 78, 102],
-    [6, 28, 54, 80, 106],
-    [6, 32, 58, 84, 110],
-    [6, 30, 58, 86, 114],
-    [6, 34, 62, 90, 118],
-    [6, 26, 50, 74, 98, 122],
-    [6, 30, 54, 78, 102, 126],
-    [6, 26, 52, 78, 104, 130],
-    [6, 30, 56, 82, 108, 134],
-    [6, 34, 60, 86, 112, 138],
-    [6, 30, 58, 86, 114, 142],
-    [6, 34, 62, 90, 118, 146],
-    [6, 30, 54, 78, 102, 126, 150],
-    [6, 24, 50, 76, 102, 128, 154],
-    [6, 28, 54, 80, 106, 132, 158],
-    [6, 32, 58, 84, 110, 136, 162],
-    [6, 26, 54, 82, 110, 138, 166],
-    [6, 30, 58, 86, 114, 142, 170]],
-
-    G15: 1 << 10 | 1 << 8 | 1 << 5 | 1 << 4 | 1 << 2 | 1 << 1 | 1 << 0,
-    G18: 1 << 12 | 1 << 11 | 1 << 10 | 1 << 9 | 1 << 8 | 1 << 5 | 1 << 2 | 1 << 0,
-    G15_MASK: 1 << 14 | 1 << 12 | 1 << 10 | 1 << 4 | 1 << 1,
-    /*
-                                                             BCH编码格式信息
-                                                              */
-    getBCHTypeInfo: function getBCHTypeInfo(data) {
-      var d = data << 10;
-      while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
-        d ^= QRUtil.G15 << QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15);
-      }
-      return (data << 10 | d) ^ QRUtil.G15_MASK;
-    },
-    /*
-       BCH编码版本信息
-        */
-    getBCHTypeNumber: function getBCHTypeNumber(data) {
-      var d = data << 12;
-      while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
-        d ^= QRUtil.G18 << QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18);
-      }
-      return data << 12 | d;
-    },
-    /*
-       获取BCH位信息
-        */
-    getBCHDigit: function getBCHDigit(data) {
-      var digit = 0;
-      while (data != 0) {
-        digit++;
-        data >>>= 1;
-      }
-      return digit;
-    },
-    /*
-       获取版本对应的矫正图形位置
-        */
-    getPatternPosition: function getPatternPosition(typeNumber) {
-      return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
-    },
-    /*
-       掩膜算法
-        */
-    getMask: function getMask(maskPattern, i, j) {
-      switch (maskPattern) {
-        case QRMaskPattern.PATTERN000:
-          return (i + j) % 2 == 0;
-        case QRMaskPattern.PATTERN001:
-          return i % 2 == 0;
-        case QRMaskPattern.PATTERN010:
-          return j % 3 == 0;
-        case QRMaskPattern.PATTERN011:
-          return (i + j) % 3 == 0;
-        case QRMaskPattern.PATTERN100:
-          return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 == 0;
-        case QRMaskPattern.PATTERN101:
-          return i * j % 2 + i * j % 3 == 0;
-        case QRMaskPattern.PATTERN110:
-          return (i * j % 2 + i * j % 3) % 2 == 0;
-        case QRMaskPattern.PATTERN111:
-          return (i * j % 3 + (i + j) % 2) % 2 == 0;
-        default:
-          throw new Error("bad maskPattern:" + maskPattern);}
-
-    },
-    /*
-       获取RS的纠错多项式
-        */
-    getErrorCorrectPolynomial: function getErrorCorrectPolynomial(errorCorrectLength) {
-      var a = new QRPolynomial([1], 0);
-      for (var i = 0; i < errorCorrectLength; i++) {
-        a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0));
-      }
-      return a;
-    },
-    /*
-       获取评价
-        */
-    getLostPoint: function getLostPoint(qrCode) {
-      var moduleCount = qrCode.getModuleCount(),
-      lostPoint = 0,
-      darkCount = 0;
-      for (var row = 0; row < moduleCount; row++) {
-        var sameCount = 0;
-        var head = qrCode.modules[row][0];
-        for (var col = 0; col < moduleCount; col++) {
-          var current = qrCode.modules[row][col];
-          //level 3 评价
-          if (col < moduleCount - 6) {
-            if (current && !qrCode.modules[row][col + 1] && qrCode.modules[row][col + 2] && qrCode.modules[row][col + 3] && qrCode.modules[row][col + 4] && !qrCode.modules[row][col + 5] && qrCode.modules[row][col + 6]) {
-              if (col < moduleCount - 10) {
-                if (qrCode.modules[row][col + 7] && qrCode.modules[row][col + 8] && qrCode.modules[row][col + 9] && qrCode.modules[row][col + 10]) {
-                  lostPoint += 40;
-                }
-              } else if (col > 3) {
-                if (qrCode.modules[row][col - 1] && qrCode.modules[row][col - 2] && qrCode.modules[row][col - 3] && qrCode.modules[row][col - 4]) {
-                  lostPoint += 40;
-                }
-              }
-            }
-          }
-          //level 2 评价
-          if (row < moduleCount - 1 && col < moduleCount - 1) {
-            var count = 0;
-            if (current) count++;
-            if (qrCode.modules[row + 1][col]) count++;
-            if (qrCode.modules[row][col + 1]) count++;
-            if (qrCode.modules[row + 1][col + 1]) count++;
-            if (count == 0 || count == 4) {
-              lostPoint += 3;
-            }
-          }
-          //level 1 评价
-          if (head ^ current) {
-            sameCount++;
-          } else {
-            head = current;
-            if (sameCount >= 5) {
-              lostPoint += 3 + sameCount - 5;
-            }
-            sameCount = 1;
-          }
-          //level 4 评价
-          if (current) {
-            darkCount++;
-          }
-        }
-      }
-      for (var col = 0; col < moduleCount; col++) {
-        var sameCount = 0;
-        var head = qrCode.modules[0][col];
-        for (var row = 0; row < moduleCount; row++) {
-          var current = qrCode.modules[row][col];
-          //level 3 评价
-          if (row < moduleCount - 6) {
-            if (current && !qrCode.modules[row + 1][col] && qrCode.modules[row + 2][col] && qrCode.modules[row + 3][col] && qrCode.modules[row + 4][col] && !qrCode.modules[row + 5][col] && qrCode.modules[row + 6][col]) {
-              if (row < moduleCount - 10) {
-                if (qrCode.modules[row + 7][col] && qrCode.modules[row + 8][col] && qrCode.modules[row + 9][col] && qrCode.modules[row + 10][col]) {
-                  lostPoint += 40;
-                }
-              } else if (row > 3) {
-                if (qrCode.modules[row - 1][col] && qrCode.modules[row - 2][col] && qrCode.modules[row - 3][col] && qrCode.modules[row - 4][col]) {
-                  lostPoint += 40;
-                }
-              }
-            }
-          }
-          //level 1 评价
-          if (head ^ current) {
-            sameCount++;
-          } else {
-            head = current;
-            if (sameCount >= 5) {
-              lostPoint += 3 + sameCount - 5;
-            }
-            sameCount = 1;
-          }
-        }
-      }
-      // LEVEL4
-      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
-      lostPoint += ratio * 10;
-      return lostPoint;
-    } };
-
-
-  //---------------------------------------------------------------------
-  // QRMath使用的数学工具
-  //---------------------------------------------------------------------
-  var QRMath = {
-    /*
-                 将n转化为a^m
-                  */
-    glog: function glog(n) {
-      if (n < 1) {
-        throw new Error("glog(" + n + ")");
-      }
-      return QRMath.LOG_TABLE[n];
-    },
-    /*
-       将a^m转化为n
-        */
-    gexp: function gexp(n) {
-      while (n < 0) {
-        n += 255;
-      }
-      while (n >= 256) {
-        n -= 255;
-      }
-      return QRMath.EXP_TABLE[n];
-    },
-    EXP_TABLE: new Array(256),
-    LOG_TABLE: new Array(256) };
-
-
-  for (var i = 0; i < 8; i++) {
-    QRMath.EXP_TABLE[i] = 1 << i;
-  }
-  for (var i = 8; i < 256; i++) {
-    QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4] ^ QRMath.EXP_TABLE[i - 5] ^ QRMath.EXP_TABLE[i - 6] ^ QRMath.EXP_TABLE[i - 8];
-  }
-  for (var i = 0; i < 255; i++) {
-    QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]] = i;
-  }
-  //---------------------------------------------------------------------
-  // QRPolynomial 多项式
-  //---------------------------------------------------------------------
-  /**
-   * 多项式类
-   * @param {Array} num   系数
-   * @param {num} shift a^shift
-   */
-  function QRPolynomial(num, shift) {
-    if (num.length == undefined) {
-      throw new Error(num.length + "/" + shift);
-    }
-    var offset = 0;
-    while (offset < num.length && num[offset] == 0) {
-      offset++;
-    }
-    this.num = new Array(num.length - offset + shift);
-    for (var i = 0; i < num.length - offset; i++) {
-      this.num[i] = num[i + offset];
-    }
-  }
-  QRPolynomial.prototype = {
-    get: function get(index) {
-      return this.num[index];
-    },
-    getLength: function getLength() {
-      return this.num.length;
-    },
-    /**
-        * 多项式乘法
-        * @param  {QRPolynomial} e 被乘多项式
-        * @return {[type]}   [description]
-        */
-    multiply: function multiply(e) {
-      var num = new Array(this.getLength() + e.getLength() - 1);
-      for (var i = 0; i < this.getLength(); i++) {
-        for (var j = 0; j < e.getLength(); j++) {
-          num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i)) + QRMath.glog(e.get(j)));
-        }
-      }
-      return new QRPolynomial(num, 0);
-    },
-    /**
-        * 多项式模运算
-        * @param  {QRPolynomial} e 模多项式
-        * @return {}
-        */
-    mod: function mod(e) {
-      var tl = this.getLength(),
-      el = e.getLength();
-      if (tl - el < 0) {
-        return this;
-      }
-      var num = new Array(tl);
-      for (var i = 0; i < tl; i++) {
-        num[i] = this.get(i);
-      }
-      while (num.length >= el) {
-        var ratio = QRMath.glog(num[0]) - QRMath.glog(e.get(0));
-
-        for (var i = 0; i < e.getLength(); i++) {
-          num[i] ^= QRMath.gexp(QRMath.glog(e.get(i)) + ratio);
-        }
-        while (num[0] == 0) {
-          num.shift();
-        }
-      }
-      return new QRPolynomial(num, 0);
-    } };
-
-
-  //---------------------------------------------------------------------
-  // RS_BLOCK_TABLE
-  //---------------------------------------------------------------------
-  /*
-  二维码各个版本信息[块数, 每块中的数据块数, 每块中的信息块数]
-   */
-  var RS_BLOCK_TABLE = [
-  // L
-  // M
-  // Q
-  // H
-  // 1
-  [1, 26, 19],
-  [1, 26, 16],
-  [1, 26, 13],
-  [1, 26, 9],
-
-  // 2
-  [1, 44, 34],
-  [1, 44, 28],
-  [1, 44, 22],
-  [1, 44, 16],
-
-  // 3
-  [1, 70, 55],
-  [1, 70, 44],
-  [2, 35, 17],
-  [2, 35, 13],
-
-  // 4
-  [1, 100, 80],
-  [2, 50, 32],
-  [2, 50, 24],
-  [4, 25, 9],
-
-  // 5
-  [1, 134, 108],
-  [2, 67, 43],
-  [2, 33, 15, 2, 34, 16],
-  [2, 33, 11, 2, 34, 12],
-
-  // 6
-  [2, 86, 68],
-  [4, 43, 27],
-  [4, 43, 19],
-  [4, 43, 15],
-
-  // 7
-  [2, 98, 78],
-  [4, 49, 31],
-  [2, 32, 14, 4, 33, 15],
-  [4, 39, 13, 1, 40, 14],
-
-  // 8
-  [2, 121, 97],
-  [2, 60, 38, 2, 61, 39],
-  [4, 40, 18, 2, 41, 19],
-  [4, 40, 14, 2, 41, 15],
-
-  // 9
-  [2, 146, 116],
-  [3, 58, 36, 2, 59, 37],
-  [4, 36, 16, 4, 37, 17],
-  [4, 36, 12, 4, 37, 13],
-
-  // 10
-  [2, 86, 68, 2, 87, 69],
-  [4, 69, 43, 1, 70, 44],
-  [6, 43, 19, 2, 44, 20],
-  [6, 43, 15, 2, 44, 16],
-
-  // 11
-  [4, 101, 81],
-  [1, 80, 50, 4, 81, 51],
-  [4, 50, 22, 4, 51, 23],
-  [3, 36, 12, 8, 37, 13],
-
-  // 12
-  [2, 116, 92, 2, 117, 93],
-  [6, 58, 36, 2, 59, 37],
-  [4, 46, 20, 6, 47, 21],
-  [7, 42, 14, 4, 43, 15],
-
-  // 13
-  [4, 133, 107],
-  [8, 59, 37, 1, 60, 38],
-  [8, 44, 20, 4, 45, 21],
-  [12, 33, 11, 4, 34, 12],
-
-  // 14
-  [3, 145, 115, 1, 146, 116],
-  [4, 64, 40, 5, 65, 41],
-  [11, 36, 16, 5, 37, 17],
-  [11, 36, 12, 5, 37, 13],
-
-  // 15
-  [5, 109, 87, 1, 110, 88],
-  [5, 65, 41, 5, 66, 42],
-  [5, 54, 24, 7, 55, 25],
-  [11, 36, 12],
-
-  // 16
-  [5, 122, 98, 1, 123, 99],
-  [7, 73, 45, 3, 74, 46],
-  [15, 43, 19, 2, 44, 20],
-  [3, 45, 15, 13, 46, 16],
-
-  // 17
-  [1, 135, 107, 5, 136, 108],
-  [10, 74, 46, 1, 75, 47],
-  [1, 50, 22, 15, 51, 23],
-  [2, 42, 14, 17, 43, 15],
-
-  // 18
-  [5, 150, 120, 1, 151, 121],
-  [9, 69, 43, 4, 70, 44],
-  [17, 50, 22, 1, 51, 23],
-  [2, 42, 14, 19, 43, 15],
-
-  // 19
-  [3, 141, 113, 4, 142, 114],
-  [3, 70, 44, 11, 71, 45],
-  [17, 47, 21, 4, 48, 22],
-  [9, 39, 13, 16, 40, 14],
-
-  // 20
-  [3, 135, 107, 5, 136, 108],
-  [3, 67, 41, 13, 68, 42],
-  [15, 54, 24, 5, 55, 25],
-  [15, 43, 15, 10, 44, 16],
-
-  // 21
-  [4, 144, 116, 4, 145, 117],
-  [17, 68, 42],
-  [17, 50, 22, 6, 51, 23],
-  [19, 46, 16, 6, 47, 17],
-
-  // 22
-  [2, 139, 111, 7, 140, 112],
-  [17, 74, 46],
-  [7, 54, 24, 16, 55, 25],
-  [34, 37, 13],
-
-  // 23
-  [4, 151, 121, 5, 152, 122],
-  [4, 75, 47, 14, 76, 48],
-  [11, 54, 24, 14, 55, 25],
-  [16, 45, 15, 14, 46, 16],
-
-  // 24
-  [6, 147, 117, 4, 148, 118],
-  [6, 73, 45, 14, 74, 46],
-  [11, 54, 24, 16, 55, 25],
-  [30, 46, 16, 2, 47, 17],
-
-  // 25
-  [8, 132, 106, 4, 133, 107],
-  [8, 75, 47, 13, 76, 48],
-  [7, 54, 24, 22, 55, 25],
-  [22, 45, 15, 13, 46, 16],
-
-  // 26
-  [10, 142, 114, 2, 143, 115],
-  [19, 74, 46, 4, 75, 47],
-  [28, 50, 22, 6, 51, 23],
-  [33, 46, 16, 4, 47, 17],
-
-  // 27
-  [8, 152, 122, 4, 153, 123],
-  [22, 73, 45, 3, 74, 46],
-  [8, 53, 23, 26, 54, 24],
-  [12, 45, 15, 28, 46, 16],
-
-  // 28
-  [3, 147, 117, 10, 148, 118],
-  [3, 73, 45, 23, 74, 46],
-  [4, 54, 24, 31, 55, 25],
-  [11, 45, 15, 31, 46, 16],
-
-  // 29
-  [7, 146, 116, 7, 147, 117],
-  [21, 73, 45, 7, 74, 46],
-  [1, 53, 23, 37, 54, 24],
-  [19, 45, 15, 26, 46, 16],
-
-  // 30
-  [5, 145, 115, 10, 146, 116],
-  [19, 75, 47, 10, 76, 48],
-  [15, 54, 24, 25, 55, 25],
-  [23, 45, 15, 25, 46, 16],
-
-  // 31
-  [13, 145, 115, 3, 146, 116],
-  [2, 74, 46, 29, 75, 47],
-  [42, 54, 24, 1, 55, 25],
-  [23, 45, 15, 28, 46, 16],
-
-  // 32
-  [17, 145, 115],
-  [10, 74, 46, 23, 75, 47],
-  [10, 54, 24, 35, 55, 25],
-  [19, 45, 15, 35, 46, 16],
-
-  // 33
-  [17, 145, 115, 1, 146, 116],
-  [14, 74, 46, 21, 75, 47],
-  [29, 54, 24, 19, 55, 25],
-  [11, 45, 15, 46, 46, 16],
-
-  // 34
-  [13, 145, 115, 6, 146, 116],
-  [14, 74, 46, 23, 75, 47],
-  [44, 54, 24, 7, 55, 25],
-  [59, 46, 16, 1, 47, 17],
-
-  // 35
-  [12, 151, 121, 7, 152, 122],
-  [12, 75, 47, 26, 76, 48],
-  [39, 54, 24, 14, 55, 25],
-  [22, 45, 15, 41, 46, 16],
-
-  // 36
-  [6, 151, 121, 14, 152, 122],
-  [6, 75, 47, 34, 76, 48],
-  [46, 54, 24, 10, 55, 25],
-  [2, 45, 15, 64, 46, 16],
-
-  // 37
-  [17, 152, 122, 4, 153, 123],
-  [29, 74, 46, 14, 75, 47],
-  [49, 54, 24, 10, 55, 25],
-  [24, 45, 15, 46, 46, 16],
-
-  // 38
-  [4, 152, 122, 18, 153, 123],
-  [13, 74, 46, 32, 75, 47],
-  [48, 54, 24, 14, 55, 25],
-  [42, 45, 15, 32, 46, 16],
-
-  // 39
-  [20, 147, 117, 4, 148, 118],
-  [40, 75, 47, 7, 76, 48],
-  [43, 54, 24, 22, 55, 25],
-  [10, 45, 15, 67, 46, 16],
-
-  // 40
-  [19, 148, 118, 6, 149, 119],
-  [18, 75, 47, 31, 76, 48],
-  [34, 54, 24, 34, 55, 25],
-  [20, 45, 15, 61, 46, 16]];
-
-
-  /**
-                              * 根据数据获取对应版本
-                              * @return {[type]} [description]
-                              */
-  QRCodeAlg.prototype.getRightType = function () {
-    for (var typeNumber = 1; typeNumber < 41; typeNumber++) {
-      var rsBlock = RS_BLOCK_TABLE[(typeNumber - 1) * 4 + this.errorCorrectLevel];
-      if (rsBlock == undefined) {
-        throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + this.errorCorrectLevel);
-      }
-      var length = rsBlock.length / 3;
-      var totalDataCount = 0;
-      for (var i = 0; i < length; i++) {
-        var count = rsBlock[i * 3 + 0];
-        var dataCount = rsBlock[i * 3 + 2];
-        totalDataCount += dataCount * count;
-      }
-      var lengthBytes = typeNumber > 9 ? 2 : 1;
-      if (this.utf8bytes.length + lengthBytes < totalDataCount || typeNumber == 40) {
-        this.typeNumber = typeNumber;
-        this.rsBlock = rsBlock;
-        this.totalDataCount = totalDataCount;
-        break;
-      }
-    }
-  };
-
-  //---------------------------------------------------------------------
-  // QRBitBuffer
-  //---------------------------------------------------------------------
-  function QRBitBuffer() {
-    this.buffer = new Array();
-    this.length = 0;
-  }
-  QRBitBuffer.prototype = {
-    get: function get(index) {
-      var bufIndex = Math.floor(index / 8);
-      return this.buffer[bufIndex] >>> 7 - index % 8 & 1;
-    },
-    put: function put(num, length) {
-      for (var i = 0; i < length; i++) {
-        this.putBit(num >>> length - i - 1 & 1);
-      }
-    },
-    putBit: function putBit(bit) {
-      var bufIndex = Math.floor(this.length / 8);
-      if (this.buffer.length <= bufIndex) {
-        this.buffer.push(0);
-      }
-      if (bit) {
-        this.buffer[bufIndex] |= 0x80 >>> this.length % 8;
-      }
-      this.length++;
-    } };
-
-
-
-
-  // xzedit
-  var qrcodeAlgObjCache = [];
-  /**
-                               * 二维码构造函数，主要用于绘制
-                               * @param  {参数列表} opt 传递参数
-                               * @return {}
-                               */
-  QRCode = function QRCode(opt) {
-    //设置默认参数
-    this.options = {
-      text: '',
-      size: 256,
-      correctLevel: 3,
-      background: '#ffffff',
-      foreground: '#000000',
-      pdground: '#000000',
-      image: '',
-      imageSize: 30,
-      canvasId: opt.canvasId,
-      context: opt.context,
-      usingComponents: opt.usingComponents,
-      showLoading: opt.showLoading,
-      loadingText: opt.loadingText };
-
-    if (typeof opt === 'string') {// 只编码ASCII字符串
-      opt = {
-        text: opt };
-
-    }
-    if (opt) {
-      for (var i in opt) {
-        this.options[i] = opt[i];
-      }
-    }
-    //使用QRCodeAlg创建二维码结构
-    var qrCodeAlg = null;
-    for (var i = 0, l = qrcodeAlgObjCache.length; i < l; i++) {
-      if (qrcodeAlgObjCache[i].text == this.options.text && qrcodeAlgObjCache[i].text.correctLevel == this.options.correctLevel) {
-        qrCodeAlg = qrcodeAlgObjCache[i].obj;
-        break;
-      }
-    }
-    if (i == l) {
-      qrCodeAlg = new QRCodeAlg(this.options.text, this.options.correctLevel);
-      qrcodeAlgObjCache.push({
-        text: this.options.text,
-        correctLevel: this.options.correctLevel,
-        obj: qrCodeAlg });
-
-    }
-    /**
-       * 计算矩阵点的前景色
-       * @param {Obj} config
-       * @param {Number} config.row 点x坐标
-       * @param {Number} config.col 点y坐标
-       * @param {Number} config.count 矩阵大小
-       * @param {Number} config.options 组件的options
-       * @return {String}
-       */
-    var getForeGround = function getForeGround(config) {
-      var options = config.options;
-      if (options.pdground && (
-      config.row > 1 && config.row < 5 && config.col > 1 && config.col < 5 ||
-      config.row > config.count - 6 && config.row < config.count - 2 && config.col > 1 && config.col < 5 ||
-      config.row > 1 && config.row < 5 && config.col > config.count - 6 && config.col < config.count - 2))
-      {
-        return options.pdground;
-      }
-      return options.foreground;
-    };
-    // 创建canvas
-    var createCanvas = function createCanvas(options) {
-      if (options.showLoading) {
-        uni.showLoading({
-          title: options.loadingText,
-          mask: true });
-
-      }
-      var ctx = uni.createCanvasContext(options.canvasId, options.context);
-      var count = qrCodeAlg.getModuleCount();
-      var ratioSize = options.size;
-      var ratioImgSize = options.imageSize;
-      //计算每个点的长宽
-      var tileW = (ratioSize / count).toPrecision(4);
-      var tileH = (ratioSize / count).toPrecision(4);
-      //绘制
-      for (var row = 0; row < count; row++) {
-        for (var col = 0; col < count; col++) {
-          var w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
-          var h = Math.ceil((row + 1) * tileW) - Math.floor(row * tileW);
-          var foreground = getForeGround({
-            row: row,
-            col: col,
-            count: count,
-            options: options });
-
-          ctx.setFillStyle(qrCodeAlg.modules[row][col] ? foreground : options.background);
-          ctx.fillRect(Math.round(col * tileW), Math.round(row * tileH), w, h);
-        }
-      }
-      if (options.image) {
-
-
-
-
-        // 画圆角矩形
-        var drawRoundedRect = function drawRoundedRect(ctxi, x, y, width, height, r, lineWidth, fill, stroke) {
-          ctxi.setLineWidth(lineWidth);
-          ctxi.setFillStyle(options.background);
-          ctxi.setStrokeStyle(options.background);
-          ctxi.beginPath(); // draw top and top right corner 
-          ctxi.moveTo(x + r, y);
-          ctxi.arcTo(x + width, y, x + width, y + r, r); // draw right side and bottom right corner 
-          ctxi.arcTo(x + width, y + height, x + width - r, y + height, r); // draw bottom and bottom left corner 
-          ctxi.arcTo(x, y + height, x, y + height - r, r); // draw left and top left corner 
-          ctxi.arcTo(x, y, x + r, y, r);
-          ctxi.closePath();
-          if (fill) {
-            ctxi.fill();
-          }
-          if (stroke) {
-            ctxi.stroke();
-          }
-        };var x = Number(((ratioSize - ratioImgSize) / 2).toFixed(2));var y = Number(((ratioSize - ratioImgSize) / 2).toFixed(2));drawRoundedRect(ctx, x, y, ratioImgSize, ratioImgSize, 2, 6, true, true);ctx.drawImage(options.image, x, y, ratioImgSize, ratioImgSize);
-      }
-      setTimeout(function () {
-        ctx.draw(true, function () {
-          // 保存到临时区域
-          setTimeout(function () {
-            uni.canvasToTempFilePath({
-              width: options.width,
-              height: options.height,
-              destWidth: options.width,
-              destHeight: options.height,
-              canvasId: options.canvasId,
-              quality: Number(1),
-              success: function success(res) {
-                if (options.cbResult) {
-                  // 由于官方还没有统一此接口的输出字段，所以先判定下  支付宝为 res.apFilePath
-                  if (!empty(res.tempFilePath)) {
-                    options.cbResult(res.tempFilePath);
-                  } else if (!empty(res.apFilePath)) {
-                    options.cbResult(res.apFilePath);
-                  } else {
-                    options.cbResult(res.tempFilePath);
-                  }
-                }
-              },
-              fail: function fail(res) {
-                if (options.cbResult) {
-                  options.cbResult(res);
-                }
-              },
-              complete: function complete() {
-                uni.hideLoading();
-              } },
-            options.context);
-          }, options.text.length + 100);
-        });
-      }, options.usingComponents ? 0 : 150);
-    };
-    createCanvas(this.options);
-    // 空判定
-    var empty = function empty(v) {
-      var tp = typeof v,
-      rt = false;
-      if (tp == "number" && String(v) == "") {
-        rt = true;
-      } else if (tp == "undefined") {
-        rt = true;
-      } else if (tp == "object") {
-        if (JSON.stringify(v) == "{}" || JSON.stringify(v) == "[]" || v == null) rt = true;
-      } else if (tp == "string") {
-        if (v == "" || v == "undefined" || v == "null" || v == "{}" || v == "[]") rt = true;
-      } else if (tp == "function") {
-        rt = false;
-      }
-      return rt;
-    };
-  };
-  QRCode.prototype.clear = function (fn) {
-    var ctx = uni.createCanvasContext(this.options.canvasId, this.options.context);
-    ctx.clearRect(0, 0, this.options.size, this.options.size);
-    ctx.draw(false, function () {
-      if (fn) {
-        fn();
-      }
-    });
-  };
-})();var _default =
-
-QRCode;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js":
-/*!****************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createApp) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _vueI18n = _interopRequireDefault(__webpack_require__(/*! vue-i18n */ "../../../../../Desktop/新建文件夹 (8)/uni-app/node_modules/vue-i18n/dist/vue-i18n.esm.js"));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../Desktop/新建文件夹 (8)/uni-app/App.vue"));
-
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/components/kilvn-fa-icon/fa-icon.vue"));};
+/* WEBPACK VAR INJECTION */(function(createApp) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;__webpack_require__(/*! uni-pages */ 4);
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vueI18n = _interopRequireDefault(__webpack_require__(/*! vue-i18n */ 5));
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 6));
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};
 
 _bmob.default.initialize("afaa8342776ad99ff0d49bca224de9b2", "9eed865dc5914f2ecedcd63be31e33e9", "47f76baf4ee4d90630d7b2bc17f7505c");
 _vue.default.config.productionTip = false;
@@ -4006,2737 +51,11 @@ _App.default));var _default =
 
 
 createApp(app).$mount();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createApp"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 
 /***/ }),
 
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim\"}":
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim"} ***!
-  \************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_confrim = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_confrim.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_confrim/good_confrim.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_confrim.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter\"}":
-/*!***********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter"} ***!
-  \***********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_enter = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_enter/good_enter.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_confrim/good_enter/good_enter.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_enter.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail\"}":
-/*!*************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail"} ***!
-  \*************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _count_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/count_detail/count_detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_count/count_detail/count_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_count_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_count%2Fgood_count\"}":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fgood_count"} ***!
-  \********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_count = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/good_count.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_count/good_count.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_count.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_return%2Fgood_return\"}":
-/*!**********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Fgood_return"} ***!
-  \**********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_return = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/good_return.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_return/good_return.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_return.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail\"}":
-/*!****************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail"} ***!
-  \****************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _return_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/return_detail/return_detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/good_return/return_detail/return_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_return_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods-select%2Fgoods-select\"}":
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods-select%2Fgoods-select"} ***!
-  \************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goodsSelect = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods-select/goods-select.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/goods-select/goods-select.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goodsSelect.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods_out%2Fgoods_out\"}":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fgoods_out"} ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goods_out = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/goods_out.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/goods_out/goods_out.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goods_out.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail\"}":
-/*!********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail"} ***!
-  \********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _out_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/out_detail/out_detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/common/goods_out/out_detail/out_detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_out_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Findex%2Findex\"}":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/index/index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_index.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Flanding%2Flanding\"}":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Flanding%2Flanding"} ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _landing = _interopRequireDefault(__webpack_require__(/*! ./pages/landing/landing.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/landing/landing.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_landing.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcategory%2Fcategory\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fcategory%2Fcategory"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/category/category.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/category/category.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_category.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcustom%2Fadd%2Fadd\"}":
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fadd%2Fadd"} ***!
-  \***************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/custom/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fcustom%2Fcustom\"}":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom"} ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _custom = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/custom/custom.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_custom.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgood_add%2Fgood_add\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/good_add/good_add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgood_det%2Fgood_det\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/good_det/good_det.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_det.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fgoods%2Fgoods\"}":
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/goods/goods.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goods.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fmanage\"}":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/manage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_manage.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Foperations%2Foperations\"}":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Foperations%2Foperations"} ***!
-  \********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/operations/operations.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_operations.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fadd%2Fadd\"}":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fadd%2Fadd"} ***!
-  \**************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Frecord%2Frecord\"}":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Frecord%2Frecord"} ***!
-  \********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _record = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/record/record.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/record/record.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_record.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fshops\"}":
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fshops"} ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _shops = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/shops.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/shops.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_shops.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fshops%2Fstaff_in%2Fstaff_in\"}":
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fshops%2Fstaff_in%2Fstaff_in"} ***!
-  \************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _staff_in = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/staff_in/staff_in.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/shops/staff_in/staff_in.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_staff_in.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fadd%2Fadd\"}":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
-  \**************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/staff/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fstaff%2Fstaff\"}":
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fstaff"} ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _staff = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/staff.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/staff/staff.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_staff.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd\"}":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd"} ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/add/add.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/warehouse/add/add.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail\"}":
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail"} ***!
-  \************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/detail/detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/warehouse/detail/detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmanage%2Fwarehouse%2Fwarehouse\"}":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fwarehouse"} ***!
-  \******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _warehouse = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/warehouse.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/manage/warehouse/warehouse.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_warehouse.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fabout_us%2Fabout_us\"}":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fabout_us%2Fabout_us"} ***!
-  \**************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _about_us = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/about_us/about_us.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/about_us/about_us.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_about_us.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fhome_page%2Fhome_page\"}":
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fhome_page%2Fhome_page"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _home_page = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/home_page/home_page.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/home_page/home_page.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_home_page.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Flogs%2Flogs\"}":
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/logs/logs.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_logs.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fmine\"}":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/mine.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_mine.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fsetting%2Fsetting\"}":
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fsetting%2Fsetting"} ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/setting/setting.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/setting/setting.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_setting.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fmine%2Fwarning_log%2Fwarning_log\"}":
-/*!********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fmine%2Fwarning_log%2Fwarning_log"} ***!
-  \********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _warning_log = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/warning_log/warning_log.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/mine/warning_log/warning_log.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_warning_log.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fregister%2Fregister\"}":
-/*!*******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fregister%2Fregister"} ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _register = _interopRequireDefault(__webpack_require__(/*! ./pages/register/register.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/register/register.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_register.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fregister%2Fuser_protocol%2Fuser_protocol\"}":
-/*!****************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fregister%2Fuser_protocol%2Fuser_protocol"} ***!
-  \****************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _user_protocol = _interopRequireDefault(__webpack_require__(/*! ./pages/register/user_protocol/user_protocol.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/register/user_protocol/user_protocol.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_user_protocol.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2FEnteringHistory%2FEnteringHistory\"}":
-/*!******************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2FEnteringHistory%2FEnteringHistory"} ***!
-  \******************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _EnteringHistory = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/EnteringHistory.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/EnteringHistory/EnteringHistory.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_EnteringHistory.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail\"}":
-/*!******************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail"} ***!
-  \******************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/detail/detail.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/EnteringHistory/detail/detail.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2Foperational_status%2Foperational_status\"}":
-/*!************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2Foperational_status%2Foperational_status"} ***!
-  \************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _operational_status = _interopRequireDefault(__webpack_require__(/*! ./pages/report/operational_status/operational_status.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/operational_status/operational_status.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_operational_status.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Freport%2Freport\"}":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Freport%2Freport"} ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/report/report.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_report.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/main.js?{\"page\":\"pages%2Fstaff_landing%2Fstaff_landing\"}":
-/*!*****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/main.js?{"page":"pages%2Fstaff_landing%2Fstaff_landing"} ***!
-  \*****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _staff_landing = _interopRequireDefault(__webpack_require__(/*! ./pages/staff_landing/staff_landing.vue */ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages/staff_landing/staff_landing.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_staff_landing.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/node_modules/vue-i18n/dist/vue-i18n.esm.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/node_modules/vue-i18n/dist/vue-i18n.esm.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /*!
-                                                                                                      * vue-i18n v8.11.2 
-                                                                                                      * (c) 2019 kazuya kawaguchi
-                                                                                                      * Released under the MIT License.
-                                                                                                      */
-/*  */
-
-/**
-        * constants
-        */
-
-var numberFormatKeys = [
-'style',
-'currency',
-'currencyDisplay',
-'useGrouping',
-'minimumIntegerDigits',
-'minimumFractionDigits',
-'maximumFractionDigits',
-'minimumSignificantDigits',
-'maximumSignificantDigits',
-'localeMatcher',
-'formatMatcher'];
-
-
-/**
-                   * utilities
-                   */
-
-function warn(msg, err) {
-  if (typeof console !== 'undefined') {
-    console.warn('[vue-i18n] ' + msg);
-    /* istanbul ignore if */
-    if (err) {
-      console.warn(err.stack);
-    }
-  }
-}
-
-function error(msg, err) {
-  if (typeof console !== 'undefined') {
-    console.error('[vue-i18n] ' + msg);
-    /* istanbul ignore if */
-    if (err) {
-      console.error(err.stack);
-    }
-  }
-}
-
-function isObject(obj) {
-  return obj !== null && typeof obj === 'object';
-}
-
-var toString = Object.prototype.toString;
-var OBJECT_STRING = '[object Object]';
-function isPlainObject(obj) {
-  return toString.call(obj) === OBJECT_STRING;
-}
-
-function isNull(val) {
-  return val === null || val === undefined;
-}
-
-function parseArgs() {
-  var args = [],len = arguments.length;
-  while (len--) {args[len] = arguments[len];}
-
-  var locale = null;
-  var params = null;
-  if (args.length === 1) {
-    if (isObject(args[0]) || Array.isArray(args[0])) {
-      params = args[0];
-    } else if (typeof args[0] === 'string') {
-      locale = args[0];
-    }
-  } else if (args.length === 2) {
-    if (typeof args[0] === 'string') {
-      locale = args[0];
-    }
-    /* istanbul ignore if */
-    if (isObject(args[1]) || Array.isArray(args[1])) {
-      params = args[1];
-    }
-  }
-
-  return { locale: locale, params: params };
-}
-
-function looseClone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
-
-function remove(arr, item) {
-  if (arr.length) {
-    var index = arr.indexOf(item);
-    if (index > -1) {
-      return arr.splice(index, 1);
-    }
-  }
-}
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-function hasOwn(obj, key) {
-  return hasOwnProperty.call(obj, key);
-}
-
-function merge(target) {
-  var arguments$1 = arguments;
-
-  var output = Object(target);
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments$1[i];
-    if (source !== undefined && source !== null) {
-      var key = void 0;
-      for (key in source) {
-        if (hasOwn(source, key)) {
-          if (isObject(source[key])) {
-            output[key] = merge(output[key], source[key]);
-          } else {
-            output[key] = source[key];
-          }
-        }
-      }
-    }
-  }
-  return output;
-}
-
-function looseEqual(a, b) {
-  if (a === b) {return true;}
-  var isObjectA = isObject(a);
-  var isObjectB = isObject(b);
-  if (isObjectA && isObjectB) {
-    try {
-      var isArrayA = Array.isArray(a);
-      var isArrayB = Array.isArray(b);
-      if (isArrayA && isArrayB) {
-        return a.length === b.length && a.every(function (e, i) {
-          return looseEqual(e, b[i]);
-        });
-      } else if (!isArrayA && !isArrayB) {
-        var keysA = Object.keys(a);
-        var keysB = Object.keys(b);
-        return keysA.length === keysB.length && keysA.every(function (key) {
-          return looseEqual(a[key], b[key]);
-        });
-      } else {
-        /* istanbul ignore next */
-        return false;
-      }
-    } catch (e) {
-      /* istanbul ignore next */
-      return false;
-    }
-  } else if (!isObjectA && !isObjectB) {
-    return String(a) === String(b);
-  } else {
-    return false;
-  }
-}
-
-/*  */
-
-function extend(Vue) {
-  if (!Vue.prototype.hasOwnProperty('$i18n')) {
-    // $FlowFixMe
-    Object.defineProperty(Vue.prototype, '$i18n', {
-      get: function get() {return this._i18n;} });
-
-  }
-
-  Vue.prototype.$t = function (key) {
-    var values = [],len = arguments.length - 1;
-    while (len-- > 0) {values[len] = arguments[len + 1];}
-
-    var i18n = this.$i18n;
-    return i18n._t.apply(i18n, [key, i18n.locale, i18n._getMessages(), this].concat(values));
-  };
-
-  Vue.prototype.$tc = function (key, choice) {
-    var values = [],len = arguments.length - 2;
-    while (len-- > 0) {values[len] = arguments[len + 2];}
-
-    var i18n = this.$i18n;
-    return i18n._tc.apply(i18n, [key, i18n.locale, i18n._getMessages(), this, choice].concat(values));
-  };
-
-  Vue.prototype.$te = function (key, locale) {
-    var i18n = this.$i18n;
-    return i18n._te(key, i18n.locale, i18n._getMessages(), locale);
-  };
-
-  Vue.prototype.$d = function (value) {
-    var ref;
-
-    var args = [],len = arguments.length - 1;
-    while (len-- > 0) {args[len] = arguments[len + 1];}
-    return (ref = this.$i18n).d.apply(ref, [value].concat(args));
-  };
-
-  Vue.prototype.$n = function (value) {
-    var ref;
-
-    var args = [],len = arguments.length - 1;
-    while (len-- > 0) {args[len] = arguments[len + 1];}
-    return (ref = this.$i18n).n.apply(ref, [value].concat(args));
-  };
-}
-
-/*  */
-
-var mixin = {
-  beforeCreate: function beforeCreate() {
-    var options = this.$options;
-    options.i18n = options.i18n || (options.__i18n ? {} : null);
-
-    if (options.i18n) {
-      if (options.i18n instanceof VueI18n) {
-        // init locale messages via custom blocks
-        if (options.__i18n) {
-          try {
-            var localeMessages = {};
-            options.__i18n.forEach(function (resource) {
-              localeMessages = merge(localeMessages, JSON.parse(resource));
-            });
-            Object.keys(localeMessages).forEach(function (locale) {
-              options.i18n.mergeLocaleMessage(locale, localeMessages[locale]);
-            });
-          } catch (e) {
-            if (true) {
-              warn("Cannot parse locale messages via custom blocks.", e);
-            }
-          }
-        }
-        this._i18n = options.i18n;
-        this._i18nWatcher = this._i18n.watchI18nData();
-      } else if (isPlainObject(options.i18n)) {
-        // component local i18n
-        if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
-          options.i18n.root = this.$root;
-          options.i18n.formatter = this.$root.$i18n.formatter;
-          options.i18n.fallbackLocale = this.$root.$i18n.fallbackLocale;
-          options.i18n.silentTranslationWarn = this.$root.$i18n.silentTranslationWarn;
-          options.i18n.silentFallbackWarn = this.$root.$i18n.silentFallbackWarn;
-          options.i18n.pluralizationRules = this.$root.$i18n.pluralizationRules;
-          options.i18n.preserveDirectiveContent = this.$root.$i18n.preserveDirectiveContent;
-        }
-
-        // init locale messages via custom blocks
-        if (options.__i18n) {
-          try {
-            var localeMessages$1 = {};
-            options.__i18n.forEach(function (resource) {
-              localeMessages$1 = merge(localeMessages$1, JSON.parse(resource));
-            });
-            options.i18n.messages = localeMessages$1;
-          } catch (e) {
-            if (true) {
-              warn("Cannot parse locale messages via custom blocks.", e);
-            }
-          }
-        }
-
-        this._i18n = new VueI18n(options.i18n);
-        this._i18nWatcher = this._i18n.watchI18nData();
-
-        if (options.i18n.sync === undefined || !!options.i18n.sync) {
-          this._localeWatcher = this.$i18n.watchLocale();
-        }
-      } else {
-        if (true) {
-          warn("Cannot be interpreted 'i18n' option.");
-        }
-      }
-    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
-      // root i18n
-      this._i18n = this.$root.$i18n;
-    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
-      // parent i18n
-      this._i18n = options.parent.$i18n;
-    }
-  },
-
-  beforeMount: function beforeMount() {
-    var options = this.$options;
-    options.i18n = options.i18n || (options.__i18n ? {} : null);
-
-    if (options.i18n) {
-      if (options.i18n instanceof VueI18n) {
-        // init locale messages via custom blocks
-        this._i18n.subscribeDataChanging(this);
-        this._subscribing = true;
-      } else if (isPlainObject(options.i18n)) {
-        this._i18n.subscribeDataChanging(this);
-        this._subscribing = true;
-      } else {
-        if (true) {
-          warn("Cannot be interpreted 'i18n' option.");
-        }
-      }
-    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
-      this._i18n.subscribeDataChanging(this);
-      this._subscribing = true;
-    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
-      this._i18n.subscribeDataChanging(this);
-      this._subscribing = true;
-    }
-  },
-
-  beforeDestroy: function beforeDestroy() {
-    if (!this._i18n) {return;}
-
-    var self = this;
-    this.$nextTick(function () {
-      if (self._subscribing) {
-        self._i18n.unsubscribeDataChanging(self);
-        delete self._subscribing;
-      }
-
-      if (self._i18nWatcher) {
-        self._i18nWatcher();
-        self._i18n.destroyVM();
-        delete self._i18nWatcher;
-      }
-
-      if (self._localeWatcher) {
-        self._localeWatcher();
-        delete self._localeWatcher;
-      }
-
-      self._i18n = null;
-    });
-  } };
-
-
-/*  */
-
-var interpolationComponent = {
-  name: 'i18n',
-  functional: true,
-  props: {
-    tag: {
-      type: String,
-      default: 'span' },
-
-    path: {
-      type: String,
-      required: true },
-
-    locale: {
-      type: String },
-
-    places: {
-      type: [Array, Object] } },
-
-
-  render: function render(h, ref) {
-    var props = ref.props;
-    var data = ref.data;
-    var children = ref.children;
-    var parent = ref.parent;
-
-    var i18n = parent.$i18n;
-
-    children = (children || []).filter(function (child) {
-      return child.tag || (child.text = child.text.trim());
-    });
-
-    if (!i18n) {
-      if (true) {
-        warn('Cannot find VueI18n instance!');
-      }
-      return children;
-    }
-
-    var path = props.path;
-    var locale = props.locale;
-
-    var params = {};
-    var places = props.places || {};
-
-    var hasPlaces = Array.isArray(places) ?
-    places.length > 0 :
-    Object.keys(places).length > 0;
-
-    var everyPlace = children.every(function (child) {
-      if (child.data && child.data.attrs) {
-        var place = child.data.attrs.place;
-        return typeof place !== 'undefined' && place !== '';
-      }
-    });
-
-    if ( true && hasPlaces && children.length > 0 && !everyPlace) {
-      warn('If places prop is set, all child elements must have place prop set.');
-    }
-
-    if (Array.isArray(places)) {
-      places.forEach(function (el, i) {
-        params[i] = el;
-      });
-    } else {
-      Object.keys(places).forEach(function (key) {
-        params[key] = places[key];
-      });
-    }
-
-    children.forEach(function (child, i) {
-      var key = everyPlace ?
-      "" + child.data.attrs.place :
-      "" + i;
-      params[key] = child;
-    });
-
-    return h(props.tag, data, i18n.i(path, locale, params));
-  } };
-
-
-/*  */
-
-var numberComponent = {
-  name: 'i18n-n',
-  functional: true,
-  props: {
-    tag: {
-      type: String,
-      default: 'span' },
-
-    value: {
-      type: Number,
-      required: true },
-
-    format: {
-      type: [String, Object] },
-
-    locale: {
-      type: String } },
-
-
-  render: function render(h, ref) {
-    var props = ref.props;
-    var parent = ref.parent;
-    var data = ref.data;
-
-    var i18n = parent.$i18n;
-
-    if (!i18n) {
-      if (true) {
-        warn('Cannot find VueI18n instance!');
-      }
-      return null;
-    }
-
-    var key = null;
-    var options = null;
-
-    if (typeof props.format === 'string') {
-      key = props.format;
-    } else if (isObject(props.format)) {
-      if (props.format.key) {
-        key = props.format.key;
-      }
-
-      // Filter out number format options only
-      options = Object.keys(props.format).reduce(function (acc, prop) {
-        var obj;
-
-        if (numberFormatKeys.includes(prop)) {
-          return Object.assign({}, acc, (obj = {}, obj[prop] = props.format[prop], obj));
-        }
-        return acc;
-      }, null);
-    }
-
-    var locale = props.locale || i18n.locale;
-    var parts = i18n._ntp(props.value, locale, key, options);
-
-    var values = parts.map(function (part, index) {
-      var obj;
-
-      var slot = data.scopedSlots && data.scopedSlots[part.type];
-      return slot ? slot((obj = {}, obj[part.type] = part.value, obj.index = index, obj.parts = parts, obj)) : part.value;
-    });
-
-    return h(props.tag, {
-      attrs: data.attrs,
-      'class': data['class'],
-      staticClass: data.staticClass },
-    values);
-  } };
-
-
-/*  */
-
-function bind(el, binding, vnode) {
-  if (!assert(el, vnode)) {return;}
-
-  t(el, binding, vnode);
-}
-
-function update(el, binding, vnode, oldVNode) {
-  if (!assert(el, vnode)) {return;}
-
-  var i18n = vnode.context.$i18n;
-  if (localeEqual(el, vnode) &&
-  looseEqual(binding.value, binding.oldValue) &&
-  looseEqual(el._localeMessage, i18n.getLocaleMessage(i18n.locale))) {return;}
-
-  t(el, binding, vnode);
-}
-
-function unbind(el, binding, vnode, oldVNode) {
-  var vm = vnode.context;
-  if (!vm) {
-    warn('Vue instance does not exists in VNode context');
-    return;
-  }
-
-  var i18n = vnode.context.$i18n || {};
-  if (!binding.modifiers.preserve && !i18n.preserveDirectiveContent) {
-    el.textContent = '';
-  }
-  el._vt = undefined;
-  delete el['_vt'];
-  el._locale = undefined;
-  delete el['_locale'];
-  el._localeMessage = undefined;
-  delete el['_localeMessage'];
-}
-
-function assert(el, vnode) {
-  var vm = vnode.context;
-  if (!vm) {
-    warn('Vue instance does not exists in VNode context');
-    return false;
-  }
-
-  if (!vm.$i18n) {
-    warn('VueI18n instance does not exists in Vue instance');
-    return false;
-  }
-
-  return true;
-}
-
-function localeEqual(el, vnode) {
-  var vm = vnode.context;
-  return el._locale === vm.$i18n.locale;
-}
-
-function t(el, binding, vnode) {
-  var ref$1, ref$2;
-
-  var value = binding.value;
-
-  var ref = parseValue(value);
-  var path = ref.path;
-  var locale = ref.locale;
-  var args = ref.args;
-  var choice = ref.choice;
-  if (!path && !locale && !args) {
-    warn('value type not supported');
-    return;
-  }
-
-  if (!path) {
-    warn('`path` is required in v-t directive');
-    return;
-  }
-
-  var vm = vnode.context;
-  if (choice) {
-    el._vt = el.textContent = (ref$1 = vm.$i18n).tc.apply(ref$1, [path, choice].concat(makeParams(locale, args)));
-  } else {
-    el._vt = el.textContent = (ref$2 = vm.$i18n).t.apply(ref$2, [path].concat(makeParams(locale, args)));
-  }
-  el._locale = vm.$i18n.locale;
-  el._localeMessage = vm.$i18n.getLocaleMessage(vm.$i18n.locale);
-}
-
-function parseValue(value) {
-  var path;
-  var locale;
-  var args;
-  var choice;
-
-  if (typeof value === 'string') {
-    path = value;
-  } else if (isPlainObject(value)) {
-    path = value.path;
-    locale = value.locale;
-    args = value.args;
-    choice = value.choice;
-  }
-
-  return { path: path, locale: locale, args: args, choice: choice };
-}
-
-function makeParams(locale, args) {
-  var params = [];
-
-  locale && params.push(locale);
-  if (args && (Array.isArray(args) || isPlainObject(args))) {
-    params.push(args);
-  }
-
-  return params;
-}
-
-var Vue;
-
-function install(_Vue) {
-  /* istanbul ignore if */
-  if ( true && install.installed && _Vue === Vue) {
-    warn('already installed.');
-    return;
-  }
-  install.installed = true;
-
-  Vue = _Vue;
-
-  var version = Vue.version && Number(Vue.version.split('.')[0]) || -1;
-  /* istanbul ignore if */
-  if ( true && version < 2) {
-    warn("vue-i18n (" + install.version + ") need to use Vue 2.0 or later (Vue: " + Vue.version + ").");
-    return;
-  }
-
-  extend(Vue);
-  Vue.mixin(mixin);
-  Vue.directive('t', { bind: bind, update: update, unbind: unbind });
-  Vue.component(interpolationComponent.name, interpolationComponent);
-  Vue.component(numberComponent.name, numberComponent);
-
-  // use simple mergeStrategies to prevent i18n instance lose '__proto__'
-  var strats = Vue.config.optionMergeStrategies;
-  strats.i18n = function (parentVal, childVal) {
-    return childVal === undefined ?
-    parentVal :
-    childVal;
-  };
-}
-
-/*  */
-
-var BaseFormatter = function BaseFormatter() {
-  this._caches = Object.create(null);
-};
-
-BaseFormatter.prototype.interpolate = function interpolate(message, values) {
-  if (!values) {
-    return [message];
-  }
-  var tokens = this._caches[message];
-  if (!tokens) {
-    tokens = parse(message);
-    this._caches[message] = tokens;
-  }
-  return compile(tokens, values);
-};
-
-
-
-var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
-var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
-
-function parse(format) {
-  var tokens = [];
-  var position = 0;
-
-  var text = '';
-  while (position < format.length) {
-    var char = format[position++];
-    if (char === '{') {
-      if (text) {
-        tokens.push({ type: 'text', value: text });
-      }
-
-      text = '';
-      var sub = '';
-      char = format[position++];
-      while (char !== undefined && char !== '}') {
-        sub += char;
-        char = format[position++];
-      }
-      var isClosed = char === '}';
-
-      var type = RE_TOKEN_LIST_VALUE.test(sub) ?
-      'list' :
-      isClosed && RE_TOKEN_NAMED_VALUE.test(sub) ?
-      'named' :
-      'unknown';
-      tokens.push({ value: sub, type: type });
-    } else if (char === '%') {
-      // when found rails i18n syntax, skip text capture
-      if (format[position] !== '{') {
-        text += char;
-      }
-    } else {
-      text += char;
-    }
-  }
-
-  text && tokens.push({ type: 'text', value: text });
-
-  return tokens;
-}
-
-function compile(tokens, values) {
-  var compiled = [];
-  var index = 0;
-
-  var mode = Array.isArray(values) ?
-  'list' :
-  isObject(values) ?
-  'named' :
-  'unknown';
-  if (mode === 'unknown') {return compiled;}
-
-  while (index < tokens.length) {
-    var token = tokens[index];
-    switch (token.type) {
-      case 'text':
-        compiled.push(token.value);
-        break;
-      case 'list':
-        compiled.push(values[parseInt(token.value, 10)]);
-        break;
-      case 'named':
-        if (mode === 'named') {
-          compiled.push(values[token.value]);
-        } else {
-          if (true) {
-            warn("Type of token '" + token.type + "' and format of value '" + mode + "' don't match!");
-          }
-        }
-        break;
-      case 'unknown':
-        if (true) {
-          warn("Detect 'unknown' type of token!");
-        }
-        break;}
-
-    index++;
-  }
-
-  return compiled;
-}
-
-/*  */
-
-/**
-        *  Path parser
-        *  - Inspired:
-        *    Vue.js Path parser
-        */
-
-// actions
-var APPEND = 0;
-var PUSH = 1;
-var INC_SUB_PATH_DEPTH = 2;
-var PUSH_SUB_PATH = 3;
-
-// states
-var BEFORE_PATH = 0;
-var IN_PATH = 1;
-var BEFORE_IDENT = 2;
-var IN_IDENT = 3;
-var IN_SUB_PATH = 4;
-var IN_SINGLE_QUOTE = 5;
-var IN_DOUBLE_QUOTE = 6;
-var AFTER_PATH = 7;
-var ERROR = 8;
-
-var pathStateMachine = [];
-
-pathStateMachine[BEFORE_PATH] = {
-  'ws': [BEFORE_PATH],
-  'ident': [IN_IDENT, APPEND],
-  '[': [IN_SUB_PATH],
-  'eof': [AFTER_PATH] };
-
-
-pathStateMachine[IN_PATH] = {
-  'ws': [IN_PATH],
-  '.': [BEFORE_IDENT],
-  '[': [IN_SUB_PATH],
-  'eof': [AFTER_PATH] };
-
-
-pathStateMachine[BEFORE_IDENT] = {
-  'ws': [BEFORE_IDENT],
-  'ident': [IN_IDENT, APPEND],
-  '0': [IN_IDENT, APPEND],
-  'number': [IN_IDENT, APPEND] };
-
-
-pathStateMachine[IN_IDENT] = {
-  'ident': [IN_IDENT, APPEND],
-  '0': [IN_IDENT, APPEND],
-  'number': [IN_IDENT, APPEND],
-  'ws': [IN_PATH, PUSH],
-  '.': [BEFORE_IDENT, PUSH],
-  '[': [IN_SUB_PATH, PUSH],
-  'eof': [AFTER_PATH, PUSH] };
-
-
-pathStateMachine[IN_SUB_PATH] = {
-  "'": [IN_SINGLE_QUOTE, APPEND],
-  '"': [IN_DOUBLE_QUOTE, APPEND],
-  '[': [IN_SUB_PATH, INC_SUB_PATH_DEPTH],
-  ']': [IN_PATH, PUSH_SUB_PATH],
-  'eof': ERROR,
-  'else': [IN_SUB_PATH, APPEND] };
-
-
-pathStateMachine[IN_SINGLE_QUOTE] = {
-  "'": [IN_SUB_PATH, APPEND],
-  'eof': ERROR,
-  'else': [IN_SINGLE_QUOTE, APPEND] };
-
-
-pathStateMachine[IN_DOUBLE_QUOTE] = {
-  '"': [IN_SUB_PATH, APPEND],
-  'eof': ERROR,
-  'else': [IN_DOUBLE_QUOTE, APPEND] };
-
-
-/**
-                                        * Check if an expression is a literal value.
-                                        */
-
-var literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
-function isLiteral(exp) {
-  return literalValueRE.test(exp);
-}
-
-/**
-   * Strip quotes from a string
-   */
-
-function stripQuotes(str) {
-  var a = str.charCodeAt(0);
-  var b = str.charCodeAt(str.length - 1);
-  return a === b && (a === 0x22 || a === 0x27) ?
-  str.slice(1, -1) :
-  str;
-}
-
-/**
-   * Determine the type of a character in a keypath.
-   */
-
-function getPathCharType(ch) {
-  if (ch === undefined || ch === null) {return 'eof';}
-
-  var code = ch.charCodeAt(0);
-
-  switch (code) {
-    case 0x5B: // [
-    case 0x5D: // ]
-    case 0x2E: // .
-    case 0x22: // "
-    case 0x27: // '
-      return ch;
-
-    case 0x5F: // _
-    case 0x24: // $
-    case 0x2D: // -
-      return 'ident';
-
-    case 0x09: // Tab
-    case 0x0A: // Newline
-    case 0x0D: // Return
-    case 0xA0: // No-break space
-    case 0xFEFF: // Byte Order Mark
-    case 0x2028: // Line Separator
-    case 0x2029: // Paragraph Separator
-      return 'ws';}
-
-
-  return 'ident';
-}
-
-/**
-   * Format a subPath, return its plain form if it is
-   * a literal string or number. Otherwise prepend the
-   * dynamic indicator (*).
-   */
-
-function formatSubPath(path) {
-  var trimmed = path.trim();
-  // invalid leading 0
-  if (path.charAt(0) === '0' && isNaN(path)) {return false;}
-
-  return isLiteral(trimmed) ? stripQuotes(trimmed) : '*' + trimmed;
-}
-
-/**
-   * Parse a string path into an array of segments
-   */
-
-function parse$1(path) {
-  var keys = [];
-  var index = -1;
-  var mode = BEFORE_PATH;
-  var subPathDepth = 0;
-  var c;
-  var key;
-  var newChar;
-  var type;
-  var transition;
-  var action;
-  var typeMap;
-  var actions = [];
-
-  actions[PUSH] = function () {
-    if (key !== undefined) {
-      keys.push(key);
-      key = undefined;
-    }
-  };
-
-  actions[APPEND] = function () {
-    if (key === undefined) {
-      key = newChar;
-    } else {
-      key += newChar;
-    }
-  };
-
-  actions[INC_SUB_PATH_DEPTH] = function () {
-    actions[APPEND]();
-    subPathDepth++;
-  };
-
-  actions[PUSH_SUB_PATH] = function () {
-    if (subPathDepth > 0) {
-      subPathDepth--;
-      mode = IN_SUB_PATH;
-      actions[APPEND]();
-    } else {
-      subPathDepth = 0;
-      key = formatSubPath(key);
-      if (key === false) {
-        return false;
-      } else {
-        actions[PUSH]();
-      }
-    }
-  };
-
-  function maybeUnescapeQuote() {
-    var nextChar = path[index + 1];
-    if (mode === IN_SINGLE_QUOTE && nextChar === "'" ||
-    mode === IN_DOUBLE_QUOTE && nextChar === '"') {
-      index++;
-      newChar = '\\' + nextChar;
-      actions[APPEND]();
-      return true;
-    }
-  }
-
-  while (mode !== null) {
-    index++;
-    c = path[index];
-
-    if (c === '\\' && maybeUnescapeQuote()) {
-      continue;
-    }
-
-    type = getPathCharType(c);
-    typeMap = pathStateMachine[mode];
-    transition = typeMap[type] || typeMap['else'] || ERROR;
-
-    if (transition === ERROR) {
-      return; // parse error
-    }
-
-    mode = transition[0];
-    action = actions[transition[1]];
-    if (action) {
-      newChar = transition[2];
-      newChar = newChar === undefined ?
-      c :
-      newChar;
-      if (action() === false) {
-        return;
-      }
-    }
-
-    if (mode === AFTER_PATH) {
-      return keys;
-    }
-  }
-}
-
-
-
-
-
-var I18nPath = function I18nPath() {
-  this._cache = Object.create(null);
-};
-
-/**
-    * External parse that check for a cache hit first
-    */
-I18nPath.prototype.parsePath = function parsePath(path) {
-  var hit = this._cache[path];
-  if (!hit) {
-    hit = parse$1(path);
-    if (hit) {
-      this._cache[path] = hit;
-    }
-  }
-  return hit || [];
-};
-
-/**
-    * Get path value from path string
-    */
-I18nPath.prototype.getPathValue = function getPathValue(obj, path) {
-  if (!isObject(obj)) {return null;}
-
-  var paths = this.parsePath(path);
-  if (paths.length === 0) {
-    return null;
-  } else {
-    var length = paths.length;
-    var last = obj;
-    var i = 0;
-    while (i < length) {
-      var value = last[paths[i]];
-      if (value === undefined) {
-        return null;
-      }
-      last = value;
-      i++;
-    }
-
-    return last;
-  }
-};
-
-/*  */
-
-
-
-var htmlTagMatcher = /<\/?[\w\s="/.':;#-\/]+>/;
-var linkKeyMatcher = /(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))/g;
-var linkKeyPrefixMatcher = /^@(?:\.([a-z]+))?:/;
-var bracketsMatcher = /[()]/g;
-var formatters = {
-  'upper': function upper(str) {return str.toLocaleUpperCase();},
-  'lower': function lower(str) {return str.toLocaleLowerCase();} };
-
-
-var defaultFormatter = new BaseFormatter();
-
-var VueI18n = function VueI18n(options) {
-  var this$1 = this;
-  if (options === void 0) options = {};
-
-  // Auto install if it is not done yet and `window` has `Vue`.
-  // To allow users to avoid auto-installation in some cases,
-  // this code should be placed here. See #290
-  /* istanbul ignore if */
-  if (!Vue && typeof window !== 'undefined' && window.Vue) {
-    install(window.Vue);
-  }
-
-  var locale = options.locale || 'en-US';
-  var fallbackLocale = options.fallbackLocale || 'en-US';
-  var messages = options.messages || {};
-  var dateTimeFormats = options.dateTimeFormats || {};
-  var numberFormats = options.numberFormats || {};
-
-  this._vm = null;
-  this._formatter = options.formatter || defaultFormatter;
-  this._missing = options.missing || null;
-  this._root = options.root || null;
-  this._sync = options.sync === undefined ? true : !!options.sync;
-  this._fallbackRoot = options.fallbackRoot === undefined ?
-  true :
-  !!options.fallbackRoot;
-  this._silentTranslationWarn = options.silentTranslationWarn === undefined ?
-  false :
-  !!options.silentTranslationWarn;
-  this._silentFallbackWarn = options.silentFallbackWarn === undefined ?
-  false :
-  !!options.silentFallbackWarn;
-  this._dateTimeFormatters = {};
-  this._numberFormatters = {};
-  this._path = new I18nPath();
-  this._dataListeners = [];
-  this._preserveDirectiveContent = options.preserveDirectiveContent === undefined ?
-  false :
-  !!options.preserveDirectiveContent;
-  this.pluralizationRules = options.pluralizationRules || {};
-  this._warnHtmlInMessage = options.warnHtmlInMessage || 'off';
-
-  this._exist = function (message, key) {
-    if (!message || !key) {return false;}
-    if (!isNull(this$1._path.getPathValue(message, key))) {return true;}
-    // fallback for flat key
-    if (message[key]) {return true;}
-    return false;
-  };
-
-  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
-    Object.keys(messages).forEach(function (locale) {
-      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
-    });
-  }
-
-  this._initVM({
-    locale: locale,
-    fallbackLocale: fallbackLocale,
-    messages: messages,
-    dateTimeFormats: dateTimeFormats,
-    numberFormats: numberFormats });
-
-};
-
-var prototypeAccessors = { vm: { configurable: true }, messages: { configurable: true }, dateTimeFormats: { configurable: true }, numberFormats: { configurable: true }, availableLocales: { configurable: true }, locale: { configurable: true }, fallbackLocale: { configurable: true }, missing: { configurable: true }, formatter: { configurable: true }, silentTranslationWarn: { configurable: true }, silentFallbackWarn: { configurable: true }, preserveDirectiveContent: { configurable: true }, warnHtmlInMessage: { configurable: true } };
-
-VueI18n.prototype._checkLocaleMessage = function _checkLocaleMessage(locale, level, message) {
-  var paths = [];
-
-  var fn = function fn(level, locale, message, paths) {
-    if (isPlainObject(message)) {
-      Object.keys(message).forEach(function (key) {
-        var val = message[key];
-        if (isPlainObject(val)) {
-          paths.push(key);
-          paths.push('.');
-          fn(level, locale, val, paths);
-          paths.pop();
-          paths.pop();
-        } else {
-          paths.push(key);
-          fn(level, locale, val, paths);
-          paths.pop();
-        }
-      });
-    } else if (Array.isArray(message)) {
-      message.forEach(function (item, index) {
-        if (isPlainObject(item)) {
-          paths.push("[" + index + "]");
-          paths.push('.');
-          fn(level, locale, item, paths);
-          paths.pop();
-          paths.pop();
-        } else {
-          paths.push("[" + index + "]");
-          fn(level, locale, item, paths);
-          paths.pop();
-        }
-      });
-    } else if (typeof message === 'string') {
-      var ret = htmlTagMatcher.test(message);
-      if (ret) {
-        var msg = "Detected HTML in message '" + message + "' of keypath '" + paths.join('') + "' at '" + locale + "'. Consider component interpolation with '<i18n>' to avoid XSS. See https://bit.ly/2ZqJzkp";
-        if (level === 'warn') {
-          warn(msg);
-        } else if (level === 'error') {
-          error(msg);
-        }
-      }
-    }
-  };
-
-  fn(level, locale, message, paths);
-};
-
-VueI18n.prototype._initVM = function _initVM(data) {
-  var silent = Vue.config.silent;
-  Vue.config.silent = true;
-  this._vm = new Vue({ data: data });
-  Vue.config.silent = silent;
-};
-
-VueI18n.prototype.destroyVM = function destroyVM() {
-  this._vm.$destroy();
-};
-
-VueI18n.prototype.subscribeDataChanging = function subscribeDataChanging(vm) {
-  this._dataListeners.push(vm);
-};
-
-VueI18n.prototype.unsubscribeDataChanging = function unsubscribeDataChanging(vm) {
-  remove(this._dataListeners, vm);
-};
-
-VueI18n.prototype.watchI18nData = function watchI18nData() {
-  var self = this;
-  return this._vm.$watch('$data', function () {
-    var i = self._dataListeners.length;
-    while (i--) {
-      Vue.nextTick(function () {
-        self._dataListeners[i] && self._dataListeners[i].$forceUpdate();
-      });
-    }
-  }, { deep: true });
-};
-
-VueI18n.prototype.watchLocale = function watchLocale() {
-  /* istanbul ignore if */
-  if (!this._sync || !this._root) {return null;}
-  var target = this._vm;
-  return this._root.$i18n.vm.$watch('locale', function (val) {
-    target.$set(target, 'locale', val);
-    target.$forceUpdate();
-  }, { immediate: true });
-};
-
-prototypeAccessors.vm.get = function () {return this._vm;};
-
-prototypeAccessors.messages.get = function () {return looseClone(this._getMessages());};
-prototypeAccessors.dateTimeFormats.get = function () {return looseClone(this._getDateTimeFormats());};
-prototypeAccessors.numberFormats.get = function () {return looseClone(this._getNumberFormats());};
-prototypeAccessors.availableLocales.get = function () {return Object.keys(this.messages).sort();};
-
-prototypeAccessors.locale.get = function () {return this._vm.locale;};
-prototypeAccessors.locale.set = function (locale) {
-  this._vm.$set(this._vm, 'locale', locale);
-};
-
-prototypeAccessors.fallbackLocale.get = function () {return this._vm.fallbackLocale;};
-prototypeAccessors.fallbackLocale.set = function (locale) {
-  this._vm.$set(this._vm, 'fallbackLocale', locale);
-};
-
-prototypeAccessors.missing.get = function () {return this._missing;};
-prototypeAccessors.missing.set = function (handler) {this._missing = handler;};
-
-prototypeAccessors.formatter.get = function () {return this._formatter;};
-prototypeAccessors.formatter.set = function (formatter) {this._formatter = formatter;};
-
-prototypeAccessors.silentTranslationWarn.get = function () {return this._silentTranslationWarn;};
-prototypeAccessors.silentTranslationWarn.set = function (silent) {this._silentTranslationWarn = silent;};
-
-prototypeAccessors.silentFallbackWarn.get = function () {return this._silentFallbackWarn;};
-prototypeAccessors.silentFallbackWarn.set = function (silent) {this._silentFallbackWarn = silent;};
-
-prototypeAccessors.preserveDirectiveContent.get = function () {return this._preserveDirectiveContent;};
-prototypeAccessors.preserveDirectiveContent.set = function (preserve) {this._preserveDirectiveContent = preserve;};
-
-prototypeAccessors.warnHtmlInMessage.get = function () {return this._warnHtmlInMessage;};
-prototypeAccessors.warnHtmlInMessage.set = function (level) {
-  var this$1 = this;
-
-  var orgLevel = this._warnHtmlInMessage;
-  this._warnHtmlInMessage = level;
-  if (orgLevel !== level && (level === 'warn' || level === 'error')) {
-    var messages = this._getMessages();
-    Object.keys(messages).forEach(function (locale) {
-      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
-    });
-  }
-};
-
-VueI18n.prototype._getMessages = function _getMessages() {return this._vm.messages;};
-VueI18n.prototype._getDateTimeFormats = function _getDateTimeFormats() {return this._vm.dateTimeFormats;};
-VueI18n.prototype._getNumberFormats = function _getNumberFormats() {return this._vm.numberFormats;};
-
-VueI18n.prototype._warnDefault = function _warnDefault(locale, key, result, vm, values) {
-  if (!isNull(result)) {return result;}
-  if (this._missing) {
-    var missingRet = this._missing.apply(null, [locale, key, vm, values]);
-    if (typeof missingRet === 'string') {
-      return missingRet;
-    }
-  } else {
-    if ( true && !this._silentTranslationWarn) {
-      warn(
-      "Cannot translate the value of keypath '" + key + "'. " +
-      'Use the value of keypath as default.');
-
-    }
-  }
-  return key;
-};
-
-VueI18n.prototype._isFallbackRoot = function _isFallbackRoot(val) {
-  return !val && !isNull(this._root) && this._fallbackRoot;
-};
-
-VueI18n.prototype._isSilentFallback = function _isSilentFallback(locale) {
-  return this._silentFallbackWarn && (this._isFallbackRoot() || locale !== this.fallbackLocale);
-};
-
-VueI18n.prototype._interpolate = function _interpolate(
-locale,
-message,
-key,
-host,
-interpolateMode,
-values,
-visitedLinkStack)
-{
-  if (!message) {return null;}
-
-  var pathRet = this._path.getPathValue(message, key);
-  if (Array.isArray(pathRet) || isPlainObject(pathRet)) {return pathRet;}
-
-  var ret;
-  if (isNull(pathRet)) {
-    /* istanbul ignore else */
-    if (isPlainObject(message)) {
-      ret = message[key];
-      if (typeof ret !== 'string') {
-        if ( true && !this._silentTranslationWarn && !this._isSilentFallback(locale)) {
-          warn("Value of key '" + key + "' is not a string!");
-        }
-        return null;
-      }
-    } else {
-      return null;
-    }
-  } else {
-    /* istanbul ignore else */
-    if (typeof pathRet === 'string') {
-      ret = pathRet;
-    } else {
-      if ( true && !this._silentTranslationWarn && !this._isSilentFallback(locale)) {
-        warn("Value of key '" + key + "' is not a string!");
-      }
-      return null;
-    }
-  }
-
-  // Check for the existence of links within the translated string
-  if (ret.indexOf('@:') >= 0 || ret.indexOf('@.') >= 0) {
-    ret = this._link(locale, message, ret, host, 'raw', values, visitedLinkStack);
-  }
-
-  return this._render(ret, interpolateMode, values, key);
-};
-
-VueI18n.prototype._link = function _link(
-locale,
-message,
-str,
-host,
-interpolateMode,
-values,
-visitedLinkStack)
-{
-  var ret = str;
-
-  // Match all the links within the local
-  // We are going to replace each of
-  // them with its translation
-  var matches = ret.match(linkKeyMatcher);
-  for (var idx in matches) {
-    // ie compatible: filter custom array
-    // prototype method
-    if (!matches.hasOwnProperty(idx)) {
-      continue;
-    }
-    var link = matches[idx];
-    var linkKeyPrefixMatches = link.match(linkKeyPrefixMatcher);
-    var linkPrefix = linkKeyPrefixMatches[0];
-    var formatterName = linkKeyPrefixMatches[1];
-
-    // Remove the leading @:, @.case: and the brackets
-    var linkPlaceholder = link.replace(linkPrefix, '').replace(bracketsMatcher, '');
-
-    if (visitedLinkStack.includes(linkPlaceholder)) {
-      if (true) {
-        warn("Circular reference found. \"" + link + "\" is already visited in the chain of " + visitedLinkStack.reverse().join(' <- '));
-      }
-      return ret;
-    }
-    visitedLinkStack.push(linkPlaceholder);
-
-    // Translate the link
-    var translated = this._interpolate(
-    locale, message, linkPlaceholder, host,
-    interpolateMode === 'raw' ? 'string' : interpolateMode,
-    interpolateMode === 'raw' ? undefined : values,
-    visitedLinkStack);
-
-
-    if (this._isFallbackRoot(translated)) {
-      if ( true && !this._silentTranslationWarn) {
-        warn("Fall back to translate the link placeholder '" + linkPlaceholder + "' with root locale.");
-      }
-      /* istanbul ignore if */
-      if (!this._root) {throw Error('unexpected error');}
-      var root = this._root.$i18n;
-      translated = root._translate(
-      root._getMessages(), root.locale, root.fallbackLocale,
-      linkPlaceholder, host, interpolateMode, values);
-
-    }
-    translated = this._warnDefault(
-    locale, linkPlaceholder, translated, host,
-    Array.isArray(values) ? values : [values]);
-
-    if (formatters.hasOwnProperty(formatterName)) {
-      translated = formatters[formatterName](translated);
-    }
-
-    visitedLinkStack.pop();
-
-    // Replace the link with the translated
-    ret = !translated ? ret : ret.replace(link, translated);
-  }
-
-  return ret;
-};
-
-VueI18n.prototype._render = function _render(message, interpolateMode, values, path) {
-  var ret = this._formatter.interpolate(message, values, path);
-
-  // If the custom formatter refuses to work - apply the default one
-  if (!ret) {
-    ret = defaultFormatter.interpolate(message, values, path);
-  }
-
-  // if interpolateMode is **not** 'string' ('row'),
-  // return the compiled data (e.g. ['foo', VNode, 'bar']) with formatter
-  return interpolateMode === 'string' ? ret.join('') : ret;
-};
-
-VueI18n.prototype._translate = function _translate(
-messages,
-locale,
-fallback,
-key,
-host,
-interpolateMode,
-args)
-{
-  var res =
-  this._interpolate(locale, messages[locale], key, host, interpolateMode, args, [key]);
-  if (!isNull(res)) {return res;}
-
-  res = this._interpolate(fallback, messages[fallback], key, host, interpolateMode, args, [key]);
-  if (!isNull(res)) {
-    if ( true && !this._silentTranslationWarn && !this._silentFallbackWarn) {
-      warn("Fall back to translate the keypath '" + key + "' with '" + fallback + "' locale.");
-    }
-    return res;
-  } else {
-    return null;
-  }
-};
-
-VueI18n.prototype._t = function _t(key, _locale, messages, host) {
-  var ref;
-
-  var values = [],len = arguments.length - 4;
-  while (len-- > 0) {values[len] = arguments[len + 4];}
-  if (!key) {return '';}
-
-  var parsedArgs = parseArgs.apply(void 0, values);
-  var locale = parsedArgs.locale || _locale;
-
-  var ret = this._translate(
-  messages, locale, this.fallbackLocale, key,
-  host, 'string', parsedArgs.params);
-
-  if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn && !this._silentFallbackWarn) {
-      warn("Fall back to translate the keypath '" + key + "' with root locale.");
-    }
-    /* istanbul ignore if */
-    if (!this._root) {throw Error('unexpected error');}
-    return (ref = this._root).$t.apply(ref, [key].concat(values));
-  } else {
-    return this._warnDefault(locale, key, ret, host, values);
-  }
-};
-
-VueI18n.prototype.t = function t(key) {
-  var ref;
-
-  var values = [],len = arguments.length - 1;
-  while (len-- > 0) {values[len] = arguments[len + 1];}
-  return (ref = this)._t.apply(ref, [key, this.locale, this._getMessages(), null].concat(values));
-};
-
-VueI18n.prototype._i = function _i(key, locale, messages, host, values) {
-  var ret =
-  this._translate(messages, locale, this.fallbackLocale, key, host, 'raw', values);
-  if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
-      warn("Fall back to interpolate the keypath '" + key + "' with root locale.");
-    }
-    if (!this._root) {throw Error('unexpected error');}
-    return this._root.$i18n.i(key, locale, values);
-  } else {
-    return this._warnDefault(locale, key, ret, host, [values]);
-  }
-};
-
-VueI18n.prototype.i = function i(key, locale, values) {
-  /* istanbul ignore if */
-  if (!key) {return '';}
-
-  if (typeof locale !== 'string') {
-    locale = this.locale;
-  }
-
-  return this._i(key, locale, this._getMessages(), null, values);
-};
-
-VueI18n.prototype._tc = function _tc(
-key,
-_locale,
-messages,
-host,
-choice)
-{
-  var ref;
-
-  var values = [],len = arguments.length - 5;
-  while (len-- > 0) {values[len] = arguments[len + 5];}
-  if (!key) {return '';}
-  if (choice === undefined) {
-    choice = 1;
-  }
-
-  var predefined = { 'count': choice, 'n': choice };
-  var parsedArgs = parseArgs.apply(void 0, values);
-  parsedArgs.params = Object.assign(predefined, parsedArgs.params);
-  values = parsedArgs.locale === null ? [parsedArgs.params] : [parsedArgs.locale, parsedArgs.params];
-  return this.fetchChoice((ref = this)._t.apply(ref, [key, _locale, messages, host].concat(values)), choice);
-};
-
-VueI18n.prototype.fetchChoice = function fetchChoice(message, choice) {
-  /* istanbul ignore if */
-  if (!message && typeof message !== 'string') {return null;}
-  var choices = message.split('|');
-
-  choice = this.getChoiceIndex(choice, choices.length);
-  if (!choices[choice]) {return message;}
-  return choices[choice].trim();
-};
-
-/**
-    * @param choice {number} a choice index given by the input to $tc: `$tc('path.to.rule', choiceIndex)`
-    * @param choicesLength {number} an overall amount of available choices
-    * @returns a final choice index
-   */
-VueI18n.prototype.getChoiceIndex = function getChoiceIndex(choice, choicesLength) {
-  // Default (old) getChoiceIndex implementation - english-compatible
-  var defaultImpl = function defaultImpl(_choice, _choicesLength) {
-    _choice = Math.abs(_choice);
-
-    if (_choicesLength === 2) {
-      return _choice ?
-      _choice > 1 ?
-      1 :
-      0 :
-      1;
-    }
-
-    return _choice ? Math.min(_choice, 2) : 0;
-  };
-
-  if (this.locale in this.pluralizationRules) {
-    return this.pluralizationRules[this.locale].apply(this, [choice, choicesLength]);
-  } else {
-    return defaultImpl(choice, choicesLength);
-  }
-};
-
-VueI18n.prototype.tc = function tc(key, choice) {
-  var ref;
-
-  var values = [],len = arguments.length - 2;
-  while (len-- > 0) {values[len] = arguments[len + 2];}
-  return (ref = this)._tc.apply(ref, [key, this.locale, this._getMessages(), null, choice].concat(values));
-};
-
-VueI18n.prototype._te = function _te(key, locale, messages) {
-  var args = [],len = arguments.length - 3;
-  while (len-- > 0) {args[len] = arguments[len + 3];}
-
-  var _locale = parseArgs.apply(void 0, args).locale || locale;
-  return this._exist(messages[_locale], key);
-};
-
-VueI18n.prototype.te = function te(key, locale) {
-  return this._te(key, this.locale, this._getMessages(), locale);
-};
-
-VueI18n.prototype.getLocaleMessage = function getLocaleMessage(locale) {
-  return looseClone(this._vm.messages[locale] || {});
-};
-
-VueI18n.prototype.setLocaleMessage = function setLocaleMessage(locale, message) {
-  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
-    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
-    if (this._warnHtmlInMessage === 'error') {return;}
-  }
-  this._vm.$set(this._vm.messages, locale, message);
-};
-
-VueI18n.prototype.mergeLocaleMessage = function mergeLocaleMessage(locale, message) {
-  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
-    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
-    if (this._warnHtmlInMessage === 'error') {return;}
-  }
-  this._vm.$set(this._vm.messages, locale, merge(this._vm.messages[locale] || {}, message));
-};
-
-VueI18n.prototype.getDateTimeFormat = function getDateTimeFormat(locale) {
-  return looseClone(this._vm.dateTimeFormats[locale] || {});
-};
-
-VueI18n.prototype.setDateTimeFormat = function setDateTimeFormat(locale, format) {
-  this._vm.$set(this._vm.dateTimeFormats, locale, format);
-};
-
-VueI18n.prototype.mergeDateTimeFormat = function mergeDateTimeFormat(locale, format) {
-  this._vm.$set(this._vm.dateTimeFormats, locale, merge(this._vm.dateTimeFormats[locale] || {}, format));
-};
-
-VueI18n.prototype._localizeDateTime = function _localizeDateTime(
-value,
-locale,
-fallback,
-dateTimeFormats,
-key)
-{
-  var _locale = locale;
-  var formats = dateTimeFormats[_locale];
-
-  // fallback locale
-  if (isNull(formats) || isNull(formats[key])) {
-    if ( true && !this._silentTranslationWarn) {
-      warn("Fall back to '" + fallback + "' datetime formats from '" + locale + " datetime formats.");
-    }
-    _locale = fallback;
-    formats = dateTimeFormats[_locale];
-  }
-
-  if (isNull(formats) || isNull(formats[key])) {
-    return null;
-  } else {
-    var format = formats[key];
-    var id = _locale + "__" + key;
-    var formatter = this._dateTimeFormatters[id];
-    if (!formatter) {
-      formatter = this._dateTimeFormatters[id] = new Intl.DateTimeFormat(_locale, format);
-    }
-    return formatter.format(value);
-  }
-};
-
-VueI18n.prototype._d = function _d(value, locale, key) {
-  /* istanbul ignore if */
-  if ( true && !VueI18n.availabilities.dateTimeFormat) {
-    warn('Cannot format a Date value due to not supported Intl.DateTimeFormat.');
-    return '';
-  }
-
-  if (!key) {
-    return new Intl.DateTimeFormat(locale).format(value);
-  }
-
-  var ret =
-  this._localizeDateTime(value, locale, this.fallbackLocale, this._getDateTimeFormats(), key);
-  if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
-      warn("Fall back to datetime localization of root: key '" + key + "' .");
-    }
-    /* istanbul ignore if */
-    if (!this._root) {throw Error('unexpected error');}
-    return this._root.$i18n.d(value, key, locale);
-  } else {
-    return ret || '';
-  }
-};
-
-VueI18n.prototype.d = function d(value) {
-  var args = [],len = arguments.length - 1;
-  while (len-- > 0) {args[len] = arguments[len + 1];}
-
-  var locale = this.locale;
-  var key = null;
-
-  if (args.length === 1) {
-    if (typeof args[0] === 'string') {
-      key = args[0];
-    } else if (isObject(args[0])) {
-      if (args[0].locale) {
-        locale = args[0].locale;
-      }
-      if (args[0].key) {
-        key = args[0].key;
-      }
-    }
-  } else if (args.length === 2) {
-    if (typeof args[0] === 'string') {
-      key = args[0];
-    }
-    if (typeof args[1] === 'string') {
-      locale = args[1];
-    }
-  }
-
-  return this._d(value, locale, key);
-};
-
-VueI18n.prototype.getNumberFormat = function getNumberFormat(locale) {
-  return looseClone(this._vm.numberFormats[locale] || {});
-};
-
-VueI18n.prototype.setNumberFormat = function setNumberFormat(locale, format) {
-  this._vm.$set(this._vm.numberFormats, locale, format);
-};
-
-VueI18n.prototype.mergeNumberFormat = function mergeNumberFormat(locale, format) {
-  this._vm.$set(this._vm.numberFormats, locale, merge(this._vm.numberFormats[locale] || {}, format));
-};
-
-VueI18n.prototype._getNumberFormatter = function _getNumberFormatter(
-value,
-locale,
-fallback,
-numberFormats,
-key,
-options)
-{
-  var _locale = locale;
-  var formats = numberFormats[_locale];
-
-  // fallback locale
-  if (isNull(formats) || isNull(formats[key])) {
-    if ( true && !this._silentTranslationWarn) {
-      warn("Fall back to '" + fallback + "' number formats from '" + locale + " number formats.");
-    }
-    _locale = fallback;
-    formats = numberFormats[_locale];
-  }
-
-  if (isNull(formats) || isNull(formats[key])) {
-    return null;
-  } else {
-    var format = formats[key];
-
-    var formatter;
-    if (options) {
-      // If options specified - create one time number formatter
-      formatter = new Intl.NumberFormat(_locale, Object.assign({}, format, options));
-    } else {
-      var id = _locale + "__" + key;
-      formatter = this._numberFormatters[id];
-      if (!formatter) {
-        formatter = this._numberFormatters[id] = new Intl.NumberFormat(_locale, format);
-      }
-    }
-    return formatter;
-  }
-};
-
-VueI18n.prototype._n = function _n(value, locale, key, options) {
-  /* istanbul ignore if */
-  if (!VueI18n.availabilities.numberFormat) {
-    if (true) {
-      warn('Cannot format a Number value due to not supported Intl.NumberFormat.');
-    }
-    return '';
-  }
-
-  if (!key) {
-    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
-    return nf.format(value);
-  }
-
-  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
-  var ret = formatter && formatter.format(value);
-  if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
-      warn("Fall back to number localization of root: key '" + key + "' .");
-    }
-    /* istanbul ignore if */
-    if (!this._root) {throw Error('unexpected error');}
-    return this._root.$i18n.n(value, Object.assign({}, { key: key, locale: locale }, options));
-  } else {
-    return ret || '';
-  }
-};
-
-VueI18n.prototype.n = function n(value) {
-  var args = [],len = arguments.length - 1;
-  while (len-- > 0) {args[len] = arguments[len + 1];}
-
-  var locale = this.locale;
-  var key = null;
-  var options = null;
-
-  if (args.length === 1) {
-    if (typeof args[0] === 'string') {
-      key = args[0];
-    } else if (isObject(args[0])) {
-      if (args[0].locale) {
-        locale = args[0].locale;
-      }
-      if (args[0].key) {
-        key = args[0].key;
-      }
-
-      // Filter out number format options only
-      options = Object.keys(args[0]).reduce(function (acc, key) {
-        var obj;
-
-        if (numberFormatKeys.includes(key)) {
-          return Object.assign({}, acc, (obj = {}, obj[key] = args[0][key], obj));
-        }
-        return acc;
-      }, null);
-    }
-  } else if (args.length === 2) {
-    if (typeof args[0] === 'string') {
-      key = args[0];
-    }
-    if (typeof args[1] === 'string') {
-      locale = args[1];
-    }
-  }
-
-  return this._n(value, locale, key, options);
-};
-
-VueI18n.prototype._ntp = function _ntp(value, locale, key, options) {
-  /* istanbul ignore if */
-  if (!VueI18n.availabilities.numberFormat) {
-    if (true) {
-      warn('Cannot format to parts a Number value due to not supported Intl.NumberFormat.');
-    }
-    return [];
-  }
-
-  if (!key) {
-    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
-    return nf.formatToParts(value);
-  }
-
-  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
-  var ret = formatter && formatter.formatToParts(value);
-  if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
-      warn("Fall back to format number to parts of root: key '" + key + "' .");
-    }
-    /* istanbul ignore if */
-    if (!this._root) {throw Error('unexpected error');}
-    return this._root.$i18n._ntp(value, locale, key, options);
-  } else {
-    return ret || [];
-  }
-};
-
-Object.defineProperties(VueI18n.prototype, prototypeAccessors);
-
-var availabilities;
-// $FlowFixMe
-Object.defineProperty(VueI18n, 'availabilities', {
-  get: function get() {
-    if (!availabilities) {
-      var intlDefined = typeof Intl !== 'undefined';
-      availabilities = {
-        dateTimeFormat: intlDefined && typeof Intl.DateTimeFormat !== 'undefined',
-        numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined' };
-
-    }
-
-    return availabilities;
-  } });
-
-
-VueI18n.install = install;
-VueI18n.version = '8.11.2';var _default =
-
-VueI18n;exports.default = _default;
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/pages.json":
-/*!*******************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/pages.json ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js":
-/*!**********************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/utils/bmob.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}!function (e, t) { true ? module.exports = t() : undefined;}("undefined" != typeof self ? self : void 0, function () {
-  return function (e) {var t = {};function n(r) {if (t[r]) return t[r].exports;var o = t[r] = { i: r, l: !1, exports: {} };return e[r].call(o.exports, o, o.exports, n), o.l = !0, o.exports;}return n.m = e, n.c = t, n.d = function (e, t, r) {n.o(e, t) || Object.defineProperty(e, t, { configurable: !1, enumerable: !0, get: r });}, n.n = function (e) {var t = e && e.__esModule ? function () {return e.default;} : function () {return e;};return n.d(t, "a", t), t;}, n.o = function (e, t) {return Object.prototype.hasOwnProperty.call(e, t);}, n.p = "", n(n.s = 17);}([function (e, t, n) {(function (t) {var r = n(5),o = t.Bmob || {};o.utils = r, o._config = r.getConfig(), o.initialize = function (e, t, n) {o._config.applicationId = e, o._config.applicationKey = t, o._config.applicationMasterKey = n;}, e.exports = o;}).call(t, n(6));}, function (e, t, n) {"use strict";var r = n(11),o = n(25),s = Object.prototype.toString;function i(e) {return "[object Array]" === s.call(e);}function a(e) {return null !== e && "object" == typeof e;}function c(e) {return "[object Function]" === s.call(e);}function u(e, t) {if (null !== e && void 0 !== e) if ("object" != typeof e && (e = [e]), i(e)) for (var n = 0, r = e.length; n < r; n++) {t.call(null, e[n], n, e);} else for (var o in e) {Object.prototype.hasOwnProperty.call(e, o) && t.call(null, e[o], o, e);}}e.exports = { isArray: i, isArrayBuffer: function isArrayBuffer(e) {return "[object ArrayBuffer]" === s.call(e);}, isBuffer: o, isFormData: function isFormData(e) {return "undefined" != typeof FormData && e instanceof FormData;}, isArrayBufferView: function isArrayBufferView(e) {return "undefined" != typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(e) : e && e.buffer && e.buffer instanceof ArrayBuffer;}, isString: function isString(e) {return "string" == typeof e;}, isNumber: function isNumber(e) {return "number" == typeof e;}, isObject: a, isUndefined: function isUndefined(e) {return void 0 === e;}, isDate: function isDate(e) {return "[object Date]" === s.call(e);}, isFile: function isFile(e) {return "[object File]" === s.call(e);}, isBlob: function isBlob(e) {return "[object Blob]" === s.call(e);}, isFunction: c, isStream: function isStream(e) {return a(e) && c(e.pipe);}, isURLSearchParams: function isURLSearchParams(e) {return "undefined" != typeof URLSearchParams && e instanceof URLSearchParams;}, isStandardBrowserEnv: function isStandardBrowserEnv() {return ("undefined" == typeof navigator || "ReactNative" !== navigator.product) && "undefined" != typeof window && "undefined" != typeof document;}, forEach: u, merge: function e() {var t = {};function n(n, r) {"object" == typeof t[r] && "object" == typeof n ? t[r] = e(t[r], n) : t[r] = n;}for (var r = 0, o = arguments.length; r < o; r++) {u(arguments[r], n);}return t;}, extend: function extend(e, t, n) {return u(t, function (t, o) {e[o] = n && "function" == typeof t ? r(t, n) : t;}), e;}, trim: function trim(e) {return e.replace(/^\s*/, "").replace(/\s*$/, "");} };}, function (e, t) {e.exports = { isObject: function isObject(e) {return "[object Object]" === Object.prototype.toString.call(e);}, isNumber: function isNumber(e) {return "[object Number]" === Object.prototype.toString.call(e);}, isString: function isString(e) {return "[object String]" === Object.prototype.toString.call(e);}, isUndefined: function isUndefined(e) {return "[object Undefined]" === Object.prototype.toString.call(e);}, isBoolean: function isBoolean(e) {return "[object Boolean]" === Object.prototype.toString.call(e);}, isArray: function isArray(e) {return "[object Array]" === Object.prototype.toString.call(e);}, isFunction: function isFunction(e) {return "[object Function]" === Object.prototype.toString.call(e);} };}, function (e, t) {e.exports = /*#__PURE__*/function () {function _class(e, t) {_classCallCheck(this, _class);var n = new Error();return n.code = e, n.message = t ? "Bmob.Error:{code:".concat(e, ", message:").concat(t, "}") : "Bmob.Error:{code:".concat(e, ", message:").concat(this.errorMsg(e), "}"), n;}_createClass(_class, [{ key: "errorMsg", value: function errorMsg(e) {switch (e) {case 415:return "incorrect parameter type.";case 416:return "Parameter is null.";case 417:return "There is no upload content.";case 418:return "Log in failure.";case 419:return "Bmob.GeoPoint location error.";default:return "unknown error";}} }]);return _class;}();}, function (e, t, n) {var r;var o = n(5).getAppType();"h5" === o ? r = n(10) : "wx" === o ? r = n(42) : "hap" === o ? r = n(43) : "nodejs" === o && (r = n(10)), e.exports = r;}, function (e, t, n) {(function (t, r) {var o;try {o = n(18);} catch (e) {o = n(20);}var s = function s() {return o;};e.exports = { getConfig: s, getAppType: function getAppType() {var e = s();var n;return n = "undefined" != typeof wx ? "wx" : "undefined" != typeof window ? "h5" : 3 === e.type ? "hap" : t === r.process ? "nodejs" : "h5";} };}).call(t, n(7), n(6));}, function (e, t) {var n;n = function () {return this;}();try {n = n || Function("return this")() || (0, eval)("this");} catch (e) {"object" == typeof window && (n = window);}e.exports = n;}, function (e, t) {var n,r,o = e.exports = {};function s() {throw new Error("setTimeout has not been defined");}function i() {throw new Error("clearTimeout has not been defined");}function a(e) {if (n === setTimeout) return setTimeout(e, 0);if ((n === s || !n) && setTimeout) return n = setTimeout, setTimeout(e, 0);try {return n(e, 0);} catch (t) {try {return n.call(null, e, 0);} catch (t) {return n.call(this, e, 0);}}}!function () {try {n = "function" == typeof setTimeout ? setTimeout : s;} catch (e) {n = s;}try {r = "function" == typeof clearTimeout ? clearTimeout : i;} catch (e) {r = i;}}();var c,u = [],l = !1,p = -1;function f() {l && c && (l = !1, c.length ? u = c.concat(u) : p = -1, u.length && h());}function h() {if (!l) {var e = a(f);l = !0;for (var t = u.length; t;) {for (c = u, u = []; ++p < t;) {c && c[p].run();}p = -1, t = u.length;}c = null, l = !1, function (e) {if (r === clearTimeout) return clearTimeout(e);if ((r === i || !r) && clearTimeout) return r = clearTimeout, clearTimeout(e);try {r(e);} catch (t) {try {return r.call(null, e);} catch (t) {return r.call(this, e);}}}(e);}}function d(e, t) {this.fun = e, this.array = t;}function m() {}o.nextTick = function (e) {var t = new Array(arguments.length - 1);if (arguments.length > 1) for (var n = 1; n < arguments.length; n++) {t[n - 1] = arguments[n];}u.push(new d(e, t)), 1 !== u.length || l || a(h);}, d.prototype.run = function () {this.fun.apply(null, this.array);}, o.title = "browser", o.browser = !0, o.env = {}, o.argv = [], o.version = "", o.versions = {}, o.on = m, o.addListener = m, o.once = m, o.off = m, o.removeListener = m, o.removeAllListeners = m, o.emit = m, o.prependListener = m, o.prependOnceListener = m, o.listeners = function (e) {return [];}, o.binding = function (e) {throw new Error("process.binding is not supported");}, o.cwd = function () {return "/";}, o.chdir = function (e) {throw new Error("process.chdir is not supported");}, o.umask = function () {return 0;};}, function (e, t, n) {"use strict";(function (t) {var r = n(1),o = n(27),s = { "Content-Type": "application/x-www-form-urlencoded" };function i(e, t) {!r.isUndefined(e) && r.isUndefined(e["Content-Type"]) && (e["Content-Type"] = t);}var a = { adapter: function () {var e;return "undefined" != typeof XMLHttpRequest ? e = n(12) : void 0 !== t && (e = n(12)), e;}(), transformRequest: [function (e, t) {return o(t, "Content-Type"), r.isFormData(e) || r.isArrayBuffer(e) || r.isBuffer(e) || r.isStream(e) || r.isFile(e) || r.isBlob(e) ? e : r.isArrayBufferView(e) ? e.buffer : r.isURLSearchParams(e) ? (i(t, "application/x-www-form-urlencoded;charset=utf-8"), e.toString()) : r.isObject(e) ? (i(t, "application/json;charset=utf-8"), JSON.stringify(e)) : e;}], transformResponse: [function (e) {if ("string" == typeof e) try {e = JSON.parse(e);} catch (e) {}return e;}], timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", maxContentLength: -1, validateStatus: function validateStatus(e) {return e >= 200 && e < 300;}, headers: { common: { Accept: "application/json, text/plain, */*" } } };r.forEach(["delete", "get", "head"], function (e) {a.headers[e] = {};}), r.forEach(["post", "put", "patch"], function (e) {a.headers[e] = r.merge(s);}), e.exports = a;}).call(t, n(7));}, function (e, t, n) {var r = n(0);var o = n(4),_n = n(2),s = _n.isObject,i = _n.isString,a = _n.isNumber,c = _n.isUndefined,u = _n.isArray,l = n(3),p = n(16);function f(e, t, n) {var r = {},o = {};o[t] = n, r[e] = o;var s = r;return Object.keys(this.queryData).length ? c(this.queryData.$and) ? this.queryData = { $and: [this.queryData, s] } : this.queryData.$and.push(s) : this.queryData = s, s;}e.exports = /*#__PURE__*/function () {function _class2(e) {_classCallCheck(this, _class2);this.tableName = "".concat(r._config.parameters.QUERY, "/").concat(e), this.className = e, this.init(), this.addArray = {}, this.setData = {};}_createClass(_class2, [{ key: "init", value: function init() {this.queryData = {}, this.location = {}, this.andData = {}, this.orData = {}, this.stat = {}, this.limitNum = 100, this.skipNum = 0, this.includes = "", this.queryReilation = {}, this.orders = null, this.keys = null;} }, { key: "get", value: function get(e) {var _this = this;if (!i(e)) throw new l(415);var t = {};var n = {},r = {},s = {},f = function f(e, t) {if (!i(e) || !u(t)) throw new l(415);s[e] = { __op: "Add", objects: t };},h = function h(e, t) {if (!i(e) || !u(t)) throw new l(415);s[e] = { __op: "AddUnique", objects: t };},d = function d(e, t) {if (!i(e) || !u(t)) throw new l(415);s[e] = { __op: "Remove", objects: t };},m = function m(e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;if (!i(e) || !a(t)) throw new l(415);n[e] = { __op: "Increment", amount: t };},w = function w(t) {if (!i(e)) throw new l(415);r[t] = { __op: "Delete" };},g = function g(e, n) {if (!i(e) || c(n)) throw new l(415);var r = n.filename,o = n.cdn,s = n.url;c(r) || c(o) || c(s) ? t[e] = n : t[e] = { __type: "File", group: o, filename: r, url: s };},y = function y() {var i = Object.assign(r, t, n, s);return "_User" === _this.className ? new Promise(function (t, n) {o("".concat(_this.tableName, "/").concat(e), "put", i).then(function (e) {var n = _this.current();var r = Object.assign(n, i);p.save("bmob", r), t(e);}).catch(function (e) {n(e);});}) : o("".concat(_this.tableName, "/").concat(e), "put", i);},b = {};return "" !== this.includes && (b.include = this.includes), new Promise(function (t, n) {o("".concat(_this.tableName, "/").concat(e), "get", b).then(function (n) {Object.defineProperty(n, "set", { value: g }), Object.defineProperty(n, "unset", { value: w }), Object.defineProperty(n, "save", { value: y }), Object.defineProperty(n, "increment", { value: m }), Object.defineProperty(n, "add", { value: f }), Object.defineProperty(n, "remove", { value: d }), Object.defineProperty(n, "addUnique", { value: h }), Object.defineProperty(n, "destroy", { value: function value() {return _this.destroy(e);} }), t(n);}).catch(function (e) {n(e);});});} }, { key: "destroy", value: function destroy(e) {if (!i(e)) throw new l(415);return o("".concat(this.tableName, "/").concat(e), "delete");} }, { key: "set", value: function set(e, t) {if (!i(e) || c(t)) throw new l(415);var n = t.filename,r = t.cdn,o = t.url;c(n) || c(r) || c(o) ? this.setData[e] = t : this.setData[e] = { __type: "File", group: r, filename: n, url: o };} }, { key: "add", value: function add(e, t) {if (!i(e) || !u(t)) throw new l(415);this.addArray[e] = { __op: "Add", objects: t };} }, { key: "addUnique", value: function addUnique(e, t) {if (!i(e) || !u(t)) throw new l(415);this.addArray[e] = { __op: "AddUnique", objects: t };} }, { key: "current", value: function current() {if ("hap" !== r.type) {var _e = p.fetch("bmob");return "object" == typeof _e ? _e : JSON.parse(_e);}return new Promise(function (e, t) {return p.fetch("bmob").then(function (t) {e(t);}).catch(function (e) {t(e);});});} }, { key: "updateStorage", value: function updateStorage(e) {var _this2 = this;if (!i(e)) throw new l(415);return new Promise(function (t, n) {var r = _this2.current();if (!r) throw new l(415);_this2.get(e).then(function (e) {var n = Object.assign(r, e);p.save("bmob", n), t(e);}).catch(function (e) {console.log(e), n(e);});});} }, { key: "save", value: function save() {var _this3 = this;var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};if (!s(e)) throw new l(415);var t = this.setData.id ? "PUT" : "POST",n = this.setData.id ? this.setData.id : "";delete this.setData.id;var r = Object.assign(e, this.setData, this.addArray);return new Promise(function (e, s) {o("".concat(_this3.tableName, "/").concat(n), t, r).then(function (t) {if (_this3.addArray = {}, _this3.setData = {}, "_User" === _this3.className) {var _e2 = _this3.current();var _t = Object.assign(_e2, r);p.save("bmob", _t);}e(t);}).catch(function (e) {s(e);});});} }, { key: "saveAll", value: function saveAll(e) {var _this4 = this;if (!u(e)) throw new l(415);if (e.length < 1) throw new l(416);var t,n,s = "put",i = [];e.map(function (e) {return "/undefined" === (t = "/".concat(e.objectId)) && (t = "", s = "post"), n = { method: s, path: "".concat(_this4.tableName).concat(t), body: e.setData }, i.push(n), e;});var a = { requests: i },c = r._config.parameters.BATCH;return o(c, "POST", a);} }, { key: "withinKilometers", value: function withinKilometers(e, _ref) {var t = _ref.latitude,n = _ref.longitude;var r = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;var o = {};return o[e] = { $nearSphere: { __type: "GeoPoint", latitude: t, longitude: n }, $maxDistanceInKilometers: r }, this.location = o, o;} }, { key: "withinGeoBox", value: function withinGeoBox(e, _ref2, r) {var t = _ref2.latitude,n = _ref2.longitude;var o = {};return o[e] = { $within: { $box: [{ __type: "GeoPoint", latitude: t, longitude: n }, { __type: "GeoPoint", latitude: r.latitude, longitude: r.longitude }] } }, this.location = o, o;} }, { key: "statTo", value: function statTo(e, t) {if (!i(e)) throw new l(415);return this.stat[e] = t, this.stat;} }, { key: "equalTo", value: function equalTo(e, t, n) {if (!i(e)) throw new l(415);var r = function (e, t, n) {var r = {},o = null;switch (o = "createdAt" === e || "updateAt" === e ? { __type: "Date", iso: n } : n, t) {case "==":case "===":r[e] = o;break;case "!=":r[e] = { $ne: o };break;case "<":r[e] = { $lt: o };break;case "<=":r[e] = { $lte: o };break;case ">":r[e] = { $gt: o };break;case ">=":r[e] = { $gte: o };break;default:throw new l(415);}return r;}(e, t, n);return Object.keys(this.queryData).length ? c(this.queryData.$and) ? this.queryData = { $and: [this.queryData, r] } : this.queryData.$and.push(r) : this.queryData = r, r;} }, { key: "containedIn", value: function containedIn(e, t) {if (!i(e) || !u(t)) throw new l(415);return f.call(this, e, "$in", t);} }, { key: "notContainedIn", value: function notContainedIn(e, t) {if (!i(e) || !u(t)) throw new l(415);return f.call(this, e, "$nin", t);} }, { key: "exists", value: function exists(e) {if (!i(e)) throw new l(415);return f.call(this, e, "$exists", !0);} }, { key: "doesNotExist", value: function doesNotExist(e) {if (!i(e)) throw new l(415);return f.call(this, e, "$exists", !1);} }, { key: "or", value: function or() {for (var _len = arguments.length, e = new Array(_len), _key = 0; _key < _len; _key++) {e[_key] = arguments[_key];}e.map(function (e, t) {if (!s(e)) throw new l(415);});var t = this.queryData.$and;if (console.log(t.length), !c(t)) {for (var _n2 = 0; _n2 < t.length; _n2++) {for (var _r = 0; _r < e.length; _r++) {JSON.stringify(t[_n2]) === JSON.stringify(e[_r]) && this.queryData.$and.splice(_n2, 1);}}t.length || delete this.queryData.$and;}this.orData = { $or: e };} }, { key: "and", value: function and() {for (var _len2 = arguments.length, e = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {e[_key2] = arguments[_key2];}e.map(function (e, t) {if (!s(e)) throw new l(415);}), this.andData = { $and: e };} }, { key: "limit", value: function limit(e) {if (!a(e)) throw new l(415);e > 1e3 && (e = 1e3), this.limitNum = e;} }, { key: "skip", value: function skip(e) {if (!a(e)) throw new l(415);this.skipNum = e;} }, { key: "order", value: function order() {for (var _len3 = arguments.length, e = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {e[_key3] = arguments[_key3];}e.map(function (e) {if (!i(e)) throw new l(415);}), this.orders = e.join(",");} }, { key: "include", value: function include() {for (var _len4 = arguments.length, e = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {e[_key4] = arguments[_key4];}e.map(function (e) {if (!i(e)) throw new l(415);}), this.includes = e.join(",");} }, { key: "select", value: function select() {for (var _len5 = arguments.length, e = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {e[_key5] = arguments[_key5];}e.map(function (e) {if (!i(e)) throw new l(415);}), this.keys = e.join(",");} }, { key: "field", value: function field(e, t) {if (!i(e) || !i(t)) throw new l(415);this.queryReilation.where = { $relatedTo: { object: { __type: "Pointer", className: this.className, objectId: t }, key: e } };} }, { key: "relation", value: function relation(e) {if (!i(e)) throw new l(415);e = "_User" === e ? "users" : "classes/".concat(e), this.queryReilation.count = 1;var t = Object.assign(this.getParams(), this.queryReilation);return new Promise(function (n, r) {o("/1/".concat(e), "get", t).then(function (e) {n(e);}).catch(function (e) {r(e);});});} }, { key: "getParams", value: function getParams() {var e = {};Object.keys(this.queryData).length && (e.where = this.queryData), Object.keys(this.location).length && (e.where = Object.assign(this.location, this.queryData)), Object.keys(this.andData).length && (e.where = Object.assign(this.andData, this.queryData)), Object.keys(this.orData).length && (e.where = Object.assign(this.orData, this.queryData)), e.limit = this.limitNum, e.skip = this.skipNum, e.include = this.includes, e.order = this.orders, e.keys = this.keys, Object.keys(this.stat).length && (e = this.stat);for (var _t2 in e) {(e.hasOwnProperty(_t2) && null === e[_t2] || 0 === e[_t2] || "" === e[_t2]) && delete e[_t2];}return e;} }, { key: "find", value: function find() {var _this5 = this;var e = {},t = {};var n = this.getParams(),s = function s(t, n) {if (!t || c(n)) throw new l(415);e[t] = n;},i = function i() {var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "updata";if (console.log(n), t.length < 1) throw new l(416);var s,i,a = "put",c = [];t.map(function (t) {return "/undefined" === (s = "/".concat(t.objectId)) && (s = "", a = "post"), i = { method: a, path: "".concat(_this5.tableName).concat(s), body: e }, "delete" === n && (i = { method: "DELETE", path: "".concat(_this5.tableName).concat(s) }), c.push(i), t;});var u = { requests: c },p = r._config.parameters.BATCH;return o(p, "POST", u);};return new Promise(function (e, r) {o("".concat(_this5.tableName), "get", n).then(function (_ref3) {var n = _ref3.results;_this5.init(), Object.defineProperty(n, "set", { value: s }), Object.defineProperty(n, "saveAll", { value: function value() {return i();} }), Object.defineProperty(n, "destroyAll", { value: function value() {return i("delete");} }), t = n, e(n);}).catch(function (e) {r(e);});});} }, { key: "count", value: function count() {var _this6 = this;var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var t = {};return Object.keys(this.queryData).length && (t.where = this.queryData), Object.keys(this.andData).length && (t.where = Object.assign(this.andData, this.queryData)), Object.keys(this.orData).length && (t.where = Object.assign(this.orData, this.queryData)), t.count = 1, t.limit = e, new Promise(function (e, n) {o("".concat(_this6.tableName), "get", t).then(function (_ref4) {var t = _ref4.count;e(t);}).catch(function (e) {n(e);});});} }]);return _class2;}();}, function (e, t, n) {var r = n(23);var o = n(0);e.exports = function (e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "get";var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};return new Promise(function (i, a) {void 0 === o.User && (o = n(0));var c = function (e) {var t = { "content-type": "application/json", "X-Bmob-SDK-Type": "wechatApp", "X-Bmob-Application-Id": e.applicationId, "X-Bmob-REST-API-Key": e.applicationKey };return e.applicationMasterKey && (t["X-Bmob-Master-Key"] = e.applicationMasterKey), t;}(o._config);var u = o.User.current();u && (c["X-Bmob-Session-Token"] = u.sessionToken);var l = r.create({ baseURL: o._config.host, headers: c, validateStatus: function validateStatus(e) {return e < 500;} }),p = { url: e, method: t };"get" === p.method ? p.params = s : p.data = s, l(p).then(function (_ref5) {var e = _ref5.data;(e.code && e.error || e.error) && a(e), i(e);}).catch(function (e) {a(e);});});};}, function (e, t, n) {"use strict";e.exports = function (e, t) {return function () {for (var n = new Array(arguments.length), r = 0; r < n.length; r++) {n[r] = arguments[r];}return e.apply(t, n);};};}, function (e, t, n) {"use strict";(function (t) {var r = n(1),o = n(28),s = n(30),i = n(31),a = n(32),c = n(13),u = "undefined" != typeof window && window.btoa && window.btoa.bind(window) || n(33);e.exports = function (e) {return new Promise(function (l, p) {var f = e.data,h = e.headers;r.isFormData(f) && delete h["Content-Type"];var d = new XMLHttpRequest(),m = "onreadystatechange",w = !1;if ("test" === t.env.NODE_ENV || "undefined" == typeof window || !window.XDomainRequest || "withCredentials" in d || a(e.url) || (d = new window.XDomainRequest(), m = "onload", w = !0, d.onprogress = function () {}, d.ontimeout = function () {}), e.auth) {var g = e.auth.username || "",y = e.auth.password || "";h.Authorization = "Basic " + u(g + ":" + y);}if (d.open(e.method.toUpperCase(), s(e.url, e.params, e.paramsSerializer), !0), d.timeout = e.timeout, d[m] = function () {if (d && (4 === d.readyState || w) && (0 !== d.status || d.responseURL && 0 === d.responseURL.indexOf("file:"))) {var t = "getAllResponseHeaders" in d ? i(d.getAllResponseHeaders()) : null,n = { data: e.responseType && "text" !== e.responseType ? d.response : d.responseText, status: 1223 === d.status ? 204 : d.status, statusText: 1223 === d.status ? "No Content" : d.statusText, headers: t, config: e, request: d };o(l, p, n), d = null;}}, d.onerror = function () {p(c("Network Error", e, null, d)), d = null;}, d.ontimeout = function () {p(c("timeout of " + e.timeout + "ms exceeded", e, "ECONNABORTED", d)), d = null;}, r.isStandardBrowserEnv()) {var b = n(34),S = (e.withCredentials || a(e.url)) && e.xsrfCookieName ? b.read(e.xsrfCookieName) : void 0;S && (h[e.xsrfHeaderName] = S);}if ("setRequestHeader" in d && r.forEach(h, function (e, t) {void 0 === f && "content-type" === t.toLowerCase() ? delete h[t] : d.setRequestHeader(t, e);}), e.withCredentials && (d.withCredentials = !0), e.responseType) try {d.responseType = e.responseType;} catch (t) {if ("json" !== e.responseType) throw t;}"function" == typeof e.onDownloadProgress && d.addEventListener("progress", e.onDownloadProgress), "function" == typeof e.onUploadProgress && d.upload && d.upload.addEventListener("progress", e.onUploadProgress), e.cancelToken && e.cancelToken.promise.then(function (e) {d && (d.abort(), p(e), d = null);}), void 0 === f && (f = null), d.send(f);});};}).call(t, n(7));}, function (e, t, n) {"use strict";var r = n(29);e.exports = function (e, t, n, o, s) {var i = new Error(e);return r(i, t, n, o, s);};}, function (e, t, n) {"use strict";e.exports = function (e) {return !(!e || !e.__CANCEL__);};}, function (e, t, n) {"use strict";function r(e) {this.message = e;}r.prototype.toString = function () {return "Cancel" + (this.message ? ": " + this.message : "");}, r.prototype.__CANCEL__ = !0, e.exports = r;}, function (e, t, n) {var r;var o = n(5).getAppType();"h5" === o ? r = n(44) : "wx" === o ? r = n(45) : "hap" === o ? r = n(46) : "nodejs" === o && (r = n(47)), e.exports = r;}, function (e, t, n) {(function (t) {var r = n(0),o = n(21),s = n(22),i = n(9),a = n(48),c = n(49),u = n(50),l = n(51),_n3 = n(52),p = _n3.generateCode,f = _n3.sendMessage,h = _n3.getAccessToken,d = _n3.sendWeAppMessage,m = _n3.refund,w = _n3.notifyMsg,g = _n3.functions,y = _n3.timestamp,b = _n3.requestPasswordReset,S = _n3.resetPasswordBySmsCode,E = _n3.updateUserPassword,v = _n3.geoPoint,T = _n3.checkMsg,_ = _n3.push,_n4 = n(53),x = _n4.requestSmsCode,j = _n4.verifySmsCode;r.GeoPoint = v, r.generateCode = p, r.sendMessage = f, r.getAccessToken = h, r.sendWeAppMessage = d, r.refund = m, r.checkMsg = T, r.notifyMsg = w, r.requestSmsCode = x, r.verifySmsCode = j, r.functions = g, r.timestamp = y, r.requestPasswordReset = b, r.resetPasswordBySmsCode = S, r.updateUserPassword = E, r.push = _, r.Pay = new u(), r.User = new a(), r.Socket = l, r.Query = function (e) {return new i(e);}, r.File = function (e, t) {return new c(e, t);}, r.request = n(4), r.type = r.utils.getAppType(), r.Pointer = function (e) {return new o(e);}, r.Relation = function (e) {return new s(e);}, "wx" === r.type ? wx.Bmob = r : "h5" === r.type ? window.Bmob = r : "hap" === r.type ? t.Bmob = r : "nodejs" === r.type && (t.Bmob = r), e.exports = r;}).call(t, n(6));}, function (e, t, n) {var r = "v".concat(n(19).version);e.exports = { host: "https://api.bmobcloud.com", applicationId: "", applicationKey: "", applicationMasterKey: "", parameters: { GENERATECODE: "/1/wechatApp/qr/generatecode", GETACCESSTOKEN: "/1/wechatApp/getAccessToken", SENDWEAPPMESSAGE: "/1/wechatApp/SendWeAppMessage", NOTIFYMSG: "/1/wechatApp/notifyMsg", REFUND: "/1/pay/refund", REQUESTSMSCODE: "/1/requestSmsCode", VERIFYSMSCODE: "/1/verifySmsCode", FUNCTIONS: "/1/functions", REQUESTPASSWORDRESET: "/1/requestPasswordReset", RESETPASSWORDBYSMSCODE: "/1/resetPasswordBySmsCode", UPDATEUSERPASSWORD: "/1/updateUserPassword", PUSH: "/1/push", FILES: "/2/files", DELFILES: "/2/cdnBatchDelete", TIMESTAMP: "/1/timestamp", LOGIN: "/1/login", REGISTER: "/1/users", REQUEST_EMAIL_VERIFY: "/1/requestEmailVerify", USERS: "/1/users", PAY: "/1/pay", WECHAT_APP: "/1/wechatApp/", BATCH: "/1/batch", CHECK_MSG: "/1/wechatApp/checkMsg", QUERY: "/1/classes" }, version: r, type: 3 };}, function (e, t) {e.exports = { name: "hydrogen-js-sdk", version: "1.6.2", description: "Bmob SDK", main: "./src/lib/app.js", scripts: { test: 'echo "Error: no test specified" && exit 1', build: "webpack --config config/prod.env.js", watch: "webpack --watch --config config/prod.env.js", dev: "webpack-dev-server --config config/dev.env.js" }, repository: { type: "git", url: "git+https://github.com/bmob/hydrogen-js-sdk.git" }, author: "Bmob", license: "ISC", bugs: { url: "https://github.com/bmob/hydrogen-js-sdk/issues" }, homepage: "https://github.com/bmob/hydrogen-js-sdk#readme", dependencies: { axios: "^0.18.0", "node.extend": "^2.0.0", webpack: "^3.12.0" }, devDependencies: { "clean-webpack-plugin": "^0.1.19", eslint: "^4.19.1", "eslint-config-standard": "^11.0.0", "eslint-friendly-formatter": "^4.0.1", "eslint-loader": "^2.0.0", "eslint-plugin-import": "^2.12.0", "eslint-plugin-node": "^6.0.1", "eslint-plugin-promise": "^3.7.0", "eslint-plugin-standard": "^3.1.0", "html-webpack-plugin": "^2.30.1", "uglifyjs-webpack-plugin": "^1.2.5", "webpack-dev-server": "^2.11.2" }, directories: { doc: "docs" }, keywords: ["Bmob"] };}, function (e, t) {e.exports = { host: "https://api.bmobcloud.com", applicationId: "", applicationKey: "", parameters: { GENERATECODE: "/1/wechatApp/qr/generatecode", GETACCESSTOKEN: "/1/wechatApp/getAccessToken", SENDWEAPPMESSAGE: "/1/wechatApp/SendWeAppMessage", NOTIFYMSG: "/1/wechatApp/notifyMsg", REFUND: "/1/pay/refund", REQUESTSMSCODE: "/1/requestSmsCode", VERIFYSMSCODE: "/1/verifySmsCode", FUNCTIONS: "/1/functions", REQUESTPASSWORDRESET: "/1/requestPasswordReset", RESETPASSWORDBYSMSCODE: "/1/resetPasswordBySmsCode", UPDATEUSERPASSWORD: "/1/updateUserPassword", PUSH: "/1/push", FILES: "/2/files", DELFILES: "/2/cdnBatchDelete", TIMESTAMP: "/1/timestamp", LOGIN: "/1/login", REGISTER: "/1/users", REQUEST_EMAIL_VERIFY: "/1/requestEmailVerify", USERS: "/1/users", PAY: "/1/pay", WECHAT_APP: "/1/wechatApp/", BATCH: "/1/batch", CHECK_MSG: "/1/wechatApp/checkMsg", QUERY: "/1/classes" }, version: 1, type: 1 };}, function (e, t, n) {var _n5 = n(2),r = _n5.isString,o = n(3);e.exports = /*#__PURE__*/function () {function _class3(e) {_classCallCheck(this, _class3);if (!r(e)) throw new o(415);this.tableName = e;}_createClass(_class3, [{ key: "set", value: function set(e) {if (!r(e)) throw new o(415);return { __type: "Pointer", className: this.tableName, objectId: e };} }]);return _class3;}();}, function (e, t, n) {var _n6 = n(2),r = _n6.isString,o = _n6.isArray,s = n(3);function i(e, t) {var _this7 = this;if (r(e)) return { __op: t, objects: [{ __type: "Pointer", className: this.tableName, objectId: e }] };if (o(e)) {var _n7 = [];return e.map(function (e) {if (!r(e)) throw new s(415);_n7.push({ __type: "Pointer", className: _this7.tableName, objectId: e });}), { __op: t, objects: _n7 };}throw new s(415);}e.exports = /*#__PURE__*/function () {function _class4(e) {_classCallCheck(this, _class4);if (!r(e)) throw new s(415);this.tableName = e;}_createClass(_class4, [{ key: "add", value: function add(e) {return i.call(this, e, "AddRelation");} }, { key: "remove", value: function remove(e) {return i.call(this, e, "RemoveRelation");} }]);return _class4;}();}, function (e, t, n) {e.exports = n(24);}, function (e, t, n) {"use strict";var r = n(1),o = n(11),s = n(26),i = n(8);function a(e) {var t = new s(e),n = o(s.prototype.request, t);return r.extend(n, s.prototype, t), r.extend(n, t), n;}var c = a(i);c.Axios = s, c.create = function (e) {return a(r.merge(i, e));}, c.Cancel = n(15), c.CancelToken = n(40), c.isCancel = n(14), c.all = function (e) {return Promise.all(e);}, c.spread = n(41), e.exports = c, e.exports.default = c;}, function (e, t) {
-    function n(e) {return !!e.constructor && "function" == typeof e.constructor.isBuffer && e.constructor.isBuffer(e);}
-    /*!
-                                                                                                                         * Determine if an object is a Buffer
-                                                                                                                         *
-                                                                                                                         * @author   Feross Aboukhadijeh <https://feross.org>
-                                                                                                                         * @license  MIT
-                                                                                                                         */
-    e.exports = function (e) {return null != e && (n(e) || function (e) {return "function" == typeof e.readFloatLE && "function" == typeof e.slice && n(e.slice(0, 0));}(e) || !!e._isBuffer);};
-  }, function (e, t, n) {"use strict";var r = n(8),o = n(1),s = n(35),i = n(36);function a(e) {this.defaults = e, this.interceptors = { request: new s(), response: new s() };}a.prototype.request = function (e) {"string" == typeof e && (e = o.merge({ url: arguments[0] }, arguments[1])), (e = o.merge(r, { method: "get" }, this.defaults, e)).method = e.method.toLowerCase();var t = [i, void 0],n = Promise.resolve(e);for (this.interceptors.request.forEach(function (e) {t.unshift(e.fulfilled, e.rejected);}), this.interceptors.response.forEach(function (e) {t.push(e.fulfilled, e.rejected);}); t.length;) {n = n.then(t.shift(), t.shift());}return n;}, o.forEach(["delete", "get", "head", "options"], function (e) {a.prototype[e] = function (t, n) {return this.request(o.merge(n || {}, { method: e, url: t }));};}), o.forEach(["post", "put", "patch"], function (e) {a.prototype[e] = function (t, n, r) {return this.request(o.merge(r || {}, { method: e, url: t, data: n }));};}), e.exports = a;}, function (e, t, n) {"use strict";var r = n(1);e.exports = function (e, t) {r.forEach(e, function (n, r) {r !== t && r.toUpperCase() === t.toUpperCase() && (e[t] = n, delete e[r]);});};}, function (e, t, n) {"use strict";var r = n(13);e.exports = function (e, t, n) {var o = n.config.validateStatus;n.status && o && !o(n.status) ? t(r("Request failed with status code " + n.status, n.config, null, n.request, n)) : e(n);};}, function (e, t, n) {"use strict";e.exports = function (e, t, n, r, o) {return e.config = t, n && (e.code = n), e.request = r, e.response = o, e;};}, function (e, t, n) {"use strict";var r = n(1);function o(e) {return encodeURIComponent(e).replace(/%40/gi, "@").replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");}e.exports = function (e, t, n) {if (!t) return e;var s;if (n) s = n(t);else if (r.isURLSearchParams(t)) s = t.toString();else {var i = [];r.forEach(t, function (e, t) {null !== e && void 0 !== e && (r.isArray(e) ? t += "[]" : e = [e], r.forEach(e, function (e) {r.isDate(e) ? e = e.toISOString() : r.isObject(e) && (e = JSON.stringify(e)), i.push(o(t) + "=" + o(e));}));}), s = i.join("&");}return s && (e += (-1 === e.indexOf("?") ? "?" : "&") + s), e;};}, function (e, t, n) {"use strict";var r = n(1),o = ["age", "authorization", "content-length", "content-type", "etag", "expires", "from", "host", "if-modified-since", "if-unmodified-since", "last-modified", "location", "max-forwards", "proxy-authorization", "referer", "retry-after", "user-agent"];e.exports = function (e) {var t,n,s,i = {};return e ? (r.forEach(e.split("\n"), function (e) {if (s = e.indexOf(":"), t = r.trim(e.substr(0, s)).toLowerCase(), n = r.trim(e.substr(s + 1)), t) {if (i[t] && o.indexOf(t) >= 0) return;i[t] = "set-cookie" === t ? (i[t] ? i[t] : []).concat([n]) : i[t] ? i[t] + ", " + n : n;}}), i) : i;};}, function (e, t, n) {"use strict";var r = n(1);e.exports = r.isStandardBrowserEnv() ? function () {var e,t = /(msie|trident)/i.test(navigator.userAgent),n = document.createElement("a");function o(e) {var r = e;return t && (n.setAttribute("href", r), r = n.href), n.setAttribute("href", r), { href: n.href, protocol: n.protocol ? n.protocol.replace(/:$/, "") : "", host: n.host, search: n.search ? n.search.replace(/^\?/, "") : "", hash: n.hash ? n.hash.replace(/^#/, "") : "", hostname: n.hostname, port: n.port, pathname: "/" === n.pathname.charAt(0) ? n.pathname : "/" + n.pathname };}return e = o(window.location.href), function (t) {var n = r.isString(t) ? o(t) : t;return n.protocol === e.protocol && n.host === e.host;};}() : function () {return !0;};}, function (e, t, n) {"use strict";var r = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function o() {this.message = "String contains an invalid character";}o.prototype = new Error(), o.prototype.code = 5, o.prototype.name = "InvalidCharacterError", e.exports = function (e) {for (var t, n, s = String(e), i = "", a = 0, c = r; s.charAt(0 | a) || (c = "=", a % 1); i += c.charAt(63 & t >> 8 - a % 1 * 8)) {if ((n = s.charCodeAt(a += .75)) > 255) throw new o();t = t << 8 | n;}return i;};}, function (e, t, n) {"use strict";var r = n(1);e.exports = r.isStandardBrowserEnv() ? { write: function write(e, t, n, o, s, i) {var a = [];a.push(e + "=" + encodeURIComponent(t)), r.isNumber(n) && a.push("expires=" + new Date(n).toGMTString()), r.isString(o) && a.push("path=" + o), r.isString(s) && a.push("domain=" + s), !0 === i && a.push("secure"), document.cookie = a.join("; ");}, read: function read(e) {var t = document.cookie.match(new RegExp("(^|;\\s*)(" + e + ")=([^;]*)"));return t ? decodeURIComponent(t[3]) : null;}, remove: function remove(e) {this.write(e, "", Date.now() - 864e5);} } : { write: function write() {}, read: function read() {return null;}, remove: function remove() {} };}, function (e, t, n) {"use strict";var r = n(1);function o() {this.handlers = [];}o.prototype.use = function (e, t) {return this.handlers.push({ fulfilled: e, rejected: t }), this.handlers.length - 1;}, o.prototype.eject = function (e) {this.handlers[e] && (this.handlers[e] = null);}, o.prototype.forEach = function (e) {r.forEach(this.handlers, function (t) {null !== t && e(t);});}, e.exports = o;}, function (e, t, n) {"use strict";var r = n(1),o = n(37),s = n(14),i = n(8),a = n(38),c = n(39);function u(e) {e.cancelToken && e.cancelToken.throwIfRequested();}e.exports = function (e) {return u(e), e.baseURL && !a(e.url) && (e.url = c(e.baseURL, e.url)), e.headers = e.headers || {}, e.data = o(e.data, e.headers, e.transformRequest), e.headers = r.merge(e.headers.common || {}, e.headers[e.method] || {}, e.headers || {}), r.forEach(["delete", "get", "head", "post", "put", "patch", "common"], function (t) {delete e.headers[t];}), (e.adapter || i.adapter)(e).then(function (t) {return u(e), t.data = o(t.data, t.headers, e.transformResponse), t;}, function (t) {return s(t) || (u(e), t && t.response && (t.response.data = o(t.response.data, t.response.headers, e.transformResponse))), Promise.reject(t);});};}, function (e, t, n) {"use strict";var r = n(1);e.exports = function (e, t, n) {return r.forEach(n, function (n) {e = n(e, t);}), e;};}, function (e, t, n) {"use strict";e.exports = function (e) {return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(e);};}, function (e, t, n) {"use strict";e.exports = function (e, t) {return t ? e.replace(/\/+$/, "") + "/" + t.replace(/^\/+/, "") : e;};}, function (e, t, n) {"use strict";var r = n(15);function o(e) {if ("function" != typeof e) throw new TypeError("executor must be a function.");var t;this.promise = new Promise(function (e) {t = e;});var n = this;e(function (e) {n.reason || (n.reason = new r(e), t(n.reason));});}o.prototype.throwIfRequested = function () {if (this.reason) throw this.reason;}, o.source = function () {var e;return { token: new o(function (t) {e = t;}), cancel: e };}, e.exports = o;}, function (e, t, n) {"use strict";e.exports = function (e) {return function (t) {return e.apply(null, t);};};}, function (e, t, n) {var r = n(0);e.exports = function (e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "get";var o = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};return new Promise(function (s, i) {var a = function (e) {var t = { "content-type": "application/json", "X-Bmob-SDK-Type": "wechatApp", "X-Bmob-Application-Id": e.applicationId, "X-Bmob-REST-API-Key": e.applicationKey };return e.applicationMasterKey && (t["X-Bmob-Master-Key"] = e.applicationMasterKey), t;}(r._config);void 0 === r.User && (r = n(0));var c = r.User.current();c && (a["X-Bmob-Session-Token"] = c.sessionToken), wx.request({ url: r._config.host + e, method: t, data: o, header: a, success: function success(e) {(e.data.code && e.data.error || e.data.error) && i(e.data), s(e.data);}, fail: function fail(e) {console.log(e), i(e);} });});};}, function (e, t, n) {var r = n(0);e.exports = function (e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "get";var o = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};return new Promise(function (s, i) {var a = function (e) {var t = { "content-type": "application/json", "X-Bmob-SDK-Type": "wechatApp", "X-Bmob-Application-Id": e.applicationId, "X-Bmob-REST-API-Key": e.applicationKey };return e.applicationMasterKey && (t["X-Bmob-Master-Key"] = e.applicationMasterKey), t;}(r._config);void 0 === r.User && (r = n(0));var c = r.User.current();c && (a["X-Bmob-Session-Token"] = c.sessionToken), "xxrequire('@system.fetch')xx".fetch({ url: r._config.host + e, header: a, method: t, data: o, success: function success(e) {var t = JSON.parse(e.data);t.code && i(t), s(t);}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t)), i(e);} });});};}, function (e, t, n) {var _n8 = n(2),r = _n8.isString;var o;o = "undefined" != typeof cc ? cc.sys.localStorage : localStorage, console.log(o);var s = { save: function save(e, t) {if (!r(e) || !t) throw new Error(415);o.setItem(e, JSON.stringify(t));}, fetch: function fetch(e) {if (!r(e)) throw new Error(415);return JSON.parse(o.getItem(e)) || null;}, remove: function remove(e) {if (!r(e)) throw new Error(415);o.removeItem(e);}, clear: function clear() {o.clear();} };e.exports = s;}, function (e, t, n) {var _n9 = n(2),r = _n9.isString,o = _n9.isObject,s = { save: function save(e, t) {if (!r(e) || !t) throw new Error(415);return t = o(t) ? JSON.stringify(t) : t, wx.setStorageSync(e, t);}, fetch: function fetch(e) {if (!r(e)) throw new Error(415);return wx.getStorageSync(e) || null;}, remove: function remove(e) {if (!r(e)) throw new Error(415);return wx.removeStorageSync(e);}, clear: function clear() {return wx.clearStorageSync();} };e.exports = s;}, function (e, t, n) {var _n10 = n(2),r = _n10.isString,o = "xxrequire('@system.storage')xx",s = { save: function save(e, t) {if (!r(e) || !t) throw new Error(415);o.set({ key: e, value: JSON.stringify(t), success: function success(e) {return console.log("handling success"), e;}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });}, fetch: function fetch(e) {if (!r(e)) throw new Error(415);return new Promise(function (t, n) {return o.get({ key: e, success: function success(e) {t(e || null);}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t)), n(e);} });});}, remove: function remove(e) {if (!r(e)) throw new Error(415);o.delete({ key: e, success: function success(e) {console.log("handling success");}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });}, clear: function clear() {o.clear({ success: function success(e) {console.log("handling success");}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });} };e.exports = s;}, function (e, t) {var n = { save: function save(e, t) {}, fetch: function fetch(e) {return null;}, remove: function remove(e) {}, clear: function clear() {} };e.exports = n;}, function (e, t, n) {var r = n(4),o = n(16),s = n(9),i = n(0),a = n(3),_n11 = n(2),c = _n11.isObject,u = _n11.isString,l = _n11.isNumber;e.exports = /*#__PURE__*/function (_s) {_inherits(_class5, _s);function _class5() {_classCallCheck(this, _class5);return _possibleConstructorReturn(this, _getPrototypeOf(_class5).call(this, "_User"));}_createClass(_class5, [{ key: "set", value: function set(e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";u(e) && (this.setData[e] = t);} }, { key: "requestEmailVerify", value: function requestEmailVerify(e) {if (!u(e)) throw new a(415);this.setData = Object.assign({}, { email: e }), console.log(this.setData);var t = i._config.parameters.REQUEST_EMAIL_VERIFY;return r(t, "post", this.setData);} }, { key: "register", value: function register(e) {if (!c(e)) throw new a(415);this.setData = Object.assign(this.setData, e), console.log(this.setData);var t = i._config.parameters.REGISTER;return r(t, "post", this.setData);} }, { key: "login", value: function login(e, t) {var _this8 = this;if (!u(e) || !u(t)) throw new a(415);this.setData = Object.assign({}, { username: e, password: t });var n = i._config.parameters.LOGIN;return new Promise(function (e, t) {r(n, "get", _this8.setData).then(function (t) {o.save("bmob", t), e(t);}).catch(function (e) {console.log("登陆失败"), t(e);});});} }, { key: "users", value: function users() {var e = i._config.parameters.USERS;return r(e, "get");} }, { key: "signOrLoginByMobilePhone", value: function signOrLoginByMobilePhone(e, t) {if (!l(e) || !l(t)) throw new a(415);this.setData = Object.assign({}, { mobilePhoneNumber: e, smsCode: t });var n = i._config.parameters.LOGIN;return r(n, "get", this.setData);} }, { key: "requestOpenId", value: function requestOpenId(e) {var t = i._config.parameters.WECHAT_APP;return r(t + e, "POST", {});} }, { key: "linkWith", value: function linkWith(e) {var t = { authData: e },n = i._config.parameters.USERS;return r(n, "POST", t);} }, { key: "loginWithWeapp", value: function loginWithWeapp(e) {var _this9 = this;return new Promise(function (t, n) {_this9.requestOpenId(e).then(function (e) {var n = { weapp: e },r = _this9.linkWith(n);t(r);}).catch(function (e) {n(e);});});} }, { key: "upInfo", value: function upInfo(e) {var _this10 = this;return new Promise(function (t, n) {var r = e.nickName,s = e.avatarUrl,i = _this10.current();if (!i) throw new a(415);var c = o.fetch("openid");_this10.get(i.objectId).then(function (e) {e.set("nickName", r), e.set("userPic", s), e.set("openid", c), e.save().then(function (e) {t(e);}).catch(function (e) {console.log(e), n(e);});}).catch(function (e) {console.log(e), n(e);});});} }, { key: "auth", value: function auth() {var e = this;return new Promise(function (t, n) {var r = function r() {wx.login({ success: function success(r) {e.loginWithWeapp(r.code).then(function (e) {if (e.error) throw new a(415);var n = e.authData.weapp.openid;o.save("openid", n), o.save("bmob", e), t(e);}, function (e) {n(e);});} });};wx.checkSession({ success: function success() {var o = e.current();null === o && n("登陆错误，请在Bmob后台填写小程序AppSecret。"), t(o), r();}, fail: function fail() {r();} });});} }]);return _class5;}(s);}, function (e, t, n) {var r = n(4);var o = n(0);var s = n(3),i = n(5),a = "xxrequire('@system.request')xx",_n12 = n(2),c = _n12.isString,u = _n12.isArray;var l = [];e.exports = /*#__PURE__*/function () {function _class6(e, t) {_classCallCheck(this, _class6);if (e && t) {if (!c(e)) throw new s(415);l.push({ name: e, route: "".concat(o._config.parameters.FILES, "/").concat(e), data: t });}}_createClass(_class6, [{ key: "save", value: function save() {if (!l.length) throw new s(417);var e;var t = i.getAppType();return "h5" === t || "nodejs" === t ? e = new Promise(function (e, t) {var n = [];for (var _i = 0; _i < l.length; _i++) {var _o = l[_i];r(_o.route, "post", _o.data).then(function (r) {n.push(r), n.length === l.length && (l = [], e(n), t(n));}).catch(function (e) {n.push(e);});}}) : "wx" === t ? e = new Promise(function (e, t) {void 0 === o.User && (o = n(0));var r = "bmob";var s = o.User.current();s && (r = s.sessionToken);var i = [],a = { _ApplicationId: o._config.applicationId, _RestKey: o._config.applicationKey, _SessionToken: r },c = Object.assign({ _ContentType: "text/plain", mime_type: "text/plain", category: "wechatApp", _ClientVersion: "js3.6.1", _InstallationId: "bmob" }, a);for (var _i2 = 0; _i2 < l.length; _i2++) {var _n13 = l[_i2];wx.uploadFile({ url: o._config.host + _n13.route, filePath: _n13.data, name: "file", header: { "X-Bmob-SDK-Type": "wechatApp" }, formData: c, success: function success(n) {var r = n.data;i.push(r), i.length === l.length && (l = [], e(i), t(i));}, fail: function fail(e) {i.push(e);} });}}) : "hap" === t && (e = new Promise(function (e, t) {void 0 === o.User && (o = n(0));var r = o.User.current();var s = [],i = { _ApplicationId: o._config.applicationId, _RestKey: o._config.applicationKey, _SessionToken: r.sessionToken },c = Object.assign({ _ContentType: "text/plain", mime_type: "text/plain", category: "wechatApp", _ClientVersion: "js3.6.1", _InstallationId: "bmob" }, i);for (var _i3 = 0; _i3 < l.length; _i3++) {var _n14 = l[_i3];a.upload({ url: o._config.host + _n14.route, files: [{ uri: _n14.data, name: "file", filename: _n14.name }], header: { "X-Bmob-SDK-Type": "wechatApp" }, data: c, success: function success(n) {console.log("handling success" + s);var r = n.data;s.push(r), s.length === l.length && (l = [], e(s), t(s));}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });}})), e;} }, { key: "destroy", value: function destroy(e) {if (c(e)) return r("".concat(o._config.parameters.FILES, "/upyun/").concat(e.split(".com/")[1]), "delete");if (u(e)) {var _t3 = [];return e.map(function (e) {_t3.push(e.split(".com/")[1]);}), r(o._config.parameters.DELFILES, "post", { upyun: _t3 });}throw new s(415);} }]);return _class6;}();}, function (e, t, n) {var r = n(4),o = n(0),s = n(3);e.exports = /*#__PURE__*/function () {function _class7() {_classCallCheck(this, _class7);}_createClass(_class7, [{ key: "weApp", value: function weApp(e, t, n) {var i = wx.getStorageSync("openid");if (!(e && t && n && i)) throw new s(416);var a = { order_price: e, product_name: t, body: n, open_id: i, pay_type: 4 };var c = o._config.parameters.PAY;return r(c, "post", a);} }]);return _class7;}();}, function (t, n, r) {var o = r(0),s = r(3),i = { setup: function setup(e) {var t = [];Object.assign(e, { on: function on(e, n) {"function" == typeof n && t.push([e, n]);}, emit: function emit(e) {for (var _len6 = arguments.length, n = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {n[_key6 - 1] = arguments[_key6];}t.forEach(function (_ref6) {var _ref7 = _slicedToArray(_ref6, 2),t = _ref7[0],r = _ref7[1];return e === t && r.apply(void 0, n);});}, removeAllListeners: function removeAllListeners() {t = [];} });} };t.exports = /*#__PURE__*/function () {function _class8() {_classCallCheck(this, _class8);if (!o._config.applicationId) throw new s(415);this.config = { host: "wss.bmobcloud.com" }, i.setup(this.emitter = {}), this.applicationId = o._config.applicationId, this.initialize();}_createClass(_class8, [{ key: "handshake", value: function handshake() {var t = "https://" + this.config.host + "/socket.io/1/?t=" + new Date().getTime(),n = JSON.stringify({});return new Promise(function (r, o) {wx.request({ method: "GET", url: t, data: n, header: { "content-type": "text/plain" }, success: function success(t) {return t.data && t.data.statusCode ? r("request error", e) : 200 !== t.statusCode ? r("request error", e) : r(function (e) {if (!(e instanceof s)) return e.split(":")[0];self.connecting = !1, self.onError(e.message);}(t.data));}, fail: function fail(e) {return r("request error", e);} });});} }, { key: "initialize", value: function initialize() {var _this11 = this;return this.handshake().then(function (e) {try {_this11.connect("wss://".concat(_this11.config.host, "/socket.io/1/websocket/") + e, {});} catch (e) {throw console.error({ connectError: e }), e;}}), this.on("close", function () {console.log("连接已中断");}), new Promise(function (e, t) {_this11.on("server_pub", function (e) {switch (e.action) {case "updateTable":_this11.onUpdateTable(e.tableName, e.data);break;case "updateRow":_this11.onUpdateRow(e.tableName, e.objectId, e.data);break;case "deleteTable":_this11.onDeleteTable(e.tableName, e.data);break;case "deleteRow":_this11.onDeleteRow(e.tableName, e.objectId, e.data);}}), _this11.on("client_send_data", function (e) {_this11.onInitListen();});});} }, { key: "onInitListen", value: function onInitListen() {} }, { key: "connect", value: function connect(e, t) {var _this12 = this;var n = Object.keys(t).map(function (e) {return "".concat(e, "=").concat(encodeURIComponent(t[e]));}).join("&"),r = e.indexOf("?") > -1 ? "&" : "?";return e = [e, n].join(r), new Promise(function (n, r) {wx.onSocketOpen(n), wx.onSocketError(r), wx.onSocketMessage(function (e) {try {var _t4 = function _t4(e) {var _JSON$parse = JSON.parse(e),t = _JSON$parse.name,n = _JSON$parse.args;return { name: t, args: n };},_n15 = e.data;if ("2:::" === _n15.slice(0, 4) && _this12.emit(!1, !0), null === (_n15 = _n15.slice(4)) || "" === _n15) return;var _t5 = _t4(_n15),_r2 = _t5.name,_o2 = _t5.args;var _s2 = null == _o2 ? "" : JSON.parse(_o2[0]);_this12.emitter.emit(_r2, _s2);} catch (t) {console.log("Handle packet failed: " + e.data, t);}}), wx.onSocketClose(function () {return _this12.emitter.emit("close");}), wx.connectSocket({ url: e, header: t });});} }, { key: "on", value: function on(e, t) {this.emitter.on(e, t);} }, { key: "emit", value: function emit(e, t) {t = void 0 === t ? "5:::" : "2:::", e = e ? JSON.stringify(e) : "", wx.sendSocketMessage({ data: t + e });} }, { key: "emitData", value: function emitData(e, t) {return { name: e, args: [t = JSON.stringify(t)] };} }, { key: "updateTable", value: function updateTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "updateTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "unsubUpdateTable", value: function unsubUpdateTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "unsub_updateTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "updateRow", value: function updateRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "updateRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "unsubUpdateRow", value: function unsubUpdateRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "unsub_updateRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "deleteTable", value: function deleteTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "deleteTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "unsubDeleteTable", value: function unsubDeleteTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "unsub_deleteTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "deleteRow", value: function deleteRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "deleteRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "unsubDeleteRow", value: function unsubDeleteRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "unsub_deleteRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "onUpdateTable", value: function onUpdateTable(e, t) {} }, { key: "onUpdateRow", value: function onUpdateRow(e, t, n) {} }, { key: "onDeleteTable", value: function onDeleteTable(e, t) {} }, { key: "onDeleteRow", value: function onDeleteRow(e, t, n) {} }]);return _class8;}();}, function (e, t, n) {var r = n(4),o = n(0),s = n(3),_n16 = n(2),i = _n16.isObject,a = _n16.isString;e.exports = { generateCode: function generateCode(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.GENERATECODE;return r(t, "post", e);}, sendMessage: function sendMessage(e) {return 1;}, getAccessToken: function getAccessToken(e) {var t = o._config.parameters.GETACCESSTOKEN;return r(t, "get");}, sendWeAppMessage: function sendWeAppMessage(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.SENDWEAPPMESSAGE;return r(t, "post", e);}, refund: function refund(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.REFUND;return r(t, "post", e);}, notifyMsg: function notifyMsg(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.NOTIFYMSG;return r(t, "post", e);}, functions: function functions(e, t) {if (t || (t = {}), !a(e)) throw new s(415);var n = "".concat(o._config.parameters.FUNCTIONS, "/").concat(e);return r(n, "post", t);}, timestamp: function timestamp() {var e = o._config.parameters.TIMESTAMP;return r(e, "get");}, requestPasswordReset: function requestPasswordReset(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.REQUESTPASSWORDRESET;return r(t, "post", e);}, resetPasswordBySmsCode: function resetPasswordBySmsCode(e, t) {if (!a(e)) throw new s(415);var n = "".concat(o._config.parameters.RESETPASSWORDBYSMSCODE, "/").concat(e);return r(n, "put", t);}, updateUserPassword: function updateUserPassword(e, t) {if (!i(t) || !a(e)) throw new s(415);var n = "".concat(o._config.parameters.UPDATEUSERPASSWORD, "/").concat(e);return r(n, "put", t);}, geoPoint: function geoPoint(_ref8) {var e = _ref8.latitude,t = _ref8.longitude;return function (e, t) {if (e < -90) throw new s(419);if (e > 90) throw new s(419);if (t < -180) throw new s(419);if (t > 180) throw new s(419);}(e, t), { __type: "GeoPoint", latitude: e, longitude: t };}, checkMsg: function checkMsg(e) {if (!a(e)) throw new s(415);var t = "".concat(o._config.parameters.CHECK_MSG);return r(t, "post", { content: e });}, push: function push(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.PUSH;return r(t, "post", e);} };}, function (e, t, n) {var r = n(4),o = n(0),s = n(3),_n17 = n(2),i = _n17.isObject,a = _n17.isString;e.exports = { requestSmsCode: function requestSmsCode(e, t) {if (!i(e)) throw new s(415);var n = o._config.parameters.REQUESTSMSCODE;return r(n, "post", e);}, verifySmsCode: function verifySmsCode(e, t, n) {if (!a(e)) throw new s(415);if (!i(t)) throw new s(415);var c = "".concat(o._config.parameters.VERIFYSMSCODE, "/").concat(e);return r(c, "post", t);} };}]);
-});
-
-/***/ }),
-
-/***/ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/common.js":
-/*!************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/uni-app/utils/common.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ "../../../../../Desktop/新建文件夹 (8)/uni-app/utils/bmob.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-module.exports = {
-  //日志功能
-  log: function log(_log, type, id) {
-    var pointer = _bmob.default.Pointer('_User');
-    var userid = pointer.set(uni.getStorageSync("uid"));
-
-    var query = _bmob.default.Query('logs');
-    query.set("parent", userid);
-    query.set("log", _log);
-    query.set("detail_id", id);
-    query.set("type", type);
-    query.save().then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  },
-
-  //记录门店的出库数量
-  record_shopOut: function record_shopOut(id, have_out) {
-    console.log(id, have_out);
-    var query = _bmob.default.Query('shops');
-    query.set('id', id); //需要修改的objectId
-    query.set('have_out', have_out);
-    query.save().then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  },
-
-  //记录员工的出库数量
-  record_staffOut: function record_staffOut(have_out) {
-    console.log(have_out, uni.getStorageSync("user").have_out);
-    var query = _bmob.default.Query('staffs');
-    query.set('id', uni.getStorageSync("user").objectId); //需要修改的objectId
-    query.set('have_out', have_out + uni.getStorageSync("user").have_out);
-    query.save().then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  },
-
-  //获得库存成本和总库存
-  get_allCost: function get_allCost() {
-    var userid = uni.getStorageSync("uid");
-    console.log(userid);
-    var query = _bmob.default.Query("Goods");
-    query.equalTo("userId", "==", userid);
-    query.find().then(function (res) {
-      console.log(res);
-      var reserve_money = 0;
-      var all_reserve = 0;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
-        for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
-          console.log(item);
-          reserve_money += Number(item.costPrice) * item.reserve;
-          all_reserve += item.reserve;
-        }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
-    });
-  },
-
-  //获取时间
-  getDay: function getDay(day, is_full) {
-    var that = this;
-    var today = new Date();
-    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
-    today.setTime(targetday_milliseconds);
-    var tYear = today.getFullYear();
-    var tMonth = today.getMonth();
-    var tDate = today.getDate();
-    tMonth = that.handleMonth(tMonth + 1);
-    tDate = that.handleMonth(tDate);
-    if (is_full) {
-      return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
-    } else {
-      return tYear + "-" + tMonth + "-" + tDate;
-    }
-
-  },
-
-  handleMonth: function handleMonth(month) {
-    var m = month;
-    if (month.toString().length == 1) {
-      m = "0" + month;
-    }
-    return m;
-  } };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
-
-/***/ }),
-
-/***/ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js":
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -6744,7 +63,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createPage = createPage;exports.createComponent = createComponent;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createPage = createPage;exports.createComponent = createComponent;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}
 
 var _toString = Object.prototype.toString;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -6786,7 +105,198 @@ var camelize = cached(function (str) {
   return str.replace(camelizeRE, function (_, c) {return c ? c.toUpperCase() : '';});
 });
 
-var SYNC_API_RE = /^\$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
+var HOOKS = [
+'invoke',
+'success',
+'fail',
+'complete',
+'returnValue'];
+
+
+var globalInterceptors = {};
+var scopedInterceptors = {};
+
+function mergeHook(parentVal, childVal) {
+  var res = childVal ?
+  parentVal ?
+  parentVal.concat(childVal) :
+  Array.isArray(childVal) ?
+  childVal : [childVal] :
+  parentVal;
+  return res ?
+  dedupeHooks(res) :
+  res;
+}
+
+function dedupeHooks(hooks) {
+  var res = [];
+  for (var i = 0; i < hooks.length; i++) {
+    if (res.indexOf(hooks[i]) === -1) {
+      res.push(hooks[i]);
+    }
+  }
+  return res;
+}
+
+function removeHook(hooks, hook) {
+  var index = hooks.indexOf(hook);
+  if (index !== -1) {
+    hooks.splice(index, 1);
+  }
+}
+
+function mergeInterceptorHook(interceptor, option) {
+  Object.keys(option).forEach(function (hook) {
+    if (HOOKS.indexOf(hook) !== -1 && isFn(option[hook])) {
+      interceptor[hook] = mergeHook(interceptor[hook], option[hook]);
+    }
+  });
+}
+
+function removeInterceptorHook(interceptor, option) {
+  if (!interceptor || !option) {
+    return;
+  }
+  Object.keys(option).forEach(function (hook) {
+    if (HOOKS.indexOf(hook) !== -1 && isFn(option[hook])) {
+      removeHook(interceptor[hook], option[hook]);
+    }
+  });
+}
+
+function addInterceptor(method, option) {
+  if (typeof method === 'string' && isPlainObject(option)) {
+    mergeInterceptorHook(scopedInterceptors[method] || (scopedInterceptors[method] = {}), option);
+  } else if (isPlainObject(method)) {
+    mergeInterceptorHook(globalInterceptors, method);
+  }
+}
+
+function removeInterceptor(method, option) {
+  if (typeof method === 'string') {
+    if (isPlainObject(option)) {
+      removeInterceptorHook(scopedInterceptors[method], option);
+    } else {
+      delete scopedInterceptors[method];
+    }
+  } else if (isPlainObject(method)) {
+    removeInterceptorHook(globalInterceptors, method);
+  }
+}
+
+function wrapperHook(hook) {
+  return function (data) {
+    return hook(data) || data;
+  };
+}
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+function queue(hooks, data) {
+  var promise = false;
+  for (var i = 0; i < hooks.length; i++) {
+    var hook = hooks[i];
+    if (promise) {
+      promise = Promise.then(wrapperHook(hook));
+    } else {
+      var res = hook(data);
+      if (isPromise(res)) {
+        promise = Promise.resolve(res);
+      }
+      if (res === false) {
+        return {
+          then: function then() {} };
+
+      }
+    }
+  }
+  return promise || {
+    then: function then(callback) {
+      return callback(data);
+    } };
+
+}
+
+function wrapperOptions(interceptor) {var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  ['success', 'fail', 'complete'].forEach(function (name) {
+    if (Array.isArray(interceptor[name])) {
+      var oldCallback = options[name];
+      options[name] = function callbackInterceptor(res) {
+        queue(interceptor[name], res).then(function (res) {
+          /* eslint-disable no-mixed-operators */
+          return isFn(oldCallback) && oldCallback(res) || res;
+        });
+      };
+    }
+  });
+  return options;
+}
+
+function wrapperReturnValue(method, returnValue) {
+  var returnValueHooks = [];
+  if (Array.isArray(globalInterceptors.returnValue)) {
+    returnValueHooks.push.apply(returnValueHooks, _toConsumableArray(globalInterceptors.returnValue));
+  }
+  var interceptor = scopedInterceptors[method];
+  if (interceptor && Array.isArray(interceptor.returnValue)) {
+    returnValueHooks.push.apply(returnValueHooks, _toConsumableArray(interceptor.returnValue));
+  }
+  returnValueHooks.forEach(function (hook) {
+    returnValue = hook(returnValue) || returnValue;
+  });
+  return returnValue;
+}
+
+function getApiInterceptorHooks(method) {
+  var interceptor = Object.create(null);
+  Object.keys(globalInterceptors).forEach(function (hook) {
+    if (hook !== 'returnValue') {
+      interceptor[hook] = globalInterceptors[hook].slice();
+    }
+  });
+  var scopedInterceptor = scopedInterceptors[method];
+  if (scopedInterceptor) {
+    Object.keys(scopedInterceptor).forEach(function (hook) {
+      if (hook !== 'returnValue') {
+        interceptor[hook] = (interceptor[hook] || []).concat(scopedInterceptor[hook]);
+      }
+    });
+  }
+  return interceptor;
+}
+
+function invokeApi(method, api, options) {for (var _len = arguments.length, params = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {params[_key - 3] = arguments[_key];}
+  var interceptor = getApiInterceptorHooks(method);
+  if (interceptor && Object.keys(interceptor).length) {
+    if (Array.isArray(interceptor.invoke)) {
+      var res = queue(interceptor.invoke, options);
+      return res.then(function (options) {
+        return api.apply(void 0, [wrapperOptions(interceptor, options)].concat(params));
+      });
+    } else {
+      return api.apply(void 0, [wrapperOptions(interceptor, options)].concat(params));
+    }
+  }
+  return api.apply(void 0, [options].concat(params));
+}
+
+var promiseInterceptor = {
+  returnValue: function returnValue(res) {
+    if (!isPromise(res)) {
+      return res;
+    }
+    return res.then(function (res) {
+      return res[1];
+    }).catch(function (res) {
+      return res[0];
+    });
+  } };
+
+
+var SYNC_API_RE =
+/^\$|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
@@ -6825,12 +335,12 @@ function promisify(name, api) {
   if (!shouldPromise(name)) {
     return api;
   }
-  return function promiseApi() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {params[_key - 1] = arguments[_key];}
+  return function promiseApi() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};for (var _len2 = arguments.length, params = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {params[_key2 - 1] = arguments[_key2];}
     if (isFn(options.success) || isFn(options.fail) || isFn(options.complete)) {
-      return api.apply(void 0, [options].concat(params));
+      return wrapperReturnValue(name, invokeApi.apply(void 0, [name, api, options].concat(params)));
     }
-    return handlePromise(new Promise(function (resolve, reject) {
-      api.apply(void 0, [Object.assign({}, options, {
+    return wrapperReturnValue(name, handlePromise(new Promise(function (resolve, reject) {
+      invokeApi.apply(void 0, [name, api, Object.assign({}, options, {
         success: resolve,
         fail: reject })].concat(
       params));
@@ -6846,7 +356,7 @@ function promisify(name, api) {
 
         };
       }
-    }));
+    })));
   };
 }
 
@@ -6891,6 +401,19 @@ function upx2px(number, newDeviceWidth) {
   }
   return number < 0 ? -result : result;
 }
+
+var interceptors = {
+  promiseInterceptor: promiseInterceptor };
+
+
+
+
+var baseApi = /*#__PURE__*/Object.freeze({
+  upx2px: upx2px,
+  interceptors: interceptors,
+  addInterceptor: addInterceptor,
+  removeInterceptor: removeInterceptor });
+
 
 var previewImage = {
   args: function args(fromArgs) {
@@ -7134,7 +657,7 @@ function initTriggerEvent(mpInstance) {
     }
   }
   var oldTriggerEvent = mpInstance.triggerEvent;
-  mpInstance.triggerEvent = function (event) {for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {args[_key2 - 1] = arguments[_key2];}
+  mpInstance.triggerEvent = function (event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
     return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
   };
 }
@@ -7147,7 +670,7 @@ function initHook(name, options) {
     };
   } else {
     options[name] = function () {
-      initTriggerEvent(this);for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {args[_key3] = arguments[_key3];}
+      initTriggerEvent(this);for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {args[_key4] = arguments[_key4];}
       return oldHook.apply(this, args);
     };
   }
@@ -7181,11 +704,45 @@ function initMocks(vm, mocks) {
   });
 }
 
-function initHooks(mpOptions, hooks) {
+function hasHook(hook, vueOptions) {
+  if (!vueOptions) {
+    return true;
+  }
+
+  if (_vue.default.options && Array.isArray(_vue.default.options[hook])) {
+    return true;
+  }
+
+  vueOptions = vueOptions.default || vueOptions;
+
+  if (isFn(vueOptions)) {
+    if (isFn(vueOptions.extendOptions[hook])) {
+      return true;
+    }
+    if (vueOptions.super &&
+    vueOptions.super.options &&
+    Array.isArray(vueOptions.super.options[hook])) {
+      return true;
+    }
+    return false;
+  }
+
+  if (isFn(vueOptions[hook])) {
+    return true;
+  }
+  var mixins = vueOptions.mixins;
+  if (Array.isArray(mixins)) {
+    return !!mixins.find(function (mixin) {return hasHook(hook, mixin);});
+  }
+}
+
+function initHooks(mpOptions, hooks, vueOptions) {
   hooks.forEach(function (hook) {
-    mpOptions[hook] = function (args) {
-      return this.$vm && this.$vm.__call_hook(hook, args);
-    };
+    if (hasHook(hook, vueOptions)) {
+      mpOptions[hook] = function (args) {
+        return this.$vm && this.$vm.__call_hook(hook, args);
+      };
+    }
   });
 }
 
@@ -7231,7 +788,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7285,8 +842,14 @@ function initBehaviors(vueOptions, initBehavior) {
           vueProps.push('name');
           vueProps.push('value');
         } else {
-          vueProps['name'] = String;
-          vueProps['value'] = null;
+          vueProps['name'] = {
+            type: String,
+            default: '' };
+
+          vueProps['value'] = {
+            type: [String, Number, Boolean, Array, Object, Date],
+            default: '' };
+
         }
       }
     });
@@ -7541,7 +1104,11 @@ function handleEvent(event) {var _this = this;
   event = wrapper$1(event);
 
   // [['tap',[['handle',[1,2,a]],['handle1',[1,2,a]]]]]
-  var eventOpts = (event.currentTarget || event.target).dataset.eventOpts;
+  var dataset = (event.currentTarget || event.target).dataset;
+  if (!dataset) {
+    return console.warn("\u4E8B\u4EF6\u4FE1\u606F\u4E0D\u5B58\u5728");
+  }
+  var eventOpts = dataset.eventOpts || dataset['event-opts']; // 支付宝 web-view 组件 dataset 非驼峰
   if (!eventOpts) {
     return console.warn("\u4E8B\u4EF6\u4FE1\u606F\u4E0D\u5B58\u5728");
   }
@@ -7633,6 +1200,9 @@ function parseBaseApp(vm, _ref3)
 
   var appOptions = {
     onLaunch: function onLaunch(args) {
+      if (this.$vm) {// 已经初始化过了，主要是为了百度，百度 onShow 在 onLaunch 之前
+        return;
+      }
       {
         if (!wx.canIUse('nextTick')) {// 事实 上2.2.3 即可，简单使用 2.3.0 的 nextTick 判断
           console.error('当前微信基础库版本过低，请将 微信开发者工具-详情-项目设置-调试基础库版本 更换为`2.3.0`以上');
@@ -7847,7 +1417,7 @@ function parseBasePage(vuePageOptions, _ref6)
     initRelation: initRelation });
 
 
-  initHooks(pageOptions.methods, hooks$1);
+  initHooks(pageOptions.methods, hooks$1, vuePageOptions);
 
   pageOptions.methods.onLoad = function (args) {
     this.$vm.$mp.query = args; // 兼容 mpvue
@@ -7890,11 +1460,11 @@ canIUses.forEach(function (canIUseApi) {
 
 var uni = {};
 
-if (typeof Proxy !== 'undefined') {
+if (typeof Proxy !== 'undefined' && "mp-weixin" !== 'app-plus') {
   uni = new Proxy({}, {
     get: function get(target, name) {
-      if (name === 'upx2px') {
-        return upx2px;
+      if (baseApi[name]) {
+        return baseApi[name];
       }
       if (api[name]) {
         return promisify(name, api[name]);
@@ -7917,7 +1487,9 @@ if (typeof Proxy !== 'undefined') {
     } });
 
 } else {
-  uni.upx2px = upx2px;
+  Object.keys(baseApi).forEach(function (name) {
+    uni[name] = baseApi[name];
+  });
 
   {
     Object.keys(todoApis).forEach(function (name) {
@@ -7953,7 +1525,454 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js":
+/***/ 102:
+/*!*******************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail"} ***!
+  \*******************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _out_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/out_detail/out_detail.vue */ 103));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_out_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 110:
+/*!**********************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter"} ***!
+  \**********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_enter = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_enter/good_enter.vue */ 111));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_enter.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 118:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ 119));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 12:
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 126:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fstaff"} ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _staff = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/staff.vue */ 127));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_staff.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 13:
+/*!************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 14));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 134:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Fshops"} ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _shops = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/shops.vue */ 135));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_shops.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 142:
+/*!*****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fwarehouse"} ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _warehouse = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/warehouse.vue */ 143));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_warehouse.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 150:
+/*!*****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd"} ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/add/add.vue */ 151));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 158:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Fadd%2Fadd"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/add/add.vue */ 159));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 166:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/add/add.vue */ 167));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 174:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fsetting%2Fsetting"} ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/setting/setting.vue */ 175));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_setting.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 182:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom"} ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _custom = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom.vue */ 183));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_custom.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 19:
+/*!***********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/common.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+module.exports = {
+  //日志功能
+  log: function log(_log, type, id) {
+    var pointer = _bmob.default.Pointer('_User');
+    var userid = pointer.set(uni.getStorageSync("uid"));
+
+    var query = _bmob.default.Query('logs');
+    query.set("parent", userid);
+    query.set("log", _log);
+    query.set("detail_id", id);
+    query.set("type", type);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  },
+
+  //记录门店的出库数量
+  record_shopOut: function record_shopOut(id, have_out) {
+    console.log(id, have_out);
+    var query = _bmob.default.Query('shops');
+    query.set('id', id); //需要修改的objectId
+    query.set('have_out', have_out);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  },
+
+  //记录员工的出库数量
+  record_staffOut: function record_staffOut(have_out) {
+    console.log(have_out, uni.getStorageSync("user").have_out);
+    var query = _bmob.default.Query('staffs');
+    query.set('id', uni.getStorageSync("user").objectId); //需要修改的objectId
+    query.set('have_out', have_out + uni.getStorageSync("user").have_out);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  },
+
+  //获得库存成本和总库存
+  get_allCost: function get_allCost() {
+    var userid = uni.getStorageSync("uid");
+    console.log(userid);
+    var query = _bmob.default.Query("Goods");
+    query.equalTo("userId", "==", userid);
+    query.find().then(function (res) {
+      console.log(res);
+      var reserve_money = 0;
+      var all_reserve = 0;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+        for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+          console.log(item);
+          reserve_money += Number(item.costPrice) * item.reserve;
+          all_reserve += item.reserve;
+        }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+    });
+  },
+
+  //获取时间
+  getDay: function getDay(day, is_full) {
+    var that = this;
+    var today = new Date();
+    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    today.setTime(targetday_milliseconds);
+    var tYear = today.getFullYear();
+    var tMonth = today.getMonth();
+    var tDate = today.getDate();
+    tMonth = that.handleMonth(tMonth + 1);
+    tDate = that.handleMonth(tDate);
+    if (is_full) {
+      return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
+    } else {
+      return tYear + "-" + tMonth + "-" + tDate;
+    }
+
+  },
+
+  handleMonth: function handleMonth(month) {
+    var m = month;
+    if (month.toString().length == 1) {
+      m = "0" + month;
+    }
+    return m;
+  } };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 190:
+/*!**************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fadd%2Fadd"} ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/add/add.vue */ 191));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 198:
+/*!*******************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Foperations%2Foperations"} ***!
+  \*******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ 199));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_operations.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -12519,8 +6538,22 @@ function initProps (vm, propsOptions) {
                 return
             }
             //fixed by xxxxxx __next_tick_pending,uni://form-field 时不告警
-            if(vm._getFormData || (vm.$parent && vm.$parent.__next_tick_pending)){
+            if(
+                key === 'value' && 
+                Array.isArray(vm.$options.behaviors) &&
+                vm.$options.behaviors.indexOf('uni://form-field') !== -1
+              ){
               return
+            }
+            if(vm._getFormData){
+              return
+            }
+            var $parent = vm.$parent;
+            while($parent){
+              if($parent.__next_tick_pending){
+                return  
+              }
+              $parent = $parent.$parent;
             }
           }
           warn(
@@ -13407,7 +7440,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -13428,14 +7461,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -13467,57 +7500,64 @@ function nextTick$1(vm, cb) {
 /*  */
 
 function cloneWithData(vm) {
-    // 确保当前 vm 所有数据被同步
-    var dataKeys = [].concat(
-        Object.keys(vm._data || {}),
-        Object.keys(vm._computedWatchers || {}));
+  // 确保当前 vm 所有数据被同步
+  var ret = Object.create(null);
+  var dataKeys = [].concat(
+    Object.keys(vm._data || {}),
+    Object.keys(vm._computedWatchers || {}));
 
-    var ret = dataKeys.reduce(function(ret, key) {
-        ret[key] = vm[key];
-        return ret
-    }, Object.create(null));
-    //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
-    Object.assign(ret, vm.$mp.data || {});
-    if (
-        Array.isArray(vm.$options.behaviors) &&
-        vm.$options.behaviors.indexOf('uni://form-field') !== -1
-    ) { //form-field
-        ret['name'] = vm.name;
-        ret['value'] = vm.value;
-    }
-    return JSON.parse(JSON.stringify(ret))
+  dataKeys.reduce(function(ret, key) {
+    ret[key] = vm[key];
+    return ret
+  }, ret);
+  //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
+  Object.assign(ret, vm.$mp.data || {});
+  if (
+    Array.isArray(vm.$options.behaviors) &&
+    vm.$options.behaviors.indexOf('uni://form-field') !== -1
+  ) { //form-field
+    ret['name'] = vm.name;
+    ret['value'] = vm.value;
+  }
+
+  return JSON.parse(JSON.stringify(ret))
 }
 
 var patch = function(oldVnode, vnode) {
-    var this$1 = this;
+  var this$1 = this;
 
-    if (vnode === null) { //destroy
-        return
+  if (vnode === null) { //destroy
+    return
+  }
+  if (this.mpType === 'page' || this.mpType === 'component') {
+    var mpInstance = this.$scope;
+    var data = Object.create(null);
+    try {
+      data = cloneWithData(this);
+    } catch (err) {
+      console.error(err);
     }
-    if (this.mpType === 'page' || this.mpType === 'component') {
-        var mpInstance = this.$scope;
-        var data = cloneWithData(this);
-        data.__webviewId__ = mpInstance.data.__webviewId__;
-        var mpData = Object.create(null);
-        Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
-            mpData[key] = mpInstance.data[key];
-        });
-        var diffData = diff(data, mpData);
-        if (Object.keys(diffData).length) {
-            if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
-                console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
-                    ']差量更新',
-                    JSON.stringify(diffData));
-            }
-            this.__next_tick_pending = true;
-            mpInstance.setData(diffData, function () {
-                this$1.__next_tick_pending = false;
-                flushCallbacks$1(this$1);
-            });
-        } else {
-            flushCallbacks$1(this);
-        }
+    data.__webviewId__ = mpInstance.data.__webviewId__;
+    var mpData = Object.create(null);
+    Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
+      mpData[key] = mpInstance.data[key];
+    });
+    var diffData = diff(data, mpData);
+    if (Object.keys(diffData).length) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
+          ']差量更新',
+          JSON.stringify(diffData));
+      }
+      this.__next_tick_pending = true;
+      mpInstance.setData(diffData, function () {
+        this$1.__next_tick_pending = false;
+        flushCallbacks$1(this$1);
+      });
+    } else {
+      flushCallbacks$1(this);
     }
+  }
 };
 
 /*  */
@@ -13663,111 +7703,136 @@ function normalizeStyleBinding (bindingStyle) {
 var MP_METHODS = ['createSelectorQuery', 'createIntersectionObserver', 'selectAllComponents', 'selectComponent'];
 
 function getTarget(obj, path) {
-    var parts = path.split('.');
-    var key = parts[0];
-    if (key.indexOf('__$n') === 0) { //number index
-        key = parseInt(key.replace('__$n', ''));
-    }
-    if (parts.length === 1) {
-        return obj[key]
-    }
-    return getTarget(obj[key], parts.slice(1).join('.'))
+  var parts = path.split('.');
+  var key = parts[0];
+  if (key.indexOf('__$n') === 0) { //number index
+    key = parseInt(key.replace('__$n', ''));
+  }
+  if (parts.length === 1) {
+    return obj[key]
+  }
+  return getTarget(obj[key], parts.slice(1).join('.'))
 }
 
 function internalMixin(Vue) {
 
-    var oldEmit = Vue.prototype.$emit;
+  Vue.config.errorHandler = function(err) {
+    console.error(err);
+  };
 
-    Vue.prototype.$emit = function(event) {
-        if (this.$scope && event) {
-            this.$scope['triggerEvent'](event, {
-                __args__: toArray(arguments, 1)
-            });
-        }
-        return oldEmit.apply(this, arguments)
+  var oldEmit = Vue.prototype.$emit;
+
+  Vue.prototype.$emit = function(event) {
+    if (this.$scope && event) {
+      this.$scope['triggerEvent'](event, {
+        __args__: toArray(arguments, 1)
+      });
+    }
+    return oldEmit.apply(this, arguments)
+  };
+
+  Vue.prototype.$nextTick = function(fn) {
+    return nextTick$1(this, fn)
+  };
+
+  MP_METHODS.forEach(function (method) {
+    Vue.prototype[method] = function(args) {
+      if (this.$scope) {
+        return this.$scope[method](args)
+      }
     };
-    
-    Vue.prototype.$nextTick = function (fn) {
-      return nextTick$1(this, fn)
-    };
+  });
 
-    MP_METHODS.forEach(function (method) {
-        Vue.prototype[method] = function(args) {
-            if (this.$scope) {
-                return this.$scope[method](args)
-            }
-        };
-    });
+  Vue.prototype.__init_provide = initProvide;
 
-    Vue.prototype.__init_provide = initProvide;
+  Vue.prototype.__init_injections = initInjections;
 
-    Vue.prototype.__init_injections = initInjections;
+  Vue.prototype.__call_hook = function(hook, args) {
+    var vm = this;
+    // #7573 disable dep collection when invoking lifecycle hooks
+    pushTarget();
+    var handlers = vm.$options[hook];
+    var info = hook + " hook";
+    var ret;
+    if (handlers) {
+      for (var i = 0, j = handlers.length; i < j; i++) {
+        ret = invokeWithErrorHandling(handlers[i], vm, args ? [args] : null, vm, info);
+      }
+    }
+    if (vm._hasHookEvent) {
+      vm.$emit('hook:' + hook);
+    }
+    popTarget();
+    return ret
+  };
 
-    Vue.prototype.__call_hook = function(hook, args) {
-        var vm = this;
-        // #7573 disable dep collection when invoking lifecycle hooks
-        pushTarget();
-        var handlers = vm.$options[hook];
-        var info = hook + " hook";
-        var ret;
-        if (handlers) {
-            for (var i = 0, j = handlers.length; i < j; i++) {
-                ret = invokeWithErrorHandling(handlers[i], vm, args ? [args] : null, vm, info);
-            }
-        }
-        if (vm._hasHookEvent) {
-            vm.$emit('hook:' + hook);
-        }
-        popTarget();
-        return ret
-    };
+  Vue.prototype.__set_model = function(target, key, value, modifiers) {
+    if (Array.isArray(modifiers)) {
+      if (modifiers.indexOf('trim') !== -1) {
+        value = value.trim();
+      }
+      if (modifiers.indexOf('number') !== -1) {
+        value = this._n(value);
+      }
+    }
+    if (!target) {
+      target = this;
+    }
+    target[key] = value;
+  };
 
-    Vue.prototype.__set_model = function(target, key, value, modifiers) {
-        if (Array.isArray(modifiers)) {
-            if (modifiers.indexOf('trim') !== -1) {
-                value = value.trim();
-            }
-            if (modifiers.indexOf('number') !== -1) {
-                value = this._n(value);
-            }
-        }
-        if(!target){
-            target = this;
-        }
-        target[key] = value;
-    };
+  Vue.prototype.__set_sync = function(target, key, value) {
+    if (!target) {
+      target = this;
+    }
+    target[key] = value;
+  };
 
-    Vue.prototype.__set_sync = function(target, key, value) {
-        if(!target){
-            target = this;
-        }
-        target[key] = value;
-    };
+  Vue.prototype.__get_orig = function(item) {
+    if (isPlainObject(item)) {
+      return item['$orig'] || item
+    }
+    return item
+  };
 
-    Vue.prototype.__get_orig = function(item) {
-        if (isPlainObject(item)) {
-            return item['$orig'] || item
-        }
-        return item
-    };
-
-    Vue.prototype.__get_value = function(dataPath, target) {
-        return getTarget(target || this, dataPath)
-    };
+  Vue.prototype.__get_value = function(dataPath, target) {
+    return getTarget(target || this, dataPath)
+  };
 
 
-    Vue.prototype.__get_class = function(dynamicClass, staticClass) {
-        return renderClass(staticClass, dynamicClass)
-    };
+  Vue.prototype.__get_class = function(dynamicClass, staticClass) {
+    return renderClass(staticClass, dynamicClass)
+  };
 
-    Vue.prototype.__get_style = function(dynamicStyle, staticStyle) {
-        if (!dynamicStyle && !staticStyle) {
-            return ''
-        }
-        var dynamicStyleObj = normalizeStyleBinding(dynamicStyle);
-        var styleObj = staticStyle ? extend(staticStyle, dynamicStyleObj) : dynamicStyleObj;
-        return Object.keys(styleObj).map(function (name) { return ((hyphenate(name)) + ":" + (styleObj[name])); }).join(';')
-    };
+  Vue.prototype.__get_style = function(dynamicStyle, staticStyle) {
+    if (!dynamicStyle && !staticStyle) {
+      return ''
+    }
+    var dynamicStyleObj = normalizeStyleBinding(dynamicStyle);
+    var styleObj = staticStyle ? extend(staticStyle, dynamicStyleObj) : dynamicStyleObj;
+    return Object.keys(styleObj).map(function (name) { return ((hyphenate(name)) + ":" + (styleObj[name])); }).join(';')
+  };
+
+  Vue.prototype.__map = function(val, iteratee) {
+    //TODO 暂不考虑 string,number
+    var ret, i, l, keys, key;
+    if (Array.isArray(val)) {
+      ret = new Array(val.length);
+      for (i = 0, l = val.length; i < l; i++) {
+        ret[i] = iteratee(val[i], i);
+      }
+      return ret
+    } else if (isObject(val)) {
+      keys = Object.keys(val);
+      ret = Object.create(null);
+      for (i = 0, l = keys.length; i < l; i++) {
+        key = keys[i];
+        ret[key] = iteratee(val[key], key, i);
+      }
+      return ret
+    }
+    return []
+  };
 
 }
 
@@ -13852,118 +7917,232 @@ internalMixin(Vue);
 
 /* harmony default export */ __webpack_exports__["default"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 206:
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ 207));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_manage.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/global.js":
+/***/ 214:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcategory%2Fcategory"} ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/category/category.vue */ 215));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_category.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 22:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Flanding%2Flanding"} ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _landing = _interopRequireDefault(__webpack_require__(/*! ./pages/landing/landing.vue */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_landing.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 222:
+/*!***********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim"} ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_confrim = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_confrim.vue */ 223));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_confrim.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 230:
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2Freport"} ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ 231));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_report.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 238:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ 239));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_det.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 246:
+/*!*****************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail"} ***!
+  \*****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/detail/detail.vue */ 247));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 254:
+/*!*****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fgoods_out"} ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _goods_out = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/goods_out.vue */ 255));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goods_out.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 262:
+/*!*********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Fgood_return"} ***!
+  \*********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_return = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/good_return.vue */ 263));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_return.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 270:
+/*!*******************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fgood_count"} ***!
+  \*******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_count = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/good_count.vue */ 271));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_count.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 278:
+/*!************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail"} ***!
+  \************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _count_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/count_detail/count_detail.vue */ 279));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_count_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 286:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fabout_us%2Fabout_us"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _about_us = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/about_us/about_us.vue */ 287));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_about_us.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 294:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fhome_page%2Fhome_page"} ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _home_page = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/home_page/home_page.vue */ 295));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_home_page.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 3:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -13991,6 +8170,6126 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+
+/***/ 30:
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fregister%2Fregister"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _register = _interopRequireDefault(__webpack_require__(/*! ./pages/register/register.vue */ 31));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_register.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 302:
+/*!****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fstaff_landing%2Fstaff_landing"} ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _staff_landing = _interopRequireDefault(__webpack_require__(/*! ./pages/staff_landing/staff_landing.vue */ 303));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_staff_landing.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 310:
+/*!*******************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fwarning_log%2Fwarning_log"} ***!
+  \*******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _warning_log = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/warning_log/warning_log.vue */ 311));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_warning_log.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 318:
+/*!***********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Fstaff_in%2Fstaff_in"} ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _staff_in = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/staff_in/staff_in.vue */ 319));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_staff_in.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 326:
+/*!*******************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Frecord%2Frecord"} ***!
+  \*******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _record = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/record/record.vue */ 327));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_record.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 334:
+/*!***************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fregister%2Fuser_protocol%2Fuser_protocol"} ***!
+  \***************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _user_protocol = _interopRequireDefault(__webpack_require__(/*! ./pages/register/user_protocol/user_protocol.vue */ 335));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_user_protocol.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 38:
+/*!**********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ 39));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_mine.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 4:
+/*!******************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/pages.json ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+
+/***/ 417:
+/*!***************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-qrcode/qrcode.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var QRCode = {};
+(function () {
+  /**
+               * 获取单个字符的utf8编码
+               * unicode BMP平面约65535个字符
+               * @param {num} code
+               * return {array}
+               */
+  function unicodeFormat8(code) {
+    // 1 byte
+    var c0, c1, c2;
+    if (code < 128) {
+      return [code];
+      // 2 bytes
+    } else if (code < 2048) {
+      c0 = 192 + (code >> 6);
+      c1 = 128 + (code & 63);
+      return [c0, c1];
+      // 3 bytes
+    } else {
+      c0 = 224 + (code >> 12);
+      c1 = 128 + (code >> 6 & 63);
+      c2 = 128 + (code & 63);
+      return [c0, c1, c2];
+    }
+  }
+  /**
+     * 获取字符串的utf8编码字节串
+     * @param {string} string
+     * @return {array}
+     */
+  function getUTF8Bytes(string) {
+    var utf8codes = [];
+    for (var i = 0; i < string.length; i++) {
+      var code = string.charCodeAt(i);
+      var utf8 = unicodeFormat8(code);
+      for (var j = 0; j < utf8.length; j++) {
+        utf8codes.push(utf8[j]);
+      }
+    }
+    return utf8codes;
+  }
+  /**
+     * 二维码算法实现
+     * @param {string} data              要编码的信息字符串
+     * @param {num} errorCorrectLevel 纠错等级
+     */
+  function QRCodeAlg(data, errorCorrectLevel) {
+    this.typeNumber = -1; //版本
+    this.errorCorrectLevel = errorCorrectLevel;
+    this.modules = null; //二维矩阵，存放最终结果
+    this.moduleCount = 0; //矩阵大小
+    this.dataCache = null; //数据缓存
+    this.rsBlocks = null; //版本数据信息
+    this.totalDataCount = -1; //可使用的数据量
+    this.data = data;
+    this.utf8bytes = getUTF8Bytes(data);
+    this.make();
+  }
+  QRCodeAlg.prototype = {
+    constructor: QRCodeAlg,
+    /**
+                             * 获取二维码矩阵大小
+                             * @return {num} 矩阵大小
+                             */
+    getModuleCount: function getModuleCount() {
+      return this.moduleCount;
+    },
+    /**
+        * 编码
+        */
+    make: function make() {
+      this.getRightType();
+      this.dataCache = this.createData();
+      this.createQrcode();
+    },
+    /**
+        * 设置二位矩阵功能图形
+        * @param  {bool} test 表示是否在寻找最好掩膜阶段
+        * @param  {num} maskPattern 掩膜的版本
+        */
+    makeImpl: function makeImpl(maskPattern) {
+      this.moduleCount = this.typeNumber * 4 + 17;
+      this.modules = new Array(this.moduleCount);
+      for (var row = 0; row < this.moduleCount; row++) {
+        this.modules[row] = new Array(this.moduleCount);
+      }
+      this.setupPositionProbePattern(0, 0);
+      this.setupPositionProbePattern(this.moduleCount - 7, 0);
+      this.setupPositionProbePattern(0, this.moduleCount - 7);
+      this.setupPositionAdjustPattern();
+      this.setupTimingPattern();
+      this.setupTypeInfo(true, maskPattern);
+      if (this.typeNumber >= 7) {
+        this.setupTypeNumber(true);
+      }
+      this.mapData(this.dataCache, maskPattern);
+    },
+    /**
+        * 设置二维码的位置探测图形
+        * @param  {num} row 探测图形的中心横坐标
+        * @param  {num} col 探测图形的中心纵坐标
+        */
+    setupPositionProbePattern: function setupPositionProbePattern(row, col) {
+      for (var r = -1; r <= 7; r++) {
+        if (row + r <= -1 || this.moduleCount <= row + r) continue;
+        for (var c = -1; c <= 7; c++) {
+          if (col + c <= -1 || this.moduleCount <= col + c) continue;
+          if (0 <= r && r <= 6 && (c == 0 || c == 6) || 0 <= c && c <= 6 && (r == 0 || r == 6) || 2 <= r && r <= 4 && 2 <= c && c <= 4) {
+            this.modules[row + r][col + c] = true;
+          } else {
+            this.modules[row + r][col + c] = false;
+          }
+        }
+      }
+    },
+    /**
+        * 创建二维码
+        * @return {[type]} [description]
+        */
+    createQrcode: function createQrcode() {
+      var minLostPoint = 0;
+      var pattern = 0;
+      var bestModules = null;
+      for (var i = 0; i < 8; i++) {
+        this.makeImpl(i);
+        var lostPoint = QRUtil.getLostPoint(this);
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+          bestModules = this.modules;
+        }
+      }
+      this.modules = bestModules;
+      this.setupTypeInfo(false, pattern);
+      if (this.typeNumber >= 7) {
+        this.setupTypeNumber(false);
+      }
+    },
+    /**
+        * 设置定位图形
+        * @return {[type]} [description]
+        */
+    setupTimingPattern: function setupTimingPattern() {
+      for (var r = 8; r < this.moduleCount - 8; r++) {
+        if (this.modules[r][6] != null) {
+          continue;
+        }
+        this.modules[r][6] = r % 2 == 0;
+        if (this.modules[6][r] != null) {
+          continue;
+        }
+        this.modules[6][r] = r % 2 == 0;
+      }
+    },
+    /**
+        * 设置矫正图形
+        * @return {[type]} [description]
+        */
+    setupPositionAdjustPattern: function setupPositionAdjustPattern() {
+      var pos = QRUtil.getPatternPosition(this.typeNumber);
+      for (var i = 0; i < pos.length; i++) {
+        for (var j = 0; j < pos.length; j++) {
+          var row = pos[i];
+          var col = pos[j];
+          if (this.modules[row][col] != null) {
+            continue;
+          }
+          for (var r = -2; r <= 2; r++) {
+            for (var c = -2; c <= 2; c++) {
+              if (r == -2 || r == 2 || c == -2 || c == 2 || r == 0 && c == 0) {
+                this.modules[row + r][col + c] = true;
+              } else {
+                this.modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    },
+    /**
+        * 设置版本信息（7以上版本才有）
+        * @param  {bool} test 是否处于判断最佳掩膜阶段
+        * @return {[type]}      [description]
+        */
+    setupTypeNumber: function setupTypeNumber(test) {
+      var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+      for (var i = 0; i < 18; i++) {
+        var mod = !test && (bits >> i & 1) == 1;
+        this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+        this.modules[i % 3 + this.moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    },
+    /**
+        * 设置格式信息（纠错等级和掩膜版本）
+        * @param  {bool} test
+        * @param  {num} maskPattern 掩膜版本
+        * @return {}
+        */
+    setupTypeInfo: function setupTypeInfo(test, maskPattern) {
+      var data = QRErrorCorrectLevel[this.errorCorrectLevel] << 3 | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+      // vertical
+      for (var i = 0; i < 15; i++) {
+        var mod = !test && (bits >> i & 1) == 1;
+        if (i < 6) {
+          this.modules[i][8] = mod;
+        } else if (i < 8) {
+          this.modules[i + 1][8] = mod;
+        } else {
+          this.modules[this.moduleCount - 15 + i][8] = mod;
+        }
+        // horizontal
+        var mod = !test && (bits >> i & 1) == 1;
+        if (i < 8) {
+          this.modules[8][this.moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          this.modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          this.modules[8][15 - i - 1] = mod;
+        }
+      }
+      // fixed module
+      this.modules[this.moduleCount - 8][8] = !test;
+    },
+    /**
+        * 数据编码
+        * @return {[type]} [description]
+        */
+    createData: function createData() {
+      var buffer = new QRBitBuffer();
+      var lengthBits = this.typeNumber > 9 ? 16 : 8;
+      buffer.put(4, 4); //添加模式
+      buffer.put(this.utf8bytes.length, lengthBits);
+      for (var i = 0, l = this.utf8bytes.length; i < l; i++) {
+        buffer.put(this.utf8bytes[i], 8);
+      }
+      if (buffer.length + 4 <= this.totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+      // padding
+      while (buffer.length % 8 != 0) {
+        buffer.putBit(false);
+      }
+      // padding
+      while (true) {
+        if (buffer.length >= this.totalDataCount * 8) {
+          break;
+        }
+        buffer.put(QRCodeAlg.PAD0, 8);
+        if (buffer.length >= this.totalDataCount * 8) {
+          break;
+        }
+        buffer.put(QRCodeAlg.PAD1, 8);
+      }
+      return this.createBytes(buffer);
+    },
+    /**
+        * 纠错码编码
+        * @param  {buffer} buffer 数据编码
+        * @return {[type]}
+        */
+    createBytes: function createBytes(buffer) {
+      var offset = 0;
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+      var length = this.rsBlock.length / 3;
+      var rsBlocks = new Array();
+      for (var i = 0; i < length; i++) {
+        var count = this.rsBlock[i * 3 + 0];
+        var totalCount = this.rsBlock[i * 3 + 1];
+        var dataCount = this.rsBlock[i * 3 + 2];
+        for (var j = 0; j < count; j++) {
+          rsBlocks.push([dataCount, totalCount]);
+        }
+      }
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+      for (var r = 0; r < rsBlocks.length; r++) {
+        var dcCount = rsBlocks[r][0];
+        var ecCount = rsBlocks[r][1] - dcCount;
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+        dcdata[r] = new Array(dcCount);
+        for (var i = 0; i < dcdata[r].length; i++) {
+          dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+        }
+        offset += dcCount;
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i++) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = modIndex >= 0 ? modPoly.get(modIndex) : 0;
+        }
+      }
+      var data = new Array(this.totalDataCount);
+      var index = 0;
+      for (var i = 0; i < maxDcCount; i++) {
+        for (var r = 0; r < rsBlocks.length; r++) {
+          if (i < dcdata[r].length) {
+            data[index++] = dcdata[r][i];
+          }
+        }
+      }
+      for (var i = 0; i < maxEcCount; i++) {
+        for (var r = 0; r < rsBlocks.length; r++) {
+          if (i < ecdata[r].length) {
+            data[index++] = ecdata[r][i];
+          }
+        }
+      }
+      return data;
+
+    },
+    /**
+        * 布置模块，构建最终信息
+        * @param  {} data
+        * @param  {} maskPattern
+        * @return {}
+        */
+    mapData: function mapData(data, maskPattern) {
+      var inc = -1;
+      var row = this.moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+        if (col == 6) col--;
+        while (true) {
+          for (var c = 0; c < 2; c++) {
+            if (this.modules[row][col - c] == null) {
+              var dark = false;
+              if (byteIndex < data.length) {
+                dark = (data[byteIndex] >>> bitIndex & 1) == 1;
+              }
+              var mask = QRUtil.getMask(maskPattern, row, col - c);
+              if (mask) {
+                dark = !dark;
+              }
+              this.modules[row][col - c] = dark;
+              bitIndex--;
+              if (bitIndex == -1) {
+                byteIndex++;
+                bitIndex = 7;
+              }
+            }
+          }
+          row += inc;
+          if (row < 0 || this.moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    } };
+
+  /**
+          * 填充字段
+          */
+  QRCodeAlg.PAD0 = 0xEC;
+  QRCodeAlg.PAD1 = 0x11;
+  //---------------------------------------------------------------------
+  // 纠错等级对应的编码
+  //---------------------------------------------------------------------
+  var QRErrorCorrectLevel = [1, 0, 3, 2];
+  //---------------------------------------------------------------------
+  // 掩膜版本
+  //---------------------------------------------------------------------
+  var QRMaskPattern = {
+    PATTERN000: 0,
+    PATTERN001: 1,
+    PATTERN010: 2,
+    PATTERN011: 3,
+    PATTERN100: 4,
+    PATTERN101: 5,
+    PATTERN110: 6,
+    PATTERN111: 7 };
+
+  //---------------------------------------------------------------------
+  // 工具类
+  //---------------------------------------------------------------------
+  var QRUtil = {
+    /*
+                 每个版本矫正图形的位置
+                  */
+    PATTERN_POSITION_TABLE: [
+    [],
+    [6, 18],
+    [6, 22],
+    [6, 26],
+    [6, 30],
+    [6, 34],
+    [6, 22, 38],
+    [6, 24, 42],
+    [6, 26, 46],
+    [6, 28, 50],
+    [6, 30, 54],
+    [6, 32, 58],
+    [6, 34, 62],
+    [6, 26, 46, 66],
+    [6, 26, 48, 70],
+    [6, 26, 50, 74],
+    [6, 30, 54, 78],
+    [6, 30, 56, 82],
+    [6, 30, 58, 86],
+    [6, 34, 62, 90],
+    [6, 28, 50, 72, 94],
+    [6, 26, 50, 74, 98],
+    [6, 30, 54, 78, 102],
+    [6, 28, 54, 80, 106],
+    [6, 32, 58, 84, 110],
+    [6, 30, 58, 86, 114],
+    [6, 34, 62, 90, 118],
+    [6, 26, 50, 74, 98, 122],
+    [6, 30, 54, 78, 102, 126],
+    [6, 26, 52, 78, 104, 130],
+    [6, 30, 56, 82, 108, 134],
+    [6, 34, 60, 86, 112, 138],
+    [6, 30, 58, 86, 114, 142],
+    [6, 34, 62, 90, 118, 146],
+    [6, 30, 54, 78, 102, 126, 150],
+    [6, 24, 50, 76, 102, 128, 154],
+    [6, 28, 54, 80, 106, 132, 158],
+    [6, 32, 58, 84, 110, 136, 162],
+    [6, 26, 54, 82, 110, 138, 166],
+    [6, 30, 58, 86, 114, 142, 170]],
+
+    G15: 1 << 10 | 1 << 8 | 1 << 5 | 1 << 4 | 1 << 2 | 1 << 1 | 1 << 0,
+    G18: 1 << 12 | 1 << 11 | 1 << 10 | 1 << 9 | 1 << 8 | 1 << 5 | 1 << 2 | 1 << 0,
+    G15_MASK: 1 << 14 | 1 << 12 | 1 << 10 | 1 << 4 | 1 << 1,
+    /*
+                                                             BCH编码格式信息
+                                                              */
+    getBCHTypeInfo: function getBCHTypeInfo(data) {
+      var d = data << 10;
+      while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+        d ^= QRUtil.G15 << QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15);
+      }
+      return (data << 10 | d) ^ QRUtil.G15_MASK;
+    },
+    /*
+       BCH编码版本信息
+        */
+    getBCHTypeNumber: function getBCHTypeNumber(data) {
+      var d = data << 12;
+      while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+        d ^= QRUtil.G18 << QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18);
+      }
+      return data << 12 | d;
+    },
+    /*
+       获取BCH位信息
+        */
+    getBCHDigit: function getBCHDigit(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit++;
+        data >>>= 1;
+      }
+      return digit;
+    },
+    /*
+       获取版本对应的矫正图形位置
+        */
+    getPatternPosition: function getPatternPosition(typeNumber) {
+      return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+    /*
+       掩膜算法
+        */
+    getMask: function getMask(maskPattern, i, j) {
+      switch (maskPattern) {
+        case QRMaskPattern.PATTERN000:
+          return (i + j) % 2 == 0;
+        case QRMaskPattern.PATTERN001:
+          return i % 2 == 0;
+        case QRMaskPattern.PATTERN010:
+          return j % 3 == 0;
+        case QRMaskPattern.PATTERN011:
+          return (i + j) % 3 == 0;
+        case QRMaskPattern.PATTERN100:
+          return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 == 0;
+        case QRMaskPattern.PATTERN101:
+          return i * j % 2 + i * j % 3 == 0;
+        case QRMaskPattern.PATTERN110:
+          return (i * j % 2 + i * j % 3) % 2 == 0;
+        case QRMaskPattern.PATTERN111:
+          return (i * j % 3 + (i + j) % 2) % 2 == 0;
+        default:
+          throw new Error("bad maskPattern:" + maskPattern);}
+
+    },
+    /*
+       获取RS的纠错多项式
+        */
+    getErrorCorrectPolynomial: function getErrorCorrectPolynomial(errorCorrectLength) {
+      var a = new QRPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i++) {
+        a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0));
+      }
+      return a;
+    },
+    /*
+       获取评价
+        */
+    getLostPoint: function getLostPoint(qrCode) {
+      var moduleCount = qrCode.getModuleCount(),
+      lostPoint = 0,
+      darkCount = 0;
+      for (var row = 0; row < moduleCount; row++) {
+        var sameCount = 0;
+        var head = qrCode.modules[row][0];
+        for (var col = 0; col < moduleCount; col++) {
+          var current = qrCode.modules[row][col];
+          //level 3 评价
+          if (col < moduleCount - 6) {
+            if (current && !qrCode.modules[row][col + 1] && qrCode.modules[row][col + 2] && qrCode.modules[row][col + 3] && qrCode.modules[row][col + 4] && !qrCode.modules[row][col + 5] && qrCode.modules[row][col + 6]) {
+              if (col < moduleCount - 10) {
+                if (qrCode.modules[row][col + 7] && qrCode.modules[row][col + 8] && qrCode.modules[row][col + 9] && qrCode.modules[row][col + 10]) {
+                  lostPoint += 40;
+                }
+              } else if (col > 3) {
+                if (qrCode.modules[row][col - 1] && qrCode.modules[row][col - 2] && qrCode.modules[row][col - 3] && qrCode.modules[row][col - 4]) {
+                  lostPoint += 40;
+                }
+              }
+            }
+          }
+          //level 2 评价
+          if (row < moduleCount - 1 && col < moduleCount - 1) {
+            var count = 0;
+            if (current) count++;
+            if (qrCode.modules[row + 1][col]) count++;
+            if (qrCode.modules[row][col + 1]) count++;
+            if (qrCode.modules[row + 1][col + 1]) count++;
+            if (count == 0 || count == 4) {
+              lostPoint += 3;
+            }
+          }
+          //level 1 评价
+          if (head ^ current) {
+            sameCount++;
+          } else {
+            head = current;
+            if (sameCount >= 5) {
+              lostPoint += 3 + sameCount - 5;
+            }
+            sameCount = 1;
+          }
+          //level 4 评价
+          if (current) {
+            darkCount++;
+          }
+        }
+      }
+      for (var col = 0; col < moduleCount; col++) {
+        var sameCount = 0;
+        var head = qrCode.modules[0][col];
+        for (var row = 0; row < moduleCount; row++) {
+          var current = qrCode.modules[row][col];
+          //level 3 评价
+          if (row < moduleCount - 6) {
+            if (current && !qrCode.modules[row + 1][col] && qrCode.modules[row + 2][col] && qrCode.modules[row + 3][col] && qrCode.modules[row + 4][col] && !qrCode.modules[row + 5][col] && qrCode.modules[row + 6][col]) {
+              if (row < moduleCount - 10) {
+                if (qrCode.modules[row + 7][col] && qrCode.modules[row + 8][col] && qrCode.modules[row + 9][col] && qrCode.modules[row + 10][col]) {
+                  lostPoint += 40;
+                }
+              } else if (row > 3) {
+                if (qrCode.modules[row - 1][col] && qrCode.modules[row - 2][col] && qrCode.modules[row - 3][col] && qrCode.modules[row - 4][col]) {
+                  lostPoint += 40;
+                }
+              }
+            }
+          }
+          //level 1 评价
+          if (head ^ current) {
+            sameCount++;
+          } else {
+            head = current;
+            if (sameCount >= 5) {
+              lostPoint += 3 + sameCount - 5;
+            }
+            sameCount = 1;
+          }
+        }
+      }
+      // LEVEL4
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+      return lostPoint;
+    } };
+
+
+  //---------------------------------------------------------------------
+  // QRMath使用的数学工具
+  //---------------------------------------------------------------------
+  var QRMath = {
+    /*
+                 将n转化为a^m
+                  */
+    glog: function glog(n) {
+      if (n < 1) {
+        throw new Error("glog(" + n + ")");
+      }
+      return QRMath.LOG_TABLE[n];
+    },
+    /*
+       将a^m转化为n
+        */
+    gexp: function gexp(n) {
+      while (n < 0) {
+        n += 255;
+      }
+      while (n >= 256) {
+        n -= 255;
+      }
+      return QRMath.EXP_TABLE[n];
+    },
+    EXP_TABLE: new Array(256),
+    LOG_TABLE: new Array(256) };
+
+
+  for (var i = 0; i < 8; i++) {
+    QRMath.EXP_TABLE[i] = 1 << i;
+  }
+  for (var i = 8; i < 256; i++) {
+    QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4] ^ QRMath.EXP_TABLE[i - 5] ^ QRMath.EXP_TABLE[i - 6] ^ QRMath.EXP_TABLE[i - 8];
+  }
+  for (var i = 0; i < 255; i++) {
+    QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]] = i;
+  }
+  //---------------------------------------------------------------------
+  // QRPolynomial 多项式
+  //---------------------------------------------------------------------
+  /**
+   * 多项式类
+   * @param {Array} num   系数
+   * @param {num} shift a^shift
+   */
+  function QRPolynomial(num, shift) {
+    if (num.length == undefined) {
+      throw new Error(num.length + "/" + shift);
+    }
+    var offset = 0;
+    while (offset < num.length && num[offset] == 0) {
+      offset++;
+    }
+    this.num = new Array(num.length - offset + shift);
+    for (var i = 0; i < num.length - offset; i++) {
+      this.num[i] = num[i + offset];
+    }
+  }
+  QRPolynomial.prototype = {
+    get: function get(index) {
+      return this.num[index];
+    },
+    getLength: function getLength() {
+      return this.num.length;
+    },
+    /**
+        * 多项式乘法
+        * @param  {QRPolynomial} e 被乘多项式
+        * @return {[type]}   [description]
+        */
+    multiply: function multiply(e) {
+      var num = new Array(this.getLength() + e.getLength() - 1);
+      for (var i = 0; i < this.getLength(); i++) {
+        for (var j = 0; j < e.getLength(); j++) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i)) + QRMath.glog(e.get(j)));
+        }
+      }
+      return new QRPolynomial(num, 0);
+    },
+    /**
+        * 多项式模运算
+        * @param  {QRPolynomial} e 模多项式
+        * @return {}
+        */
+    mod: function mod(e) {
+      var tl = this.getLength(),
+      el = e.getLength();
+      if (tl - el < 0) {
+        return this;
+      }
+      var num = new Array(tl);
+      for (var i = 0; i < tl; i++) {
+        num[i] = this.get(i);
+      }
+      while (num.length >= el) {
+        var ratio = QRMath.glog(num[0]) - QRMath.glog(e.get(0));
+
+        for (var i = 0; i < e.getLength(); i++) {
+          num[i] ^= QRMath.gexp(QRMath.glog(e.get(i)) + ratio);
+        }
+        while (num[0] == 0) {
+          num.shift();
+        }
+      }
+      return new QRPolynomial(num, 0);
+    } };
+
+
+  //---------------------------------------------------------------------
+  // RS_BLOCK_TABLE
+  //---------------------------------------------------------------------
+  /*
+  二维码各个版本信息[块数, 每块中的数据块数, 每块中的信息块数]
+   */
+  var RS_BLOCK_TABLE = [
+  // L
+  // M
+  // Q
+  // H
+  // 1
+  [1, 26, 19],
+  [1, 26, 16],
+  [1, 26, 13],
+  [1, 26, 9],
+
+  // 2
+  [1, 44, 34],
+  [1, 44, 28],
+  [1, 44, 22],
+  [1, 44, 16],
+
+  // 3
+  [1, 70, 55],
+  [1, 70, 44],
+  [2, 35, 17],
+  [2, 35, 13],
+
+  // 4
+  [1, 100, 80],
+  [2, 50, 32],
+  [2, 50, 24],
+  [4, 25, 9],
+
+  // 5
+  [1, 134, 108],
+  [2, 67, 43],
+  [2, 33, 15, 2, 34, 16],
+  [2, 33, 11, 2, 34, 12],
+
+  // 6
+  [2, 86, 68],
+  [4, 43, 27],
+  [4, 43, 19],
+  [4, 43, 15],
+
+  // 7
+  [2, 98, 78],
+  [4, 49, 31],
+  [2, 32, 14, 4, 33, 15],
+  [4, 39, 13, 1, 40, 14],
+
+  // 8
+  [2, 121, 97],
+  [2, 60, 38, 2, 61, 39],
+  [4, 40, 18, 2, 41, 19],
+  [4, 40, 14, 2, 41, 15],
+
+  // 9
+  [2, 146, 116],
+  [3, 58, 36, 2, 59, 37],
+  [4, 36, 16, 4, 37, 17],
+  [4, 36, 12, 4, 37, 13],
+
+  // 10
+  [2, 86, 68, 2, 87, 69],
+  [4, 69, 43, 1, 70, 44],
+  [6, 43, 19, 2, 44, 20],
+  [6, 43, 15, 2, 44, 16],
+
+  // 11
+  [4, 101, 81],
+  [1, 80, 50, 4, 81, 51],
+  [4, 50, 22, 4, 51, 23],
+  [3, 36, 12, 8, 37, 13],
+
+  // 12
+  [2, 116, 92, 2, 117, 93],
+  [6, 58, 36, 2, 59, 37],
+  [4, 46, 20, 6, 47, 21],
+  [7, 42, 14, 4, 43, 15],
+
+  // 13
+  [4, 133, 107],
+  [8, 59, 37, 1, 60, 38],
+  [8, 44, 20, 4, 45, 21],
+  [12, 33, 11, 4, 34, 12],
+
+  // 14
+  [3, 145, 115, 1, 146, 116],
+  [4, 64, 40, 5, 65, 41],
+  [11, 36, 16, 5, 37, 17],
+  [11, 36, 12, 5, 37, 13],
+
+  // 15
+  [5, 109, 87, 1, 110, 88],
+  [5, 65, 41, 5, 66, 42],
+  [5, 54, 24, 7, 55, 25],
+  [11, 36, 12],
+
+  // 16
+  [5, 122, 98, 1, 123, 99],
+  [7, 73, 45, 3, 74, 46],
+  [15, 43, 19, 2, 44, 20],
+  [3, 45, 15, 13, 46, 16],
+
+  // 17
+  [1, 135, 107, 5, 136, 108],
+  [10, 74, 46, 1, 75, 47],
+  [1, 50, 22, 15, 51, 23],
+  [2, 42, 14, 17, 43, 15],
+
+  // 18
+  [5, 150, 120, 1, 151, 121],
+  [9, 69, 43, 4, 70, 44],
+  [17, 50, 22, 1, 51, 23],
+  [2, 42, 14, 19, 43, 15],
+
+  // 19
+  [3, 141, 113, 4, 142, 114],
+  [3, 70, 44, 11, 71, 45],
+  [17, 47, 21, 4, 48, 22],
+  [9, 39, 13, 16, 40, 14],
+
+  // 20
+  [3, 135, 107, 5, 136, 108],
+  [3, 67, 41, 13, 68, 42],
+  [15, 54, 24, 5, 55, 25],
+  [15, 43, 15, 10, 44, 16],
+
+  // 21
+  [4, 144, 116, 4, 145, 117],
+  [17, 68, 42],
+  [17, 50, 22, 6, 51, 23],
+  [19, 46, 16, 6, 47, 17],
+
+  // 22
+  [2, 139, 111, 7, 140, 112],
+  [17, 74, 46],
+  [7, 54, 24, 16, 55, 25],
+  [34, 37, 13],
+
+  // 23
+  [4, 151, 121, 5, 152, 122],
+  [4, 75, 47, 14, 76, 48],
+  [11, 54, 24, 14, 55, 25],
+  [16, 45, 15, 14, 46, 16],
+
+  // 24
+  [6, 147, 117, 4, 148, 118],
+  [6, 73, 45, 14, 74, 46],
+  [11, 54, 24, 16, 55, 25],
+  [30, 46, 16, 2, 47, 17],
+
+  // 25
+  [8, 132, 106, 4, 133, 107],
+  [8, 75, 47, 13, 76, 48],
+  [7, 54, 24, 22, 55, 25],
+  [22, 45, 15, 13, 46, 16],
+
+  // 26
+  [10, 142, 114, 2, 143, 115],
+  [19, 74, 46, 4, 75, 47],
+  [28, 50, 22, 6, 51, 23],
+  [33, 46, 16, 4, 47, 17],
+
+  // 27
+  [8, 152, 122, 4, 153, 123],
+  [22, 73, 45, 3, 74, 46],
+  [8, 53, 23, 26, 54, 24],
+  [12, 45, 15, 28, 46, 16],
+
+  // 28
+  [3, 147, 117, 10, 148, 118],
+  [3, 73, 45, 23, 74, 46],
+  [4, 54, 24, 31, 55, 25],
+  [11, 45, 15, 31, 46, 16],
+
+  // 29
+  [7, 146, 116, 7, 147, 117],
+  [21, 73, 45, 7, 74, 46],
+  [1, 53, 23, 37, 54, 24],
+  [19, 45, 15, 26, 46, 16],
+
+  // 30
+  [5, 145, 115, 10, 146, 116],
+  [19, 75, 47, 10, 76, 48],
+  [15, 54, 24, 25, 55, 25],
+  [23, 45, 15, 25, 46, 16],
+
+  // 31
+  [13, 145, 115, 3, 146, 116],
+  [2, 74, 46, 29, 75, 47],
+  [42, 54, 24, 1, 55, 25],
+  [23, 45, 15, 28, 46, 16],
+
+  // 32
+  [17, 145, 115],
+  [10, 74, 46, 23, 75, 47],
+  [10, 54, 24, 35, 55, 25],
+  [19, 45, 15, 35, 46, 16],
+
+  // 33
+  [17, 145, 115, 1, 146, 116],
+  [14, 74, 46, 21, 75, 47],
+  [29, 54, 24, 19, 55, 25],
+  [11, 45, 15, 46, 46, 16],
+
+  // 34
+  [13, 145, 115, 6, 146, 116],
+  [14, 74, 46, 23, 75, 47],
+  [44, 54, 24, 7, 55, 25],
+  [59, 46, 16, 1, 47, 17],
+
+  // 35
+  [12, 151, 121, 7, 152, 122],
+  [12, 75, 47, 26, 76, 48],
+  [39, 54, 24, 14, 55, 25],
+  [22, 45, 15, 41, 46, 16],
+
+  // 36
+  [6, 151, 121, 14, 152, 122],
+  [6, 75, 47, 34, 76, 48],
+  [46, 54, 24, 10, 55, 25],
+  [2, 45, 15, 64, 46, 16],
+
+  // 37
+  [17, 152, 122, 4, 153, 123],
+  [29, 74, 46, 14, 75, 47],
+  [49, 54, 24, 10, 55, 25],
+  [24, 45, 15, 46, 46, 16],
+
+  // 38
+  [4, 152, 122, 18, 153, 123],
+  [13, 74, 46, 32, 75, 47],
+  [48, 54, 24, 14, 55, 25],
+  [42, 45, 15, 32, 46, 16],
+
+  // 39
+  [20, 147, 117, 4, 148, 118],
+  [40, 75, 47, 7, 76, 48],
+  [43, 54, 24, 22, 55, 25],
+  [10, 45, 15, 67, 46, 16],
+
+  // 40
+  [19, 148, 118, 6, 149, 119],
+  [18, 75, 47, 31, 76, 48],
+  [34, 54, 24, 34, 55, 25],
+  [20, 45, 15, 61, 46, 16]];
+
+
+  /**
+                              * 根据数据获取对应版本
+                              * @return {[type]} [description]
+                              */
+  QRCodeAlg.prototype.getRightType = function () {
+    for (var typeNumber = 1; typeNumber < 41; typeNumber++) {
+      var rsBlock = RS_BLOCK_TABLE[(typeNumber - 1) * 4 + this.errorCorrectLevel];
+      if (rsBlock == undefined) {
+        throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + this.errorCorrectLevel);
+      }
+      var length = rsBlock.length / 3;
+      var totalDataCount = 0;
+      for (var i = 0; i < length; i++) {
+        var count = rsBlock[i * 3 + 0];
+        var dataCount = rsBlock[i * 3 + 2];
+        totalDataCount += dataCount * count;
+      }
+      var lengthBytes = typeNumber > 9 ? 2 : 1;
+      if (this.utf8bytes.length + lengthBytes < totalDataCount || typeNumber == 40) {
+        this.typeNumber = typeNumber;
+        this.rsBlock = rsBlock;
+        this.totalDataCount = totalDataCount;
+        break;
+      }
+    }
+  };
+
+  //---------------------------------------------------------------------
+  // QRBitBuffer
+  //---------------------------------------------------------------------
+  function QRBitBuffer() {
+    this.buffer = new Array();
+    this.length = 0;
+  }
+  QRBitBuffer.prototype = {
+    get: function get(index) {
+      var bufIndex = Math.floor(index / 8);
+      return this.buffer[bufIndex] >>> 7 - index % 8 & 1;
+    },
+    put: function put(num, length) {
+      for (var i = 0; i < length; i++) {
+        this.putBit(num >>> length - i - 1 & 1);
+      }
+    },
+    putBit: function putBit(bit) {
+      var bufIndex = Math.floor(this.length / 8);
+      if (this.buffer.length <= bufIndex) {
+        this.buffer.push(0);
+      }
+      if (bit) {
+        this.buffer[bufIndex] |= 0x80 >>> this.length % 8;
+      }
+      this.length++;
+    } };
+
+
+
+
+  // xzedit
+  var qrcodeAlgObjCache = [];
+  /**
+                               * 二维码构造函数，主要用于绘制
+                               * @param  {参数列表} opt 传递参数
+                               * @return {}
+                               */
+  QRCode = function QRCode(opt) {
+    //设置默认参数
+    this.options = {
+      text: '',
+      size: 256,
+      correctLevel: 3,
+      background: '#ffffff',
+      foreground: '#000000',
+      pdground: '#000000',
+      image: '',
+      imageSize: 30,
+      canvasId: opt.canvasId,
+      context: opt.context,
+      usingComponents: opt.usingComponents,
+      showLoading: opt.showLoading,
+      loadingText: opt.loadingText };
+
+    if (typeof opt === 'string') {// 只编码ASCII字符串
+      opt = {
+        text: opt };
+
+    }
+    if (opt) {
+      for (var i in opt) {
+        this.options[i] = opt[i];
+      }
+    }
+    //使用QRCodeAlg创建二维码结构
+    var qrCodeAlg = null;
+    for (var i = 0, l = qrcodeAlgObjCache.length; i < l; i++) {
+      if (qrcodeAlgObjCache[i].text == this.options.text && qrcodeAlgObjCache[i].text.correctLevel == this.options.correctLevel) {
+        qrCodeAlg = qrcodeAlgObjCache[i].obj;
+        break;
+      }
+    }
+    if (i == l) {
+      qrCodeAlg = new QRCodeAlg(this.options.text, this.options.correctLevel);
+      qrcodeAlgObjCache.push({
+        text: this.options.text,
+        correctLevel: this.options.correctLevel,
+        obj: qrCodeAlg });
+
+    }
+    /**
+       * 计算矩阵点的前景色
+       * @param {Obj} config
+       * @param {Number} config.row 点x坐标
+       * @param {Number} config.col 点y坐标
+       * @param {Number} config.count 矩阵大小
+       * @param {Number} config.options 组件的options
+       * @return {String}
+       */
+    var getForeGround = function getForeGround(config) {
+      var options = config.options;
+      if (options.pdground && (
+      config.row > 1 && config.row < 5 && config.col > 1 && config.col < 5 ||
+      config.row > config.count - 6 && config.row < config.count - 2 && config.col > 1 && config.col < 5 ||
+      config.row > 1 && config.row < 5 && config.col > config.count - 6 && config.col < config.count - 2))
+      {
+        return options.pdground;
+      }
+      return options.foreground;
+    };
+    // 创建canvas
+    var createCanvas = function createCanvas(options) {
+      if (options.showLoading) {
+        uni.showLoading({
+          title: options.loadingText,
+          mask: true });
+
+      }
+      var ctx = uni.createCanvasContext(options.canvasId, options.context);
+      var count = qrCodeAlg.getModuleCount();
+      var ratioSize = options.size;
+      var ratioImgSize = options.imageSize;
+      //计算每个点的长宽
+      var tileW = (ratioSize / count).toPrecision(4);
+      var tileH = (ratioSize / count).toPrecision(4);
+      //绘制
+      for (var row = 0; row < count; row++) {
+        for (var col = 0; col < count; col++) {
+          var w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
+          var h = Math.ceil((row + 1) * tileW) - Math.floor(row * tileW);
+          var foreground = getForeGround({
+            row: row,
+            col: col,
+            count: count,
+            options: options });
+
+          ctx.setFillStyle(qrCodeAlg.modules[row][col] ? foreground : options.background);
+          ctx.fillRect(Math.round(col * tileW), Math.round(row * tileH), w, h);
+        }
+      }
+      if (options.image) {
+
+
+
+
+        // 画圆角矩形
+        var drawRoundedRect = function drawRoundedRect(ctxi, x, y, width, height, r, lineWidth, fill, stroke) {
+          ctxi.setLineWidth(lineWidth);
+          ctxi.setFillStyle(options.background);
+          ctxi.setStrokeStyle(options.background);
+          ctxi.beginPath(); // draw top and top right corner 
+          ctxi.moveTo(x + r, y);
+          ctxi.arcTo(x + width, y, x + width, y + r, r); // draw right side and bottom right corner 
+          ctxi.arcTo(x + width, y + height, x + width - r, y + height, r); // draw bottom and bottom left corner 
+          ctxi.arcTo(x, y + height, x, y + height - r, r); // draw left and top left corner 
+          ctxi.arcTo(x, y, x + r, y, r);
+          ctxi.closePath();
+          if (fill) {
+            ctxi.fill();
+          }
+          if (stroke) {
+            ctxi.stroke();
+          }
+        };var x = Number(((ratioSize - ratioImgSize) / 2).toFixed(2));var y = Number(((ratioSize - ratioImgSize) / 2).toFixed(2));drawRoundedRect(ctx, x, y, ratioImgSize, ratioImgSize, 2, 6, true, true);ctx.drawImage(options.image, x, y, ratioImgSize, ratioImgSize);
+      }
+      setTimeout(function () {
+        ctx.draw(true, function () {
+          // 保存到临时区域
+          setTimeout(function () {
+            uni.canvasToTempFilePath({
+              width: options.width,
+              height: options.height,
+              destWidth: options.width,
+              destHeight: options.height,
+              canvasId: options.canvasId,
+              quality: Number(1),
+              success: function success(res) {
+                if (options.cbResult) {
+                  // 由于官方还没有统一此接口的输出字段，所以先判定下  支付宝为 res.apFilePath
+                  if (!empty(res.tempFilePath)) {
+                    options.cbResult(res.tempFilePath);
+                  } else if (!empty(res.apFilePath)) {
+                    options.cbResult(res.apFilePath);
+                  } else {
+                    options.cbResult(res.tempFilePath);
+                  }
+                }
+              },
+              fail: function fail(res) {
+                if (options.cbResult) {
+                  options.cbResult(res);
+                }
+              },
+              complete: function complete() {
+                uni.hideLoading();
+              } },
+            options.context);
+          }, options.text.length + 100);
+        });
+      }, options.usingComponents ? 0 : 150);
+    };
+    createCanvas(this.options);
+    // 空判定
+    var empty = function empty(v) {
+      var tp = typeof v,
+      rt = false;
+      if (tp == "number" && String(v) == "") {
+        rt = true;
+      } else if (tp == "undefined") {
+        rt = true;
+      } else if (tp == "object") {
+        if (JSON.stringify(v) == "{}" || JSON.stringify(v) == "[]" || v == null) rt = true;
+      } else if (tp == "string") {
+        if (v == "" || v == "undefined" || v == "null" || v == "{}" || v == "[]") rt = true;
+      } else if (tp == "function") {
+        rt = false;
+      }
+      return rt;
+    };
+  };
+  QRCode.prototype.clear = function (fn) {
+    var ctx = uni.createCanvasContext(this.options.canvasId, this.options.context);
+    ctx.clearRect(0, 0, this.options.size, this.options.size);
+    ctx.draw(false, function () {
+      if (fn) {
+        fn();
+      }
+    });
+  };
+})();var _default =
+
+QRCode;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 425:
+/*!*****************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcode.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 426)['default'];
+var _barcode = {};
+(function () {
+  // 初始化
+  _barcode = function barcode(cont, ctxid, options, ctxsize, result) {
+    var ops = {},newOptions,encodings,globaContext,ctx,globaCtxid,cbCanvasSize,cbResult;
+    globaCtxid = ctxid;
+    cbCanvasSize = ctxsize;
+    cbResult = result;
+    newOptions = Object.assign(ops, options);
+    // 修成margin
+    fixMargin(newOptions);
+    // 处理options 数据
+    if (newOptions.text == '' || cont == '') {
+      return false;
+    }
+    // 获取ctx
+    globaContext = cont;
+    ctx = uni.createCanvasContext(globaCtxid, globaContext);
+    // 获取编码数据
+    encodings = new barcodes[newOptions.format.toUpperCase()](newOptions.text, newOptions).encode();
+    var fixencodings = fixEncodings(encodings, newOptions);
+    // 返回canvas实际大小
+    cbCanvasSize({ width: fixencodings.width, height: fixencodings.height });
+    // 绘制canvas
+    setTimeout(function () {
+      drawCanvas.render(newOptions, fixencodings);
+    }, 10);
+    // 绘制canvas
+    var drawCanvas = {
+      render: function render(options, encoding) {var _this = this;
+        this.prepare(options, encoding);
+        encoding.encodings.forEach(function (v, i) {
+          _this.barcode(options, v);
+          _this.text(options, v);
+          _this.move(v);
+        });
+        this.draw(options, encoding);
+      },
+      barcode: function barcode(options, encoding) {
+        var binary = encoding.data;
+        var yFrom;
+        if (options.textPosition == "top") {
+          yFrom = options.marginTop + options.fontSize + options.textMargin;
+        } else {
+          yFrom = options.marginTop;
+        }
+        // 绘制条码
+        ctx.fillStyle = options.lineColor;
+        for (var b = 0; b < binary.length; b++) {
+          var x = b * options.width + encoding.barcodePadding;
+          var height = options.height;
+          if (encoding.options) {
+            if (encoding.options.height != undefined) {
+              height = encoding.options.height;
+            }
+          }
+          if (binary[b] === "1") {
+            ctx.fillRect(x, yFrom, options.width, height);
+          } else if (binary[b]) {
+            ctx.fillRect(x, yFrom, options.width, height * binary[b]);
+          }
+        }
+      },
+      text: function text(options, encoding) {
+        if (options.displayValue) {
+          var x, y, align, size;
+          if (options.textPosition == "top") {
+            y = options.marginTop + options.fontSize;
+          } else {
+            y = options.height + options.textMargin + options.marginTop + options.fontSize;
+          }
+          if (encoding.options) {
+            if (encoding.options.textAlign != undefined) {
+              align = encoding.options.textAlign;
+            }
+            if (encoding.options.fontSize != undefined) {
+              size = encoding.options.fontSize;
+            }
+          } else {
+            align = options.textAlign;
+            size = options.fontSize;
+          }
+          ctx.setFontSize(size);
+          if (align == "left" || encoding.barcodePadding > 0) {
+            x = 0;
+            ctx.setTextAlign('left');
+          } else if (align == "right") {
+            x = encoding.width - 1;
+            ctx.setTextAlign('right');
+          } else
+          {
+            x = encoding.width / 2;
+            ctx.setTextAlign('center');
+          }
+          ctx.fillStyle = options.fontColor;
+          if (encoding.text != undefined) {
+            ctx.fillText(encoding.text, x, y);
+          }
+        }
+      },
+      move: function move(encoding) {
+        ctx.translate(encoding.width, 0);
+      },
+      prepare: function prepare(options, encoding) {
+        // 绘制背景
+        if (options.background) {
+          ctx.fillStyle = options.background;
+          ctx.fillRect(0, 0, encoding.width, encoding.height);
+        }
+        ctx.translate(options.marginLeft, 0);
+      },
+      draw: function draw(options, encoding) {var _this2 = this;
+        ctx.draw(false, function () {
+          _this2.toImgs(options, encoding);
+        });
+      },
+      toImgs: function toImgs(options, encoding) {
+        setTimeout(function () {
+          uni.canvasToTempFilePath({
+            width: encoding.width,
+            height: encoding.height,
+            destWidth: encoding.width,
+            destHeight: encoding.height,
+            canvasId: globaCtxid,
+            fileType: 'png',
+            success: function success(res) {
+              cbResult(res.tempFilePath);
+            },
+            fail: function fail(res) {
+              cbResult(res);
+            },
+            complete: function complete() {
+              uni.hideLoading();
+            } },
+          globaContext);
+        }, options.text.length + 100);
+      } };
+
+    // 混入canvas数据
+    function fixEncodings(encoding, options) {
+      var encodingArr = [],width = options.marginLeft + options.marginRight,height;
+      if (!Array.isArray(encoding)) {
+        encodingArr[0] = JSON.parse(JSON.stringify(encoding));
+      } else {
+        encodingArr = _toConsumableArray(encoding);
+      }
+      encodingArr.forEach(function (v, i) {
+        // 获取文本宽度
+        var textWidth = ctx.measureText(encodingArr[i].text ? encodingArr[i].text : '').width;
+        // 获取条形码宽度
+        var barcodeWidth = encodingArr[i].data.length * options.width;
+        // 获取内边距
+        var barcodePadding = 0;
+        if (options.displayValue && barcodeWidth < textWidth) {
+          if (options.textAlign == "center") {
+            barcodePadding = Math.floor((textWidth - barcodeWidth) / 2);
+          } else if (options.textAlign == "left") {
+            barcodePadding = 0;
+          } else if (options.textAlign == "right") {
+            barcodePadding = Math.floor(textWidth - barcodeWidth);
+          }
+        }
+        // 混入encodingArr[i]
+        encodingArr[i].barcodePadding = barcodePadding;
+        encodingArr[i].width = Math.ceil(Math.max(textWidth, barcodeWidth));
+        width += encodingArr[i].width;
+        if (encodingArr[i].options) {
+          if (encodingArr[i].options.height != undefined) {
+            encodingArr[i].height = encodingArr[i].options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
+          } else {
+            encodingArr[i].height = height = options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
+          }
+        } else {
+          encodingArr[i].height = height = options.height + (options.displayValue && (encodingArr[i].text ? encodingArr[i].text : '').length > 0 ? options.fontSize + options.textMargin : 0) + options.marginTop + options.marginBottom;
+        }
+      });
+      return { encodings: encodingArr, width: width, height: height };
+    }
+    // 修正Margin
+    function fixMargin(options) {
+      options.marginTop = options.marginTop == undefined ? options.margin : options.marginTop;
+      options.marginBottom = options.marginBottom == undefined ? options.margin : options.marginBottom;
+      options.marginRight = options.marginRight == undefined ? options.margin : options.marginRight;
+      options.marginLeft = options.marginLeft == undefined ? options.margin : options.marginLeft;
+    }
+  };
+})();var _default =
+
+_barcode;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 426:
+/*!************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/index.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _CODE = __webpack_require__(/*! ./CODE39/ */ 427);
+
+var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 429);
+
+var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 437);
+
+var _ITF = __webpack_require__(/*! ./ITF/ */ 447);
+
+var _MSI = __webpack_require__(/*! ./MSI/ */ 451);
+
+var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 458);
+
+var _codabar = __webpack_require__(/*! ./codabar */ 459);
+
+var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 460);
+
+exports.default = {
+  CODE39: _CODE.CODE39,
+  CODE128: _CODE2.CODE128, CODE128A: _CODE2.CODE128A, CODE128B: _CODE2.CODE128B, CODE128C: _CODE2.CODE128C,
+  EAN13: _EAN_UPC.EAN13, EAN8: _EAN_UPC.EAN8, EAN5: _EAN_UPC.EAN5, EAN2: _EAN_UPC.EAN2,
+  UPC: _EAN_UPC.UPC, UPCE: _EAN_UPC.UPCE,
+  ITF14: _ITF.ITF14,
+  ITF: _ITF.ITF,
+  MSI: _MSI.MSI, MSI10: _MSI.MSI10, MSI11: _MSI.MSI11, MSI1010: _MSI.MSI1010, MSI1110: _MSI.MSI1110,
+  PHARMACODE: _pharmacode.pharmacode,
+  CODABAR: _codabar.codabar,
+  GENERICBARCODE: _GenericBarcode.GenericBarcode };
+
+/***/ }),
+
+/***/ 427:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE39/index.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.CODE39 = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/Code_39#Encoding
+
+var CODE39 = function (_Barcode) {
+  _inherits(CODE39, _Barcode);
+
+  function CODE39(data, options) {
+    _classCallCheck(this, CODE39);
+
+    data = data.toUpperCase();
+
+    // Calculate mod43 checksum if enabled
+    if (options.mod43) {
+      data += getCharacter(mod43checksum(data));
+    }
+
+    return _possibleConstructorReturn(this, (CODE39.__proto__ || Object.getPrototypeOf(CODE39)).call(this, data, options));
+  }
+
+  _createClass(CODE39, [{
+    key: "encode",
+    value: function encode() {
+      // First character is always a *
+      var result = getEncoding("*");
+
+      // Take every character and add the binary representation to the result
+      for (var i = 0; i < this.data.length; i++) {
+        result += getEncoding(this.data[i]) + "0";
+      }
+
+      // Last character is always a *
+      result += getEncoding("*");
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[0-9A-Z\-\.\ \$\/\+\%]+$/) !== -1;
+    } }]);
+
+
+  return CODE39;
+}(_Barcode3.default);
+
+// All characters. The position in the array is the (checksum) value
+
+
+var characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "-", ".", " ", "$", "/", "+", "%", "*"];
+
+// The decimal representation of the characters, is converted to the
+// corresponding binary with the getEncoding function
+var encodings = [20957, 29783, 23639, 30485, 20951, 29813, 23669, 20855, 29789, 23645, 29975, 23831, 30533, 22295, 30149, 24005, 21623, 29981, 23837, 22301, 30023, 23879, 30545, 22343, 30161, 24017, 21959, 30065, 23921, 22385, 29015, 18263, 29141, 17879, 29045, 18293, 17783, 29021, 18269, 17477, 17489, 17681, 20753, 35770];
+
+// Get the binary representation of a character by converting the encodings
+// from decimal to binary
+function getEncoding(character) {
+  return getBinary(characterValue(character));
+}
+
+function getBinary(characterValue) {
+  return encodings[characterValue].toString(2);
+}
+
+function getCharacter(characterValue) {
+  return characters[characterValue];
+}
+
+function characterValue(character) {
+  return characters.indexOf(character);
+}
+
+function mod43checksum(data) {
+  var checksum = 0;
+  for (var i = 0; i < data.length; i++) {
+    checksum += characterValue(data[i]);
+  }
+
+  checksum = checksum % 43;
+  return checksum;
+}
+
+exports.CODE39 = CODE39;
+
+/***/ }),
+
+/***/ 428:
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/Barcode.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+var Barcode = function Barcode(data, options) {
+  _classCallCheck(this, Barcode);
+
+  this.data = data;
+  this.text = options.text || data;
+  this.options = options;
+};
+
+exports.default = Barcode;
+
+/***/ }),
+
+/***/ 429:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/index.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
+
+var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 430);
+
+var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
+
+var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 434);
+
+var _CODE128A2 = _interopRequireDefault(_CODE128A);
+
+var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 435);
+
+var _CODE128B2 = _interopRequireDefault(_CODE128B);
+
+var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 436);
+
+var _CODE128C2 = _interopRequireDefault(_CODE128C);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.CODE128 = _CODE128_AUTO2.default;
+exports.CODE128A = _CODE128A2.default;
+exports.CODE128B = _CODE128B2.default;
+exports.CODE128C = _CODE128C2.default;
+
+/***/ }),
+
+/***/ 430:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _CODE2 = __webpack_require__(/*! ./CODE128 */ 431);
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _auto = __webpack_require__(/*! ./auto */ 433);
+
+var _auto2 = _interopRequireDefault(_auto);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128AUTO = function (_CODE) {
+  _inherits(CODE128AUTO, _CODE);
+
+  function CODE128AUTO(data, options) {
+    _classCallCheck(this, CODE128AUTO);
+
+    // ASCII value ranges 0-127, 200-211
+    if (/^[\x00-\x7F\xC8-\xD3]+$/.test(data)) {
+      var _this = _possibleConstructorReturn(this, (CODE128AUTO.__proto__ || Object.getPrototypeOf(CODE128AUTO)).call(this, (0, _auto2.default)(data), options));
+    } else {
+      var _this = _possibleConstructorReturn(this, (CODE128AUTO.__proto__ || Object.getPrototypeOf(CODE128AUTO)).call(this, data, options));
+    }
+    return _possibleConstructorReturn(_this);
+  }
+
+  return CODE128AUTO;
+}(_CODE3.default);
+
+exports.default = CODE128AUTO;
+
+/***/ }),
+
+/***/ 431:
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
+  \**********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+var _constants = __webpack_require__(/*! ./constants */ 432);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+// This is the master class,
+// it does require the start code to be included in the string
+var CODE128 = function (_Barcode) {
+  _inherits(CODE128, _Barcode);
+
+  function CODE128(data, options) {
+    _classCallCheck(this, CODE128);
+
+    // Get array of ascii codes from data
+    var _this = _possibleConstructorReturn(this, (CODE128.__proto__ || Object.getPrototypeOf(CODE128)).call(this, data.substring(1), options));
+
+    _this.bytes = data.split('').map(function (char) {
+      return char.charCodeAt(0);
+    });
+    return _this;
+  }
+
+  _createClass(CODE128, [{
+    key: 'valid',
+    value: function valid() {
+      // ASCII value ranges 0-127, 200-211
+      return /^[\x00-\x7F\xC8-\xD3]+$/.test(this.data);
+
+    }
+
+    // The public encoding function
+  },
+  {
+    key: 'encode',
+    value: function encode() {
+      var bytes = this.bytes;
+      // Remove the start code from the bytes and set its index
+      var startIndex = bytes.shift() - 105;
+      // Get start set by index
+      var startSet = _constants.SET_BY_CODE[startIndex];
+
+      if (startSet === undefined) {
+        throw new RangeError('The encoding does not start with a start character.');
+      }
+
+      if (this.shouldEncodeAsEan128() === true) {
+        bytes.unshift(_constants.FNC1);
+      }
+
+      // Start encode with the right type
+      var encodingResult = CODE128.next(bytes, 1, startSet);
+
+      return {
+        text: this.text === this.data ? this.text.replace(/[^\x20-\x7E]/g, '') : this.text,
+        data:
+        // Add the start bits
+        CODE128.getBar(startIndex) +
+        // Add the encoded bits
+        encodingResult.result +
+        // Add the checksum
+        CODE128.getBar((encodingResult.checksum + startIndex) % _constants.MODULO) +
+        // Add the end bits
+        CODE128.getBar(_constants.STOP) };
+
+    }
+
+    // GS1-128/EAN-128
+  },
+  {
+    key: 'shouldEncodeAsEan128',
+    value: function shouldEncodeAsEan128() {
+      var isEAN128 = this.options.ean128 || false;
+      if (typeof isEAN128 === 'string') {
+        isEAN128 = isEAN128.toLowerCase() === 'true';
+      }
+      return isEAN128;
+    }
+
+    // Get a bar symbol by index
+  }],
+  [{
+    key: 'getBar',
+    value: function getBar(index) {
+      return _constants.BARS[index] ? _constants.BARS[index].toString() : '';
+    }
+
+    // Correct an index by a set and shift it from the bytes array
+  },
+  {
+    key: 'correctIndex',
+    value: function correctIndex(bytes, set) {
+      if (set === _constants.SET_A) {
+        var charCode = bytes.shift();
+        return charCode < 32 ? charCode + 64 : charCode - 32;
+      } else if (set === _constants.SET_B) {
+        return bytes.shift() - 32;
+      } else {
+        return (bytes.shift() - 48) * 10 + bytes.shift() - 48;
+      }
+    } },
+  {
+    key: 'next',
+    value: function next(bytes, pos, set) {
+      if (!bytes.length) {
+        return { result: '', checksum: 0 };
+      }
+
+      var nextCode = void 0,
+      index = void 0;
+
+      // Special characters
+      if (bytes[0] >= 200) {
+        index = bytes.shift() - 105;
+        var nextSet = _constants.SWAP[index];
+
+        // Swap to other set
+        if (nextSet !== undefined) {
+          nextCode = CODE128.next(bytes, pos + 1, nextSet);
+        }
+        // Continue on current set but encode a special character
+        else {
+            // Shift
+            if ((set === _constants.SET_A || set === _constants.SET_B) && index === _constants.SHIFT) {
+              // Convert the next character so that is encoded correctly
+              bytes[0] = set === _constants.SET_A ? bytes[0] > 95 ? bytes[0] - 96 : bytes[0] : bytes[0] < 32 ? bytes[0] + 96 : bytes[0];
+            }
+            nextCode = CODE128.next(bytes, pos + 1, set);
+          }
+      }
+      // Continue encoding
+      else {
+          index = CODE128.correctIndex(bytes, set);
+          nextCode = CODE128.next(bytes, pos + 1, set);
+        }
+
+      // Get the correct binary encoding and calculate the weight
+      var enc = CODE128.getBar(index);
+      var weight = index * pos;
+
+      return {
+        result: enc + nextCode.result,
+        checksum: weight + nextCode.checksum };
+
+    } }]);
+
+
+  return CODE128;
+}(_Barcode3.default);
+
+exports.default = CODE128;
+
+/***/ }),
+
+/***/ 432:
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/constants.js ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _SET_BY_CODE;
+
+function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+
+// constants for internal usage
+var SET_A = exports.SET_A = 0;
+var SET_B = exports.SET_B = 1;
+var SET_C = exports.SET_C = 2;
+
+// Special characters
+var SHIFT = exports.SHIFT = 98;
+var START_A = exports.START_A = 103;
+var START_B = exports.START_B = 104;
+var START_C = exports.START_C = 105;
+var MODULO = exports.MODULO = 103;
+var STOP = exports.STOP = 106;
+var FNC1 = exports.FNC1 = 207;
+
+// Get set by start code
+var SET_BY_CODE = exports.SET_BY_CODE = (_SET_BY_CODE = {}, _defineProperty(_SET_BY_CODE, START_A, SET_A), _defineProperty(_SET_BY_CODE, START_B, SET_B), _defineProperty(_SET_BY_CODE, START_C, SET_C), _SET_BY_CODE);
+
+// Get next set by code
+var SWAP = exports.SWAP = {
+  101: SET_A,
+  100: SET_B,
+  99: SET_C };
+
+
+var A_START_CHAR = exports.A_START_CHAR = String.fromCharCode(208); // START_A + 105
+var B_START_CHAR = exports.B_START_CHAR = String.fromCharCode(209); // START_B + 105
+var C_START_CHAR = exports.C_START_CHAR = String.fromCharCode(210); // START_C + 105
+
+// 128A (Code Set A)
+// ASCII characters 00 to 95 (0–9, A–Z and control codes), special characters, and FNC 1–4
+var A_CHARS = exports.A_CHARS = "[\x00-\x5F\xC8-\xCF]";
+
+// 128B (Code Set B)
+// ASCII characters 32 to 127 (0–9, A–Z, a–z), special characters, and FNC 1–4
+var B_CHARS = exports.B_CHARS = "[\x20-\x7F\xC8-\xCF]";
+
+// 128C (Code Set C)
+// 00–99 (encodes two digits with a single code point) and FNC1
+var C_CHARS = exports.C_CHARS = "(\xCF*[0-9]{2}\xCF*)";
+
+// CODE128 includes 107 symbols:
+// 103 data symbols, 3 start symbols (A, B and C), and 1 stop symbol (the last one)
+// Each symbol consist of three black bars (1) and three white spaces (0).
+var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 10010001100, 10001001100, 10011001000, 10011000100, 10001100100, 11001001000, 11001000100, 11000100100, 10110011100, 10011011100, 10011001110, 10111001100, 10011101100, 10011100110, 11001110010, 11001011100, 11001001110, 11011100100, 11001110100, 11101101110, 11101001100, 11100101100, 11100100110, 11101100100, 11100110100, 11100110010, 11011011000, 11011000110, 11000110110, 10100011000, 10001011000, 10001000110, 10110001000, 10001101000, 10001100010, 11010001000, 11000101000, 11000100010, 10110111000, 10110001110, 10001101110, 10111011000, 10111000110, 10001110110, 11101110110, 11010001110, 11000101110, 11011101000, 11011100010, 11011101110, 11101011000, 11101000110, 11100010110, 11101101000, 11101100010, 11100011010, 11101111010, 11001000010, 11110001010, 10100110000, 10100001100, 10010110000, 10010000110, 10000101100, 10000100110, 10110010000, 10110000100, 10011010000, 10011000010, 10000110100, 10000110010, 11000010010, 11001010000, 11110111010, 11000010100, 10001111010, 10100111100, 10010111100, 10010011110, 10111100100, 10011110100, 10011110010, 11110100100, 11110010100, 11110010010, 11011011110, 11011110110, 11110110110, 10101111000, 10100011110, 10001011110, 10111101000, 10111100010, 11110101000, 11110100010, 10111011110, 10111101110, 11101011110, 11110101110, 11010000100, 11010010000, 11010011100, 1100011101011];
+
+/***/ }),
+
+/***/ 433:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/auto.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _constants = __webpack_require__(/*! ./constants */ 432);
+
+// Match Set functions
+var matchSetALength = function matchSetALength(string) {
+  return string.match(new RegExp('^' + _constants.A_CHARS + '*'))[0].length;
+};
+var matchSetBLength = function matchSetBLength(string) {
+  return string.match(new RegExp('^' + _constants.B_CHARS + '*'))[0].length;
+};
+var matchSetC = function matchSetC(string) {
+  return string.match(new RegExp('^' + _constants.C_CHARS + '*'))[0];
+};
+
+// CODE128A or CODE128B
+function autoSelectFromAB(string, isA) {
+  var ranges = isA ? _constants.A_CHARS : _constants.B_CHARS;
+  var untilC = string.match(new RegExp('^(' + ranges + '+?)(([0-9]{2}){2,})([^0-9]|$)'));
+
+  if (untilC) {
+    return untilC[1] + String.fromCharCode(204) + autoSelectFromC(string.substring(untilC[1].length));
+  }
+
+  var chars = string.match(new RegExp('^' + ranges + '+'))[0];
+
+  if (chars.length === string.length) {
+    return string;
+  }
+
+  return chars + String.fromCharCode(isA ? 205 : 206) + autoSelectFromAB(string.substring(chars.length), !isA);
+}
+
+// CODE128C
+function autoSelectFromC(string) {
+  var cMatch = matchSetC(string);
+  var length = cMatch.length;
+
+  if (length === string.length) {
+    return string;
+  }
+
+  string = string.substring(length);
+
+  // Select A/B depending on the longest match
+  var isA = matchSetALength(string) >= matchSetBLength(string);
+  return cMatch + String.fromCharCode(isA ? 206 : 205) + autoSelectFromAB(string, isA);
+}
+
+// Detect Code Set (A, B or C) and format the string
+
+exports.default = function (string) {
+  var newString = void 0;
+  var cLength = matchSetC(string).length;
+
+  // Select 128C if the string start with enough digits
+  if (cLength >= 2) {
+    newString = _constants.C_START_CHAR + autoSelectFromC(string);
+  } else {
+    // Select A/B depending on the longest match
+    var isA = matchSetALength(string) > matchSetBLength(string);
+    newString = (isA ? _constants.A_START_CHAR : _constants.B_START_CHAR) + autoSelectFromAB(string, isA);
+  }
+
+  return newString.replace(/[\xCD\xCE]([^])[\xCD\xCE]/, // Any sequence between 205 and 206 characters
+  function (match, char) {
+    return String.fromCharCode(203) + char;
+  });
+};
+
+/***/ }),
+
+/***/ 434:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 431);
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _constants = __webpack_require__(/*! ./constants */ 432);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128A = function (_CODE) {
+  _inherits(CODE128A, _CODE);
+
+  function CODE128A(string, options) {
+    _classCallCheck(this, CODE128A);
+
+    return _possibleConstructorReturn(this, (CODE128A.__proto__ || Object.getPrototypeOf(CODE128A)).call(this, _constants.A_START_CHAR + string, options));
+  }
+
+  _createClass(CODE128A, [{
+    key: 'valid',
+    value: function valid() {
+      return new RegExp('^' + _constants.A_CHARS + '+$').test(this.data);
+    } }]);
+
+
+  return CODE128A;
+}(_CODE3.default);
+
+exports.default = CODE128A;
+
+/***/ }),
+
+/***/ 435:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 431);
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _constants = __webpack_require__(/*! ./constants */ 432);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128B = function (_CODE) {
+  _inherits(CODE128B, _CODE);
+
+  function CODE128B(string, options) {
+    _classCallCheck(this, CODE128B);
+
+    return _possibleConstructorReturn(this, (CODE128B.__proto__ || Object.getPrototypeOf(CODE128B)).call(this, _constants.B_START_CHAR + string, options));
+  }
+
+  _createClass(CODE128B, [{
+    key: 'valid',
+    value: function valid() {
+      return new RegExp('^' + _constants.B_CHARS + '+$').test(this.data);
+    } }]);
+
+
+  return CODE128B;
+}(_CODE3.default);
+
+exports.default = CODE128B;
+
+/***/ }),
+
+/***/ 436:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 431);
+
+var _CODE3 = _interopRequireDefault(_CODE2);
+
+var _constants = __webpack_require__(/*! ./constants */ 432);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CODE128C = function (_CODE) {
+  _inherits(CODE128C, _CODE);
+
+  function CODE128C(string, options) {
+    _classCallCheck(this, CODE128C);
+
+    return _possibleConstructorReturn(this, (CODE128C.__proto__ || Object.getPrototypeOf(CODE128C)).call(this, _constants.C_START_CHAR + string, options));
+  }
+
+  _createClass(CODE128C, [{
+    key: 'valid',
+    value: function valid() {
+      return new RegExp('^' + _constants.C_CHARS + '+$').test(this.data);
+    } }]);
+
+
+  return CODE128C;
+}(_CODE3.default);
+
+exports.default = CODE128C;
+
+/***/ }),
+
+/***/ 437:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
+
+var _EAN = __webpack_require__(/*! ./EAN13.js */ 438);
+
+var _EAN2 = _interopRequireDefault(_EAN);
+
+var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 442);
+
+var _EAN4 = _interopRequireDefault(_EAN3);
+
+var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 443);
+
+var _EAN6 = _interopRequireDefault(_EAN5);
+
+var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 444);
+
+var _EAN8 = _interopRequireDefault(_EAN7);
+
+var _UPC = __webpack_require__(/*! ./UPC.js */ 445);
+
+var _UPC2 = _interopRequireDefault(_UPC);
+
+var _UPCE = __webpack_require__(/*! ./UPCE.js */ 446);
+
+var _UPCE2 = _interopRequireDefault(_UPCE);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.EAN13 = _EAN2.default;
+exports.EAN8 = _EAN4.default;
+exports.EAN5 = _EAN6.default;
+exports.EAN2 = _EAN8.default;
+exports.UPC = _UPC2.default;
+exports.UPCE = _UPCE2.default;
+
+/***/ }),
+
+/***/ 438:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
+
+var _constants = __webpack_require__(/*! ./constants */ 439);
+
+var _EAN2 = __webpack_require__(/*! ./EAN */ 440);
+
+var _EAN3 = _interopRequireDefault(_EAN2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Binary_encoding_of_data_digits_into_EAN-13_barcode
+
+// Calculate the checksum digit
+// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Calculation_of_checksum_digit
+var checksum = function checksum(number) {
+  var res = number.substr(0, 12).split('').map(function (n) {
+    return +n;
+  }).reduce(function (sum, a, idx) {
+    return idx % 2 ? sum + a * 3 : sum + a;
+  }, 0);
+
+  return (10 - res % 10) % 10;
+};
+
+var EAN13 = function (_EAN) {
+  _inherits(EAN13, _EAN);
+
+  function EAN13(data, options) {
+    _classCallCheck(this, EAN13);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{12}$/) !== -1) {
+      data += checksum(data);
+    }
+
+    // Adds a last character to the end of the barcode
+    var _this = _possibleConstructorReturn(this, (EAN13.__proto__ || Object.getPrototypeOf(EAN13)).call(this, data, options));
+
+    _this.lastChar = options.lastChar;
+    return _this;
+  }
+
+  _createClass(EAN13, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{13}$/) !== -1 && +this.data[12] === checksum(this.data);
+    } },
+  {
+    key: 'leftText',
+    value: function leftText() {
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'leftText', this).call(this, 1, 6);
+    } },
+  {
+    key: 'leftEncode',
+    value: function leftEncode() {
+      var data = this.data.substr(1, 6);
+      var structure = _constants.EAN13_STRUCTURE[this.data[0]];
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'leftEncode', this).call(this, data, structure);
+    } },
+  {
+    key: 'rightText',
+    value: function rightText() {
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'rightText', this).call(this, 7, 6);
+    } },
+  {
+    key: 'rightEncode',
+    value: function rightEncode() {
+      var data = this.data.substr(7, 6);
+      return _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'rightEncode', this).call(this, data, 'RRRRRR');
+    }
+
+    // The "standard" way of printing EAN13 barcodes with guard bars
+  },
+  {
+    key: 'encodeGuarded',
+    value: function encodeGuarded() {
+      var data = _get(EAN13.prototype.__proto__ || Object.getPrototypeOf(EAN13.prototype), 'encodeGuarded', this).call(this);
+
+      // Extend data with left digit & last character
+      if (this.options.displayValue) {
+        data.unshift({
+          data: '000000000000',
+          text: this.text.substr(0, 1),
+          options: { textAlign: 'left', fontSize: this.fontSize } });
+
+
+        if (this.options.lastChar) {
+          data.push({
+            data: '00' });
+
+          data.push({
+            data: '00000',
+            text: this.options.lastChar,
+            options: { fontSize: this.fontSize } });
+
+        }
+      }
+
+      return data;
+    } }]);
+
+
+  return EAN13;
+}(_EAN3.default);
+
+exports.default = EAN13;
+
+/***/ }),
+
+/***/ 439:
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+// Standard start end and middle bits
+var SIDE_BIN = exports.SIDE_BIN = '101';
+var MIDDLE_BIN = exports.MIDDLE_BIN = '01010';
+
+var BINARIES = exports.BINARIES = {
+  'L': [// The L (left) type of encoding
+  '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
+  'G': [// The G type of encoding
+  '0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'],
+  'R': [// The R (right) type of encoding
+  '1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100'],
+  'O': [// The O (odd) encoding for UPC-E
+  '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'],
+  'E': [// The E (even) encoding for UPC-E
+  '0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'] };
+
+
+// Define the EAN-2 structure
+var EAN2_STRUCTURE = exports.EAN2_STRUCTURE = ['LL', 'LG', 'GL', 'GG'];
+
+// Define the EAN-5 structure
+var EAN5_STRUCTURE = exports.EAN5_STRUCTURE = ['GGLLL', 'GLGLL', 'GLLGL', 'GLLLG', 'LGGLL', 'LLGGL', 'LLLGG', 'LGLGL', 'LGLLG', 'LLGLG'];
+
+// Define the EAN-13 structure
+var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', 'LLGGGL', 'LGLLGG', 'LGGLLG', 'LGGGLL', 'LGLGLG', 'LGLGGL', 'LGGLGL'];
+
+/***/ }),
+
+/***/ 440:
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ 439);
+
+var _encoder = __webpack_require__(/*! ./encoder */ 441);
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+// Base class for EAN8 & EAN13
+var EAN = function (_Barcode) {
+  _inherits(EAN, _Barcode);
+
+  function EAN(data, options) {
+    _classCallCheck(this, EAN);
+
+    // Make sure the font is not bigger than the space between the guard bars
+    var _this = _possibleConstructorReturn(this, (EAN.__proto__ || Object.getPrototypeOf(EAN)).call(this, data, options));
+
+    _this.fontSize = !options.flat && options.fontSize > options.width * 10 ? options.width * 10 : options.fontSize;
+
+    // Make the guard bars go down half the way of the text
+    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
+    return _this;
+  }
+
+  _createClass(EAN, [{
+    key: 'encode',
+    value: function encode() {
+      return this.options.flat ? this.encodeFlat() : this.encodeGuarded();
+    } },
+  {
+    key: 'leftText',
+    value: function leftText(from, to) {
+      return this.text.substr(from, to);
+    } },
+  {
+    key: 'leftEncode',
+    value: function leftEncode(data, structure) {
+      return (0, _encoder2.default)(data, structure);
+    } },
+  {
+    key: 'rightText',
+    value: function rightText(from, to) {
+      return this.text.substr(from, to);
+    } },
+  {
+    key: 'rightEncode',
+    value: function rightEncode(data, structure) {
+      return (0, _encoder2.default)(data, structure);
+    } },
+  {
+    key: 'encodeGuarded',
+    value: function encodeGuarded() {
+      var textOptions = { fontSize: this.fontSize };
+      var guardOptions = { height: this.guardHeight };
+
+      return [{ data: _constants.SIDE_BIN, options: guardOptions }, { data: this.leftEncode(), text: this.leftText(), options: textOptions }, { data: _constants.MIDDLE_BIN, options: guardOptions }, { data: this.rightEncode(), text: this.rightText(), options: textOptions }, { data: _constants.SIDE_BIN, options: guardOptions }];
+    } },
+  {
+    key: 'encodeFlat',
+    value: function encodeFlat() {
+      var data = [_constants.SIDE_BIN, this.leftEncode(), _constants.MIDDLE_BIN, this.rightEncode(), _constants.SIDE_BIN];
+
+      return {
+        data: data.join(''),
+        text: this.text };
+
+    } }]);
+
+
+  return EAN;
+}(_Barcode3.default);
+
+exports.default = EAN;
+
+/***/ }),
+
+/***/ 441:
+/*!**********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
+  \**********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _constants = __webpack_require__(/*! ./constants */ 439);
+
+// Encode data string
+var encode = function encode(data, structure, separator) {
+  var encoded = data.split('').map(function (val, idx) {
+    return _constants.BINARIES[structure[idx]];
+  }).map(function (val, idx) {
+    return val ? val[data[idx]] : '';
+  });
+
+  if (separator) {
+    var last = data.length - 1;
+    encoded = encoded.map(function (val, idx) {
+      return idx < last ? val + separator : val;
+    });
+  }
+
+  return encoded.join('');
+};
+
+exports.default = encode;
+
+/***/ }),
+
+/***/ 442:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
+
+var _EAN2 = __webpack_require__(/*! ./EAN */ 440);
+
+var _EAN3 = _interopRequireDefault(_EAN2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// http://www.barcodeisland.com/ean8.phtml
+
+// Calculate the checksum digit
+var checksum = function checksum(number) {
+  var res = number.substr(0, 7).split('').map(function (n) {
+    return +n;
+  }).reduce(function (sum, a, idx) {
+    return idx % 2 ? sum + a : sum + a * 3;
+  }, 0);
+
+  return (10 - res % 10) % 10;
+};
+
+var EAN8 = function (_EAN) {
+  _inherits(EAN8, _EAN);
+
+  function EAN8(data, options) {
+    _classCallCheck(this, EAN8);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{7}$/) !== -1) {
+      data += checksum(data);
+    }
+
+    return _possibleConstructorReturn(this, (EAN8.__proto__ || Object.getPrototypeOf(EAN8)).call(this, data, options));
+  }
+
+  _createClass(EAN8, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{8}$/) !== -1 && +this.data[7] === checksum(this.data);
+    } },
+  {
+    key: 'leftText',
+    value: function leftText() {
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'leftText', this).call(this, 0, 4);
+    } },
+  {
+    key: 'leftEncode',
+    value: function leftEncode() {
+      var data = this.data.substr(0, 4);
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'leftEncode', this).call(this, data, 'LLLL');
+    } },
+  {
+    key: 'rightText',
+    value: function rightText() {
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'rightText', this).call(this, 4, 4);
+    } },
+  {
+    key: 'rightEncode',
+    value: function rightEncode() {
+      var data = this.data.substr(4, 4);
+      return _get(EAN8.prototype.__proto__ || Object.getPrototypeOf(EAN8.prototype), 'rightEncode', this).call(this, data, 'RRRR');
+    } }]);
+
+
+  return EAN8;
+}(_EAN3.default);
+
+exports.default = EAN8;
+
+/***/ }),
+
+/***/ 443:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ 439);
+
+var _encoder = __webpack_require__(/*! ./encoder */ 441);
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/EAN_5#Encoding
+
+var checksum = function checksum(data) {
+  var result = data.split('').map(function (n) {
+    return +n;
+  }).reduce(function (sum, a, idx) {
+    return idx % 2 ? sum + a * 9 : sum + a * 3;
+  }, 0);
+  return result % 10;
+};
+
+var EAN5 = function (_Barcode) {
+  _inherits(EAN5, _Barcode);
+
+  function EAN5(data, options) {
+    _classCallCheck(this, EAN5);
+
+    return _possibleConstructorReturn(this, (EAN5.__proto__ || Object.getPrototypeOf(EAN5)).call(this, data, options));
+  }
+
+  _createClass(EAN5, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{5}$/) !== -1;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      var structure = _constants.EAN5_STRUCTURE[checksum(this.data)];
+      return {
+        data: '1011' + (0, _encoder2.default)(this.data, structure, '01'),
+        text: this.text };
+
+    } }]);
+
+
+  return EAN5;
+}(_Barcode3.default);
+
+exports.default = EAN5;
+
+/***/ }),
+
+/***/ 444:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ 439);
+
+var _encoder = __webpack_require__(/*! ./encoder */ 441);
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/EAN_2#Encoding
+
+var EAN2 = function (_Barcode) {
+  _inherits(EAN2, _Barcode);
+
+  function EAN2(data, options) {
+    _classCallCheck(this, EAN2);
+
+    return _possibleConstructorReturn(this, (EAN2.__proto__ || Object.getPrototypeOf(EAN2)).call(this, data, options));
+  }
+
+  _createClass(EAN2, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{2}$/) !== -1;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      // Choose the structure based on the number mod 4
+      var structure = _constants.EAN2_STRUCTURE[parseInt(this.data) % 4];
+      return {
+        // Start bits + Encode the two digits with 01 in between
+        data: '1011' + (0, _encoder2.default)(this.data, structure, '01'),
+        text: this.text };
+
+    } }]);
+
+
+  return EAN2;
+}(_Barcode3.default);
+
+exports.default = EAN2;
+
+/***/ }),
+
+/***/ 445:
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+exports.checksum = checksum;
+
+var _encoder = __webpack_require__(/*! ./encoder */ 441);
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/Universal_Product_Code#Encoding
+
+var UPC = function (_Barcode) {
+  _inherits(UPC, _Barcode);
+
+  function UPC(data, options) {
+    _classCallCheck(this, UPC);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{11}$/) !== -1) {
+      data += checksum(data);
+    }
+
+    var _this = _possibleConstructorReturn(this, (UPC.__proto__ || Object.getPrototypeOf(UPC)).call(this, data, options));
+
+    _this.displayValue = options.displayValue;
+
+    // Make sure the font is not bigger than the space between the guard bars
+    if (options.fontSize > options.width * 10) {
+      _this.fontSize = options.width * 10;
+    } else {
+      _this.fontSize = options.fontSize;
+    }
+
+    // Make the guard bars go down half the way of the text
+    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
+    return _this;
+  }
+
+  _createClass(UPC, [{
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[0-9]{12}$/) !== -1 && this.data[11] == checksum(this.data);
+    } },
+  {
+    key: "encode",
+    value: function encode() {
+      if (this.options.flat) {
+        return this.flatEncoding();
+      } else {
+        return this.guardedEncoding();
+      }
+    } },
+  {
+    key: "flatEncoding",
+    value: function flatEncoding() {
+      var result = "";
+
+      result += "101";
+      result += (0, _encoder2.default)(this.data.substr(0, 6), "LLLLLL");
+      result += "01010";
+      result += (0, _encoder2.default)(this.data.substr(6, 6), "RRRRRR");
+      result += "101";
+
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: "guardedEncoding",
+    value: function guardedEncoding() {
+      var result = [];
+
+      // Add the first digit
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text.substr(0, 1),
+          options: { textAlign: "left", fontSize: this.fontSize } });
+
+      }
+
+      // Add the guard bars
+      result.push({
+        data: "101" + (0, _encoder2.default)(this.data[0], "L"),
+        options: { height: this.guardHeight } });
+
+
+      // Add the left side
+      result.push({
+        data: (0, _encoder2.default)(this.data.substr(1, 5), "LLLLL"),
+        text: this.text.substr(1, 5),
+        options: { fontSize: this.fontSize } });
+
+
+      // Add the middle bits
+      result.push({
+        data: "01010",
+        options: { height: this.guardHeight } });
+
+
+      // Add the right side
+      result.push({
+        data: (0, _encoder2.default)(this.data.substr(6, 5), "RRRRR"),
+        text: this.text.substr(6, 5),
+        options: { fontSize: this.fontSize } });
+
+
+      // Add the end bits
+      result.push({
+        data: (0, _encoder2.default)(this.data[11], "R") + "101",
+        options: { height: this.guardHeight } });
+
+
+      // Add the last digit
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text.substr(11, 1),
+          options: { textAlign: "right", fontSize: this.fontSize } });
+
+      }
+
+      return result;
+    } }]);
+
+
+  return UPC;
+}(_Barcode3.default);
+
+// Calulate the checksum digit
+// https://en.wikipedia.org/wiki/International_Article_Number_(EAN)#Calculation_of_checksum_digit
+
+
+function checksum(number) {
+  var result = 0;
+
+  var i;
+  for (i = 1; i < 11; i += 2) {
+    result += parseInt(number[i]);
+  }
+  for (i = 0; i < 11; i += 2) {
+    result += parseInt(number[i]) * 3;
+  }
+
+  return (10 - result % 10) % 10;
+}
+
+exports.default = UPC;
+
+/***/ }),
+
+/***/ 446:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _encoder = __webpack_require__(/*! ./encoder */ 441);
+
+var _encoder2 = _interopRequireDefault(_encoder);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+var _UPC = __webpack_require__(/*! ./UPC.js */ 445);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation:
+// https://en.wikipedia.org/wiki/Universal_Product_Code#Encoding
+//
+// UPC-E documentation:
+// https://en.wikipedia.org/wiki/Universal_Product_Code#UPC-E
+
+var EXPANSIONS = ["XX00000XXX", "XX10000XXX", "XX20000XXX", "XXX00000XX", "XXXX00000X", "XXXXX00005", "XXXXX00006", "XXXXX00007", "XXXXX00008", "XXXXX00009"];
+
+var PARITIES = [["EEEOOO", "OOOEEE"], ["EEOEOO", "OOEOEE"], ["EEOOEO", "OOEEOE"], ["EEOOOE", "OOEEEO"], ["EOEEOO", "OEOOEE"], ["EOOEEO", "OEEOOE"], ["EOOOEE", "OEEEOO"], ["EOEOEO", "OEOEOE"], ["EOEOOE", "OEOEEO"], ["EOOEOE", "OEEOEO"]];
+
+var UPCE = function (_Barcode) {
+  _inherits(UPCE, _Barcode);
+
+  function UPCE(data, options) {
+    _classCallCheck(this, UPCE);
+
+    var _this = _possibleConstructorReturn(this, (UPCE.__proto__ || Object.getPrototypeOf(UPCE)).call(this, data, options));
+    // Code may be 6 or 8 digits;
+    // A 7 digit code is ambiguous as to whether the extra digit
+    // is a UPC-A check or number system digit.
+
+
+    _this.isValid = false;
+    if (data.search(/^[0-9]{6}$/) !== -1) {
+      _this.middleDigits = data;
+      _this.upcA = expandToUPCA(data, "0");
+      _this.text = options.text || '' + _this.upcA[0] + data + _this.upcA[_this.upcA.length - 1];
+      _this.isValid = true;
+    } else if (data.search(/^[01][0-9]{7}$/) !== -1) {
+      _this.middleDigits = data.substring(1, data.length - 1);
+      _this.upcA = expandToUPCA(_this.middleDigits, data[0]);
+
+      if (_this.upcA[_this.upcA.length - 1] === data[data.length - 1]) {
+        _this.isValid = true;
+      } else {
+        // checksum mismatch
+        return _possibleConstructorReturn(_this);
+      }
+    } else {
+      return _possibleConstructorReturn(_this);
+    }
+
+    _this.displayValue = options.displayValue;
+
+    // Make sure the font is not bigger than the space between the guard bars
+    if (options.fontSize > options.width * 10) {
+      _this.fontSize = options.width * 10;
+    } else {
+      _this.fontSize = options.fontSize;
+    }
+
+    // Make the guard bars go down half the way of the text
+    _this.guardHeight = options.height + _this.fontSize / 2 + options.textMargin;
+    return _this;
+  }
+
+  _createClass(UPCE, [{
+    key: 'valid',
+    value: function valid() {
+      return this.isValid;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      if (this.options.flat) {
+        return this.flatEncoding();
+      } else {
+        return this.guardedEncoding();
+      }
+    } },
+  {
+    key: 'flatEncoding',
+    value: function flatEncoding() {
+      var result = "";
+
+      result += "101";
+      result += this.encodeMiddleDigits();
+      result += "010101";
+
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: 'guardedEncoding',
+    value: function guardedEncoding() {
+      var result = [];
+
+      // Add the UPC-A number system digit beneath the quiet zone
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text[0],
+          options: { textAlign: "left", fontSize: this.fontSize } });
+
+      }
+
+      // Add the guard bars
+      result.push({
+        data: "101",
+        options: { height: this.guardHeight } });
+
+
+      // Add the 6 UPC-E digits
+      result.push({
+        data: this.encodeMiddleDigits(),
+        text: this.text.substring(1, 7),
+        options: { fontSize: this.fontSize } });
+
+
+      // Add the end bits
+      result.push({
+        data: "010101",
+        options: { height: this.guardHeight } });
+
+
+      // Add the UPC-A check digit beneath the quiet zone
+      if (this.displayValue) {
+        result.push({
+          data: "00000000",
+          text: this.text[7],
+          options: { textAlign: "right", fontSize: this.fontSize } });
+
+      }
+
+      return result;
+    } },
+  {
+    key: 'encodeMiddleDigits',
+    value: function encodeMiddleDigits() {
+      var numberSystem = this.upcA[0];
+      var checkDigit = this.upcA[this.upcA.length - 1];
+      var parity = PARITIES[parseInt(checkDigit)][parseInt(numberSystem)];
+      return (0, _encoder2.default)(this.middleDigits, parity);
+    } }]);
+
+
+  return UPCE;
+}(_Barcode3.default);
+
+function expandToUPCA(middleDigits, numberSystem) {
+  var lastUpcE = parseInt(middleDigits[middleDigits.length - 1]);
+  var expansion = EXPANSIONS[lastUpcE];
+
+  var result = "";
+  var digitIndex = 0;
+  for (var i = 0; i < expansion.length; i++) {
+    var c = expansion[i];
+    if (c === 'X') {
+      result += middleDigits[digitIndex++];
+    } else {
+      result += c;
+    }
+  }
+
+  result = '' + numberSystem + result;
+  return '' + result + (0, _UPC.checksum)(result);
+}
+
+exports.default = UPCE;
+
+/***/ }),
+
+/***/ 447:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/index.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.ITF14 = exports.ITF = undefined;
+
+var _ITF = __webpack_require__(/*! ./ITF */ 448);
+
+var _ITF2 = _interopRequireDefault(_ITF);
+
+var _ITF3 = __webpack_require__(/*! ./ITF14 */ 450);
+
+var _ITF4 = _interopRequireDefault(_ITF3);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.ITF = _ITF2.default;
+exports.ITF14 = _ITF4.default;
+
+/***/ }),
+
+/***/ 448:
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/ITF.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _constants = __webpack_require__(/*! ./constants */ 449);
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var ITF = function (_Barcode) {
+  _inherits(ITF, _Barcode);
+
+  function ITF() {
+    _classCallCheck(this, ITF);
+
+    return _possibleConstructorReturn(this, (ITF.__proto__ || Object.getPrototypeOf(ITF)).apply(this, arguments));
+  }
+
+  _createClass(ITF, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^([0-9]{2})+$/) !== -1;
+    } },
+  {
+    key: 'encode',
+    value: function encode() {
+      var _this2 = this;
+
+      // Calculate all the digit pairs
+      var encoded = this.data.match(/.{2}/g).map(function (pair) {
+        return _this2.encodePair(pair);
+      }).join('');
+
+      return {
+        data: _constants.START_BIN + encoded + _constants.END_BIN,
+        text: this.text };
+
+    }
+
+    // Calculate the data of a number pair
+  },
+  {
+    key: 'encodePair',
+    value: function encodePair(pair) {
+      var second = _constants.BINARIES[pair[1]];
+
+      return _constants.BINARIES[pair[0]].split('').map(function (first, idx) {
+        return (first === '1' ? '111' : '1') + (second[idx] === '1' ? '000' : '0');
+      }).join('');
+    } }]);
+
+
+  return ITF;
+}(_Barcode3.default);
+
+exports.default = ITF;
+
+/***/ }),
+
+/***/ 449:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/constants.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+var START_BIN = exports.START_BIN = '1010';
+var END_BIN = exports.END_BIN = '11101';
+
+var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', '10100', '01100', '00011', '10010', '01010'];
+
+/***/ }),
+
+/***/ 450:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/ITF14.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _ITF2 = __webpack_require__(/*! ./ITF */ 448);
+
+var _ITF3 = _interopRequireDefault(_ITF2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+// Calculate the checksum digit
+var checksum = function checksum(data) {
+  var res = data.substr(0, 13).split('').map(function (num) {
+    return parseInt(num, 10);
+  }).reduce(function (sum, n, idx) {
+    return sum + n * (3 - idx % 2 * 2);
+  }, 0);
+
+  return Math.ceil(res / 10) * 10 - res;
+};
+
+var ITF14 = function (_ITF) {
+  _inherits(ITF14, _ITF);
+
+  function ITF14(data, options) {
+    _classCallCheck(this, ITF14);
+
+    // Add checksum if it does not exist
+    if (data.search(/^[0-9]{13}$/) !== -1) {
+      data += checksum(data);
+    }
+    return _possibleConstructorReturn(this, (ITF14.__proto__ || Object.getPrototypeOf(ITF14)).call(this, data, options));
+  }
+
+  _createClass(ITF14, [{
+    key: 'valid',
+    value: function valid() {
+      return this.data.search(/^[0-9]{14}$/) !== -1 && +this.data[13] === checksum(this.data);
+    } }]);
+
+
+  return ITF14;
+}(_ITF3.default);
+
+exports.default = ITF14;
+
+/***/ }),
+
+/***/ 451:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/index.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
+
+var _MSI = __webpack_require__(/*! ./MSI.js */ 452);
+
+var _MSI2 = _interopRequireDefault(_MSI);
+
+var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 453);
+
+var _MSI4 = _interopRequireDefault(_MSI3);
+
+var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 455);
+
+var _MSI6 = _interopRequireDefault(_MSI5);
+
+var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 456);
+
+var _MSI8 = _interopRequireDefault(_MSI7);
+
+var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 457);
+
+var _MSI10 = _interopRequireDefault(_MSI9);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+exports.MSI = _MSI2.default;
+exports.MSI10 = _MSI4.default;
+exports.MSI11 = _MSI6.default;
+exports.MSI1010 = _MSI8.default;
+exports.MSI1110 = _MSI10.default;
+
+/***/ }),
+
+/***/ 452:
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation
+// https://en.wikipedia.org/wiki/MSI_Barcode#Character_set_and_binary_lookup
+
+var MSI = function (_Barcode) {
+  _inherits(MSI, _Barcode);
+
+  function MSI(data, options) {
+    _classCallCheck(this, MSI);
+
+    return _possibleConstructorReturn(this, (MSI.__proto__ || Object.getPrototypeOf(MSI)).call(this, data, options));
+  }
+
+  _createClass(MSI, [{
+    key: "encode",
+    value: function encode() {
+      // Start bits
+      var ret = "110";
+
+      for (var i = 0; i < this.data.length; i++) {
+        // Convert the character to binary (always 4 binary digits)
+        var digit = parseInt(this.data[i]);
+        var bin = digit.toString(2);
+        bin = addZeroes(bin, 4 - bin.length);
+
+        // Add 100 for every zero and 110 for every 1
+        for (var b = 0; b < bin.length; b++) {
+          ret += bin[b] == "0" ? "100" : "110";
+        }
+      }
+
+      // End bits
+      ret += "1001";
+
+      return {
+        data: ret,
+        text: this.text };
+
+    } },
+  {
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[0-9]+$/) !== -1;
+    } }]);
+
+
+  return MSI;
+}(_Barcode3.default);
+
+function addZeroes(number, n) {
+  for (var i = 0; i < n; i++) {
+    number = "0" + number;
+  }
+  return number;
+}
+
+exports.default = MSI;
+
+/***/ }),
+
+/***/ 453:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI10.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI10 = function (_MSI) {
+  _inherits(MSI10, _MSI);
+
+  function MSI10(data, options) {
+    _classCallCheck(this, MSI10);
+
+    return _possibleConstructorReturn(this, (MSI10.__proto__ || Object.getPrototypeOf(MSI10)).call(this, data + (0, _checksums.mod10)(data), options));
+  }
+
+  return MSI10;
+}(_MSI3.default);
+
+exports.default = MSI10;
+
+/***/ }),
+
+/***/ 454:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/checksums.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.mod10 = mod10;
+exports.mod11 = mod11;
+function mod10(number) {
+  var sum = 0;
+  for (var i = 0; i < number.length; i++) {
+    var n = parseInt(number[i]);
+    if ((i + number.length) % 2 === 0) {
+      sum += n;
+    } else {
+      sum += n * 2 % 10 + Math.floor(n * 2 / 10);
+    }
+  }
+  return (10 - sum % 10) % 10;
+}
+
+function mod11(number) {
+  var sum = 0;
+  var weights = [2, 3, 4, 5, 6, 7];
+  for (var i = 0; i < number.length; i++) {
+    var n = parseInt(number[number.length - 1 - i]);
+    sum += weights[i % weights.length] * n;
+  }
+  return (11 - sum % 11) % 11;
+}
+
+/***/ }),
+
+/***/ 455:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI11.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI11 = function (_MSI) {
+  _inherits(MSI11, _MSI);
+
+  function MSI11(data, options) {
+    _classCallCheck(this, MSI11);
+
+    return _possibleConstructorReturn(this, (MSI11.__proto__ || Object.getPrototypeOf(MSI11)).call(this, data + (0, _checksums.mod11)(data), options));
+  }
+
+  return MSI11;
+}(_MSI3.default);
+
+exports.default = MSI11;
+
+/***/ }),
+
+/***/ 456:
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI1010 = function (_MSI) {
+  _inherits(MSI1010, _MSI);
+
+  function MSI1010(data, options) {
+    _classCallCheck(this, MSI1010);
+
+    data += (0, _checksums.mod10)(data);
+    data += (0, _checksums.mod10)(data);
+    return _possibleConstructorReturn(this, (MSI1010.__proto__ || Object.getPrototypeOf(MSI1010)).call(this, data, options));
+  }
+
+  return MSI1010;
+}(_MSI3.default);
+
+exports.default = MSI1010;
+
+/***/ }),
+
+/***/ 457:
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+
+var _MSI3 = _interopRequireDefault(_MSI2);
+
+var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var MSI1110 = function (_MSI) {
+  _inherits(MSI1110, _MSI);
+
+  function MSI1110(data, options) {
+    _classCallCheck(this, MSI1110);
+
+    data += (0, _checksums.mod11)(data);
+    data += (0, _checksums.mod10)(data);
+    return _possibleConstructorReturn(this, (MSI1110.__proto__ || Object.getPrototypeOf(MSI1110)).call(this, data, options));
+  }
+
+  return MSI1110;
+}(_MSI3.default);
+
+exports.default = MSI1110;
+
+/***/ }),
+
+/***/ 458:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/pharmacode/index.js ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.pharmacode = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding documentation
+// http://www.gomaro.ch/ftproot/Laetus_PHARMA-CODE.pdf
+
+var pharmacode = function (_Barcode) {
+  _inherits(pharmacode, _Barcode);
+
+  function pharmacode(data, options) {
+    _classCallCheck(this, pharmacode);
+
+    var _this = _possibleConstructorReturn(this, (pharmacode.__proto__ || Object.getPrototypeOf(pharmacode)).call(this, data, options));
+
+    _this.number = parseInt(data, 10);
+    return _this;
+  }
+
+  _createClass(pharmacode, [{
+    key: "encode",
+    value: function encode() {
+      var z = this.number;
+      var result = "";
+
+      // http://i.imgur.com/RMm4UDJ.png
+      // (source: http://www.gomaro.ch/ftproot/Laetus_PHARMA-CODE.pdf, page: 34)
+      while (!isNaN(z) && z != 0) {
+        if (z % 2 === 0) {
+          // Even
+          result = "11100" + result;
+          z = (z - 2) / 2;
+        } else {
+          // Odd
+          result = "100" + result;
+          z = (z - 1) / 2;
+        }
+      }
+
+      // Remove the two last zeroes
+      result = result.slice(0, -2);
+
+      return {
+        data: result,
+        text: this.text };
+
+    } },
+  {
+    key: "valid",
+    value: function valid() {
+      return this.number >= 3 && this.number <= 131070;
+    } }]);
+
+
+  return pharmacode;
+}(_Barcode3.default);
+
+exports.pharmacode = pharmacode;
+
+/***/ }),
+
+/***/ 459:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/codabar/index.js ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.codabar = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} // Encoding specification:
+// http://www.barcodeisland.com/codabar.phtml
+
+var codabar = function (_Barcode) {
+  _inherits(codabar, _Barcode);
+
+  function codabar(data, options) {
+    _classCallCheck(this, codabar);
+
+    if (data.search(/^[0-9\-\$\:\.\+\/]+$/) === 0) {
+      data = "A" + data + "A";
+    }
+
+    var _this = _possibleConstructorReturn(this, (codabar.__proto__ || Object.getPrototypeOf(codabar)).call(this, data.toUpperCase(), options));
+
+    _this.text = _this.options.text || _this.text.replace(/[A-D]/g, '');
+    return _this;
+  }
+
+  _createClass(codabar, [{
+    key: "valid",
+    value: function valid() {
+      return this.data.search(/^[A-D][0-9\-\$\:\.\+\/]+[A-D]$/) !== -1;
+    } },
+  {
+    key: "encode",
+    value: function encode() {
+      var result = [];
+      var encodings = this.getEncodings();
+      for (var i = 0; i < this.data.length; i++) {
+        result.push(encodings[this.data.charAt(i)]);
+        // for all characters except the last, append a narrow-space ("0")
+        if (i !== this.data.length - 1) {
+          result.push("0");
+        }
+      }
+      return {
+        text: this.text,
+        data: result.join('') };
+
+    } },
+  {
+    key: "getEncodings",
+    value: function getEncodings() {
+      return {
+        "0": "101010011",
+        "1": "101011001",
+        "2": "101001011",
+        "3": "110010101",
+        "4": "101101001",
+        "5": "110101001",
+        "6": "100101011",
+        "7": "100101101",
+        "8": "100110101",
+        "9": "110100101",
+        "-": "101001101",
+        "$": "101100101",
+        ":": "1101011011",
+        "/": "1101101011",
+        ".": "1101101101",
+        "+": "101100110011",
+        "A": "1011001001",
+        "B": "1001001011",
+        "C": "1010010011",
+        "D": "1010011001" };
+
+    } }]);
+
+
+  return codabar;
+}(_Barcode3.default);
+
+exports.codabar = codabar;
+
+/***/ }),
+
+/***/ 46:
+/*!***********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail"} ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/detail/detail.vue */ 47));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 460:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.GenericBarcode = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+
+var _Barcode3 = _interopRequireDefault(_Barcode2);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var GenericBarcode = function (_Barcode) {
+  _inherits(GenericBarcode, _Barcode);
+
+  function GenericBarcode(data, options) {
+    _classCallCheck(this, GenericBarcode);
+
+    return _possibleConstructorReturn(this, (GenericBarcode.__proto__ || Object.getPrototypeOf(GenericBarcode)).call(this, data, options)); // Sets this.data and this.text
+  }
+
+  // Return the corresponding binary numbers for the data provided
+
+
+  _createClass(GenericBarcode, [{
+    key: "encode",
+    value: function encode() {
+      return {
+        data: "10101010101010101010101010101010101010101",
+        text: this.text };
+
+    }
+
+    // Resturn true/false if the string provided is valid for this encoder
+  },
+  {
+    key: "valid",
+    value: function valid() {
+      return true;
+    } }]);
+
+
+  return GenericBarcode;
+}(_Barcode3.default);
+
+exports.GenericBarcode = GenericBarcode;
+
+/***/ }),
+
+/***/ 5:
+/*!**************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/node_modules/vue-i18n/dist/vue-i18n.esm.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /*!
+                                                                                                      * vue-i18n v8.11.2 
+                                                                                                      * (c) 2019 kazuya kawaguchi
+                                                                                                      * Released under the MIT License.
+                                                                                                      */
+/*  */
+
+/**
+        * constants
+        */
+
+var numberFormatKeys = [
+'style',
+'currency',
+'currencyDisplay',
+'useGrouping',
+'minimumIntegerDigits',
+'minimumFractionDigits',
+'maximumFractionDigits',
+'minimumSignificantDigits',
+'maximumSignificantDigits',
+'localeMatcher',
+'formatMatcher'];
+
+
+/**
+                   * utilities
+                   */
+
+function warn(msg, err) {
+  if (typeof console !== 'undefined') {
+    console.warn('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.warn(err.stack);
+    }
+  }
+}
+
+function error(msg, err) {
+  if (typeof console !== 'undefined') {
+    console.error('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.error(err.stack);
+    }
+  }
+}
+
+function isObject(obj) {
+  return obj !== null && typeof obj === 'object';
+}
+
+var toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+function isPlainObject(obj) {
+  return toString.call(obj) === OBJECT_STRING;
+}
+
+function isNull(val) {
+  return val === null || val === undefined;
+}
+
+function parseArgs() {
+  var args = [],len = arguments.length;
+  while (len--) {args[len] = arguments[len];}
+
+  var locale = null;
+  var params = null;
+  if (args.length === 1) {
+    if (isObject(args[0]) || Array.isArray(args[0])) {
+      params = args[0];
+    } else if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+    /* istanbul ignore if */
+    if (isObject(args[1]) || Array.isArray(args[1])) {
+      params = args[1];
+    }
+  }
+
+  return { locale: locale, params: params };
+}
+
+function looseClone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function remove(arr, item) {
+  if (arr.length) {
+    var index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1);
+    }
+  }
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn(obj, key) {
+  return hasOwnProperty.call(obj, key);
+}
+
+function merge(target) {
+  var arguments$1 = arguments;
+
+  var output = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments$1[i];
+    if (source !== undefined && source !== null) {
+      var key = void 0;
+      for (key in source) {
+        if (hasOwn(source, key)) {
+          if (isObject(source[key])) {
+            output[key] = merge(output[key], source[key]);
+          } else {
+            output[key] = source[key];
+          }
+        }
+      }
+    }
+  }
+  return output;
+}
+
+function looseEqual(a, b) {
+  if (a === b) {return true;}
+  var isObjectA = isObject(a);
+  var isObjectB = isObject(b);
+  if (isObjectA && isObjectB) {
+    try {
+      var isArrayA = Array.isArray(a);
+      var isArrayB = Array.isArray(b);
+      if (isArrayA && isArrayB) {
+        return a.length === b.length && a.every(function (e, i) {
+          return looseEqual(e, b[i]);
+        });
+      } else if (!isArrayA && !isArrayB) {
+        var keysA = Object.keys(a);
+        var keysB = Object.keys(b);
+        return keysA.length === keysB.length && keysA.every(function (key) {
+          return looseEqual(a[key], b[key]);
+        });
+      } else {
+        /* istanbul ignore next */
+        return false;
+      }
+    } catch (e) {
+      /* istanbul ignore next */
+      return false;
+    }
+  } else if (!isObjectA && !isObjectB) {
+    return String(a) === String(b);
+  } else {
+    return false;
+  }
+}
+
+/*  */
+
+function extend(Vue) {
+  if (!Vue.prototype.hasOwnProperty('$i18n')) {
+    // $FlowFixMe
+    Object.defineProperty(Vue.prototype, '$i18n', {
+      get: function get() {return this._i18n;} });
+
+  }
+
+  Vue.prototype.$t = function (key) {
+    var values = [],len = arguments.length - 1;
+    while (len-- > 0) {values[len] = arguments[len + 1];}
+
+    var i18n = this.$i18n;
+    return i18n._t.apply(i18n, [key, i18n.locale, i18n._getMessages(), this].concat(values));
+  };
+
+  Vue.prototype.$tc = function (key, choice) {
+    var values = [],len = arguments.length - 2;
+    while (len-- > 0) {values[len] = arguments[len + 2];}
+
+    var i18n = this.$i18n;
+    return i18n._tc.apply(i18n, [key, i18n.locale, i18n._getMessages(), this, choice].concat(values));
+  };
+
+  Vue.prototype.$te = function (key, locale) {
+    var i18n = this.$i18n;
+    return i18n._te(key, i18n.locale, i18n._getMessages(), locale);
+  };
+
+  Vue.prototype.$d = function (value) {
+    var ref;
+
+    var args = [],len = arguments.length - 1;
+    while (len-- > 0) {args[len] = arguments[len + 1];}
+    return (ref = this.$i18n).d.apply(ref, [value].concat(args));
+  };
+
+  Vue.prototype.$n = function (value) {
+    var ref;
+
+    var args = [],len = arguments.length - 1;
+    while (len-- > 0) {args[len] = arguments[len + 1];}
+    return (ref = this.$i18n).n.apply(ref, [value].concat(args));
+  };
+}
+
+/*  */
+
+var mixin = {
+  beforeCreate: function beforeCreate() {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages = {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages = merge(localeMessages, JSON.parse(resource));
+            });
+            Object.keys(localeMessages).forEach(function (locale) {
+              options.i18n.mergeLocaleMessage(locale, localeMessages[locale]);
+            });
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+        this._i18n = options.i18n;
+        this._i18nWatcher = this._i18n.watchI18nData();
+      } else if (isPlainObject(options.i18n)) {
+        // component local i18n
+        if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+          options.i18n.root = this.$root;
+          options.i18n.formatter = this.$root.$i18n.formatter;
+          options.i18n.fallbackLocale = this.$root.$i18n.fallbackLocale;
+          options.i18n.silentTranslationWarn = this.$root.$i18n.silentTranslationWarn;
+          options.i18n.silentFallbackWarn = this.$root.$i18n.silentFallbackWarn;
+          options.i18n.pluralizationRules = this.$root.$i18n.pluralizationRules;
+          options.i18n.preserveDirectiveContent = this.$root.$i18n.preserveDirectiveContent;
+        }
+
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages$1 = {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages$1 = merge(localeMessages$1, JSON.parse(resource));
+            });
+            options.i18n.messages = localeMessages$1;
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+
+        this._i18n = new VueI18n(options.i18n);
+        this._i18nWatcher = this._i18n.watchI18nData();
+
+        if (options.i18n.sync === undefined || !!options.i18n.sync) {
+          this._localeWatcher = this.$i18n.watchLocale();
+        }
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      // root i18n
+      this._i18n = this.$root.$i18n;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      // parent i18n
+      this._i18n = options.parent.$i18n;
+    }
+  },
+
+  beforeMount: function beforeMount() {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else if (isPlainObject(options.i18n)) {
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    }
+  },
+
+  beforeDestroy: function beforeDestroy() {
+    if (!this._i18n) {return;}
+
+    var self = this;
+    this.$nextTick(function () {
+      if (self._subscribing) {
+        self._i18n.unsubscribeDataChanging(self);
+        delete self._subscribing;
+      }
+
+      if (self._i18nWatcher) {
+        self._i18nWatcher();
+        self._i18n.destroyVM();
+        delete self._i18nWatcher;
+      }
+
+      if (self._localeWatcher) {
+        self._localeWatcher();
+        delete self._localeWatcher;
+      }
+
+      self._i18n = null;
+    });
+  } };
+
+
+/*  */
+
+var interpolationComponent = {
+  name: 'i18n',
+  functional: true,
+  props: {
+    tag: {
+      type: String,
+      default: 'span' },
+
+    path: {
+      type: String,
+      required: true },
+
+    locale: {
+      type: String },
+
+    places: {
+      type: [Array, Object] } },
+
+
+  render: function render(h, ref) {
+    var props = ref.props;
+    var data = ref.data;
+    var children = ref.children;
+    var parent = ref.parent;
+
+    var i18n = parent.$i18n;
+
+    children = (children || []).filter(function (child) {
+      return child.tag || (child.text = child.text.trim());
+    });
+
+    if (!i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return children;
+    }
+
+    var path = props.path;
+    var locale = props.locale;
+
+    var params = {};
+    var places = props.places || {};
+
+    var hasPlaces = Array.isArray(places) ?
+    places.length > 0 :
+    Object.keys(places).length > 0;
+
+    var everyPlace = children.every(function (child) {
+      if (child.data && child.data.attrs) {
+        var place = child.data.attrs.place;
+        return typeof place !== 'undefined' && place !== '';
+      }
+    });
+
+    if ( true && hasPlaces && children.length > 0 && !everyPlace) {
+      warn('If places prop is set, all child elements must have place prop set.');
+    }
+
+    if (Array.isArray(places)) {
+      places.forEach(function (el, i) {
+        params[i] = el;
+      });
+    } else {
+      Object.keys(places).forEach(function (key) {
+        params[key] = places[key];
+      });
+    }
+
+    children.forEach(function (child, i) {
+      var key = everyPlace ?
+      "" + child.data.attrs.place :
+      "" + i;
+      params[key] = child;
+    });
+
+    return h(props.tag, data, i18n.i(path, locale, params));
+  } };
+
+
+/*  */
+
+var numberComponent = {
+  name: 'i18n-n',
+  functional: true,
+  props: {
+    tag: {
+      type: String,
+      default: 'span' },
+
+    value: {
+      type: Number,
+      required: true },
+
+    format: {
+      type: [String, Object] },
+
+    locale: {
+      type: String } },
+
+
+  render: function render(h, ref) {
+    var props = ref.props;
+    var parent = ref.parent;
+    var data = ref.data;
+
+    var i18n = parent.$i18n;
+
+    if (!i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return null;
+    }
+
+    var key = null;
+    var options = null;
+
+    if (typeof props.format === 'string') {
+      key = props.format;
+    } else if (isObject(props.format)) {
+      if (props.format.key) {
+        key = props.format.key;
+      }
+
+      // Filter out number format options only
+      options = Object.keys(props.format).reduce(function (acc, prop) {
+        var obj;
+
+        if (numberFormatKeys.includes(prop)) {
+          return Object.assign({}, acc, (obj = {}, obj[prop] = props.format[prop], obj));
+        }
+        return acc;
+      }, null);
+    }
+
+    var locale = props.locale || i18n.locale;
+    var parts = i18n._ntp(props.value, locale, key, options);
+
+    var values = parts.map(function (part, index) {
+      var obj;
+
+      var slot = data.scopedSlots && data.scopedSlots[part.type];
+      return slot ? slot((obj = {}, obj[part.type] = part.value, obj.index = index, obj.parts = parts, obj)) : part.value;
+    });
+
+    return h(props.tag, {
+      attrs: data.attrs,
+      'class': data['class'],
+      staticClass: data.staticClass },
+    values);
+  } };
+
+
+/*  */
+
+function bind(el, binding, vnode) {
+  if (!assert(el, vnode)) {return;}
+
+  t(el, binding, vnode);
+}
+
+function update(el, binding, vnode, oldVNode) {
+  if (!assert(el, vnode)) {return;}
+
+  var i18n = vnode.context.$i18n;
+  if (localeEqual(el, vnode) &&
+  looseEqual(binding.value, binding.oldValue) &&
+  looseEqual(el._localeMessage, i18n.getLocaleMessage(i18n.locale))) {return;}
+
+  t(el, binding, vnode);
+}
+
+function unbind(el, binding, vnode, oldVNode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('Vue instance does not exists in VNode context');
+    return;
+  }
+
+  var i18n = vnode.context.$i18n || {};
+  if (!binding.modifiers.preserve && !i18n.preserveDirectiveContent) {
+    el.textContent = '';
+  }
+  el._vt = undefined;
+  delete el['_vt'];
+  el._locale = undefined;
+  delete el['_locale'];
+  el._localeMessage = undefined;
+  delete el['_localeMessage'];
+}
+
+function assert(el, vnode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('Vue instance does not exists in VNode context');
+    return false;
+  }
+
+  if (!vm.$i18n) {
+    warn('VueI18n instance does not exists in Vue instance');
+    return false;
+  }
+
+  return true;
+}
+
+function localeEqual(el, vnode) {
+  var vm = vnode.context;
+  return el._locale === vm.$i18n.locale;
+}
+
+function t(el, binding, vnode) {
+  var ref$1, ref$2;
+
+  var value = binding.value;
+
+  var ref = parseValue(value);
+  var path = ref.path;
+  var locale = ref.locale;
+  var args = ref.args;
+  var choice = ref.choice;
+  if (!path && !locale && !args) {
+    warn('value type not supported');
+    return;
+  }
+
+  if (!path) {
+    warn('`path` is required in v-t directive');
+    return;
+  }
+
+  var vm = vnode.context;
+  if (choice) {
+    el._vt = el.textContent = (ref$1 = vm.$i18n).tc.apply(ref$1, [path, choice].concat(makeParams(locale, args)));
+  } else {
+    el._vt = el.textContent = (ref$2 = vm.$i18n).t.apply(ref$2, [path].concat(makeParams(locale, args)));
+  }
+  el._locale = vm.$i18n.locale;
+  el._localeMessage = vm.$i18n.getLocaleMessage(vm.$i18n.locale);
+}
+
+function parseValue(value) {
+  var path;
+  var locale;
+  var args;
+  var choice;
+
+  if (typeof value === 'string') {
+    path = value;
+  } else if (isPlainObject(value)) {
+    path = value.path;
+    locale = value.locale;
+    args = value.args;
+    choice = value.choice;
+  }
+
+  return { path: path, locale: locale, args: args, choice: choice };
+}
+
+function makeParams(locale, args) {
+  var params = [];
+
+  locale && params.push(locale);
+  if (args && (Array.isArray(args) || isPlainObject(args))) {
+    params.push(args);
+  }
+
+  return params;
+}
+
+var Vue;
+
+function install(_Vue) {
+  /* istanbul ignore if */
+  if ( true && install.installed && _Vue === Vue) {
+    warn('already installed.');
+    return;
+  }
+  install.installed = true;
+
+  Vue = _Vue;
+
+  var version = Vue.version && Number(Vue.version.split('.')[0]) || -1;
+  /* istanbul ignore if */
+  if ( true && version < 2) {
+    warn("vue-i18n (" + install.version + ") need to use Vue 2.0 or later (Vue: " + Vue.version + ").");
+    return;
+  }
+
+  extend(Vue);
+  Vue.mixin(mixin);
+  Vue.directive('t', { bind: bind, update: update, unbind: unbind });
+  Vue.component(interpolationComponent.name, interpolationComponent);
+  Vue.component(numberComponent.name, numberComponent);
+
+  // use simple mergeStrategies to prevent i18n instance lose '__proto__'
+  var strats = Vue.config.optionMergeStrategies;
+  strats.i18n = function (parentVal, childVal) {
+    return childVal === undefined ?
+    parentVal :
+    childVal;
+  };
+}
+
+/*  */
+
+var BaseFormatter = function BaseFormatter() {
+  this._caches = Object.create(null);
+};
+
+BaseFormatter.prototype.interpolate = function interpolate(message, values) {
+  if (!values) {
+    return [message];
+  }
+  var tokens = this._caches[message];
+  if (!tokens) {
+    tokens = parse(message);
+    this._caches[message] = tokens;
+  }
+  return compile(tokens, values);
+};
+
+
+
+var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
+var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
+
+function parse(format) {
+  var tokens = [];
+  var position = 0;
+
+  var text = '';
+  while (position < format.length) {
+    var char = format[position++];
+    if (char === '{') {
+      if (text) {
+        tokens.push({ type: 'text', value: text });
+      }
+
+      text = '';
+      var sub = '';
+      char = format[position++];
+      while (char !== undefined && char !== '}') {
+        sub += char;
+        char = format[position++];
+      }
+      var isClosed = char === '}';
+
+      var type = RE_TOKEN_LIST_VALUE.test(sub) ?
+      'list' :
+      isClosed && RE_TOKEN_NAMED_VALUE.test(sub) ?
+      'named' :
+      'unknown';
+      tokens.push({ value: sub, type: type });
+    } else if (char === '%') {
+      // when found rails i18n syntax, skip text capture
+      if (format[position] !== '{') {
+        text += char;
+      }
+    } else {
+      text += char;
+    }
+  }
+
+  text && tokens.push({ type: 'text', value: text });
+
+  return tokens;
+}
+
+function compile(tokens, values) {
+  var compiled = [];
+  var index = 0;
+
+  var mode = Array.isArray(values) ?
+  'list' :
+  isObject(values) ?
+  'named' :
+  'unknown';
+  if (mode === 'unknown') {return compiled;}
+
+  while (index < tokens.length) {
+    var token = tokens[index];
+    switch (token.type) {
+      case 'text':
+        compiled.push(token.value);
+        break;
+      case 'list':
+        compiled.push(values[parseInt(token.value, 10)]);
+        break;
+      case 'named':
+        if (mode === 'named') {
+          compiled.push(values[token.value]);
+        } else {
+          if (true) {
+            warn("Type of token '" + token.type + "' and format of value '" + mode + "' don't match!");
+          }
+        }
+        break;
+      case 'unknown':
+        if (true) {
+          warn("Detect 'unknown' type of token!");
+        }
+        break;}
+
+    index++;
+  }
+
+  return compiled;
+}
+
+/*  */
+
+/**
+        *  Path parser
+        *  - Inspired:
+        *    Vue.js Path parser
+        */
+
+// actions
+var APPEND = 0;
+var PUSH = 1;
+var INC_SUB_PATH_DEPTH = 2;
+var PUSH_SUB_PATH = 3;
+
+// states
+var BEFORE_PATH = 0;
+var IN_PATH = 1;
+var BEFORE_IDENT = 2;
+var IN_IDENT = 3;
+var IN_SUB_PATH = 4;
+var IN_SINGLE_QUOTE = 5;
+var IN_DOUBLE_QUOTE = 6;
+var AFTER_PATH = 7;
+var ERROR = 8;
+
+var pathStateMachine = [];
+
+pathStateMachine[BEFORE_PATH] = {
+  'ws': [BEFORE_PATH],
+  'ident': [IN_IDENT, APPEND],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH] };
+
+
+pathStateMachine[IN_PATH] = {
+  'ws': [IN_PATH],
+  '.': [BEFORE_IDENT],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH] };
+
+
+pathStateMachine[BEFORE_IDENT] = {
+  'ws': [BEFORE_IDENT],
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND] };
+
+
+pathStateMachine[IN_IDENT] = {
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND],
+  'ws': [IN_PATH, PUSH],
+  '.': [BEFORE_IDENT, PUSH],
+  '[': [IN_SUB_PATH, PUSH],
+  'eof': [AFTER_PATH, PUSH] };
+
+
+pathStateMachine[IN_SUB_PATH] = {
+  "'": [IN_SINGLE_QUOTE, APPEND],
+  '"': [IN_DOUBLE_QUOTE, APPEND],
+  '[': [IN_SUB_PATH, INC_SUB_PATH_DEPTH],
+  ']': [IN_PATH, PUSH_SUB_PATH],
+  'eof': ERROR,
+  'else': [IN_SUB_PATH, APPEND] };
+
+
+pathStateMachine[IN_SINGLE_QUOTE] = {
+  "'": [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_SINGLE_QUOTE, APPEND] };
+
+
+pathStateMachine[IN_DOUBLE_QUOTE] = {
+  '"': [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_DOUBLE_QUOTE, APPEND] };
+
+
+/**
+                                        * Check if an expression is a literal value.
+                                        */
+
+var literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
+function isLiteral(exp) {
+  return literalValueRE.test(exp);
+}
+
+/**
+   * Strip quotes from a string
+   */
+
+function stripQuotes(str) {
+  var a = str.charCodeAt(0);
+  var b = str.charCodeAt(str.length - 1);
+  return a === b && (a === 0x22 || a === 0x27) ?
+  str.slice(1, -1) :
+  str;
+}
+
+/**
+   * Determine the type of a character in a keypath.
+   */
+
+function getPathCharType(ch) {
+  if (ch === undefined || ch === null) {return 'eof';}
+
+  var code = ch.charCodeAt(0);
+
+  switch (code) {
+    case 0x5B: // [
+    case 0x5D: // ]
+    case 0x2E: // .
+    case 0x22: // "
+    case 0x27: // '
+      return ch;
+
+    case 0x5F: // _
+    case 0x24: // $
+    case 0x2D: // -
+      return 'ident';
+
+    case 0x09: // Tab
+    case 0x0A: // Newline
+    case 0x0D: // Return
+    case 0xA0: // No-break space
+    case 0xFEFF: // Byte Order Mark
+    case 0x2028: // Line Separator
+    case 0x2029: // Paragraph Separator
+      return 'ws';}
+
+
+  return 'ident';
+}
+
+/**
+   * Format a subPath, return its plain form if it is
+   * a literal string or number. Otherwise prepend the
+   * dynamic indicator (*).
+   */
+
+function formatSubPath(path) {
+  var trimmed = path.trim();
+  // invalid leading 0
+  if (path.charAt(0) === '0' && isNaN(path)) {return false;}
+
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : '*' + trimmed;
+}
+
+/**
+   * Parse a string path into an array of segments
+   */
+
+function parse$1(path) {
+  var keys = [];
+  var index = -1;
+  var mode = BEFORE_PATH;
+  var subPathDepth = 0;
+  var c;
+  var key;
+  var newChar;
+  var type;
+  var transition;
+  var action;
+  var typeMap;
+  var actions = [];
+
+  actions[PUSH] = function () {
+    if (key !== undefined) {
+      keys.push(key);
+      key = undefined;
+    }
+  };
+
+  actions[APPEND] = function () {
+    if (key === undefined) {
+      key = newChar;
+    } else {
+      key += newChar;
+    }
+  };
+
+  actions[INC_SUB_PATH_DEPTH] = function () {
+    actions[APPEND]();
+    subPathDepth++;
+  };
+
+  actions[PUSH_SUB_PATH] = function () {
+    if (subPathDepth > 0) {
+      subPathDepth--;
+      mode = IN_SUB_PATH;
+      actions[APPEND]();
+    } else {
+      subPathDepth = 0;
+      key = formatSubPath(key);
+      if (key === false) {
+        return false;
+      } else {
+        actions[PUSH]();
+      }
+    }
+  };
+
+  function maybeUnescapeQuote() {
+    var nextChar = path[index + 1];
+    if (mode === IN_SINGLE_QUOTE && nextChar === "'" ||
+    mode === IN_DOUBLE_QUOTE && nextChar === '"') {
+      index++;
+      newChar = '\\' + nextChar;
+      actions[APPEND]();
+      return true;
+    }
+  }
+
+  while (mode !== null) {
+    index++;
+    c = path[index];
+
+    if (c === '\\' && maybeUnescapeQuote()) {
+      continue;
+    }
+
+    type = getPathCharType(c);
+    typeMap = pathStateMachine[mode];
+    transition = typeMap[type] || typeMap['else'] || ERROR;
+
+    if (transition === ERROR) {
+      return; // parse error
+    }
+
+    mode = transition[0];
+    action = actions[transition[1]];
+    if (action) {
+      newChar = transition[2];
+      newChar = newChar === undefined ?
+      c :
+      newChar;
+      if (action() === false) {
+        return;
+      }
+    }
+
+    if (mode === AFTER_PATH) {
+      return keys;
+    }
+  }
+}
+
+
+
+
+
+var I18nPath = function I18nPath() {
+  this._cache = Object.create(null);
+};
+
+/**
+    * External parse that check for a cache hit first
+    */
+I18nPath.prototype.parsePath = function parsePath(path) {
+  var hit = this._cache[path];
+  if (!hit) {
+    hit = parse$1(path);
+    if (hit) {
+      this._cache[path] = hit;
+    }
+  }
+  return hit || [];
+};
+
+/**
+    * Get path value from path string
+    */
+I18nPath.prototype.getPathValue = function getPathValue(obj, path) {
+  if (!isObject(obj)) {return null;}
+
+  var paths = this.parsePath(path);
+  if (paths.length === 0) {
+    return null;
+  } else {
+    var length = paths.length;
+    var last = obj;
+    var i = 0;
+    while (i < length) {
+      var value = last[paths[i]];
+      if (value === undefined) {
+        return null;
+      }
+      last = value;
+      i++;
+    }
+
+    return last;
+  }
+};
+
+/*  */
+
+
+
+var htmlTagMatcher = /<\/?[\w\s="/.':;#-\/]+>/;
+var linkKeyMatcher = /(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))/g;
+var linkKeyPrefixMatcher = /^@(?:\.([a-z]+))?:/;
+var bracketsMatcher = /[()]/g;
+var formatters = {
+  'upper': function upper(str) {return str.toLocaleUpperCase();},
+  'lower': function lower(str) {return str.toLocaleLowerCase();} };
+
+
+var defaultFormatter = new BaseFormatter();
+
+var VueI18n = function VueI18n(options) {
+  var this$1 = this;
+  if (options === void 0) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #290
+  /* istanbul ignore if */
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  var locale = options.locale || 'en-US';
+  var fallbackLocale = options.fallbackLocale || 'en-US';
+  var messages = options.messages || {};
+  var dateTimeFormats = options.dateTimeFormats || {};
+  var numberFormats = options.numberFormats || {};
+
+  this._vm = null;
+  this._formatter = options.formatter || defaultFormatter;
+  this._missing = options.missing || null;
+  this._root = options.root || null;
+  this._sync = options.sync === undefined ? true : !!options.sync;
+  this._fallbackRoot = options.fallbackRoot === undefined ?
+  true :
+  !!options.fallbackRoot;
+  this._silentTranslationWarn = options.silentTranslationWarn === undefined ?
+  false :
+  !!options.silentTranslationWarn;
+  this._silentFallbackWarn = options.silentFallbackWarn === undefined ?
+  false :
+  !!options.silentFallbackWarn;
+  this._dateTimeFormatters = {};
+  this._numberFormatters = {};
+  this._path = new I18nPath();
+  this._dataListeners = [];
+  this._preserveDirectiveContent = options.preserveDirectiveContent === undefined ?
+  false :
+  !!options.preserveDirectiveContent;
+  this.pluralizationRules = options.pluralizationRules || {};
+  this._warnHtmlInMessage = options.warnHtmlInMessage || 'off';
+
+  this._exist = function (message, key) {
+    if (!message || !key) {return false;}
+    if (!isNull(this$1._path.getPathValue(message, key))) {return true;}
+    // fallback for flat key
+    if (message[key]) {return true;}
+    return false;
+  };
+
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    Object.keys(messages).forEach(function (locale) {
+      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
+    });
+  }
+
+  this._initVM({
+    locale: locale,
+    fallbackLocale: fallbackLocale,
+    messages: messages,
+    dateTimeFormats: dateTimeFormats,
+    numberFormats: numberFormats });
+
+};
+
+var prototypeAccessors = { vm: { configurable: true }, messages: { configurable: true }, dateTimeFormats: { configurable: true }, numberFormats: { configurable: true }, availableLocales: { configurable: true }, locale: { configurable: true }, fallbackLocale: { configurable: true }, missing: { configurable: true }, formatter: { configurable: true }, silentTranslationWarn: { configurable: true }, silentFallbackWarn: { configurable: true }, preserveDirectiveContent: { configurable: true }, warnHtmlInMessage: { configurable: true } };
+
+VueI18n.prototype._checkLocaleMessage = function _checkLocaleMessage(locale, level, message) {
+  var paths = [];
+
+  var fn = function fn(level, locale, message, paths) {
+    if (isPlainObject(message)) {
+      Object.keys(message).forEach(function (key) {
+        var val = message[key];
+        if (isPlainObject(val)) {
+          paths.push(key);
+          paths.push('.');
+          fn(level, locale, val, paths);
+          paths.pop();
+          paths.pop();
+        } else {
+          paths.push(key);
+          fn(level, locale, val, paths);
+          paths.pop();
+        }
+      });
+    } else if (Array.isArray(message)) {
+      message.forEach(function (item, index) {
+        if (isPlainObject(item)) {
+          paths.push("[" + index + "]");
+          paths.push('.');
+          fn(level, locale, item, paths);
+          paths.pop();
+          paths.pop();
+        } else {
+          paths.push("[" + index + "]");
+          fn(level, locale, item, paths);
+          paths.pop();
+        }
+      });
+    } else if (typeof message === 'string') {
+      var ret = htmlTagMatcher.test(message);
+      if (ret) {
+        var msg = "Detected HTML in message '" + message + "' of keypath '" + paths.join('') + "' at '" + locale + "'. Consider component interpolation with '<i18n>' to avoid XSS. See https://bit.ly/2ZqJzkp";
+        if (level === 'warn') {
+          warn(msg);
+        } else if (level === 'error') {
+          error(msg);
+        }
+      }
+    }
+  };
+
+  fn(level, locale, message, paths);
+};
+
+VueI18n.prototype._initVM = function _initVM(data) {
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  this._vm = new Vue({ data: data });
+  Vue.config.silent = silent;
+};
+
+VueI18n.prototype.destroyVM = function destroyVM() {
+  this._vm.$destroy();
+};
+
+VueI18n.prototype.subscribeDataChanging = function subscribeDataChanging(vm) {
+  this._dataListeners.push(vm);
+};
+
+VueI18n.prototype.unsubscribeDataChanging = function unsubscribeDataChanging(vm) {
+  remove(this._dataListeners, vm);
+};
+
+VueI18n.prototype.watchI18nData = function watchI18nData() {
+  var self = this;
+  return this._vm.$watch('$data', function () {
+    var i = self._dataListeners.length;
+    while (i--) {
+      Vue.nextTick(function () {
+        self._dataListeners[i] && self._dataListeners[i].$forceUpdate();
+      });
+    }
+  }, { deep: true });
+};
+
+VueI18n.prototype.watchLocale = function watchLocale() {
+  /* istanbul ignore if */
+  if (!this._sync || !this._root) {return null;}
+  var target = this._vm;
+  return this._root.$i18n.vm.$watch('locale', function (val) {
+    target.$set(target, 'locale', val);
+    target.$forceUpdate();
+  }, { immediate: true });
+};
+
+prototypeAccessors.vm.get = function () {return this._vm;};
+
+prototypeAccessors.messages.get = function () {return looseClone(this._getMessages());};
+prototypeAccessors.dateTimeFormats.get = function () {return looseClone(this._getDateTimeFormats());};
+prototypeAccessors.numberFormats.get = function () {return looseClone(this._getNumberFormats());};
+prototypeAccessors.availableLocales.get = function () {return Object.keys(this.messages).sort();};
+
+prototypeAccessors.locale.get = function () {return this._vm.locale;};
+prototypeAccessors.locale.set = function (locale) {
+  this._vm.$set(this._vm, 'locale', locale);
+};
+
+prototypeAccessors.fallbackLocale.get = function () {return this._vm.fallbackLocale;};
+prototypeAccessors.fallbackLocale.set = function (locale) {
+  this._vm.$set(this._vm, 'fallbackLocale', locale);
+};
+
+prototypeAccessors.missing.get = function () {return this._missing;};
+prototypeAccessors.missing.set = function (handler) {this._missing = handler;};
+
+prototypeAccessors.formatter.get = function () {return this._formatter;};
+prototypeAccessors.formatter.set = function (formatter) {this._formatter = formatter;};
+
+prototypeAccessors.silentTranslationWarn.get = function () {return this._silentTranslationWarn;};
+prototypeAccessors.silentTranslationWarn.set = function (silent) {this._silentTranslationWarn = silent;};
+
+prototypeAccessors.silentFallbackWarn.get = function () {return this._silentFallbackWarn;};
+prototypeAccessors.silentFallbackWarn.set = function (silent) {this._silentFallbackWarn = silent;};
+
+prototypeAccessors.preserveDirectiveContent.get = function () {return this._preserveDirectiveContent;};
+prototypeAccessors.preserveDirectiveContent.set = function (preserve) {this._preserveDirectiveContent = preserve;};
+
+prototypeAccessors.warnHtmlInMessage.get = function () {return this._warnHtmlInMessage;};
+prototypeAccessors.warnHtmlInMessage.set = function (level) {
+  var this$1 = this;
+
+  var orgLevel = this._warnHtmlInMessage;
+  this._warnHtmlInMessage = level;
+  if (orgLevel !== level && (level === 'warn' || level === 'error')) {
+    var messages = this._getMessages();
+    Object.keys(messages).forEach(function (locale) {
+      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
+    });
+  }
+};
+
+VueI18n.prototype._getMessages = function _getMessages() {return this._vm.messages;};
+VueI18n.prototype._getDateTimeFormats = function _getDateTimeFormats() {return this._vm.dateTimeFormats;};
+VueI18n.prototype._getNumberFormats = function _getNumberFormats() {return this._vm.numberFormats;};
+
+VueI18n.prototype._warnDefault = function _warnDefault(locale, key, result, vm, values) {
+  if (!isNull(result)) {return result;}
+  if (this._missing) {
+    var missingRet = this._missing.apply(null, [locale, key, vm, values]);
+    if (typeof missingRet === 'string') {
+      return missingRet;
+    }
+  } else {
+    if ( true && !this._silentTranslationWarn) {
+      warn(
+      "Cannot translate the value of keypath '" + key + "'. " +
+      'Use the value of keypath as default.');
+
+    }
+  }
+  return key;
+};
+
+VueI18n.prototype._isFallbackRoot = function _isFallbackRoot(val) {
+  return !val && !isNull(this._root) && this._fallbackRoot;
+};
+
+VueI18n.prototype._isSilentFallback = function _isSilentFallback(locale) {
+  return this._silentFallbackWarn && (this._isFallbackRoot() || locale !== this.fallbackLocale);
+};
+
+VueI18n.prototype._interpolate = function _interpolate(
+locale,
+message,
+key,
+host,
+interpolateMode,
+values,
+visitedLinkStack)
+{
+  if (!message) {return null;}
+
+  var pathRet = this._path.getPathValue(message, key);
+  if (Array.isArray(pathRet) || isPlainObject(pathRet)) {return pathRet;}
+
+  var ret;
+  if (isNull(pathRet)) {
+    /* istanbul ignore else */
+    if (isPlainObject(message)) {
+      ret = message[key];
+      if (typeof ret !== 'string') {
+        if ( true && !this._silentTranslationWarn && !this._isSilentFallback(locale)) {
+          warn("Value of key '" + key + "' is not a string!");
+        }
+        return null;
+      }
+    } else {
+      return null;
+    }
+  } else {
+    /* istanbul ignore else */
+    if (typeof pathRet === 'string') {
+      ret = pathRet;
+    } else {
+      if ( true && !this._silentTranslationWarn && !this._isSilentFallback(locale)) {
+        warn("Value of key '" + key + "' is not a string!");
+      }
+      return null;
+    }
+  }
+
+  // Check for the existence of links within the translated string
+  if (ret.indexOf('@:') >= 0 || ret.indexOf('@.') >= 0) {
+    ret = this._link(locale, message, ret, host, 'raw', values, visitedLinkStack);
+  }
+
+  return this._render(ret, interpolateMode, values, key);
+};
+
+VueI18n.prototype._link = function _link(
+locale,
+message,
+str,
+host,
+interpolateMode,
+values,
+visitedLinkStack)
+{
+  var ret = str;
+
+  // Match all the links within the local
+  // We are going to replace each of
+  // them with its translation
+  var matches = ret.match(linkKeyMatcher);
+  for (var idx in matches) {
+    // ie compatible: filter custom array
+    // prototype method
+    if (!matches.hasOwnProperty(idx)) {
+      continue;
+    }
+    var link = matches[idx];
+    var linkKeyPrefixMatches = link.match(linkKeyPrefixMatcher);
+    var linkPrefix = linkKeyPrefixMatches[0];
+    var formatterName = linkKeyPrefixMatches[1];
+
+    // Remove the leading @:, @.case: and the brackets
+    var linkPlaceholder = link.replace(linkPrefix, '').replace(bracketsMatcher, '');
+
+    if (visitedLinkStack.includes(linkPlaceholder)) {
+      if (true) {
+        warn("Circular reference found. \"" + link + "\" is already visited in the chain of " + visitedLinkStack.reverse().join(' <- '));
+      }
+      return ret;
+    }
+    visitedLinkStack.push(linkPlaceholder);
+
+    // Translate the link
+    var translated = this._interpolate(
+    locale, message, linkPlaceholder, host,
+    interpolateMode === 'raw' ? 'string' : interpolateMode,
+    interpolateMode === 'raw' ? undefined : values,
+    visitedLinkStack);
+
+
+    if (this._isFallbackRoot(translated)) {
+      if ( true && !this._silentTranslationWarn) {
+        warn("Fall back to translate the link placeholder '" + linkPlaceholder + "' with root locale.");
+      }
+      /* istanbul ignore if */
+      if (!this._root) {throw Error('unexpected error');}
+      var root = this._root.$i18n;
+      translated = root._translate(
+      root._getMessages(), root.locale, root.fallbackLocale,
+      linkPlaceholder, host, interpolateMode, values);
+
+    }
+    translated = this._warnDefault(
+    locale, linkPlaceholder, translated, host,
+    Array.isArray(values) ? values : [values]);
+
+    if (formatters.hasOwnProperty(formatterName)) {
+      translated = formatters[formatterName](translated);
+    }
+
+    visitedLinkStack.pop();
+
+    // Replace the link with the translated
+    ret = !translated ? ret : ret.replace(link, translated);
+  }
+
+  return ret;
+};
+
+VueI18n.prototype._render = function _render(message, interpolateMode, values, path) {
+  var ret = this._formatter.interpolate(message, values, path);
+
+  // If the custom formatter refuses to work - apply the default one
+  if (!ret) {
+    ret = defaultFormatter.interpolate(message, values, path);
+  }
+
+  // if interpolateMode is **not** 'string' ('row'),
+  // return the compiled data (e.g. ['foo', VNode, 'bar']) with formatter
+  return interpolateMode === 'string' ? ret.join('') : ret;
+};
+
+VueI18n.prototype._translate = function _translate(
+messages,
+locale,
+fallback,
+key,
+host,
+interpolateMode,
+args)
+{
+  var res =
+  this._interpolate(locale, messages[locale], key, host, interpolateMode, args, [key]);
+  if (!isNull(res)) {return res;}
+
+  res = this._interpolate(fallback, messages[fallback], key, host, interpolateMode, args, [key]);
+  if (!isNull(res)) {
+    if ( true && !this._silentTranslationWarn && !this._silentFallbackWarn) {
+      warn("Fall back to translate the keypath '" + key + "' with '" + fallback + "' locale.");
+    }
+    return res;
+  } else {
+    return null;
+  }
+};
+
+VueI18n.prototype._t = function _t(key, _locale, messages, host) {
+  var ref;
+
+  var values = [],len = arguments.length - 4;
+  while (len-- > 0) {values[len] = arguments[len + 4];}
+  if (!key) {return '';}
+
+  var parsedArgs = parseArgs.apply(void 0, values);
+  var locale = parsedArgs.locale || _locale;
+
+  var ret = this._translate(
+  messages, locale, this.fallbackLocale, key,
+  host, 'string', parsedArgs.params);
+
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._silentTranslationWarn && !this._silentFallbackWarn) {
+      warn("Fall back to translate the keypath '" + key + "' with root locale.");
+    }
+    /* istanbul ignore if */
+    if (!this._root) {throw Error('unexpected error');}
+    return (ref = this._root).$t.apply(ref, [key].concat(values));
+  } else {
+    return this._warnDefault(locale, key, ret, host, values);
+  }
+};
+
+VueI18n.prototype.t = function t(key) {
+  var ref;
+
+  var values = [],len = arguments.length - 1;
+  while (len-- > 0) {values[len] = arguments[len + 1];}
+  return (ref = this)._t.apply(ref, [key, this.locale, this._getMessages(), null].concat(values));
+};
+
+VueI18n.prototype._i = function _i(key, locale, messages, host, values) {
+  var ret =
+  this._translate(messages, locale, this.fallbackLocale, key, host, 'raw', values);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._silentTranslationWarn) {
+      warn("Fall back to interpolate the keypath '" + key + "' with root locale.");
+    }
+    if (!this._root) {throw Error('unexpected error');}
+    return this._root.$i18n.i(key, locale, values);
+  } else {
+    return this._warnDefault(locale, key, ret, host, [values]);
+  }
+};
+
+VueI18n.prototype.i = function i(key, locale, values) {
+  /* istanbul ignore if */
+  if (!key) {return '';}
+
+  if (typeof locale !== 'string') {
+    locale = this.locale;
+  }
+
+  return this._i(key, locale, this._getMessages(), null, values);
+};
+
+VueI18n.prototype._tc = function _tc(
+key,
+_locale,
+messages,
+host,
+choice)
+{
+  var ref;
+
+  var values = [],len = arguments.length - 5;
+  while (len-- > 0) {values[len] = arguments[len + 5];}
+  if (!key) {return '';}
+  if (choice === undefined) {
+    choice = 1;
+  }
+
+  var predefined = { 'count': choice, 'n': choice };
+  var parsedArgs = parseArgs.apply(void 0, values);
+  parsedArgs.params = Object.assign(predefined, parsedArgs.params);
+  values = parsedArgs.locale === null ? [parsedArgs.params] : [parsedArgs.locale, parsedArgs.params];
+  return this.fetchChoice((ref = this)._t.apply(ref, [key, _locale, messages, host].concat(values)), choice);
+};
+
+VueI18n.prototype.fetchChoice = function fetchChoice(message, choice) {
+  /* istanbul ignore if */
+  if (!message && typeof message !== 'string') {return null;}
+  var choices = message.split('|');
+
+  choice = this.getChoiceIndex(choice, choices.length);
+  if (!choices[choice]) {return message;}
+  return choices[choice].trim();
+};
+
+/**
+    * @param choice {number} a choice index given by the input to $tc: `$tc('path.to.rule', choiceIndex)`
+    * @param choicesLength {number} an overall amount of available choices
+    * @returns a final choice index
+   */
+VueI18n.prototype.getChoiceIndex = function getChoiceIndex(choice, choicesLength) {
+  // Default (old) getChoiceIndex implementation - english-compatible
+  var defaultImpl = function defaultImpl(_choice, _choicesLength) {
+    _choice = Math.abs(_choice);
+
+    if (_choicesLength === 2) {
+      return _choice ?
+      _choice > 1 ?
+      1 :
+      0 :
+      1;
+    }
+
+    return _choice ? Math.min(_choice, 2) : 0;
+  };
+
+  if (this.locale in this.pluralizationRules) {
+    return this.pluralizationRules[this.locale].apply(this, [choice, choicesLength]);
+  } else {
+    return defaultImpl(choice, choicesLength);
+  }
+};
+
+VueI18n.prototype.tc = function tc(key, choice) {
+  var ref;
+
+  var values = [],len = arguments.length - 2;
+  while (len-- > 0) {values[len] = arguments[len + 2];}
+  return (ref = this)._tc.apply(ref, [key, this.locale, this._getMessages(), null, choice].concat(values));
+};
+
+VueI18n.prototype._te = function _te(key, locale, messages) {
+  var args = [],len = arguments.length - 3;
+  while (len-- > 0) {args[len] = arguments[len + 3];}
+
+  var _locale = parseArgs.apply(void 0, args).locale || locale;
+  return this._exist(messages[_locale], key);
+};
+
+VueI18n.prototype.te = function te(key, locale) {
+  return this._te(key, this.locale, this._getMessages(), locale);
+};
+
+VueI18n.prototype.getLocaleMessage = function getLocaleMessage(locale) {
+  return looseClone(this._vm.messages[locale] || {});
+};
+
+VueI18n.prototype.setLocaleMessage = function setLocaleMessage(locale, message) {
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
+    if (this._warnHtmlInMessage === 'error') {return;}
+  }
+  this._vm.$set(this._vm.messages, locale, message);
+};
+
+VueI18n.prototype.mergeLocaleMessage = function mergeLocaleMessage(locale, message) {
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
+    if (this._warnHtmlInMessage === 'error') {return;}
+  }
+  this._vm.$set(this._vm.messages, locale, merge(this._vm.messages[locale] || {}, message));
+};
+
+VueI18n.prototype.getDateTimeFormat = function getDateTimeFormat(locale) {
+  return looseClone(this._vm.dateTimeFormats[locale] || {});
+};
+
+VueI18n.prototype.setDateTimeFormat = function setDateTimeFormat(locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, format);
+};
+
+VueI18n.prototype.mergeDateTimeFormat = function mergeDateTimeFormat(locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, merge(this._vm.dateTimeFormats[locale] || {}, format));
+};
+
+VueI18n.prototype._localizeDateTime = function _localizeDateTime(
+value,
+locale,
+fallback,
+dateTimeFormats,
+key)
+{
+  var _locale = locale;
+  var formats = dateTimeFormats[_locale];
+
+  // fallback locale
+  if (isNull(formats) || isNull(formats[key])) {
+    if ( true && !this._silentTranslationWarn) {
+      warn("Fall back to '" + fallback + "' datetime formats from '" + locale + " datetime formats.");
+    }
+    _locale = fallback;
+    formats = dateTimeFormats[_locale];
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null;
+  } else {
+    var format = formats[key];
+    var id = _locale + "__" + key;
+    var formatter = this._dateTimeFormatters[id];
+    if (!formatter) {
+      formatter = this._dateTimeFormatters[id] = new Intl.DateTimeFormat(_locale, format);
+    }
+    return formatter.format(value);
+  }
+};
+
+VueI18n.prototype._d = function _d(value, locale, key) {
+  /* istanbul ignore if */
+  if ( true && !VueI18n.availabilities.dateTimeFormat) {
+    warn('Cannot format a Date value due to not supported Intl.DateTimeFormat.');
+    return '';
+  }
+
+  if (!key) {
+    return new Intl.DateTimeFormat(locale).format(value);
+  }
+
+  var ret =
+  this._localizeDateTime(value, locale, this.fallbackLocale, this._getDateTimeFormats(), key);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._silentTranslationWarn) {
+      warn("Fall back to datetime localization of root: key '" + key + "' .");
+    }
+    /* istanbul ignore if */
+    if (!this._root) {throw Error('unexpected error');}
+    return this._root.$i18n.d(value, key, locale);
+  } else {
+    return ret || '';
+  }
+};
+
+VueI18n.prototype.d = function d(value) {
+  var args = [],len = arguments.length - 1;
+  while (len-- > 0) {args[len] = arguments[len + 1];}
+
+  var locale = this.locale;
+  var key = null;
+
+  if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    }
+    if (typeof args[1] === 'string') {
+      locale = args[1];
+    }
+  }
+
+  return this._d(value, locale, key);
+};
+
+VueI18n.prototype.getNumberFormat = function getNumberFormat(locale) {
+  return looseClone(this._vm.numberFormats[locale] || {});
+};
+
+VueI18n.prototype.setNumberFormat = function setNumberFormat(locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, format);
+};
+
+VueI18n.prototype.mergeNumberFormat = function mergeNumberFormat(locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, merge(this._vm.numberFormats[locale] || {}, format));
+};
+
+VueI18n.prototype._getNumberFormatter = function _getNumberFormatter(
+value,
+locale,
+fallback,
+numberFormats,
+key,
+options)
+{
+  var _locale = locale;
+  var formats = numberFormats[_locale];
+
+  // fallback locale
+  if (isNull(formats) || isNull(formats[key])) {
+    if ( true && !this._silentTranslationWarn) {
+      warn("Fall back to '" + fallback + "' number formats from '" + locale + " number formats.");
+    }
+    _locale = fallback;
+    formats = numberFormats[_locale];
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null;
+  } else {
+    var format = formats[key];
+
+    var formatter;
+    if (options) {
+      // If options specified - create one time number formatter
+      formatter = new Intl.NumberFormat(_locale, Object.assign({}, format, options));
+    } else {
+      var id = _locale + "__" + key;
+      formatter = this._numberFormatters[id];
+      if (!formatter) {
+        formatter = this._numberFormatters[id] = new Intl.NumberFormat(_locale, format);
+      }
+    }
+    return formatter;
+  }
+};
+
+VueI18n.prototype._n = function _n(value, locale, key, options) {
+  /* istanbul ignore if */
+  if (!VueI18n.availabilities.numberFormat) {
+    if (true) {
+      warn('Cannot format a Number value due to not supported Intl.NumberFormat.');
+    }
+    return '';
+  }
+
+  if (!key) {
+    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
+    return nf.format(value);
+  }
+
+  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
+  var ret = formatter && formatter.format(value);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._silentTranslationWarn) {
+      warn("Fall back to number localization of root: key '" + key + "' .");
+    }
+    /* istanbul ignore if */
+    if (!this._root) {throw Error('unexpected error');}
+    return this._root.$i18n.n(value, Object.assign({}, { key: key, locale: locale }, options));
+  } else {
+    return ret || '';
+  }
+};
+
+VueI18n.prototype.n = function n(value) {
+  var args = [],len = arguments.length - 1;
+  while (len-- > 0) {args[len] = arguments[len + 1];}
+
+  var locale = this.locale;
+  var key = null;
+  var options = null;
+
+  if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+
+      // Filter out number format options only
+      options = Object.keys(args[0]).reduce(function (acc, key) {
+        var obj;
+
+        if (numberFormatKeys.includes(key)) {
+          return Object.assign({}, acc, (obj = {}, obj[key] = args[0][key], obj));
+        }
+        return acc;
+      }, null);
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    }
+    if (typeof args[1] === 'string') {
+      locale = args[1];
+    }
+  }
+
+  return this._n(value, locale, key, options);
+};
+
+VueI18n.prototype._ntp = function _ntp(value, locale, key, options) {
+  /* istanbul ignore if */
+  if (!VueI18n.availabilities.numberFormat) {
+    if (true) {
+      warn('Cannot format to parts a Number value due to not supported Intl.NumberFormat.');
+    }
+    return [];
+  }
+
+  if (!key) {
+    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
+    return nf.formatToParts(value);
+  }
+
+  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
+  var ret = formatter && formatter.formatToParts(value);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._silentTranslationWarn) {
+      warn("Fall back to format number to parts of root: key '" + key + "' .");
+    }
+    /* istanbul ignore if */
+    if (!this._root) {throw Error('unexpected error');}
+    return this._root.$i18n._ntp(value, locale, key, options);
+  } else {
+    return ret || [];
+  }
+};
+
+Object.defineProperties(VueI18n.prototype, prototypeAccessors);
+
+var availabilities;
+// $FlowFixMe
+Object.defineProperty(VueI18n, 'availabilities', {
+  get: function get() {
+    if (!availabilities) {
+      var intlDefined = typeof Intl !== 'undefined';
+      availabilities = {
+        dateTimeFormat: intlDefined && typeof Intl.DateTimeFormat !== 'undefined',
+        numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined' };
+
+    }
+
+    return availabilities;
+  } });
+
+
+VueI18n.install = install;
+VueI18n.version = '8.11.2';var _default =
+
+VueI18n;exports.default = _default;
+
+/***/ }),
+
+/***/ 54:
+/*!***********************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2Foperational_status%2Foperational_status"} ***!
+  \***********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _operational_status = _interopRequireDefault(__webpack_require__(/*! ./pages/report/operational_status/operational_status.vue */ 55));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_operational_status.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 62:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ 63));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goods.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 70:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ 71));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_logs.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 78:
+/*!*****************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2FEnteringHistory%2FEnteringHistory"} ***!
+  \*****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _EnteringHistory = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/EnteringHistory.vue */ 79));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_EnteringHistory.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 86:
+/*!***********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods-select%2Fgoods-select"} ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _goodsSelect = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods-select/goods-select.vue */ 87));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goodsSelect.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 9:
+/*!*********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/bmob.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}!function (e, t) { true ? module.exports = t() : undefined;}("undefined" != typeof self ? self : void 0, function () {
+  return function (e) {var t = {};function n(r) {if (t[r]) return t[r].exports;var o = t[r] = { i: r, l: !1, exports: {} };return e[r].call(o.exports, o, o.exports, n), o.l = !0, o.exports;}return n.m = e, n.c = t, n.d = function (e, t, r) {n.o(e, t) || Object.defineProperty(e, t, { configurable: !1, enumerable: !0, get: r });}, n.n = function (e) {var t = e && e.__esModule ? function () {return e.default;} : function () {return e;};return n.d(t, "a", t), t;}, n.o = function (e, t) {return Object.prototype.hasOwnProperty.call(e, t);}, n.p = "", n(n.s = 17);}([function (e, t, n) {(function (t) {var r = n(5),o = t.Bmob || {};o.utils = r, o._config = r.getConfig(), o.initialize = function (e, t, n) {o._config.applicationId = e, o._config.applicationKey = t, o._config.applicationMasterKey = n;}, e.exports = o;}).call(t, n(6));}, function (e, t, n) {"use strict";var r = n(11),o = n(25),s = Object.prototype.toString;function i(e) {return "[object Array]" === s.call(e);}function a(e) {return null !== e && "object" == typeof e;}function c(e) {return "[object Function]" === s.call(e);}function u(e, t) {if (null !== e && void 0 !== e) if ("object" != typeof e && (e = [e]), i(e)) for (var n = 0, r = e.length; n < r; n++) {t.call(null, e[n], n, e);} else for (var o in e) {Object.prototype.hasOwnProperty.call(e, o) && t.call(null, e[o], o, e);}}e.exports = { isArray: i, isArrayBuffer: function isArrayBuffer(e) {return "[object ArrayBuffer]" === s.call(e);}, isBuffer: o, isFormData: function isFormData(e) {return "undefined" != typeof FormData && e instanceof FormData;}, isArrayBufferView: function isArrayBufferView(e) {return "undefined" != typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(e) : e && e.buffer && e.buffer instanceof ArrayBuffer;}, isString: function isString(e) {return "string" == typeof e;}, isNumber: function isNumber(e) {return "number" == typeof e;}, isObject: a, isUndefined: function isUndefined(e) {return void 0 === e;}, isDate: function isDate(e) {return "[object Date]" === s.call(e);}, isFile: function isFile(e) {return "[object File]" === s.call(e);}, isBlob: function isBlob(e) {return "[object Blob]" === s.call(e);}, isFunction: c, isStream: function isStream(e) {return a(e) && c(e.pipe);}, isURLSearchParams: function isURLSearchParams(e) {return "undefined" != typeof URLSearchParams && e instanceof URLSearchParams;}, isStandardBrowserEnv: function isStandardBrowserEnv() {return ("undefined" == typeof navigator || "ReactNative" !== navigator.product) && "undefined" != typeof window && "undefined" != typeof document;}, forEach: u, merge: function e() {var t = {};function n(n, r) {"object" == typeof t[r] && "object" == typeof n ? t[r] = e(t[r], n) : t[r] = n;}for (var r = 0, o = arguments.length; r < o; r++) {u(arguments[r], n);}return t;}, extend: function extend(e, t, n) {return u(t, function (t, o) {e[o] = n && "function" == typeof t ? r(t, n) : t;}), e;}, trim: function trim(e) {return e.replace(/^\s*/, "").replace(/\s*$/, "");} };}, function (e, t) {e.exports = { isObject: function isObject(e) {return "[object Object]" === Object.prototype.toString.call(e);}, isNumber: function isNumber(e) {return "[object Number]" === Object.prototype.toString.call(e);}, isString: function isString(e) {return "[object String]" === Object.prototype.toString.call(e);}, isUndefined: function isUndefined(e) {return "[object Undefined]" === Object.prototype.toString.call(e);}, isBoolean: function isBoolean(e) {return "[object Boolean]" === Object.prototype.toString.call(e);}, isArray: function isArray(e) {return "[object Array]" === Object.prototype.toString.call(e);}, isFunction: function isFunction(e) {return "[object Function]" === Object.prototype.toString.call(e);} };}, function (e, t) {e.exports = /*#__PURE__*/function () {function _class(e, t) {_classCallCheck(this, _class);var n = new Error();return n.code = e, n.message = t ? "Bmob.Error:{code:".concat(e, ", message:").concat(t, "}") : "Bmob.Error:{code:".concat(e, ", message:").concat(this.errorMsg(e), "}"), n;}_createClass(_class, [{ key: "errorMsg", value: function errorMsg(e) {switch (e) {case 415:return "incorrect parameter type.";case 416:return "Parameter is null.";case 417:return "There is no upload content.";case 418:return "Log in failure.";case 419:return "Bmob.GeoPoint location error.";default:return "unknown error";}} }]);return _class;}();}, function (e, t, n) {var r;var o = n(5).getAppType();"h5" === o ? r = n(10) : "wx" === o ? r = n(42) : "hap" === o ? r = n(43) : "nodejs" === o && (r = n(10)), e.exports = r;}, function (e, t, n) {(function (t, r) {var o;try {o = n(18);} catch (e) {o = n(20);}var s = function s() {return o;};e.exports = { getConfig: s, getAppType: function getAppType() {var e = s();var n;return n = "undefined" != typeof wx ? "wx" : "undefined" != typeof window ? "h5" : 3 === e.type ? "hap" : t === r.process ? "nodejs" : "h5";} };}).call(t, n(7), n(6));}, function (e, t) {var n;n = function () {return this;}();try {n = n || Function("return this")() || (0, eval)("this");} catch (e) {"object" == typeof window && (n = window);}e.exports = n;}, function (e, t) {var n,r,o = e.exports = {};function s() {throw new Error("setTimeout has not been defined");}function i() {throw new Error("clearTimeout has not been defined");}function a(e) {if (n === setTimeout) return setTimeout(e, 0);if ((n === s || !n) && setTimeout) return n = setTimeout, setTimeout(e, 0);try {return n(e, 0);} catch (t) {try {return n.call(null, e, 0);} catch (t) {return n.call(this, e, 0);}}}!function () {try {n = "function" == typeof setTimeout ? setTimeout : s;} catch (e) {n = s;}try {r = "function" == typeof clearTimeout ? clearTimeout : i;} catch (e) {r = i;}}();var c,u = [],l = !1,p = -1;function f() {l && c && (l = !1, c.length ? u = c.concat(u) : p = -1, u.length && h());}function h() {if (!l) {var e = a(f);l = !0;for (var t = u.length; t;) {for (c = u, u = []; ++p < t;) {c && c[p].run();}p = -1, t = u.length;}c = null, l = !1, function (e) {if (r === clearTimeout) return clearTimeout(e);if ((r === i || !r) && clearTimeout) return r = clearTimeout, clearTimeout(e);try {r(e);} catch (t) {try {return r.call(null, e);} catch (t) {return r.call(this, e);}}}(e);}}function d(e, t) {this.fun = e, this.array = t;}function m() {}o.nextTick = function (e) {var t = new Array(arguments.length - 1);if (arguments.length > 1) for (var n = 1; n < arguments.length; n++) {t[n - 1] = arguments[n];}u.push(new d(e, t)), 1 !== u.length || l || a(h);}, d.prototype.run = function () {this.fun.apply(null, this.array);}, o.title = "browser", o.browser = !0, o.env = {}, o.argv = [], o.version = "", o.versions = {}, o.on = m, o.addListener = m, o.once = m, o.off = m, o.removeListener = m, o.removeAllListeners = m, o.emit = m, o.prependListener = m, o.prependOnceListener = m, o.listeners = function (e) {return [];}, o.binding = function (e) {throw new Error("process.binding is not supported");}, o.cwd = function () {return "/";}, o.chdir = function (e) {throw new Error("process.chdir is not supported");}, o.umask = function () {return 0;};}, function (e, t, n) {"use strict";(function (t) {var r = n(1),o = n(27),s = { "Content-Type": "application/x-www-form-urlencoded" };function i(e, t) {!r.isUndefined(e) && r.isUndefined(e["Content-Type"]) && (e["Content-Type"] = t);}var a = { adapter: function () {var e;return "undefined" != typeof XMLHttpRequest ? e = n(12) : void 0 !== t && (e = n(12)), e;}(), transformRequest: [function (e, t) {return o(t, "Content-Type"), r.isFormData(e) || r.isArrayBuffer(e) || r.isBuffer(e) || r.isStream(e) || r.isFile(e) || r.isBlob(e) ? e : r.isArrayBufferView(e) ? e.buffer : r.isURLSearchParams(e) ? (i(t, "application/x-www-form-urlencoded;charset=utf-8"), e.toString()) : r.isObject(e) ? (i(t, "application/json;charset=utf-8"), JSON.stringify(e)) : e;}], transformResponse: [function (e) {if ("string" == typeof e) try {e = JSON.parse(e);} catch (e) {}return e;}], timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", maxContentLength: -1, validateStatus: function validateStatus(e) {return e >= 200 && e < 300;}, headers: { common: { Accept: "application/json, text/plain, */*" } } };r.forEach(["delete", "get", "head"], function (e) {a.headers[e] = {};}), r.forEach(["post", "put", "patch"], function (e) {a.headers[e] = r.merge(s);}), e.exports = a;}).call(t, n(7));}, function (e, t, n) {var r = n(0);var o = n(4),_n = n(2),s = _n.isObject,i = _n.isString,a = _n.isNumber,c = _n.isUndefined,u = _n.isArray,l = n(3),p = n(16);function f(e, t, n) {var r = {},o = {};o[t] = n, r[e] = o;var s = r;return Object.keys(this.queryData).length ? c(this.queryData.$and) ? this.queryData = { $and: [this.queryData, s] } : this.queryData.$and.push(s) : this.queryData = s, s;}e.exports = /*#__PURE__*/function () {function _class2(e) {_classCallCheck(this, _class2);this.tableName = "".concat(r._config.parameters.QUERY, "/").concat(e), this.className = e, this.init(), this.addArray = {}, this.setData = {};}_createClass(_class2, [{ key: "init", value: function init() {this.queryData = {}, this.location = {}, this.andData = {}, this.orData = {}, this.stat = {}, this.limitNum = 100, this.skipNum = 0, this.includes = "", this.queryReilation = {}, this.orders = null, this.keys = null;} }, { key: "get", value: function get(e) {var _this = this;if (!i(e)) throw new l(415);var t = {};var n = {},r = {},s = {},f = function f(e, t) {if (!i(e) || !u(t)) throw new l(415);s[e] = { __op: "Add", objects: t };},h = function h(e, t) {if (!i(e) || !u(t)) throw new l(415);s[e] = { __op: "AddUnique", objects: t };},d = function d(e, t) {if (!i(e) || !u(t)) throw new l(415);s[e] = { __op: "Remove", objects: t };},m = function m(e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;if (!i(e) || !a(t)) throw new l(415);n[e] = { __op: "Increment", amount: t };},w = function w(t) {if (!i(e)) throw new l(415);r[t] = { __op: "Delete" };},g = function g(e, n) {if (!i(e) || c(n)) throw new l(415);var r = n.filename,o = n.cdn,s = n.url;c(r) || c(o) || c(s) ? t[e] = n : t[e] = { __type: "File", group: o, filename: r, url: s };},y = function y() {var i = Object.assign(r, t, n, s);return "_User" === _this.className ? new Promise(function (t, n) {o("".concat(_this.tableName, "/").concat(e), "put", i).then(function (e) {var n = _this.current();var r = Object.assign(n, i);p.save("bmob", r), t(e);}).catch(function (e) {n(e);});}) : o("".concat(_this.tableName, "/").concat(e), "put", i);},b = {};return "" !== this.includes && (b.include = this.includes), new Promise(function (t, n) {o("".concat(_this.tableName, "/").concat(e), "get", b).then(function (n) {Object.defineProperty(n, "set", { value: g }), Object.defineProperty(n, "unset", { value: w }), Object.defineProperty(n, "save", { value: y }), Object.defineProperty(n, "increment", { value: m }), Object.defineProperty(n, "add", { value: f }), Object.defineProperty(n, "remove", { value: d }), Object.defineProperty(n, "addUnique", { value: h }), Object.defineProperty(n, "destroy", { value: function value() {return _this.destroy(e);} }), t(n);}).catch(function (e) {n(e);});});} }, { key: "destroy", value: function destroy(e) {if (!i(e)) throw new l(415);return o("".concat(this.tableName, "/").concat(e), "delete");} }, { key: "set", value: function set(e, t) {if (!i(e) || c(t)) throw new l(415);var n = t.filename,r = t.cdn,o = t.url;c(n) || c(r) || c(o) ? this.setData[e] = t : this.setData[e] = { __type: "File", group: r, filename: n, url: o };} }, { key: "add", value: function add(e, t) {if (!i(e) || !u(t)) throw new l(415);this.addArray[e] = { __op: "Add", objects: t };} }, { key: "addUnique", value: function addUnique(e, t) {if (!i(e) || !u(t)) throw new l(415);this.addArray[e] = { __op: "AddUnique", objects: t };} }, { key: "current", value: function current() {if ("hap" !== r.type) {var _e = p.fetch("bmob");return "object" == typeof _e ? _e : JSON.parse(_e);}return new Promise(function (e, t) {return p.fetch("bmob").then(function (t) {e(t);}).catch(function (e) {t(e);});});} }, { key: "updateStorage", value: function updateStorage(e) {var _this2 = this;if (!i(e)) throw new l(415);return new Promise(function (t, n) {var r = _this2.current();if (!r) throw new l(415);_this2.get(e).then(function (e) {var n = Object.assign(r, e);p.save("bmob", n), t(e);}).catch(function (e) {console.log(e), n(e);});});} }, { key: "save", value: function save() {var _this3 = this;var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};if (!s(e)) throw new l(415);var t = this.setData.id ? "PUT" : "POST",n = this.setData.id ? this.setData.id : "";delete this.setData.id;var r = Object.assign(e, this.setData, this.addArray);return new Promise(function (e, s) {o("".concat(_this3.tableName, "/").concat(n), t, r).then(function (t) {if (_this3.addArray = {}, _this3.setData = {}, "_User" === _this3.className) {var _e2 = _this3.current();var _t = Object.assign(_e2, r);p.save("bmob", _t);}e(t);}).catch(function (e) {s(e);});});} }, { key: "saveAll", value: function saveAll(e) {var _this4 = this;if (!u(e)) throw new l(415);if (e.length < 1) throw new l(416);var t,n,s = "put",i = [];e.map(function (e) {return "/undefined" === (t = "/".concat(e.objectId)) && (t = "", s = "post"), n = { method: s, path: "".concat(_this4.tableName).concat(t), body: e.setData }, i.push(n), e;});var a = { requests: i },c = r._config.parameters.BATCH;return o(c, "POST", a);} }, { key: "withinKilometers", value: function withinKilometers(e, _ref) {var t = _ref.latitude,n = _ref.longitude;var r = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;var o = {};return o[e] = { $nearSphere: { __type: "GeoPoint", latitude: t, longitude: n }, $maxDistanceInKilometers: r }, this.location = o, o;} }, { key: "withinGeoBox", value: function withinGeoBox(e, _ref2, r) {var t = _ref2.latitude,n = _ref2.longitude;var o = {};return o[e] = { $within: { $box: [{ __type: "GeoPoint", latitude: t, longitude: n }, { __type: "GeoPoint", latitude: r.latitude, longitude: r.longitude }] } }, this.location = o, o;} }, { key: "statTo", value: function statTo(e, t) {if (!i(e)) throw new l(415);return this.stat[e] = t, this.stat;} }, { key: "equalTo", value: function equalTo(e, t, n) {if (!i(e)) throw new l(415);var r = function (e, t, n) {var r = {},o = null;switch (o = "createdAt" === e || "updateAt" === e ? { __type: "Date", iso: n } : n, t) {case "==":case "===":r[e] = o;break;case "!=":r[e] = { $ne: o };break;case "<":r[e] = { $lt: o };break;case "<=":r[e] = { $lte: o };break;case ">":r[e] = { $gt: o };break;case ">=":r[e] = { $gte: o };break;default:throw new l(415);}return r;}(e, t, n);return Object.keys(this.queryData).length ? c(this.queryData.$and) ? this.queryData = { $and: [this.queryData, r] } : this.queryData.$and.push(r) : this.queryData = r, r;} }, { key: "containedIn", value: function containedIn(e, t) {if (!i(e) || !u(t)) throw new l(415);return f.call(this, e, "$in", t);} }, { key: "notContainedIn", value: function notContainedIn(e, t) {if (!i(e) || !u(t)) throw new l(415);return f.call(this, e, "$nin", t);} }, { key: "exists", value: function exists(e) {if (!i(e)) throw new l(415);return f.call(this, e, "$exists", !0);} }, { key: "doesNotExist", value: function doesNotExist(e) {if (!i(e)) throw new l(415);return f.call(this, e, "$exists", !1);} }, { key: "or", value: function or() {for (var _len = arguments.length, e = new Array(_len), _key = 0; _key < _len; _key++) {e[_key] = arguments[_key];}e.map(function (e, t) {if (!s(e)) throw new l(415);});var t = this.queryData.$and;if (console.log(t.length), !c(t)) {for (var _n2 = 0; _n2 < t.length; _n2++) {for (var _r = 0; _r < e.length; _r++) {JSON.stringify(t[_n2]) === JSON.stringify(e[_r]) && this.queryData.$and.splice(_n2, 1);}}t.length || delete this.queryData.$and;}this.orData = { $or: e };} }, { key: "and", value: function and() {for (var _len2 = arguments.length, e = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {e[_key2] = arguments[_key2];}e.map(function (e, t) {if (!s(e)) throw new l(415);}), this.andData = { $and: e };} }, { key: "limit", value: function limit(e) {if (!a(e)) throw new l(415);e > 1e3 && (e = 1e3), this.limitNum = e;} }, { key: "skip", value: function skip(e) {if (!a(e)) throw new l(415);this.skipNum = e;} }, { key: "order", value: function order() {for (var _len3 = arguments.length, e = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {e[_key3] = arguments[_key3];}e.map(function (e) {if (!i(e)) throw new l(415);}), this.orders = e.join(",");} }, { key: "include", value: function include() {for (var _len4 = arguments.length, e = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {e[_key4] = arguments[_key4];}e.map(function (e) {if (!i(e)) throw new l(415);}), this.includes = e.join(",");} }, { key: "select", value: function select() {for (var _len5 = arguments.length, e = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {e[_key5] = arguments[_key5];}e.map(function (e) {if (!i(e)) throw new l(415);}), this.keys = e.join(",");} }, { key: "field", value: function field(e, t) {if (!i(e) || !i(t)) throw new l(415);this.queryReilation.where = { $relatedTo: { object: { __type: "Pointer", className: this.className, objectId: t }, key: e } };} }, { key: "relation", value: function relation(e) {if (!i(e)) throw new l(415);e = "_User" === e ? "users" : "classes/".concat(e), this.queryReilation.count = 1;var t = Object.assign(this.getParams(), this.queryReilation);return new Promise(function (n, r) {o("/1/".concat(e), "get", t).then(function (e) {n(e);}).catch(function (e) {r(e);});});} }, { key: "getParams", value: function getParams() {var e = {};Object.keys(this.queryData).length && (e.where = this.queryData), Object.keys(this.location).length && (e.where = Object.assign(this.location, this.queryData)), Object.keys(this.andData).length && (e.where = Object.assign(this.andData, this.queryData)), Object.keys(this.orData).length && (e.where = Object.assign(this.orData, this.queryData)), e.limit = this.limitNum, e.skip = this.skipNum, e.include = this.includes, e.order = this.orders, e.keys = this.keys, Object.keys(this.stat).length && (e = this.stat);for (var _t2 in e) {(e.hasOwnProperty(_t2) && null === e[_t2] || 0 === e[_t2] || "" === e[_t2]) && delete e[_t2];}return e;} }, { key: "find", value: function find() {var _this5 = this;var e = {},t = {};var n = this.getParams(),s = function s(t, n) {if (!t || c(n)) throw new l(415);e[t] = n;},i = function i() {var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "updata";if (console.log(n), t.length < 1) throw new l(416);var s,i,a = "put",c = [];t.map(function (t) {return "/undefined" === (s = "/".concat(t.objectId)) && (s = "", a = "post"), i = { method: a, path: "".concat(_this5.tableName).concat(s), body: e }, "delete" === n && (i = { method: "DELETE", path: "".concat(_this5.tableName).concat(s) }), c.push(i), t;});var u = { requests: c },p = r._config.parameters.BATCH;return o(p, "POST", u);};return new Promise(function (e, r) {o("".concat(_this5.tableName), "get", n).then(function (_ref3) {var n = _ref3.results;_this5.init(), Object.defineProperty(n, "set", { value: s }), Object.defineProperty(n, "saveAll", { value: function value() {return i();} }), Object.defineProperty(n, "destroyAll", { value: function value() {return i("delete");} }), t = n, e(n);}).catch(function (e) {r(e);});});} }, { key: "count", value: function count() {var _this6 = this;var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;var t = {};return Object.keys(this.queryData).length && (t.where = this.queryData), Object.keys(this.andData).length && (t.where = Object.assign(this.andData, this.queryData)), Object.keys(this.orData).length && (t.where = Object.assign(this.orData, this.queryData)), t.count = 1, t.limit = e, new Promise(function (e, n) {o("".concat(_this6.tableName), "get", t).then(function (_ref4) {var t = _ref4.count;e(t);}).catch(function (e) {n(e);});});} }]);return _class2;}();}, function (e, t, n) {var r = n(23);var o = n(0);e.exports = function (e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "get";var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};return new Promise(function (i, a) {void 0 === o.User && (o = n(0));var c = function (e) {var t = { "content-type": "application/json", "X-Bmob-SDK-Type": "wechatApp", "X-Bmob-Application-Id": e.applicationId, "X-Bmob-REST-API-Key": e.applicationKey };return e.applicationMasterKey && (t["X-Bmob-Master-Key"] = e.applicationMasterKey), t;}(o._config);var u = o.User.current();u && (c["X-Bmob-Session-Token"] = u.sessionToken);var l = r.create({ baseURL: o._config.host, headers: c, validateStatus: function validateStatus(e) {return e < 500;} }),p = { url: e, method: t };"get" === p.method ? p.params = s : p.data = s, l(p).then(function (_ref5) {var e = _ref5.data;(e.code && e.error || e.error) && a(e), i(e);}).catch(function (e) {a(e);});});};}, function (e, t, n) {"use strict";e.exports = function (e, t) {return function () {for (var n = new Array(arguments.length), r = 0; r < n.length; r++) {n[r] = arguments[r];}return e.apply(t, n);};};}, function (e, t, n) {"use strict";(function (t) {var r = n(1),o = n(28),s = n(30),i = n(31),a = n(32),c = n(13),u = "undefined" != typeof window && window.btoa && window.btoa.bind(window) || n(33);e.exports = function (e) {return new Promise(function (l, p) {var f = e.data,h = e.headers;r.isFormData(f) && delete h["Content-Type"];var d = new XMLHttpRequest(),m = "onreadystatechange",w = !1;if ("test" === t.env.NODE_ENV || "undefined" == typeof window || !window.XDomainRequest || "withCredentials" in d || a(e.url) || (d = new window.XDomainRequest(), m = "onload", w = !0, d.onprogress = function () {}, d.ontimeout = function () {}), e.auth) {var g = e.auth.username || "",y = e.auth.password || "";h.Authorization = "Basic " + u(g + ":" + y);}if (d.open(e.method.toUpperCase(), s(e.url, e.params, e.paramsSerializer), !0), d.timeout = e.timeout, d[m] = function () {if (d && (4 === d.readyState || w) && (0 !== d.status || d.responseURL && 0 === d.responseURL.indexOf("file:"))) {var t = "getAllResponseHeaders" in d ? i(d.getAllResponseHeaders()) : null,n = { data: e.responseType && "text" !== e.responseType ? d.response : d.responseText, status: 1223 === d.status ? 204 : d.status, statusText: 1223 === d.status ? "No Content" : d.statusText, headers: t, config: e, request: d };o(l, p, n), d = null;}}, d.onerror = function () {p(c("Network Error", e, null, d)), d = null;}, d.ontimeout = function () {p(c("timeout of " + e.timeout + "ms exceeded", e, "ECONNABORTED", d)), d = null;}, r.isStandardBrowserEnv()) {var b = n(34),S = (e.withCredentials || a(e.url)) && e.xsrfCookieName ? b.read(e.xsrfCookieName) : void 0;S && (h[e.xsrfHeaderName] = S);}if ("setRequestHeader" in d && r.forEach(h, function (e, t) {void 0 === f && "content-type" === t.toLowerCase() ? delete h[t] : d.setRequestHeader(t, e);}), e.withCredentials && (d.withCredentials = !0), e.responseType) try {d.responseType = e.responseType;} catch (t) {if ("json" !== e.responseType) throw t;}"function" == typeof e.onDownloadProgress && d.addEventListener("progress", e.onDownloadProgress), "function" == typeof e.onUploadProgress && d.upload && d.upload.addEventListener("progress", e.onUploadProgress), e.cancelToken && e.cancelToken.promise.then(function (e) {d && (d.abort(), p(e), d = null);}), void 0 === f && (f = null), d.send(f);});};}).call(t, n(7));}, function (e, t, n) {"use strict";var r = n(29);e.exports = function (e, t, n, o, s) {var i = new Error(e);return r(i, t, n, o, s);};}, function (e, t, n) {"use strict";e.exports = function (e) {return !(!e || !e.__CANCEL__);};}, function (e, t, n) {"use strict";function r(e) {this.message = e;}r.prototype.toString = function () {return "Cancel" + (this.message ? ": " + this.message : "");}, r.prototype.__CANCEL__ = !0, e.exports = r;}, function (e, t, n) {var r;var o = n(5).getAppType();"h5" === o ? r = n(44) : "wx" === o ? r = n(45) : "hap" === o ? r = n(46) : "nodejs" === o && (r = n(47)), e.exports = r;}, function (e, t, n) {(function (t) {var r = n(0),o = n(21),s = n(22),i = n(9),a = n(48),c = n(49),u = n(50),l = n(51),_n3 = n(52),p = _n3.generateCode,f = _n3.sendMessage,h = _n3.getAccessToken,d = _n3.sendWeAppMessage,m = _n3.refund,w = _n3.notifyMsg,g = _n3.functions,y = _n3.timestamp,b = _n3.requestPasswordReset,S = _n3.resetPasswordBySmsCode,E = _n3.updateUserPassword,v = _n3.geoPoint,T = _n3.checkMsg,_ = _n3.push,_n4 = n(53),x = _n4.requestSmsCode,j = _n4.verifySmsCode;r.GeoPoint = v, r.generateCode = p, r.sendMessage = f, r.getAccessToken = h, r.sendWeAppMessage = d, r.refund = m, r.checkMsg = T, r.notifyMsg = w, r.requestSmsCode = x, r.verifySmsCode = j, r.functions = g, r.timestamp = y, r.requestPasswordReset = b, r.resetPasswordBySmsCode = S, r.updateUserPassword = E, r.push = _, r.Pay = new u(), r.User = new a(), r.Socket = l, r.Query = function (e) {return new i(e);}, r.File = function (e, t) {return new c(e, t);}, r.request = n(4), r.type = r.utils.getAppType(), r.Pointer = function (e) {return new o(e);}, r.Relation = function (e) {return new s(e);}, "wx" === r.type ? wx.Bmob = r : "h5" === r.type ? window.Bmob = r : "hap" === r.type ? t.Bmob = r : "nodejs" === r.type && (t.Bmob = r), e.exports = r;}).call(t, n(6));}, function (e, t, n) {var r = "v".concat(n(19).version);e.exports = { host: "https://api.bmobcloud.com", applicationId: "", applicationKey: "", applicationMasterKey: "", parameters: { GENERATECODE: "/1/wechatApp/qr/generatecode", GETACCESSTOKEN: "/1/wechatApp/getAccessToken", SENDWEAPPMESSAGE: "/1/wechatApp/SendWeAppMessage", NOTIFYMSG: "/1/wechatApp/notifyMsg", REFUND: "/1/pay/refund", REQUESTSMSCODE: "/1/requestSmsCode", VERIFYSMSCODE: "/1/verifySmsCode", FUNCTIONS: "/1/functions", REQUESTPASSWORDRESET: "/1/requestPasswordReset", RESETPASSWORDBYSMSCODE: "/1/resetPasswordBySmsCode", UPDATEUSERPASSWORD: "/1/updateUserPassword", PUSH: "/1/push", FILES: "/2/files", DELFILES: "/2/cdnBatchDelete", TIMESTAMP: "/1/timestamp", LOGIN: "/1/login", REGISTER: "/1/users", REQUEST_EMAIL_VERIFY: "/1/requestEmailVerify", USERS: "/1/users", PAY: "/1/pay", WECHAT_APP: "/1/wechatApp/", BATCH: "/1/batch", CHECK_MSG: "/1/wechatApp/checkMsg", QUERY: "/1/classes" }, version: r, type: 3 };}, function (e, t) {e.exports = { name: "hydrogen-js-sdk", version: "1.6.2", description: "Bmob SDK", main: "./src/lib/app.js", scripts: { test: 'echo "Error: no test specified" && exit 1', build: "webpack --config config/prod.env.js", watch: "webpack --watch --config config/prod.env.js", dev: "webpack-dev-server --config config/dev.env.js" }, repository: { type: "git", url: "git+https://github.com/bmob/hydrogen-js-sdk.git" }, author: "Bmob", license: "ISC", bugs: { url: "https://github.com/bmob/hydrogen-js-sdk/issues" }, homepage: "https://github.com/bmob/hydrogen-js-sdk#readme", dependencies: { axios: "^0.18.0", "node.extend": "^2.0.0", webpack: "^3.12.0" }, devDependencies: { "clean-webpack-plugin": "^0.1.19", eslint: "^4.19.1", "eslint-config-standard": "^11.0.0", "eslint-friendly-formatter": "^4.0.1", "eslint-loader": "^2.0.0", "eslint-plugin-import": "^2.12.0", "eslint-plugin-node": "^6.0.1", "eslint-plugin-promise": "^3.7.0", "eslint-plugin-standard": "^3.1.0", "html-webpack-plugin": "^2.30.1", "uglifyjs-webpack-plugin": "^1.2.5", "webpack-dev-server": "^2.11.2" }, directories: { doc: "docs" }, keywords: ["Bmob"] };}, function (e, t) {e.exports = { host: "https://api.bmobcloud.com", applicationId: "", applicationKey: "", parameters: { GENERATECODE: "/1/wechatApp/qr/generatecode", GETACCESSTOKEN: "/1/wechatApp/getAccessToken", SENDWEAPPMESSAGE: "/1/wechatApp/SendWeAppMessage", NOTIFYMSG: "/1/wechatApp/notifyMsg", REFUND: "/1/pay/refund", REQUESTSMSCODE: "/1/requestSmsCode", VERIFYSMSCODE: "/1/verifySmsCode", FUNCTIONS: "/1/functions", REQUESTPASSWORDRESET: "/1/requestPasswordReset", RESETPASSWORDBYSMSCODE: "/1/resetPasswordBySmsCode", UPDATEUSERPASSWORD: "/1/updateUserPassword", PUSH: "/1/push", FILES: "/2/files", DELFILES: "/2/cdnBatchDelete", TIMESTAMP: "/1/timestamp", LOGIN: "/1/login", REGISTER: "/1/users", REQUEST_EMAIL_VERIFY: "/1/requestEmailVerify", USERS: "/1/users", PAY: "/1/pay", WECHAT_APP: "/1/wechatApp/", BATCH: "/1/batch", CHECK_MSG: "/1/wechatApp/checkMsg", QUERY: "/1/classes" }, version: 1, type: 1 };}, function (e, t, n) {var _n5 = n(2),r = _n5.isString,o = n(3);e.exports = /*#__PURE__*/function () {function _class3(e) {_classCallCheck(this, _class3);if (!r(e)) throw new o(415);this.tableName = e;}_createClass(_class3, [{ key: "set", value: function set(e) {if (!r(e)) throw new o(415);return { __type: "Pointer", className: this.tableName, objectId: e };} }]);return _class3;}();}, function (e, t, n) {var _n6 = n(2),r = _n6.isString,o = _n6.isArray,s = n(3);function i(e, t) {var _this7 = this;if (r(e)) return { __op: t, objects: [{ __type: "Pointer", className: this.tableName, objectId: e }] };if (o(e)) {var _n7 = [];return e.map(function (e) {if (!r(e)) throw new s(415);_n7.push({ __type: "Pointer", className: _this7.tableName, objectId: e });}), { __op: t, objects: _n7 };}throw new s(415);}e.exports = /*#__PURE__*/function () {function _class4(e) {_classCallCheck(this, _class4);if (!r(e)) throw new s(415);this.tableName = e;}_createClass(_class4, [{ key: "add", value: function add(e) {return i.call(this, e, "AddRelation");} }, { key: "remove", value: function remove(e) {return i.call(this, e, "RemoveRelation");} }]);return _class4;}();}, function (e, t, n) {e.exports = n(24);}, function (e, t, n) {"use strict";var r = n(1),o = n(11),s = n(26),i = n(8);function a(e) {var t = new s(e),n = o(s.prototype.request, t);return r.extend(n, s.prototype, t), r.extend(n, t), n;}var c = a(i);c.Axios = s, c.create = function (e) {return a(r.merge(i, e));}, c.Cancel = n(15), c.CancelToken = n(40), c.isCancel = n(14), c.all = function (e) {return Promise.all(e);}, c.spread = n(41), e.exports = c, e.exports.default = c;}, function (e, t) {
+    function n(e) {return !!e.constructor && "function" == typeof e.constructor.isBuffer && e.constructor.isBuffer(e);}
+    /*!
+                                                                                                                         * Determine if an object is a Buffer
+                                                                                                                         *
+                                                                                                                         * @author   Feross Aboukhadijeh <https://feross.org>
+                                                                                                                         * @license  MIT
+                                                                                                                         */
+    e.exports = function (e) {return null != e && (n(e) || function (e) {return "function" == typeof e.readFloatLE && "function" == typeof e.slice && n(e.slice(0, 0));}(e) || !!e._isBuffer);};
+  }, function (e, t, n) {"use strict";var r = n(8),o = n(1),s = n(35),i = n(36);function a(e) {this.defaults = e, this.interceptors = { request: new s(), response: new s() };}a.prototype.request = function (e) {"string" == typeof e && (e = o.merge({ url: arguments[0] }, arguments[1])), (e = o.merge(r, { method: "get" }, this.defaults, e)).method = e.method.toLowerCase();var t = [i, void 0],n = Promise.resolve(e);for (this.interceptors.request.forEach(function (e) {t.unshift(e.fulfilled, e.rejected);}), this.interceptors.response.forEach(function (e) {t.push(e.fulfilled, e.rejected);}); t.length;) {n = n.then(t.shift(), t.shift());}return n;}, o.forEach(["delete", "get", "head", "options"], function (e) {a.prototype[e] = function (t, n) {return this.request(o.merge(n || {}, { method: e, url: t }));};}), o.forEach(["post", "put", "patch"], function (e) {a.prototype[e] = function (t, n, r) {return this.request(o.merge(r || {}, { method: e, url: t, data: n }));};}), e.exports = a;}, function (e, t, n) {"use strict";var r = n(1);e.exports = function (e, t) {r.forEach(e, function (n, r) {r !== t && r.toUpperCase() === t.toUpperCase() && (e[t] = n, delete e[r]);});};}, function (e, t, n) {"use strict";var r = n(13);e.exports = function (e, t, n) {var o = n.config.validateStatus;n.status && o && !o(n.status) ? t(r("Request failed with status code " + n.status, n.config, null, n.request, n)) : e(n);};}, function (e, t, n) {"use strict";e.exports = function (e, t, n, r, o) {return e.config = t, n && (e.code = n), e.request = r, e.response = o, e;};}, function (e, t, n) {"use strict";var r = n(1);function o(e) {return encodeURIComponent(e).replace(/%40/gi, "@").replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");}e.exports = function (e, t, n) {if (!t) return e;var s;if (n) s = n(t);else if (r.isURLSearchParams(t)) s = t.toString();else {var i = [];r.forEach(t, function (e, t) {null !== e && void 0 !== e && (r.isArray(e) ? t += "[]" : e = [e], r.forEach(e, function (e) {r.isDate(e) ? e = e.toISOString() : r.isObject(e) && (e = JSON.stringify(e)), i.push(o(t) + "=" + o(e));}));}), s = i.join("&");}return s && (e += (-1 === e.indexOf("?") ? "?" : "&") + s), e;};}, function (e, t, n) {"use strict";var r = n(1),o = ["age", "authorization", "content-length", "content-type", "etag", "expires", "from", "host", "if-modified-since", "if-unmodified-since", "last-modified", "location", "max-forwards", "proxy-authorization", "referer", "retry-after", "user-agent"];e.exports = function (e) {var t,n,s,i = {};return e ? (r.forEach(e.split("\n"), function (e) {if (s = e.indexOf(":"), t = r.trim(e.substr(0, s)).toLowerCase(), n = r.trim(e.substr(s + 1)), t) {if (i[t] && o.indexOf(t) >= 0) return;i[t] = "set-cookie" === t ? (i[t] ? i[t] : []).concat([n]) : i[t] ? i[t] + ", " + n : n;}}), i) : i;};}, function (e, t, n) {"use strict";var r = n(1);e.exports = r.isStandardBrowserEnv() ? function () {var e,t = /(msie|trident)/i.test(navigator.userAgent),n = document.createElement("a");function o(e) {var r = e;return t && (n.setAttribute("href", r), r = n.href), n.setAttribute("href", r), { href: n.href, protocol: n.protocol ? n.protocol.replace(/:$/, "") : "", host: n.host, search: n.search ? n.search.replace(/^\?/, "") : "", hash: n.hash ? n.hash.replace(/^#/, "") : "", hostname: n.hostname, port: n.port, pathname: "/" === n.pathname.charAt(0) ? n.pathname : "/" + n.pathname };}return e = o(window.location.href), function (t) {var n = r.isString(t) ? o(t) : t;return n.protocol === e.protocol && n.host === e.host;};}() : function () {return !0;};}, function (e, t, n) {"use strict";var r = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function o() {this.message = "String contains an invalid character";}o.prototype = new Error(), o.prototype.code = 5, o.prototype.name = "InvalidCharacterError", e.exports = function (e) {for (var t, n, s = String(e), i = "", a = 0, c = r; s.charAt(0 | a) || (c = "=", a % 1); i += c.charAt(63 & t >> 8 - a % 1 * 8)) {if ((n = s.charCodeAt(a += .75)) > 255) throw new o();t = t << 8 | n;}return i;};}, function (e, t, n) {"use strict";var r = n(1);e.exports = r.isStandardBrowserEnv() ? { write: function write(e, t, n, o, s, i) {var a = [];a.push(e + "=" + encodeURIComponent(t)), r.isNumber(n) && a.push("expires=" + new Date(n).toGMTString()), r.isString(o) && a.push("path=" + o), r.isString(s) && a.push("domain=" + s), !0 === i && a.push("secure"), document.cookie = a.join("; ");}, read: function read(e) {var t = document.cookie.match(new RegExp("(^|;\\s*)(" + e + ")=([^;]*)"));return t ? decodeURIComponent(t[3]) : null;}, remove: function remove(e) {this.write(e, "", Date.now() - 864e5);} } : { write: function write() {}, read: function read() {return null;}, remove: function remove() {} };}, function (e, t, n) {"use strict";var r = n(1);function o() {this.handlers = [];}o.prototype.use = function (e, t) {return this.handlers.push({ fulfilled: e, rejected: t }), this.handlers.length - 1;}, o.prototype.eject = function (e) {this.handlers[e] && (this.handlers[e] = null);}, o.prototype.forEach = function (e) {r.forEach(this.handlers, function (t) {null !== t && e(t);});}, e.exports = o;}, function (e, t, n) {"use strict";var r = n(1),o = n(37),s = n(14),i = n(8),a = n(38),c = n(39);function u(e) {e.cancelToken && e.cancelToken.throwIfRequested();}e.exports = function (e) {return u(e), e.baseURL && !a(e.url) && (e.url = c(e.baseURL, e.url)), e.headers = e.headers || {}, e.data = o(e.data, e.headers, e.transformRequest), e.headers = r.merge(e.headers.common || {}, e.headers[e.method] || {}, e.headers || {}), r.forEach(["delete", "get", "head", "post", "put", "patch", "common"], function (t) {delete e.headers[t];}), (e.adapter || i.adapter)(e).then(function (t) {return u(e), t.data = o(t.data, t.headers, e.transformResponse), t;}, function (t) {return s(t) || (u(e), t && t.response && (t.response.data = o(t.response.data, t.response.headers, e.transformResponse))), Promise.reject(t);});};}, function (e, t, n) {"use strict";var r = n(1);e.exports = function (e, t, n) {return r.forEach(n, function (n) {e = n(e, t);}), e;};}, function (e, t, n) {"use strict";e.exports = function (e) {return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(e);};}, function (e, t, n) {"use strict";e.exports = function (e, t) {return t ? e.replace(/\/+$/, "") + "/" + t.replace(/^\/+/, "") : e;};}, function (e, t, n) {"use strict";var r = n(15);function o(e) {if ("function" != typeof e) throw new TypeError("executor must be a function.");var t;this.promise = new Promise(function (e) {t = e;});var n = this;e(function (e) {n.reason || (n.reason = new r(e), t(n.reason));});}o.prototype.throwIfRequested = function () {if (this.reason) throw this.reason;}, o.source = function () {var e;return { token: new o(function (t) {e = t;}), cancel: e };}, e.exports = o;}, function (e, t, n) {"use strict";e.exports = function (e) {return function (t) {return e.apply(null, t);};};}, function (e, t, n) {var r = n(0);e.exports = function (e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "get";var o = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};return new Promise(function (s, i) {var a = function (e) {var t = { "content-type": "application/json", "X-Bmob-SDK-Type": "wechatApp", "X-Bmob-Application-Id": e.applicationId, "X-Bmob-REST-API-Key": e.applicationKey };return e.applicationMasterKey && (t["X-Bmob-Master-Key"] = e.applicationMasterKey), t;}(r._config);void 0 === r.User && (r = n(0));var c = r.User.current();c && (a["X-Bmob-Session-Token"] = c.sessionToken), wx.request({ url: r._config.host + e, method: t, data: o, header: a, success: function success(e) {(e.data.code && e.data.error || e.data.error) && i(e.data), s(e.data);}, fail: function fail(e) {console.log(e), i(e);} });});};}, function (e, t, n) {var r = n(0);e.exports = function (e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "get";var o = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};return new Promise(function (s, i) {var a = function (e) {var t = { "content-type": "application/json", "X-Bmob-SDK-Type": "wechatApp", "X-Bmob-Application-Id": e.applicationId, "X-Bmob-REST-API-Key": e.applicationKey };return e.applicationMasterKey && (t["X-Bmob-Master-Key"] = e.applicationMasterKey), t;}(r._config);void 0 === r.User && (r = n(0));var c = r.User.current();c && (a["X-Bmob-Session-Token"] = c.sessionToken), "xxrequire('@system.fetch')xx".fetch({ url: r._config.host + e, header: a, method: t, data: o, success: function success(e) {var t = JSON.parse(e.data);t.code && i(t), s(t);}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t)), i(e);} });});};}, function (e, t, n) {var _n8 = n(2),r = _n8.isString;var o;o = "undefined" != typeof cc ? cc.sys.localStorage : localStorage, console.log(o);var s = { save: function save(e, t) {if (!r(e) || !t) throw new Error(415);o.setItem(e, JSON.stringify(t));}, fetch: function fetch(e) {if (!r(e)) throw new Error(415);return JSON.parse(o.getItem(e)) || null;}, remove: function remove(e) {if (!r(e)) throw new Error(415);o.removeItem(e);}, clear: function clear() {o.clear();} };e.exports = s;}, function (e, t, n) {var _n9 = n(2),r = _n9.isString,o = _n9.isObject,s = { save: function save(e, t) {if (!r(e) || !t) throw new Error(415);return t = o(t) ? JSON.stringify(t) : t, wx.setStorageSync(e, t);}, fetch: function fetch(e) {if (!r(e)) throw new Error(415);return wx.getStorageSync(e) || null;}, remove: function remove(e) {if (!r(e)) throw new Error(415);return wx.removeStorageSync(e);}, clear: function clear() {return wx.clearStorageSync();} };e.exports = s;}, function (e, t, n) {var _n10 = n(2),r = _n10.isString,o = "xxrequire('@system.storage')xx",s = { save: function save(e, t) {if (!r(e) || !t) throw new Error(415);o.set({ key: e, value: JSON.stringify(t), success: function success(e) {return console.log("handling success"), e;}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });}, fetch: function fetch(e) {if (!r(e)) throw new Error(415);return new Promise(function (t, n) {return o.get({ key: e, success: function success(e) {t(e || null);}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t)), n(e);} });});}, remove: function remove(e) {if (!r(e)) throw new Error(415);o.delete({ key: e, success: function success(e) {console.log("handling success");}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });}, clear: function clear() {o.clear({ success: function success(e) {console.log("handling success");}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });} };e.exports = s;}, function (e, t) {var n = { save: function save(e, t) {}, fetch: function fetch(e) {return null;}, remove: function remove(e) {}, clear: function clear() {} };e.exports = n;}, function (e, t, n) {var r = n(4),o = n(16),s = n(9),i = n(0),a = n(3),_n11 = n(2),c = _n11.isObject,u = _n11.isString,l = _n11.isNumber;e.exports = /*#__PURE__*/function (_s) {_inherits(_class5, _s);function _class5() {_classCallCheck(this, _class5);return _possibleConstructorReturn(this, _getPrototypeOf(_class5).call(this, "_User"));}_createClass(_class5, [{ key: "set", value: function set(e) {var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";u(e) && (this.setData[e] = t);} }, { key: "requestEmailVerify", value: function requestEmailVerify(e) {if (!u(e)) throw new a(415);this.setData = Object.assign({}, { email: e }), console.log(this.setData);var t = i._config.parameters.REQUEST_EMAIL_VERIFY;return r(t, "post", this.setData);} }, { key: "register", value: function register(e) {if (!c(e)) throw new a(415);this.setData = Object.assign(this.setData, e), console.log(this.setData);var t = i._config.parameters.REGISTER;return r(t, "post", this.setData);} }, { key: "login", value: function login(e, t) {var _this8 = this;if (!u(e) || !u(t)) throw new a(415);this.setData = Object.assign({}, { username: e, password: t });var n = i._config.parameters.LOGIN;return new Promise(function (e, t) {r(n, "get", _this8.setData).then(function (t) {o.save("bmob", t), e(t);}).catch(function (e) {console.log("登陆失败"), t(e);});});} }, { key: "users", value: function users() {var e = i._config.parameters.USERS;return r(e, "get");} }, { key: "signOrLoginByMobilePhone", value: function signOrLoginByMobilePhone(e, t) {if (!l(e) || !l(t)) throw new a(415);this.setData = Object.assign({}, { mobilePhoneNumber: e, smsCode: t });var n = i._config.parameters.LOGIN;return r(n, "get", this.setData);} }, { key: "requestOpenId", value: function requestOpenId(e) {var t = i._config.parameters.WECHAT_APP;return r(t + e, "POST", {});} }, { key: "linkWith", value: function linkWith(e) {var t = { authData: e },n = i._config.parameters.USERS;return r(n, "POST", t);} }, { key: "loginWithWeapp", value: function loginWithWeapp(e) {var _this9 = this;return new Promise(function (t, n) {_this9.requestOpenId(e).then(function (e) {var n = { weapp: e },r = _this9.linkWith(n);t(r);}).catch(function (e) {n(e);});});} }, { key: "upInfo", value: function upInfo(e) {var _this10 = this;return new Promise(function (t, n) {var r = e.nickName,s = e.avatarUrl,i = _this10.current();if (!i) throw new a(415);var c = o.fetch("openid");_this10.get(i.objectId).then(function (e) {e.set("nickName", r), e.set("userPic", s), e.set("openid", c), e.save().then(function (e) {t(e);}).catch(function (e) {console.log(e), n(e);});}).catch(function (e) {console.log(e), n(e);});});} }, { key: "auth", value: function auth() {var e = this;return new Promise(function (t, n) {var r = function r() {wx.login({ success: function success(r) {e.loginWithWeapp(r.code).then(function (e) {if (e.error) throw new a(415);var n = e.authData.weapp.openid;o.save("openid", n), o.save("bmob", e), t(e);}, function (e) {n(e);});} });};wx.checkSession({ success: function success() {var o = e.current();null === o && n("登陆错误，请在Bmob后台填写小程序AppSecret。"), t(o), r();}, fail: function fail() {r();} });});} }]);return _class5;}(s);}, function (e, t, n) {var r = n(4);var o = n(0);var s = n(3),i = n(5),a = "xxrequire('@system.request')xx",_n12 = n(2),c = _n12.isString,u = _n12.isArray;var l = [];e.exports = /*#__PURE__*/function () {function _class6(e, t) {_classCallCheck(this, _class6);if (e && t) {if (!c(e)) throw new s(415);l.push({ name: e, route: "".concat(o._config.parameters.FILES, "/").concat(e), data: t });}}_createClass(_class6, [{ key: "save", value: function save() {if (!l.length) throw new s(417);var e;var t = i.getAppType();return "h5" === t || "nodejs" === t ? e = new Promise(function (e, t) {var n = [];for (var _i = 0; _i < l.length; _i++) {var _o = l[_i];r(_o.route, "post", _o.data).then(function (r) {n.push(r), n.length === l.length && (l = [], e(n), t(n));}).catch(function (e) {n.push(e);});}}) : "wx" === t ? e = new Promise(function (e, t) {void 0 === o.User && (o = n(0));var r = "bmob";var s = o.User.current();s && (r = s.sessionToken);var i = [],a = { _ApplicationId: o._config.applicationId, _RestKey: o._config.applicationKey, _SessionToken: r },c = Object.assign({ _ContentType: "text/plain", mime_type: "text/plain", category: "wechatApp", _ClientVersion: "js3.6.1", _InstallationId: "bmob" }, a);for (var _i2 = 0; _i2 < l.length; _i2++) {var _n13 = l[_i2];wx.uploadFile({ url: o._config.host + _n13.route, filePath: _n13.data, name: "file", header: { "X-Bmob-SDK-Type": "wechatApp" }, formData: c, success: function success(n) {var r = n.data;i.push(r), i.length === l.length && (l = [], e(i), t(i));}, fail: function fail(e) {i.push(e);} });}}) : "hap" === t && (e = new Promise(function (e, t) {void 0 === o.User && (o = n(0));var r = o.User.current();var s = [],i = { _ApplicationId: o._config.applicationId, _RestKey: o._config.applicationKey, _SessionToken: r.sessionToken },c = Object.assign({ _ContentType: "text/plain", mime_type: "text/plain", category: "wechatApp", _ClientVersion: "js3.6.1", _InstallationId: "bmob" }, i);for (var _i3 = 0; _i3 < l.length; _i3++) {var _n14 = l[_i3];a.upload({ url: o._config.host + _n14.route, files: [{ uri: _n14.data, name: "file", filename: _n14.name }], header: { "X-Bmob-SDK-Type": "wechatApp" }, data: c, success: function success(n) {console.log("handling success" + s);var r = n.data;s.push(r), s.length === l.length && (l = [], e(s), t(s));}, fail: function fail(e, t) {console.log("handling fail, code = ".concat(t));} });}})), e;} }, { key: "destroy", value: function destroy(e) {if (c(e)) return r("".concat(o._config.parameters.FILES, "/upyun/").concat(e.split(".com/")[1]), "delete");if (u(e)) {var _t3 = [];return e.map(function (e) {_t3.push(e.split(".com/")[1]);}), r(o._config.parameters.DELFILES, "post", { upyun: _t3 });}throw new s(415);} }]);return _class6;}();}, function (e, t, n) {var r = n(4),o = n(0),s = n(3);e.exports = /*#__PURE__*/function () {function _class7() {_classCallCheck(this, _class7);}_createClass(_class7, [{ key: "weApp", value: function weApp(e, t, n) {var i = wx.getStorageSync("openid");if (!(e && t && n && i)) throw new s(416);var a = { order_price: e, product_name: t, body: n, open_id: i, pay_type: 4 };var c = o._config.parameters.PAY;return r(c, "post", a);} }]);return _class7;}();}, function (t, n, r) {var o = r(0),s = r(3),i = { setup: function setup(e) {var t = [];Object.assign(e, { on: function on(e, n) {"function" == typeof n && t.push([e, n]);}, emit: function emit(e) {for (var _len6 = arguments.length, n = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {n[_key6 - 1] = arguments[_key6];}t.forEach(function (_ref6) {var _ref7 = _slicedToArray(_ref6, 2),t = _ref7[0],r = _ref7[1];return e === t && r.apply(void 0, n);});}, removeAllListeners: function removeAllListeners() {t = [];} });} };t.exports = /*#__PURE__*/function () {function _class8() {_classCallCheck(this, _class8);if (!o._config.applicationId) throw new s(415);this.config = { host: "wss.bmobcloud.com" }, i.setup(this.emitter = {}), this.applicationId = o._config.applicationId, this.initialize();}_createClass(_class8, [{ key: "handshake", value: function handshake() {var t = "https://" + this.config.host + "/socket.io/1/?t=" + new Date().getTime(),n = JSON.stringify({});return new Promise(function (r, o) {wx.request({ method: "GET", url: t, data: n, header: { "content-type": "text/plain" }, success: function success(t) {return t.data && t.data.statusCode ? r("request error", e) : 200 !== t.statusCode ? r("request error", e) : r(function (e) {if (!(e instanceof s)) return e.split(":")[0];self.connecting = !1, self.onError(e.message);}(t.data));}, fail: function fail(e) {return r("request error", e);} });});} }, { key: "initialize", value: function initialize() {var _this11 = this;return this.handshake().then(function (e) {try {_this11.connect("wss://".concat(_this11.config.host, "/socket.io/1/websocket/") + e, {});} catch (e) {throw console.error({ connectError: e }), e;}}), this.on("close", function () {console.log("连接已中断");}), new Promise(function (e, t) {_this11.on("server_pub", function (e) {switch (e.action) {case "updateTable":_this11.onUpdateTable(e.tableName, e.data);break;case "updateRow":_this11.onUpdateRow(e.tableName, e.objectId, e.data);break;case "deleteTable":_this11.onDeleteTable(e.tableName, e.data);break;case "deleteRow":_this11.onDeleteRow(e.tableName, e.objectId, e.data);}}), _this11.on("client_send_data", function (e) {_this11.onInitListen();});});} }, { key: "onInitListen", value: function onInitListen() {} }, { key: "connect", value: function connect(e, t) {var _this12 = this;var n = Object.keys(t).map(function (e) {return "".concat(e, "=").concat(encodeURIComponent(t[e]));}).join("&"),r = e.indexOf("?") > -1 ? "&" : "?";return e = [e, n].join(r), new Promise(function (n, r) {wx.onSocketOpen(n), wx.onSocketError(r), wx.onSocketMessage(function (e) {try {var _t4 = function _t4(e) {var _JSON$parse = JSON.parse(e),t = _JSON$parse.name,n = _JSON$parse.args;return { name: t, args: n };},_n15 = e.data;if ("2:::" === _n15.slice(0, 4) && _this12.emit(!1, !0), null === (_n15 = _n15.slice(4)) || "" === _n15) return;var _t5 = _t4(_n15),_r2 = _t5.name,_o2 = _t5.args;var _s2 = null == _o2 ? "" : JSON.parse(_o2[0]);_this12.emitter.emit(_r2, _s2);} catch (t) {console.log("Handle packet failed: " + e.data, t);}}), wx.onSocketClose(function () {return _this12.emitter.emit("close");}), wx.connectSocket({ url: e, header: t });});} }, { key: "on", value: function on(e, t) {this.emitter.on(e, t);} }, { key: "emit", value: function emit(e, t) {t = void 0 === t ? "5:::" : "2:::", e = e ? JSON.stringify(e) : "", wx.sendSocketMessage({ data: t + e });} }, { key: "emitData", value: function emitData(e, t) {return { name: e, args: [t = JSON.stringify(t)] };} }, { key: "updateTable", value: function updateTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "updateTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "unsubUpdateTable", value: function unsubUpdateTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "unsub_updateTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "updateRow", value: function updateRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "updateRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "unsubUpdateRow", value: function unsubUpdateRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "unsub_updateRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "deleteTable", value: function deleteTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "deleteTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "unsubDeleteTable", value: function unsubDeleteTable(e) {var t = { appKey: this.applicationId, tableName: e, objectId: "", action: "unsub_deleteTable" };t = this.emitData("client_sub", t), this.emit(t);} }, { key: "deleteRow", value: function deleteRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "deleteRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "unsubDeleteRow", value: function unsubDeleteRow(e, t) {var n = { appKey: this.applicationId, tableName: e, objectId: t, action: "unsub_deleteRow" };n = this.emitData("client_sub", n), this.emit(n);} }, { key: "onUpdateTable", value: function onUpdateTable(e, t) {} }, { key: "onUpdateRow", value: function onUpdateRow(e, t, n) {} }, { key: "onDeleteTable", value: function onDeleteTable(e, t) {} }, { key: "onDeleteRow", value: function onDeleteRow(e, t, n) {} }]);return _class8;}();}, function (e, t, n) {var r = n(4),o = n(0),s = n(3),_n16 = n(2),i = _n16.isObject,a = _n16.isString;e.exports = { generateCode: function generateCode(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.GENERATECODE;return r(t, "post", e);}, sendMessage: function sendMessage(e) {return 1;}, getAccessToken: function getAccessToken(e) {var t = o._config.parameters.GETACCESSTOKEN;return r(t, "get");}, sendWeAppMessage: function sendWeAppMessage(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.SENDWEAPPMESSAGE;return r(t, "post", e);}, refund: function refund(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.REFUND;return r(t, "post", e);}, notifyMsg: function notifyMsg(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.NOTIFYMSG;return r(t, "post", e);}, functions: function functions(e, t) {if (t || (t = {}), !a(e)) throw new s(415);var n = "".concat(o._config.parameters.FUNCTIONS, "/").concat(e);return r(n, "post", t);}, timestamp: function timestamp() {var e = o._config.parameters.TIMESTAMP;return r(e, "get");}, requestPasswordReset: function requestPasswordReset(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.REQUESTPASSWORDRESET;return r(t, "post", e);}, resetPasswordBySmsCode: function resetPasswordBySmsCode(e, t) {if (!a(e)) throw new s(415);var n = "".concat(o._config.parameters.RESETPASSWORDBYSMSCODE, "/").concat(e);return r(n, "put", t);}, updateUserPassword: function updateUserPassword(e, t) {if (!i(t) || !a(e)) throw new s(415);var n = "".concat(o._config.parameters.UPDATEUSERPASSWORD, "/").concat(e);return r(n, "put", t);}, geoPoint: function geoPoint(_ref8) {var e = _ref8.latitude,t = _ref8.longitude;return function (e, t) {if (e < -90) throw new s(419);if (e > 90) throw new s(419);if (t < -180) throw new s(419);if (t > 180) throw new s(419);}(e, t), { __type: "GeoPoint", latitude: e, longitude: t };}, checkMsg: function checkMsg(e) {if (!a(e)) throw new s(415);var t = "".concat(o._config.parameters.CHECK_MSG);return r(t, "post", { content: e });}, push: function push(e) {if (!i(e)) throw new s(415);var t = o._config.parameters.PUSH;return r(t, "post", e);} };}, function (e, t, n) {var r = n(4),o = n(0),s = n(3),_n17 = n(2),i = _n17.isObject,a = _n17.isString;e.exports = { requestSmsCode: function requestSmsCode(e, t) {if (!i(e)) throw new s(415);var n = o._config.parameters.REQUESTSMSCODE;return r(n, "post", e);}, verifySmsCode: function verifySmsCode(e, t, n) {if (!a(e)) throw new s(415);if (!i(t)) throw new s(415);var c = "".concat(o._config.parameters.VERIFYSMSCODE, "/").concat(e);return r(c, "post", t);} };}]);
+});
+
+/***/ }),
+
+/***/ 94:
+/*!***************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail"} ***!
+  \***************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _return_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/return_detail/return_detail.vue */ 95));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_return_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ })
 

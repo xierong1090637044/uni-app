@@ -61,7 +61,6 @@
 	        justify-content: center;
 }
 .class_texxt_view {
-	width: -webkit-calc(100% - 30rpx);
 	width: calc(100% - 30rpx);
 	overflow: hidden;
 	-o-text-overflow: ellipsis;
@@ -85,8 +84,7 @@
 	margin-bottom: 40rpx;
 	line-height: 90rpx;
 	height: 90rpx;
-	-webkit-border-radius: 8rpx;
-	        border-radius: 8rpx;
+	border-radius: 8rpx;
 	font-size: 26rpx;
 }
 .popup_button {
