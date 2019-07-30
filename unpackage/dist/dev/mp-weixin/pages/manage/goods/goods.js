@@ -220,26 +220,6 @@ var page_size = 50;var _default =
     };
   },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   onLoad: function onLoad() {
     that = this;
     uni.removeStorageSync("now_product");
@@ -252,10 +232,12 @@ var page_size = 50;var _default =
   },
   onShow: function onShow() {
     if (uni.getStorageSync("category")) {
+      that.showOptions = true;
       that.category = uni.getStorageSync("category");
     }
 
     if (uni.getStorageSync("warehouse")) {
+      that.showOptions = true;
       that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock;
     }
   },
@@ -267,6 +249,13 @@ var page_size = 50;var _default =
   },
 
   methods: {
+
+    //输入框确定输入
+    input_confirm: function input_confirm(e) {
+      console.log(e);
+      search_text = e.detail.value;
+      that.get_productList();
+    },
 
     //筛选点击
     shaixuan: function shaixuan() {

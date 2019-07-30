@@ -123,7 +123,6 @@
 
 			//得到二级分类
 			get_second_category(id) {
-				that.loading = true;
 				that.selected_id = id;
 				const query = Bmob.Query('class_user')
 				query.field('second', id)

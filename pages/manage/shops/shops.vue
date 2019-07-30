@@ -4,11 +4,18 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
+				<view class="input-view">
+					<uni-icon type="search" size="22" color="#666666" />
+					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
+				</view>
+			</uni-nav-bar>
+			
 			<view class="uni-common-mt">
-				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
+				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
 
-			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 124rpx)' scroll-with-animation="true"
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
 			 enable-back-to-top="true">
 				<view v-for="(shop,index) in shops" :key="index">
 
@@ -54,6 +61,8 @@
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 
 	let that;
 	let search_text;
@@ -62,7 +71,9 @@
 		components: {
 			uniSegmentedControl,
 			faIcon,
-			loading
+			loading,
+			uniNavBar,
+			uniIcon
 		},
 		data() {
 			return {
@@ -175,22 +186,19 @@
 					console.log(err)
 				})
 			},
-
-			// #ifdef APP-PLUS
-			//监听原生标题栏按钮点击事件
-			onNavigationBarButtonTap(Object) {
+			
+			//前去添加员工
+			goto_add(){
 				uni.navigateTo({
 					url: "add/add"
 				})
 			},
-
-			//原生导航栏输入确认的时候
-			onNavigationBarSearchInputConfirmed(e) {
-				console.log(e.text)
-				search_text = e.text
+			
+			//输入内容筛选
+			input_confirm(e){
+				search_text = e.detail.value
 				that.getshop_list();
 			},
-			// #endif
 
 			//得到门店列表
 			getshop_list: function() {
@@ -222,6 +230,7 @@
 	}
 
 	.uni-common-mt {
+		background: #FFFFFF;
 		padding: 20rpx 0;
 	}
 

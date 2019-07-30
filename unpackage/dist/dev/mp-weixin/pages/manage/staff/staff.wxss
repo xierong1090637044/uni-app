@@ -4,6 +4,7 @@ page {
 	background: #FAFAFA;
 }
 .uni-common-mt {
+	background: #FFFFFF;
 	padding: 20rpx 0;
 }
 .staff_name {

@@ -6,7 +6,7 @@ page {
 	padding: 30rpx;
 }
 .content {
-	height: calc(100vh - 124rpx);
+	height: calc(100vh - 212rpx);
 	background: #fff;
 }
 .info_item {

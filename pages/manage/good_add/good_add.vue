@@ -4,7 +4,7 @@
 			<view class="frist">
 				<view class="notice_text">产品图</view>
 
-				<view style="width: 100%;padding-bottom: 20rpx;">
+				<view style="width: 100%;padding: 20rpx 0;">
 					<view class="upload_image" @click="upload_image">
 						<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
 						<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else></fa-icon>

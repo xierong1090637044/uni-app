@@ -2,10 +2,19 @@
 	<view>
 		<loading v-if="loading"></loading>
 		
-		<view class="uni-common-mt">
-			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
-		</view>
+		
 		<scroll-view class="content" scroll-y="true">
+			
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
+				<view class="input-view">
+					<uni-icon type="search" size="22" color="#666666" />
+					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
+				</view>
+			</uni-nav-bar>
+			
+			<view class="uni-common-mt">
+				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
+			</view>
 
 			<view v-show="current === 0" class="info_item">
 				<view v-for="(item,index) in people" :key="index" class="item">
@@ -65,6 +74,8 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 
 	let that;
 	let search_text;
@@ -73,7 +84,9 @@
 		components: {
 			loading,
 			faIcon,
-			uniSegmentedControl
+			uniSegmentedControl,
+			uniNavBar,
+			uniIcon
 		},
 		data() {
 			return {
@@ -172,10 +185,9 @@
 					console.log(err)
 				})
 			},
-
-			// #ifdef APP-PLUS
-			//监听原生标题栏按钮点击事件
-			onNavigationBarButtonTap(Object) {
+			
+			//前去添加员工
+			goto_add(){
 				uni.showActionSheet({
 					itemList: ['新增客户', '新增供货商'],
 					success: function(res) {
@@ -194,20 +206,17 @@
 						console.log(res.errMsg);
 					}
 				});
-
 			},
-
-			//原生导航栏输入确认的时候
-			onNavigationBarSearchInputConfirmed(e) {
-				console.log(e.text)
-				search_text = e.text
+			
+			//输入内容筛选
+			input_confirm(e){
+				search_text = e.detail.value
 				if (this.current == 0) {
 					that.load_data("customs")
 				} else {
 					that.load_data("producers")
 				}
 			},
-			// #endif
 
 			//tab点击
 			onClickItem(index) {
@@ -260,7 +269,7 @@
 	}
 
 	.content {
-		height: calc(100vh - 124rpx);
+		height: calc(100vh - 212rpx);
 		background: #fff;
 	}
 

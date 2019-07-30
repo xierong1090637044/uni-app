@@ -1,6 +1,7 @@
 <template>
 	<view class="Loading_view">
 		<image src="/static/timg.gif" class="loading_image"></image>
+		<view style="color:#999;margin-top:3%">加载中...</view>
 	</view>
 </template>
 
@@ -16,8 +17,8 @@
 	}
 		
 	.loading_image{
-		width: 600rpx;
-		height: 600rpx;
-		margin-top: 30%;
+		width: 200rpx;
+		height: 200rpx;
+		margin-top: 50%;
 	}
 </style>

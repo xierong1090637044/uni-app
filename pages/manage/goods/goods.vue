@@ -7,7 +7,7 @@
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-left="shaixuan" @click-right="goto_add" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="confirm" />
+					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -107,27 +107,7 @@
 				stock:"",//选择的仓库
 			}
 		},
-		// #ifdef APP-PLUS
-		//监听原生标题栏按钮点击事件
-		onNavigationBarButtonTap(Object) {
-			console.log(Object);
-			if (Object.text == "添加") {
-				this.goAdd();
-			}
-			
-			if (Object.text == "筛选") {
-				that.showOptions = true;
-			}
-
-		},
-
-		//原生导航栏输入确认的时候
-		onNavigationBarSearchInputConfirmed(e) {
-			search_text = e.text
-			that.get_productList();
-		},
-		// #endif
-
+	
 		onLoad() {
 			that = this;
 			uni.removeStorageSync("now_product");
@@ -140,10 +120,12 @@
 		},
 		onShow() {
 			if(uni.getStorageSync("category")){
+				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
 			}
 			
 			if(uni.getStorageSync("warehouse")){
+				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
 		},
@@ -155,6 +137,13 @@
 		},
 
 		methods: {
+			
+			//输入框确定输入
+			input_confirm(e){
+				console.log(e)
+				search_text = e.detail.value
+				that.get_productList();
+			},
 			
 			//筛选点击
 			shaixuan(){

@@ -230,7 +230,6 @@ var loading = function loading() {return __webpack_require__.e(/*! import() | co
 
     //得到二级分类
     get_second_category: function get_second_category(id) {
-      that.loading = true;
       that.selected_id = id;
       var query = _bmob.default.Query('class_user');
       query.field('second', id);
