@@ -2,7 +2,7 @@
 .page{
 	background: #f6f5ec;
 	font-size: 28rpx;
-	height: 100vh;
+	height: calc(100vh - 88rpx);
 	overflow: scroll;
 }
 .margin-b-10

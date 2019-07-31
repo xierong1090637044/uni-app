@@ -115,21 +115,10 @@
 				stock: "", //选择的仓库
 			}
 		},
-		// #ifdef APP-PLUS
-		//监听原生标题栏按钮点击事件
-		onNavigationBarButtonTap(Object) {
-			if (Object.text == "确定") {
-				this.go_goodsconfrim();
-			}
-			if (Object.text == "筛选") {
-				that.showOptions = true;
-			}
-
-		},
-		// #endif
 
 		onLoad(option) {
 			that = this;
+			this.handle_data();
 
 			if (option.type == "entering") {
 				this.url = "../good_confrim/good_confrim"
@@ -146,14 +135,16 @@
 		},
 
 		onShow() {
-			this.handle_data();
+			
 			uni.removeStorageSync("products");
 
 			if (uni.getStorageSync("category")) {
+				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
 			}
 
 			if (uni.getStorageSync("warehouse")) {
+				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
 
@@ -172,6 +163,12 @@
 			//筛选点击
 			shaixuan(){
 				that.showOptions = true;
+			},
+			
+			//输入框输入点击确定
+			confirm(e){
+				search_text = e.detail.value
+				that.get_productList();
 			},
 			
 			//确定点击

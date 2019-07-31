@@ -129,30 +129,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var unicard = function unicard() {return __webpack_require__.e(/*! import() | components/uni-card/uni-card */ "components/uni-card/uni-card").then(__webpack_require__.bind(null, /*! @/components/uni-card/uni-card.vue */ 398));};var uninumberbox = function uninumberbox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 405));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};
+
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var unicard = function unicard() {return __webpack_require__.e(/*! import() | components/uni-card/uni-card */ "components/uni-card/uni-card").then(__webpack_require__.bind(null, /*! @/components/uni-card/uni-card.vue */ 398));};var uninumberbox = function uninumberbox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 405));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 356));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ 363));};
+
+
 
 var uid;var _default =
 {
   components: {
     unicard: unicard,
     faIcon: faIcon,
-    uninumberbox: uninumberbox },
+    uninumberbox: uninumberbox,
+    uniNavBar: uniNavBar,
+    uniIcon: uniIcon },
 
   data: function data() {
     return {
       products: null };
 
   },
-
-
-
-
-
-
-
-
-
-
 
   onLoad: function onLoad(options) {var _this = this;
     uid = uni.getStorageSync("uid");
@@ -181,6 +181,12 @@ var uid;var _default =
     uni.removeStorageSync("products");
   },
   methods: {
+
+    //头部确定点击
+    confrim_this: function confrim_this() {
+      uni.navigateTo({ url: "/pages/common/good_count/count_detail/count_detail" });
+    },
+
     //数量改变
     handleNumChange: function handleNumChange($event, index) {
       //console.log($event,index)

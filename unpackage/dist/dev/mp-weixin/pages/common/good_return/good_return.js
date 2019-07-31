@@ -105,7 +105,16 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var unicard = function unicard() {return __webpack_require__.e(/*! import() | components/uni-card/uni-card */ "components/uni-card/uni-card").then(__webpack_require__.bind(null, /*! @/components/uni-card/uni-card.vue */ 398));};var uninumberbox = function uninumberbox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 405));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var unicard = function unicard() {return __webpack_require__.e(/*! import() | components/uni-card/uni-card */ "components/uni-card/uni-card").then(__webpack_require__.bind(null, /*! @/components/uni-card/uni-card.vue */ 398));};var uninumberbox = function uninumberbox() {return __webpack_require__.e(/*! import() | components/uni-number-box/uni-number-box */ "components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/components/uni-number-box/uni-number-box.vue */ 405));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 356));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ 363));};var _default =
+
+
+
+
+
+
+
+
+
 
 
 
@@ -133,21 +142,15 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     unicard: unicard,
     faIcon: faIcon,
-    uninumberbox: uninumberbox },
+    uninumberbox: uninumberbox,
+    uniNavBar: uniNavBar,
+    uniIcon: uniIcon },
 
   data: function data() {
     return {
       products: null };
 
   },
-
-
-
-
-
-
-
-
 
   onLoad: function onLoad() {
     this.products = uni.getStorageSync("products");
@@ -156,6 +159,12 @@ __webpack_require__.r(__webpack_exports__);
     uni.removeStorageSync("products");
   },
   methods: {
+
+    //头部确定点击
+    confrim_this: function confrim_this() {
+      uni.navigateTo({ url: "/pages/common/good_return/return_detail/return_detail" });
+    },
+
     //数量改变
     handleNumChange: function handleNumChange($event, index) {
       //console.log($event,index)

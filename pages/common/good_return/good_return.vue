@@ -1,47 +1,50 @@
 <template>
-	<view class="page">
-		<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-    <unicard :title="'品名：'+item.goodsName" :extra="'库存：'+item.reserve">
-      <view>
-        <view>建议零售价格：{{item.retailPrice}}(元)</view>
-        <view class='margin-t-5'>
-          退货量：<uninumberbox min="1" max="10000" @change="handleNumChange($event, index)" />
-				</view>
-        <view class="bottom_del">
-					<view class='del' @click="handleDel(index)">
-						<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+	
+	<view>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this">
+		</uni-nav-bar>
+		<view class="page">
+			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
+		  <unicard :title="'品名：'+item.goodsName" :extra="'库存：'+item.reserve">
+		    <view>
+		      <view>建议零售价格：{{item.retailPrice}}(元)</view>
+		      <view class='margin-t-5'>
+		        退货量：<uninumberbox min="1" max="10000" @change="handleNumChange($event, index)" />
 					</view>
-        </view>
-      </view>
-    </unicard>
-    </view>
+		      <view class="bottom_del">
+						<view class='del' @click="handleDel(index)">
+							<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+						</view>
+		      </view>
+		    </view>
+		  </unicard>
+		  </view>
+		</view>
 	</view>
+	
 </template>
 
 <script>
 	import unicard from '@/components/uni-card/uni-card.vue'
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	
 	export default {
 		components: {
 			unicard,
 			faIcon,
-			uninumberbox
+			uninumberbox,
+			uniNavBar,
+			uniIcon
 		},
 		data() {
 			return {
 				products:null
 			}
 		},
-		// #ifdef APP-PLUS
-		//监听原生标题栏按钮点击事件
-		onNavigationBarButtonTap(Object) {
-				if(Object.text == "确定"){
-					uni.navigateTo({url:"/pages/common/good_return/return_detail/return_detail"})
-				}
-				
-		},
-		// #endif
+		
 		onLoad() {
 			this.products = uni.getStorageSync("products");
 		},
@@ -49,6 +52,12 @@
 			uni.removeStorageSync("products");
 		},
 		methods: {
+			
+			//头部确定点击
+			confrim_this(){
+				uni.navigateTo({url:"/pages/common/good_return/return_detail/return_detail"})
+			},
+			
 			//数量改变
 			handleNumChange($event, index){
 				//console.log($event,index)
@@ -85,7 +94,7 @@
 .page{
 	background: #f6f5ec;
 	font-size: 28rpx;
-	height: 100vh;
+	height: calc(100vh - 88rpx);
 	overflow: scroll;
 }
 .margin-b-10

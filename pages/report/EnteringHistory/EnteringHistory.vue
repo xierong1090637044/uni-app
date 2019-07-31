@@ -1,7 +1,13 @@
 <template>
 	<view>
 		<loading v-if="loading"></loading>
-		<view class='page' v-else>
+		
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选"  @click-right="shaixuan_click" >
+			<view></view>
+				
+		</uni-nav-bar>
+		
+		<scroll-view class='page'  scroll-y="true">
 			<view class='list-item'>
 				<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
 					<view style='display:flex;width:calc(100% - 120rpx);'>
@@ -25,7 +31,7 @@
 				</view>
 			</view>
 
-		</view>
+		</scroll-view>
 		
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background" @tap.stop.native="showOptions = false">
@@ -63,6 +69,8 @@
 	import Bmob from '@/utils/bmob.js';
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 
 	let uid;
 	let that;
@@ -72,6 +80,8 @@
 		components: {
 			loading,
 			faIcon,
+			uniNavBar,
+			uniIcon
 		},
 		data() {
 			return {
@@ -83,14 +93,6 @@
 				staff:"",//选择的操作者
 			}
 		},
-		// #ifdef APP-PLUS
-		//监听原生标题栏按钮点击事件
-		onNavigationBarButtonTap(Object) {
-			if (Object.text == "筛选") {
-				that.showOptions = true;
-			}
-		},
-		// #endif
 		
 		onLoad(options) {
 			that = this;
@@ -126,6 +128,10 @@
 		},
 
 		methods: {
+			
+			shaixuan_click(){
+				that.showOptions = true;
+			},
 			
 			//modal重置的确认点击
 			option_reset(){
@@ -173,7 +179,7 @@
 <style>
 	.page {
 		overflow: hidden;
-		height: 100vh;
+		height: calc(100vh - 88rpx);
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;

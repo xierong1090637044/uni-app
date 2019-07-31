@@ -2,20 +2,18 @@
 	<view>
 		<loading v-if="loading"></loading>
 		
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
+			<view class="input-view">
+				<uni-icon type="search" size="22" color="#666666" />
+				<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
+			</view>
+		</uni-nav-bar>
+		
+		<view class="uni-common-mt">
+			<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
+		</view>
 		
 		<scroll-view class="content" scroll-y="true">
-			
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
-				<view class="input-view">
-					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
-				</view>
-			</uni-nav-bar>
-			
-			<view class="uni-common-mt">
-				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
-			</view>
-
 			<view v-show="current === 0" class="info_item">
 				<view v-for="(item,index) in people" :key="index" class="item">
 					<view class="display_flex_bet">
@@ -269,7 +267,7 @@
 	}
 
 	.content {
-		height: calc(100vh - 212rpx);
+		height: calc(100vh - 214rpx);
 		background: #fff;
 	}
 

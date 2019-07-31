@@ -1,21 +1,27 @@
 <template>
-	<view class="page">
-		<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-			<unicard :title="'品名：'+item.goodsName" :extra="'当前库存：'+item.reserve">
-				<view>
-					<view class='margin-t-5'>
-						盘点后库存：
-						<uninumberbox min="0" @change="handleNumChange($event, index)" />
-					</view>
-					<view class="bottom_del">
-						<view class='del' @click="handleDel(index)">
-							<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+
+	<view>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this">
+		</uni-nav-bar>
+		<view class="page">
+			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
+				<unicard :title="'品名：'+item.goodsName" :extra="'当前库存：'+item.reserve">
+					<view>
+						<view class='margin-t-5'>
+							盘点后库存：
+							<uninumberbox min="0" @change="handleNumChange($event, index)" />
+						</view>
+						<view class="bottom_del">
+							<view class='del' @click="handleDel(index)">
+								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+							</view>
 						</view>
 					</view>
-				</view>
-			</unicard>
+				</unicard>
+			</view>
 		</view>
 	</view>
+
 </template>
 
 <script>
@@ -23,33 +29,27 @@
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js'
-	
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+
 	let uid;
 	export default {
 		components: {
 			unicard,
 			faIcon,
-			uninumberbox
+			uninumberbox,
+			uniNavBar,
+			uniIcon
 		},
 		data() {
 			return {
 				products: null
 			}
 		},
-		// #ifdef APP-PLUS
-		//监听原生标题栏按钮点击事件
-		onNavigationBarButtonTap(Object) {
-			if (Object.text == "确定") {
-				uni.navigateTo({
-					url: "/pages/common/good_count/count_detail/count_detail"
-				})
-			}
 
-		},
-		// #endif
 		onLoad(options) {
 			uid = uni.getStorageSync("uid")
-			
+
 			if (options.id) {
 				const query = Bmob.Query('Goods');
 				if (options.type == "true") {
@@ -65,15 +65,21 @@
 					res[0].modify_retailPrice = res[0].retailPrice;
 					this.products = res;
 				})
-			}else{
+			} else {
 				this.products = uni.getStorageSync("products");
 			}
-			
+
 		},
 		onUnload() {
 			uni.removeStorageSync("products");
 		},
 		methods: {
+			
+			//头部确定点击
+			confrim_this(){
+				uni.navigateTo({url:"/pages/common/good_count/count_detail/count_detail"})
+			},
+			
 			//数量改变
 			handleNumChange($event, index) {
 				//console.log($event,index)
@@ -112,7 +118,7 @@
 	.page {
 		background: #f6f5ec;
 		font-size: 28rpx;
-		height: 100vh;
+		height: calc(100vh - 88rpx);
 		overflow: scroll;
 	}
 
