@@ -210,7 +210,6 @@
 .page
 {
   color: #4d4d4d;
-	background: #f6f5ec;
 	font-size: 28rpx;
 	height: 100vh;
 	overflow: scroll;

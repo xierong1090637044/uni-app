@@ -92,7 +92,6 @@
 
 <style>
 .page{
-	background: #f6f5ec;
 	font-size: 28rpx;
 	height: calc(100vh - 88rpx);
 	overflow: scroll;

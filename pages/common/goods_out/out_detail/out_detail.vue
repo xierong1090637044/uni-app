@@ -114,7 +114,7 @@
 					const query = Bmob.Query('Goods');
 					query.get(this.products[i].objectId).then(res => {
 						//console.log(res)
-						common.log(this.products[i].goodsName + "出库了" + this.products[i].num + "件，已经低于预警数量" + this.products[i].warning_num,
+						common.log(this.products[i].goodsName + "出库了" + this.products[i].num + "件，已经低于预警数量" + (this.products[i].warning_num?this.products[i].warning_num:0),
 							-2, this.products[i].objectId);
 
 						res.set('reserve', num)
@@ -239,7 +239,6 @@
 <style>
 	.page {
 		color: #4d4d4d;
-		background: #f6f5ec;
 		font-size: 28rpx;
 		height: 100vh;
 		overflow: scroll;

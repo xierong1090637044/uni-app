@@ -144,11 +144,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
 //
 //
 //
@@ -189,7 +185,9 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 var that;var phone_number = "";var _default = { data: function data() {return { code_text: "验证码", code_button_state: false };}, onLoad: function onLoad() {that = this;}, methods: { //手机输入触发
     get_InputPhone: function get_InputPhone(e) {phone_number = e.detail.value;}, //获取验证码点击
     get_smscode: function get_smscode() {if (phone_number.length < 11) {uni.showToast({ title: '请输入正确的手机号', icon: "none" });} else {var params = { mobilePhoneNumber: phone_number, //string
-          template: "积木舟" };_bmob.default.requestSmsCode(params).then(function (response) {uni.showToast({ title: '发送成功' });that.code_button_state = true;that.code_text = 60;var code_down = setInterval(function () {that.code_text = that.code_text - 1;if (that.code_text == 0) {clearInterval(code_down);that.code_button_state = false;
+          template: "积木舟" };_bmob.default.requestSmsCode(params).then(function (response) {uni.showToast({ title: '发送成功' });that.code_button_state = true;that.code_text = 60;var code_down = setInterval(function () {that.code_text = that.code_text - 1;if (that.code_text == 0) {
+              clearInterval(code_down);
+              that.code_button_state = false;
               that.code_text = "验证码";
             }
           }, 1000);

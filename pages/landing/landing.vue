@@ -30,8 +30,6 @@
 		
 		<!-- 底部信息 -->
 		<view class="footer">
-			<navigator url="forget" open-type="navigate">找回密码</navigator>
-			<text style="margin:0 20rpx">|</text>
 			<navigator url="/pages/register/register" open-type="navigate">注册账号</navigator>
 		</view>
 
