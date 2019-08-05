@@ -132,6 +132,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -158,7 +162,11 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 //
 //
 //
-var type;var that;var custom;var uid;var _default = { data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this;uid = uni.getStorageSync('uid'); //type = "customs"
+//
+//
+//
+//
+var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 356));};var type;var that;var custom;var uid;var _default = { components: { uniNavBar: uniNavBar }, data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this;uid = uni.getStorageSync('uid'); //type = "customs"
     if (type == "customs") {uni.setNavigationBarTitle({ title: '新增客户' });} else {uni.setNavigationBarTitle({ title: '新增供货商' });
 
     }
@@ -201,77 +209,70 @@ var type;var that;var custom;var uid;var _default = { data: function data() {ret
 
   methods: {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //增加数据操作
     add_data: function add_data() {
-      if (type == "customs") {
-        var query = _bmob.default.Query("customs");
-        var pointer = _bmob.default.Pointer('_User');
-        var poiID = pointer.set(uid);
+      if (this.name == null) {
+        uni.showToast({
+          title: "请输入姓名",
+          icon: "none" });
 
-        if (custom) query.set("id", custom.objectId);
-        query.set("custom_name", that.name);
-        query.set("custom_phone", that.phone ? that.phone : '');
-        query.set("custom_address", that.address ? that.address : '');
-        query.set("debt", Number(that.debt));
-        query.set("parent", poiID);
-        //query.set("beizhu", "Bmob")
-        query.save().then(function (res) {
-          console.log(res);
-          if (custom) {
-            uni.showToast({
-              title: "修改成功" });
-
-          } else {
-            uni.showToast({
-              title: "添加成功" });
-
-          }
-
-        }).catch(function (err) {
-          console.log(err);
-        });
       } else {
-        var _query = _bmob.default.Query("producers");
-        var _pointer = _bmob.default.Pointer('_User');
-        var _poiID = _pointer.set(uid);
+        if (type == "customs") {
+          var query = _bmob.default.Query("customs");
+          var pointer = _bmob.default.Pointer('_User');
+          var poiID = pointer.set(uid);
 
-        if (custom) _query.set("id", custom.objectId);
-        _query.set("producer_name", that.name);
-        _query.set("producer_phone", that.phone ? that.phone : '');
-        _query.set("producer_address", that.address ? that.address : '');
-        _query.set("debt", Number(that.debt));
-        _query.set("parent", _poiID);
-        //query.set("beizhu", "Bmob")
-        _query.save().then(function (res) {
-          console.log(res);
-          if (custom) {
-            uni.showToast({
-              title: "修改成功" });
+          if (custom) query.set("id", custom.objectId);
+          query.set("custom_name", that.name);
+          query.set("custom_phone", that.phone ? that.phone : '');
+          query.set("custom_address", that.address ? that.address : '');
+          query.set("debt", Number(that.debt));
+          query.set("parent", poiID);
+          //query.set("beizhu", "Bmob")
+          query.save().then(function (res) {
+            console.log(res);
+            if (custom) {
+              uni.showToast({
+                title: "修改成功" });
 
-          } else {
-            uni.showToast({
-              title: "添加成功" });
+            } else {
+              uni.showToast({
+                title: "添加成功" });
 
-          }
-        }).catch(function (err) {
-          console.log(err);
-        });
+            }
+
+          }).catch(function (err) {
+            console.log(err);
+          });
+        } else {
+          var _query = _bmob.default.Query("producers");
+          var _pointer = _bmob.default.Pointer('_User');
+          var _poiID = _pointer.set(uid);
+
+          if (custom) _query.set("id", custom.objectId);
+          _query.set("producer_name", that.name);
+          _query.set("producer_phone", that.phone ? that.phone : '');
+          _query.set("producer_address", that.address ? that.address : '');
+          _query.set("debt", Number(that.debt));
+          _query.set("parent", _poiID);
+          //query.set("beizhu", "Bmob")
+          _query.save().then(function (res) {
+            console.log(res);
+            if (custom) {
+              uni.showToast({
+                title: "修改成功" });
+
+            } else {
+              uni.showToast({
+                title: "添加成功" });
+
+            }
+          }).catch(function (err) {
+            console.log(err);
+          });
+        }
       }
+
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

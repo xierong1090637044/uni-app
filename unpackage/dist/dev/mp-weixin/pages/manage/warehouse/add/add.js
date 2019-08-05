@@ -150,7 +150,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 356));};
+
 
 var that;
 var warehouse; //仓库
@@ -160,7 +165,8 @@ var shopId;
 var uid;var _default =
 {
   components: {
-    faIcon: faIcon },
+    faIcon: faIcon,
+    uniNavBar: uniNavBar },
 
   data: function data() {
     return {
@@ -223,25 +229,21 @@ var uid;var _default =
       that.disabled = e.detail.value;
     },
 
+    start_add: function start_add() {
+      if (this.warehouse_name == '') {
+        uni.showToast({
+          title: "请输入仓库名字",
+          icon: "none" });
 
+      } else if (this.warehouse_charge == '' || this.warehouse_charge == null) {
+        uni.showToast({
+          title: "请选择仓库负责人",
+          icon: "none" });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      } else {
+        that.add_data();
+      }
+    },
 
     //增加数据操作
     add_data: function add_data() {

@@ -227,8 +227,6 @@ var page_size = 50;var _default =
     uni.removeStorageSync("warehouse");
 
     uid = uni.getStorageSync('uid');
-
-    that.get_productList();
   },
   onShow: function onShow() {
     if (uni.getStorageSync("category")) {
@@ -240,6 +238,8 @@ var page_size = 50;var _default =
       that.showOptions = true;
       that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock;
     }
+
+    that.get_productList();
   },
 
   onUnload: function onUnload() {

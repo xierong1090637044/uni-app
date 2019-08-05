@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="start_add">
+			<view></view>
+		
+		</uni-nav-bar>
 		<view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">姓名</text>
@@ -7,7 +11,7 @@
 			</view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">账号</text>
-				<input placeholder="请输入手机号" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<input placeholder="最好输入手机号" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">密码</text>
@@ -68,6 +72,7 @@
 	import Bmob from '@/utils/bmob.js';
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let that;
 	let shopId;
@@ -80,6 +85,7 @@
 			faIcon,
 			uniCollapse,
 			uniCollapseItem,
+			uniNavBar
 		},
 		data() {
 			return {
@@ -195,11 +201,8 @@
 			checkboxChange_record(e) {
 				rights.recodecurrent = e.detail.value;
 			},
-
-			// #ifdef APP-PLUS
-			//监听原生标题栏按钮点击事件
-			onNavigationBarButtonTap(Object) {
-				console.log(this.staff_name)
+			
+			start_add(){
 				if (this.staff_name == null) {
 					uni.showToast({
 						title: "请输入姓名",
@@ -207,7 +210,7 @@
 					})
 				} else if (this.staff_phone.length < 11) {
 					uni.showToast({
-						title: "请输入正确的手机号",
+						title: "请输入正确的账号",
 						icon: "none"
 					})
 				}else if(this.staff_password.length <6){
@@ -219,7 +222,6 @@
 					that.add_data()
 				}
 			},
-			// #endif
 
 			//增加数据操作
 			add_data() {

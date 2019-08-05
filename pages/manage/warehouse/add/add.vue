@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="start_add">
+			<view></view>
+		
+		</uni-nav-bar>
 		<view>
 			<view class="display_flex item">
 				<text style="margin-right: 6rpx;">名称</text><text style="color: #d93a49;margin-right: 20rpx;">*</text>
@@ -44,6 +48,7 @@
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let that;
 	let warehouse;//仓库
@@ -53,7 +58,8 @@
 	let uid;
 	export default {
 		components: {
-			faIcon
+			faIcon,
+			uniNavBar
 		},
 		data() {
 			return {
@@ -115,11 +121,8 @@
 			switchChange(e){
 				that.disabled = e.detail.value;
 			},
-
-			// #ifdef APP-PLUS
-			//监听原生标题栏按钮点击事件
-			onNavigationBarButtonTap(Object) {
-				console.log(this.warehouse_name)
+			
+			start_add(){
 				if (this.warehouse_name == '') {
 					uni.showToast({
 						title: "请输入仓库名字",
@@ -134,7 +137,6 @@
 					that.add_data()
 				}
 			},
-			// #endif
 
 			//增加数据操作
 			add_data() {

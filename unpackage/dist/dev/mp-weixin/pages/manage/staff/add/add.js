@@ -172,7 +172,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 377));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 384));};
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 342));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 377));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 384));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 356));};
+
 
 
 
@@ -186,7 +191,8 @@ var rights = {};var _default =
   components: {
     faIcon: faIcon,
     uniCollapse: uniCollapse,
-    uniCollapseItem: uniCollapseItem },
+    uniCollapseItem: uniCollapseItem,
+    uniNavBar: uniNavBar },
 
   data: function data() {
     return {
@@ -303,30 +309,26 @@ var rights = {};var _default =
       rights.recodecurrent = e.detail.value;
     },
 
+    start_add: function start_add() {
+      if (this.staff_name == null) {
+        uni.showToast({
+          title: "请输入姓名",
+          icon: "none" });
 
+      } else if (this.staff_phone.length < 11) {
+        uni.showToast({
+          title: "请输入正确的账号",
+          icon: "none" });
 
+      } else if (this.staff_password.length < 6) {
+        uni.showToast({
+          title: "密码不能少于6位",
+          icon: "none" });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      } else {
+        that.add_data();
+      }
+    },
 
     //增加数据操作
     add_data: function add_data() {

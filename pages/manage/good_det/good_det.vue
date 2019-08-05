@@ -30,12 +30,12 @@
 
 		<view class="thrid" @click="showcode_option">
 			<view>生成条码</view>
-			<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
+			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
 		</view>
 
-		<navigator class="thrid" hover-class="none" url="../operations/operations">
+		<navigator class="thrid" hover-class="none" url="../operations/operations" style="margin-bottom: 20rpx;">
 			<view>此产品的操作记录</view>
-			<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
+			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
 		</navigator>
 
 		<!--<view class="four">
@@ -221,7 +221,6 @@
 	.page {
 		height: 100vh;
 		overflow: scroll;
-		background: #426ab3;
 		font-size: 28rpx;
 	}
 

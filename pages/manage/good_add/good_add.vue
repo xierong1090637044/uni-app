@@ -194,6 +194,10 @@
 			tempFilePaths = "";
 			p_class_user_id = "";
 			p_second_class_id = "";
+			
+			uni.removeStorageSync("category");
+			uni.removeStorageSync("class_user")
+			uni.removeStorageSync("second_class")
 		},
 
 		methods: {

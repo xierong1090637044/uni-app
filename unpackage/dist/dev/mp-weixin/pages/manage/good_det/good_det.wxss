@@ -2,7 +2,6 @@
 .page {
 	height: 100vh;
 	overflow: scroll;
-	background: #426ab3;
 	font-size: 28rpx;
 }
 .frist {

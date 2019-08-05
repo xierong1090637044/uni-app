@@ -1,24 +1,28 @@
 <template>
 	<view>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="add_data">
+			<view></view>
+
+		</uni-nav-bar>
 		<view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">姓名</text>
-				<input placeholder="请输入姓名" v-model="name"  style="width: calc(100% - 200rpx)"/>
+				<input placeholder="请输入姓名" v-model="name" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">联系地址</text>
-				<input placeholder="请输入地址" v-model="address"   style="width: calc(100% - 200rpx)"/>
+				<input placeholder="请输入地址" v-model="address" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">联系电话</text>
-				<input placeholder="请输入电话" v-model="phone" type="number" maxlength="11"   style="width: calc(100% - 200rpx)"/>
+				<input placeholder="请输入电话" v-model="phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">欠款金额</text>
-				<input placeholder="请输入起初欠款金额" v-model="debt" type="digit"   style="width: calc(100% - 200rpx)"/>
+				<input placeholder="请输入起初欠款金额" v-model="debt" type="digit" style="width: calc(100% - 200rpx)" />
 			</view>
 		</view>
 	</view>
@@ -26,12 +30,16 @@
 
 <script>
 	import Bmob from '@/utils/bmob.js';
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let type;
 	let that;
 	let custom;
 	let uid;
 	export default {
+		components: {
+			uniNavBar,
+		},
 		data() {
 			return {
 				name: null,
@@ -58,10 +66,10 @@
 		},
 
 		onShow() {
-			
+
 			custom = uni.getStorageSync("customs");
-			
-			if(custom){
+
+			if (custom) {
 				type = uni.getStorageSync("custom_type");
 				if (type == "customs") {
 					that.name = custom.custom_name
@@ -74,7 +82,7 @@
 					that.phone = custom.producer_phone
 					that.debt = custom.debt
 				}
-			}else{
+			} else {
 				if (type == "customs") {
 					uni.setNavigationBarTitle({
 						title: '修改客户'
@@ -86,7 +94,7 @@
 				}
 			}
 		},
-		
+
 		onUnload() {
 			uni.removeStorageSync("custom_type")
 			uni.removeStorageSync("customs")
@@ -94,77 +102,70 @@
 
 		methods: {
 
-			// #ifdef APP-PLUS
-			//监听原生标题栏按钮点击事件
-			onNavigationBarButtonTap(Object) {
-				console.log(this.name)
+			//增加数据操作
+			add_data() {
 				if (this.name == null) {
 					uni.showToast({
 						title: "请输入姓名",
 						icon: "none"
 					})
 				} else {
-					that.add_data()
+					if (type == "customs") {
+						const query = Bmob.Query("customs");
+						const pointer = Bmob.Pointer('_User')
+						const poiID = pointer.set(uid)
+
+						if (custom) query.set("id", custom.objectId)
+						query.set("custom_name", that.name)
+						query.set("custom_phone", that.phone ? that.phone : '')
+						query.set("custom_address", that.address ? that.address : '')
+						query.set("debt", Number(that.debt))
+						query.set("parent", poiID)
+						//query.set("beizhu", "Bmob")
+						query.save().then(res => {
+							console.log(res)
+							if (custom) {
+								uni.showToast({
+									title: "修改成功",
+								})
+							} else {
+								uni.showToast({
+									title: "添加成功",
+								})
+							}
+
+						}).catch(err => {
+							console.log(err)
+						})
+					} else {
+						const query = Bmob.Query("producers");
+						const pointer = Bmob.Pointer('_User')
+						const poiID = pointer.set(uid)
+
+						if (custom) query.set("id", custom.objectId)
+						query.set("producer_name", that.name)
+						query.set("producer_phone", that.phone ? that.phone : '')
+						query.set("producer_address", that.address ? that.address : '')
+						query.set("debt", Number(that.debt))
+						query.set("parent", poiID)
+						//query.set("beizhu", "Bmob")
+						query.save().then(res => {
+							console.log(res)
+							if (custom) {
+								uni.showToast({
+									title: "修改成功",
+								})
+							} else {
+								uni.showToast({
+									title: "添加成功",
+								})
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+					}
 				}
-			},
-			// #endif
 
-			//增加数据操作
-			add_data() {
-				if (type == "customs") {
-					const query = Bmob.Query("customs");
-					const pointer = Bmob.Pointer('_User')
-					const poiID = pointer.set(uid)
-
-					if (custom) query.set("id", custom.objectId)
-					query.set("custom_name", that.name)
-					query.set("custom_phone", that.phone ? that.phone : '')
-					query.set("custom_address", that.address ? that.address : '')
-					query.set("debt", Number(that.debt))
-					query.set("parent", poiID)
-					//query.set("beizhu", "Bmob")
-					query.save().then(res => {
-						console.log(res)
-						if (custom) {
-							uni.showToast({
-								title: "修改成功",
-							})
-						} else {
-							uni.showToast({
-								title: "添加成功",
-							})
-						}
-
-					}).catch(err => {
-						console.log(err)
-					})
-				} else {
-					const query = Bmob.Query("producers");
-					const pointer = Bmob.Pointer('_User')
-					const poiID = pointer.set(uid)
-
-					if (custom) query.set("id", custom.objectId)
-					query.set("producer_name", that.name)
-					query.set("producer_phone", that.phone ? that.phone : '')
-					query.set("producer_address", that.address ? that.address : '')
-					query.set("debt", Number(that.debt))
-					query.set("parent", poiID)
-					//query.set("beizhu", "Bmob")
-					query.save().then(res => {
-						console.log(res)
-						if (custom) {
-							uni.showToast({
-								title: "修改成功",
-							})
-						} else {
-							uni.showToast({
-								title: "添加成功",
-							})
-						}
-					}).catch(err => {
-						console.log(err)
-					})
-				}
 
 			},
 		}

@@ -115,8 +115,6 @@
 			uni.removeStorageSync("warehouse");
 			
 			uid = uni.getStorageSync('uid');
-			
-			that.get_productList();
 		},
 		onShow() {
 			if(uni.getStorageSync("category")){
@@ -128,6 +126,8 @@
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
+			
+			that.get_productList();
 		},
 
 		onUnload() {
