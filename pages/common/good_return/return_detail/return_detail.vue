@@ -19,7 +19,7 @@
 			<form @submit="formSubmit">
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录退货客户）</view>
-					<view class="kaidan_detail">
+					<view class="kaidan_detail"  style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
 							<view>客户姓名</view>

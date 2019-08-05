@@ -20,7 +20,7 @@
 
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
-					<view class="kaidan_detail">
+					<view class="kaidan_detail"  style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
 							<view>选择门店</text></view>
