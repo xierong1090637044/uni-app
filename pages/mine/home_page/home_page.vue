@@ -12,7 +12,7 @@
 			<view class='display_flex_bet item1'>
 				<view>昵称</view>
 				<view class='display_flex right_item'>
-					<text>{{userInfo.nickname}}</text>
+					<text>{{userInfo.nickName}}</text>
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 			</view>

@@ -208,9 +208,9 @@
 						title: "请输入姓名",
 						icon: "none"
 					})
-				} else if (this.staff_phone.length < 11) {
+				} else if (this.staff_phone.length < 6) {
 					uni.showToast({
-						title: "请输入正确的账号",
+						title: "账号不能少于6位",
 						icon: "none"
 					})
 				}else if(this.staff_password.length <6){
