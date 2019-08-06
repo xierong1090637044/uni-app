@@ -788,7 +788,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7440,7 +7440,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7461,14 +7461,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7544,7 +7544,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8304,7 +8304,7 @@ createPage(_mine.default);
 
 /***/ }),
 
-/***/ 417:
+/***/ 424:
 /*!***************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-qrcode/qrcode.js ***!
   \***************************************************************************************/
@@ -9522,7 +9522,7 @@ QRCode;exports.default = _default;
 
 /***/ }),
 
-/***/ 425:
+/***/ 432:
 /*!*****************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcode.js ***!
   \*****************************************************************************************/
@@ -9530,7 +9530,7 @@ QRCode;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 426)['default'];
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 433)['default'];
 var _barcode = {};
 (function () {
   // 初始化
@@ -9724,7 +9724,7 @@ _barcode;exports.default = _default;
 
 /***/ }),
 
-/***/ 426:
+/***/ 433:
 /*!************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/index.js ***!
   \************************************************************************************************/
@@ -9738,21 +9738,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE = __webpack_require__(/*! ./CODE39/ */ 427);
+var _CODE = __webpack_require__(/*! ./CODE39/ */ 434);
 
-var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 429);
+var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 436);
 
-var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 437);
+var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 444);
 
-var _ITF = __webpack_require__(/*! ./ITF/ */ 447);
+var _ITF = __webpack_require__(/*! ./ITF/ */ 454);
 
-var _MSI = __webpack_require__(/*! ./MSI/ */ 451);
+var _MSI = __webpack_require__(/*! ./MSI/ */ 458);
 
-var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 458);
+var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 465);
 
-var _codabar = __webpack_require__(/*! ./codabar */ 459);
+var _codabar = __webpack_require__(/*! ./codabar */ 466);
 
-var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 460);
+var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 467);
 
 exports.default = {
   CODE39: _CODE.CODE39,
@@ -9768,7 +9768,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 427:
+/***/ 434:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE39/index.js ***!
   \*******************************************************************************************************/
@@ -9785,7 +9785,7 @@ exports.CODE39 = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -9883,7 +9883,7 @@ exports.CODE39 = CODE39;
 
 /***/ }),
 
-/***/ 428:
+/***/ 435:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/Barcode.js ***!
   \**************************************************************************************************/
@@ -9911,7 +9911,7 @@ exports.default = Barcode;
 
 /***/ }),
 
-/***/ 429:
+/***/ 436:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/index.js ***!
   \********************************************************************************************************/
@@ -9926,19 +9926,19 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
 
-var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 430);
+var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 437);
 
 var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
 
-var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 434);
+var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 441);
 
 var _CODE128A2 = _interopRequireDefault(_CODE128A);
 
-var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 435);
+var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 442);
 
 var _CODE128B2 = _interopRequireDefault(_CODE128B);
 
-var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 436);
+var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 443);
 
 var _CODE128C2 = _interopRequireDefault(_CODE128C);
 
@@ -9951,7 +9951,7 @@ exports.CODE128C = _CODE128C2.default;
 
 /***/ }),
 
-/***/ 430:
+/***/ 437:
 /*!***************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
   \***************************************************************************************************************/
@@ -9965,11 +9965,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE2 = __webpack_require__(/*! ./CODE128 */ 431);
+var _CODE2 = __webpack_require__(/*! ./CODE128 */ 438);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _auto = __webpack_require__(/*! ./auto */ 433);
+var _auto = __webpack_require__(/*! ./auto */ 440);
 
 var _auto2 = _interopRequireDefault(_auto);
 
@@ -10003,7 +10003,7 @@ exports.default = CODE128AUTO;
 
 /***/ }),
 
-/***/ 431:
+/***/ 438:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
   \**********************************************************************************************************/
@@ -10019,11 +10019,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _constants = __webpack_require__(/*! ./constants */ 432);
+var _constants = __webpack_require__(/*! ./constants */ 439);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10181,7 +10181,7 @@ exports.default = CODE128;
 
 /***/ }),
 
-/***/ 432:
+/***/ 439:
 /*!************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/constants.js ***!
   \************************************************************************************************************/
@@ -10246,7 +10246,7 @@ var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 1
 
 /***/ }),
 
-/***/ 433:
+/***/ 440:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/auto.js ***!
   \*******************************************************************************************************/
@@ -10260,7 +10260,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ 432);
+var _constants = __webpack_require__(/*! ./constants */ 439);
 
 // Match Set functions
 var matchSetALength = function matchSetALength(string) {
@@ -10330,7 +10330,7 @@ exports.default = function (string) {
 
 /***/ }),
 
-/***/ 434:
+/***/ 441:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
   \***********************************************************************************************************/
@@ -10346,11 +10346,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 431);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 438);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 432);
+var _constants = __webpack_require__(/*! ./constants */ 439);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10383,7 +10383,7 @@ exports.default = CODE128A;
 
 /***/ }),
 
-/***/ 435:
+/***/ 442:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
   \***********************************************************************************************************/
@@ -10399,11 +10399,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 431);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 438);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 432);
+var _constants = __webpack_require__(/*! ./constants */ 439);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10436,7 +10436,7 @@ exports.default = CODE128B;
 
 /***/ }),
 
-/***/ 436:
+/***/ 443:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
   \***********************************************************************************************************/
@@ -10452,11 +10452,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 431);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 438);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 432);
+var _constants = __webpack_require__(/*! ./constants */ 439);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10489,7 +10489,7 @@ exports.default = CODE128C;
 
 /***/ }),
 
-/***/ 437:
+/***/ 444:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
   \********************************************************************************************************/
@@ -10504,27 +10504,27 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
 
-var _EAN = __webpack_require__(/*! ./EAN13.js */ 438);
+var _EAN = __webpack_require__(/*! ./EAN13.js */ 445);
 
 var _EAN2 = _interopRequireDefault(_EAN);
 
-var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 442);
+var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 449);
 
 var _EAN4 = _interopRequireDefault(_EAN3);
 
-var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 443);
+var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 450);
 
 var _EAN6 = _interopRequireDefault(_EAN5);
 
-var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 444);
+var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 451);
 
 var _EAN8 = _interopRequireDefault(_EAN7);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ 445);
+var _UPC = __webpack_require__(/*! ./UPC.js */ 452);
 
 var _UPC2 = _interopRequireDefault(_UPC);
 
-var _UPCE = __webpack_require__(/*! ./UPCE.js */ 446);
+var _UPCE = __webpack_require__(/*! ./UPCE.js */ 453);
 
 var _UPCE2 = _interopRequireDefault(_UPCE);
 
@@ -10539,7 +10539,7 @@ exports.UPCE = _UPCE2.default;
 
 /***/ }),
 
-/***/ 438:
+/***/ 445:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
   \********************************************************************************************************/
@@ -10557,9 +10557,9 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _constants = __webpack_require__(/*! ./constants */ 439);
+var _constants = __webpack_require__(/*! ./constants */ 446);
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ 440);
+var _EAN2 = __webpack_require__(/*! ./EAN */ 447);
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -10669,7 +10669,7 @@ exports.default = EAN13;
 
 /***/ }),
 
-/***/ 439:
+/***/ 446:
 /*!************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
   \************************************************************************************************************/
@@ -10710,7 +10710,7 @@ var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', '
 
 /***/ }),
 
-/***/ 440:
+/***/ 447:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
   \******************************************************************************************************/
@@ -10726,13 +10726,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 439);
+var _constants = __webpack_require__(/*! ./constants */ 446);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 441);
+var _encoder = __webpack_require__(/*! ./encoder */ 448);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -10813,7 +10813,7 @@ exports.default = EAN;
 
 /***/ }),
 
-/***/ 441:
+/***/ 448:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
   \**********************************************************************************************************/
@@ -10827,7 +10827,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ 439);
+var _constants = __webpack_require__(/*! ./constants */ 446);
 
 // Encode data string
 var encode = function encode(data, structure, separator) {
@@ -10851,7 +10851,7 @@ exports.default = encode;
 
 /***/ }),
 
-/***/ 442:
+/***/ 449:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
   \*******************************************************************************************************/
@@ -10869,7 +10869,7 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ 440);
+var _EAN2 = __webpack_require__(/*! ./EAN */ 447);
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -10943,7 +10943,7 @@ exports.default = EAN8;
 
 /***/ }),
 
-/***/ 443:
+/***/ 450:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
   \*******************************************************************************************************/
@@ -10959,13 +10959,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 439);
+var _constants = __webpack_require__(/*! ./constants */ 446);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 441);
+var _encoder = __webpack_require__(/*! ./encoder */ 448);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11019,7 +11019,7 @@ exports.default = EAN5;
 
 /***/ }),
 
-/***/ 444:
+/***/ 451:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
   \*******************************************************************************************************/
@@ -11035,13 +11035,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 439);
+var _constants = __webpack_require__(/*! ./constants */ 446);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 441);
+var _encoder = __webpack_require__(/*! ./encoder */ 448);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11088,7 +11088,7 @@ exports.default = EAN2;
 
 /***/ }),
 
-/***/ 445:
+/***/ 452:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
   \******************************************************************************************************/
@@ -11106,11 +11106,11 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 exports.checksum = checksum;
 
-var _encoder = __webpack_require__(/*! ./encoder */ 441);
+var _encoder = __webpack_require__(/*! ./encoder */ 448);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11264,7 +11264,7 @@ exports.default = UPC;
 
 /***/ }),
 
-/***/ 446:
+/***/ 453:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
   \*******************************************************************************************************/
@@ -11280,15 +11280,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _encoder = __webpack_require__(/*! ./encoder */ 441);
+var _encoder = __webpack_require__(/*! ./encoder */ 448);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ 445);
+var _UPC = __webpack_require__(/*! ./UPC.js */ 452);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11460,7 +11460,7 @@ exports.default = UPCE;
 
 /***/ }),
 
-/***/ 447:
+/***/ 454:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/index.js ***!
   \****************************************************************************************************/
@@ -11475,11 +11475,11 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.ITF14 = exports.ITF = undefined;
 
-var _ITF = __webpack_require__(/*! ./ITF */ 448);
+var _ITF = __webpack_require__(/*! ./ITF */ 455);
 
 var _ITF2 = _interopRequireDefault(_ITF);
 
-var _ITF3 = __webpack_require__(/*! ./ITF14 */ 450);
+var _ITF3 = __webpack_require__(/*! ./ITF14 */ 457);
 
 var _ITF4 = _interopRequireDefault(_ITF3);
 
@@ -11490,7 +11490,7 @@ exports.ITF14 = _ITF4.default;
 
 /***/ }),
 
-/***/ 448:
+/***/ 455:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/ITF.js ***!
   \**************************************************************************************************/
@@ -11506,9 +11506,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 449);
+var _constants = __webpack_require__(/*! ./constants */ 456);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11570,7 +11570,7 @@ exports.default = ITF;
 
 /***/ }),
 
-/***/ 449:
+/***/ 456:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/constants.js ***!
   \********************************************************************************************************/
@@ -11590,7 +11590,7 @@ var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', 
 
 /***/ }),
 
-/***/ 450:
+/***/ 457:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/ITF14.js ***!
   \****************************************************************************************************/
@@ -11606,7 +11606,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _ITF2 = __webpack_require__(/*! ./ITF */ 448);
+var _ITF2 = __webpack_require__(/*! ./ITF */ 455);
 
 var _ITF3 = _interopRequireDefault(_ITF2);
 
@@ -11656,7 +11656,7 @@ exports.default = ITF14;
 
 /***/ }),
 
-/***/ 451:
+/***/ 458:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/index.js ***!
   \****************************************************************************************************/
@@ -11671,23 +11671,23 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
 
-var _MSI = __webpack_require__(/*! ./MSI.js */ 452);
+var _MSI = __webpack_require__(/*! ./MSI.js */ 459);
 
 var _MSI2 = _interopRequireDefault(_MSI);
 
-var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 453);
+var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 460);
 
 var _MSI4 = _interopRequireDefault(_MSI3);
 
-var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 455);
+var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 462);
 
 var _MSI6 = _interopRequireDefault(_MSI5);
 
-var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 456);
+var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 463);
 
 var _MSI8 = _interopRequireDefault(_MSI7);
 
-var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 457);
+var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 464);
 
 var _MSI10 = _interopRequireDefault(_MSI9);
 
@@ -11701,7 +11701,7 @@ exports.MSI1110 = _MSI10.default;
 
 /***/ }),
 
-/***/ 452:
+/***/ 459:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI.js ***!
   \**************************************************************************************************/
@@ -11717,7 +11717,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11786,7 +11786,24 @@ exports.default = MSI;
 
 /***/ }),
 
-/***/ 453:
+/***/ 46:
+/*!***********************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail"} ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/detail/detail.vue */ 47));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 460:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI10.js ***!
   \****************************************************************************************************/
@@ -11800,11 +11817,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 459);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 461);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11830,7 +11847,7 @@ exports.default = MSI10;
 
 /***/ }),
 
-/***/ 454:
+/***/ 461:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/checksums.js ***!
   \********************************************************************************************************/
@@ -11870,7 +11887,7 @@ function mod11(number) {
 
 /***/ }),
 
-/***/ 455:
+/***/ 462:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI11.js ***!
   \****************************************************************************************************/
@@ -11884,11 +11901,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 459);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 461);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11914,7 +11931,7 @@ exports.default = MSI11;
 
 /***/ }),
 
-/***/ 456:
+/***/ 463:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
   \******************************************************************************************************/
@@ -11928,11 +11945,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 459);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 461);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11960,7 +11977,7 @@ exports.default = MSI1010;
 
 /***/ }),
 
-/***/ 457:
+/***/ 464:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
   \******************************************************************************************************/
@@ -11974,11 +11991,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 452);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 459);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 454);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 461);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -12006,7 +12023,7 @@ exports.default = MSI1110;
 
 /***/ }),
 
-/***/ 458:
+/***/ 465:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/pharmacode/index.js ***!
   \***********************************************************************************************************/
@@ -12023,7 +12040,7 @@ exports.pharmacode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12090,7 +12107,7 @@ exports.pharmacode = pharmacode;
 
 /***/ }),
 
-/***/ 459:
+/***/ 466:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/codabar/index.js ***!
   \********************************************************************************************************/
@@ -12107,7 +12124,7 @@ exports.codabar = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12193,24 +12210,7 @@ exports.codabar = codabar;
 
 /***/ }),
 
-/***/ 46:
-/*!***********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail"} ***!
-  \***********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/detail/detail.vue */ 47));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 460:
+/***/ 467:
 /*!***************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
   \***************************************************************************************************************/
@@ -12227,7 +12227,7 @@ exports.GenericBarcode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 428);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 435);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 

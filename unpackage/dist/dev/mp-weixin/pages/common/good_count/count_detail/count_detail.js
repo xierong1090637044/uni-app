@@ -221,7 +221,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
             query.set("relations", relID);
             query.set("beizhu", e.detail.value.input_beizhu);
             query.set("type", 3);
-            query.set("opreater", poiID);
+            query.set("opreater", poiID1);
             query.set("master", poiID);
             query.set('goodsName', that.products[0].goodsName);
 

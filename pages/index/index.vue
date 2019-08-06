@@ -33,9 +33,11 @@
 				</swiper-item>
 			</block>
 		</swiper>
-
+		
+		<uni-notice-bar :show-icon="true" :scrollable="true" :single="true" color="#426ab3" text="新版库存表上线啦,接下来将更新此小程序,旧版的将不再更新" />
 		<!--操作列表-->
 		<view class='o_list'>
+			
 			<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 				<view style='width:100%'>
 					<image :src="(value.icon)" class='o_image' />
@@ -57,12 +59,14 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
+	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	let that;
 	let uid;
 
 	export default {
 		components: {
-			faIcon
+			faIcon,
+			uniNoticeBar
 		},
 		data() {
 			return {

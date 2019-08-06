@@ -280,7 +280,7 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
             query.set("relations", relID);
             query.set("beizhu", e.detail.value.input_beizhu);
             query.set("type", -1);
-            query.set("opreater", poiID);
+            query.set("opreater", poiID1);
             query.set("master", poiID);
             query.set('goodsName', that.products[0].goodsName);
             query.set('real_money', Number(that.real_money));
