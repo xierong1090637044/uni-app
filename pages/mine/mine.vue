@@ -45,11 +45,11 @@
 			</view>
 			<view class="list">
 
-				<view class="li ">
+				<navigator class="li " hover-class="none" url="update_history/update_history">
 					<fa-icon type="yelp" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">帮助中心</view>
+					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>
+				</navigator>
 				<navigator class="li " hover-class="none" url="about_us/about_us">
 					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>

@@ -456,6 +456,10 @@
 							"navigationBarTitleText": "用户协议"
 						}
         }
+        ,{
+            "path" : "pages/mine/update_history/update_history",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

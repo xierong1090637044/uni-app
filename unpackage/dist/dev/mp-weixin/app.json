@@ -40,7 +40,8 @@
     "pages/mine/warning_log/warning_log",
     "pages/manage/shops/staff_in/staff_in",
     "pages/manage/shops/record/record",
-    "pages/register/user_protocol/user_protocol"
+    "pages/register/user_protocol/user_protocol",
+    "pages/mine/update_history/update_history"
   ],
   "subPackages": [],
   "window": {
@@ -84,6 +85,5 @@
   "permission": {},
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
-  },
-  "sitemapLocation": "sitemap72.json"
+  }
 }
