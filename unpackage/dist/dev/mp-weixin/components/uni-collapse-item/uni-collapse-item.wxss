@@ -31,7 +31,7 @@
 	background-color: #c8c7cc
 }
 .uni-collapse-cell__title {
-	padding: 24rpx 30rpx;
+	padding: 12rpx 30rpx;
 	width: 100%;
 	-webkit-box-sizing: border-box;
 	        box-sizing: border-box;
@@ -114,7 +114,7 @@
 	        flex-direction: column
 }
 .uni-collapse-cell__title-text {
-	font-size: 32rpx;
+	font-size: 24rpx;
 	-o-text-overflow: ellipsis;
 	   text-overflow: ellipsis;
 	white-space: nowrap;

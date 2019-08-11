@@ -16,14 +16,15 @@
 		<scroll-view class="content" scroll-y="true">
 			<view v-show="current === 0" class="info_item">
 				<view v-for="(item,index) in people" :key="index" class="item">
-					<view class="display_flex_bet">
+					<navigator class="display_flex_bet" hover-class="none" :url="'custom_detail/custom_detail?id='+item.objectId">
 						<view>
 							<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.custom_name}}</view>
 							<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
 							<view style="color: #999;">创建时间：{{item.createdAt}}</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-					</view>
+					</navigator>
+					
 					<view class="display_flex" style="justify-content: flex-end;">
 						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_custom" @click="select_this('custom',item)">
 							<text style="color: #d93a49;">选择</text>

@@ -14208,6 +14208,159 @@ createPage(_mine.default);
 
 /***/ }),
 
+/***/ 550:
+/*!**********************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom_detail%2Fcustom_detail"} ***!
+  \**********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _custom_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/custom_detail.vue */ 551));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_custom_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 556:
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/customs.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+
+{
+  //得到门店列表
+  get_customList: function get_customList(disabled, search_text) {
+    return new Promise(function (resolve, reject) {
+      var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+      var query = _bmob.default.Query("customs");
+      query.order("num");
+      query.equalTo("parent", "==", userid);
+      query.equalTo("disabled", "==", disabled);
+      if (search_text) {
+        query.equalTo("name", "==", {
+          "$regex": "" + search_text + ".*" });
+
+
+      }
+      query.find().then(function (res) {
+        resolve(res);
+      });
+    });
+
+  },
+
+
+  //增加数据操作
+  add_custom: function add_custom(params) {
+
+    console.log(params);
+    var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+
+    return new Promise(function (resolve, reject) {
+      var pointer = _bmob.default.Pointer('_User');
+      var poiID = pointer.set(userid);
+
+      if (params.objectId) {//修改操作
+        var query = _bmob.default.Query('customs');
+        query.set("custom_name", params.custom_name);
+        query.set("debt", Number(params.debt));
+        query.set("custom_address", params.custom_address);
+        query.set("custom_phone", params.custom_phone);
+        query.set("parent", poiID);
+        query.set("disabled", !params.disabled);
+        query.set("id", params.objectId);
+        query.save().then(function (res) {
+          resolve(res);
+        }).catch(function (err) {
+          console.log(err);
+
+        });
+      } else {
+
+        var _query = _bmob.default.Query("customs");
+        _query.equalTo("parent", "==", userid);
+        _query.equalTo("name", "==", params.custom_name);
+        _query.find().then(function (res) {
+          console.log(res);
+          if (res.length == 0) {
+            var _query2 = _bmob.default.Query('customs');
+            _query2.set("custom_name", params.custom_name);
+            _query2.set("debt", Number(params.debt));
+            _query2.set("custom_address", params.custom_address);
+            _query2.set("custom_phone", params.custom_phone);
+            _query2.set("have_out", 0);
+            _query2.set("disabled", !params.disabled);
+            _query2.set("parent", poiID);
+            _query2.save().then(function (res) {
+              resolve(res);
+            }).catch(function (err) {
+              console.log(err);
+            });
+          } else {
+            resolve(false);
+          }
+
+        });
+
+      }
+
+    });
+  },
+
+  //删除门店
+  delete_custom: function delete_custom(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query("customs");
+      query.destroy(id).then(function (res) {
+        resolve(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    });
+
+  },
+
+  //得到客户详情
+  custom_detail: function custom_detail(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query('customs');
+      query.get(id).then(function (res) {
+        //console.log(res)
+        resolve(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+
+    });
+  } };exports.default = _default;
+
+/***/ }),
+
+/***/ 560:
+/*!**************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom_detail%2Fhistory%2Fhistory"} ***!
+  \**************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _history = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/history/history.vue */ 561));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_history.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
 /***/ 62:
 /*!***********************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail"} ***!

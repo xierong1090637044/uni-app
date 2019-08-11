@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/manage/custom/custom_detail/custom_detail",
+    "pages/manage/custom/custom_detail/history/history",
     "pages/manage/good_add/good_add",
     "pages/manage/good_det/good_det",
     "pages/landing/landing",

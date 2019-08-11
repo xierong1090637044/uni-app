@@ -158,7 +158,7 @@
 	}
 
 	.uni-collapse-cell__title {
-		padding: 24upx 30upx;
+		padding: 12upx 30upx;
 		width: 100%;
 		box-sizing: border-box;
 		flex: 1;
@@ -201,7 +201,7 @@
 	}
 
 	.uni-collapse-cell__title-text {
-		font-size: 32upx;
+		font-size: 24rpx;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		color: inherit;

@@ -7,6 +7,19 @@
 			}
 		},
 		{
+		    "path" : "pages/manage/custom/custom_detail/custom_detail",
+		    "style" : {
+					"navigationBarTitleText": "客户详情"
+				}
+		},
+		{
+		    "path" : "pages/manage/custom/custom_detail/history/history",
+		    "style" : {
+					"navigationBarTitleText": "销售明细"
+				}
+		},
+		
+		{
 			"path": "pages/manage/good_add/good_add",
 			"style": {
 				"navigationBarTitleText": "新建产品"
@@ -55,26 +68,7 @@
 		{
 			"path": "pages/manage/goods/goods",
 			"style": {
-				"navigationBarTitleText": "我的产品",
-				"app-plus": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容"
-
-						},
-						"buttons": [{
-								"text": "添加",
-								"fontSize": "14"
-							},
-							{
-								"text": "筛选",
-								"fontSize": "14"
-							}
-						]
-					}
-				}
+				"navigationBarTitleText": "我的产品"
 			}
 		},
 
@@ -88,45 +82,14 @@
 		
 		{
 			"path": "pages/report/EnteringHistory/EnteringHistory",
-			"style": {
-				"app-plus": {
-					"bounce": "vertical",
-					"titleNView": {
-						"buttons": [{
-							"text": "筛选",
-							"fontSize": "14"
-						}]
-					}
-				}
-			}
+			"style": {}
 		},
 
 
 		{
 			"path": "pages/common/goods-select/goods-select",
 			"style": {
-				"navigationBarTitleText": "选择产品",
-				"app-plus": {
-					"bounce": "vertical",
-
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容"
-
-						},
-						"buttons": [{
-								"text": "确定",
-								"fontSize": "14"
-							},
-							{
-								"text": "筛选",
-								"fontSize": "14"
-							}
-						]
-					}
-				}
+				"navigationBarTitleText": "选择产品"
 			}
 		},
 
@@ -153,119 +116,45 @@
 		{
 			"path": "pages/manage/staff/staff",
 			"style": {
-				"navigationBarTitleText": "员工管理",
-				"app-plus": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入员工姓名"
-
-						},
-						"buttons": [{
-							"text": "新增",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "员工管理"
 			}
 		},
 
 		{
 			"path": "pages/manage/shops/shops",
 			"style": {
-				"navigationBarTitleText": "门店管理",
-				"app-plus": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入门名"
-
-						},
-						"buttons": [{
-							"text": "新增",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "门店管理"
 			}
 		},
 		{
 			"path": "pages/manage/warehouse/warehouse",
 			"style": {
-				"navigationBarTitleText": "仓库管理",
-				"app-plus": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入仓库名"
-
-						},
-						"buttons": [{
-							"text": "新增",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "仓库管理"
 			}
 		},
 		{
 			"path": "pages/manage/warehouse/add/add",
 			"style": {
-				"navigationBarTitleText": "新增仓库",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "保存",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "新增仓库"
 			}
 		},
 
 		{
 			"path": "pages/manage/shops/add/add",
 			"style": {
-				"navigationBarTitleText": "新增门店",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "保存",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "新增门店"
 			}
 		},
 		{
 			"path": "pages/manage/staff/add/add",
 			"style": {
-				"navigationBarTitleText": "新增员工",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "保存",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "新增员工"
 			}
 		},
 		{
 			"path": "pages/mine/setting/setting",
 			"style": {
-				"navigationBarTitleText": "我的设置",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "保存",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "我的设置"
 			}
 		},
 
@@ -273,36 +162,13 @@
 		{
 			"path": "pages/manage/custom/custom",
 			"style": {
-				"navigationBarTitleText": "客户管理",
-				"app-plus": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容"
-
-						},
-						"buttons": [{
-							"text": "新增",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "客户管理"
 			}
 		},
 
 		{
 			"path": "pages/manage/custom/add/add",
-			"style": {
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "保存",
-							"fontSize": "14"
-						}]
-					}
-				}
-			}
+			"style": {}
 		},
 
 
@@ -310,14 +176,6 @@
 			"path": "pages/manage/operations/operations",
 			"style": {
 				"navigationBarTitleText": "操作详情"
-				/*"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "排序",
-							"fontSize": "14"
-						}]
-					}
-				}*/
 			}
 		},
 		{
@@ -339,17 +197,7 @@
 		{
 			"path": "pages/common/good_confrim/good_confrim",
 			"style": {
-				"navigationBarTitleText": "产品入库",
-				"app-plus": {
-					"bounce": "vertical",
-
-					"titleNView": {
-						"buttons": [{
-							"text": "确定",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "产品入库"
 			}
 		},
 
@@ -366,41 +214,17 @@
 		}, {
 			"path": "pages/common/goods_out/goods_out",
 			"style": {
-				"navigationBarTitleText": "产品出库",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "确定",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "产品出库"
 			}
 		}, {
 			"path": "pages/common/good_return/good_return",
 			"style": {
-				"navigationBarTitleText": "产品退货",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "确定",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "产品退货"
 			}
 		}, {
 			"path": "pages/common/good_count/good_count",
 			"style": {
-				"navigationBarTitleText": "产品盘点",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "确定",
-							"fontSize": "14"
-						}]
-					}
-				}
+				"navigationBarTitleText": "产品盘点"
 			}
 		}, {
 			"path": "pages/common/good_count/count_detail/count_detail",
@@ -451,7 +275,9 @@
         }
         ,{
             "path" : "pages/mine/update_history/update_history",
-            "style" : {}
+            "style" : {
+							"navigationBarTitleText": "更新历史"
+						}
         }
     ],
 	"tabBar": {
