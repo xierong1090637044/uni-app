@@ -14,13 +14,13 @@
 				</view>
 
 			</view>
-			
-			
+
+
 			<view class="frist">
 				<view class="notice_text">基本信息</view>
 				<view class="input_item">
 					<view class="left_item">名称<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
-					<view class="right_input"><input placeholder="产品名称" name="goodsName"></input></view>
+					<view class="right_input"><input placeholder="产品名称" name="goodsName" :value="goodsName"></input></view>
 				</view>
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
@@ -36,20 +36,20 @@
 
 				<view class="input_item">
 					<view class="left_item">进价</view>
-					<view class="right_input"><input placeholder="产品进价" name="costPrice" type="digit"></input></view>
+					<view class="right_input"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
 				</view>
 
 				<view class="input_item">
 					<view class="left_item">售价</view>
-					<view class="right_input"><input placeholder="产品售价" name="retailPrice" type="digit"></input></view>
+					<view class="right_input"><input placeholder="产品售价" name="retailPrice" type="digit" :value="retailPrice"></input></view>
 				</view>
 				<view class="input_item">
 					<view class="left_item">包装含量</view>
-					<view class="right_input"><input placeholder="包装含量" name="packageContent"></input></view>
+					<view class="right_input"><input placeholder="包装含量" name="packageContent" :value="packageContent"></input></view>
 				</view>
 				<view class="input_item">
 					<view class="left_item">包装单位</view>
-					<view class="right_input"><input placeholder="包装单位" name="packingUnit"></input></view>
+					<view class="right_input"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
 				</view>
 			</view>
 
@@ -94,18 +94,18 @@
 				</navigator>
 				<view class="input_item">
 					<view class="left_item">预警库存</view>
-					<view class="right_input"><input placeholder="预警库存" name="warning_num" type="digit"></input></view>
+					<view class="right_input"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 				</view>
 			</view>
 
 			<view class="frist">
 				<view class="input_item">
 					<view class="left_item">生产厂家</view>
-					<view class="right_input"><input placeholder="生产厂家" name="producer"></input></view>
+					<view class="right_input"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
 				</view>
 				<view class="input_item">
 					<view class="left_item">货号</view>
-					<view class="right_input"><input placeholder="货号" name="regNumber"></input></view>
+					<view class="right_input"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
 				</view>
 				<view class="input_item1">
 
@@ -120,11 +120,11 @@
 				</view>
 				<view class="input_item">
 					<view class="left_item">货架位置</view>
-					<view class="right_input"><input placeholder="货架位置" name="position"></input></view>
+					<view class="right_input"><input placeholder="货架位置" name="position" :value="position"></input></view>
 				</view>
 				<view class="input_item">
 					<view class="left_item">产品简介</view>
-					<view class="right_input"><input placeholder="产品简介" name="product_info"></input></view>
+					<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
 				</view>
 			</view>
 
@@ -140,11 +140,13 @@
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
+	import common from '@/utils/common.js';
+	
 	let that;
 	let tempFilePaths;
-	let p_class_user_id ="";
-	let p_second_class_id ="";
-	let uid ;
+	let p_class_user_id = "";
+	let p_second_class_id = "";
+	let uid;
 
 	export default {
 		components: {
@@ -152,18 +154,28 @@
 		},
 		data() {
 			return {
+				goodsName: '',
+				costPrice: '', //进价
+				retailPrice: '', //售价
+				packageContent: '', //包装含量
+				packingUnit: '', //包装单位
+				warning_num: '', //预警库存
+				producer: '', //生产厂家
+				regNumber: '', //货号
+				position: '', //位置
+				product_info: '', //产品简介
+				productCode: "", //产品条码
+				category: "", //分类
+				reserve: [0], //初始库存
+				goodsIcon: "", //产品图片
 				stocks: [{
 					"stock": {
 						'stock_name': '默认仓库'
 					},
 					'reserve': 0
 				}], //存放的仓库
-				category: "", //分类
-				reserve: [0], //初始库存
-				goodsIcon: "", //产品图片
 				producttime: "",
 				nousetime: "",
-				productCode: "",
 			}
 		},
 		onLoad() {
@@ -173,6 +185,44 @@
 			uni.removeStorageSync("warehouse")
 		},
 		onShow() {
+
+			if (uni.getStorageSync("now_product")) { //存在此缓存代表编辑模式
+				uni.setNavigationBarTitle({
+					title: "编辑产品"
+				})
+
+				let stocks = []
+				let now_stocks = {}
+				let now_product = uni.getStorageSync("now_product")
+
+				that.goodsName = now_product.goodsName
+				that.costPrice = now_product.costPrice //进价
+				that.retailPrice = now_product.retailPrice //售价
+				that.packageContent = now_product.packageContent //包装含量
+				that.packingUnit = now_product.packingUnit //包装单位
+				that.warning_num = now_product.warning_num //预警库存
+				that.producer = now_product.producer //生产厂家
+				that.regNumber = now_product.regNumber //货号
+				that.position = now_product.position //位置
+				that.product_info = now_product.product_info //产品简介
+				that.productCode = now_product.productCode //产品条码
+				that.category = now_product.second_class //分类
+				//reserve: [0], //初始库存
+				that.goodsIcon = now_product.goodsIcon //产品图片
+
+				let pointer2 = Bmob.Pointer('class_user')
+				p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
+
+				let pointer3 = Bmob.Pointer('second_class')
+				p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+
+				now_stocks.stock = now_product.stocks
+				now_stocks.reserve = now_product.reserve
+				stocks.push(now_stocks)
+				that.stocks = stocks
+				console.log(that.stocks)
+			}
+
 			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
 				that.stocks = uni.getStorageSync("warehouse")
 			}
@@ -194,7 +244,7 @@
 			tempFilePaths = "";
 			p_class_user_id = "";
 			p_second_class_id = "";
-			
+
 			uni.removeStorageSync("category");
 			uni.removeStorageSync("class_user")
 			uni.removeStorageSync("second_class")
@@ -316,28 +366,70 @@
 							query.set("producer", good.producer)
 							query.set("packingUnit", good.packingUnit)
 							query.set("packageContent", good.packageContent)
+							query.set("position", good.position)
 							query.set("warning_num", Number(good.warning_num))
-							query.set("stocktype", (Number(good.warning_num)>=Number(reserve)) ? 0:1)//库存数量类型 0代表库存不足 1代表库存充足
+							query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 							if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 								query.set("second_class", p_second_class_id)
 								query.set("goodsClass", p_class_user_id)
 							}
+
+							if (uni.getStorageSync("now_product")) {
+								query.set("id", uni.getStorageSync("now_product").objectId)
+							}
 							query.set("userId", userid)
 							query.save().then(res => {
 								uni.hideLoading();
-								uni.showToast({
-									title: "上传成功"
-								})
+
+								if (uni.getStorageSync("now_product")) {
+									uni.showToast({
+										title: "修改成功"
+									})
+
+									common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息" , 5, '');
+
+								} else {
+									uni.showToast({
+										title: "上传成功"
+									})
+
+									common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'" , 5, '');
+								}
+
+								that.handledata()
 							}).catch(err => {
 								console.log(err)
 							})
 						}
 					}
 				});
-
-
-
 			},
+
+			//数据重置
+			handledata() {
+				that.goodsName = ''
+				that.costPrice = '' //进价
+				that.retailPrice = '' //售价
+				that.packageContent = '' //包装含量
+				that.packingUnit = '' //包装单位
+				that.warning_num = '' //预警库存
+				that.producer = '' //生产厂家
+				that.regNumber = '' //货号
+				that.position = '' //位置
+				that.product_info = '' //产品简介
+				that.productCode = "" //产品条码
+				that.category = "" //分类
+				that.reserve = [0] //初始库存
+				that.goodsIcon = "" //产品图片
+				that.stocks = [{
+					"stock": {
+						'stock_name': '默认仓库'
+					},
+					'reserve': 0
+				}] //存放的仓库
+				that.producttime = ""
+				that.nousetime = ""
+			}
 
 		}
 	}
@@ -409,7 +501,8 @@
 		border: 1rpx solid#999;
 		border-radius: 8rpx;
 	}
-	.notice_text{
+
+	.notice_text {
 		padding-top: 20rpx;
 		font-size: 32rpx;
 		color: #3D3D3D;

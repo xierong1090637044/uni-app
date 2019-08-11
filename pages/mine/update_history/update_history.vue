@@ -22,6 +22,7 @@
 					<view class="desc-list">
 						<text>员工管理时，操作记录显示bug修复</text>
 						<text>电脑端仓库管理修改bug修复</text>
+						<text>增加产品修改信息功能</text>
 					</view>
 				</view>
 

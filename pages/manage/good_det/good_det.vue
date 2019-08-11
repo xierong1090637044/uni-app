@@ -73,6 +73,8 @@
 			</view>
 		</view>
 
+		<uni-fab ref="fab" :pattern="pattern" :content="content" horizontal="right" vertical="bottom" direction="horizontal"
+		 @trigger="trigger" />
 	</view>
 </template>
 
@@ -81,6 +83,7 @@
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
 	import Bmob from '@/utils/bmob.js'
+	import uniFab from '@/components/uni-fab/uni-fab.vue'
 
 	let that;
 	let uid;
@@ -88,10 +91,23 @@
 		components: {
 			faIcon,
 			tkiQrcode,
-			tkiBarcode
+			tkiBarcode,
+			uniFab
 		},
 		data() {
 			return {
+				pattern: {
+					color: '#7A7E83',
+					backgroundColor: '#fff',
+					selectedColor: '#426ab3',
+					buttonColor: '#426ab3'
+				},
+				content: [{
+					iconPath: '/static/edit.png',
+					selectedIconPath: '/static/edit.png',
+					text: '编辑',
+					active: false
+				}],
 				opations: {
 					width: 2,
 					height: 80,
@@ -107,7 +123,7 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			
+
 			console.log(options)
 
 			if (options.id) {
@@ -122,13 +138,23 @@
 					console.log(res)
 					this.product = res[0];
 				})
-			}else{
+			} else {
 				this.product = uni.getStorageSync("now_product");
 			}
 
-			
+
 		},
 		methods: {
+
+			//fab列目点击
+			trigger(e) {
+				this.content[e.index].active = !e.item.active;
+				if (e.index == 0) {
+					uni.navigateTo({
+						url: '../good_add/good_add'
+					});
+				}
+			},
 
 			//点击显示二维码的操作
 			showcode_option() {

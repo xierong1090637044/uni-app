@@ -7,6 +7,20 @@
 			}
 		},
 		{
+			"path": "pages/manage/good_add/good_add",
+			"style": {
+				"navigationBarTitleText": "新建产品"
+			}
+		},
+		
+		{
+			"path": "pages/manage/good_det/good_det",
+			"style": {
+				"navigationBarTitleText": "产品详情"
+			}
+		}, 
+		
+		{
 			"path": "pages/landing/landing",
 			"style": {
 				"navigationBarTitleText": "登陆"
@@ -135,12 +149,7 @@
 				"navigationBarTitleText": "入库详情"
 			}
 		},
-		{
-			"path": "pages/manage/good_add/good_add",
-			"style": {
-				"navigationBarTitleText": "新建产品"
-			}
-		},
+		
 		{
 			"path": "pages/manage/staff/staff",
 			"style": {
@@ -348,22 +357,6 @@
 			"path": "pages/report/report",
 			"style": {
 				"navigationBarTitleText": "报表"
-			}
-		}, {
-			"path": "pages/manage/good_det/good_det",
-			"style": {
-				"navigationBarTitleText": "产品详情",
-				"app-plus": {
-					"bounce": "vertical",
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue537",
-							"fontSrc": "/static/uni.ttf",
-							"fontSize": "22px",
-							"color": "#fff"
-						}]
-					}
-				}
 			}
 		}, {
 			"path": "pages/report/EnteringHistory/detail/detail",

@@ -3,6 +3,7 @@
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "tki-qrcode": "/components/tki-qrcode/tki-qrcode",
-    "tki-barcode": "/components/tki-barcode/tki-barcode"
+    "tki-barcode": "/components/tki-barcode/tki-barcode",
+    "uni-fab": "/components/uni-fab/uni-fab"
   }
 }

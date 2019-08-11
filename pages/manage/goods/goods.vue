@@ -219,9 +219,7 @@
 				});
 				query.limit(page_size);
 				query.order("-" + that.checked_option); //按照条件降序
-				query.include("userId");
-				query.include("goodsClass");
-				query.include("stocks");
+				query.include("userId","goodsClass","stocks","second_class");
 				query.find().then(res => {
 					//console.log(res)
 					this.productList = res;

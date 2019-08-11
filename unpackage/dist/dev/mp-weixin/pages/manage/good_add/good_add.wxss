@@ -71,7 +71,7 @@
 	border: 1rpx solid#999;
 	border-radius: 8rpx;
 }
-.notice_text{
+.notice_text {
 	padding-top: 20rpx;
 	font-size: 32rpx;
 	color: #3D3D3D;
