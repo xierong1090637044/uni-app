@@ -41,14 +41,14 @@
 
 			<view v-show="current === 1" class="info_item">
 				<view v-for="(item,index) in people" :key="index" class="item">
-					<view class="display_flex_bet">
+					<navigator class="display_flex_bet" hover-class="none" :url="'producer_detail/producer_detail?id='+item.objectId">
 						<view>
 							<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{item.producer_name}}</view>
 							<view v-if="item.beizhu">备注：{{item.beizhu}}</view>
 							<view style="color: #999;">创建时间：{{item.createdAt}}</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-					</view>
+					</navigator>
 					<view class="display_flex" style="justify-content: flex-end;">
 						
 						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_producer" @click="select_this('producer',item)">

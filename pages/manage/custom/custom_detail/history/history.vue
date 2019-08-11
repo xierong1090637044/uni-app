@@ -20,14 +20,13 @@
 					<uni-collapse accordion="true">
 					    <uni-collapse-item title="明细">
 					        <view v-for="(item,index) in item.relations" :key="index" class='pro_listitem'>
-					        	<view class='pro_list' style='color:#000'>
-					        		<view>产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
-					        		<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
+					        	<view class='pro_list' style='color:#3D3D3D'>
+					        		<view style="font-size: 24rpx !important;">产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
+					        		<view style="font-size: 24rpx !important;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
 					        	</view>
 					        	<view class='pro_list'>
-					        		<view v-if="item.type == -1">实际卖出价：￥{{item.retailPrice}}（X{{item.num}}）</view>
-					        		<view v-else>实际进货价：￥{{item.retailPrice}}（X{{item.num}}）</view>
-					        		<view>总价：￥{{item.total_money }}</view>
+					        		<view style="font-size: 24rpx !important;">实际卖出价：￥{{item.retailPrice}}（X{{item.num}}）</view>
+					        		<view style="font-size: 24rpx !important;">总价：￥{{item.total_money }}</view>
 					        	</view>
 					        </view>
 					    </uni-collapse-item>
@@ -102,6 +101,7 @@
 	}
 	
 	.pro_list {
+		font-size: 20rpx !important;
 		display: flex;
 		justify-content: space-between;
 	}

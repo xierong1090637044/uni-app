@@ -1,3 +1,4 @@
+import Bmob from '@/utils/bmob.js';
 export default {
 	//得到门店列表
 
@@ -91,6 +92,20 @@ export default {
 			})
 		})
 		
+	},
+	
+	//得到供货商详情
+	producer_detail(id) {
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query('producers');
+			query.get(id).then(res => {
+				//console.log(res)
+				resolve(res)
+			}).catch(err => {
+				console.log(err)
+			})
+	
+		})
 	},
 	
 

@@ -7,32 +7,40 @@
 			}
 		},
 		{
-		    "path" : "pages/manage/custom/custom_detail/custom_detail",
-		    "style" : {
-					"navigationBarTitleText": "客户详情"
-				}
+			"path": "pages/manage/custom/producer_detail/producer_detail",
+			"style": {
+				"navigationBarTitleText": "客户详情"
+			}
 		},
 		{
-		    "path" : "pages/manage/custom/custom_detail/history/history",
-		    "style" : {
-					"navigationBarTitleText": "销售明细"
-				}
+			"path": "pages/manage/custom/custom_detail/custom_detail",
+			"style": {
+				"navigationBarTitleText": "客户详情"
+			}
 		},
-		
+
+
+		{
+			"path": "pages/manage/custom/custom_detail/history/history",
+			"style": {
+				"navigationBarTitleText": "销售明细"
+			}
+		},
+
 		{
 			"path": "pages/manage/good_add/good_add",
 			"style": {
 				"navigationBarTitleText": "新建产品"
 			}
 		},
-		
+
 		{
 			"path": "pages/manage/good_det/good_det",
 			"style": {
 				"navigationBarTitleText": "产品详情"
 			}
-		}, 
-		
+		},
+
 		{
 			"path": "pages/landing/landing",
 			"style": {
@@ -40,8 +48,8 @@
 			}
 		},
 		{
-		    "path" : "pages/register/register",
-		    "style" : {
+			"path": "pages/register/register",
+			"style": {
 				"navigationBarTitleText": "注册"
 			}
 		},
@@ -79,7 +87,7 @@
 				"navigationBarTitleText": "操作记录"
 			}
 		},
-		
+
 		{
 			"path": "pages/report/EnteringHistory/EnteringHistory",
 			"style": {}
@@ -112,7 +120,7 @@
 				"navigationBarTitleText": "入库详情"
 			}
 		},
-		
+
 		{
 			"path": "pages/manage/staff/staff",
 			"style": {
@@ -185,7 +193,7 @@
 			}
 		},
 
-		
+
 
 		{
 			"path": "pages/manage/category/category",
@@ -253,31 +261,33 @@
 			"style": {
 				"navigationBarTitleText": "预警记录"
 			}
+		}, {
+			"path": "pages/manage/shops/staff_in/staff_in",
+			"style": {
+				"navigationBarTitleText": "员工列表"
+			}
+		}, {
+			"path": "pages/manage/shops/record/record",
+			"style": {
+				"navigationBarTitleText": "全部记录"
+			}
 		}
+
+		, {
+			"path": "pages/register/user_protocol/user_protocol",
+			"style": {
+				"navigationBarTitleText": "用户协议"
+			}
+		}, {
+			"path": "pages/mine/update_history/update_history",
+			"style": {
+				"navigationBarTitleText": "更新历史"
+			}
+		}
+
 	    ,{
-            "path" : "pages/manage/shops/staff_in/staff_in",
-            "style" : {
-							"navigationBarTitleText": "员工列表"
-						}
-        }
-        ,{
-            "path" : "pages/manage/shops/record/record",
-            "style" : {
-							"navigationBarTitleText": "全部记录"
-						}
-        }
-        
-        ,{
-            "path" : "pages/register/user_protocol/user_protocol",
-            "style" : {
-							"navigationBarTitleText": "用户协议"
-						}
-        }
-        ,{
-            "path" : "pages/mine/update_history/update_history",
-            "style" : {
-							"navigationBarTitleText": "更新历史"
-						}
+            "path" : "pages/manage/custom/producer_detail/history/history",
+            "style" : {"navigationBarTitleText": "采购明细"}
         }
     ],
 	"tabBar": {

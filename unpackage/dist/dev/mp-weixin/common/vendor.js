@@ -13,7 +13,7 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _vueI18n = _interopRequireDefault(__webpack_require__(/*! vue-i18n */ 5));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 6));
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 350));};
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 367));};
 
 _bmob.default.initialize("afaa8342776ad99ff0d49bca224de9b2", "9eed865dc5914f2ecedcd63be31e33e9", "47f76baf4ee4d90630d7b2bc17f7505c");
 _vue.default.config.productionTip = false;
@@ -1531,7 +1531,41 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ 102:
+/***/ 103:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ 104));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_logs.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 111:
+/*!*****************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2FEnteringHistory%2FEnteringHistory"} ***!
+  \*****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _EnteringHistory = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/EnteringHistory.vue */ 112));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_EnteringHistory.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 119:
 /*!***********************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods-select%2Fgoods-select"} ***!
   \***********************************************************************************************************************/
@@ -1542,42 +1576,8 @@ uni$1;exports.default = _default;
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _goodsSelect = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods-select/goods-select.vue */ 103));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _goodsSelect = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods-select/goods-select.vue */ 120));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_goodsSelect.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 110:
-/*!***************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail"} ***!
-  \***************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _return_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/return_detail/return_detail.vue */ 111));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_return_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 118:
-/*!*******************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail"} ***!
-  \*******************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _out_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/out_detail/out_detail.vue */ 119));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_out_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -1689,10 +1689,10 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 126:
-/*!**********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter"} ***!
-  \**********************************************************************************************************************************/
+/***/ 127:
+/*!***************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Freturn_detail%2Freturn_detail"} ***!
+  \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1700,8 +1700,8 @@ function normalizeComponent (
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _good_enter = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_enter/good_enter.vue */ 127));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_enter.default);
+var _return_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/return_detail/return_detail.vue */ 128));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_return_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -1723,7 +1723,41 @@ createPage(_index.default);
 
 /***/ }),
 
-/***/ 134:
+/***/ 135:
+/*!*******************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fout_detail%2Fout_detail"} ***!
+  \*******************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _out_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/out_detail/out_detail.vue */ 136));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_out_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 143:
+/*!**********************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_enter%2Fgood_enter"} ***!
+  \**********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_enter = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_enter/good_enter.vue */ 144));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_enter.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 151:
 /*!*********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fstaff"} ***!
   \*********************************************************************************************************/
@@ -1734,13 +1768,13 @@ createPage(_index.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _staff = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/staff.vue */ 135));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _staff = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/staff.vue */ 152));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_staff.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 142:
+/***/ 159:
 /*!*********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Fshops"} ***!
   \*********************************************************************************************************/
@@ -1751,13 +1785,13 @@ createPage(_staff.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _shops = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/shops.vue */ 143));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _shops = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/shops.vue */ 160));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_shops.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 150:
+/***/ 167:
 /*!*****************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fwarehouse"} ***!
   \*****************************************************************************************************************/
@@ -1768,13 +1802,13 @@ createPage(_shops.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _warehouse = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/warehouse.vue */ 151));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _warehouse = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/warehouse.vue */ 168));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_warehouse.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 158:
+/***/ 175:
 /*!*****************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fadd%2Fadd"} ***!
   \*****************************************************************************************************************/
@@ -1785,13 +1819,13 @@ createPage(_warehouse.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/add/add.vue */ 159));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/add/add.vue */ 176));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_add.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 166:
+/***/ 183:
 /*!*************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Fadd%2Fadd"} ***!
   \*************************************************************************************************************/
@@ -1802,42 +1836,8 @@ createPage(_add.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/add/add.vue */ 167));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/add/add.vue */ 184));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 174:
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
-  \*************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/add/add.vue */ 175));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 182:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fsetting%2Fsetting"} ***!
-  \***********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/setting/setting.vue */ 183));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_setting.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -1944,9 +1944,26 @@ module.exports = {
 
 /***/ }),
 
-/***/ 190:
+/***/ 191:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fstaff%2Fadd%2Fadd"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/staff/add/add.vue */ 192));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 199:
 /*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom"} ***!
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fsetting%2Fsetting"} ***!
   \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1955,25 +1972,8 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _custom = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom.vue */ 191));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_custom.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 198:
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fadd%2Fadd"} ***!
-  \**************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/add/add.vue */ 199));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_add.default);
+var _setting = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/setting/setting.vue */ 200));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_setting.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -7927,7 +7927,58 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 206:
+/***/ 207:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom"} ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _custom = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom.vue */ 208));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_custom.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 215:
+/*!**************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fadd%2Fadd"} ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/add/add.vue */ 216));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 22:
+/*!**********************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom_detail%2Fcustom_detail"} ***!
+  \**********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _custom_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/custom_detail.vue */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_custom_detail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 223:
 /*!*******************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Foperations%2Foperations"} ***!
   \*******************************************************************************************************************/
@@ -7938,13 +7989,13 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ 207));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _operations = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/operations/operations.vue */ 224));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_operations.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 214:
+/***/ 231:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fmanage"} ***!
   \**************************************************************************************************/
@@ -7955,30 +8006,13 @@ createPage(_operations.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ 215));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _manage = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/manage.vue */ 232));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_manage.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 22:
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
-  \***************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_add.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 222:
+/***/ 239:
 /*!***************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcategory%2Fcategory"} ***!
   \***************************************************************************************************************/
@@ -7989,13 +8023,13 @@ createPage(_good_add.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/category/category.vue */ 223));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _category = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/category/category.vue */ 240));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_category.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 230:
+/***/ 247:
 /*!***********************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_confrim%2Fgood_confrim"} ***!
   \***********************************************************************************************************************/
@@ -8006,13 +8040,13 @@ createPage(_category.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _good_confrim = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_confrim.vue */ 231));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_confrim = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_confrim/good_confrim.vue */ 248));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_confrim.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 238:
+/***/ 255:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2Freport"} ***!
   \**************************************************************************************************/
@@ -8023,13 +8057,13 @@ createPage(_good_confrim.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ 239));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _report = _interopRequireDefault(__webpack_require__(/*! ./pages/report/report.vue */ 256));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_report.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 246:
+/***/ 263:
 /*!*****************************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2FEnteringHistory%2Fdetail%2Fdetail"} ***!
   \*****************************************************************************************************************************/
@@ -8040,13 +8074,13 @@ createPage(_report.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/detail/detail.vue */ 247));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/detail/detail.vue */ 264));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 254:
+/***/ 271:
 /*!*****************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgoods_out%2Fgoods_out"} ***!
   \*****************************************************************************************************************/
@@ -8057,13 +8091,13 @@ createPage(_detail.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _goods_out = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/goods_out.vue */ 255));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _goods_out = _interopRequireDefault(__webpack_require__(/*! ./pages/common/goods_out/goods_out.vue */ 272));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_goods_out.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 262:
+/***/ 279:
 /*!*********************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_return%2Fgood_return"} ***!
   \*********************************************************************************************************************/
@@ -8074,13 +8108,132 @@ createPage(_goods_out.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _good_return = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/good_return.vue */ 263));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_return = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_return/good_return.vue */ 280));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_return.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 270:
+/***/ 28:
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/customs.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+
+{
+  //得到门店列表
+  get_customList: function get_customList(disabled, search_text) {
+    return new Promise(function (resolve, reject) {
+      var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+      var query = _bmob.default.Query("customs");
+      query.order("num");
+      query.equalTo("parent", "==", userid);
+      query.equalTo("disabled", "==", disabled);
+      if (search_text) {
+        query.equalTo("name", "==", {
+          "$regex": "" + search_text + ".*" });
+
+
+      }
+      query.find().then(function (res) {
+        resolve(res);
+      });
+    });
+
+  },
+
+
+  //增加数据操作
+  add_custom: function add_custom(params) {
+
+    console.log(params);
+    var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+
+    return new Promise(function (resolve, reject) {
+      var pointer = _bmob.default.Pointer('_User');
+      var poiID = pointer.set(userid);
+
+      if (params.objectId) {//修改操作
+        var query = _bmob.default.Query('customs');
+        query.set("custom_name", params.custom_name);
+        query.set("debt", Number(params.debt));
+        query.set("custom_address", params.custom_address);
+        query.set("custom_phone", params.custom_phone);
+        query.set("parent", poiID);
+        query.set("disabled", !params.disabled);
+        query.set("id", params.objectId);
+        query.save().then(function (res) {
+          resolve(res);
+        }).catch(function (err) {
+          console.log(err);
+
+        });
+      } else {
+
+        var _query = _bmob.default.Query("customs");
+        _query.equalTo("parent", "==", userid);
+        _query.equalTo("name", "==", params.custom_name);
+        _query.find().then(function (res) {
+          console.log(res);
+          if (res.length == 0) {
+            var _query2 = _bmob.default.Query('customs');
+            _query2.set("custom_name", params.custom_name);
+            _query2.set("debt", Number(params.debt));
+            _query2.set("custom_address", params.custom_address);
+            _query2.set("custom_phone", params.custom_phone);
+            _query2.set("have_out", 0);
+            _query2.set("disabled", !params.disabled);
+            _query2.set("parent", poiID);
+            _query2.save().then(function (res) {
+              resolve(res);
+            }).catch(function (err) {
+              console.log(err);
+            });
+          } else {
+            resolve(false);
+          }
+
+        });
+
+      }
+
+    });
+  },
+
+  //删除门店
+  delete_custom: function delete_custom(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query("customs");
+      query.destroy(id).then(function (res) {
+        resolve(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    });
+
+  },
+
+  //得到客户详情
+  custom_detail: function custom_detail(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query('customs');
+      query.get(id).then(function (res) {
+        //console.log(res)
+        resolve(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+
+    });
+  } };exports.default = _default;
+
+/***/ }),
+
+/***/ 287:
 /*!*******************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fgood_count"} ***!
   \*******************************************************************************************************************/
@@ -8091,13 +8244,13 @@ createPage(_good_return.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _good_count = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/good_count.vue */ 271));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good_count = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/good_count.vue */ 288));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good_count.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 278:
+/***/ 295:
 /*!************************************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fcommon%2Fgood_count%2Fcount_detail%2Fcount_detail"} ***!
   \************************************************************************************************************************************/
@@ -8108,42 +8261,8 @@ createPage(_good_count.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _count_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/count_detail/count_detail.vue */ 279));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _count_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/common/good_count/count_detail/count_detail.vue */ 296));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_count_detail.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 286:
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fabout_us%2Fabout_us"} ***!
-  \*************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _about_us = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/about_us/about_us.vue */ 287));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_about_us.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 294:
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fhome_page%2Fhome_page"} ***!
-  \***************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _home_page = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/home_page/home_page.vue */ 295));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_home_page.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -8179,9 +8298,43 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 30:
+/***/ 303:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fabout_us%2Fabout_us"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _about_us = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/about_us/about_us.vue */ 304));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_about_us.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 31:
+/*!**************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom_detail%2Fhistory%2Fhistory"} ***!
+  \**************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _history = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/history/history.vue */ 32));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_history.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 311:
 /*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fhome_page%2Fhome_page"} ***!
   \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -8190,13 +8343,13 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ 31));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_good_det.default);
+var _home_page = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/home_page/home_page.vue */ 312));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_home_page.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 302:
+/***/ 319:
 /*!****************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fstaff_landing%2Fstaff_landing"} ***!
   \****************************************************************************************************************/
@@ -8207,13 +8360,13 @@ createPage(_good_det.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _staff_landing = _interopRequireDefault(__webpack_require__(/*! ./pages/staff_landing/staff_landing.vue */ 303));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _staff_landing = _interopRequireDefault(__webpack_require__(/*! ./pages/staff_landing/staff_landing.vue */ 320));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_staff_landing.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 310:
+/***/ 327:
 /*!*******************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fwarning_log%2Fwarning_log"} ***!
   \*******************************************************************************************************************/
@@ -8224,13 +8377,13 @@ createPage(_staff_landing.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _warning_log = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/warning_log/warning_log.vue */ 311));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _warning_log = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/warning_log/warning_log.vue */ 328));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_warning_log.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 318:
+/***/ 335:
 /*!***********************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Fstaff_in%2Fstaff_in"} ***!
   \***********************************************************************************************************************/
@@ -8241,13 +8394,13 @@ createPage(_warning_log.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _staff_in = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/staff_in/staff_in.vue */ 319));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _staff_in = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/staff_in/staff_in.vue */ 336));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_staff_in.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 326:
+/***/ 343:
 /*!*******************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fshops%2Frecord%2Frecord"} ***!
   \*******************************************************************************************************************/
@@ -8258,13 +8411,13 @@ createPage(_staff_in.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _record = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/record/record.vue */ 327));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _record = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/shops/record/record.vue */ 344));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_record.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 334:
+/***/ 351:
 /*!***************************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fregister%2Fuser_protocol%2Fuser_protocol"} ***!
   \***************************************************************************************************************************/
@@ -8275,13 +8428,13 @@ createPage(_record.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _user_protocol = _interopRequireDefault(__webpack_require__(/*! ./pages/register/user_protocol/user_protocol.vue */ 335));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _user_protocol = _interopRequireDefault(__webpack_require__(/*! ./pages/register/user_protocol/user_protocol.vue */ 352));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_user_protocol.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 342:
+/***/ 359:
 /*!*************************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fupdate_history%2Fupdate_history"} ***!
   \*************************************************************************************************************************/
@@ -8292,13 +8445,42 @@ createPage(_user_protocol.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _update_history = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/update_history/update_history.vue */ 343));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _update_history = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/update_history/update_history.vue */ 360));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_update_history.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 369:
+/***/ 39:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_add%2Fgood_add"} ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _good_add = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_add/good_add.vue */ 40));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_add.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 4:
+/*!******************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/pages.json ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+
+/***/ 400:
 /*!***************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-qrcode/qrcode.js ***!
   \***************************************************************************************/
@@ -9516,7 +9698,7 @@ QRCode;exports.default = _default;
 
 /***/ }),
 
-/***/ 377:
+/***/ 408:
 /*!*****************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcode.js ***!
   \*****************************************************************************************/
@@ -9524,7 +9706,7 @@ QRCode;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 378)['default'];
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 409)['default'];
 var _barcode = {};
 (function () {
   // 初始化
@@ -9718,7 +9900,7 @@ _barcode;exports.default = _default;
 
 /***/ }),
 
-/***/ 378:
+/***/ 409:
 /*!************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/index.js ***!
   \************************************************************************************************/
@@ -9732,21 +9914,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE = __webpack_require__(/*! ./CODE39/ */ 379);
+var _CODE = __webpack_require__(/*! ./CODE39/ */ 410);
 
-var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 381);
+var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 412);
 
-var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 389);
+var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 420);
 
-var _ITF = __webpack_require__(/*! ./ITF/ */ 399);
+var _ITF = __webpack_require__(/*! ./ITF/ */ 430);
 
-var _MSI = __webpack_require__(/*! ./MSI/ */ 403);
+var _MSI = __webpack_require__(/*! ./MSI/ */ 434);
 
-var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 410);
+var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 441);
 
-var _codabar = __webpack_require__(/*! ./codabar */ 411);
+var _codabar = __webpack_require__(/*! ./codabar */ 442);
 
-var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 412);
+var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 443);
 
 exports.default = {
   CODE39: _CODE.CODE39,
@@ -9762,7 +9944,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 379:
+/***/ 410:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE39/index.js ***!
   \*******************************************************************************************************/
@@ -9779,7 +9961,7 @@ exports.CODE39 = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -9877,24 +10059,7 @@ exports.CODE39 = CODE39;
 
 /***/ }),
 
-/***/ 38:
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Flanding%2Flanding"} ***!
-  \****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _landing = _interopRequireDefault(__webpack_require__(/*! ./pages/landing/landing.vue */ 39));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_landing.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 380:
+/***/ 411:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/Barcode.js ***!
   \**************************************************************************************************/
@@ -9922,7 +10087,7 @@ exports.default = Barcode;
 
 /***/ }),
 
-/***/ 381:
+/***/ 412:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/index.js ***!
   \********************************************************************************************************/
@@ -9937,19 +10102,19 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
 
-var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 382);
+var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 413);
 
 var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
 
-var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 386);
+var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 417);
 
 var _CODE128A2 = _interopRequireDefault(_CODE128A);
 
-var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 387);
+var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 418);
 
 var _CODE128B2 = _interopRequireDefault(_CODE128B);
 
-var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 388);
+var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 419);
 
 var _CODE128C2 = _interopRequireDefault(_CODE128C);
 
@@ -9962,7 +10127,7 @@ exports.CODE128C = _CODE128C2.default;
 
 /***/ }),
 
-/***/ 382:
+/***/ 413:
 /*!***************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
   \***************************************************************************************************************/
@@ -9976,11 +10141,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE2 = __webpack_require__(/*! ./CODE128 */ 383);
+var _CODE2 = __webpack_require__(/*! ./CODE128 */ 414);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _auto = __webpack_require__(/*! ./auto */ 385);
+var _auto = __webpack_require__(/*! ./auto */ 416);
 
 var _auto2 = _interopRequireDefault(_auto);
 
@@ -10014,7 +10179,7 @@ exports.default = CODE128AUTO;
 
 /***/ }),
 
-/***/ 383:
+/***/ 414:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
   \**********************************************************************************************************/
@@ -10030,11 +10195,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _constants = __webpack_require__(/*! ./constants */ 384);
+var _constants = __webpack_require__(/*! ./constants */ 415);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10192,7 +10357,7 @@ exports.default = CODE128;
 
 /***/ }),
 
-/***/ 384:
+/***/ 415:
 /*!************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/constants.js ***!
   \************************************************************************************************************/
@@ -10257,7 +10422,7 @@ var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 1
 
 /***/ }),
 
-/***/ 385:
+/***/ 416:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/auto.js ***!
   \*******************************************************************************************************/
@@ -10271,7 +10436,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ 384);
+var _constants = __webpack_require__(/*! ./constants */ 415);
 
 // Match Set functions
 var matchSetALength = function matchSetALength(string) {
@@ -10341,7 +10506,7 @@ exports.default = function (string) {
 
 /***/ }),
 
-/***/ 386:
+/***/ 417:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
   \***********************************************************************************************************/
@@ -10357,11 +10522,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 383);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 414);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 384);
+var _constants = __webpack_require__(/*! ./constants */ 415);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10394,7 +10559,7 @@ exports.default = CODE128A;
 
 /***/ }),
 
-/***/ 387:
+/***/ 418:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
   \***********************************************************************************************************/
@@ -10410,11 +10575,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 383);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 414);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 384);
+var _constants = __webpack_require__(/*! ./constants */ 415);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10447,7 +10612,7 @@ exports.default = CODE128B;
 
 /***/ }),
 
-/***/ 388:
+/***/ 419:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
   \***********************************************************************************************************/
@@ -10463,11 +10628,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 383);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 414);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 384);
+var _constants = __webpack_require__(/*! ./constants */ 415);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -10500,7 +10665,7 @@ exports.default = CODE128C;
 
 /***/ }),
 
-/***/ 389:
+/***/ 420:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
   \********************************************************************************************************/
@@ -10515,27 +10680,27 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
 
-var _EAN = __webpack_require__(/*! ./EAN13.js */ 390);
+var _EAN = __webpack_require__(/*! ./EAN13.js */ 421);
 
 var _EAN2 = _interopRequireDefault(_EAN);
 
-var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 394);
+var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 425);
 
 var _EAN4 = _interopRequireDefault(_EAN3);
 
-var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 395);
+var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 426);
 
 var _EAN6 = _interopRequireDefault(_EAN5);
 
-var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 396);
+var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 427);
 
 var _EAN8 = _interopRequireDefault(_EAN7);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ 397);
+var _UPC = __webpack_require__(/*! ./UPC.js */ 428);
 
 var _UPC2 = _interopRequireDefault(_UPC);
 
-var _UPCE = __webpack_require__(/*! ./UPCE.js */ 398);
+var _UPCE = __webpack_require__(/*! ./UPCE.js */ 429);
 
 var _UPCE2 = _interopRequireDefault(_UPCE);
 
@@ -10550,7 +10715,7 @@ exports.UPCE = _UPCE2.default;
 
 /***/ }),
 
-/***/ 390:
+/***/ 421:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
   \********************************************************************************************************/
@@ -10568,9 +10733,9 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _constants = __webpack_require__(/*! ./constants */ 391);
+var _constants = __webpack_require__(/*! ./constants */ 422);
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ 392);
+var _EAN2 = __webpack_require__(/*! ./EAN */ 423);
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -10680,7 +10845,7 @@ exports.default = EAN13;
 
 /***/ }),
 
-/***/ 391:
+/***/ 422:
 /*!************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
   \************************************************************************************************************/
@@ -10721,7 +10886,7 @@ var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', '
 
 /***/ }),
 
-/***/ 392:
+/***/ 423:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
   \******************************************************************************************************/
@@ -10737,13 +10902,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 391);
+var _constants = __webpack_require__(/*! ./constants */ 422);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 393);
+var _encoder = __webpack_require__(/*! ./encoder */ 424);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -10824,7 +10989,7 @@ exports.default = EAN;
 
 /***/ }),
 
-/***/ 393:
+/***/ 424:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
   \**********************************************************************************************************/
@@ -10838,7 +11003,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ 391);
+var _constants = __webpack_require__(/*! ./constants */ 422);
 
 // Encode data string
 var encode = function encode(data, structure, separator) {
@@ -10862,7 +11027,7 @@ exports.default = encode;
 
 /***/ }),
 
-/***/ 394:
+/***/ 425:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
   \*******************************************************************************************************/
@@ -10880,7 +11045,7 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ 392);
+var _EAN2 = __webpack_require__(/*! ./EAN */ 423);
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -10954,7 +11119,7 @@ exports.default = EAN8;
 
 /***/ }),
 
-/***/ 395:
+/***/ 426:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
   \*******************************************************************************************************/
@@ -10970,13 +11135,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 391);
+var _constants = __webpack_require__(/*! ./constants */ 422);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 393);
+var _encoder = __webpack_require__(/*! ./encoder */ 424);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11030,7 +11195,7 @@ exports.default = EAN5;
 
 /***/ }),
 
-/***/ 396:
+/***/ 427:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
   \*******************************************************************************************************/
@@ -11046,13 +11211,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 391);
+var _constants = __webpack_require__(/*! ./constants */ 422);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 393);
+var _encoder = __webpack_require__(/*! ./encoder */ 424);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11099,7 +11264,7 @@ exports.default = EAN2;
 
 /***/ }),
 
-/***/ 397:
+/***/ 428:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
   \******************************************************************************************************/
@@ -11117,11 +11282,11 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 exports.checksum = checksum;
 
-var _encoder = __webpack_require__(/*! ./encoder */ 393);
+var _encoder = __webpack_require__(/*! ./encoder */ 424);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11275,7 +11440,7 @@ exports.default = UPC;
 
 /***/ }),
 
-/***/ 398:
+/***/ 429:
 /*!*******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
   \*******************************************************************************************************/
@@ -11291,15 +11456,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _encoder = __webpack_require__(/*! ./encoder */ 393);
+var _encoder = __webpack_require__(/*! ./encoder */ 424);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ 397);
+var _UPC = __webpack_require__(/*! ./UPC.js */ 428);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11471,7 +11636,7 @@ exports.default = UPCE;
 
 /***/ }),
 
-/***/ 399:
+/***/ 430:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/index.js ***!
   \****************************************************************************************************/
@@ -11486,11 +11651,11 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.ITF14 = exports.ITF = undefined;
 
-var _ITF = __webpack_require__(/*! ./ITF */ 400);
+var _ITF = __webpack_require__(/*! ./ITF */ 431);
 
 var _ITF2 = _interopRequireDefault(_ITF);
 
-var _ITF3 = __webpack_require__(/*! ./ITF14 */ 402);
+var _ITF3 = __webpack_require__(/*! ./ITF14 */ 433);
 
 var _ITF4 = _interopRequireDefault(_ITF3);
 
@@ -11501,19 +11666,7 @@ exports.ITF14 = _ITF4.default;
 
 /***/ }),
 
-/***/ 4:
-/*!******************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/pages.json ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/***/ }),
-
-/***/ 400:
+/***/ 431:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/ITF.js ***!
   \**************************************************************************************************/
@@ -11529,9 +11682,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 401);
+var _constants = __webpack_require__(/*! ./constants */ 432);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11593,7 +11746,7 @@ exports.default = ITF;
 
 /***/ }),
 
-/***/ 401:
+/***/ 432:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/constants.js ***!
   \********************************************************************************************************/
@@ -11613,7 +11766,7 @@ var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', 
 
 /***/ }),
 
-/***/ 402:
+/***/ 433:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/ITF/ITF14.js ***!
   \****************************************************************************************************/
@@ -11629,7 +11782,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _ITF2 = __webpack_require__(/*! ./ITF */ 400);
+var _ITF2 = __webpack_require__(/*! ./ITF */ 431);
 
 var _ITF3 = _interopRequireDefault(_ITF2);
 
@@ -11679,7 +11832,7 @@ exports.default = ITF14;
 
 /***/ }),
 
-/***/ 403:
+/***/ 434:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/index.js ***!
   \****************************************************************************************************/
@@ -11694,23 +11847,23 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
 
-var _MSI = __webpack_require__(/*! ./MSI.js */ 404);
+var _MSI = __webpack_require__(/*! ./MSI.js */ 435);
 
 var _MSI2 = _interopRequireDefault(_MSI);
 
-var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 405);
+var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 436);
 
 var _MSI4 = _interopRequireDefault(_MSI3);
 
-var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 407);
+var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 438);
 
 var _MSI6 = _interopRequireDefault(_MSI5);
 
-var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 408);
+var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 439);
 
 var _MSI8 = _interopRequireDefault(_MSI7);
 
-var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 409);
+var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 440);
 
 var _MSI10 = _interopRequireDefault(_MSI9);
 
@@ -11724,7 +11877,7 @@ exports.MSI1110 = _MSI10.default;
 
 /***/ }),
 
-/***/ 404:
+/***/ 435:
 /*!**************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI.js ***!
   \**************************************************************************************************/
@@ -11740,7 +11893,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11809,7 +11962,7 @@ exports.default = MSI;
 
 /***/ }),
 
-/***/ 405:
+/***/ 436:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI10.js ***!
   \****************************************************************************************************/
@@ -11823,11 +11976,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 404);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 435);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 406);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 437);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11853,7 +12006,7 @@ exports.default = MSI10;
 
 /***/ }),
 
-/***/ 406:
+/***/ 437:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/checksums.js ***!
   \********************************************************************************************************/
@@ -11893,7 +12046,7 @@ function mod11(number) {
 
 /***/ }),
 
-/***/ 407:
+/***/ 438:
 /*!****************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI11.js ***!
   \****************************************************************************************************/
@@ -11907,11 +12060,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 404);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 435);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 406);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 437);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11937,7 +12090,7 @@ exports.default = MSI11;
 
 /***/ }),
 
-/***/ 408:
+/***/ 439:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
   \******************************************************************************************************/
@@ -11951,11 +12104,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 404);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 435);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 406);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 437);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11983,7 +12136,7 @@ exports.default = MSI1010;
 
 /***/ }),
 
-/***/ 409:
+/***/ 440:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
   \******************************************************************************************************/
@@ -11997,11 +12150,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 404);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 435);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 406);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 437);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -12029,7 +12182,7 @@ exports.default = MSI1110;
 
 /***/ }),
 
-/***/ 410:
+/***/ 441:
 /*!***********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/pharmacode/index.js ***!
   \***********************************************************************************************************/
@@ -12046,7 +12199,7 @@ exports.pharmacode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12113,7 +12266,7 @@ exports.pharmacode = pharmacode;
 
 /***/ }),
 
-/***/ 411:
+/***/ 442:
 /*!********************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/codabar/index.js ***!
   \********************************************************************************************************/
@@ -12130,7 +12283,7 @@ exports.codabar = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12216,7 +12369,7 @@ exports.codabar = codabar;
 
 /***/ }),
 
-/***/ 412:
+/***/ 443:
 /*!***************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
   \***************************************************************************************************************/
@@ -12233,7 +12386,7 @@ exports.GenericBarcode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 380);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 411);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12282,10 +12435,10 @@ exports.GenericBarcode = GenericBarcode;
 
 /***/ }),
 
-/***/ 46:
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fregister%2Fregister"} ***!
-  \******************************************************************************************************/
+/***/ 47:
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fgood_det"} ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12293,8 +12446,8 @@ exports.GenericBarcode = GenericBarcode;
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _register = _interopRequireDefault(__webpack_require__(/*! ./pages/register/register.vue */ 47));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_register.default);
+var _good_det = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/good_det.vue */ 48));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_good_det.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -14191,10 +14344,10 @@ VueI18n;exports.default = _default;
 
 /***/ }),
 
-/***/ 54:
-/*!**********************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
-  \**********************************************************************************************/
+/***/ 55:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Flanding%2Flanding"} ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14202,16 +14355,16 @@ VueI18n;exports.default = _default;
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ 55));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_mine.default);
+var _landing = _interopRequireDefault(__webpack_require__(/*! ./pages/landing/landing.vue */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_landing.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 550:
-/*!**********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom_detail%2Fcustom_detail"} ***!
-  \**********************************************************************************************************************************/
+/***/ 569:
+/*!**************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fproducer_detail%2Fproducer_detail"} ***!
+  \**************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14219,28 +14372,28 @@ createPage(_mine.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _custom_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/custom_detail.vue */ 551));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_custom_detail.default);
+var _producer_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/producer_detail/producer_detail.vue */ 570));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_producer_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 556:
-/*!************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/customs.js ***!
-  \************************************************************************/
+/***/ 577:
+/*!**************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/producers.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
-
 {
   //得到门店列表
-  get_customList: function get_customList(disabled, search_text) {
+
+  get_producerList: function get_producerList(disabled, search_text) {
     return new Promise(function (resolve, reject) {
       var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
-      var query = _bmob.default.Query("customs");
+      var query = _bmob.default.Query("producers");
       query.order("num");
       query.equalTo("parent", "==", userid);
       query.equalTo("disabled", "==", disabled);
@@ -14251,6 +14404,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
       }
       query.find().then(function (res) {
+        localStorage.setItem("shops", JSON.stringify(res));
         resolve(res);
       });
     });
@@ -14259,7 +14413,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
   //增加数据操作
-  add_custom: function add_custom(params) {
+  add_producer: function add_producer(params) {
 
     console.log(params);
     var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
@@ -14269,11 +14423,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       var poiID = pointer.set(userid);
 
       if (params.objectId) {//修改操作
-        var query = _bmob.default.Query('customs');
-        query.set("custom_name", params.custom_name);
+        var query = _bmob.default.Query('producers');
+        query.set("producer_name", params.producer_name);
         query.set("debt", Number(params.debt));
-        query.set("custom_address", params.custom_address);
-        query.set("custom_phone", params.custom_phone);
+        query.set("producer_address", params.producer_address);
+        query.set("producer_phone", params.producer_phone);
         query.set("parent", poiID);
         query.set("disabled", !params.disabled);
         query.set("id", params.objectId);
@@ -14285,17 +14439,17 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         });
       } else {
 
-        var _query = _bmob.default.Query("customs");
+        var _query = _bmob.default.Query("producers");
         _query.equalTo("parent", "==", userid);
-        _query.equalTo("name", "==", params.custom_name);
+        _query.equalTo("name", "==", params.producer_name);
         _query.find().then(function (res) {
           console.log(res);
           if (res.length == 0) {
-            var _query2 = _bmob.default.Query('customs');
-            _query2.set("custom_name", params.custom_name);
+            var _query2 = _bmob.default.Query('producers');
+            _query2.set("producer_name", params.producer_name);
             _query2.set("debt", Number(params.debt));
-            _query2.set("custom_address", params.custom_address);
-            _query2.set("custom_phone", params.custom_phone);
+            _query2.set("producer_address", params.producer_address);
+            _query2.set("producer_phone", params.producer_phone);
             _query2.set("have_out", 0);
             _query2.set("disabled", !params.disabled);
             _query2.set("parent", poiID);
@@ -14316,9 +14470,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   },
 
   //删除门店
-  delete_custom: function delete_custom(id) {
+  delete_producer: function delete_producer(id) {
     return new Promise(function (resolve, reject) {
-      var query = _bmob.default.Query("customs");
+      var query = _bmob.default.Query("producers");
       query.destroy(id).then(function (res) {
         resolve(res);
       }).catch(function (err) {
@@ -14328,10 +14482,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
   },
 
-  //得到客户详情
-  custom_detail: function custom_detail(id) {
+  //得到供货商详情
+  producer_detail: function producer_detail(id) {
     return new Promise(function (resolve, reject) {
-      var query = _bmob.default.Query('customs');
+      var query = _bmob.default.Query('producers');
       query.get(id).then(function (res) {
         //console.log(res)
         resolve(res);
@@ -14344,10 +14498,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 560:
-/*!**************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fcustom_detail%2Fhistory%2Fhistory"} ***!
-  \**************************************************************************************************************************************/
+/***/ 579:
+/*!****************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fproducer_detail%2Fhistory%2Fhistory"} ***!
+  \****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14355,13 +14509,47 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _history = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/history/history.vue */ 561));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _history = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/producer_detail/history/history.vue */ 580));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_history.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
+/*!******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fregister%2Fregister"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _register = _interopRequireDefault(__webpack_require__(/*! ./pages/register/register.vue */ 64));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_register.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 71:
+/*!**********************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Fmine"} ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _mine = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/mine.vue */ 72));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_mine.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 79:
 /*!***********************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fwarehouse%2Fdetail%2Fdetail"} ***!
   \***********************************************************************************************************************/
@@ -14372,13 +14560,13 @@ createPage(_history.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/detail/detail.vue */ 63));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/warehouse/detail/detail.vue */ 80));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 70:
+/***/ 87:
 /*!***********************************************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2Foperational_status%2Foperational_status"} ***!
   \***********************************************************************************************************************************/
@@ -14389,42 +14577,8 @@ createPage(_detail.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _operational_status = _interopRequireDefault(__webpack_require__(/*! ./pages/report/operational_status/operational_status.vue */ 71));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _operational_status = _interopRequireDefault(__webpack_require__(/*! ./pages/report/operational_status/operational_status.vue */ 88));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_operational_status.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 78:
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ 79));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_goods.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
-
-/***/ }),
-
-/***/ 86:
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmine%2Flogs%2Flogs"} ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _logs = _interopRequireDefault(__webpack_require__(/*! ./pages/mine/logs/logs.vue */ 87));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_logs.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -14452,10 +14606,10 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 
 /***/ }),
 
-/***/ 94:
-/*!*****************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Freport%2FEnteringHistory%2FEnteringHistory"} ***!
-  \*****************************************************************************************************************************/
+/***/ 95:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgoods%2Fgoods"} ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14463,8 +14617,8 @@ function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArray
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _EnteringHistory = _interopRequireDefault(__webpack_require__(/*! ./pages/report/EnteringHistory/EnteringHistory.vue */ 95));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_EnteringHistory.default);
+var _goods = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/goods/goods.vue */ 96));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_goods.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ })
