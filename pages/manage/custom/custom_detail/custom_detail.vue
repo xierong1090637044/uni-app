@@ -57,6 +57,8 @@
 
 <script>
 	import customs from '@/utils/customs.js';
+	import common from '@/utils/common.js';
+	
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import Bmob from '@/utils/bmob.js';
@@ -143,9 +145,11 @@
 									query.set("beizhu", beizhu)
 				          query.save().then(res => {
 				            console.log(res)
+										common.log(uni.getStorageSync("user").nickName+"操作'"+that.custom.custom_name+"'客户还款￥"+input_money+"元",6,res.objectId);
 				            uni.hideLoading();
 										customs.custom_detail(that.custom.objectId).then(res => {
 											console.log(res)
+											
 											that.custom = res
 											uni.showToast({
 											  title: '收款成功',

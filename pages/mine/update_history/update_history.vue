@@ -16,13 +16,15 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.0 公测版</text>
-						<text class="desc-time">2019.08.06</text>
+						<text class="desc-time">2019.08.12</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>员工管理时，操作记录显示bug修复</text>
 						<text>电脑端仓库管理修改bug修复</text>
 						<text>增加产品修改信息功能</text>
+						<text>增加客户明细，收款明细</text>
+						<text>增加供货商明细，还款明细</text>
 					</view>
 				</view>
 

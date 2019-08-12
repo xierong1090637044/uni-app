@@ -36,7 +36,7 @@
 			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
 				<view style="width: 500rpx;">
 					<view class="display_flex">
-						<view style="width: 160rpx;color: #999;">本次收款：</view>
+						<view style="width: 160rpx;color: #999;">本次还款：</view>
 						<input class="uni-input" placeholder="请输入本次还款金额" v-model="modal_sk.sk_number" type="digit" />
 					</view>
 					<view class="display_flex">
@@ -57,6 +57,8 @@
 
 <script>
 	import producers from '@/utils/producers.js';
+	import common from '@/utils/common.js';
+	
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import Bmob from '@/utils/bmob.js';
@@ -146,6 +148,7 @@
 							query.set("beizhu", beizhu)
 							query.save().then(res => {
 								console.log(res)
+								common.log(uni.getStorageSync("user").nickName+"操作'"+that.producer.producer_name+"'供货商收款￥"+input_money+"元",6,res.objectId);
 								uni.hideLoading();
 								producers.producer_detail(that.producer.objectId).then(res => {
 									console.log(res)
