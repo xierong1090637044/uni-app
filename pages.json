@@ -7,9 +7,14 @@
 			}
 		},
 		{
+		    "path" : "pages/manage/custom/custom_detail/debt_history/debt_history",
+		    "style" : {"navigationBarTitleText": "收款列表"}
+		},
+		
+		{
 			"path": "pages/manage/custom/producer_detail/producer_detail",
 			"style": {
-				"navigationBarTitleText": "客户详情"
+				"navigationBarTitleText": "供货商详情"
 			}
 		},
 		{
@@ -289,6 +294,7 @@
             "path" : "pages/manage/custom/producer_detail/history/history",
             "style" : {"navigationBarTitleText": "采购明细"}
         }
+        
     ],
 	"tabBar": {
 		"color": "#000",

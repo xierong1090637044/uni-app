@@ -1,51 +1,56 @@
 <template>
 	<view>
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">客户昵称</view>
-			<view>{{custom.custom_name}}</view>
-		</view>
-
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">联系电话</view>
-			<view v-if="custom.custom_phone">{{custom.custom_phone}}</view>
-			<view v-else>未填写</view>
-		</view>
-
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">客户欠款</view>
-			<view class="display_flex">
-				<text style="margin-right: 20rpx;">￥{{custom.debt}}</text>
+		<loading v-if="loading"></loading>
+		
+		<view v-else>
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">客户昵称</view>
+				<view>{{custom.custom_name}}</view>
+			</view>
+			
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">联系电话</view>
+				<view v-if="custom.custom_phone">{{custom.custom_phone}}</view>
+				<view v-else>未填写</view>
+			</view>
+			
+			<navigator class="display_flex_bet list_item border_bottom" hover-class="none" :url="'debt_history/debt_history?id='+custom.objectId+'&name='+custom.custom_name">
+				<view class="left_desc">客户欠款</view>
+				<view class="display_flex">
+					<text style="margin-right: 20rpx;">￥{{custom.debt}}</text>
+					<fa-icon type="angle-right" size="20" color="#999" />
+				</view>
+			</navigator>
+			
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">建立时间</view>
+				<view>{{custom.createdAt}}</view>
+			</view>
+			
+			
+			<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'history/history?id='+custom.objectId">
+				<text class="left_desc">交易历史</text>
 				<fa-icon type="angle-right" size="20" color="#999" />
-			</view>
-		</view>
-
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">建立时间</view>
-			<view>{{custom.createdAt}}</view>
-		</view>
-
-
-		<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'history/history?id='+custom.objectId">
-			<text class="left_desc">交易历史</text>
-			<fa-icon type="angle-right" size="20" color="#999" />
-		</navigator>
-
-		<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
-			<view style="width: 500rpx;">
-				<view class="display_flex">
-					<view style="width: 160rpx;color: #999;">本次收款：</view>
-					<input class="uni-input" placeholder="请输入本次收款金额" v-model="modal_sk.sk_number" type="digit" />
+			</navigator>
+			
+			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
+				<view style="width: 500rpx;">
+					<view class="display_flex">
+						<view style="width: 160rpx;color: #999;">本次收款：</view>
+						<input class="uni-input" placeholder="请输入本次收款金额" v-model="modal_sk.sk_number" type="digit" />
+					</view>
+					<view class="display_flex">
+						<view style="width: 160rpx;color: #999;">备注：</view>
+						<input class="uni-input" placeholder="请输入备注信息" v-model="modal_sk.beizhu" />
+					</view>
+			
+					<view class="modal_confrimbutton" @click="confrim_sk">确定</view>
 				</view>
-				<view class="display_flex">
-					<view style="width: 160rpx;color: #999;">备注：</view>
-					<input class="uni-input" placeholder="请输入备注信息" v-model="modal_sk.beizhu" />
-				</view>
-
-				<view class="modal_confrimbutton" @click="confrim_sk">确定</view>
-			</view>
-		</uni-popup>
-
-		<view class="getmoney_button" @click="modal_show = true">收款</view>
+			</uni-popup>
+			
+			<view class="getmoney_button" @click="modal_show = true">收款</view>
+		</view>
+		
 
 	</view>
 </template>
@@ -55,16 +60,19 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import Bmob from '@/utils/bmob.js';
+	import loading from "@/components/Loading/index.vue"
 	
 	let that;
 	export default {
 		components: {
 			faIcon,
+			loading,
 			uniPopup
 		},
 
 		data() {
 			return {
+				loading: true,
 				modal_show:false,
 				custom: {},
 				modal_sk: {
@@ -80,6 +88,7 @@
 			customs.custom_detail(options.id).then(res => {
 				console.log(res)
 				that.custom = res
+				that.loading = false
 			})
 		},
 		methods: {

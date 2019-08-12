@@ -3,6 +3,7 @@
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "uni-collapse": "/components/uni-collapse/uni-collapse",
+    "loading": "/components/Loading/index",
     "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item"
   }
 }

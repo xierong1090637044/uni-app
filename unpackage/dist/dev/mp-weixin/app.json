@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/manage/custom/custom_detail/debt_history/debt_history",
     "pages/manage/custom/producer_detail/producer_detail",
     "pages/manage/custom/custom_detail/custom_detail",
     "pages/manage/custom/custom_detail/history/history",

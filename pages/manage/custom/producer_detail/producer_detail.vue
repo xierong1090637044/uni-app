@@ -1,51 +1,56 @@
 <template>
 	<view>
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">供货商昵称</view>
-			<view>{{producer.producer_name}}</view>
-		</view>
-
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">联系电话</view>
-			<view v-if="producer.producer_phone">{{producer.producer_phone}}</view>
-			<view v-else>未填写</view>
-		</view>
-
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">欠供应商款</view>
-			<view class="display_flex">
-				<text style="margin-right: 20rpx;">￥{{producer.debt}}</text>
+		<loading v-if="loading"></loading>
+		
+		<view v-else>
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">供货商昵称</view>
+				<view>{{producer.producer_name}}</view>
+			</view>
+			
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">联系电话</view>
+				<view v-if="producer.producer_phone">{{producer.producer_phone}}</view>
+				<view v-else>未填写</view>
+			</view>
+			
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">欠供应商款</view>
+				<view class="display_flex">
+					<text style="margin-right: 20rpx;">￥{{producer.debt}}</text>
+					<fa-icon type="angle-right" size="20" color="#999" />
+				</view>
+			</view>
+			
+			<view class="display_flex_bet list_item border_bottom">
+				<view class="left_desc">建立时间</view>
+				<view>{{producer.createdAt}}</view>
+			</view>
+			
+			
+			<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'history/history?id='+producer.objectId">
+				<text class="left_desc">交易历史</text>
 				<fa-icon type="angle-right" size="20" color="#999" />
-			</view>
-		</view>
-
-		<view class="display_flex_bet list_item border_bottom">
-			<view class="left_desc">建立时间</view>
-			<view>{{producer.createdAt}}</view>
-		</view>
-
-
-		<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'history/history?id='+producer.objectId">
-			<text class="left_desc">交易历史</text>
-			<fa-icon type="angle-right" size="20" color="#999" />
-		</navigator>
-
-		<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
-			<view style="width: 500rpx;">
-				<view class="display_flex">
-					<view style="width: 160rpx;color: #999;">本次收款：</view>
-					<input class="uni-input" placeholder="请输入本次收款金额" v-model="modal_sk.sk_number" type="digit" />
+			</navigator>
+			
+			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
+				<view style="width: 500rpx;">
+					<view class="display_flex">
+						<view style="width: 160rpx;color: #999;">本次收款：</view>
+						<input class="uni-input" placeholder="请输入本次收款金额" v-model="modal_sk.sk_number" type="digit" />
+					</view>
+					<view class="display_flex">
+						<view style="width: 160rpx;color: #999;">备注：</view>
+						<input class="uni-input" placeholder="请输入备注信息" v-model="modal_sk.beizhu" />
+					</view>
+			
+					<view class="modal_confrimbutton" @click="confrim_sk">确定</view>
 				</view>
-				<view class="display_flex">
-					<view style="width: 160rpx;color: #999;">备注：</view>
-					<input class="uni-input" placeholder="请输入备注信息" v-model="modal_sk.beizhu" />
-				</view>
-
-				<view class="modal_confrimbutton" @click="confrim_sk">确定</view>
-			</view>
-		</uni-popup>
-
-		<view class="getmoney_button" @click="modal_show = true">还款</view>
+			</uni-popup>
+			
+			<view class="getmoney_button" @click="modal_show = true">还款</view>
+		</view>
+		
 
 	</view>
 </template>
@@ -55,16 +60,19 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import Bmob from '@/utils/bmob.js';
+	import loading from "@/components/Loading/index.vue"
 
 	let that;
 	export default {
 		components: {
 			faIcon,
+			loading,
 			uniPopup
 		},
 
 		data() {
 			return {
+				loading:true,
 				modal_show: false,
 				producer: {},
 				modal_sk: {
@@ -84,6 +92,7 @@
 					res.debt = 0
 				}
 				that.producer = res
+				that.loading = false
 			})
 		},
 		methods: {

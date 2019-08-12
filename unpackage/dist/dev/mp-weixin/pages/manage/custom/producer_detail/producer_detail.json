@@ -1,7 +1,8 @@
 {
-  "navigationBarTitleText": "客户详情",
+  "navigationBarTitleText": "供货商详情",
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index",
     "uni-popup": "/components/uni-popup/uni-popup"
   }
 }

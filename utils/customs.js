@@ -106,6 +106,20 @@ export default {
 
 		})
 	},
+	
+	//得到收款列表
+	get_moneyList(id){
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("debt_history");
+			query.equalTo("custom","==", id);
+			query.include("operater");
+			query.find().then(res => {
+			    console.log(res)
+					resolve(res)
+			});
+			
+		})
+	},
 
 
 }

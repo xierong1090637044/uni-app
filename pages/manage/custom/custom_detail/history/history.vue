@@ -1,6 +1,8 @@
 <template>
 	<view>
-		<scroll-view class='page'  scroll-y="true">
+		<loading v-if="loading"></loading>
+		
+		<scroll-view class='page'  scroll-y="true" v-else>
 			<view class='list-item'>
 				<view v-for="(item,index) in list" :key="index" >
 					<view class='item' @click='get_detail(item.objectId)'>
@@ -41,6 +43,7 @@
 <script>
 	import Bmob from '@/utils/bmob.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import loading from "@/components/Loading/index.vue"
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 	
@@ -50,10 +53,12 @@
 		components: {
 			faIcon,
 			uniCollapse,
+			loading,
 			uniCollapseItem
 		},
 		data() {
 			return {
+				loading: true,
 				list:[]
 			}
 		},
@@ -84,6 +89,7 @@
 						})
 					}
 					that.list = details
+					that.loading = false
 					console.log(details)
 				});
 			},

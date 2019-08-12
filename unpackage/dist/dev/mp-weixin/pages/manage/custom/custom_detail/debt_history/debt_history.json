@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "收款列表",
+  "usingComponents": {
+    "loading": "/components/Loading/index"
+  }
+}
