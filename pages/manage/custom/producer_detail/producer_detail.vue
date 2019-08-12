@@ -14,13 +14,13 @@
 				<view v-else>未填写</view>
 			</view>
 			
-			<view class="display_flex_bet list_item border_bottom">
+			<navigator class="display_flex_bet list_item border_bottom" hover-class="none" :url="'debt_history/debt_history?id='+producer.objectId+'&name='+producer.producer_name">
 				<view class="left_desc">欠供应商款</view>
 				<view class="display_flex">
 					<text style="margin-right: 20rpx;">￥{{producer.debt}}</text>
 					<fa-icon type="angle-right" size="20" color="#999" />
 				</view>
-			</view>
+			</navigator>
 			
 			<view class="display_flex_bet list_item border_bottom">
 				<view class="left_desc">建立时间</view>
@@ -37,7 +37,7 @@
 				<view style="width: 500rpx;">
 					<view class="display_flex">
 						<view style="width: 160rpx;color: #999;">本次收款：</view>
-						<input class="uni-input" placeholder="请输入本次收款金额" v-model="modal_sk.sk_number" type="digit" />
+						<input class="uni-input" placeholder="请输入本次还款金额" v-model="modal_sk.sk_number" type="digit" />
 					</view>
 					<view class="display_flex">
 						<view style="width: 160rpx;color: #999;">备注：</view>
@@ -105,7 +105,7 @@
 
 				if (input_money == null || input_money.length == 0) {
 					uni.showToast({
-						title: '请输入收款金额',
+						title: '请输入还款金额',
 						icon: "none"
 					});
 				} else {
@@ -119,13 +119,13 @@
 							uni.hideLoading();
 							uni.showToast({
 								icon: "none",
-								title: '收款金额过大',
+								title: '还款金额超出',
 							})
 						} else if (res.debt == null || res.debt == 0) {
 							uni.hideLoading();
 							uni.showToast({
 								icon: "none",
-								title: '该客户没有欠款',
+								title: '没有欠款',
 							})
 						} else {
 							res.set('debt', res.debt - Number(input_money));
@@ -147,11 +147,11 @@
 							query.save().then(res => {
 								console.log(res)
 								uni.hideLoading();
-								producers.producer_detail("0adcad2160").then(res => {
+								producers.producer_detail(that.producer.objectId).then(res => {
 									console.log(res)
 									that.producer = res
 									uni.showToast({
-										title: '收款成功',
+										title: '还款成功',
 									});
 								})
 

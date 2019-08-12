@@ -108,5 +108,19 @@ export default {
 		})
 	},
 	
+	//得到还款列表
+	get_moneyList(id){
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("debt_history");
+			query.equalTo("producer","==", id);
+			query.include("operater");
+			query.find().then(res => {
+			    console.log(res)
+					resolve(res)
+			});
+			
+		})
+	},
+	
 
 }

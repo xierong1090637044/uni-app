@@ -260,7 +260,7 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
             _query.save().then(function (res) {
               console.log(res);
               uni.hideLoading();
-              _customs.default.custom_detail("0adcad2160").then(function (res) {
+              _customs.default.custom_detail(that.custom.objectId).then(function (res) {
                 console.log(res);
                 that.custom = res;
                 uni.showToast({

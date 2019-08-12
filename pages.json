@@ -295,6 +295,10 @@
             "style" : {"navigationBarTitleText": "采购明细"}
         }
         
+        ,{
+            "path" : "pages/manage/custom/producer_detail/debt_history/debt_history",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

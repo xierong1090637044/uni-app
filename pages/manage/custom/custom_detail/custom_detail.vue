@@ -144,7 +144,7 @@
 				          query.save().then(res => {
 				            console.log(res)
 				            uni.hideLoading();
-										customs.custom_detail("0adcad2160").then(res => {
+										customs.custom_detail(that.custom.objectId).then(res => {
 											console.log(res)
 											that.custom = res
 											uni.showToast({

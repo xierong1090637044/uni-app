@@ -8213,6 +8213,20 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       });
 
     });
+  },
+
+  //得到还款列表
+  get_moneyList: function get_moneyList(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query("debt_history");
+      query.equalTo("producer", "==", id);
+      query.include("operater");
+      query.find().then(function (res) {
+        console.log(res);
+        resolve(res);
+      });
+
+    });
   } };exports.default = _default;
 
 /***/ }),
@@ -14541,6 +14555,23 @@ createPage(_good_det.default);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _debt_history = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/custom_detail/debt_history/debt_history.vue */ 589));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_debt_history.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 597:
+/*!**************************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fcustom%2Fproducer_detail%2Fdebt_history%2Fdebt_history"} ***!
+  \**************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _debt_history = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/custom/producer_detail/debt_history/debt_history.vue */ 598));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_debt_history.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
