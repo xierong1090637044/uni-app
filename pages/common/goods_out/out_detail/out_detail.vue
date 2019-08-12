@@ -214,7 +214,7 @@
 											uni.setStorageSync("is_option", true);
 
 											setTimeout(() => {
-												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that
+												common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that
 													.products.length + "商品", -1, res.objectId);
 												uni.navigateBack({
 													delta: 2

@@ -321,7 +321,7 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
                   uni.setStorageSync("is_option", true);
 
                   setTimeout(function () {
-                    _common.default.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.
+                    _common.default.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.
                     products.length + "商品", -1, res.objectId);
                     uni.navigateBack({
                       delta: 2 });
