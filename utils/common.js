@@ -34,14 +34,17 @@ module.exports = {
 	//记录员工的出库数量
 	record_staffOut(have_out) {
 		console.log(have_out,uni.getStorageSync("user").have_out)
-		const query = Bmob.Query('staffs');
-		query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
-		query.set('have_out', have_out+uni.getStorageSync("user").have_out)
-		query.save().then(res => {
-			console.log(res)
-		}).catch(err => {
-			console.log(err)
-		})
+		if(uni.getStorageSync("identity") == 1){}else{
+			const query = Bmob.Query('staffs');
+			query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
+			query.set('have_out', have_out+uni.getStorageSync("user").have_out)
+			query.save().then(res => {
+				console.log(res)
+			}).catch(err => {
+				console.log(err)
+			})
+		}
+		
 	},
 
 	//获得库存成本和总库存

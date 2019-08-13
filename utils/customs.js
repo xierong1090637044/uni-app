@@ -1,10 +1,10 @@
 import Bmob from '@/utils/bmob.js';
 
 export default {
-	//得到门店列表
+	//得到客户列表
 	get_customList(disabled, search_text) {
 		return new Promise((resolve, reject) => {
-			let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+			let userid = uni.getStorageSync("uid");
 			const query = Bmob.Query("customs");
 			query.order("num");
 			query.equalTo("parent", "==", userid);
@@ -20,6 +20,31 @@ export default {
 			});
 		})
 
+	},
+	
+	//产品详情里面得到客户统计
+	get_customCount(){
+		return new Promise((resolve, reject) => {
+			let userid = uni.getStorageSync("uid");
+			const query = Bmob.Query("customs");
+			query.equalTo("parent", "==", userid);
+			query.find().then(res => {
+			
+				let custom = res
+				for(let item of custom){
+					const query = Bmob.Query("Bills");
+					query.equalTo("type", '==', -1);
+					query.equalTo("custom", '==', item.objectId);
+					query.find().then(res => {
+						//console.log(res)
+						item.relations = res
+					});
+				}
+				
+					resolve(custom)
+				
+			});
+		})
 	},
 
 

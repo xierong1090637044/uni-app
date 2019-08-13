@@ -32,6 +32,11 @@
 			<view>生成条码</view>
 			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
 		</view>
+		
+		<!--<navigator class="thrid" hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" style="margin-bottom: 20rpx;">
+			<view>客户统计</view>
+			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
+		</navigator>-->
 
 		<navigator class="thrid" hover-class="none" url="../operations/operations" style="margin-bottom: 20rpx;">
 			<view>此产品的操作记录</view>

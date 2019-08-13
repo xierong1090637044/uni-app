@@ -131,9 +131,17 @@
 					
 					let pointer2 = Bmob.Pointer('_User')
 					let operater = pointer2.set(uni.getStorageSync("masterId"))
+					
+					
 
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
+					
+					if(uni.getStorageSync("custom")){
+						let pointer3 = Bmob.Pointer('customs')
+						let custom = pointer3.set(uni.getStorageSync("custom").objectId)
+						tempBills.set('custom', custom);
+					}
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
 					tempBills.set('num', this.products[i].num);
@@ -142,6 +150,7 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
 					tempBills.set('operater', operater);
+					
 					if (shop) {
 						tempBills.set("shop", shopId);
 						common.record_shopOut(shop.objectId,shop.have_out+this.products[i].num)
