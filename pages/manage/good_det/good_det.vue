@@ -112,6 +112,11 @@
 					selectedIconPath: '/static/edit.png',
 					text: '编辑',
 					active: false
+				},{
+					iconPath: '/static/delete.png',
+					selectedIconPath: '/static/delete.png',
+					text: '删除',
+					active: false
 				}],
 				opations: {
 					width: 2,
@@ -149,6 +154,7 @@
 
 
 		},
+		
 		methods: {
 
 			//fab列目点击
@@ -158,6 +164,8 @@
 					uni.navigateTo({
 						url: '../good_add/good_add'
 					});
+				}else{
+					that.delete()
 				}
 			},
 
@@ -208,9 +216,16 @@
 							query.set('id', that.product.objectId) //需要修改的objectId
 							query.set('status', -1)
 							query.save().then(res => {
-								uni.showToast({
-									title: "删除成功"
-								})
+								
+								uni.navigateTo({
+									url: '../goods/goods'
+								});
+								
+								setTimeout(function(){
+									uni.showToast({
+										title: "删除成功"
+									})
+								},1000)
 							}).catch(err => {
 								console.log(err)
 							})
@@ -222,29 +237,6 @@
 			},
 
 		},
-
-		// #ifdef APP-PLUS
-		//监听原生标题栏按钮点击事件
-		onNavigationBarButtonTap(Object) {
-			uni.showActionSheet({
-				itemList: ['编辑', '删除', '分享'],
-				success: function(res) {
-					console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-					if (res.tapIndex == 0) {
-						console.log("编辑")
-					} else if (res.tapIndex == 1) {
-						console.log("删除")
-						that.delete()
-					} else {
-						console.log("分享")
-					}
-				},
-				fail: function(res) {
-					console.log(res.errMsg);
-				}
-			});
-		},
-		// #endif
 	}
 </script>
 

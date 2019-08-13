@@ -227,6 +227,11 @@ var uid;var _default =
         iconPath: '/static/edit.png',
         selectedIconPath: '/static/edit.png',
         text: '编辑',
+        active: false },
+      {
+        iconPath: '/static/delete.png',
+        selectedIconPath: '/static/delete.png',
+        text: '删除',
         active: false }],
 
       opations: {
@@ -265,6 +270,7 @@ var uid;var _default =
 
 
   },
+
   methods: {
 
     //fab列目点击
@@ -274,6 +280,8 @@ var uid;var _default =
         uni.navigateTo({
           url: '../good_add/good_add' });
 
+      } else {
+        that.delete();
       }
     },
 
@@ -324,9 +332,16 @@ var uid;var _default =
             query.set('id', that.product.objectId); //需要修改的objectId
             query.set('status', -1);
             query.save().then(function (res) {
-              uni.showToast({
-                title: "删除成功" });
 
+              uni.navigateTo({
+                url: '../goods/goods' });
+
+
+              setTimeout(function () {
+                uni.showToast({
+                  title: "删除成功" });
+
+              }, 1000);
             }).catch(function (err) {
               console.log(err);
             });

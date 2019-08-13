@@ -225,7 +225,7 @@ var uid;var _default =
       if (shop) {//修改操作
         var query = _bmob.default.Query('shops');
         query.set("name", that.shop_name);
-        query.set("num", that.shop_num);
+        query.set("num", Number(that.shop_num));
         query.set("address", that.shop_address);
         query.set("phone", that.shop_phone);
         query.set("beizhu", that.shop_beizhu);
@@ -252,7 +252,7 @@ var uid;var _default =
           if (res.length == 0) {
             var _query2 = _bmob.default.Query('shops');
             _query2.set("name", that.shop_name);
-            _query2.set("num", that.shop_num);
+            _query2.set("num", Number(that.shop_num));
             _query2.set("address", that.shop_address);
             _query2.set("phone", that.shop_phone);
             _query2.set("beizhu", that.shop_beizhu);
@@ -265,6 +265,13 @@ var uid;var _default =
               uni.showToast({
                 title: "添加成功" });
 
+
+              that.disabled = true, //是否启用
+              that.shop_name = '', //名称
+              that.shop_address = '', //地址
+              that.shop_num = 0, //排序
+              that.shop_phone = '', //门店电话
+              that.shop_beizhu = '';
             }).catch(function (err) {
               console.log(err);
 

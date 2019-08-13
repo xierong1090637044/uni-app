@@ -141,7 +141,7 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
-	
+
 	let that;
 	let tempFilePaths;
 	let p_class_user_id = "";
@@ -186,7 +186,7 @@
 		},
 		onShow() {
 
-			if (uni.getStorageSync("now_product")) { //存在此缓存代表编辑模式
+			if (uni.getStorageSync("now_product")) {
 				uni.setNavigationBarTitle({
 					title: "编辑产品"
 				})
@@ -210,11 +210,15 @@
 				//reserve: [0], //初始库存
 				that.goodsIcon = now_product.goodsIcon //产品图片
 
-				let pointer2 = Bmob.Pointer('class_user')
-				p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
+				if (now_product.goodsClass) {
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
+				}
 
-				let pointer3 = Bmob.Pointer('second_class')
-				p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+				if (now_product.second_class) {
+					let pointer3 = Bmob.Pointer('second_class')
+					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+				}
 
 				now_stocks.stock = now_product.stocks
 				now_stocks.reserve = now_product.reserve
@@ -333,76 +337,121 @@
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("goodsName", "==", good.goodsName);
-				query.find().then(res => {
-					console.log(res)
-					if (res.length >= 1) {
-						uni.showToast({
-							title: "你的库存中已存在此产品",
-							icon: 'none'
+				if (uni.getStorageSync("now_product")) {
+
+					for (let item of that.stocks) {
+						let reserve = item.reserve
+						let stock_id = item.stock.objectId || ""
+
+						const pointer1 = Bmob.Pointer('stocks')
+						const p_stock_id = pointer1.set(stock_id) //仓库的id关联
+
+						const query = Bmob.Query('Goods');
+						query.set("goodsIcon", that.goodsIcon)
+						query.set("goodsName", good.goodsName)
+						query.set("costPrice", good.costPrice ? good.costPrice : "0")
+						query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
+						//query.set("producttime",  new Date(that.producttime.replace("-","/")))
+						//query.set("nousetime",new Date(that.nousetime.replace("-","/")) )
+						query.set("regNumber", good.regNumber)
+						query.set("reserve", Number(reserve))
+						query.set("productCode", good.productCode)
+						query.set("stocks", p_stock_id)
+						query.set("product_info", good.product_info)
+						query.set("producer", good.producer)
+						query.set("packingUnit", good.packingUnit)
+						query.set("packageContent", good.packageContent)
+						query.set("position", good.position)
+						query.set("warning_num", Number(good.warning_num))
+						query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+						if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+							query.set("second_class", p_second_class_id)
+							query.set("goodsClass", p_class_user_id)
+						}
+
+						query.set("id", uni.getStorageSync("now_product").objectId)
+						query.set("userId", userid)
+						query.save().then(res => {
+							uni.hideLoading();
+							that.handledata()
+							common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息", 5, '');
+							uni.redirectTo({
+								url: "/pages/manage/goods/goods"
+							})
+
+							setTimeout(function() {
+								uni.showToast({
+									title: "修改成功"
+								})
+							}, 1000)
+
+						}).catch(err => {
+							console.log(err)
 						})
-					} else {
-						for (let item of that.stocks) {
-							let reserve = item.reserve
-							let stock_id = item.stock.objectId || ""
+					}
+				} else {
+					const query = Bmob.Query("Goods");
+					query.equalTo("userId", "==", uid);
+					query.equalTo("goodsName", "==", good.goodsName);
+					query.find().then(res => {
+						console.log(res)
+						if (res.length >= 1) {
+							uni.showToast({
+								title: "你的库存中已存在此产品",
+								icon: 'none'
+							})
+						} else {
+							for (let item of that.stocks) {
+								let reserve = item.reserve
+								let stock_id = item.stock.objectId || ""
 
-							const pointer1 = Bmob.Pointer('stocks')
-							const p_stock_id = pointer1.set(stock_id) //仓库的id关联
+								const pointer1 = Bmob.Pointer('stocks')
+								const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
-							const query = Bmob.Query('Goods');
-							query.set("goodsIcon", that.goodsIcon)
-							query.set("goodsName", good.goodsName)
-							query.set("costPrice", good.costPrice ? good.costPrice : "0")
-							query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
-							//query.set("producttime",  new Date(that.producttime.replace("-","/")))
-							//query.set("nousetime",new Date(that.nousetime.replace("-","/")) )
-							query.set("regNumber", good.regNumber)
-							query.set("reserve", Number(reserve))
-							query.set("productCode", good.productCode)
-							query.set("stocks", p_stock_id)
-							query.set("product_info", good.product_info)
-							query.set("producer", good.producer)
-							query.set("packingUnit", good.packingUnit)
-							query.set("packageContent", good.packageContent)
-							query.set("position", good.position)
-							query.set("warning_num", Number(good.warning_num))
-							query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-							if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
-								query.set("second_class", p_second_class_id)
-								query.set("goodsClass", p_class_user_id)
-							}
+								const query = Bmob.Query('Goods');
+								query.set("goodsIcon", that.goodsIcon)
+								query.set("goodsName", good.goodsName)
+								query.set("costPrice", good.costPrice ? good.costPrice : "0")
+								query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
+								//query.set("producttime",  new Date(that.producttime.replace("-","/")))
+								//query.set("nousetime",new Date(that.nousetime.replace("-","/")) )
+								query.set("regNumber", good.regNumber)
+								query.set("reserve", Number(reserve))
+								query.set("productCode", good.productCode)
+								query.set("stocks", p_stock_id)
+								query.set("product_info", good.product_info)
+								query.set("producer", good.producer)
+								query.set("packingUnit", good.packingUnit)
+								query.set("packageContent", good.packageContent)
+								query.set("position", good.position)
+								query.set("warning_num", Number(good.warning_num))
+								query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+								if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+									query.set("second_class", p_second_class_id)
+									query.set("goodsClass", p_class_user_id)
+								}
 
-							if (uni.getStorageSync("now_product")) {
-								query.set("id", uni.getStorageSync("now_product").objectId)
-							}
-							query.set("userId", userid)
-							query.save().then(res => {
-								uni.hideLoading();
+								query.set("userId", userid)
+								query.save().then(res => {
+									uni.hideLoading();
+									common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, '');
 
-								if (uni.getStorageSync("now_product")) {
-									uni.showToast({
-										title: "修改成功"
-									})
-
-									common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息" , 5, '');
-
-								} else {
 									uni.showToast({
 										title: "上传成功"
 									})
+									
+									that.handledata()
 
-									common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'" , 5, '');
-								}
 
-								that.handledata()
-							}).catch(err => {
-								console.log(err)
-							})
+								}).catch(err => {
+									console.log(err)
+								})
+							}
 						}
-					}
-				});
+					});
+				}
+
+
 			},
 
 			//数据重置

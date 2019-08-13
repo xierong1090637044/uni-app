@@ -118,7 +118,7 @@
 				if (shop) {//修改操作
 					const query = Bmob.Query('shops');
 					query.set("name", that.shop_name);
-					query.set("num", that.shop_num);
+					query.set("num", Number(that.shop_num));
 					query.set("address", that.shop_address);
 					query.set("phone", that.shop_phone);
 					query.set("beizhu", that.shop_beizhu);
@@ -145,7 +145,7 @@
 						if (res.length == 0) {
 							const query = Bmob.Query('shops');
 							query.set("name", that.shop_name);
-							query.set("num", that.shop_num);
+							query.set("num", Number(that.shop_num));
 							query.set("address", that.shop_address);
 							query.set("phone", that.shop_phone);
 							query.set("beizhu", that.shop_beizhu);
@@ -158,6 +158,13 @@
 								uni.showToast({
 									title: "添加成功"
 								})
+								
+								that.disabled = true, //是否启用
+								that.shop_name = '', //名称
+								that.shop_address = '', //地址
+								that.shop_num = 0, //排序
+								that.shop_phone= '', //门店电话
+								that.shop_beizhu =''
 							}).catch(err => {
 								console.log(err)
 

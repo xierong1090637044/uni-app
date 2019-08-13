@@ -183,7 +183,7 @@
 							
 							const query = Bmob.Query('stocks');
 							query.set("stock_name", that.warehouse_name);
-							query.set("num", that.warehouse_num);
+							query.set("num", Number(that.warehouse_num));
 							if(shop) query.set("shop",shopId);
 							query.set("charge", chargeId);
 							query.set("beizhu", that.warehouse_beizhu);
@@ -195,6 +195,13 @@
 								uni.showToast({
 									title: "添加成功"
 								})
+								
+								that.warehouse_name = '' //名称
+								that.warehouse_shop = '' //门店
+								that.warehouse_num = 0 //排序
+								that.warehouse_charge = '' //负责人
+								that.warehouse_beizhu = '' //备注
+								that.disabled = true //是否启用
 							}).catch(err => {
 								console.log(err)
 

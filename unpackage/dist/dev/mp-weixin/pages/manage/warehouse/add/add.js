@@ -290,7 +290,7 @@ var uid;var _default =
 
             var _query2 = _bmob.default.Query('stocks');
             _query2.set("stock_name", that.warehouse_name);
-            _query2.set("num", that.warehouse_num);
+            _query2.set("num", Number(that.warehouse_num));
             if (shop) _query2.set("shop", shopId);
             _query2.set("charge", chargeId);
             _query2.set("beizhu", that.warehouse_beizhu);
@@ -302,6 +302,13 @@ var uid;var _default =
               uni.showToast({
                 title: "添加成功" });
 
+
+              that.warehouse_name = ''; //名称
+              that.warehouse_shop = ''; //门店
+              that.warehouse_num = 0; //排序
+              that.warehouse_charge = ''; //负责人
+              that.warehouse_beizhu = ''; //备注
+              that.disabled = true; //是否启用
             }).catch(function (err) {
               console.log(err);
 
