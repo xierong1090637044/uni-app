@@ -108,7 +108,9 @@
         "appid" : "wxd732ba05c712a198",
         "setting" : {
             "urlCheck" : false,
-            "es6" : true
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
         },
         "usingComponents" : true,
         "permission" : {}

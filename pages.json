@@ -11,6 +11,7 @@
 		    "path" : "pages/manage/good_det/custom_detail/custom_detail",
 		    "style" : {"navigationBarTitleText": "客户统计"}
 		},
+		
 		{
 		    "path" : "pages/manage/custom/custom_detail/debt_history/debt_history",
 		    "style" : {"navigationBarTitleText": "收款列表"}

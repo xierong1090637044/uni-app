@@ -1,0 +1,13 @@
+
+.Loading_view{
+	height: 100vh;
+	width: 100%;
+	text-align: center;
+	background: #fff;
+}
+.loading_image{
+	width: 200rpx;
+	height: 200rpx;
+	margin-top: 50%;
+}
+

@@ -64,6 +64,7 @@
 		},
 		
 		onLoad(options) {
+			console.log(options)
 			that = this;
 			that.get_list(options.id)
 		},

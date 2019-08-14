@@ -101,6 +101,10 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+		},
+		
+		onShow() {
 			that.gettoday_detail();
 			that.loadallGoods()
 		},

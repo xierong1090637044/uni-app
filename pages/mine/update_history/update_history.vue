@@ -25,6 +25,8 @@
 						<text>增加产品修改信息功能</text>
 						<text>增加客户明细，收款明细</text>
 						<text>增加供货商明细，还款明细</text>
+						<text>产品详情，新增客户统计</text>
+						<text>首页统计实时更新</text>
 					</view>
 				</view>
 
