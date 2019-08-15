@@ -87,7 +87,6 @@
 			
 		},
 		onLoad(options) {
-			goodsId = "3593e07368"
 			goodsId = options.id
 			
 			that = this;

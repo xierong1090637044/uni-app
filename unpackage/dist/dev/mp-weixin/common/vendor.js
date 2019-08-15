@@ -1707,9 +1707,9 @@ createPage(_logs.default);
 /***/ }),
 
 /***/ 13:
-/*!************************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fcustom_detail%2Fcustom_detail"} ***!
-  \************************************************************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1717,8 +1717,8 @@ createPage(_logs.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _custom_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/custom_detail/custom_detail.vue */ 14));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_custom_detail.default);
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 14));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -1843,160 +1843,106 @@ createPage(_shops.default);
 /***/ }),
 
 /***/ 19:
-/*!************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/customs.js ***!
-  \************************************************************************/
+/*!***********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/common.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-{
-  //得到客户列表
-  get_customList: function get_customList(disabled, search_text) {
-    return new Promise(function (resolve, reject) {
-      var userid = uni.getStorageSync("uid");
-      var query = _bmob.default.Query("customs");
-      query.order("num");
-      query.equalTo("parent", "==", userid);
-      query.equalTo("disabled", "==", disabled);
-      if (search_text) {
-        query.equalTo("name", "==", {
-          "$regex": "" + search_text + ".*" });
+module.exports = {
+  //日志功能
+  log: function log(_log, type, id) {
+    var pointer = _bmob.default.Pointer('_User');
+    var userid = pointer.set(uni.getStorageSync("uid"));
 
-
-      }
-      query.find().then(function (res) {
-        resolve(res);
-      });
-    });
-
-  },
-
-  //产品详情里面得到客户统计
-  get_customCount: function get_customCount() {
-    return new Promise(function (resolve, reject) {
-      var userid = uni.getStorageSync("uid");
-      var query = _bmob.default.Query("customs");
-      query.equalTo("parent", "==", userid);
-      query.find().then(function (res) {
-
-        var custom = res;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {var _loop = function _loop() {var
-            item = _step.value;
-            var query = _bmob.default.Query("Bills");
-            query.equalTo("type", '==', -1);
-            query.equalTo("custom", '==', item.objectId);
-            query.find().then(function (res) {
-              //console.log(res)
-              item.relations = res;
-            });};for (var _iterator = custom[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {_loop();
-          }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
-
-        resolve(custom);
-
-      });
+    var query = _bmob.default.Query('logs');
+    query.set("parent", userid);
+    query.set("log", _log);
+    query.set("detail_id", id);
+    query.set("type", type);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
     });
   },
 
-
-  //增加数据操作
-  add_custom: function add_custom(params) {
-
-    console.log(params);
-    var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
-
-    return new Promise(function (resolve, reject) {
-      var pointer = _bmob.default.Pointer('_User');
-      var poiID = pointer.set(userid);
-
-      if (params.objectId) {//修改操作
-        var query = _bmob.default.Query('customs');
-        query.set("custom_name", params.custom_name);
-        query.set("debt", Number(params.debt));
-        query.set("custom_address", params.custom_address);
-        query.set("custom_phone", params.custom_phone);
-        query.set("parent", poiID);
-        query.set("disabled", !params.disabled);
-        query.set("id", params.objectId);
-        query.save().then(function (res) {
-          resolve(res);
-        }).catch(function (err) {
-          console.log(err);
-
-        });
-      } else {
-
-        var _query = _bmob.default.Query("customs");
-        _query.equalTo("parent", "==", userid);
-        _query.equalTo("name", "==", params.custom_name);
-        _query.find().then(function (res) {
-          console.log(res);
-          if (res.length == 0) {
-            var _query2 = _bmob.default.Query('customs');
-            _query2.set("custom_name", params.custom_name);
-            _query2.set("debt", Number(params.debt));
-            _query2.set("custom_address", params.custom_address);
-            _query2.set("custom_phone", params.custom_phone);
-            _query2.set("have_out", 0);
-            _query2.set("disabled", !params.disabled);
-            _query2.set("parent", poiID);
-            _query2.save().then(function (res) {
-              resolve(res);
-            }).catch(function (err) {
-              console.log(err);
-            });
-          } else {
-            resolve(false);
-          }
-
-        });
-
-      }
-
+  //记录门店的出库数量
+  record_shopOut: function record_shopOut(id, have_out) {
+    console.log(id, have_out);
+    var query = _bmob.default.Query('shops');
+    query.set('id', id); //需要修改的objectId
+    query.set('have_out', have_out);
+    query.save().then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
     });
   },
 
-  //删除门店
-  delete_custom: function delete_custom(id) {
-    return new Promise(function (resolve, reject) {
-      var query = _bmob.default.Query("customs");
-      query.destroy(id).then(function (res) {
-        resolve(res);
-      }).catch(function (err) {
-        console.log(err);
-      });
-    });
-
-  },
-
-  //得到客户详情
-  custom_detail: function custom_detail(id) {
-    return new Promise(function (resolve, reject) {
-      var query = _bmob.default.Query('customs');
-      query.get(id).then(function (res) {
-        //console.log(res)
-        resolve(res);
-      }).catch(function (err) {
-        console.log(err);
-      });
-
-    });
-  },
-
-  //得到收款列表
-  get_moneyList: function get_moneyList(id) {
-    return new Promise(function (resolve, reject) {
-      var query = _bmob.default.Query("debt_history");
-      query.equalTo("custom", "==", id);
-      query.include("operater");
-      query.find().then(function (res) {
+  //记录员工的出库数量
+  record_staffOut: function record_staffOut(have_out) {
+    console.log(have_out, uni.getStorageSync("user").have_out);
+    if (uni.getStorageSync("identity") == 1) {} else {
+      var query = _bmob.default.Query('staffs');
+      query.set('id', uni.getStorageSync("user").objectId); //需要修改的objectId
+      query.set('have_out', have_out + uni.getStorageSync("user").have_out);
+      query.save().then(function (res) {
         console.log(res);
-        resolve(res);
+      }).catch(function (err) {
+        console.log(err);
       });
+    }
 
+  },
+
+  //获得库存成本和总库存
+  get_allCost: function get_allCost() {
+    var userid = uni.getStorageSync("uid");
+    console.log(userid);
+    var query = _bmob.default.Query("Goods");
+    query.equalTo("userId", "==", userid);
+    query.find().then(function (res) {
+      console.log(res);
+      var reserve_money = 0;
+      var all_reserve = 0;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+        for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+          console.log(item);
+          reserve_money += Number(item.costPrice) * item.reserve;
+          all_reserve += item.reserve;
+        }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
     });
-  } };exports.default = _default;
+  },
+
+  //获取时间
+  getDay: function getDay(day, is_full) {
+    var that = this;
+    var today = new Date();
+    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    today.setTime(targetday_milliseconds);
+    var tYear = today.getFullYear();
+    var tMonth = today.getMonth();
+    var tDate = today.getDate();
+    tMonth = that.handleMonth(tMonth + 1);
+    tDate = that.handleMonth(tDate);
+    if (is_full) {
+      return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
+    } else {
+      return tYear + "-" + tMonth + "-" + tDate;
+    }
+
+  },
+
+  handleMonth: function handleMonth(month) {
+    var m = month;
+    if (month.toString().length == 1) {
+      m = "0" + month;
+    }
+    return m;
+  } };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
@@ -8019,9 +7965,9 @@ createPage(_add.default);
 /***/ }),
 
 /***/ 22:
-/*!************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \************************************************************************************************/
+/*!************************************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/main.js?{"page":"pages%2Fmanage%2Fgood_det%2Fcustom_detail%2Fcustom_detail"} ***!
+  \************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8029,8 +7975,8 @@ createPage(_add.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_index.default);
+var _custom_detail = _interopRequireDefault(__webpack_require__(/*! ./pages/manage/good_det/custom_detail/custom_detail.vue */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_custom_detail.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -8155,106 +8101,160 @@ createPage(_good_confrim.default);
 /***/ }),
 
 /***/ 28:
-/*!***********************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/common.js ***!
-  \***********************************************************************/
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat/utils/customs.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 
-module.exports = {
-  //日志功能
-  log: function log(_log, type, id) {
-    var pointer = _bmob.default.Pointer('_User');
-    var userid = pointer.set(uni.getStorageSync("uid"));
+{
+  //得到客户列表
+  get_customList: function get_customList(disabled, search_text) {
+    return new Promise(function (resolve, reject) {
+      var userid = uni.getStorageSync("uid");
+      var query = _bmob.default.Query("customs");
+      query.order("num");
+      query.equalTo("parent", "==", userid);
+      query.equalTo("disabled", "==", disabled);
+      if (search_text) {
+        query.equalTo("name", "==", {
+          "$regex": "" + search_text + ".*" });
 
-    var query = _bmob.default.Query('logs');
-    query.set("parent", userid);
-    query.set("log", _log);
-    query.set("detail_id", id);
-    query.set("type", type);
-    query.save().then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      console.log(err);
+
+      }
+      query.find().then(function (res) {
+        resolve(res);
+      });
+    });
+
+  },
+
+  //产品详情里面得到客户统计
+  get_customCount: function get_customCount() {
+    return new Promise(function (resolve, reject) {
+      var userid = uni.getStorageSync("uid");
+      var query = _bmob.default.Query("customs");
+      query.equalTo("parent", "==", userid);
+      query.find().then(function (res) {
+
+        var custom = res;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {var _loop = function _loop() {var
+            item = _step.value;
+            var query = _bmob.default.Query("Bills");
+            query.equalTo("type", '==', -1);
+            query.equalTo("custom", '==', item.objectId);
+            query.find().then(function (res) {
+              //console.log(res)
+              item.relations = res;
+            });};for (var _iterator = custom[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {_loop();
+          }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+
+        resolve(custom);
+
+      });
     });
   },
 
-  //记录门店的出库数量
-  record_shopOut: function record_shopOut(id, have_out) {
-    console.log(id, have_out);
-    var query = _bmob.default.Query('shops');
-    query.set('id', id); //需要修改的objectId
-    query.set('have_out', have_out);
-    query.save().then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      console.log(err);
+
+  //增加数据操作
+  add_custom: function add_custom(params) {
+
+    console.log(params);
+    var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+
+    return new Promise(function (resolve, reject) {
+      var pointer = _bmob.default.Pointer('_User');
+      var poiID = pointer.set(userid);
+
+      if (params.objectId) {//修改操作
+        var query = _bmob.default.Query('customs');
+        query.set("custom_name", params.custom_name);
+        query.set("debt", Number(params.debt));
+        query.set("custom_address", params.custom_address);
+        query.set("custom_phone", params.custom_phone);
+        query.set("parent", poiID);
+        query.set("disabled", !params.disabled);
+        query.set("id", params.objectId);
+        query.save().then(function (res) {
+          resolve(res);
+        }).catch(function (err) {
+          console.log(err);
+
+        });
+      } else {
+
+        var _query = _bmob.default.Query("customs");
+        _query.equalTo("parent", "==", userid);
+        _query.equalTo("name", "==", params.custom_name);
+        _query.find().then(function (res) {
+          console.log(res);
+          if (res.length == 0) {
+            var _query2 = _bmob.default.Query('customs');
+            _query2.set("custom_name", params.custom_name);
+            _query2.set("debt", Number(params.debt));
+            _query2.set("custom_address", params.custom_address);
+            _query2.set("custom_phone", params.custom_phone);
+            _query2.set("have_out", 0);
+            _query2.set("disabled", !params.disabled);
+            _query2.set("parent", poiID);
+            _query2.save().then(function (res) {
+              resolve(res);
+            }).catch(function (err) {
+              console.log(err);
+            });
+          } else {
+            resolve(false);
+          }
+
+        });
+
+      }
+
     });
   },
 
-  //记录员工的出库数量
-  record_staffOut: function record_staffOut(have_out) {
-    console.log(have_out, uni.getStorageSync("user").have_out);
-    if (uni.getStorageSync("identity") == 1) {} else {
-      var query = _bmob.default.Query('staffs');
-      query.set('id', uni.getStorageSync("user").objectId); //需要修改的objectId
-      query.set('have_out', have_out + uni.getStorageSync("user").have_out);
-      query.save().then(function (res) {
-        console.log(res);
+  //删除门店
+  delete_custom: function delete_custom(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query("customs");
+      query.destroy(id).then(function (res) {
+        resolve(res);
       }).catch(function (err) {
         console.log(err);
       });
-    }
+    });
 
   },
 
-  //获得库存成本和总库存
-  get_allCost: function get_allCost() {
-    var userid = uni.getStorageSync("uid");
-    console.log(userid);
-    var query = _bmob.default.Query("Goods");
-    query.equalTo("userId", "==", userid);
-    query.find().then(function (res) {
-      console.log(res);
-      var reserve_money = 0;
-      var all_reserve = 0;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
-        for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
-          console.log(item);
-          reserve_money += Number(item.costPrice) * item.reserve;
-          all_reserve += item.reserve;
-        }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+  //得到客户详情
+  custom_detail: function custom_detail(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query('customs');
+      query.get(id).then(function (res) {
+        //console.log(res)
+        resolve(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+
     });
   },
 
-  //获取时间
-  getDay: function getDay(day, is_full) {
-    var that = this;
-    var today = new Date();
-    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
-    today.setTime(targetday_milliseconds);
-    var tYear = today.getFullYear();
-    var tMonth = today.getMonth();
-    var tDate = today.getDate();
-    tMonth = that.handleMonth(tMonth + 1);
-    tDate = that.handleMonth(tDate);
-    if (is_full) {
-      return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
-    } else {
-      return tYear + "-" + tMonth + "-" + tDate;
-    }
+  //得到收款列表
+  get_moneyList: function get_moneyList(id) {
+    return new Promise(function (resolve, reject) {
+      var query = _bmob.default.Query("debt_history");
+      query.equalTo("custom", "==", id);
+      query.include("operater");
+      query.find().then(function (res) {
+        console.log(res);
+        resolve(res);
+      });
 
-  },
-
-  handleMonth: function handleMonth(month) {
-    var m = month;
-    if (month.toString().length == 1) {
-      m = "0" + month;
-    }
-    return m;
-  } };
+    });
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

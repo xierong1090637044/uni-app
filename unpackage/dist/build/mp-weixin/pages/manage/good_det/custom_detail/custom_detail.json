@@ -1,8 +1,7 @@
 {
   "navigationBarTitleText": "客户统计",
   "usingComponents": {
-    "uni-collapse": "/components/uni-collapse/uni-collapse",
-    "loading": "/components/Loading/index",
-    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item"
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index"
   }
 }

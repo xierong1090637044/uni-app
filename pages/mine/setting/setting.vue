@@ -2,20 +2,24 @@
 	<view>
 		<view class="uni-form-item uni-column">
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 160rpx;">显示精度</view>
+				<view style="margin-right: 10rpx;width: 110rpx;">登陆网址</view>
+				<input class="uni-input" type="number" value="http://www.jimuzhou.com/stock/test/"  disabled="true"/>
+			</view>
+			<view class="display_flex item">
+				<view style="margin-right: 10rpx;width: 110rpx;">显示精度</view>
 				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="show_float" />
 			</view>
 
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 160rpx;">USER账号</view>
+				<view style="margin-right: 10rpx;width: 110rpx;">USER账号</view>
 				<input class="uni-input" placeholder="请输入USER账号" v-model="USER" />
 			</view>
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 160rpx;">UKEY账号</view>
+				<view style="margin-right: 10rpx;width: 110rpx;">UKEY账号</view>
 				<input class="uni-input" placeholder="请输入UKEY账号" v-model="UKEY" />
 			</view>
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 160rpx;">打印机编号</view>
+				<view style="margin-right: 10rpx;width: 130rpx;">打印机编号</view>
 				<input class="uni-input" placeholder="请输入打印机编号" v-model="number" />
 			</view>
 
@@ -109,10 +113,12 @@
 <style>
 	.item {
 		background: #fff;
-		padding: 4rpx 8rpx;
+		padding: 4rpx 30rpx;
+		font-size: 24rpx;
 	}
 
 	.uni-input {
 		border-bottom: 1rpx solid#ccc;
+		padding: 10rpx 0;
 	}
 </style>

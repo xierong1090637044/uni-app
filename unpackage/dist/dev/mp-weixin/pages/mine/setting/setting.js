@@ -131,6 +131,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -156,11 +160,11 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 //
 //
 //
-var uid;var that;var setting;var _default = { data: function data() {return { show_float: null, USER: null, UKEY: null, number: null };}, onLoad: function onLoad() {that = this;uid = wx.getStorageSync("uid");uni.getStorage({ key: 'setting', success: function success(res) {setting = res.data;that.show_float = setting.show_float;that.USER = setting.USER;that.UKEY = setting.UKEY;that.number = setting.number;
-      },
-      fail: function fail() {
-        that.query_setting();
-      } });
+//
+//
+//
+//
+var uid;var that;var setting;var _default = { data: function data() {return { show_float: null, USER: null, UKEY: null, number: null };}, onLoad: function onLoad() {that = this;uid = wx.getStorageSync("uid");uni.getStorage({ key: 'setting', success: function success(res) {setting = res.data;that.show_float = setting.show_float;that.USER = setting.USER;that.UKEY = setting.UKEY;that.number = setting.number;}, fail: function fail() {that.query_setting();} });
 
   },
   methods: {

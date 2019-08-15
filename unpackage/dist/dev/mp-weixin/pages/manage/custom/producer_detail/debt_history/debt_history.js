@@ -144,7 +144,7 @@ var _producers = _interopRequireDefault(__webpack_require__(/*! @/utils/producer
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 415));};var that;var _default = { components: { loading: loading }, data: function data() {return { debt_list: [], name: '', loading: true };}, methods: {}, onLoad: function onLoad(options) {//console.log(options)
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 422));};var that;var _default = { components: { loading: loading }, data: function data() {return { debt_list: [], name: '', loading: true };}, methods: {}, onLoad: function onLoad(options) {//console.log(options)
     that = this;
     that.name = options.name;
     _producers.default.get_moneyList(options.id).then(function (res) {

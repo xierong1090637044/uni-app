@@ -165,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));
-var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 28));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //

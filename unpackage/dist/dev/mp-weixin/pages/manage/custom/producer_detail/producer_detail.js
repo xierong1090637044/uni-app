@@ -173,7 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _producers = _interopRequireDefault(__webpack_require__(/*! @/utils/producers.js */ 45));
-var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 28));
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 19));
 
 
 
@@ -234,7 +234,7 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 //
 //
 //
-var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var uniPopup = function uniPopup() {return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 429));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 415));};var that;var _default = { components: { faIcon: faIcon, loading: loading, uniPopup: uniPopup }, data: function data() {return { loading: true, modal_show: false, producer: {}, modal_sk: { sk_number: '', beizhu: "" } };}, onLoad: function onLoad(options) {that = this; //console.log(options.id)
+var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var uniPopup = function uniPopup() {return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 429));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 422));};var that;var _default = { components: { faIcon: faIcon, loading: loading, uniPopup: uniPopup }, data: function data() {return { loading: true, modal_show: false, producer: {}, modal_sk: { sk_number: '', beizhu: "" } };}, onLoad: function onLoad(options) {that = this; //console.log(options.id)
     _producers.default.producer_detail(options.id).then(function (res) {console.log(res);if (res.debt) {} else {res.debt = 0;}that.producer = res;that.loading = false;});}, methods: { //确认收款金额
     confrim_sk: function confrim_sk() {console.log(that.modal_sk);var input_money = that.modal_sk.sk_number;var beizhu = that.modal_sk.beizhu;var producer_id = that.producer.objectId;if (input_money == null || input_money.length == 0) {uni.showToast({ title: '请输入还款金额', icon: "none" });} else {uni.showLoading({ title: '加载中...' });that.modal_show = false;var query = _bmob.default.Query('producers');query.get(producer_id).then(function (res) {if (res.debt - Number(input_money) < 0) {uni.hideLoading();uni.showToast({ icon: "none",
               title: '还款金额超出' });

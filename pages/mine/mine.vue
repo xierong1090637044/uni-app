@@ -40,7 +40,11 @@
 				<navigator class="li noborder" hover-class="none" url="setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
-					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 300rpx;justify-content: flex-end">
+						<text style="margin-right: 10rpx;">(电脑版网址)</text>
+						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+					</view>
+					
 				</navigator>
 			</view>
 			<view class="list">
