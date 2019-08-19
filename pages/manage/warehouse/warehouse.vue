@@ -23,7 +23,8 @@
 								<image src="/static/warehouse.png" class="stock_avatar"></image>
 								<view>
 									<view class='stock_name'>{{stock.stock_name}}</view>
-									<view class='stock_mobile'>负责人：{{stock.charge.nickName}}</view>
+									<view class='stock_mobile' v-if="stock.charge.nickName">负责人：{{stock.charge.nickName}}</view>
+									<view class='stock_mobile' v-else>负责人：未填写</view>
 								</view>
 							</view>
 							
@@ -204,7 +205,7 @@
 				query.order("-num");
 				query.include("charge","shop")
 				query.equalTo("parent", "==", uid);
-				query.equalTo("disabled", "==", that.disabled);
+				query.equalTo("disabled", "!=", !that.disabled);
 				if (search_text) {
 					query.equalTo("stock_name", "==", {
 						"$regex": "" + search_text + ".*"

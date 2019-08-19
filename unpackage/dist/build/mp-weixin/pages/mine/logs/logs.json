@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "操作记录",
-  "usingComponents": {
-    "loading": "/components/Loading/index",
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
-  }
-}

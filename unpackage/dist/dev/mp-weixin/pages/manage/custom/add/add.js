@@ -166,7 +166,7 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 //
 //
 //
-var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 508));};var type;var that;var custom;var uid;var _default = { components: { uniNavBar: uniNavBar }, data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this;uid = uni.getStorageSync('uid'); //type = "customs"
+var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 429));};var type;var that;var custom;var uid;var _default = { components: { uniNavBar: uniNavBar }, data: function data() {return { name: null, address: '', phone: '', debt: 0 };}, onLoad: function onLoad(options) {type = options.type;that = this;uid = uni.getStorageSync('uid'); //type = "customs"
     if (type == "customs") {uni.setNavigationBarTitle({ title: '新增客户' });} else {uni.setNavigationBarTitle({ title: '新增供货商' });
 
     }

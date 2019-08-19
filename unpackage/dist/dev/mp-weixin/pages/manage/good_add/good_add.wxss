@@ -56,12 +56,14 @@
 	margin-left: 20rpx;
 }
 .submit_button {
+	width: 50%;
 	background: #426ab3;
 	border-radius: 40rpx;
 	margin: 30rpx;
 	height: 88rpx;
 	line-height: 88rpx;
 	color: #fff;
+	font-size: 30rpx;
 }
 .upload_image {
 	width: 180rpx;
@@ -76,5 +78,15 @@
 	font-size: 32rpx;
 	color: #3D3D3D;
 	font-weight: bold;
+}
+.reset_button {
+	font-size: 30rpx;
+	width: 50%;
+	background: #999;
+	border-radius: 40rpx;
+	margin: 30rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	color: #fff;
 }
 

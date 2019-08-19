@@ -68,6 +68,11 @@
 					</view>
 				</navigator>
 				
+				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
+					<view>是否失效</view>
+					<view @click.stop="" style="margin-left: 30rpx;" ><switch :checked="checked" @change="change_timestatus"/></view>
+				</view>
+				
 				<view class="option_bottom">
 					<view class="selection"  @click="option_reset">重置</view>
 					<view class="selection1" @click="option_confrim">确定</view>
@@ -85,6 +90,7 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import Bmob from '@/utils/bmob.js'
+	import common from '@/utils/common.js';
 
 	let uid;
 	let that;
@@ -105,6 +111,7 @@
 				checked_option: 'createdAt',//tab的筛选条件
 				category:"",//选择的类别
 				stock:"",//选择的仓库
+				checked:false,//选择的是否失效
 			}
 		},
 	
@@ -115,6 +122,8 @@
 			uni.removeStorageSync("warehouse");
 			
 			uid = uni.getStorageSync('uid');
+			
+			that.get_productList();
 		},
 		onShow() {
 			if(uni.getStorageSync("category")){
@@ -127,16 +136,28 @@
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
 			
-			that.get_productList();
+			if(uni.getStorageSync("is_add")){
+				that.get_productList();
+			}
+			
 		},
 
 		onUnload() {
+			common.handleData()
 			//数据重置
 			search_text = '';
 			page_size = 50;
+			
+			uni.removeStorageSync("is_add");
 		},
 
 		methods: {
+			
+			//是否失效switch的改变
+			change_timestatus(e){
+				console.log(e)
+				that.checked = e.detail.value
+			},
 			
 			//输入框确定输入
 			input_confirm(e){
@@ -217,6 +238,11 @@
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});
+				
+				if(that.checked){
+					var timestamp = Date.parse(new Date());
+					query.equalTo("bad_time", "<=", timestamp);
+				}
 				query.limit(page_size);
 				query.order("-" + that.checked_option); //按照条件降序
 				query.include("userId","goodsClass","stocks","second_class");

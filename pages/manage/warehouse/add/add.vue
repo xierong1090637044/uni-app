@@ -152,7 +152,7 @@
 				if (warehouse) {//修改操作
 					const query = Bmob.Query('stocks');
 					query.set("stock_name", that.warehouse_name);
-					query.set("num", that.warehouse_num);
+					query.set("num", Number(that.warehouse_num));
 					if(shop) query.set("shop",shopId);
 					//query.set("shop", that.warehouse_shop);
 					query.set("charge", chargeId);

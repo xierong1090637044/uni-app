@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "首页",
-  "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "uni-notice-bar": "/components/uni-notice-bar/uni-notice-bar"
-  }
-}

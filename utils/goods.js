@@ -36,6 +36,8 @@ export default {
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
 			query.equalTo("goodsName", "==", good.goodsName);
+			query.equalTo("position", "==", good.position);
+			query.equalTo("stocks", "==", good.stocks);
 			query.find().then(res => {
 				console.log(res)
 				if (res.length >= 1) {

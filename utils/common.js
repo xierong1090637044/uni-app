@@ -1,6 +1,17 @@
 import Bmob from '@/utils/bmob.js';
 
 module.exports = {
+	//清除缓存
+	handleData(){
+		uni.removeStorageSync("warehouse");
+		uni.removeStorageSync("stock");
+		uni.removeStorageSync("custom");
+		uni.removeStorageSync("now_product");
+		uni.removeStorageSync("category");
+		uni.removeStorageSync("class_user")
+		uni.removeStorageSync("second_class")
+	},
+	
 	//日志功能
 	log(log, type, id) {
 		let pointer = Bmob.Pointer('_User')

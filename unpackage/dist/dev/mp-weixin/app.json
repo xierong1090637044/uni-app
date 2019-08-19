@@ -1,19 +1,19 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/manage/custom/custom_detail/history/history",
+    "pages/manage/goods/goods",
+    "pages/manage/good_add/good_add",
     "pages/manage/good_det/custom_detail/custom_detail",
     "pages/manage/custom/custom_detail/debt_history/debt_history",
     "pages/manage/custom/producer_detail/producer_detail",
     "pages/manage/custom/custom_detail/custom_detail",
-    "pages/manage/custom/custom_detail/history/history",
-    "pages/manage/good_add/good_add",
     "pages/manage/good_det/good_det",
     "pages/landing/landing",
     "pages/register/register",
     "pages/mine/mine",
     "pages/manage/warehouse/detail/detail",
     "pages/report/operational_status/operational_status",
-    "pages/manage/goods/goods",
     "pages/mine/logs/logs",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
@@ -92,6 +92,5 @@
   "permission": {},
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
-  },
-  "sitemapLocation": "sitemap86.json"
+  }
 }

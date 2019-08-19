@@ -1,12 +1,32 @@
 {
 	"pages": [
-		
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},
+		{
+			"path": "pages/manage/custom/custom_detail/history/history",
+			"style": {
+				"navigationBarTitleText": "销售明细"
+			}
+		},
+		
+		{
+			"path": "pages/manage/goods/goods",
+			"style": {
+				"navigationBarTitleText": "我的产品"
+			}
+		},
+		
+		{
+			"path": "pages/manage/good_add/good_add",
+			"style": {
+				"navigationBarTitleText": "新建产品"
+			}
+		},
+		
 		{
 		    "path" : "pages/manage/good_det/custom_detail/custom_detail",
 		    "style" : {"navigationBarTitleText": "客户统计"}
@@ -27,21 +47,6 @@
 			"path": "pages/manage/custom/custom_detail/custom_detail",
 			"style": {
 				"navigationBarTitleText": "客户详情"
-			}
-		},
-
-
-		{
-			"path": "pages/manage/custom/custom_detail/history/history",
-			"style": {
-				"navigationBarTitleText": "销售明细"
-			}
-		},
-
-		{
-			"path": "pages/manage/good_add/good_add",
-			"style": {
-				"navigationBarTitleText": "新建产品"
 			}
 		},
 
@@ -82,16 +87,6 @@
 				"navigationBarTitleText": "经营状况"
 			}
 		},
-
-
-		{
-			"path": "pages/manage/goods/goods",
-			"style": {
-				"navigationBarTitleText": "我的产品"
-			}
-		},
-
-
 		{
 			"path": "pages/mine/logs/logs",
 			"style": {

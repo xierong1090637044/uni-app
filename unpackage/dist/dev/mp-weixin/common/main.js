@@ -71,28 +71,43 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 
 {
   onLaunch: function onLaunch() {
+    console.log(wx.getLaunchOptionsSync().query.user_id);
 
-    //console.log('App Launch')
-    uni.getStorage({
-      key: 'user',
-      success: function success(res) {
-        //console.log(res.data);
-        /*uni.setStorageSync('uid', res.data.objectId); //缓存测试
-        const query = Bmob.Query("setting");
-        query.equalTo("parent", "==", res.data.objectId);
-        query.find().then(res => {
-        	//console.log(res)
-        	uni.setStorageSync("setting", res[0])
-        });
-        /*uni.switchTab({
-        	url:'/pages/index/index'
-        })*/
-      },
-      fail: function fail() {
-        uni.reLaunch({
-          url: '/pages/landing/landing' });
+    if (wx.getLaunchOptionsSync().query.user_id) {
+      var query = _bmob.default.Query('_User');
+      query.get(wx.getLaunchOptionsSync().query.user_id).then(function (res) {
+        uni.setStorageSync("user", res);
+        uni.setStorageSync("identity", "1");
+        uni.setStorageSync("uid", res.objectId);
+        uni.setStorageSync("masterId", res.objectId);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    } else {
+      //console.log('App Launch')
+      uni.getStorage({
+        key: 'user',
+        success: function success(res) {
+          //console.log(res.data);
+          /*uni.setStorageSync('uid', res.data.objectId); //缓存测试
+          const query = Bmob.Query("setting");
+          query.equalTo("parent", "==", res.data.objectId);
+          query.find().then(res => {
+          	//console.log(res)
+          	uni.setStorageSync("setting", res[0])
+          });
+          /*uni.switchTab({
+          	url:'/pages/index/index'
+          })*/
+        },
+        fail: function fail() {
+          uni.reLaunch({
+            url: '/pages/landing/landing' });
 
-      } });
+        } });
+
+    }
+
 
 
 
