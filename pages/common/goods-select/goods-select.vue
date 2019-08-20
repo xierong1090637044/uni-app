@@ -24,11 +24,12 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
+			
 			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
 				<checkbox-group @change="radioChange">
 					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 						<view>
-							<checkbox :value="index" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue" :id="index" />
+							<checkbox :value="product.objectId" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue" :id="index" :checked="product.checked"/>
 						</view>
 
 						<label class="uni-product" :for="index">
@@ -91,7 +92,7 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import Bmob from '@/utils/bmob.js'
 
-	let indexs = [];
+	let indexs = ["0"];
 	let uid;
 	let that;
 	let search_text = '';
@@ -214,7 +215,23 @@
 
 			//多选选择触发
 			radioChange: function(e) {
-				indexs = e.detail.value;
+				let values = e.detail.value
+				indexs = values.concat(indexs)
+				indexs= Array.from(new Set(indexs));
+				console.log(indexs)
+				let index = 0;
+				
+				
+				for(let item of indexs){
+					if(item == that.productList[index].objectId){
+						that.productList[index].checked = true
+						
+						//console.log(index)
+					}
+					index +=1;
+				}
+				
+				
 			},
 
 			//点击去到添加产品
@@ -227,11 +244,22 @@
 					})
 				} else {
 					let products = [];
+					let index = 0;
 					for (let i = 0; i < indexs.length; i++) {
 						this.productList[indexs[i]].num = 1;
 						this.productList[indexs[i]].total_money = 1 * this.productList[indexs[i]].retailPrice;
 						this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
 						products.push(this.productList[indexs[i]])
+					}
+					
+					for(let item of indexs){
+						if(item == that.productList[index].objectId){
+							this.productList[index].num = 1;
+							this.productList[index].total_money = 1 * this.productList[index].retailPrice;
+							this.productList[index].modify_retailPrice = this.productList[index].retailPrice;
+							products.push(this.productList[index])
+						}
+						index +=1
 					}
 					uni.setStorageSync("products", products);
 					uni.navigateTo({
@@ -257,8 +285,22 @@
 				query.include("stocks");
 				query.find().then(res => {
 					//console.log(res)
-					this.productList = res;
+					
 					this.loading = false;
+					
+					let index = 0;
+					for(let item of indexs){
+						if(item == res[index].objectId){
+							res[index].checked = true
+						}
+						index +=1;
+						
+						console.log(index)
+					}
+					
+					console.log(res)
+					
+					this.productList = res;
 				});
 			},
 
