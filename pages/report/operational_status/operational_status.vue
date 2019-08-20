@@ -137,16 +137,18 @@
 		methods: {
 			//获得库存成本和总库存
 			get_allCost() {
+				let reserve_money = 0;
+				let all_reserve = 0;
+				let warn_num = 0;
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
+				query.limit(500);
 				query.find().then(res => {
 					//console.log(res)
-					let reserve_money = 0;
-					let all_reserve = 0;
-					let warn_num = 0;
+					
 					for (let item of res) {
 						reserve_money += Number(item.costPrice) * item.reserve
-						all_reserve += item.reserve
+						all_reserve =all_reserve+ item.reserve
 
 						if (item.stocktype = 0) {
 							warn_num += 1;

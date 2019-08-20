@@ -33,11 +33,11 @@
 				</swiper-item>
 			</block>
 		</swiper>
-		
+
 		<uni-notice-bar :show-icon="true" :scrollable="true" :single="true" color="#426ab3" text="新版库存表上线啦,接下来将更新此小程序,旧版的将不再更新" />
 		<!--操作列表-->
 		<view class='o_list'>
-			
+
 			<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 				<view style='width:100%'>
 					<image :src="(value.icon)" class='o_image' />
@@ -101,9 +101,9 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
+
 		},
-		
+
 		onShow() {
 			that.gettoday_detail();
 			that.loadallGoods()
@@ -112,7 +112,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点',  '查看详情'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -128,7 +128,7 @@
 					success(res) {
 						var result = res.result;
 						var array = result.split("-");
-						
+
 						if (type == 0) {
 							uni.navigateTo({
 								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
@@ -192,14 +192,15 @@
 			loadallGoods: function() {
 				var total_reserve = 0;
 				var total_money = 0;
+				let length = 0
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.limit(500);
 				query.find().then(res => {
-					for (var i = 0; i < res.length; i++) {
-						total_reserve = total_reserve + res[i].reserve;
-						total_money = total_money + res[i].reserve * res[i].costPrice;
-						if (i == (res.length - 1) && res.length == 500) {
+					for (let item of res) {
+						total_reserve = total_reserve + item.reserve;
+						total_money = total_money + item.reserve * item.costPrice;
+						if (res.length == 500) {
 							const query = Bmob.Query("Goods");
 							query.equalTo("userId", "==", uid);
 							query.skip(500);
@@ -214,9 +215,10 @@
 								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
 								that.total_products = res.length
 						} else {
-							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_products = res.length
+						length += 1
+						that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
+						that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+						that.total_products = length
 						}
 					}
 

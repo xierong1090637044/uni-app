@@ -83,9 +83,9 @@
 
 			this.products = uni.getStorageSync("products");
 			for (let i = 0; i < this.products.length; i++) {
-				this.all_money = this.products[i].total_money + this.all_money
+				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 			}
-			this.real_money = this.all_money
+			this.real_money =  Number(this.all_money.toFixed(2))
 		},
 		onShow() {
 			that.custom = uni.getStorageSync("custom")

@@ -194,6 +194,7 @@
 					}
 					if (index == 0) {
 						that.now_day = common.getDay(0, false)
+						that.end_day = common.getDay(1, false)
 					} else if (index == 1) {
 						that.now_day = common.getDay(-1, false)
 						that.end_day = common.getDay(0, false)
@@ -218,7 +219,7 @@
 				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.find().then(res => {
-					console.log(res)
+					//console.log(res)
 
 					for (let item of res) {
 						that.header.total += item.num
@@ -240,7 +241,7 @@
 				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.order("-createdAt");
 				query.find().then(res => {
-					console.log(res)
+					//console.log(res)
 					let details = res
 					for (let item of details) {
 						const query = Bmob.Query('order_opreations');
@@ -252,7 +253,7 @@
 					}
 					that.list = details
 					that.loading = false
-					console.log(details)
+					//console.log(details)
 				});
 			},
 		}

@@ -21,8 +21,8 @@
 			</view>
 
 			<view class="second_one">
-				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.stocks.stock_name}}</text></view>
-				<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position}}</text></view>
+				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.stocks.stock_name?product.stocks.stock_name:"未填写"}}</text></view>
+				<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
 				<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.reserve}}</text></view>
 				<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
 				<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
