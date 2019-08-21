@@ -28,7 +28,7 @@
 					<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
 						<view style="display: flex;align-items: center;">
 							<view class="left_item">类别</view>
-							<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text"></input></view>
+							<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
 						</view>
 
 						<view>
@@ -72,63 +72,87 @@
 					</view>
 				</view>-->
 
-				<view class="frist">
+				<view class="frist" style="margin-bottom: 30rpx;">
 
-					<view v-for="(item,index) in stocks" :key="index" style="line-height: 70rpx;">
+					<view  style="line-height: 70rpx;">
 						<view class="display_flex_bet">
 							<view class="display_flex_bet">
 								<view class="left_item">初始库存</view>
-								<input placeholder="初始库存" type="digit" name="reserve" @input="change_reserve(index,$event)" v-model="item.reserve" />
+								<input placeholder="初始库存" type="digit" name="reserve" @input="change_reserve(index,$event)" v-model="stocks[0].reserve" />
 							</view>
-							<view class="display_flex">
+							<!--<view class="display_flex">
 								<view style="width: 80rpx;">仓库</view>
 								<input v-model="item.stock.stock_name" disabled="true" />
 								<fa-icon type="times" size="16" color="#426ab3" v-if="item.stock.stock_name !='默认仓库'" @click="remove_this(index)"></fa-icon>
-							</view>
+							</view>-->
 						</view>
 					</view>
 
-					<navigator class="input_item" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="border-top: 1rpx solid#f6f5ec;">
+					<!--<navigator class="input_item" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="border-top: 1rpx solid#f6f5ec;">
 						<view style="display: flex;align-items: center;justify-content: center;width: 100%;">
 							<view style="margin-right: 20rpx;">选择仓库</view>
 							<fa-icon type="plus" size="20" color="#426ab3"></fa-icon>
 						</view>
-					</navigator>
+					</navigator>-->
 					<view class="input_item">
 						<view class="left_item">预警库存</view>
 						<view class="right_input"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 					</view>
-				</view>
-
-				<view class="frist">
-					<view class="input_item">
-						<view class="left_item">生产厂家</view>
-						<view class="right_input"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
-					</view>
-					<view class="input_item">
-						<view class="left_item">货号</view>
-						<view class="right_input"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
-					</view>
-					<view class="input_item1">
-
+					
+					<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view style="display: flex;align-items: center;">
-							<view class="left_item">条码</view>
-							<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
+							<view class="left_item">仓库</view>
+							<view class="right_input"><input placeholder="选择仓库" v-model="stocks[0].stock.stock_name" disabled="true"></input></view>
 						</view>
-
+					
 						<view>
-							<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
+							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
-					</view>
-					<view class="input_item">
-						<view class="left_item">货架位置</view>
-						<view class="right_input"><input placeholder="货架位置" name="position" :value="position"></input></view>
-					</view>
-					<view class="input_item">
-						<view class="left_item">产品简介</view>
-						<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
-					</view>
+					</navigator>
 				</view>
+				
+				<!--更多产品信息-->
+				<uni-collapse accordion="true">
+					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
+						<view class="frist" style="margin-top: 0;">
+							<view class="input_item">
+								<view class="left_item">生产厂家</view>
+								<view class="right_input"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
+							</view>
+							<view class="input_item">
+								<view class="left_item">货号</view>
+								<view class="right_input"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
+							</view>
+							<view class="input_item1">
+						
+								<view style="display: flex;align-items: center;">
+									<view class="left_item">条码</view>
+									<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
+								</view>
+						
+								<view>
+									<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
+								</view>
+							</view>
+							<view class="input_item">
+								<view class="left_item">货架位置</view>
+								<view class="right_input"><input placeholder="货架位置" name="position" :value="position"></input></view>
+							</view>
+							<view class="input_item">
+								<view class="left_item">产品简介</view>
+								<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
+							</view>
+							<view class="input_item">
+								<view class="left_item">是否半成品</view>
+								<view class="right_input">
+									<switch :checked="product_state" name="product_state"/>
+								</view>
+							</view>
+						</view>
+					</uni-collapse-item>
+				</uni-collapse>
+
+				
 			</scroll-view>
 
 
@@ -145,6 +169,9 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
+	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+	
 	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 
@@ -156,7 +183,9 @@
 
 	export default {
 		components: {
-			faIcon,
+			uniCollapse,
+			uniCollapseItem,
+			faIcon
 		},
 		data() {
 			return {
@@ -182,6 +211,7 @@
 				}], //存放的仓库
 				producttime: "",
 				nousetime: "",
+				product_state:false,//产品是否是半成品
 			}
 		},
 		onLoad() {
@@ -216,6 +246,7 @@
 				that.category = now_product.second_class //分类
 				//reserve: [0], //初始库存
 				that.goodsIcon = now_product.goodsIcon //产品图片
+				that.product_state = now_product.product_state //产品是否是半成品
 
 				if (now_product.goodsClass) {
 					let pointer2 = Bmob.Pointer('class_user')
@@ -296,7 +327,7 @@
 			},
 			//保存提交
 			formSubmit: function(e) {
-				//console.log(e.detail.value)
+				console.log(e.detail.value)
 				let good = e.detail.value;
 				if (good.goodsName == "") {
 					uni.showToast({
@@ -342,7 +373,7 @@
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
-				if (uni.getStorageSync("now_product")) {
+				if (uni.getStorageSync("now_product")) { //修改状态
 
 					for (let item of that.stocks) {
 						let reserve = item.reserve
@@ -369,6 +400,8 @@
 						query.set("position", good.position)
 						query.set("warning_num", Number(good.warning_num))
 						query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+						query.set("product_state", good.product_state) //改产品是否是半成品
+						
 						if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 							query.set("second_class", p_second_class_id)
 							query.set("goodsClass", p_class_user_id)
@@ -395,7 +428,7 @@
 							console.log(err)
 						})
 					}
-				} else {
+				} else {//添加状态
 					for (let item of that.stocks) {
 						const query = Bmob.Query("Goods");
 						query.equalTo("userId", "==", uid);
@@ -433,6 +466,8 @@
 								query.set("position", good.position)
 								query.set("warning_num", Number(good.warning_num))
 								query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+								
+								query.set("product_state", good.product_state) //改产品是否是半成品
 								if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 									query.set("second_class", p_second_class_id)
 									query.set("goodsClass", p_class_user_id)
@@ -533,6 +568,7 @@
 	}
 
 	.left_item {
+		color: #333333;
 		width: 150rpx;
 	}
 

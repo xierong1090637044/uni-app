@@ -123,7 +123,8 @@
 
 			//选择此仓库
 			select_this(item) {
-				let warehouse = uni.getStorageSync("warehouse") || [];
+				//let warehouse = uni.getStorageSync("warehouse") || [];
+				let warehouse = [];
 				let _stocks ={};
 				
 				_stocks.stock = item;

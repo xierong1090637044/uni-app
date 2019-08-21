@@ -227,8 +227,9 @@ var uid;var that;var shopId;var shop; //门店
 var _default = { data: function data() {return { shop_name: '', products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       custom: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}this.real_money = this.all_money;}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) - _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          _common.default.log(_this.products[i].goodsName + "出库了" + _this.products[i].num + "件，已经低于预警数量" + (_this.products[i].warning_num ? _this.products[i].warning_num : 0), -2, _this.products[i].objectId);res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) - _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+          _common.default.log(_this.products[i].goodsName + "出库了" + _this.products[i].num + "件，已经低于预警数量" + (_this.products[i].warning_num ? _this.products[i].warning_num : 0), -2, _this.products[i].objectId);res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {
+          console.log(err);
         });
 
         //单据
@@ -273,74 +274,73 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
         for (var i = 0; i < res.length; i++) {
           //console.log(res[i].success.objectId)
           operation_ids.push(res[i].success.objectId);
-          if (i == res.length - 1) {
+        }
 
-            var relation = _bmob.default.Relation('Bills'); // 需要关联的表
-            var relID = relation.add(operation_ids);
+        var relation = _bmob.default.Relation('Bills'); // 需要关联的表
+        var relID = relation.add(operation_ids);
 
-            var pointer = _bmob.default.Pointer('_User');
-            var poiID = pointer.set(uid);
+        var pointer = _bmob.default.Pointer('_User');
+        var poiID = pointer.set(uid);
 
-            var masterId = uni.getStorageSync("masterId");
-            var pointer1 = _bmob.default.Pointer('_User');
-            var poiID1 = pointer1.set(masterId);
+        var masterId = uni.getStorageSync("masterId");
+        var pointer1 = _bmob.default.Pointer('_User');
+        var poiID1 = pointer1.set(masterId);
 
-            var query = _bmob.default.Query('order_opreations');
-            query.set("relations", relID);
-            query.set("beizhu", e.detail.value.input_beizhu);
-            query.set("type", -1);
-            query.set("opreater", poiID1);
-            query.set("master", poiID);
-            query.set('goodsName', that.products[0].goodsName);
-            query.set('real_money', Number(that.real_money));
-            query.set('debt', that.all_money - Number(that.real_money));
-            if (shop) query.set("shop", shopId);
+        var query = _bmob.default.Query('order_opreations');
+        query.set("relations", relID);
+        query.set("beizhu", e.detail.value.input_beizhu);
+        query.set("type", -1);
+        query.set("opreater", poiID1);
+        query.set("master", poiID);
+        query.set('goodsName', that.products[0].goodsName);
+        query.set('real_money', Number(that.real_money));
+        query.set('debt', that.all_money - Number(that.real_money));
+        if (shop) query.set("shop", shopId);
 
-            if (that.custom) {
-              var custom = _bmob.default.Pointer('customs');
-              var customID = custom.set(that.custom.objectId);
-              query.set("custom", customID);
+        if (that.custom) {
+          var custom = _bmob.default.Pointer('customs');
+          var customID = custom.set(that.custom.objectId);
+          query.set("custom", customID);
 
-              //如果客户有欠款
-              if (that.all_money - Number(that.real_money) > 0) {
-                var _query = _bmob.default.Query('customs');
-                _query.get(that.custom.objectId).then(function (res) {
-                  var debt = res.debt == null ? 0 : res.debt;
-                  debt = debt + (that.all_money - Number(that.real_money));
-                  console.log(debt);
-                  var query = _bmob.default.Query('customs');
-                  query.get(that.custom.objectId).then(function (res) {
-                    res.set('debt', debt);
-                    res.save();
-                  });
-                });
-              }
-            }
-
-            query.set("all_money", that.all_money);
-            query.save().then(function (res) {
-              console.log("添加操作历史记录成功", res);
-              uni.hideLoading();
-              uni.removeStorageSync("customs"); //移除这个缓存
-              uni.showToast({
-                title: '产品出库成功',
-                icon: 'success',
-                success: function success() {
-                  that.button_disabled = false;
-                  uni.setStorageSync("is_option", true);
-
-                  setTimeout(function () {
-                    _common.default.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.
-                    products.length + "商品", -1, res.objectId);
-                    uni.navigateBack({
-                      delta: 2 });
-
-                  }, 500);
-                } });
-
+          //如果客户有欠款
+          if (that.all_money - Number(that.real_money) > 0) {
+            var _query = _bmob.default.Query('customs');
+            _query.get(that.custom.objectId).then(function (res) {
+              var debt = res.debt == null ? 0 : res.debt;
+              debt = debt + (that.all_money - Number(that.real_money));
+              console.log(debt);
+              var query = _bmob.default.Query('customs');
+              query.get(that.custom.objectId).then(function (res) {
+                res.set('debt', debt);
+                res.save();
+              });
             });
           }
         }
+
+        query.set("all_money", that.all_money);
+        query.save().then(function (res) {
+          console.log("添加操作历史记录成功", res);
+          uni.hideLoading();
+          uni.removeStorageSync("customs"); //移除这个缓存
+          uni.showToast({
+            title: '产品出库成功',
+            icon: 'success',
+            success: function success() {
+              that.button_disabled = false;
+              uni.setStorageSync("is_option", true);
+
+              setTimeout(function () {
+                _common.default.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.
+                products.length + "商品", -1, res.objectId);
+                uni.navigateBack({
+                  delta: 2 });
+
+              }, 500);
+            } });
+
+        });
+
 
       },
       function (error) {

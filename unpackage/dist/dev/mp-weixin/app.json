@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/manage/good_add/good_add",
     "pages/manage/custom/custom_detail/history/history",
     "pages/manage/goods/goods",
-    "pages/manage/good_add/good_add",
     "pages/manage/good_det/custom_detail/custom_detail",
     "pages/manage/custom/custom_detail/debt_history/debt_history",
     "pages/manage/custom/producer_detail/producer_detail",

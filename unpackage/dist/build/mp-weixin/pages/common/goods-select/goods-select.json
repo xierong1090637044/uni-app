@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "选择产品",
+  "usingComponents": {
+    "loading": "/components/Loading/index",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uni-icon": "/components/uni-icon/uni-icon"
+  }
+}

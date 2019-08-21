@@ -7,6 +7,13 @@
 			}
 		},
 		{
+			"path": "pages/manage/good_add/good_add",
+			"style": {
+				"navigationBarTitleText": "新建产品"
+			}
+		},
+		
+		{
 			"path": "pages/manage/custom/custom_detail/history/history",
 			"style": {
 				"navigationBarTitleText": "销售明细"
@@ -20,12 +27,7 @@
 			}
 		},
 		
-		{
-			"path": "pages/manage/good_add/good_add",
-			"style": {
-				"navigationBarTitleText": "新建产品"
-			}
-		},
+		
 		
 		{
 		    "path" : "pages/manage/good_det/custom_detail/custom_detail",

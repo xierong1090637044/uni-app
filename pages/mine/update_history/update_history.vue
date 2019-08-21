@@ -16,7 +16,7 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.0 公测版</text>
-						<text class="desc-time">2019.08.19</text>
+						<text class="desc-time">2019.08.21</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
@@ -29,6 +29,8 @@
 						<text>首页统计实时更新</text>
 						<text>客户管理的交易历史增加统计</text>
 						<text>库存盘点bug修复</text>
+						<text>出入库操作记录不显示优化</text>
+						<text>添加产品优化</text>
 					</view>
 				</view>
 
