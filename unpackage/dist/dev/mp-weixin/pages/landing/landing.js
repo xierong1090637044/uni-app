@@ -204,7 +204,7 @@ var that;var phone_number = "";var _default = { data: function data() {return { 
 
     //登陆提交
     formSubmit: function formSubmit(e) {
-      //console.log(e)
+      console.log(e);
       var phone = Number(e.detail.value.phone);
       var sms_code = Number(e.detail.value.sms_code);
 

@@ -229,7 +229,6 @@ var page_size = 50;var _default =
 
   onLoad: function onLoad() {
     that = this;
-    uni.removeStorageSync("now_product");
     uni.removeStorageSync("category");
     uni.removeStorageSync("warehouse");
 
@@ -238,6 +237,7 @@ var page_size = 50;var _default =
     that.get_productList();
   },
   onShow: function onShow() {
+    uni.removeStorageSync("now_product");
     if (uni.getStorageSync("category")) {
       that.showOptions = true;
       that.category = uni.getStorageSync("category");

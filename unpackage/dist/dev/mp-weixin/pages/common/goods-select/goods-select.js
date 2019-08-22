@@ -73,11 +73,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.productList, function(product, index) {
+    var g0 = _vm.search_text.indexOf(product.goodsName)
+    var g1 = JSON.stringify(product)
+    var g2 = product.goodsName.indexOf(_vm.search_text)
+    return {
+      $orig: _vm.__get_orig(product),
+      g0: g0,
+      g1: g1,
+      g2: g2
+    }
+  })
+
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
       _vm.showOptions = false
     }
   }
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -201,9 +222,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 436));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 450));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ 457));};
 
-var indexs = [];
+var products = [];
 var uid;
 var that;
 var search_text = '';
@@ -218,6 +241,7 @@ var page_size = 50;var _default =
 
   data: function data() {
     return {
+      search_text: '',
       url: null,
       showOptions: false, //是否显示筛选
       loading: true,
@@ -279,8 +303,7 @@ var page_size = 50;var _default =
 
     //输入框输入点击确定
     confirm: function confirm(e) {
-      search_text = e.detail.value;
-      that.get_productList();
+      that.search_text = e.detail.value;
     },
 
     //确定点击
@@ -326,25 +349,28 @@ var page_size = 50;var _default =
 
     //多选选择触发
     radioChange: function radioChange(e) {
-      indexs = e.detail.value;
+      products = e.detail.value;
+      /*let index = 0;
+                                 for(let item of products){
+                                 	products[index] = JSON.parse(item)
+                                 	index +=1;
+                                 }*/
     },
 
     //点击去到添加产品
     go_goodsconfrim: function go_goodsconfrim() {
-      console.log(indexs);
-      if (indexs.length == 0) {
+      console.log(products);
+      if (products.length == 0) {
         uni.showToast({
           title: "请选择产品",
           icon: "none" });
 
-      } else {
-        var products = [];
-        for (var i = 0; i < indexs.length; i++) {
-          this.productList[indexs[i]].num = 1;
-          this.productList[indexs[i]].total_money = 1 * this.productList[indexs[i]].retailPrice;
-          this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
-          products.push(this.productList[indexs[i]]);
-        }
+      } else {var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+          for (var _iterator = products[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+            item.num = 1;
+            item.total_money = 1 * item.retailPrice;
+            item.modify_retailPrice = item.retailPrice;
+          }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
         uni.setStorageSync("products", products);
         uni.navigateTo({
           url: this.url });
@@ -369,6 +395,7 @@ var page_size = 50;var _default =
       query.include("stocks");
       query.find().then(function (res) {
         //console.log(res)
+
         _this.productList = res;
         _this.loading = false;
       });

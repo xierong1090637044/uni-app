@@ -17,7 +17,7 @@
 			<navigator class="display_flex_bet list_item border_bottom" hover-class="none" :url="'debt_history/debt_history?id='+custom.objectId+'&name='+custom.custom_name">
 				<view class="left_desc">客户欠款</view>
 				<view class="display_flex">
-					<text style="margin-right: 20rpx;">￥{{custom.debt}}</text>
+					<text style="margin-right: 20rpx;">￥{{custom.debt?custom.debt:0}}</text>
 					<fa-icon type="angle-right" size="20" color="#999" />
 				</view>
 			</navigator>

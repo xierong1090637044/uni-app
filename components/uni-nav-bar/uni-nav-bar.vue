@@ -113,16 +113,18 @@
 	}
 
 	.uni-navbar__content view {
-		line-height: 88rpx
+		line-height: 78rpx
 	}
 
 	.uni-navbar__header {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
-		height: 88rpx;
-		line-height: 88rpx;
-		font-size: 30rpx;
+		height: 78rpx;
+		line-height: 78rpx;
+		font-size: 26rpx;
+		font-weight: bold;
+		color: #333333;
 	}
 
 	.uni-navbar__header-btns {

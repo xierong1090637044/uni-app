@@ -117,7 +117,6 @@
 	
 		onLoad() {
 			that = this;
-			uni.removeStorageSync("now_product");
 			uni.removeStorageSync("category");
 			uni.removeStorageSync("warehouse");
 			
@@ -126,6 +125,7 @@
 			that.get_productList();
 		},
 		onShow() {
+			uni.removeStorageSync("now_product");
 			if(uni.getStorageSync("category")){
 				that.showOptions = true;
 				that.category = uni.getStorageSync("category")

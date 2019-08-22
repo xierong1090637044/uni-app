@@ -26,9 +26,9 @@
 			</view>
 			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
 				<checkbox-group @change="radioChange">
-					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
+					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" v-if="search_text.indexOf(product.goodsName) == -1">
 						<view>
-							<checkbox :value="index" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue" :id="index" />
+							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue" :id="index" :checked="product.checked"/>
 						</view>
 
 						<label class="uni-product" :for="index">
@@ -38,6 +38,8 @@
 							</view>
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
+								{{product.goodsName.indexOf(search_text)}}
+								{{search_text}}
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
@@ -91,7 +93,7 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import Bmob from '@/utils/bmob.js'
 
-	let indexs = [];
+	let products = [];
 	let uid;
 	let that;
 	let search_text = '';
@@ -106,6 +108,7 @@
 		},
 		data() {
 			return {
+				search_text:'',
 				url: null,
 				showOptions: false, //是否显示筛选
 				loading: true,
@@ -167,8 +170,7 @@
 			
 			//输入框输入点击确定
 			confirm(e){
-				search_text = e.detail.value
-				that.get_productList();
+				that.search_text = e.detail.value
 			},
 			
 			//确定点击
@@ -214,24 +216,27 @@
 
 			//多选选择触发
 			radioChange: function(e) {
-				indexs = e.detail.value;
+				products = e.detail.value;
+				/*let index = 0;
+				for(let item of products){
+					products[index] = JSON.parse(item)
+					index +=1;
+				}*/
 			},
 
 			//点击去到添加产品
 			go_goodsconfrim() {
-				console.log(indexs)
-				if (indexs.length == 0) {
+				console.log(products)
+				if (products.length == 0) {
 					uni.showToast({
 						title: "请选择产品",
 						icon: "none"
 					})
 				} else {
-					let products = [];
-					for (let i = 0; i < indexs.length; i++) {
-						this.productList[indexs[i]].num = 1;
-						this.productList[indexs[i]].total_money = 1 * this.productList[indexs[i]].retailPrice;
-						this.productList[indexs[i]].modify_retailPrice = this.productList[indexs[i]].retailPrice;
-						products.push(this.productList[indexs[i]])
+					for(let item of products){
+						item.num = 1;
+						item.total_money = 1 * item.retailPrice;
+						item.modify_retailPrice = item.retailPrice;
 					}
 					uni.setStorageSync("products", products);
 					uni.navigateTo({
@@ -257,6 +262,7 @@
 				query.include("stocks");
 				query.find().then(res => {
 					//console.log(res)
+					
 					this.productList = res;
 					this.loading = false;
 				});

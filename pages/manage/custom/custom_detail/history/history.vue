@@ -8,18 +8,18 @@
 			<view>
 				<view class="uni-common-mt" style="background: #FFFFFF;">
 					<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
-					<view class="display_flex_bet" style="padding: 10rpx 30rpx;border-bottom: 10rpx solid#ddd;text-align:center">
+					<view class="display_flex_bet" style="padding: 20rpx 30rpx;border-bottom: 10rpx solid#ddd;text-align:center">
 						<view>
 							<view>{{header.total}}</view>
-							<view style="color:#999">单品数</view>
+							<view style="color:#999;font-size: 24rpx;">单品数</view>
 						</view>
 						<view>
 							<view>¥{{header.total_money}}</view>
-							<view style="color:#999">销售额</view>
+							<view style="color:#999;font-size: 24rpx;">销售额</view>
 						</view>
 						<view>
 							<view>¥{{header.get_money}}</view>
-							<view style="color:#999">毛利润</view>
+							<view style="color:#999;font-size: 24rpx;">毛利润</view>
 						</view>
 					</view>
 				</view>
@@ -63,11 +63,11 @@
 		</view>
 
 		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background">
+		<view v-if="showOptions" class="modal_background" @click.stop="showOptions = false">
 			<view class="showOptions">
 				<view class="input_item1">
 					<view>
-						<picker mode="date" :value="now_day" @change="bindDateChange1" :end="max_day">
+						<picker mode="date" :value="now_day" @change.stop="bindDateChange1" :end="max_day" @click.stop>
 							<view style="display: flex;align-items: center;">
 								<view style="margin-right: 20rpx;">{{now_day}}</view>
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -78,7 +78,7 @@
 					<view>至</view>
 
 					<view>
-						<picker mode="date" :value="end_day" :end="max_day" @change="bindDateChange2">
+						<picker mode="date" :value="end_day" :end="max_day" @change.stop="bindDateChange2" @click.stop>
 							<view style="display: flex;align-items: center;">
 								<view style="margin-right: 20rpx;">{{end_day}}</view>
 
@@ -89,8 +89,8 @@
 				</view>
 
 				<view class="option_bottom">
-					<view class="selection" @click="option_reset">重置</view>
-					<view class="selection1" @click="option_confrim">确定</view>
+					<view class="selection" @click.stop="option_reset">重置</view>
+					<view class="selection1" @click.stop="option_confrim">确定</view>
 				</view>
 
 			</view>
@@ -154,6 +154,11 @@
 		},
 		methods: {
 			option_confrim(){
+				that.header = {
+					total: 0,
+					total_money: 0,
+					get_money: 0,
+				}
 				that.showOptions = false;
 				that.get_header_data(custom_id)
 				that.get_list(custom_id)
@@ -222,8 +227,9 @@
 					//console.log(res)
 
 					for (let item of res) {
+						console.log(item)
 						that.header.total += item.num
-						that.header.total_money +=
+						that.header.total_money += Number(item.goodsId.costPrice) * item.num
 							that.header.get_money += item.total_money - Number(item.goodsId.costPrice) * item.num
 					}
 

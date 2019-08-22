@@ -92,21 +92,21 @@ page {
 		width: 92%;
 		display: flex;
 		background-color: #e7e7e7;
-		height: 30px;
-		border-radius: 15px;
+		height: 60rpx;
+		border-radius: 30rpx;
 		padding: 0 4%;
 		flex-wrap: nowrap;
-		margin: 7px 0;
-		line-height: 30px;
+		margin: 8rpx 0;
+		line-height: 60rpx;
 	}
 	
 	.input-view .uni-icon {
-		line-height: 30px !important;
+		line-height: 60rpx !important;
 	}
 	
 	.input-view .input {
-		height: 30px;
-		line-height: 30px;
+		height: 60rpx;
+		line-height: 60rpx;
 		width: 94%;
 		padding: 0 3%;
 	}

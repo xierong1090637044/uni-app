@@ -16,9 +16,9 @@
 		<view style='padding:15px 30px;margin:5% 0'>
 			<form @submit="formSubmit">
 				<view class='input_view'><input placeholder='请输入手机号' class='input_element' name="phone" @input='get_InputPhone'
-					 maxlength="11"></input></view>
+					 maxlength="11" type="number"></input></view>
 				<view class='input_view_flex'>
-					<view style='width:60%'><input placeholder='请输入验证码' class='input_element' maxlength='6' name="sms_code"></input></view>
+					<view style='width:60%'><input placeholder='请输入验证码' class='input_element' maxlength='6' name="sms_code"  type="number"></input></view>
 					<view><button plain="true" class='get_smscode' @click='get_smscode' :disabled='code_button_state'>{{code_text}}</button></view>
 				</view>
 
@@ -97,7 +97,7 @@
 
 			//登陆提交
 			formSubmit(e) {
-				//console.log(e)
+				console.log(e)
 				let phone = Number(e.detail.value.phone);
 				let sms_code = Number(e.detail.value.sms_code);
 

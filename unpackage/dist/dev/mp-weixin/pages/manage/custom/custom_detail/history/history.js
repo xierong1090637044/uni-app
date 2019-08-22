@@ -77,6 +77,11 @@ var render = function() {
     _vm.e0 = function($event) {
       _vm.showOptions = true
     }
+
+    _vm.e1 = function($event) {
+      $event.stopPropagation()
+      _vm.showOptions = false
+    }
   }
 }
 var staticRenderFns = []
@@ -316,12 +321,17 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 //
 //
 //
-var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 436));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 415));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 422));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 443));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 450));};var that;var uid = uni.getStorageSync("uid");var custom_id;var _default = { components: { faIcon: faIcon, uniCollapse: uniCollapse, loading: loading, uniCollapseItem: uniCollapseItem, uniNavBar: uniNavBar, uniSegmentedControl: uniSegmentedControl }, data: function data() {return { showOptions: false, header: { total: 0, total_money: 0, get_money: 0 }, //头部的统计数据
+var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 436));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 422));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 429));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 443));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 450));};var that;var uid = uni.getStorageSync("uid");var custom_id;var _default = { components: { faIcon: faIcon, uniCollapse: uniCollapse, loading: loading, uniCollapseItem: uniCollapseItem, uniNavBar: uniNavBar, uniSegmentedControl: uniSegmentedControl }, data: function data() {return { showOptions: false, header: { total: 0, total_money: 0, get_money: 0 }, //头部的统计数据
       loading: true, items: ['今天', '昨天', '近七天', '近一个月'], list: [], current: 0, now_day: _common.default.getDay(0, false), end_day: _common.default.getDay(1, false), max_day: _common.default.getDay(0, false) };}, onLoad: function onLoad(options) {console.log(options);that = this;custom_id = options.id; //custom_id = "0adcad2160"
     //that.get_list(options.id)
-    that.get_list(custom_id);that.get_header_data(custom_id, 0);}, methods: { option_confrim: function option_confrim() {that.showOptions = false;that.get_header_data(custom_id);that.get_list(custom_id);}, //modal重置的确认点击
+    that.get_list(custom_id);that.get_header_data(custom_id, 0);}, methods: { option_confrim: function option_confrim() {that.header = { total: 0, total_money: 0, get_money: 0 };that.showOptions = false;that.get_header_data(custom_id);that.get_list(custom_id);}, //modal重置的确认点击
     option_reset: function option_reset() {that.header = { total: 0, total_money: 0, get_money: 0 };that.now_day = _common.default.getDay(0, false), that.end_day = _common.default.getDay(1, false), that.max_day = _common.default.getDay(0, false), that.showOptions = false;that.get_header_data(custom_id);that.get_list(custom_id);}, bindDateChange1: function bindDateChange1(e) {that.now_day = e.detail.value;}, bindDateChange2: function bindDateChange2(e) {that.end_day = e.detail.value;}, //日期筛选
-    onClickItem: function onClickItem(index) {if (this.current !== index) {this.current = index;that.header = { total: 0, total_money: 0, get_money: 0 };if (index == 0) {that.now_day = _common.default.getDay(0, false);that.end_day = _common.default.getDay(1, false);} else if (index == 1) {that.now_day = _common.default.getDay(-1, false);that.end_day = _common.default.getDay(0, false);} else if (index == 2) {that.now_day = _common.default.getDay(-7, false);} else if (index == 3) {that.now_day = _common.default.getDay(-30, false);}that.get_header_data(custom_id);that.get_list(custom_id);}}, //得到该客户的统计数据
+    onClickItem: function onClickItem(index) {if (this.current !== index) {this.current = index;that.header = { total: 0, total_money: 0, get_money: 0 };if (index == 0) {that.now_day = _common.default.getDay(0, false);that.end_day = _common.default.getDay(1, false);} else if (index == 1) {that.now_day = _common.default.getDay(-1, false);that.end_day = _common.default.getDay(0, false);} else if (index == 2) {that.now_day = _common.default.getDay(-7, false);} else if (index == 3) {that.now_day = _common.default.getDay(-30, false);}that.get_header_data(custom_id);
+        that.get_list(custom_id);
+      }
+    },
+
+    //得到该客户的统计数据
     get_header_data: function get_header_data(id) {
       var query = _bmob.default.Query("Bills");
       query.equalTo("userId", "==", uid);
@@ -334,8 +344,9 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
         //console.log(res)
         var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
           for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+            console.log(item);
             that.header.total += item.num;
-            that.header.total_money +=
+            that.header.total_money += Number(item.goodsId.costPrice) * item.num;
             that.header.get_money += item.total_money - Number(item.goodsId.costPrice) * item.num;
           }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
 
