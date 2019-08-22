@@ -7,8 +7,32 @@
 				
 		</uni-nav-bar>
 		
+		<view class="display_flex good_option_view">
+			<view class="good_option" @click="selectd('createdAt')">
+				<text :class="(checked_option == 'createdAt')?'option_selected':''">全部</text>
+				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'all'"></fa-icon>
+			</view>
+			<view class="good_option" @click="selectd('createdAt')">
+				<text :class="(checked_option == 'createdAt')?'option_selected':''">今天</text>
+				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'one'"></fa-icon>
+			</view>
+			<view class="good_option" @click="selectd('createdAt')">
+				<text :class="(checked_option == 'createdAt')?'option_selected':''">昨天</text>
+				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'two'"></fa-icon>
+			</view>
+			<view class="good_option" @click="selectd('goodsName')">
+				<text :class="(checked_option == 'goodsName')?'option_selected':''">七天</text>
+				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'three'"></fa-icon>
+			</view>
+			<view class="good_option" @click="selectd('reserve')">
+				<text :class="(checked_option == 'reserve')?'option_selected':'three'">一个月</text>
+				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'four'"></fa-icon>
+			</view>
+		</view>
+		
+		
 		<scroll-view class='page'  scroll-y="true">
-			<view class='list-item'>
+			<view class='list-item' v-if="list.length > 0">
 				<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
 					<view style='display:flex;width:calc(100% - 120rpx);'>
 						<view style='line-height:80rpx'>
@@ -30,7 +54,7 @@
 					<view v-else class='order_get'>入库</view>
 				</view>
 			</view>
-
+			
 		</scroll-view>
 		
 		<!--筛选模板-->
@@ -85,6 +109,7 @@
 		},
 		data() {
 			return {
+				checked_option:"all",
 				loading: true,
 				list: null,
 				
@@ -179,7 +204,7 @@
 <style>
 	.page {
 		overflow: hidden;
-		height: calc(100vh - 88rpx);
+		height: calc(100vh - 160rpx);
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;

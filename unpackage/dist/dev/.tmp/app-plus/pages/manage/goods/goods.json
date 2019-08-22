@@ -1,22 +1,5 @@
 {
   "navigationBarTitleText": "我的产品",
-  "titleNView": {
-    "searchInput": {
-      "backgroundColor": "#fff",
-      "borderRadius": "6px",
-      "placeholder": "请输入搜索内容"
-    },
-    "buttons": [
-      {
-        "text": "添加",
-        "fontSize": "14"
-      },
-      {
-        "text": "筛选",
-        "fontSize": "14"
-      }
-    ]
-  },
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "loading": "/components/Loading/index",

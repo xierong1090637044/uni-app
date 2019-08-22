@@ -1,19 +1,25 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/manage/good_add/good_add",
+    "pages/manage/custom/custom_detail/history/history",
+    "pages/manage/goods/goods",
+    "pages/manage/good_det/custom_detail/custom_detail",
+    "pages/manage/custom/custom_detail/debt_history/debt_history",
+    "pages/manage/custom/producer_detail/producer_detail",
+    "pages/manage/custom/custom_detail/custom_detail",
+    "pages/manage/good_det/good_det",
     "pages/landing/landing",
     "pages/register/register",
     "pages/mine/mine",
     "pages/manage/warehouse/detail/detail",
     "pages/report/operational_status/operational_status",
-    "pages/manage/goods/goods",
     "pages/mine/logs/logs",
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
     "pages/common/good_return/return_detail/return_detail",
     "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_confrim/good_enter/good_enter",
-    "pages/manage/good_add/good_add",
     "pages/manage/staff/staff",
     "pages/manage/shops/shops",
     "pages/manage/warehouse/warehouse",
@@ -28,7 +34,6 @@
     "pages/manage/category/category",
     "pages/common/good_confrim/good_confrim",
     "pages/report/report",
-    "pages/manage/good_det/good_det",
     "pages/report/EnteringHistory/detail/detail",
     "pages/common/goods_out/goods_out",
     "pages/common/good_return/good_return",
@@ -40,9 +45,11 @@
     "pages/mine/warning_log/warning_log",
     "pages/manage/shops/staff_in/staff_in",
     "pages/manage/shops/record/record",
-    "pages/register/user_protocol/user_protocol"
+    "pages/register/user_protocol/user_protocol",
+    "pages/mine/update_history/update_history",
+    "pages/manage/custom/producer_detail/history/history",
+    "pages/manage/custom/producer_detail/debt_history/debt_history"
   ],
-  "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "库存表",
@@ -82,12 +89,13 @@
     ]
   },
   "nvueCompiler": "weex",
+  "renderer": "auto",
   "splashscreen": {
     "alwaysShowBeforeRender": true,
     "autoclose": false
   },
   "appname": "my_stock2",
-  "compilerVersion": "2.0.1",
+  "compilerVersion": "2.2.2",
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }

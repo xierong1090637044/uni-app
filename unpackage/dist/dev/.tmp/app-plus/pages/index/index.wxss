@@ -1,19 +1,16 @@
 
 .scan_code {
 	position: fixed;
-	width: -webkit-calc(100% - 60rpx);
 	width: calc(100% - 60rpx);
 	left: 30rpx;
 	right: 30rpx;
 	bottom: 10%;
 	background: -webkit-gradient(linear, left top, right top, from(#426ab3), to(#118fff));
-	background: -webkit-linear-gradient(left, #426ab3, #118fff);
 	background: -o-linear-gradient(left, #426ab3, #118fff);
 	background: linear-gradient(to right, #426ab3, #118fff);
 	line-height: 80rpx;
 	text-align: center;
-	-webkit-border-radius: 4px;
-	        border-radius: 4px;
+	border-radius: 4px;
 	color: #fff;
 	-webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 	        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2)
@@ -59,8 +56,7 @@
 .o_image {
 	width: 80rpx;
 	height: 80rpx;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
+	border-radius: 50%;
 	border: 3px solid#e2e2e2;
 	padding: 6rpx 6rpx 0;
 }
@@ -77,19 +73,16 @@
 }
 .scan_code {
 	position: fixed;
-	width: -webkit-calc(100% - 60rpx);
 	width: calc(100% - 60rpx);
 	left: 30rpx;
 	right: 30rpx;
 	bottom: 10%;
 	background: -webkit-gradient(linear, left top, right top, from(#426ab3), to(#118fff));
-	background: -webkit-linear-gradient(left, #426ab3, #118fff);
 	background: -o-linear-gradient(left, #426ab3, #118fff);
 	background: linear-gradient(to right, #426ab3, #118fff);
 	line-height: 80rpx;
 	text-align: center;
-	-webkit-border-radius: 8rpx;
-	        border-radius: 8rpx;
+	border-radius: 8rpx;
 	color: #fff;
 	-webkit-box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.2);
 	        box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.2);

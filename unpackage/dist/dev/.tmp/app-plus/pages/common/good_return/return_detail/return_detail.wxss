@@ -1,7 +1,6 @@
 
 .page {
 	color: #4d4d4d;
-	background: #f6f5ec;
 	font-size: 28rpx;
 	height: 100vh;
 	overflow: scroll;
@@ -29,7 +28,6 @@
 	color: #f30
 }
 .beizhu_style {
-	width: -webkit-calc(100% - 40rpx);
 	width: calc(100% - 40rpx);
 	background-color: #fff;
 	padding: 20rpx;

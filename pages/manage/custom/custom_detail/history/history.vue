@@ -112,7 +112,7 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let that;
-	let uid = uni.getStorageSync("uid");
+	let uid;
 	let custom_id;
 	export default {
 		components: {
@@ -146,6 +146,7 @@
 			console.log(options)
 			that = this;
 			custom_id = options.id
+			uid = uni.getStorageSync("uid");
 			//custom_id = "0adcad2160"
 			//that.get_list(options.id)
 			that.get_list(custom_id)

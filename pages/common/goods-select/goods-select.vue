@@ -26,7 +26,7 @@
 			</view>
 			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
 				<checkbox-group @change="radioChange">
-					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" v-if="search_text.indexOf(product.goodsName) == -1">
+					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" v-if="product.goodsName.indexOf(search_text) >= 0">
 						<view>
 							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue" :id="index" :checked="product.checked"/>
 						</view>
@@ -38,8 +38,6 @@
 							</view>
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
-								{{product.goodsName.indexOf(search_text)}}
-								{{search_text}}
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
@@ -233,10 +231,13 @@
 						icon: "none"
 					})
 				} else {
+					let index = 0;
 					for(let item of products){
-						item.num = 1;
-						item.total_money = 1 * item.retailPrice;
-						item.modify_retailPrice = item.retailPrice;
+						products[index] = JSON.parse(item)
+						products[index].num = 1;
+						products[index].total_money = 1 * products[index].retailPrice;
+						products[index].modify_retailPrice = products[index].retailPrice;
+						index +=1;
 					}
 					uni.setStorageSync("products", products);
 					uni.navigateTo({
@@ -354,7 +355,7 @@
 		border-radius: 15px;
 		padding: 0 4%;
 		flex-wrap: nowrap;
-		margin: 7px 0;
+		margin: 8rpx 0;
 		line-height: 30px;
 	}
 	

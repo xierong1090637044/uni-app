@@ -12,7 +12,17 @@
 				</view>
 			</view>
 			<view class="log-list">
-
+				<view class="describe">
+					<view class="desc-title">
+						<text class="desc-v">v1.0.1 公测版</text>
+						<text class="desc-time">2019.08.22</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>产品选择操作优化</text>
+					</view>
+				</view>
+				
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.0 公测版</text>

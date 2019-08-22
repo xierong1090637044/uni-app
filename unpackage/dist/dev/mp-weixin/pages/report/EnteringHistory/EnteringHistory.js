@@ -179,6 +179,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -246,37 +270,38 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 436));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 450));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ 457));};var uid;var that;var opeart_type;var _default = { components: { loading: loading, faIcon: faIcon, uniNavBar: uniNavBar, uniIcon: uniIcon }, data: function data() {return { loading: true, list: null, showOptions: false, //是否显示筛选
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 436));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 450));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ 457));};var uid;var that;var opeart_type;var _default = { components: { loading: loading, faIcon: faIcon, uniNavBar: uniNavBar, uniIcon: uniIcon }, data: function data() {return { checked_option: "all", loading: true, list: null, showOptions: false, //是否显示筛选
       goodsName: "", //输入的操作产品名字
       staff: "" //选择的操作者
     };}, onLoad: function onLoad(options) {that = this;opeart_type = Number(options.type);uid = uni.getStorageSync("uid");uni.removeStorageSync("charge");if (opeart_type == 1) {uni.setNavigationBarTitle({ title: "入库详情" });} else if (opeart_type == -1) {uni.setNavigationBarTitle({ title: "出库详情" });} else if (opeart_type == 2) {uni.setNavigationBarTitle({ title: "退货详情" });} else if (opeart_type == 3) {uni.setNavigationBarTitle({ title: "盘点详情" });}}, onShow: function onShow() {this.get_list();if (uni.getStorageSync("charge")) {that.staff = uni.getStorageSync("charge");}}, methods: { shaixuan_click: function shaixuan_click() {that.showOptions = true;}, //modal重置的确认点击
-    option_reset: function option_reset() {uni.removeStorageSync("charge");that.goodsName = "";that.staff = "";
-      that.showOptions = false;
-      that.get_list();
-    },
-
-    //modal筛选的确认点击
-    option_confrim: function option_confrim() {
-      that.showOptions = false;
-      that.get_list();
-    },
-
-    //得到列表
-    get_list: function get_list() {var _this = this;
-      var query = _bmob.default.Query("order_opreations");
-      query.equalTo("master", "==", uid);
-      query.equalTo("type", '==', opeart_type);
-      query.equalTo("opreater", '==', that.staff.objectId);
-      query.equalTo("goodsName", "==", {
-        "$regex": "" + that.goodsName + ".*" });
-
-      query.include("opreater");
-      query.order("-createdAt");
-      query.find().then(function (res) {
-        //console.log(res)
-        _this.list = res;
-        _this.loading = false;
-      });
+    option_reset: function option_reset() {uni.removeStorageSync("charge");that.goodsName = "";that.staff = "";that.showOptions = false;that.get_list();}, //modal筛选的确认点击
+    option_confrim: function option_confrim() {that.showOptions = false;that.get_list();}, //得到列表
+    get_list: function get_list() {var _this = this;var query = _bmob.default.Query("order_opreations");query.equalTo("master", "==", uid);query.equalTo("type", '==', opeart_type);query.equalTo("opreater", '==', that.staff.objectId);query.equalTo("goodsName", "==", { "$regex": "" + that.goodsName + ".*" });query.include("opreater");query.order("-createdAt");query.find().then(function (res) {//console.log(res)
+        _this.list = res;_this.loading = false;});
     },
 
     //点击得到详情

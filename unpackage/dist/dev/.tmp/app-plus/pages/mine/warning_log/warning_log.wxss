@@ -28,11 +28,9 @@
   padding: 20rpx 0;
 }
 .content {
-  height: -webkit-calc(100vh - 124rpx);
   height: calc(100vh - 124rpx);
   background: #fff;
   padding: 0 30rpx;
-  width: -webkit-calc(100% - 60rpx);
   width: calc(100% - 60rpx);
 }
 .content .list_item {

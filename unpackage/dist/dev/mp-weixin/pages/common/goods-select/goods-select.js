@@ -74,14 +74,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.productList, function(product, index) {
-    var g0 = _vm.search_text.indexOf(product.goodsName)
+    var g0 = product.goodsName.indexOf(_vm.search_text)
     var g1 = JSON.stringify(product)
-    var g2 = product.goodsName.indexOf(_vm.search_text)
     return {
       $orig: _vm.__get_orig(product),
       g0: g0,
-      g1: g1,
-      g2: g2
+      g1: g1
     }
   })
 
@@ -132,8 +130,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-
 
 
 
@@ -365,11 +361,14 @@ var page_size = 50;var _default =
           title: "请选择产品",
           icon: "none" });
 
-      } else {var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+      } else {
+        var index = 0;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
           for (var _iterator = products[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
-            item.num = 1;
-            item.total_money = 1 * item.retailPrice;
-            item.modify_retailPrice = item.retailPrice;
+            products[index] = JSON.parse(item);
+            products[index].num = 1;
+            products[index].total_money = 1 * products[index].retailPrice;
+            products[index].modify_retailPrice = products[index].retailPrice;
+            index += 1;
           }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
         uni.setStorageSync("products", products);
         uni.navigateTo({
