@@ -74,11 +74,17 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.productList, function(product, index) {
-    var g0 = product.goodsName.indexOf(_vm.search_text)
+    var g0 = JSON.stringify(product)
+    return {
+      $orig: _vm.__get_orig(product),
+      g0: g0
+    }
+  })
+
+  var l1 = _vm.__map(_vm.productList, function(product, index) {
     var g1 = JSON.stringify(product)
     return {
       $orig: _vm.__get_orig(product),
-      g0: g0,
       g1: g1
     }
   })
@@ -93,7 +99,8 @@ var render = function() {
     {},
     {
       $root: {
-        l0: l0
+        l0: l0,
+        l1: l1
       }
     }
   )
@@ -130,6 +137,33 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -281,13 +315,17 @@ var page_size = 50;var _default =
     }
 
     if (uni.getStorageSync("is_option")) {
+      this.productList = [];
       that.get_productList();
     }
   },
-  onUnload: function onUnload() {
+
+  onHide: function onHide() {
     //数据重置
     search_text = '';
     page_size = 50;
+    products = [];
+    this.productList = [];
     uni.removeStorageSync("is_option"); //用于判断是否进行了操作
   },
 
@@ -299,7 +337,9 @@ var page_size = 50;var _default =
 
     //输入框输入点击确定
     confirm: function confirm(e) {
+      search_text = e.detail.value;
       that.search_text = e.detail.value;
+      that.get_productList();
     },
 
     //确定点击
@@ -346,11 +386,21 @@ var page_size = 50;var _default =
     //多选选择触发
     radioChange: function radioChange(e) {
       products = e.detail.value;
-      /*let index = 0;
-                                 for(let item of products){
-                                 	products[index] = JSON.parse(item)
-                                 	index +=1;
-                                 }*/
+    },
+
+    radioChange_search: function radioChange_search(e) {
+      var search_products = e.detail.value;
+      products = this.concat_(products, search_products);
+      console.log(products);
+    },
+
+    concat_: function concat_(arr1, arr2) {
+      var arr = arr1.concat();
+      //或者使用slice()复制，var arr = arr1.slice(0)  
+      for (var i = 0; i < arr2.length; i++) {
+        arr.indexOf(arr2[i]) === -1 ? arr.push(arr2[i]) : 0;
+      }
+      return arr;
     },
 
     //点击去到添加产品
@@ -393,7 +443,14 @@ var page_size = 50;var _default =
       query.include("goodsClass");
       query.include("stocks");
       query.find().then(function (res) {
-        //console.log(res)
+        console.log(products);var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {
+
+          for (var _iterator2 = res[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {var item = _step2.value;
+            if (products.indexOf(JSON.stringify(item)) > -1) {
+              console.log(products.indexOf(JSON.stringify(item)));
+              item.checked = true;
+            }
+          }} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}
 
         _this.productList = res;
         _this.loading = false;

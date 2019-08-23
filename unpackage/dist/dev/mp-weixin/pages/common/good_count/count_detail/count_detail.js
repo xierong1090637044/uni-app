@@ -174,8 +174,12 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       producer: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var _loop = function _loop(i) {var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          res.set('reserve', _this.products[i].num);res.set('stocktype', _this.products[i].num > _this.products[i].warning_num ? 1 : 0);
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {
+        var query = _bmob.default.Query('Goods');
+        query.get(_this.products[i].objectId).then(function (res) {
+          //console.log(res)
+          res.set('reserve', Number(_this.products[i].num));
+          res.set('stocktype', Number(_this.products[i].num) > _this.products[i].warning_num ? 1 : 0);
           res.save();
         }).catch(function (err) {
           console.log(err);
@@ -183,14 +187,16 @@ var uid;var that;var _default = { data: function data() {return { products: null
 
         //单据
         var tempBills = _bmob.default.Query('Bills');
+        var detailBills = {};
+
         var pointer = _bmob.default.Pointer('_User');
         var user = pointer.set(uid);
-
         var pointer1 = _bmob.default.Pointer('Goods');
         var tempGoods_id = pointer1.set(_this.products[i].objectId);
+
         tempBills.set('goodsName', _this.products[i].goodsName);
         tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
-        tempBills.set('num', _this.products[i].num);
+        tempBills.set('num', Number(_this.products[i].num));
         tempBills.set('reserve', _this.products[i].reserve);
         tempBills.set('now_reserve', _this.products[i].num.toString());
         tempBills.set('total_money', _this.products[i].total_money);
@@ -198,53 +204,53 @@ var uid;var that;var _default = { data: function data() {return { products: null
         tempBills.set('userId', user);
         tempBills.set('type', 3);
 
-        billsObj.push(tempBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);
+        var goodsId = {};
+        detailBills.goodsName = _this.products[i].goodsName;
+        detailBills.reserve = _this.products[i].reserve;
+        detailBills.now_reserve = _this.products[i].num.toString();
+
+        billsObj.push(tempBills);
+        detailObj.push(detailBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);
       }
       //插入单据
       _bmob.default.Query('Bills').saveAll(billsObj).then(function (res) {
         //console.log("批量新增单据成功", res);
-        for (var i = 0; i < res.length; i++) {
-          operation_ids.push(res[i].success.objectId);
-          if (i == res.length - 1) {
 
-            var relation = _bmob.default.Relation('Bills'); // 需要关联的表
-            var relID = relation.add(operation_ids);
+        var pointer = _bmob.default.Pointer('_User');
+        var poiID = pointer.set(uid);
 
-            var pointer = _bmob.default.Pointer('_User');
-            var poiID = pointer.set(uid);
+        var masterId = uni.getStorageSync("masterId");
+        var pointer1 = _bmob.default.Pointer('_User');
+        var poiID1 = pointer1.set(masterId);
 
-            var masterId = uni.getStorageSync("masterId");
-            var pointer1 = _bmob.default.Pointer('_User');
-            var poiID1 = pointer1.set(masterId);
+        var query = _bmob.default.Query('order_opreations');
+        query.set("beizhu", e.detail.value.input_beizhu);
+        query.set("detail", detailObj);
+        query.set("type", 3);
+        query.set("opreater", poiID1);
+        query.set("master", poiID);
+        query.set('goodsName', that.products[0].goodsName);
 
-            var query = _bmob.default.Query('order_opreations');
-            query.set("relations", relID);
-            query.set("beizhu", e.detail.value.input_beizhu);
-            query.set("type", 3);
-            query.set("opreater", poiID1);
-            query.set("master", poiID);
-            query.set('goodsName', that.products[0].goodsName);
+        query.save().then(function (res) {
+          console.log("添加操作历史记录成功", res);
+          uni.hideLoading();
+          uni.showToast({
+            title: '产品盘点成功',
+            icon: 'success',
+            success: function success() {
+              that.button_disabled = false;
+              uni.setStorageSync("is_option", true);
+              setTimeout(function () {
+                _common.default.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products.
+                length + "商品", 3, res.objectId);
+                uni.navigateBack({
+                  delta: 2 });
 
-            query.save().then(function (res) {
-              console.log("添加操作历史记录成功", res);
-              uni.hideLoading();
-              uni.showToast({
-                title: '产品盘点成功',
-                icon: 'success',
-                success: function success() {
-                  that.button_disabled = false;
-                  uni.setStorageSync("is_option", true);
-                  setTimeout(function () {
-                    _common.default.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products.length + "商品", 3, res.objectId);
-                    uni.navigateBack({
-                      delta: 2 });
+              }, 500);
+            } });
 
-                  }, 500);
-                } });
+        });
 
-            });
-          }
-        }
 
       },
       function (error) {

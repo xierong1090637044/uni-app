@@ -326,7 +326,9 @@ var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | comp
     //that.get_list(options.id)
     that.get_list(custom_id);that.get_header_data(custom_id, 0);}, methods: { option_confrim: function option_confrim() {that.header = { total: 0, total_money: 0, get_money: 0 };that.showOptions = false;that.get_header_data(custom_id);that.get_list(custom_id);}, //modal重置的确认点击
     option_reset: function option_reset() {that.header = { total: 0, total_money: 0, get_money: 0 };that.now_day = _common.default.getDay(0, false), that.end_day = _common.default.getDay(1, false), that.max_day = _common.default.getDay(0, false), that.showOptions = false;that.get_header_data(custom_id);that.get_list(custom_id);}, bindDateChange1: function bindDateChange1(e) {that.now_day = e.detail.value;}, bindDateChange2: function bindDateChange2(e) {that.end_day = e.detail.value;}, //日期筛选
-    onClickItem: function onClickItem(index) {if (this.current !== index) {this.current = index;that.header = { total: 0, total_money: 0, get_money: 0 };if (index == 0) {that.now_day = _common.default.getDay(0, false);that.end_day = _common.default.getDay(1, false);} else if (index == 1) {that.now_day = _common.default.getDay(-1, false);that.end_day = _common.default.getDay(0, false);} else if (index == 2) {that.now_day = _common.default.getDay(-7, false);} else if (index == 3) {that.now_day = _common.default.getDay(-30, false);}
+    onClickItem: function onClickItem(index) {if (this.current !== index) {this.current = index;that.header = { total: 0, total_money: 0, get_money: 0 };if (index == 0) {that.now_day = _common.default.getDay(0, false);that.end_day = _common.default.getDay(1, false);} else if (index == 1) {that.now_day = _common.default.getDay(-1, false);that.end_day = _common.default.getDay(0, false);} else if (index == 2) {that.now_day = _common.default.getDay(-7, false);that.end_day = _common.default.getDay(1, false);} else if (index == 3) {that.now_day = _common.default.getDay(-30, false);that.end_day = _common.default.getDay(1, false);
+        }
+
         that.get_header_data(custom_id);
         that.get_list(custom_id);
       }

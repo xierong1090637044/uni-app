@@ -325,7 +325,7 @@
 		border-radius: 15px;
 		padding: 0 4%;
 		flex-wrap: nowrap;
-		margin: 7px 0;
+		margin: 8rpx 0;
 		line-height: 30px;
 	}
 	

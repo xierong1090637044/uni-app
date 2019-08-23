@@ -109,7 +109,7 @@ page {
   -webkit-flex-wrap: nowrap;
       -ms-flex-wrap: nowrap;
           flex-wrap: nowrap;
-  margin: 7px 0;
+  margin: 8rpx 0;
   line-height: 30px;
 }
 .input-view .uni-icon {

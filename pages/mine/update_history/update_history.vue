@@ -19,7 +19,9 @@
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
+						<text>产品出库、入库、盘点、退货操作优化</text>
 						<text>产品选择操作优化</text>
+						<text>操作记录新增时间筛选</text>
 					</view>
 				</view>
 				
