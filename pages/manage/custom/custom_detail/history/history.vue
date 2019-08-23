@@ -206,8 +206,10 @@
 						that.end_day = common.getDay(0, false)
 					} else if (index == 2) {
 						that.now_day = common.getDay(-7, false)
+						that.end_day = common.getDay(1, false)
 					} else if (index == 3) {
 						that.now_day = common.getDay(-30, false)
+						that.end_day = common.getDay(1, false)
 					}
 					
 					that.get_header_data(custom_id)

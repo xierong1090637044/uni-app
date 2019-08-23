@@ -8,24 +8,20 @@
 		</uni-nav-bar>
 		
 		<view class="display_flex good_option_view">
-			<view class="good_option" @click="selectd('createdAt')">
-				<text :class="(checked_option == 'createdAt')?'option_selected':''">全部</text>
-				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'all'"></fa-icon>
-			</view>
-			<view class="good_option" @click="selectd('createdAt')">
-				<text :class="(checked_option == 'createdAt')?'option_selected':''">今天</text>
+			<view class="good_option" @click="selectd('one')">
+				<text :class="(checked_option == 'one')?'option_selected':''">今天</text>
 				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'one'"></fa-icon>
 			</view>
-			<view class="good_option" @click="selectd('createdAt')">
-				<text :class="(checked_option == 'createdAt')?'option_selected':''">昨天</text>
+			<view class="good_option" @click="selectd('two')">
+				<text :class="(checked_option == 'two')?'option_selected':''">昨天</text>
 				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'two'"></fa-icon>
 			</view>
-			<view class="good_option" @click="selectd('goodsName')">
-				<text :class="(checked_option == 'goodsName')?'option_selected':''">七天</text>
+			<view class="good_option" @click="selectd('three')">
+				<text :class="(checked_option == 'three')?'option_selected':''">七天</text>
 				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'three'"></fa-icon>
 			</view>
-			<view class="good_option" @click="selectd('reserve')">
-				<text :class="(checked_option == 'reserve')?'option_selected':'three'">一个月</text>
+			<view class="good_option" @click="selectd('four')">
+				<text :class="(checked_option == 'four')?'option_selected':'three'">一个月</text>
 				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'four'"></fa-icon>
 			</view>
 		</view>
@@ -91,6 +87,8 @@
 
 <script>
 	import Bmob from '@/utils/bmob.js';
+	import common from '@/utils/common.js';
+	
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
@@ -109,13 +107,17 @@
 		},
 		data() {
 			return {
-				checked_option:"all",
+				checked_option:"one",
 				loading: true,
 				list: null,
 				
 				showOptions: false, //是否显示筛选
 				goodsName:"",//输入的操作产品名字
 				staff:"",//选择的操作者
+				
+				now_day: common.getDay(0, false),
+				end_day: common.getDay(1, false),
+				max_day: common.getDay(0, false),
 			}
 		},
 		
@@ -154,6 +156,24 @@
 
 		methods: {
 			
+			selectd(type){
+				if (type == 'one') {
+					that.now_day = common.getDay(0, false)
+					that.end_day = common.getDay(1, false)
+				} else if (type == 'two') {
+					that.now_day = common.getDay(-1, false)
+					that.end_day = common.getDay(0, false)
+				} else if (type == 'three') {
+					that.now_day = common.getDay(-7, false)
+					that.end_day = common.getDay(1, false)
+				} else if (type == 'four') {
+					that.now_day = common.getDay(-30, false)
+					that.end_day = common.getDay(1, false)
+				}
+				that.checked_option = type
+				that.get_list()
+			},
+			
 			shaixuan_click(){
 				that.showOptions = true;
 			},
@@ -182,6 +202,8 @@
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
+				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
+				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.include("opreater");
 				query.order("-createdAt");
 				query.find().then(res => {
