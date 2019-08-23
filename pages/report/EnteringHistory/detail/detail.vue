@@ -152,16 +152,22 @@
 				const query = Bmob.Query('order_opreations');
 				query.include("opreater", "custom", "producer");
 				query.get(id).then(res => {
-					//console.log(res);
+					console.log(res);
 					that.detail = res;
-					const query = Bmob.Query('order_opreations');
-					query.include("goodsId");
-					query.field('relations', res.objectId);
-					query.relation('Bills').then(res => {
-						//console.log(res);
-						that.products = res.results;
+					if(res.detail){
+						that.products = res.detail;
 						that.loading = false;
-					})
+					}else{
+						const query = Bmob.Query('order_opreations');
+						query.include("goodsId");
+						query.field('relations', res.objectId);
+						query.relation('Bills').then(res => {
+							//console.log(res);
+							that.products = res.results;
+							that.loading = false;
+						})
+					}
+					
 				}).catch(err => {
 					console.log(err)
 				})

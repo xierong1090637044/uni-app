@@ -109,6 +109,7 @@
 
 				let operation_ids = [];
 				let billsObj = new Array();
+				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
 					const query = Bmob.Query('Goods');
@@ -127,14 +128,12 @@
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
+					let detailBills = {}
+					
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
-
 					let pointer2 = Bmob.Pointer('_User')
 					let operater = pointer2.set(uni.getStorageSync("masterId"))
-
-
-
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
 
@@ -151,6 +150,16 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
 					tempBills.set('operater', operater);
+					
+					let goodsId ={}
+					detailBills.goodsName = this.products[i].goodsName
+					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
+					detailBills.retailPrice = this.products[i].retailPrice
+					detailBills.total_money = this.products[i].total_money
+					goodsId.costPrice = this.products[i].costPrice
+					goodsId.retailPrice = this.products[i].retailPrice
+					detailBills.goodsId = goodsId
+					detailBills.num = this.products[i].num
 
 					if (shop) {
 						tempBills.set("shop", shopId);
@@ -158,19 +167,15 @@
 					}
 
 					billsObj.push(tempBills)
-
+					detailObj.push(detailBills)
+					
 					common.record_staffOut(this.products[i].num)
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
 						//console.log("批量新增单据成功", res);
-						for (let i = 0; i < res.length; i++) {
-							//console.log(res[i].success.objectId)
-							operation_ids.push(res[i].success.objectId);
-						}
-
-						let relation = Bmob.Relation('Bills'); // 需要关联的表
-						let relID = relation.add(operation_ids);
+						/*let relation = Bmob.Relation('Bills'); // 需要关联的表
+						let relID = relation.add(operation_ids);*/
 
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
@@ -180,7 +185,8 @@
 						let poiID1 = pointer1.set(masterId);
 
 						let query = Bmob.Query('order_opreations');
-						query.set("relations", relID);
+						//query.set("relations", relID);
+						query.set("detail", detailObj);
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("type", -1);
 						query.set("opreater", poiID1);

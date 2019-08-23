@@ -19,7 +19,7 @@
 			<form @submit="formSubmit">
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录退货客户）</view>
-					<view class="kaidan_detail"  style="line-height: 70rpx;">
+					<view class="kaidan_detail" style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
 							<view>客户姓名</view>
@@ -83,6 +83,8 @@
 
 				let operation_ids = [];
 				let billsObj = new Array();
+				let detailObj = [];
+
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 					const query = Bmob.Query('Goods');
@@ -97,11 +99,13 @@
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
+					let detailBills = {}
+
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
-
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
+
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
 					tempBills.set('num', this.products[i].num);
@@ -110,65 +114,71 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', 2);
 
+					let goodsId = {}
+					detailBills.goodsName = this.products[i].goodsName
+					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
+					detailBills.retailPrice = this.products[i].retailPrice
+					detailBills.total_money = this.products[i].total_money
+					goodsId.costPrice = this.products[i].costPrice
+					goodsId.retailPrice = this.products[i].retailPrice
+					detailBills.goodsId = goodsId
+					detailBills.num = this.products[i].num
+
 					billsObj.push(tempBills)
+					detailObj.push(detailBills)
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
 						//console.log("批量新增单据成功", res);
-						for (let i = 0; i < res.length; i++) {
-							//console.log(res[i].success.objectId)
-							operation_ids.push(res[i].success.objectId);
-							if (i == (res.length - 1)) {
 
-								let relation = Bmob.Relation('Bills'); // 需要关联的表
-								let relID = relation.add(operation_ids);
+						/*let relation = Bmob.Relation('Bills'); // 需要关联的表
+						let relID = relation.add(operation_ids);*/
 
-								let pointer = Bmob.Pointer('_User')
-								let poiID = pointer.set(uid);
+						let pointer = Bmob.Pointer('_User')
+						let poiID = pointer.set(uid);
 
-								let masterId = uni.getStorageSync("masterId");
-								let pointer1 = Bmob.Pointer('_User')
-								let poiID1 = pointer1.set(masterId);
+						let masterId = uni.getStorageSync("masterId");
+						let pointer1 = Bmob.Pointer('_User')
+						let poiID1 = pointer1.set(masterId);
 
-								let query = Bmob.Query('order_opreations');
-								query.set("relations", relID);
-								query.set("beizhu", e.detail.value.input_beizhu);
-								query.set("type", 2);
-								query.set("opreater", poiID1);
-								query.set("master", poiID);
-								query.set('goodsName', that.products[0].goodsName);
-								query.set('real_money', Number(that.real_money));
-								query.set('debt', that.all_money - Number(that.real_money));
+						let query = Bmob.Query('order_opreations');
+						//query.set("relations", relID);
+						query.set("beizhu", e.detail.value.input_beizhu);
+						query.set("detail", detailObj);
+						query.set("type", 2);
+						query.set("opreater", poiID1);
+						query.set("master", poiID);
+						query.set('goodsName', that.products[0].goodsName);
+						query.set('real_money', Number(that.real_money));
+						query.set('debt', that.all_money - Number(that.real_money));
 
-								if (that.custom) {
-									let custom = Bmob.Pointer('customs');
-									let customID = custom.set(that.custom.objectId);
-									query.set("custom", customID);
-								}
-
-								query.set("all_money", that.all_money);
-								query.save().then(res => {
-									console.log("添加操作历史记录成功", res);
-									uni.hideLoading();
-									uni.removeStorageSync("customs"); //移除这个缓存
-									uni.showToast({
-										title: '产品退货成功',
-										icon: 'success',
-										success: function() {
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											setTimeout(() => {
-												common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that
-													.products.length + "商品的退货", 2, res.objectId);
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
-										}
-									})
-								})
-							}
+						if (that.custom) {
+							let custom = Bmob.Pointer('customs');
+							let customID = custom.set(that.custom.objectId);
+							query.set("custom", customID);
 						}
+
+						query.set("all_money", that.all_money);
+						query.save().then(res => {
+							console.log("添加操作历史记录成功", res);
+							uni.hideLoading();
+							uni.removeStorageSync("customs"); //移除这个缓存
+							uni.showToast({
+								title: '产品退货成功',
+								icon: 'success',
+								success: function() {
+									that.button_disabled = false;
+									uni.setStorageSync("is_option", true);
+									setTimeout(() => {
+										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that
+											.products.length + "商品的退货", 2, res.objectId);
+										uni.navigateBack({
+											delta: 2
+										});
+									}, 500)
+								}
+							})
+						})
 
 					},
 					function(error) {

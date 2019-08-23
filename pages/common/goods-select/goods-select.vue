@@ -4,7 +4,8 @@
 		<loading v-if="loading"></loading>
 
 		<view v-else class="content">
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-left="shaixuan" @click-right="confrim_this" left-text="筛选">
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-left="shaixuan"
+			 @click-right="confrim_this" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
 					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="confirm" />
@@ -24,11 +25,37 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
-				<checkbox-group @change="radioChange">
-					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" v-if="product.goodsName.indexOf(search_text) >= 0">
+			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more" v-if="search_text">
+				<checkbox-group @change="radioChange_search">
+					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 						<view>
-							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue" :id="index" :checked="product.checked"/>
+							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
+							 :id="index" :checked="product.checked" />
+						</view>
+
+						<label class="uni-product" :for="index">
+							<view>
+								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
+								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+							</view>
+
+							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
+								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
+							</view>
+						</label>
+					</view>
+				</checkbox-group>
+			</scroll-view>
+
+			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more" v-else>
+				<checkbox-group @change="radioChange">
+					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
+						<view>
+							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
+							 :id="index" :checked="product.checked" />
 						</view>
 
 						<label class="uni-product" :for="index">
@@ -106,7 +133,7 @@
 		},
 		data() {
 			return {
-				search_text:'',
+				search_text: '',
 				url: null,
 				showOptions: false, //是否显示筛选
 				loading: true,
@@ -136,7 +163,7 @@
 		},
 
 		onShow() {
-			
+
 			uni.removeStorageSync("products");
 
 			if (uni.getStorageSync("category")) {
@@ -150,32 +177,38 @@
 			}
 
 			if (uni.getStorageSync("is_option")) {
+				this.productList = []
 				that.get_productList();
 			}
 		},
-		onUnload() {
+		
+		onHide() {
 			//数据重置
 			search_text = '';
 			page_size = 50;
+			products = [];
+			this.productList = []
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
 
 		methods: {
 			//筛选点击
-			shaixuan(){
+			shaixuan() {
 				that.showOptions = true;
 			},
-			
+
 			//输入框输入点击确定
-			confirm(e){
+			confirm(e) {
+				search_text = e.detail.value
 				that.search_text = e.detail.value
+				that.get_productList()
 			},
-			
+
 			//确定点击
-			confrim_this(){
+			confrim_this() {
 				this.go_goodsconfrim();
 			},
-			
+
 			//modal重置的确认点击
 			option_reset() {
 				uni.removeStorageSync("category");
@@ -215,11 +248,21 @@
 			//多选选择触发
 			radioChange: function(e) {
 				products = e.detail.value;
-				/*let index = 0;
-				for(let item of products){
-					products[index] = JSON.parse(item)
-					index +=1;
-				}*/
+			},
+
+			radioChange_search(e) {
+				let search_products = e.detail.value;
+				products = this.concat_(products, search_products)
+				console.log(products)
+			},
+
+			concat_(arr1, arr2) {
+				let arr = arr1.concat();
+				//或者使用slice()复制，var arr = arr1.slice(0)  
+				for (let i = 0; i < arr2.length; i++) {
+					arr.indexOf(arr2[i]) === -1 ? arr.push(arr2[i]) : 0;
+				}
+				return arr;
 			},
 
 			//点击去到添加产品
@@ -232,12 +275,12 @@
 					})
 				} else {
 					let index = 0;
-					for(let item of products){
+					for (let item of products) {
 						products[index] = JSON.parse(item)
 						products[index].num = 1;
 						products[index].total_money = 1 * products[index].retailPrice;
 						products[index].modify_retailPrice = products[index].retailPrice;
-						index +=1;
+						index += 1;
 					}
 					uni.setStorageSync("products", products);
 					uni.navigateTo({
@@ -262,8 +305,15 @@
 				query.include("goodsClass");
 				query.include("stocks");
 				query.find().then(res => {
-					//console.log(res)
-					
+					console.log(products)
+
+					for (let item of res) {
+						if (products.indexOf(JSON.stringify(item)) > -1) {
+							console.log(products.indexOf(JSON.stringify(item)))
+							item.checked = true
+						}
+					}
+
 					this.productList = res;
 					this.loading = false;
 				});
@@ -274,7 +324,7 @@
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				uni.removeStorageSync("shop");
-				
+
 				search_text = '';
 				page_size = 50;
 			},
@@ -328,15 +378,15 @@
 		font-size: 24rpx;
 		font-weight: bold;
 	}
-	
-	
+
+
 	.title {
 		font-size: 15px;
 		line-height: 20px;
 		color: #333333;
 		padding: 15px;
 	}
-	
+
 	.city {
 		display: flex;
 		flex-direction: row;
@@ -346,7 +396,7 @@
 		margin-left: 8px;
 		white-space: nowrap;
 	}
-	
+
 	.input-view {
 		width: 92%;
 		display: flex;
@@ -358,11 +408,11 @@
 		margin: 8rpx 0;
 		line-height: 30px;
 	}
-	
+
 	.input-view .uni-icon {
 		line-height: 30px !important;
 	}
-	
+
 	.input-view .input {
 		height: 30px;
 		line-height: 30px;
