@@ -73,6 +73,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.showOptions = true
+    }
+
+    _vm.e1 = function($event) {
+      $event.stopPropagation()
+      _vm.showOptions = false
+    }
+  }
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -105,7 +115,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -164,7 +174,81 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //
@@ -222,8 +306,99 @@ var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9)
 //
 //
 //
-var that;var uid;var shopId;var _default = { components: {}, data: function data() {return { seleted_tab: 1, details: null, tabBars: [{ name: '采购', type: 1 }, { name: '销售', type: -1 }, { name: '退货', type: 2 }] };}, onLoad: function onLoad(options) {that = this;uid = wx.getStorageSync("uid");shopId = options.shopId;that.getdetail();}, methods: { tapTab: function tapTab(type) {that.seleted_tab = type;that.getdetail();}, getdetail: function getdetail() {uni.showLoading({ title: "加载中..." });var query = _bmob.default.Query("Bills");query.equalTo("userId", "==", uid);query.equalTo("type", "==", that.seleted_tab);query.equalTo("shop", "==", shopId);query.order("-createdAt");query.find().then(function (res) {console.log(res);that.details = res;uni.hideLoading();});} } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 436));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 443));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 450));};var that;var uid;var shopId;var index;var _default = { components: { faIcon: faIcon, loading: loading, uniNavBar: uniNavBar, uniSegmentedControl: uniSegmentedControl }, data: function data() {return { showOptions: false, header: { total: 0, total_money: 0, get_money: 0 }, //头部的统计数据
+      loading: true, items: ['今天', '昨天', '近七天', '近一个月'], list: [], current: 0, now_day: _common.default.getDay(0, false), end_day: _common.default.getDay(1, false), max_day: _common.default.getDay(0, false), seleted_tab: -1, //1采购  -1销售  2退货
+      selected_text: "销售", types: [{ name: '采购', type: 1 }, { name: '销售', type: -1 }, { name: '退货', type: 2 }] };}, onLoad: function onLoad(options) {that = this;uid = wx.getStorageSync("uid");shopId = options.shopId; //shopId = "ff3ae14ee9"
+    that.getdetail();}, methods: { //选择类型改变
+    bindtypechange: function bindtypechange(e) {console.log(e);index = e.detail.value;that.selected_text = that.types[index].name;}, option_confrim: function option_confrim() {that.header = { total: 0, total_money: 0, get_money: 0 };that.seleted_tab = that.types[index].type;that.showOptions = false;that.getdetail();}, //modal重置的确认点击
+    option_reset: function option_reset() {that.header = { total: 0, total_money: 0, get_money: 0 };that.seleted_tab = -1;that.selected_text = '销售';that.now_day = _common.default.getDay(0, false), that.end_day = _common.default.getDay(1, false), that.max_day = _common.default.getDay(0, false), that.showOptions = false;that.getdetail();}, bindDateChange1: function bindDateChange1(e) {that.now_day = e.detail.value;}, bindDateChange2: function bindDateChange2(e) {that.end_day = e.detail.value;}, //日期筛选
+    onClickItem: function onClickItem(index) {if (this.current !== index) {this.current = index;that.header = { total: 0, total_money: 0, get_money: 0 };if (index == 0) {that.now_day = _common.default.getDay(0, false);that.end_day = _common.default.getDay(1, false);} else if (index == 1) {that.now_day = _common.default.getDay(-1, false);that.end_day = _common.default.getDay(0, false);} else if (index == 2) {that.now_day = _common.default.getDay(-7, false);that.end_day = _common.default.getDay(1, false);} else if (index == 3) {that.now_day = _common.default.getDay(-30, false);that.end_day = _common.default.getDay(1, false);}that.getdetail();}}, getdetail: function getdetail() {var query = _bmob.default.Query("Bills");query.equalTo("userId", "==", uid);query.equalTo("type", "==", that.seleted_tab);query.equalTo("shop", "==", shopId);query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');query.order("-createdAt");
+      query.include("opreater", "goodsId");
+      query.find().then(function (res) {
+        console.log(res);var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+          for (var _iterator = res[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+            console.log(item);
+            that.header.total += item.num;
+            that.header.total_money += Number(item.goodsId.costPrice) * item.num;
+            that.header.get_money += item.total_money - Number(item.goodsId.costPrice) * item.num;
+          }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+        that.list = res;
+        that.loading = false;
+      });
+    } } };exports.default = _default;
 
 /***/ }),
 

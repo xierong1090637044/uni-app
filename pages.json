@@ -7,6 +7,13 @@
 			}
 		},
 		{
+			"path": "pages/manage/shops/record/record",
+			"style": {
+				"navigationBarTitleText": "全部记录"
+			}
+		},
+		
+		{
 			"path": "pages/manage/good_add/good_add",
 			"style": {
 				"navigationBarTitleText": "新建产品"
@@ -274,14 +281,7 @@
 			"style": {
 				"navigationBarTitleText": "员工列表"
 			}
-		}, {
-			"path": "pages/manage/shops/record/record",
-			"style": {
-				"navigationBarTitleText": "全部记录"
-			}
-		}
-
-		, {
+		},  {
 			"path": "pages/register/user_protocol/user_protocol",
 			"style": {
 				"navigationBarTitleText": "用户协议"

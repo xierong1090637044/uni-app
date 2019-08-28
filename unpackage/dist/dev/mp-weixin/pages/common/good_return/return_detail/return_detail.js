@@ -150,6 +150,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -195,11 +199,24 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 //
 //
 //
-var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
+//
+//
+//
+//
+var uid;var that;var shopId;var shop; //门店
+var _default = { data: function data() {return { shop_name: '', products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       custom: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = this.products[i].total_money + this.all_money;}}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var detailObj = [];var _loop = function _loop(
+
+      i) {
+        var num = Number(_this.products[i].reserve) + _this.products[i].num;
+        var query = _bmob.default.Query('Goods');
+        query.get(_this.products[i].objectId).then(function (res) {
+          //console.log(res)
+          res.set('reserve', num);
+          res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);
+          res.save();
         }).catch(function (err) {
           console.log(err);
         });
@@ -230,6 +247,11 @@ var uid;var that;var _default = { data: function data() {return { products: null
         goodsId.retailPrice = _this.products[i].retailPrice;
         detailBills.goodsId = goodsId;
         detailBills.num = _this.products[i].num;
+
+        if (shop) {
+          tempBills.set("shop", shopId);
+          //common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
+        }
 
         billsObj.push(tempBills);
         detailObj.push(detailBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);

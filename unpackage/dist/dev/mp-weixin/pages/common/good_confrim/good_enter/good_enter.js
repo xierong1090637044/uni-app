@@ -162,6 +162,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -219,13 +224,24 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 //
 //
 //
-var uid;var that;var _default = { data: function data() {return { products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
+//
+//
+//
+//
+//
+var uid;var that;var shopId;var shop; //门店
+var _default = { data: function data() {return { shop_name: '', products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       producer: null //制造商
     };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");uni.removeStorageSync("producer"); //移除这个缓存
-    this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.producer = uni.getStorageSync("producer");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+    this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.producer = uni.getStorageSync("producer");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
           res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);}); //单据
-        var detailBills = {};var tempBills = _bmob.default.Query('Bills');var pointer = _bmob.default.Pointer('_User');var user = pointer.set(uid);var pointer1 = _bmob.default.Pointer('Goods');var tempGoods_id = pointer1.set(_this.products[i].objectId);tempBills.set('goodsName', _this.products[i].goodsName);tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
+        var detailBills = {};var tempBills = _bmob.default.Query('Bills');var pointer = _bmob.default.Pointer('_User');
+        var user = pointer.set(uid);
+        var pointer1 = _bmob.default.Pointer('Goods');
+        var tempGoods_id = pointer1.set(_this.products[i].objectId);
+        tempBills.set('goodsName', _this.products[i].goodsName);
+        tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
         tempBills.set('num', _this.products[i].num);
         tempBills.set('total_money', _this.products[i].total_money);
         tempBills.set('goodsId', tempGoods_id);
@@ -244,6 +260,11 @@ var uid;var that;var _default = { data: function data() {return { products: null
         detailBills.goodsId = goodsId;
         detailBills.num = _this.products[i].num;
         detailBills.type = 1;
+
+        if (shop) {
+          tempBills.set("shop", shopId);
+          //common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
+        }
 
         billsObj.push(tempBills);
         detailObj.push(detailBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);

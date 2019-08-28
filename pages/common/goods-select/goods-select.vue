@@ -187,7 +187,6 @@
 			search_text = '';
 			page_size = 50;
 			products = [];
-			this.productList = []
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
 

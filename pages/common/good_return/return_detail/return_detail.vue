@@ -20,6 +20,10 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录退货客户）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
+							<view>选择门店</text></view>
+							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
+						</navigator>
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
 							<view>客户姓名</view>
@@ -48,10 +52,13 @@
 
 	let uid;
 	let that;
+	let shopId;
+	let shop; //门店
 
 	export default {
 		data() {
 			return {
+				shop_name: '',
 				products: null,
 				button_disabled: false,
 				beizhu_text: "",
@@ -71,6 +78,16 @@
 		},
 		onShow() {
 			that.custom = uni.getStorageSync("custom")
+			
+			shop = uni.getStorageSync("shop");
+			
+			if (shop) {
+				that.shop_name = shop.name
+			
+				const pointer = Bmob.Pointer('shops');
+				shopId = pointer.set(shop.objectId);
+			}
+			
 		},
 		methods: {
 
@@ -123,6 +140,11 @@
 					goodsId.retailPrice = this.products[i].retailPrice
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
+					
+					if (shop) {
+						tempBills.set("shop", shopId);
+						//common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
+					}
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
