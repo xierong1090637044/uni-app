@@ -95,10 +95,8 @@
 					title: "上传中..."
 				});
 
-				let operation_ids = [];
 				let billsObj = new Array();
-				let detailObj = [];
-				
+				let detailObj = [];			
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 					const query = Bmob.Query('Goods');
@@ -112,8 +110,8 @@
 					})
 
 					//单据
-					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
+					let tempBills = Bmob.Query('Bills');
 					
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
@@ -134,22 +132,24 @@
 					detailBills.total_money = this.products[i].total_money
 					goodsId.costPrice = this.products[i].costPrice
 					goodsId.retailPrice = this.products[i].retailPrice
+					goodsId.objectId = this.products[i].objectId
+					goodsId.reserve = num
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
+					detailBills.type = 1
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
+					
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
-						//console.log("批量新增单据成功", res);
-						/*for (let i = 0; i < res.length; i++) {
-							//console.log(res[i].success.objectId)
-							operation_ids.push(res[i].success.objectId);
+						console.log("批量新增单据成功", res);
+						let bills = []
+						for (let i = 0; i < res.length; i++) {
+							bills.push(res[i].success.objectId)
 						}
-
-						let relation = Bmob.Relation('Bills'); // 需要关联的表
-						let relID = relation.add(operation_ids);*/
+						
 
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
@@ -163,6 +163,7 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("detail", detailObj);
 						query.set("type", 1);
+						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);

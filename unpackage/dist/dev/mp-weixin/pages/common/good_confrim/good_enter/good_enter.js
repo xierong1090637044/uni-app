@@ -223,11 +223,9 @@ var uid;var that;var _default = { data: function data() {return { products: null
       all_money: 0, //总价
       producer: null //制造商
     };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");uni.removeStorageSync("producer"); //移除这个缓存
-    this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.producer = uni.getStorageSync("producer");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+    this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.producer = uni.getStorageSync("producer");}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) + _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
           res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {console.log(err);}); //单据
-        var tempBills = _bmob.default.Query('Bills');var detailBills = {};var pointer = _bmob.default.Pointer('_User');var user = pointer.set(uid);var pointer1 = _bmob.default.Pointer('Goods');var tempGoods_id = pointer1.set(_this.products[i].objectId);
-        tempBills.set('goodsName', _this.products[i].goodsName);
-        tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
+        var detailBills = {};var tempBills = _bmob.default.Query('Bills');var pointer = _bmob.default.Pointer('_User');var user = pointer.set(uid);var pointer1 = _bmob.default.Pointer('Goods');var tempGoods_id = pointer1.set(_this.products[i].objectId);tempBills.set('goodsName', _this.products[i].goodsName);tempBills.set('retailPrice', _this.products[i].modify_retailPrice.toString());
         tempBills.set('num', _this.products[i].num);
         tempBills.set('total_money', _this.products[i].total_money);
         tempBills.set('goodsId', tempGoods_id);
@@ -241,21 +239,23 @@ var uid;var that;var _default = { data: function data() {return { products: null
         detailBills.total_money = _this.products[i].total_money;
         goodsId.costPrice = _this.products[i].costPrice;
         goodsId.retailPrice = _this.products[i].retailPrice;
+        goodsId.objectId = _this.products[i].objectId;
+        goodsId.reserve = num;
         detailBills.goodsId = goodsId;
         detailBills.num = _this.products[i].num;
+        detailBills.type = 1;
 
         billsObj.push(tempBills);
         detailObj.push(detailBills);};for (var i = 0; i < this.products.length; i++) {_loop(i);
+
       }
       //插入单据
       _bmob.default.Query('Bills').saveAll(billsObj).then(function (res) {
-        //console.log("批量新增单据成功", res);
-        /*for (let i = 0; i < res.length; i++) {
-        	//console.log(res[i].success.objectId)
-        	operation_ids.push(res[i].success.objectId);
+        console.log("批量新增单据成功", res);
+        var bills = [];
+        for (var i = 0; i < res.length; i++) {
+          bills.push(res[i].success.objectId);
         }
-        	let relation = Bmob.Relation('Bills'); // 需要关联的表
-        let relID = relation.add(operation_ids);*/
 
 
         var pointer = _bmob.default.Pointer('_User');
@@ -270,6 +270,7 @@ var uid;var that;var _default = { data: function data() {return { products: null
         query.set("beizhu", e.detail.value.input_beizhu);
         query.set("detail", detailObj);
         query.set("type", 1);
+        query.set("bills", bills);
         query.set("opreater", poiID1);
         query.set("master", poiID);
         query.set('goodsName', that.products[0].goodsName);

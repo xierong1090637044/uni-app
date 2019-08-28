@@ -227,9 +227,8 @@ var uid;var that;var shopId;var shop; //门店
 var _default = { data: function data() {return { shop_name: '', products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       custom: null //制造商
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var operation_ids = [];var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) - _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
-          _common.default.log(_this.products[i].goodsName + "出库了" + _this.products[i].num + "件，已经低于预警数量" + (_this.products[i].warning_num ? _this.products[i].warning_num : 0), -2, _this.products[i].objectId);res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();
-        }).catch(function (err) {
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}, onShow: function onShow() {that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _bmob.default.Pointer('shops');shopId = pointer.set(shop.objectId);}}, methods: { formSubmit: function formSubmit(e) {var _this = this;console.log(e);this.button_disabled = true;uni.showLoading({ title: "上传中..." });var billsObj = new Array();var detailObj = [];var _loop = function _loop(i) {var num = Number(_this.products[i].reserve) - _this.products[i].num;var query = _bmob.default.Query('Goods');query.get(_this.products[i].objectId).then(function (res) {//console.log(res)
+          _common.default.log(_this.products[i].goodsName + "出库了" + _this.products[i].num + "件，已经低于预警数量" + (_this.products[i].warning_num ? _this.products[i].warning_num : 0), -2, _this.products[i].objectId);res.set('reserve', num);res.set('stocktype', num > _this.products[i].warning_num ? 1 : 0);res.save();}).catch(function (err) {
           console.log(err);
         });
 
@@ -265,8 +264,11 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
         detailBills.total_money = _this.products[i].total_money;
         goodsId.costPrice = _this.products[i].costPrice;
         goodsId.retailPrice = _this.products[i].retailPrice;
+        goodsId.objectId = _this.products[i].objectId;
+        goodsId.reserve = num;
         detailBills.goodsId = goodsId;
         detailBills.num = _this.products[i].num;
+        detailBills.type = -1;
 
         if (shop) {
           tempBills.set("shop", shopId);
@@ -281,8 +283,10 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
       //插入单据
       _bmob.default.Query('Bills').saveAll(billsObj).then(function (res) {
         //console.log("批量新增单据成功", res);
-        /*let relation = Bmob.Relation('Bills'); // 需要关联的表
-        let relID = relation.add(operation_ids);*/
+        var bills = [];
+        for (var i = 0; i < res.length; i++) {
+          bills.push(res[i].success.objectId);
+        }
 
         var pointer = _bmob.default.Pointer('_User');
         var poiID = pointer.set(uid);
@@ -294,6 +298,7 @@ var _default = { data: function data() {return { shop_name: '', products: null, 
         var query = _bmob.default.Query('order_opreations');
         //query.set("relations", relID);
         query.set("detail", detailObj);
+        query.set("bills", bills);
         query.set("beizhu", e.detail.value.input_beizhu);
         query.set("type", -1);
         query.set("opreater", poiID1);

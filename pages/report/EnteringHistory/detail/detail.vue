@@ -136,6 +136,7 @@
 		},
 		data() {
 			return {
+				bills:[],
 				loading: true,
 				products: null,
 				detail: null
@@ -156,6 +157,7 @@
 					that.detail = res;
 					if(res.detail){
 						that.products = res.detail;
+						that.bills = res.bills;
 						that.loading = false;
 					}else{
 						const query = Bmob.Query('order_opreations');
@@ -198,10 +200,11 @@
 			},
 
 			delete_bill: function(i) {
-				var product = that.products[i];
+				let product = that.products[i];
+				let bill = that.bills[i]
 
 				const query = Bmob.Query('Bills');
-				query.destroy(product.objectId).then(res => {
+				query.destroy(bill).then(res => {
 					const query1 = Bmob.Query('Goods');
 					query1.set('id', product.goodsId.objectId);
 					if (product.type == 1) {

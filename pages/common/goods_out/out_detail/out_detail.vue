@@ -107,7 +107,6 @@
 					title: "上传中..."
 				});
 
-				let operation_ids = [];
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
@@ -158,8 +157,11 @@
 					detailBills.total_money = this.products[i].total_money
 					goodsId.costPrice = this.products[i].costPrice
 					goodsId.retailPrice = this.products[i].retailPrice
+					goodsId.objectId = this.products[i].objectId
+					goodsId.reserve = num
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
+					detailBills.type = -1
 
 					if (shop) {
 						tempBills.set("shop", shopId);
@@ -174,8 +176,10 @@
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
 						//console.log("批量新增单据成功", res);
-						/*let relation = Bmob.Relation('Bills'); // 需要关联的表
-						let relID = relation.add(operation_ids);*/
+						let bills = []
+						for (let i = 0; i < res.length; i++) {
+							bills.push(res[i].success.objectId)
+						}
 
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
@@ -187,6 +191,7 @@
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
 						query.set("detail", detailObj);
+						query.set("bills", bills);
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("type", -1);
 						query.set("opreater", poiID1);
