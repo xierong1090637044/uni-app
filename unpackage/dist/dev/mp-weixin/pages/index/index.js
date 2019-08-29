@@ -173,7 +173,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _bmob = _interopRequireDefault(__webpack_require__(/*! @/utils/bmob.js */ 9));
+var _amapWx = _interopRequireDefault(__webpack_require__(/*! @/utils/amap-wx.js */ 615));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 408));};var uniNoticeBar = function uniNoticeBar() {return __webpack_require__.e(/*! import() | components/uni-notice-bar/uni-notice-bar */ "components/uni-notice-bar/uni-notice-bar").then(__webpack_require__.bind(null, /*! @/components/uni-notice-bar/uni-notice-bar.vue */ 415));};
 
 var that;
@@ -186,6 +219,8 @@ var uid;var _default =
 
   data: function data() {
     return {
+      weather: '',
+      logsList: [],
       optionsLists: [{
         name: '产品入库',
         icon: '/static/entering.png',
@@ -218,17 +253,32 @@ var uid;var _default =
     that = this;
     uid = uni.getStorageSync('uid');
 
+    var myAmapFun = new _amapWx.default.AMapWX({
+      key: 'ddf21583182190befcf92c027b97f8ab' });
+
+    myAmapFun.getWeather({
+      success: function success(data) {
+        console.log(data);
+        that.weather = data;
+        //成功回调
+      },
+      fail: function fail(info) {
+        //失败回调
+        console.log(info);
+      } });
+
   },
 
   onShow: function onShow() {
     that.gettoday_detail();
     that.loadallGoods();
+    that.get_logsList();
   },
   methods: {
     //点击扫描产品条形码
     scan_code: function scan_code() {
       uni.showActionSheet({
-        itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
+        itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加商品'],
         success: function success(res) {
           that.scan(res.tapIndex);
         },
@@ -260,6 +310,10 @@ var uid;var _default =
           } else if (type == 3) {
             uni.navigateTo({
               url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1] });
+
+          } else if (type == 4) {
+            uni.navigateTo({
+              url: '/pages/manage/good_add/good_add?id=' + result });
 
           }
         },
@@ -338,6 +392,26 @@ var uid;var _default =
             }
           }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
 
+      });
+    },
+
+    //得到日志列表
+    get_logsList: function get_logsList() {
+      var query = _bmob.default.Query("logs");
+      query.equalTo("parent", "==", uid);
+      query.equalTo("type", "!=", -2);
+      query.order("-createdAt");
+      query.limit(20);
+      query.find().then(function (res) {
+        //console.log(res)
+        var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {for (var _iterator2 = res[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {var item = _step2.value;
+            if (item.type == 5) {
+              item.link = '/pages/manage/good_det/good_det?id=' + item.detail_id + '&type=false';
+            } else if (item.type == -1 || item.type == 1 || item.type == 2 || item.type == 3) {
+              item.link = '/pages/report/EnteringHistory/detail/detail?id=' + item.detail_id;
+            }
+          }} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}
+        that.logsList = res;
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

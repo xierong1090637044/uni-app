@@ -109,11 +109,15 @@
         "setting" : {
             "urlCheck" : false,
             "es6" : true,
-            "postcss" : true,
+            "postcss" : false,
             "minified" : true
         },
         "usingComponents" : true,
-        "permission" : {}
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置信息将用于库存表小程序获得天气"
+            }
+        }
     },
     "h5" : {
         "title" : "my_stock2",

@@ -50,6 +50,38 @@
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
 			<text>扫描产品条形码</text>
 		</view>
+		
+		<view style="margin: 30rpx 0;background: #FFFFFF;" >
+			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
+				<fa-icon type="moon-o" size="20" color="#fdb933"/>
+				<text style="font-weight: bold;margin-left: 10rpx;color: #333;">陌生人，晚安！</text>
+			</view>
+			<view style="padding: 0 30rpx 10rpx;" class="display_flex_bet">
+				<view class="display_flex">
+					<view>{{weather.city.data}}</view>
+					<view style="margin-left: 10px;">{{weather.temperature.data}}℃</view>
+				</view>
+				<view class="display_flex">
+					<view>{{weather.weather.data}}</view>
+					<view style="margin-left: 10px;">{{weather.winddirection.data}} {{weather.windpower.data}}</view>
+				</view>
+			</view>
+		</view>
+		<swiper vertical="true" style="color: #333 !important;height: 10vh;" autoplay="true">
+			<block>
+				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
+					<navigator class="display_flex_bet" style="width: 100%;background: #FFFFFF;height: 100%;padding:0 30rpx;"
+					 hover-class="none" :url="item.link">
+						<view style="line-height: 5vh;">
+							<view style="font-weight: bold;">{{item.log}}</view>
+							<view style="font-size: 24rpx;color: #999;">{{item.createdAt}}</view>
+						</view>
+						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+					</navigator>
+
+				</swiper-item>
+			</block>
+		</swiper>
 
 	</view>
 
@@ -58,6 +90,7 @@
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
+	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	let that;
@@ -70,6 +103,8 @@
 		},
 		data() {
 			return {
+				weather:'',
+				logsList: [],
 				optionsLists: [{
 						name: '产品入库',
 						icon: '/static/entering.png',
@@ -102,17 +137,32 @@
 			that = this;
 			uid = uni.getStorageSync('uid');
 
+			let myAmapFun = new amapFile.AMapWX({
+				key: 'ddf21583182190befcf92c027b97f8ab'
+			});
+			myAmapFun.getWeather({
+				success: function(data) {
+					console.log(data)
+					that.weather = data
+					//成功回调
+				},
+				fail: function(info) {
+					//失败回调
+					console.log(info)
+				}
+			})
 		},
 
 		onShow() {
 			that.gettoday_detail();
-			that.loadallGoods()
+			that.loadallGoods();
+			that.get_logsList();
 		},
 		methods: {
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加商品'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -144,6 +194,10 @@
 						} else if (type == 3) {
 							uni.navigateTo({
 								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 4) {
+							uni.navigateTo({
+								url: '/pages/manage/good_add/good_add?id=' + result,
 							})
 						}
 					},
@@ -215,13 +269,33 @@
 								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
 								that.total_products = res.length
 						} else {
-						length += 1
-						that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-						that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-						that.total_products = length
+							length += 1
+							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
+								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+								that.total_products = length
 						}
 					}
 
+				});
+			},
+
+			//得到日志列表
+			get_logsList() {
+				const query = Bmob.Query("logs");
+				query.equalTo("parent", "==", uid);
+				query.equalTo("type", "!=", -2);
+				query.order("-createdAt")
+				query.limit(20);
+				query.find().then(res => {
+					//console.log(res)
+					for (let item of res) {
+						if (item.type == 5) {
+							item.link = '/pages/manage/good_det/good_det?id=' + item.detail_id + '&type=false'
+						} else if (item.type == -1 || item.type == 1 || item.type == 2 || item.type == 3) {
+							item.link = '/pages/report/EnteringHistory/detail/detail?id=' + item.detail_id
+						}
+					}
+					that.logsList = res
 				});
 			},
 
@@ -252,7 +326,7 @@
 	.swiper {
 		background: #426ab3;
 		color: #fff;
-		height: 20vh;
+		height: 14vh;
 	}
 
 	.item {

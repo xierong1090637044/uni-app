@@ -89,7 +89,11 @@
       }
     ]
   },
-  "permission": {},
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于库存表小程序获得天气"
+    }
+  },
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }

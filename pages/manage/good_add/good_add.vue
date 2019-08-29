@@ -74,7 +74,7 @@
 
 				<view class="frist" style="margin-bottom: 30rpx;">
 
-					<view  style="line-height: 70rpx;">
+					<view style="line-height: 70rpx;">
 						<view class="display_flex_bet">
 							<view class="display_flex_bet">
 								<view class="left_item">初始库存</view>
@@ -98,19 +98,19 @@
 						<view class="left_item">预警库存</view>
 						<view class="right_input"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 					</view>
-					
+
 					<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view style="display: flex;align-items: center;">
 							<view class="left_item">仓库</view>
 							<view class="right_input"><input placeholder="选择仓库" v-model="stocks[0].stock.stock_name" disabled="true"></input></view>
 						</view>
-					
+
 						<view>
 							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
 					</navigator>
 				</view>
-				
+
 				<!--更多产品信息-->
 				<uni-collapse accordion="true">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
@@ -124,12 +124,12 @@
 								<view class="right_input"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
 							</view>
 							<view class="input_item1">
-						
+
 								<view style="display: flex;align-items: center;">
 									<view class="left_item">条码</view>
 									<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
 								</view>
-						
+
 								<view>
 									<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
 								</view>
@@ -140,19 +140,19 @@
 							</view>
 							<view class="input_item">
 								<view class="left_item">产品简介</view>
-								<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
+								<view class="right_input"><textarea placeholder="产品简介" name="product_info" :value="product_info"></textarea></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">是否半成品</view>
 								<view class="right_input">
-									<switch :checked="product_state" name="product_state"/>
+									<switch :checked="product_state" name="product_state" />
 								</view>
 							</view>
 						</view>
 					</uni-collapse-item>
 				</uni-collapse>
 
-				
+
 			</scroll-view>
 
 
@@ -171,7 +171,7 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
-	
+
 	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 
@@ -211,15 +211,18 @@
 				}], //存放的仓库
 				producttime: "",
 				nousetime: "",
-				product_state:false,//产品是否是半成品
+				product_state: false, //产品是否是半成品
 			}
 		},
-		onLoad() {
+
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
 			uni.removeStorageSync("category")
 			uni.removeStorageSync("warehouse")
 			uni.removeStorageSync("is_add");
+			
+			that.scan_by_id(options.id)
 		},
 		onShow() {
 
@@ -286,11 +289,43 @@
 			tempFilePaths = "";
 			p_class_user_id = "";
 			p_second_class_id = "";
-			
+
 			common.handleData()
 		},
 
 		methods: {
+			
+			//通过条形码扫码得到商品信息
+			scan_by_id: function(id) {
+				console.log(id);
+				wx.showLoading({
+					title: '加载中...',
+				})
+				wx.request({
+					url: 'https://route.showapi.com/66-22',
+					data: {
+						showapi_appid: '84916',
+						showapi_sign: 'ad4b63369c834759b411a9d7fcb07ed7',
+						code: id,
+					},
+					header: {
+						'content-type': 'application/json' // 默认值
+					},
+					success(res) {
+						wx.hideLoading();
+						let good = res.data.showapi_res_body;
+						
+						console.log(good)
+			
+						that.goodsName = good.goodsName,
+						that.producer = good.manuName,
+						that.goodsIcon = good.img //产品图片
+						that.product_info = good.note //产品简介
+						
+						that.productCode = id
+					}
+				});
+			},
 
 			//扫码操作
 			scan_code() {
@@ -401,7 +436,7 @@
 						query.set("warning_num", Number(good.warning_num))
 						query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 						query.set("product_state", good.product_state) //改产品是否是半成品
-						
+
 						if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 							query.set("second_class", p_second_class_id)
 							query.set("goodsClass", p_class_user_id)
@@ -412,8 +447,8 @@
 						query.save().then(res => {
 							uni.hideLoading();
 							that.handledata()
-							common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息", 5, '');
-							uni.setStorageSync("is_add",true)
+							common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息", 5, res.objectId);
+							uni.setStorageSync("is_add", true)
 							uni.redirectTo({
 								url: "/pages/manage/goods/goods"
 							})
@@ -428,13 +463,13 @@
 							console.log(err)
 						})
 					}
-				} else {//添加状态
+				} else { //添加状态
 					for (let item of that.stocks) {
 						const query = Bmob.Query("Goods");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("goodsName", "==", good.goodsName);
 						query.equalTo("position", "==", good.position);
-						query.equalTo("stocks", "==",item.stock.objectId);
+						query.equalTo("stocks", "==", item.stock.objectId);
 						query.find().then(res => {
 							if (res.length >= 1) {
 								uni.showToast({
@@ -466,7 +501,7 @@
 								query.set("position", good.position)
 								query.set("warning_num", Number(good.warning_num))
 								query.set("stocktype", (Number(good.warning_num) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-								
+
 								query.set("product_state", good.product_state) //改产品是否是半成品
 								if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 									query.set("second_class", p_second_class_id)
@@ -476,8 +511,8 @@
 								query.set("userId", userid)
 								query.save().then(res => {
 									uni.hideLoading();
-									common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, '');
-									uni.setStorageSync("is_add",true)
+									common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, res.objectId);
+									uni.setStorageSync("is_add", true)
 									uni.showToast({
 										title: "上传成功"
 									})
