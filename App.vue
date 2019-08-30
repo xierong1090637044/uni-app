@@ -59,6 +59,21 @@
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
 	
+	.text_overflow
+	{
+	  overflow: hidden;
+	  text-overflow:ellipsis;
+	  white-space: nowrap;
+	}
+	.text_overflow_2
+	{
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  display: -webkit-box;
+	  -webkit-line-clamp: 2;
+	  -webkit-box-orient: vertical;
+	}
+	
 	.user_avatar
 	{
 		width: 60rpx;
@@ -105,7 +120,6 @@
 		background: rgba(0, 0, 0, 0.2);
 	}
 
-	,
 	.showOptions {
 		position: fixed;
 		top: 0;

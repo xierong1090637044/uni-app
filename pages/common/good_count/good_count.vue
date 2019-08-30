@@ -52,10 +52,10 @@
 
 			if (options.id) {
 				const query = Bmob.Query('Goods');
-				if (options.type == "true") {
-					query.equalTo("productCode", "==", options.id)
-				} else {
+				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
+				} else {
+					query.equalTo("productCode", "==", options.id)
 				}
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {

@@ -57,7 +57,7 @@
 			</view>
 			<view style="margin-top: 20%;" @tap="saveQrcode">
 				<view style="padding: 20rpx;background: #fff;">
-					<tki-qrcode cid="qrcode" ref="qrcode" :val="(product.productCode)?product.productCode+'-'+true:product.objectId+'-'+false"
+					<tki-qrcode cid="qrcode" ref="qrcode" :val="(product.productCode)?product.productCode:product.objectId+'-'+false"
 					 size="200" loadMake="true" usingComponents="true" unit="rpx" @result="qrR" />
 				</view>
 
@@ -72,7 +72,7 @@
 			</view>
 			<view style="margin-top: 20%;text-align: center;" @tap="saveBccode">
 				<view style="padding: 20rpx;background: #fff;">
-					<tki-barcode ref="barcode" :val="(product.productCode)?product.productCode+'-'+true:product.objectId+'-'+false"
+					<tki-barcode ref="barcode" :val="(product.productCode)?product.productCode:product.objectId+'-'+false"
 					 loadMake="true" :opations="opations" onval="true" format="code128" unit="upx" @result="bcR" />
 				</view>
 				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
@@ -140,10 +140,10 @@
 
 			if (options.id) {
 				const query = Bmob.Query('Goods');
-				if (options.type == "true") {
-					query.equalTo("productCode", "==", options.id)
-				} else {
+				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
+				} else {
+					query.equalTo("productCode", "==", options.id)
 				}
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {

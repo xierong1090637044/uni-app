@@ -15,13 +15,16 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.1 公测版</text>
-						<text class="desc-time">2019.08.22</text>
+						<text class="desc-time">2019.08.30</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>产品出库、入库、盘点、退货操作优化</text>
 						<text>产品选择操作优化</text>
 						<text>操作记录新增时间筛选</text>
+						<text>首页新增天气，通知跳转</text>
+						<text>与扫码中心对接，支持扫码添加商品</text>
+						<text>输入自己商品的条形码信息时，不再有后缀</text>
 					</view>
 				</view>
 				

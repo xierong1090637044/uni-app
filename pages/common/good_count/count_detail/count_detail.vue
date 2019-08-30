@@ -68,15 +68,7 @@
 				let detailObj = [];
 
 				for (let i = 0; i < this.products.length; i++) {
-					const query = Bmob.Query('Goods');
-					query.get(this.products[i].objectId).then(res => {
-						//console.log(res)
-						res.set('reserve', Number(this.products[i].num))
-						res.set('stocktype', (Number(this.products[i].num) > this.products[i].warning_num) ? 1 : 0)
-						res.save()
-					}).catch(err => {
-						console.log(err)
-					})
+
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
@@ -131,6 +123,18 @@
 								title: '产品盘点成功',
 								icon: 'success',
 								success: function() {
+									for (let i = 0; i < that.products.length; i++) {
+										const query = Bmob.Query('Goods');
+										query.get(that.products[i].objectId).then(res => {
+											//console.log(res)
+											res.set('reserve', Number(that.products[i].num))
+											res.set('stocktype', (Number(that.products[i].num) > that.products[i].warning_num) ? 1 : 0)
+											res.save()
+										}).catch(err => {
+											console.log(err)
+										})
+									}
+
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
 									setTimeout(() => {

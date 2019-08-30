@@ -1,6 +1,25 @@
 <template>
 	<!--当月详情-->
 	<view>
+		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="新版库存表上线啦,接下来将更新此小程序,旧版的将不再更新" />
+		
+		<view style="background: #426ab3;" v-if="weather">
+			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
+				<fa-icon :type="welcome.icon" size="20" color="#fdb933" />
+				<text style="font-weight: bold;margin-left: 10rpx;color: #fff;">{{welcome.text}}</text>
+			</view>
+			<view style="padding: 0 30rpx 10rpx;color: #fff;font-size: 24rpx;" class="display_flex_bet">
+				<view class="display_flex">
+					<view>{{weather.city.data}}</view>
+					<view style="margin-left: 10px;">{{weather.temperature.data}}℃</view>
+				</view>
+				<view class="display_flex">
+					<view>{{weather.weather.data}}</view>
+					<view style="margin-left: 10px;">{{weather.winddirection.data}} {{weather.windpower.data}}</view>
+				</view>
+			</view>
+		</view>
+		
 		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
 			<block>
 				<swiper-item class="item">
@@ -34,46 +53,14 @@
 			</block>
 		</swiper>
 
-		<uni-notice-bar :show-icon="true" :scrollable="true" :single="true" color="#426ab3" text="新版库存表上线啦,接下来将更新此小程序,旧版的将不再更新" />
-		<!--操作列表-->
-		<view class='o_list'>
-
-			<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-				<view style='width:100%'>
-					<image :src="(value.icon)" class='o_image' />
-				</view>
-				<view class='o_text'>{{value.name}}</view>
-			</navigator>
-		</view>
-
-		<view class='scan_code display_flex' @click='scan_code'>
-			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
-			<text>扫描产品条形码</text>
-		</view>
 		
-		<view style="margin: 30rpx 0;background: #FFFFFF;" >
-			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
-				<fa-icon type="moon-o" size="20" color="#fdb933"/>
-				<text style="font-weight: bold;margin-left: 10rpx;color: #333;">陌生人，晚安！</text>
-			</view>
-			<view style="padding: 0 30rpx 10rpx;" class="display_flex_bet">
-				<view class="display_flex">
-					<view>{{weather.city.data}}</view>
-					<view style="margin-left: 10px;">{{weather.temperature.data}}℃</view>
-				</view>
-				<view class="display_flex">
-					<view>{{weather.weather.data}}</view>
-					<view style="margin-left: 10px;">{{weather.winddirection.data}} {{weather.windpower.data}}</view>
-				</view>
-			</view>
-		</view>
-		<swiper vertical="true" style="color: #333 !important;height: 10vh;" autoplay="true">
+		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true">
 			<block>
 				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
-					<navigator class="display_flex_bet" style="width: 100%;background: #FFFFFF;height: 100%;padding:0 30rpx;"
+					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;"
 					 hover-class="none" :url="item.link">
-						<view style="line-height: 5vh;">
-							<view style="font-weight: bold;">{{item.log}}</view>
+						<view style="line-height: 5vh;width: 90%;">
+							<view style="font-weight: bold;" class="text_overflow">{{item.log}}</view>
 							<view style="font-size: 24rpx;color: #999;">{{item.createdAt}}</view>
 						</view>
 						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
@@ -83,8 +70,23 @@
 			</block>
 		</swiper>
 
-	</view>
+		<!--操作列表-->
+		<view class='o_list' style="margin-top: 20rpx;">
 
+			<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+				<view style='width:100%'>
+					<image :src="(value.icon)" class='o_image' />
+				</view>
+				<view class='o_text'>{{value.name}}</view>
+			</navigator>
+		</view>
+		<view class='scan_code display_flex' @click='scan_code'>
+			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
+			<text>扫描产品条形码</text>
+		</view>
+
+
+	</view>
 </template>
 
 <script>
@@ -103,7 +105,11 @@
 		},
 		data() {
 			return {
-				weather:'',
+				welcome: {
+					text: '',
+					icon: '',
+				},
+				weather: '',
 				logsList: [],
 				optionsLists: [{
 						name: '产品入库',
@@ -137,6 +143,8 @@
 			that = this;
 			uid = uni.getStorageSync('uid');
 
+			let now = new Date();
+			let hour = now.getHours(); //得到小时
 			let myAmapFun = new amapFile.AMapWX({
 				key: 'ddf21583182190befcf92c027b97f8ab'
 			});
@@ -144,6 +152,27 @@
 				success: function(data) {
 					console.log(data)
 					that.weather = data
+
+					if (hour<6) {
+						console.log(hour)
+						that.welcome.text = "凌晨注意休息！好的身体才能高效的工作"
+						that.welcome.icon = "moon-o"
+					} else if (hour<9) {
+						that.welcome.text = "早上好，又是开心快乐的一天！"
+						that.welcome.icon = "sun-o"
+					} else if (hour < 11) {
+						that.welcome.text = "上午好，请努力加油哦，会成功的！"
+						that.welcome.icon = "sun-o"
+					}  else if (hour < 14) {
+						that.welcome.text = "中午好，辛勤劳动的你是最可爱的！"
+						that.welcome.icon = "sun-o"
+					}else if (hour < 18) {
+						that.welcome.text = "下午好，没有什么会阻挡你的，相信自己！"
+						that.welcome.icon = "sun-o"
+					} else {
+						that.welcome.text = "晚上好，更深露重，适当工作，适当休息！"
+						that.welcome.icon = "sun-o"
+					}
 					//成功回调
 				},
 				fail: function(info) {
@@ -158,6 +187,19 @@
 			that.loadallGoods();
 			that.get_logsList();
 		},
+
+		//分享
+		onShareAppMessage: function(res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log(res.target)
+			}
+			return {
+				title: '库存表，欢迎您的加入',
+				path: '/pages/index/index'
+			}
+		},
+
 		methods: {
 			//点击扫描产品条形码
 			scan_code: function() {

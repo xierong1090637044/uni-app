@@ -111,24 +111,11 @@
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
-					const query = Bmob.Query('Goods');
-					query.get(this.products[i].objectId).then(res => {
-						//console.log(res)
-						common.log(this.products[i].goodsName + "出库了" + this.products[i].num + "件，已经低于预警数量" + (this.products[i].warning_num ?
-								this.products[i].warning_num : 0),
-							-2, this.products[i].objectId);
-
-						res.set('reserve', num)
-						res.set('stocktype', (num > this.products[i].warning_num) ? 1 : 0)
-						res.save()
-					}).catch(err => {
-						console.log(err)
-					})
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
-					
+
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer2 = Bmob.Pointer('_User')
@@ -149,8 +136,8 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
 					tempBills.set('operater', operater);
-					
-					let goodsId ={}
+
+					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
@@ -170,7 +157,7 @@
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
-					
+
 					common.record_staffOut(this.products[i].num)
 				}
 				//插入单据
@@ -231,6 +218,23 @@
 								title: '产品出库成功',
 								icon: 'success',
 								success: function() {
+									for (let i = 0; i < that.products.length; i++) {
+										let num = Number(that.products[i].reserve) - that.products[i].num;
+										const query = Bmob.Query('Goods');
+										query.get(that.products[i].objectId).then(res => {
+											//console.log(res)
+											common.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + (that.products[
+														i].warning_num ?
+													that.products[i].warning_num : 0),
+												-2, that.products[i].objectId);
+
+											res.set('reserve', num)
+											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+											res.save()
+										}).catch(err => {
+											console.log(err)
+										})
+									}
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
 

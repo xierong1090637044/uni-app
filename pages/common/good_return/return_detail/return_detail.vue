@@ -78,16 +78,16 @@
 		},
 		onShow() {
 			that.custom = uni.getStorageSync("custom")
-			
+
 			shop = uni.getStorageSync("shop");
-			
+
 			if (shop) {
 				that.shop_name = shop.name
-			
+
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(shop.objectId);
 			}
-			
+
 		},
 		methods: {
 
@@ -104,15 +104,6 @@
 
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
-					const query = Bmob.Query('Goods');
-					query.get(this.products[i].objectId).then(res => {
-						//console.log(res)
-						res.set('reserve', num)
-						res.set('stocktype', (num > this.products[i].warning_num) ? 1 : 0)
-						res.save()
-					}).catch(err => {
-						console.log(err)
-					})
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
@@ -140,7 +131,7 @@
 					goodsId.retailPrice = this.products[i].retailPrice
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
-					
+
 					if (shop) {
 						tempBills.set("shop", shopId);
 						//common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
@@ -189,6 +180,19 @@
 								title: '产品退货成功',
 								icon: 'success',
 								success: function() {
+									for (let i = 0; i < that.products.length; i++) {
+										let num = Number(that.products[i].reserve) + that.products[i].num;
+										const query = Bmob.Query('Goods');
+										query.get(that.products[i].objectId).then(res => {
+											//console.log(res)
+											res.set('reserve', num)
+											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+											res.save()
+										}).catch(err => {
+											console.log(err)
+										})
+									}
+
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
 									setTimeout(() => {

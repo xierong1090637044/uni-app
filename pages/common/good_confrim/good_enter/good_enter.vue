@@ -21,12 +21,12 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
-						
+
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
 							<view>选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
-						
+
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=producer">
 							<view>供应商姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择供货商" disabled="true" :value="producer.producer_name" /></view>
@@ -94,10 +94,10 @@
 		onShow() {
 			that.producer = uni.getStorageSync("producer")
 			shop = uni.getStorageSync("shop");
-			
+
 			if (shop) {
 				that.shop_name = shop.name
-			
+
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(shop.objectId);
 			}
@@ -112,23 +112,14 @@
 				});
 
 				let billsObj = new Array();
-				let detailObj = [];			
+				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
-					const query = Bmob.Query('Goods');
-					query.get(this.products[i].objectId).then(res => {
-						//console.log(res)
-						res.set('reserve', num)
-						res.set('stocktype', (num > this.products[i].warning_num) ? 1 : 0)
-						res.save()
-					}).catch(err => {
-						console.log(err)
-					})
 
 					//单据
 					let detailBills = {}
 					let tempBills = Bmob.Query('Bills');
-					
+
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
@@ -140,8 +131,8 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', 1);
-					
-					let goodsId ={}
+
+					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
@@ -153,7 +144,7 @@
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
 					detailBills.type = 1
-					
+
 					if (shop) {
 						tempBills.set("shop", shopId);
 						//common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
@@ -161,7 +152,7 @@
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
-					
+
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
@@ -170,7 +161,7 @@
 						for (let i = 0; i < res.length; i++) {
 							bills.push(res[i].success.objectId)
 						}
-						
+
 
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
@@ -220,6 +211,19 @@
 								title: '产品入库成功',
 								icon: 'success',
 								success: function() {
+									for (let i = 0; i < that.products.length; i++) {
+										let num = Number(that.products[i].reserve) + that.products[i].num;
+										const query = Bmob.Query('Goods');
+										query.get(that.products[i].objectId).then(res => {
+											//console.log(res)
+											res.set('reserve', num)
+											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+											res.save()
+										}).catch(err => {
+											console.log(err)
+										})
+									}
+
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
 									setTimeout(() => {
