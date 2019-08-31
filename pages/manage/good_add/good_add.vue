@@ -76,9 +76,11 @@
 
 					<view style="line-height: 70rpx;">
 						<view class="display_flex_bet">
-							<view class="display_flex_bet">
+							<view class="input_item">
 								<view class="left_item">初始库存</view>
-								<input placeholder="初始库存" type="digit" name="reserve" @input="change_reserve(index,$event)" v-model="stocks[0].reserve" />
+								<!--<input placeholder="初始库存" type="digit" name="reserve" @input="change_reserve(index,$event)" v-model="stocks[0].reserve" />-->
+								
+								<input placeholder="初始库存" type="digit" name="reserve" v-model="stocks[0].reserve" />
 							</view>
 							<!--<view class="display_flex">
 								<view style="width: 80rpx;">仓库</view>
@@ -140,7 +142,7 @@
 							</view>
 							<view class="input_item">
 								<view class="left_item">产品简介</view>
-								<view class="right_input"><textarea placeholder="产品简介" name="product_info" :value="product_info"></textarea></view>
+								<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">是否半成品</view>
@@ -418,7 +420,7 @@
 						const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
 						const query = Bmob.Query('Goods');
-						query.set("goodsIcon", that.goodsIcon)
+						query.set("goodsIcon", good.goodsIcon)
 						query.set("goodsName", good.goodsName)
 						query.set("costPrice", good.costPrice ? good.costPrice : "0")
 						query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
@@ -447,7 +449,7 @@
 						query.save().then(res => {
 							uni.hideLoading();
 							that.handledata()
-							common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息", 5, res.objectId);
+							common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'信息", 5, uni.getStorageSync("now_product").objectId);
 							uni.setStorageSync("is_add", true)
 							uni.redirectTo({
 								url: "/pages/manage/goods/goods"
@@ -484,7 +486,7 @@
 								const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
 								const query = Bmob.Query('Goods');
-								query.set("goodsIcon", that.goodsIcon)
+								query.set("goodsIcon", good.goodsIcon)
 								query.set("goodsName", good.goodsName)
 								query.set("costPrice", good.costPrice ? good.costPrice : "0")
 								query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
