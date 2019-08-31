@@ -380,10 +380,10 @@
 						}
 						file.save().then(res => {
 							that.goodsIcon = JSON.parse(res).url;
-							that.upload_good(good)
+							that.upload_good(good,JSON.parse(res).url)
 						})
 					} else {
-						that.upload_good(good)
+						that.upload_good(good,good.goodsIcon)
 					}
 				}
 			},
@@ -402,7 +402,7 @@
 			},
 
 			//上传商品
-			upload_good(good) {
+			upload_good(good,goodsIcon) {
 				uni.showLoading({
 					title: "上传中..."
 				});
@@ -420,7 +420,7 @@
 						const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
 						const query = Bmob.Query('Goods');
-						query.set("goodsIcon", good.goodsIcon)
+						query.set("goodsIcon", goodsIcon)
 						query.set("goodsName", good.goodsName)
 						query.set("costPrice", good.costPrice ? good.costPrice : "0")
 						query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
@@ -486,7 +486,7 @@
 								const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
 								const query = Bmob.Query('Goods');
-								query.set("goodsIcon", good.goodsIcon)
+								query.set("goodsIcon", goodsIcon)
 								query.set("goodsName", good.goodsName)
 								query.set("costPrice", good.costPrice ? good.costPrice : "0")
 								query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
