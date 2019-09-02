@@ -302,7 +302,10 @@
             "path" : "pages/manage/custom/producer_detail/debt_history/debt_history",
             "style" : {}
         }
-        
+        ,{
+            "path" : "pages/manage/warehouse/record/record",
+            "style" : {"navigationBarTitleText": "仓库记录"}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

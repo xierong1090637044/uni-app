@@ -171,7 +171,7 @@
 						that.welcome.icon = "sun-o"
 					} else {
 						that.welcome.text = "晚上好，更深露重，适当工作，适当休息！"
-						that.welcome.icon = "sun-o"
+						that.welcome.icon = "star-o"
 					}
 					//成功回调
 				},

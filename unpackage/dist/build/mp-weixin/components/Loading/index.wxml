@@ -1,0 +1,1 @@
+<view class="Loading_view"><image class="loading_image" src="/static/timg.gif"></image><view style="color:#999;margin-top:3%;">加载中...</view></view>

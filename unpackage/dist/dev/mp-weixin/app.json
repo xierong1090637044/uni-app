@@ -48,7 +48,8 @@
     "pages/register/user_protocol/user_protocol",
     "pages/mine/update_history/update_history",
     "pages/manage/custom/producer_detail/history/history",
-    "pages/manage/custom/producer_detail/debt_history/debt_history"
+    "pages/manage/custom/producer_detail/debt_history/debt_history",
+    "pages/manage/warehouse/record/record"
   ],
   "subPackages": [],
   "window": {
@@ -96,6 +97,5 @@
   },
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
-  },
-  "sitemapLocation": "sitemap82.json"
+  }
 }
