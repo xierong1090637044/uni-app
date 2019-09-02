@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-numbox">
 		<view :class="{'uni-numbox--disabled': inputValue <= min || disabled}" class="uni-numbox__minus" @click="_calcValue('minus')">-</view>
-		<input :disabled="disabled" v-model="inputValue" class="uni-numbox__value" type="number" @blur="_onBlur">
+		<input :disabled="disabled" v-model="inputValue" class="uni-numbox__value" type="digit" @blur="_onBlur">
 		<view :class="{'uni-numbox--disabled': inputValue >= max || disabled}" class="uni-numbox__plus" @click="_calcValue('plus')">+</view>
 	</view>
 </template>
