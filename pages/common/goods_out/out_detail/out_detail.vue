@@ -57,7 +57,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 
 	let uid;

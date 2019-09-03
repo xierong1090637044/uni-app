@@ -91,7 +91,6 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
 	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'

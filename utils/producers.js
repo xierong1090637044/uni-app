@@ -1,4 +1,4 @@
-import Bmob from '@/utils/bmob.js';
+
 export default {
 	//得到门店列表
 

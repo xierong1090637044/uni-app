@@ -31,7 +31,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	let that;
 
 	export default {

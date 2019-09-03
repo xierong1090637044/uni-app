@@ -38,7 +38,6 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let that;

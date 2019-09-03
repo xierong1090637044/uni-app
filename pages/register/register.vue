@@ -39,7 +39,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 
 	let that;
 	let phone_number = "";

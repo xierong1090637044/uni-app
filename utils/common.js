@@ -1,5 +1,3 @@
-import Bmob from '@/utils/bmob.js';
-
 module.exports = {
 	//清除缓存
 	handleData(){

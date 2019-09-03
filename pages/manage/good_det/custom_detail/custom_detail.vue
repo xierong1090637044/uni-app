@@ -36,7 +36,6 @@
 
 <script>
 	import customs from '@/utils/customs.js'
-	import Bmob from '@/utils/bmob.js'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	

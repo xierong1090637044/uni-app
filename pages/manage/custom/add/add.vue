@@ -29,7 +29,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let type;

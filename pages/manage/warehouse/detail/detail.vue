@@ -49,7 +49,6 @@
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
-	import Bmob from '@/utils/bmob.js';
 	
 	let that;
 	let uid;

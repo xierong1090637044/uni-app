@@ -40,7 +40,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'

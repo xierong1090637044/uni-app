@@ -86,7 +86,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 	
 	import loading from "@/components/Loading/index.vue"

@@ -89,7 +89,6 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
-	import Bmob from '@/utils/bmob.js'
 	import uniFab from '@/components/uni-fab/uni-fab.vue'
 
 	let that;

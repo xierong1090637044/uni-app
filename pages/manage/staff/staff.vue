@@ -54,7 +54,6 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
 
 	let that;
 	let search_text;

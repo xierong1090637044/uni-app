@@ -89,8 +89,6 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
-	import Bmob from '@/utils/bmob.js'
-	import common from '@/utils/common.js';
 
 	let uid;
 	let that;
@@ -248,6 +246,14 @@
 				query.include("userId","goodsClass","stocks","second_class");
 				query.find().then(res => {
 					//console.log(res)
+					
+					for(let item of res){
+						if(item.stocks){}else{
+							let stock ={}
+							stock.stock_name =''
+							item.stocks = stock
+						}
+					}
 					this.productList = res;
 					this.loading = false;
 				});

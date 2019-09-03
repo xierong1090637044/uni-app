@@ -94,7 +94,6 @@
 
 <script>
 	import common from '@/utils/common.js';
-	import Bmob from '@/utils/bmob.js';
 	import loading from "@/components/Loading/index.vue"
 
 	let that = this;

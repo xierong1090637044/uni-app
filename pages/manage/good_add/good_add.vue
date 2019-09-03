@@ -171,8 +171,6 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
-
-	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 
 	let that;

@@ -25,7 +25,6 @@
 <script>
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 

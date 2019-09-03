@@ -28,7 +28,6 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	let uid;
 
 	let that;

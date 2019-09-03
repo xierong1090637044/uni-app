@@ -116,7 +116,6 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
-	import Bmob from '@/utils/bmob.js'
 
 	let products = [];
 	let uid;
