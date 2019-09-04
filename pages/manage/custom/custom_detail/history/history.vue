@@ -253,12 +253,17 @@
 					//console.log(res)
 					let details = res
 					for (let item of details) {
-						const query = Bmob.Query('order_opreations');
-						query.include("goodsId");
-						query.field('relations', item.objectId);
-						query.relation('Bills').then(res => {
-							item.relations = res.results;
-						})
+						if(item.detail){
+							item.relations = item.detail;
+						}else{
+							const query = Bmob.Query('order_opreations');
+							query.include("goodsId");
+							query.field('relations', item.objectId);
+							query.relation('Bills').then(res => {
+								item.relations = res.results;
+							})
+						}
+						
 					}
 					that.list = details
 					that.loading = false
