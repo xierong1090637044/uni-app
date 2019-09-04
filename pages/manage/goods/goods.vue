@@ -27,8 +27,8 @@
 			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
 				<view class="uni-product" v-for="(product,index) in productList" :key="index">
 					<view>
-						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix"></image>
+						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
 					</view>
 
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
@@ -41,7 +41,8 @@
 
 					<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 				</view>
-			</scroll-view>
+			</scroll-view>			
+			
 		</view>
 
 		<!--筛选模板-->
@@ -90,6 +91,7 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	
 	import Bmob from '@/utils/bmob.js'
 	import common from '@/utils/common.js';
 
@@ -218,7 +220,7 @@
 				console.log(value)
 				uni.setStorageSync("now_product", value);
 				uni.navigateTo({
-					url: "../good_det/good_det"
+					url: "../good_det/good_det?id="+value.objectId+"&type=false"
 				})
 			},
 

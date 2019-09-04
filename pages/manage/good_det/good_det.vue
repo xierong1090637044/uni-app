@@ -139,6 +139,7 @@
 			console.log(options)
 
 			if (options.id) {
+				uni.showLoading({title: '加载中'});
 				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
@@ -148,6 +149,7 @@
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
 					console.log(res)
+					uni.hideLoading();
 					this.product = res[0];
 				})
 			} else {
