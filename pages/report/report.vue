@@ -14,7 +14,7 @@
 				</view>
 			</navigator>
 		</view>
-		<ad unit-id="adunit-fdc1618e6df53560" style="position: fixed;bottom: 30rpx;"></ad>
+		<!--<ad unit-id="adunit-fdc1618e6df53560" style="position: fixed;bottom: 30rpx;"></ad>-->
 	</view>
 	
 </template>
