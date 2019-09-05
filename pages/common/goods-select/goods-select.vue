@@ -41,7 +41,7 @@
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 							</view>
@@ -66,7 +66,7 @@
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 							</view>
@@ -295,14 +295,15 @@
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
 				query.equalTo("second_class", "==", that.category.objectId);
-				query.equalTo("goodsName", "==", {
+				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});
+				const query2 = query.equalTo("packageContent", "==", {
+					"$regex": "" + search_text + ".*"
+				});
+				query.or(query1, query2);
 				query.limit(page_size);
 				query.order("-" + that.checked_option); //按照条件降序
-				query.include("userId");
-				query.include("goodsClass");
-				query.include("stocks");
 				query.find().then(res => {
 					console.log(products)
 

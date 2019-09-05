@@ -4,7 +4,8 @@
 		<loading v-if="loading"></loading>
 
 		<view v-else class="content">
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-left="shaixuan" @click-right="goto_add" left-text="筛选">
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-left="shaixuan"
+			 @click-right="goto_add" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
 					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
@@ -33,7 +34,7 @@
 
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 						<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-						<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+						<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
 						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 					</view>
@@ -51,35 +52,37 @@
 						<view class="left_item">类别</view>
 						<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true"></input></view>
 					</view>
-			
+
 					<view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
-				
+
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
-				
+
 					<view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
-				
+
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
 					<view>是否失效</view>
-					<view @click.stop="" style="margin-left: 30rpx;" ><switch :checked="checked" @change="change_timestatus"/></view>
+					<view @click.stop="" style="margin-left: 30rpx;">
+						<switch :checked="checked" @change="change_timestatus" />
+					</view>
 				</view>
-				
+
 				<view class="option_bottom">
-					<view class="selection"  @click="option_reset">重置</view>
+					<view class="selection" @click="option_reset">重置</view>
 					<view class="selection1" @click="option_confrim">确定</view>
 				</view>
 			</view>
 		</view>
-		
+
 
 	</view>
 </template>
@@ -108,38 +111,38 @@
 				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
-				checked_option: 'createdAt',//tab的筛选条件
-				category:"",//选择的类别
-				stock:"",//选择的仓库
-				checked:false,//选择的是否失效
+				checked_option: 'createdAt', //tab的筛选条件
+				category: "", //选择的类别
+				stock: "", //选择的仓库
+				checked: false, //选择的是否失效
 			}
 		},
-	
+
 		onLoad() {
 			that = this;
 			uni.removeStorageSync("category");
 			uni.removeStorageSync("warehouse");
-			
+
 			uid = uni.getStorageSync('uid');
-			
+
 			that.get_productList();
 		},
 		onShow() {
 			uni.removeStorageSync("now_product");
-			if(uni.getStorageSync("category")){
+			if (uni.getStorageSync("category")) {
 				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
 			}
-			
-			if(uni.getStorageSync("warehouse")){
+
+			if (uni.getStorageSync("warehouse")) {
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
-			
-			if(uni.getStorageSync("is_add")){
+
+			if (uni.getStorageSync("is_add")) {
 				that.get_productList();
 			}
-			
+
 		},
 
 		onUnload() {
@@ -147,58 +150,58 @@
 			//数据重置
 			search_text = '';
 			page_size = 50;
-			
+
 			uni.removeStorageSync("is_add");
 		},
 
 		methods: {
-			
+
 			//是否失效switch的改变
-			change_timestatus(e){
+			change_timestatus(e) {
 				console.log(e)
 				that.checked = e.detail.value
 			},
-			
+
 			//输入框确定输入
-			input_confirm(e){
+			input_confirm(e) {
 				console.log(e)
 				search_text = e.detail.value
 				that.get_productList();
 			},
-			
+
 			//筛选点击
-			shaixuan(){
+			shaixuan() {
 				that.showOptions = true;
 			},
-			
+
 			//确定点击
-			goto_add(){
+			goto_add() {
 				this.goAdd();
 			},
-			
+
 			//modal重置的确认点击
-			option_reset(){
+			option_reset() {
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
-				that.category ="";
-				that.stock ="";
-				that.showOptions= false;
+				that.category = "";
+				that.stock = "";
+				that.showOptions = false;
 				that.get_productList()
 			},
-			
+
 			//modal筛选的确认点击
-			option_confrim(){
-				if(uni.getStorageSync("category")){
+			option_confrim() {
+				if (uni.getStorageSync("category")) {
 					that.category = uni.getStorageSync("category")
 				}
-				
-				if(uni.getStorageSync("warehouse")){
+
+				if (uni.getStorageSync("warehouse")) {
 					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 				}
-				that.showOptions= false;
+				that.showOptions = false;
 				that.get_productList()
 			},
-			
+
 			//头部的options选择
 			selectd(type) {
 				page_size = 50;
@@ -235,17 +238,21 @@
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
 				query.equalTo("second_class", "==", that.category.objectId);
-				query.equalTo("goodsName", "==", {
+				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});
-				
-				if(that.checked){
+				const query2 = query.equalTo("packageContent", "==", {
+					"$regex": "" + search_text + ".*"
+				});
+				query.or(query1, query2);
+
+				if (that.checked) {
 					var timestamp = Date.parse(new Date());
 					query.equalTo("bad_time", "<=", timestamp);
 				}
 				query.limit(page_size);
 				query.order("-" + that.checked_option); //按照条件降序
-				query.include("userId","goodsClass","stocks","second_class");
+				query.include("goodsClass", "stocks", "second_class");
 				query.find().then(res => {
 					//console.log(res)
 					this.productList = res;
@@ -258,9 +265,10 @@
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background: #fff;
 	}
+
 	.text_notice {
 		margin-left: 6rpx;
 	}
@@ -299,14 +307,14 @@
 		font-size: 24rpx;
 		font-weight: bold;
 	}
-	
+
 	.title {
 		font-size: 15px;
 		line-height: 20px;
 		color: #333333;
 		padding: 15px;
 	}
-	
+
 	.city {
 		display: flex;
 		flex-direction: row;
@@ -316,7 +324,7 @@
 		margin-left: 8px;
 		white-space: nowrap;
 	}
-	
+
 	.input-view {
 		width: 92%;
 		display: flex;
@@ -328,16 +336,15 @@
 		margin: 8rpx 0;
 		line-height: 30px;
 	}
-	
+
 	.input-view .uni-icon {
 		line-height: 30px !important;
 	}
-	
+
 	.input-view .input {
 		height: 30px;
 		line-height: 30px;
 		width: 94%;
 		padding: 0 3%;
 	}
-		
 </style>
