@@ -19,7 +19,7 @@
 			</view>
 		</view>
 		<view class="uni-pagination__num">
-			<text class="uni-pagination__num-current">{{ currentIndex }}</text>/{{ maxPage }}
+			<text class="uni-pagination__num-current">{{ currentIndex }}</text>
 		</view>
 	</view>
 </template>
@@ -157,7 +157,6 @@
 	}
 
 	.uni-pagination__num {
-		width: 100upx;
 		height: 60upx;
 		line-height: 60upx;
 		font-size: 28upx;

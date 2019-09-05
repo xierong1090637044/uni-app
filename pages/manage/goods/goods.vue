@@ -25,23 +25,33 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
-				<view class="uni-product" v-for="(product,index) in productList" :key="index">
-					<view>
-						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+			<scroll-view class="uni-product-list" scroll-y>
+				<view v-if="productList.length > 0">
+					<view class="uni-product" v-for="(product,index) in productList" :key="index">
+						<view>
+							<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix"></image>
+							<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
+						</view>
+					
+						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
+							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+							<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
+						</view>
+					
+						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 					</view>
-
-					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
-						<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-						<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-						<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-						<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
-					</view>
-
-					<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 				</view>
+				<view v-else>
+					<view style="margin-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有商品啦!</view>
+				</view>
+				
 			</scroll-view>
+			
+			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
+				<uni-pagination show-icon="true" total="100000" current="1" @change="change_page($event)"></uni-pagination>
+			</view>
 		</view>
 
 		<!--筛选模板-->
@@ -92,18 +102,21 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 	import Bmob from '@/utils/bmob.js'
 	import common from '@/utils/common.js';
 
 	let uid;
 	let that;
 	let search_text = '';
-	let page_size = 50;
+	let page_size = 30;
+	let page_num = 1;
 	export default {
 		components: {
 			loading,
 			uniNavBar,
 			faIcon,
+			uniPagination,
 			uniIcon
 		},
 		data() {
@@ -155,6 +168,12 @@
 		},
 
 		methods: {
+			
+			//分页点击
+			change_page(e){
+				page_num = e.current
+				that.get_productList();
+			},
 
 			//是否失效switch的改变
 			change_timestatus(e) {
@@ -209,12 +228,6 @@
 				that.get_productList();
 			},
 
-			//加载更多
-			load_more() {
-				page_size += 50;
-				that.get_productList();
-			},
-
 			//点击去到详情
 			goDetail(value) {
 				console.log(value)
@@ -250,7 +263,8 @@
 					var timestamp = Date.parse(new Date());
 					query.equalTo("bad_time", "<=", timestamp);
 				}
-				query.limit(page_size);
+				query.limit(page_size*page_num);
+				query.skip(page_size*(page_num-1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.include("goodsClass", "stocks", "second_class");
 				query.find().then(res => {
@@ -281,7 +295,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 164rpx);
+		height: calc(100vh - 224rpx);
 	}
 
 	.uni-product {
