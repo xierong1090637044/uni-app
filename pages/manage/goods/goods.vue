@@ -50,7 +50,7 @@
 			</scroll-view>
 			
 			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
-				<uni-pagination show-icon="true" total="100000" current="1" @change="change_page($event)"></uni-pagination>
+				<uni-pagination show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 			</view>
 		</view>
 
@@ -121,6 +121,7 @@
 		},
 		data() {
 			return {
+				page_num:1,
 				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
@@ -141,6 +142,7 @@
 			that.get_productList();
 		},
 		onShow() {
+			this.page_num = page_num
 			uni.removeStorageSync("now_product");
 			if (uni.getStorageSync("category")) {
 				that.showOptions = true;

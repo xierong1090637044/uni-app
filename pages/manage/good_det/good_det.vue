@@ -163,6 +163,7 @@
 			trigger(e) {
 				this.content[e.index].active = !e.item.active;
 				if (e.index == 0) {
+					uni.setStorageSync("now_product",this.product)
 					uni.navigateTo({
 						url: '../good_add/good_add'
 					});

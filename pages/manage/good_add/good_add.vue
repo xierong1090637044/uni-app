@@ -2,7 +2,7 @@
 	<view class="page">
 		<form @submit="formSubmit">
 
-			<scroll-view style="height: calc(100vh - 148rpx);" scroll-y>
+			<scroll-view style="height: calc(100vh - 108rpx);" scroll-y>
 				<view class="frist">
 					<view class="notice_text">产品图</view>
 
@@ -414,7 +414,7 @@
 
 					for (let item of that.stocks) {
 						let reserve = item.reserve
-						let stock_id = (item.stock)?item.stock.objectId:""
+						let stock_id = (item.stock)?(item.stock.objectId?item.stock.objectId:''):""
 
 						const pointer1 = Bmob.Pointer('stocks')
 						const p_stock_id = pointer1.set(stock_id) //仓库的id关联
@@ -617,7 +617,7 @@
 		width: 50%;
 		background: #426ab3;
 		border-radius: 40rpx;
-		margin: 30rpx;
+		margin:10rpx 30rpx;
 		height: 88rpx;
 		line-height: 88rpx;
 		color: #fff;
@@ -645,7 +645,7 @@
 		width: 50%;
 		background: #999;
 		border-radius: 40rpx;
-		margin: 30rpx;
+		margin:10rpx 30rpx;
 		height: 88rpx;
 		line-height: 88rpx;
 		color: #fff;
