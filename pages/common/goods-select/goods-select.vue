@@ -41,7 +41,7 @@
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+								<!--<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>-->
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 							</view>
@@ -55,10 +55,10 @@
 					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 						<view>
 							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
-							 :id="index" :checked="product.checked" />
+							 :id="''+index" :checked="product.checked" />
 						</view>
 
-						<label class="uni-product" :for="index">
+						<label class="uni-product" :for="''+index">
 							<view>
 								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
 								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
@@ -66,7 +66,7 @@
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+								<!--<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>-->
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 							</view>
@@ -335,7 +335,7 @@
 	page {
 		background: #FFFFFF;
 	}
-
+	
 	.text_notice {
 		margin-left: 6rpx;
 	}
