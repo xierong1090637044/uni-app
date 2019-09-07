@@ -121,7 +121,10 @@
 		color: #3D3D3D;
 		background: #FFFFFF;
 	}
-
+	.swiper-tab-list{
+		height: 100%;
+		line-height: 100rpx !important;
+	}
 	.content {
 		width: 100%;
 		padding: 10rpx 30rpx;

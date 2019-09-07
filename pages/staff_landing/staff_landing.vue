@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="height: 100vh;">
 		<view>
 			<!--第一部分-->
 			<view style='display:flex;justify-content: space-between;padding:30rpx;'>

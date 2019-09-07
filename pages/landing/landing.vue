@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="height: 100vh;">
 		<!--第一部分-->
 		<view style='display:flex;justify-content: space-between;padding:15px;'>
 			<view style='font-size:18px;'></view>
@@ -7,7 +7,7 @@
 		</view>
 
 		<view class='header_text'>
-			<view>登陆</view>
+			<view style="font-size: 40rpx;">登陆</view>
 			<view class='iconImage'>
 				<image src='/static/chuan.png' style='width:100%;height:100%'></image>
 			</view>
