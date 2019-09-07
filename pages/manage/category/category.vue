@@ -34,7 +34,7 @@
 			</view>
 		</view>
 
-		<uni-popup :show="middle" type="top" mode="fixed" @hidePopup="hidePopup" class="popup">
+		<uni-popup :show="middle" mode="fixed" @hidePopup="hidePopup" class="popup" :h5Top="true">
 			<view class="popup_content">
 				<view class="popup_title">{{Popup_title}}</view>
 				<view><input :placeholder="'请输入'+Popup_title" class="popup_input" v-model="class_text" /></view>
@@ -42,7 +42,7 @@
 			</view>
 		</uni-popup>
 
-		<uni-popup :show="popup_editshow" type="top" mode="fixed" @hidePopup="hidePopup" class="popup">
+		<uni-popup :show="popup_editshow" mode="fixed" @hidePopup="hidePopup" class="popup" :h5Top="true">
 			<view class="popup_content">
 				<view class="popup_title">{{Popup_title}}</view>
 				<view><input :placeholder="'请编辑'+Popup_title" class="popup_input" v-model="input_class_text" /></view>
@@ -73,8 +73,8 @@
 				frist_class: null, //一级分类
 				second_class: null, //二级分类
 				selected_id: null, //选择的id
-				class_text: null, //分类的输入内容
-				input_class_text: null, //已经输入的内容
+				class_text: '', //分类的输入内容
+				input_class_text: '', //已经输入的内容
 				middle: false,
 				popup_editshow: false,
 				Popup_title: "一级分类",
@@ -293,6 +293,11 @@
 <style>
 	.page{
 		background: #fff;
+	}
+	
+	uni-view {
+	    font-size: unset;
+	    line-height: unset; 
 	}
 	.content {
 		display: flex;

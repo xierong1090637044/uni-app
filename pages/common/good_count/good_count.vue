@@ -9,7 +9,7 @@
 					<view>
 						<view class='margin-t-5'>
 							盘点后库存：
-							<uninumberbox min="0" @change="handleNumChange($event, index)" />
+							<uninumberbox :min="0" @change="handleNumChange($event, index)" />
 						</view>
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">

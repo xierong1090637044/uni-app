@@ -5,11 +5,19 @@
 	src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/uni.ttf') format('truetype');
 }
 
-page {
-	background: #FAFAFA;
+uni-page {
+	background: #f3f3f3;
 	font-size: 28rpx;
 }
-
+uni-view {
+    font-size: 24rpx !important;
+}
+.uni-input-input{
+	font-size: 24rpx;
+}
+.uni-input-placeholder {
+    font-size: 24rpx;
+}
 .user_avatar {
 	width: 60rpx;
 	height: 60rpx;

@@ -9,7 +9,7 @@
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image" @click="upload_image">
 							<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
-							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else></fa-icon>
+							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else style="height: 180rpx;line-height: 180rpx;"></fa-icon>
 						</view>
 						<input name="goodsIcon" v-show="false" :value="goodsIcon" />
 
@@ -22,13 +22,13 @@
 					<view class="notice_text">基本信息</view>
 					<view class="input_item">
 						<view class="left_item">名称<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
-						<view class="right_input"><input placeholder="产品名称" name="goodsName" :value="goodsName"></input></view>
+						<view class="right_input1"><input placeholder="产品名称" name="goodsName" :value="goodsName"></input></view>
 					</view>
 
-					<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
+					<navigator class="input_item2" hover-class="none" url="/pages/manage/category/category?type=choose">
 						<view style="display: flex;align-items: center;">
 							<view class="left_item">类别</view>
-							<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
+							<view class="right_input1"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
 						</view>
 
 						<view>
@@ -38,20 +38,20 @@
 
 					<view class="input_item">
 						<view class="left_item">进价</view>
-						<view class="right_input"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
+						<view class="right_input1"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
 					</view>
 
 					<view class="input_item">
 						<view class="left_item">售价</view>
-						<view class="right_input"><input placeholder="产品售价" name="retailPrice" type="digit" :value="retailPrice"></input></view>
+						<view class="right_input1"><input placeholder="产品售价" name="retailPrice" type="digit" :value="retailPrice"></input></view>
 					</view>
 					<view class="input_item">
 						<view class="left_item">包装含量</view>
-						<view class="right_input"><input placeholder="包装含量" name="packageContent" :value="packageContent"></input></view>
+						<view class="right_input1"><input placeholder="包装含量" name="packageContent" :value="packageContent"></input></view>
 					</view>
 					<view class="input_item">
 						<view class="left_item">包装单位</view>
-						<view class="right_input"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
+						<view class="right_input1"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
 					</view>
 				</view>
 
@@ -59,14 +59,14 @@
 					<view class="input_item">
 						<view class="left_item">生产日期</view>
 						<picker mode="date" @change="bindproducttimeChange">
-							<view class="right_input"><input placeholder="生产日期" name="producttime" disabled="true" v-model="producttime"></input></view>
+							<view class="right_input1"><input placeholder="生产日期" name="producttime" disabled="true" v-model="producttime"></input></view>
 						</picker>
 					</view>
 				
 					<view class="input_item">
 						<view class="left_item">失效日期</view>
 						<picker mode="date" @change="bindDateChange">
-							<view class="right_input"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
+							<view class="right_input1"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
 						</picker>
 				
 					</view>
@@ -96,13 +96,13 @@
 					</navigator>-->
 					<view class="input_item">
 						<view class="left_item">预警库存</view>
-						<view class="right_input"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
+						<view class="right_input1"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 					</view>
 
-					<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+					<navigator class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view style="display: flex;align-items: center;">
 							<view class="left_item">仓库</view>
-							<view class="right_input"><input placeholder="选择仓库" v-model="stocks[0].stock.stock_name" disabled="true"></input></view>
+							<view class="right_input1"><input placeholder="选择仓库" v-model="stocks[0].stock.stock_name" disabled="true"></input></view>
 						</view>
 
 						<view>
@@ -112,22 +112,22 @@
 				</view>
 
 				<!--更多产品信息-->
-				<uni-collapse accordion="true">
+				<uni-collapse :accordion="true">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
 						<view class="frist" style="margin-top: 0;">
 							<view class="input_item">
 								<view class="left_item">生产厂家</view>
-								<view class="right_input"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
+								<view class="right_input1"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">货号</view>
-								<view class="right_input"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
+								<view class="right_input1"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
 							</view>
-							<view class="input_item1">
+							<view class="input_item2">
 
 								<view style="display: flex;align-items: center;">
 									<view class="left_item">条码</view>
-									<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
+									<view class="right_input1"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
 								</view>
 
 								<view>
@@ -136,15 +136,15 @@
 							</view>
 							<view class="input_item">
 								<view class="left_item">货架位置</view>
-								<view class="right_input"><input placeholder="货架位置" name="position" :value="position"></input></view>
+								<view class="right_input1"><input placeholder="货架位置" name="position" :value="position"></input></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">产品简介</view>
-								<view class="right_input"><textarea placeholder="产品简介" name="product_info" :value="product_info"></textarea></view>
+								<view class="right_input1"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">是否半成品</view>
-								<view class="right_input">
+								<view class="right_input1">
 									<switch :checked="product_state" name="product_state" />
 								</view>
 							</view>
@@ -220,7 +220,9 @@
 			uni.removeStorageSync("warehouse")
 			uni.removeStorageSync("is_add");
 			
-			that.scan_by_id(options.id)
+			if(options.id){
+				that.scan_by_id(options.id)
+			}	
 		},
 		onShow() {
 
@@ -402,6 +404,8 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
+				
+				console.log(that.goodsIcon)
 
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
@@ -565,7 +569,15 @@
 		height: 6px;
 		background-color: transparent;
 	}
-
+	
+	.uni-input-placeholder{
+		font-size: 12px;
+	}
+	
+	input{
+		font-size: 12px;
+	}
+	
 	/*定义滑块 内阴影+圆角*/
 	::-webkit-scrollbar-thumb {
 		border-radius: 10px;
@@ -589,10 +601,11 @@
 		display: flex;
 		align-items: center;
 		line-height: 80rpx;
+		height: 80rpx;
 		border-bottom: 1rpx solid#f6f5ec;
 	}
 
-	.input_item1 {
+	.input_item2 {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -605,8 +618,9 @@
 		width: 150rpx;
 	}
 
-	.right_input {
+	.right_input1 {
 		margin-left: 20rpx;
+		font-size: 12px;
 	}
 
 	.submit_button {

@@ -22,20 +22,20 @@
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose"  style="padding: 10rpx 0;">
 							<view>选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;">
 							<view>客户姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择客户" disabled="true" :value="custom.custom_name" /></view>
 						</navigator>
-						<view class="display_flex">
+						<view class="display_flex" style="padding: 10rpx 0;">
 							<view>实际应付</view>
 							<view class="kaidan_rightinput"><input placeholder="实际应付" disabled="true" :value="all_money" /></view>
 						</view>
 
-						<view class="display_flex">
+						<view class="display_flex" style="padding: 10rpx 0;">
 							<view>实际付款（可修改）</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>

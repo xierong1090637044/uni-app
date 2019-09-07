@@ -28,7 +28,7 @@
 		
 		
 		<scroll-view class='page'  scroll-y="true">
-			<view class='list-item' v-if="list.length > 0">
+			<view class='list-item' v-if="list">
 				<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
 					<view style='display:flex;width:calc(100% - 120rpx);'>
 						<view style='line-height:80rpx'>

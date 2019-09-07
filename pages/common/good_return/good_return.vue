@@ -9,7 +9,7 @@
 		    <view>
 		      <view>建议零售价格：{{item.retailPrice}}(元)</view>
 		      <view class='margin-t-5'>
-		        退货量：<uninumberbox min="1" max="10000" @change="handleNumChange($event, index)" />
+		        退货量：<uninumberbox :min="1" max="10000" @change="handleNumChange($event, index)" />
 					</view>
 		      <view class="bottom_del">
 						<view class='del' @click="handleDel(index)">

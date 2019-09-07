@@ -25,32 +25,8 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more" v-if="search_text">
-				<checkbox-group @change="radioChange_search">
-					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
-						<view>
-							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
-							 :id="index" :checked="product.checked" />
-						</view>
 
-						<label class="uni-product" :for="index">
-							<view>
-								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
-							</view>
-
-							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
-								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<!--<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>-->
-								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
-							</view>
-						</label>
-					</view>
-				</checkbox-group>
-			</scroll-view>
-
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more" v-else>
+			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
 				<checkbox-group @change="radioChange">
 					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 						<view>
@@ -67,6 +43,7 @@
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 								<!--<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>-->
+								<!--<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>-->
 								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 							</view>
@@ -209,6 +186,7 @@
 
 			//modal重置的确认点击
 			option_reset() {
+				this.productList = [];
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.category = "";
@@ -219,6 +197,7 @@
 
 			//modal筛选的确认点击
 			option_confrim() {
+				this.productList = [];
 				if (uni.getStorageSync("category")) {
 					that.category = uni.getStorageSync("category")
 				}
@@ -290,18 +269,20 @@
 			//查询产品列表
 			get_productList() {
 				const query = Bmob.Query("Goods");
+				query.select("goodsName","reserve","goodsIcon","packageContent","packingUnit","retailPrice","costPrice");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
 				query.equalTo("second_class", "==", that.category.objectId);
-				query.equalTo("goodsName", "==", {
+				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});
+				const query2 = query.equalTo("packageContent", "==", {
+					"$regex": "" + search_text + ".*"
+				});
+				query.or(query1, query2);
 				query.limit(page_size);
 				query.order("-" + that.checked_option); //按照条件降序
-				query.include("userId");
-				query.include("goodsClass");
-				query.include("stocks");
 				query.find().then(res => {
 					console.log(products)
 
@@ -335,7 +316,7 @@
 	page {
 		background: #FFFFFF;
 	}
-	
+
 	.text_notice {
 		margin-left: 6rpx;
 	}
