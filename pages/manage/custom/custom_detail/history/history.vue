@@ -42,7 +42,7 @@
 							</view>
 							<view class='order_out'>销售</view>
 						</view>
-						<uni-collapse accordion="true">
+						<uni-collapse :accordion="true">
 							<uni-collapse-item title="明细">
 								<view v-for="(item,index) in item.relations" :key="index" class='pro_listitem'>
 									<view class='pro_list' style='color:#3D3D3D'>

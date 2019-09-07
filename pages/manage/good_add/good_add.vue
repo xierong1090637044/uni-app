@@ -414,7 +414,7 @@
 
 					for (let item of that.stocks) {
 						let reserve = item.reserve
-						let stock_id = item.stock.objectId || ""
+						let stock_id = (item.stock)?(item.stock.objectId?item.stock.objectId:''):""
 
 						const pointer1 = Bmob.Pointer('stocks')
 						const p_stock_id = pointer1.set(stock_id) //仓库的id关联
@@ -480,7 +480,7 @@
 								})
 							} else {
 								let reserve = item.reserve
-								let stock_id = item.stock.objectId || ""
+								let stock_id = (item.stock)?(item.stock.objectId?item.stock.objectId:''):""
 
 								const pointer1 = Bmob.Pointer('stocks')
 								const p_stock_id = pointer1.set(stock_id) //仓库的id关联

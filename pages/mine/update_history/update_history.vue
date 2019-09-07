@@ -15,7 +15,7 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.1 公测版</text>
-						<text class="desc-time">2019.08.30</text>
+						<text class="desc-time">2019.09.03</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
@@ -25,6 +25,10 @@
 						<text>首页新增天气，通知跳转</text>
 						<text>与扫码中心对接，支持扫码添加商品</text>
 						<text>输入自己商品的条形码信息时，不再有后缀</text>
+						<text>出入库关联仓库，仓库新增仓库操作记录</text>
+						<text>商品出库bug修复</text>
+						<text>商品信息修改bug修复</text>
+						<text>客户明细bug修复</text>
 					</view>
 				</view>
 				

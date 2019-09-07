@@ -1,23 +1,26 @@
 <template>
-	<!--操作列表-->
-	<view class='o_list'>
-		<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-			<view class='o_left_item'>
-				<view>
-					<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+	<view>
+		<!--操作列表-->
+		<view class='o_list'>
+			<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+				<view class='o_left_item'>
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
 				</view>
-				<span class='o_text'>{{value.name}}</span>
-			</view>
-			<view>
-				<fa-icon type="angle-right" size="20" color="#999" />
-			</view>
-		</navigator>
+				<view>
+					<fa-icon type="angle-right" size="20" color="#999" />
+				</view>
+			</navigator>
+		</view>
+		<ad unit-id="adunit-fdc1618e6df53560" style="position: fixed;bottom: 30rpx;"></ad>
 	</view>
+	
 </template>
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	
 	let that;
 	export default {
 		components: {

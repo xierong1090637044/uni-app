@@ -1,201 +1,182 @@
 <template>
-	<view>
-		<view v-show="show" :style="{ top: offsetTop + 'px' }" class="uni-mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
-		<view v-show="show" :class="'uni-popup-' + position + ' ' + 'uni-popup-' + mode" class="uni-popup">
-			{{ msg }}
-			<slot />
-			<view v-if="position === 'middle' && mode === 'insert'" :class="{
-          'uni-close-bottom': buttonMode === 'bottom',
-          'uni-close-right': buttonMode === 'right'
-        }" class=" uni-icon uni-icon-close" @click="closeMask" />
+	<view class="uni-pagination">
+		<view class="uni-pagination__btns">
+			<view :class="['uni-pagination__btn',{'uni-pagination--disabled':currentIndex === 1}]" :hover-class="currentIndex === 1 ? '' : 'uni-pagination--hover'" :hover-start-time="20" :hover-stay-time="70" @click="clickLeft">
+				<template v-if="showIcon">
+					<uni-icon color="#000" size="20" type="arrowleft" />
+				</template>
+				<template v-else>
+					{{ prevText }}
+				</template>
+			</view>
+			<view :class="['uni-pagination__btn',{'uni-pagination--disabled':currentIndex === maxPage}]" :hover-class="currentIndex === maxPage ? '' : 'uni-pagination--hover'" :hover-start-time="20" :hover-stay-time="70" @click="clickRight">
+				<template v-if="showIcon">
+					<uni-icon color="#000" size="20" type="arrowright" />
+				</template>
+				<template v-else>
+					{{ nextText }}
+				</template>
+			</view>
+		</view>
+		<view class="uni-pagination__num">
+			<text class="uni-pagination__num-current">{{ currentIndex }}</text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import uniIcon from '../uni-icon/uni-icon.vue'
 	export default {
-		name: 'UniPopup',
+		name: 'UniPagination',
+		components: {
+			uniIcon
+		},
 		props: {
-			/**
-			 * 页面显示
-			 */
-			show: {
+			prevText: {
+				type: String,
+				default: '上一页'
+			},
+			nextText: {
+				type: String,
+				default: '下一页'
+			},
+			current: {
+				type: [Number, String],
+				default: 1
+			},
+			total: { // 数据总量
+				type: [Number, String],
+				default: 0
+			},
+			pageSize: { // 每页数据量
+				type: [Number, String],
+				default: 10
+			},
+			showIcon: { // 是否以 icon 形式展示按钮
 				type: Boolean,
 				default: false
-			},
-			/**
-			 * 对齐方式
-			 */
-			position: {
-				type: String,
-				// top - 顶部， middle - 居中, bottom - 底部
-				default: 'middle'
-			},
-			/**
-			 * 显示模式
-			 */
-			mode: {
-				type: String,
-				default: 'insert'
-			},
-			/**
-			 * 额外信息
-			 */
-			msg: {
-				type: String,
-				default: ''
-			},
-			/**
-			 * h5遮罩是否到顶
-			 */
-			h5Top: {
-				type: Boolean,
-				default: false
-			},
-			buttonMode: {
-				type: String,
-				default: 'bottom'
 			}
 		},
 		data() {
 			return {
-				offsetTop: 0
+				currentIndex: 1
+			}
+		},
+		computed: {
+			maxPage() {
+				let maxPage = 1
+				let total = Number(this.total)
+				let pageSize = Number(this.pageSize)
+				if (total && pageSize) {
+					maxPage = Math.ceil(total / pageSize)
+				}
+				return maxPage
 			}
 		},
 		watch: {
-			h5Top(newVal) {
-				if (newVal) {
-					this.offsetTop = 44
-				} else {
-					this.offsetTop = 0
-				}
+			current(val) {
+				this.currentIndex = +val
 			}
 		},
 		created() {
-			let offsetTop = 0
-			// #ifdef H5
-			if (!this.h5Top) {
-				offsetTop = 44
-			} else {
-				offsetTop = 0
-			}
-			// #endif
-			this.offsetTop = offsetTop
+			this.currentIndex = +this.current
 		},
 		methods: {
-			hide() {
-				if (this.mode === 'insert' && this.position === 'middle') return
-				this.$emit('hidePopup')
-			},
-			closeMask() {
-				if (this.mode === 'insert') {
-					this.$emit('hidePopup')
+			clickLeft() {
+				if (Number(this.currentIndex) === 1) {
+					return
 				}
+				this.currentIndex -= 1
+				this.change('prev')
 			},
-			moveHandle() {}
+			clickRight() {
+				if (Number(this.currentIndex) === this.maxPage) {
+					return
+				}
+				this.currentIndex += 1
+				this.change('next')
+			},
+			change(e) {
+				this.$emit('change', {
+					type: e,
+					current: this.currentIndex
+				})
+			}
 		}
 	}
 </script>
+
 <style>
-	.uni-mask {
-		position: fixed;
-		z-index: 998;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		background-color: rgba(0, 0, 0, 0.3);
-	}
+	@charset "UTF-8";
 
-	.uni-popup {
-		position: fixed;
-		z-index: 999;
-		background-color: #ffffff;
-	}
-
-	.uni-popup-middle {
+	.uni-pagination {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 40upx;
+		position: relative;
+		overflow: hidden;
 		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+		flex-direction: row
 	}
 
-	.uni-popup-middle.uni-popup-insert {
-		min-width: 380upx;
-		min-height: 380upx;
-		max-width: 100%;
-		max-height: 80%;
-		transform: translate(-50%, -65%);
-		background: none;
-		box-shadow: none;
-	}
-
-	.uni-popup-middle.uni-popup-fixed {
-		border-radius: 10upx;
-		padding: 30upx;
-	}
-
-	.uni-close-bottom,
-	.uni-close-right {
-		position: absolute;
-		bottom: -180upx;
-		text-align: center;
-		border-radius: 50%;
-		color: #f5f5f5;
-		font-size: 60upx;
-		font-weight: bold;
-		opacity: 0.8;
-		z-index: -1;
-	}
-
-	.uni-close-bottom {
-		margin: auto;
-		left: 0;
-		right: 0;
-	}
-
-	.uni-close-right {
-		right: -60upx;
-		top: -80upx;
-	}
-
-	.uni-close-bottom:after {
-		content: '';
-		position: absolute;
-		width: 0px;
-		border: 1px #f5f5f5 solid;
-		top: -200upx;
-		bottom: 56upx;
-		left: 50%;
-		transform: translate(-50%, -0%);
-		opacity: 0.8;
-	}
-
-	.uni-popup-top,
-	.uni-popup-bottom {
+	.uni-pagination__btns {
+		flex: 1;
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		justify-content: center;
+		flex-direction: row
 	}
 
-	.uni-popup-top {
+	.uni-pagination__btn {
+		width: 120upx;
+		height: 60upx;
+		padding: 0 16upx;
+		line-height: 60upx;
+		font-size: 28upx;
+		box-sizing: border-box;
+		position: relative;
+		background-color: #f8f8f8;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center
+	}
+
+	.uni-pagination__btn:after {
+		content: "";
+		width: 200%;
+		height: 200%;
+		position: absolute;
 		top: 0;
 		left: 0;
-		width: 100%;
-		height: 100upx;
-		line-height: 100upx;
-		text-align: center;
+		border: 1px solid #c8c7cc;
+		transform: scale(.5);
+		transform-origin: 0 0;
+		box-sizing: border-box;
+		border-radius: 12upx
 	}
 
-	.uni-popup-bottom {
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		min-height: 100upx;
-		line-height: 100upx;
-		text-align: center;
+	.uni-pagination__num {
+		height: 60upx;
+		line-height: 60upx;
+		font-size: 28upx;
+		color: #333;
+		position: absolute;
+		left: 50%;
+		top: 0;
+		transform: translateX(-50%)
+	}
+
+	.uni-pagination__num-current {
+		color: #007aff
+	}
+
+	.uni-pagination--disabled {
+		opacity: .3
+	}
+
+	.uni-pagination--hover {
+		color: rgba(0, 0, 0, .6);
+		background-color: #f1f1f1
 	}
 </style>
