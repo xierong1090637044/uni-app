@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/xierong1090637044/uni-app#readme",
   "dependencies": {
+    "jweixin-module": "^1.4.1",
     "vue-i18n": "^8.11.2",
     "weixin-js-sdk": "^1.4.0-test",
     "weixin-jsapi": "^1.1.0"

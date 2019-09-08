@@ -215,7 +215,8 @@
 
 			//扫码操作
 			scan: function(type) {
-				uni.scanCode({
+				this.$wechat.scanQRCode()
+				/*uni.scanCode({
 					success(res) {
 						var result = res.result;
 						var array = result.split("-");
@@ -248,7 +249,7 @@
 							icon: "none"
 						})
 					}
-				})
+				})*/
 			},
 			//得到今日概况
 			gettoday_detail: function() {
