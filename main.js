@@ -26,7 +26,7 @@ const i18n = new VueI18n({
   }  
 })  
 
-Vue.prototype._i18n = i18n  
+Vue.prototype._i18n = i18n 
 Vue.component('faIcon',faIcon)
 
 const app = new Vue({

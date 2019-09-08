@@ -610,6 +610,7 @@
 		align-items: center;
 		justify-content: space-between;
 		line-height: 80rpx;
+		height: 80rpx;
 		border-bottom: 1rpx solid#f6f5ec;
 	}
 

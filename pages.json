@@ -304,6 +304,10 @@
         }
         
         
+        ,{
+            "path" : "pages/test/test",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

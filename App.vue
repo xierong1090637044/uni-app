@@ -24,6 +24,8 @@
 					})
 				},
 			});
+			
+			
 
 		},
 		onShow: function() {

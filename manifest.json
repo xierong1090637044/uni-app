@@ -121,10 +121,11 @@
     },
     "h5" : {
         "title" : "my_stock2",
-        "domain" : "",
+        "domain" : "www.jimuzhou.com",
         "template" : "home.html",
         "router" : {
-            "base" : "/h5/"
+            "base" : "/h5/",
+            "mode" : "history"
         }
     }
 }
