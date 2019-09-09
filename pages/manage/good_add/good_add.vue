@@ -4,7 +4,8 @@
 
 			<scroll-view style="height: calc(100vh - 148rpx);" scroll-y>
 				<view class="frist">
-					<view class="notice_text">产品图</view>
+					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;">(暂时不支持上传图片，请先去小程序端上传)</text></view>
+					
 
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image" @click="upload_image">
@@ -16,7 +17,6 @@
 					</view>
 
 				</view>
-
 
 				<view class="frist">
 					<view class="notice_text">基本信息</view>
@@ -246,7 +246,7 @@
 				that.position = now_product.position //位置
 				that.product_info = now_product.product_info //产品简介
 				that.productCode = now_product.productCode //产品条码
-				that.category = now_product.second_class //分类
+				that.category = now_product.second_class?now_product.second_class:'' //分类
 				//reserve: [0], //初始库存
 				that.goodsIcon = now_product.goodsIcon //产品图片
 				that.product_state = now_product.product_state //产品是否是半成品

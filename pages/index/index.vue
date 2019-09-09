@@ -2,7 +2,7 @@
 	<!--当月详情-->
 	<view>
 		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="新版库存表上线啦,接下来将更新此小程序,旧版的将不再更新" />
-		
+
 		<view style="background: #426ab3;" v-if="weather">
 			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
 				<fa-icon :type="welcome.icon" size="20" color="#fdb933" />
@@ -20,6 +20,8 @@
 			</view>
 		</view>
 		
+		<view>{{openid}}</view>
+
 		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
 			<block>
 				<swiper-item class="item">
@@ -53,12 +55,12 @@
 			</block>
 		</swiper>
 
-		
+
 		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true">
 			<block>
 				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
-					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;"
-					 hover-class="none" :url="item.link">
+					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"
+					 :url="item.link">
 						<view style="line-height: 5vh;width: 90%;">
 							<view style="font-weight: bold;" class="text_overflow">{{item.log}}</view>
 							<view style="font-size: 24rpx;color: #999;">{{item.createdAt}}</view>
@@ -136,11 +138,29 @@
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
+				openid:''
 			}
 		},
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+			let headers = {};
+			let url = location.href.split('#')[0] //获取锚点之前的链接
+			headers['content-type'] = 'application/json';
+			uni.request({
+				url: 'https://www.jimuzhou.com/api/getUser.php', //此处使用了全局变量拼接url（main.js文件中），关于全局变量官方问答里有
+				method: 'POST', //get或post
+				header: headers,
+				success: res => {
+					console.log(res);
+					uni.showModal({
+						content: JSON.stringify(res),
+						showCancel: false
+					});
+					that.openid = JSON.stringify(res)
+				},
+			});
 
 			let now = new Date();
 			let hour = now.getHours(); //得到小时
@@ -152,20 +172,20 @@
 					console.log(data)
 					that.weather = data
 
-					if (hour<6) {
+					if (hour < 6) {
 						console.log(hour)
 						that.welcome.text = "凌晨注意休息！好的身体才能高效的工作"
 						that.welcome.icon = "moon-o"
-					} else if (hour<9) {
+					} else if (hour < 9) {
 						that.welcome.text = "早上好，又是开心快乐的一天！"
 						that.welcome.icon = "sun-o"
 					} else if (hour < 11) {
 						that.welcome.text = "上午好，请努力加油哦，会成功的！"
 						that.welcome.icon = "sun-o"
-					}  else if (hour < 14) {
+					} else if (hour < 14) {
 						that.welcome.text = "中午好，辛勤劳动的你是最可爱的！"
 						that.welcome.icon = "sun-o"
-					}else if (hour < 18) {
+					} else if (hour < 18) {
 						that.welcome.text = "下午好，没有什么会阻挡你的，相信自己！"
 						that.welcome.icon = "sun-o"
 					} else {
@@ -215,41 +235,32 @@
 
 			//扫码操作
 			scan: function(type) {
-				this.$wechat.scanQRCode()
-				/*uni.scanCode({
-					success(res) {
-						var result = res.result;
-						var array = result.split("-");
+				this.$wechat.scanQRCode().then(res => {
+					let result = res.split(",")[1]
+					let array = result.split("-");
 
-						if (type == 0) {
-							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 1) {
-							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 2) {
-							uni.navigateTo({
-								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 3) {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 4) {
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
-							})
-						}
-					},
-					fail(res) {
-						uni.showToast({
-							title: '未识别到条形码',
-							icon: "none"
+					if (type == 0) {
+						uni.navigateTo({
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 1) {
+						uni.navigateTo({
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 2) {
+						uni.navigateTo({
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 3) {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 4) {
+						uni.navigateTo({
+							url: '/pages/manage/good_add/good_add?id=' + result,
 						})
 					}
-				})*/
+				})
 			},
 			//得到今日概况
 			gettoday_detail: function() {
