@@ -296,7 +296,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 224rpx);
+		height: calc(100vh - 236rpx);
 	}
 
 	.uni-product {
