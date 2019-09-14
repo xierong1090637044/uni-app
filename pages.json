@@ -1,6 +1,5 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -12,40 +11,44 @@
 				"navigationBarTitleText": "全部记录"
 			}
 		},
-		
+
 		{
 			"path": "pages/manage/good_add/good_add",
 			"style": {
 				"navigationBarTitleText": "新建产品"
 			}
 		},
-		
+
 		{
 			"path": "pages/manage/custom/custom_detail/history/history",
 			"style": {
 				"navigationBarTitleText": "销售明细"
 			}
 		},
-		
+
 		{
 			"path": "pages/manage/goods/goods",
 			"style": {
 				"navigationBarTitleText": "我的产品"
 			}
 		},
-		
-		
-		
+
+
+
 		{
-		    "path" : "pages/manage/good_det/custom_detail/custom_detail",
-		    "style" : {"navigationBarTitleText": "客户统计"}
+			"path": "pages/manage/good_det/custom_detail/custom_detail",
+			"style": {
+				"navigationBarTitleText": "客户统计"
+			}
 		},
-		
+
 		{
-		    "path" : "pages/manage/custom/custom_detail/debt_history/debt_history",
-		    "style" : {"navigationBarTitleText": "收款列表"}
+			"path": "pages/manage/custom/custom_detail/debt_history/debt_history",
+			"style": {
+				"navigationBarTitleText": "收款列表"
+			}
 		},
-		
+
 		{
 			"path": "pages/manage/custom/producer_detail/producer_detail",
 			"style": {
@@ -281,7 +284,7 @@
 			"style": {
 				"navigationBarTitleText": "员工列表"
 			}
-		},  {
+		}, {
 			"path": "pages/register/user_protocol/user_protocol",
 			"style": {
 				"navigationBarTitleText": "用户协议"
@@ -293,22 +296,24 @@
 			}
 		}
 
-	    ,{
-            "path" : "pages/manage/custom/producer_detail/history/history",
-            "style" : {"navigationBarTitleText": "采购明细"}
-        }
-        
-        ,{
-            "path" : "pages/manage/custom/producer_detail/debt_history/debt_history",
-            "style" : {}
-        }
-        
-        
-        ,{
-            "path" : "pages/test/test",
-            "style" : {}
-        }
-    ],
+		, {
+			"path": "pages/manage/custom/producer_detail/history/history",
+			"style": {
+				"navigationBarTitleText": "采购明细"
+			}
+		}
+
+		, {
+			"path": "pages/manage/custom/producer_detail/debt_history/debt_history",
+			"style": {}
+		}
+
+
+		, {
+			"path": "pages/test/test",
+			"style": {}
+		}
+	],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",
@@ -339,7 +344,7 @@
 		]
 	},
 	"globalStyle": {
-		"navigationStyle":"custom",
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "库存表",
 		"navigationBarBackgroundColor": "#426ab3",

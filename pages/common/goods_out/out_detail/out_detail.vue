@@ -22,7 +22,11 @@
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose"  style="padding: 10rpx 0;">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+							<view>选择仓库</text></view>
+							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
+						</navigator>
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
 							<view>选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
@@ -58,6 +62,7 @@
 
 <script>
 	import common from '@/utils/common.js';
+	import send_temp from '@/utils/send_temp.js';
 
 	let uid;
 	let that;
@@ -67,6 +72,7 @@
 	export default {
 		data() {
 			return {
+				stock: '', //仓库
 				shop_name: '',
 				products: null,
 				button_disabled: false,
@@ -96,6 +102,8 @@
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(shop.objectId);
 			}
+
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
 
@@ -105,6 +113,9 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
+
+				const pointer = Bmob.Pointer('stocks');
+				let stockId = pointer.set(that.stock ? that.stock.objectId : '');
 
 				let billsObj = new Array();
 				let detailObj = [];
@@ -135,6 +146,7 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
 					tempBills.set('operater', operater);
+					tempBills.set("stock", stockId);
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -181,6 +193,7 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("type", -1);
 						query.set("opreater", poiID1);
+						query.set("stock", stockId);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
@@ -236,10 +249,22 @@
 									}
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
-
+									uni.removeStorageSync("warehouse");
+									
 									setTimeout(() => {
 										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that
 											.products.length + "商品", -1, res.objectId);
+
+										let params = {
+											"data1": res.objectId,
+											"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.products
+												.length + "商品",
+											"data3": that.stock ? that.stock.stock_name : "未填写",
+											"data4": res.createdAt,
+											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu: "未填写",
+											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
+										};
+										send_temp.send_temp(params);
 										uni.navigateBack({
 											delta: 2
 										});

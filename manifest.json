@@ -120,8 +120,8 @@
         }
     },
     "h5" : {
-        "title" : "my_stock2",
-        "domain" : "www.jimuzhou.com",
+        "title" : "库存表",
+        "domain" : "",
         "template" : "home.html",
         "router" : {
             "base" : "/h5/",

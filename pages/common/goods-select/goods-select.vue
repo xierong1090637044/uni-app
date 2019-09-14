@@ -244,7 +244,8 @@
 				}else{
 					products[page_num - 1] = e.detail.value
 				}
-				all_products = search_products.concat(products).flat(Infinity)
+				all_products = search_products.concat(products)
+				all_products = [].concat.apply([],all_products)
 				
 				console.log(all_products)
 			},

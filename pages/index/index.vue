@@ -141,9 +141,14 @@
 				openid:''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+			console.log(options)
+			if(options.openid){
+				uni.setStorageSync("openid",options.openid)
+			}
 
 			let now = new Date();
 			let hour = now.getHours(); //得到小时
@@ -188,18 +193,6 @@
 			that.gettoday_detail();
 			that.loadallGoods();
 			that.get_logsList();
-		},
-
-		//分享
-		onShareAppMessage: function(res) {
-			if (res.from === 'button') {
-				// 来自页面内转发按钮
-				console.log(res.target)
-			}
-			return {
-				title: '库存表，欢迎您的加入',
-				path: '/pages/index/index'
-			}
 		},
 
 		methods: {
