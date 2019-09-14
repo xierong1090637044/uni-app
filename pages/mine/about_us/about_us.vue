@@ -5,6 +5,7 @@
 			「库存表」是一款免费的库存管理小程序，旨在“化繁为简，让库存管理更加便捷，使其成为您的库存小助手”
 		</text>
 		<image :src="imgurl[0]" @tap='handlePreviewImage' mode="widthFix" />
+		<view style="margin-top: 30rpx;color:#333;">长按图片,识别关注我们哦！</view>
 		<view class="copyright">
 			<view><text>Copyright © 谢荣 All Rights Reserved</text></view>
 			<text>联系方式:微信&QQ➭1090637044</text>
@@ -18,7 +19,9 @@
 	export default {
 		data() {
 			return {
-				imgurl:["https://bmob-cdn-23134.bmobcloud.com/2019/07/01/af3304954070ba2c80972f3366498366.jpg"]
+				imgurl:[
+					"https://bmob-cdn-23134.bmobcloud.com/2019/09/14/502c457b4029faf880319a8d602e2b4f.jpg"
+					]
 			}
 		},
 		methods: {

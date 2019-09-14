@@ -94,6 +94,8 @@
 	import Bmob from '@/utils/bmob.js';
 	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
+	import mine from '@/utils/mine.js';
+	
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	let that;
 	let uid;
@@ -142,7 +144,9 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync('uid');
-
+			
+			mine.query_setting();
+			
 			let now = new Date();
 			let hour = now.getHours(); //得到小时
 			let myAmapFun = new amapFile.AMapWX({

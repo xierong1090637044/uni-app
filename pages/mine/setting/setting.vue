@@ -2,25 +2,33 @@
 	<view>
 		<view class="uni-form-item uni-column">
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 110rpx;">登陆网址</view>
-				<input class="uni-input" type="number" value="http://www.jimuzhou.com/stock/test/"  disabled="true"/>
+				<view style="margin-right: 10rpx;width: 170rpx;">登陆网址</view>
+				<input class="uni-input" value="http://www.jimuzhou.com/stock/test/" disabled="true" />
 			</view>
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 110rpx;">显示精度</view>
-				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="show_float" />
+				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
+				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" />
 			</view>
 
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 110rpx;">USER账号</view>
-				<input class="uni-input" placeholder="请输入USER账号" v-model="USER" />
+				<view style="margin-right: 10rpx;width: 170rpx;">USER账号</view>
+				<input class="uni-input" placeholder="请输入USER账号" v-model="params.USER" />
 			</view>
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 110rpx;">UKEY账号</view>
-				<input class="uni-input" placeholder="请输入UKEY账号" v-model="UKEY" />
+				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
+				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" />
 			</view>
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 130rpx;">打印机编号</view>
-				<input class="uni-input" placeholder="请输入打印机编号" v-model="number" />
+				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
+				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" />
+			</view>
+
+		</view>
+
+		<view style="margin-top: 30rpx;" v-if="identity == 1">
+			<view class="display_flex_bet item">
+				<view>关联微信通知</view>
+				<switch @change="link_wechatinfo" :checked="params.wechat_info" />
 			</view>
 
 		</view>
@@ -28,84 +36,75 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	let uid;
-
 	let that;
-	let setting;
+	import mine from '@/utils/mine.js';
+
 	export default {
 		data() {
 			return {
-				show_float: null,
-				USER: null,
-				UKEY: null,
-				number: null,
+				identity: "", //身份码，
+				user: "",
+
+				params: {
+					show_float: '',
+					USER: '',
+					UKEY: '',
+					number: '',
+					wechat_info: '',
+				},
 			}
 		},
 		onLoad() {
 			that = this;
 			uid = wx.getStorageSync("uid")
-			
-			uni.getStorage({
-				key: 'setting',
-				success: function(res) {
-					setting = res.data;
-					that.show_float = setting.show_float;
-					that.USER = setting.USER;
-					that.UKEY = setting.UKEY;
-					that.number = setting.number;
-				},
-				fail() {
-					that.query_setting()
+
+			that.identity = uni.getStorageSync("identity");
+			mine.query_setting().then(res => {
+				that.params = res[0]
+				if (res[0].wx_openid) {
+					that.params.wechat_info = true
+				} else {
+					that.params.wechat_info = false
 				}
 			})
 		},
 		methods: {
-			// #ifdef APP-PLUS
-			//监听原生标题栏按钮点击事件
-			onNavigationBarButtonTap(Object) {
-				//console.log(that.show_float, that.USER, that.UKEY, that.number)
-				
-				uni.showLoading({title:"上传中"});
-				const query = Bmob.Query("setting");
-				const pointer = Bmob.Pointer('_User')
-				const poiID = pointer.set(uid)
+			link_wechatinfo(e) {
+				let value = e.detail.value
 
-				if (setting) query.set("id", setting.objectId)
-				query.set("show_float", Number(that.show_float))
-				query.set("USER", that.USER)
-				query.set("UKEY", that.UKEY)
-				query.set("number", that.number)
-				query.set("parent", poiID)
-				//query.set("beizhu", "Bmob")
-				query.save().then(res => {
-					console.log(res)
-					uni.hideLoading();
-					uni.showToast({
-						title: "保存成功",
-					})
-					that.query_setting()
-					
-				}).catch(err => {
-					console.log(err)
-				})
-			},
-			// #endif
-			
-			//查询当前用户的设置
-			query_setting(){
-				const query = Bmob.Query("setting");
-				query.equalTo("parent", "==", uid);
-				query.find().then(res => {
-					//console.log(res)
-					uni.setStorageSync("setting",res[0])
-					that.show_float = res[0].show_float;
-					that.USER = res[0].USER;
-					that.UKEY = res[0].UKEY;
-					that.number = res[0].number;
-				});
-			},
-			
+				if (value) {
+					if (uni.getStorageSync("openid")) {
+						uni.showModal({
+							title: '提示',
+							content: '请关注服务号"库存表"进行关联',
+							confirmText: "关闭",
+							success: function(res) {
+								if (res.confirm) {
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+					} else {
+						uni.showModal({
+							title: '提示',
+							content: '请关注服务号"库存表"进行关联',
+							confirmText: "关闭",
+							success: function(res) {
+								if (res.confirm) {
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+					}
+
+				} else {
+					that.params.wx_openid = ''
+					mine.modify_setting(that.params)
+				}
+			}
 		}
 	}
 </script>

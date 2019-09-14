@@ -25,32 +25,8 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more" v-if="search_text">
-				<checkbox-group @change="radioChange_search">
-					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
-						<view>
-							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
-							 :id="index" :checked="product.checked" />
-						</view>
 
-						<label class="uni-product" :for="index">
-							<view>
-								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
-							</view>
-
-							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
-								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
-							</view>
-						</label>
-					</view>
-				</checkbox-group>
-			</scroll-view>
-
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more" v-else>
+			<scroll-view class="uni-product-list" scroll-y>
 				<checkbox-group @change="radioChange">
 					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 						<view>
@@ -74,6 +50,9 @@
 					</view>
 				</checkbox-group>
 			</scroll-view>
+			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
+				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
+			</view>
 		</view>
 
 		<!--筛选模板-->
@@ -117,22 +96,27 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import Bmob from '@/utils/bmob.js'
+	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 
 	let products = [];
+	let search_products = [];
+	let all_products = [];
 	let uid;
 	let that;
 	let search_text = '';
-	let page_size = 50;
-
+	let page_size = 30;
+	let page_num = 1;
 	export default {
 		components: {
 			loading,
 			uniNavBar,
 			faIcon,
-			uniIcon
+			uniIcon,
+			uniPagination
 		},
 		data() {
 			return {
+				page_num:1,
 				search_text: '',
 				url: null,
 				showOptions: false, //是否显示筛选
@@ -143,11 +127,11 @@
 				stock: "", //选择的仓库
 			}
 		},
-
+	
 		onLoad(option) {
 			that = this;
 			this.handle_data();
-
+	
 			if (option.type == "entering") {
 				this.url = "../good_confrim/good_confrim"
 			} else if (option.type == "delivery") {
@@ -157,25 +141,25 @@
 			} else if (option.type == "counting") {
 				this.url = "../good_count/good_count"
 			}
-
+	
 			uid = uni.getStorageSync('uid');
 			that.get_productList();
 		},
-
+	
 		onShow() {
-
+	
 			uni.removeStorageSync("products");
-
+	
 			if (uni.getStorageSync("category")) {
 				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
 			}
-
+	
 			if (uni.getStorageSync("warehouse")) {
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
-
+	
 			if (uni.getStorageSync("is_option")) {
 				this.productList = []
 				that.get_productList();
@@ -185,31 +169,44 @@
 		onHide() {
 			//数据重置
 			search_text = '';
-			page_size = 50;
+			page_size = 30;
 			products = [];
+			all_products = [];
+			search_products = [];
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
-
+	
 		methods: {
+			
+			//分页点击
+			change_page(e){
+				page_num = e.current
+				that.get_productList();
+			},
+			
 			//筛选点击
 			shaixuan() {
 				that.showOptions = true;
 			},
-
+	
 			//输入框输入点击确定
 			confirm(e) {
 				search_text = e.detail.value
 				that.search_text = e.detail.value
+				that.page_num = 1
+				page_num = 1
+				
 				that.get_productList()
 			},
-
+	
 			//确定点击
 			confrim_this() {
 				this.go_goodsconfrim();
 			},
-
+	
 			//modal重置的确认点击
 			option_reset() {
+				this.productList = [];
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.category = "";
@@ -217,80 +214,70 @@
 				that.showOptions = false;
 				that.get_productList()
 			},
-
+	
 			//modal筛选的确认点击
 			option_confrim() {
+				this.productList = [];
 				if (uni.getStorageSync("category")) {
 					that.category = uni.getStorageSync("category")
 				}
-
+	
 				if (uni.getStorageSync("warehouse")) {
 					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 				}
 				that.showOptions = false;
 				that.get_productList()
 			},
-
+	
 			//头部的options选择
 			selectd(type) {
-				page_size = 50;
+				page_size = 30;
 				that.checked_option = type;
 				that.get_productList();
 			},
-
-			//加载更多
-			load_more() {
-				page_size += 50;
-				that.get_productList();
-			},
-
+	
 			//多选选择触发
 			radioChange: function(e) {
-				products = e.detail.value;
-			},
-
-			radioChange_search(e) {
-				let search_products = e.detail.value;
-				products = this.concat_(products, search_products)
-				console.log(products)
-			},
-
-			concat_(arr1, arr2) {
-				let arr = arr1.concat();
-				//或者使用slice()复制，var arr = arr1.slice(0)  
-				for (let i = 0; i < arr2.length; i++) {
-					arr.indexOf(arr2[i]) === -1 ? arr.push(arr2[i]) : 0;
+				let current = []
+				if(search_text){
+					search_products[page_num - 1] = e.detail.value
+				}else{
+					products[page_num - 1] = e.detail.value
 				}
-				return arr;
+				all_products = search_products.concat(products).flat(Infinity)
+				
+				console.log(all_products)
 			},
-
+	
 			//点击去到添加产品
 			go_goodsconfrim() {
-				console.log(products)
-				if (products.length == 0) {
+				console.log(all_products)
+				if (all_products.length == 0) {
 					uni.showToast({
 						title: "请选择产品",
 						icon: "none"
 					})
 				} else {
 					let index = 0;
-					for (let item of products) {
-						products[index] = JSON.parse(item)
-						products[index].num = 1;
-						products[index].total_money = 1 * products[index].retailPrice;
-						products[index].modify_retailPrice = products[index].retailPrice;
+					for (let item of all_products) {
+						all_products[index] = JSON.parse(item)
+						all_products[index].num = 1;
+						all_products[index].total_money = 1 * all_products[index].retailPrice;
+						all_products[index].modify_retailPrice = all_products[index].retailPrice;
 						index += 1;
 					}
-					uni.setStorageSync("products", products);
+					uni.setStorageSync("products", all_products);
 					uni.navigateTo({
 						url: this.url
 					})
 				}
 			},
-
+	
 			//查询产品列表
 			get_productList() {
+				that.productList = []
 				const query = Bmob.Query("Goods");
+				query.select("goodsName","reserve","goodsIcon","packageContent","packingUnit","retailPrice","costPrice");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
@@ -303,32 +290,37 @@
 				});
 				query.or(query1, query2);
 				query.limit(page_size);
+				query.skip(page_size*(page_num-1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.find().then(res => {
-					console.log(products)
-
-					for (let item of res) {
-						if (products.indexOf(JSON.stringify(item)) > -1) {
-							console.log(products.indexOf(JSON.stringify(item)))
-							item.checked = true
+					console.log(all_products)
+					
+					if(all_products.length >=1){
+						for(let item of all_products){
+							for(let product of res){
+								if(product.objectId == JSON.parse(item).objectId){
+									product.checked = true
+								}
+								
+							}
 						}
 					}
-
+					
 					this.productList = res;
 					this.loading = false;
 				});
 			},
-
+	
 			//数据重置
 			handle_data() {
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				uni.removeStorageSync("shop");
-
+	
 				search_text = '';
-				page_size = 50;
+				page_size = 30;
 			},
-
+	
 		}
 	}
 </script>
@@ -350,7 +342,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 164rpx);
+		height: calc(100vh - 224rpx);
 	}
 
 	.uni-product {

@@ -67,6 +67,7 @@
 <script>
 	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
+	import send_temp from '@/utils/send_temp.js';
 
 	let uid;
 	let that;
@@ -240,6 +241,17 @@
 									setTimeout(() => {
 										common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 1, res.objectId);
+											
+										let params = {
+											"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
+												.length + "商品",
+											"data1":res.createdAt,
+											"data2":that.stock ? that.stock.stock_name : "未填写",
+											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
+										};
+										send_temp.send_in(params);
+										
 										uni.navigateBack({
 											delta: 2
 										});
