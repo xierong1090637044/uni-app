@@ -26,7 +26,7 @@
 				</view>
 			</view>
 
-			<scroll-view class="uni-product-list" scroll-y @scrolltolower="load_more">
+			<scroll-view class="uni-product-list" scroll-y>
 				<checkbox-group @change="radioChange">
 					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 						<view>
@@ -51,6 +51,9 @@
 					</view>
 				</checkbox-group>
 			</scroll-view>
+			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
+				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
+			</view>
 		</view>
 
 		<!--筛选模板-->
@@ -93,22 +96,27 @@
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 
 	let products = [];
+	let search_products = [];
+	let all_products = [];
 	let uid;
 	let that;
 	let search_text = '';
-	let page_size = 50;
-
+	let page_size = 30;
+	let page_num = 1;
 	export default {
 		components: {
 			loading,
 			uniNavBar,
 			faIcon,
-			uniIcon
+			uniIcon,
+			uniPagination
 		},
 		data() {
 			return {
+				page_num:1,
 				search_text: '',
 				url: null,
 				showOptions: false, //是否显示筛选
@@ -161,12 +169,21 @@
 		onHide() {
 			//数据重置
 			search_text = '';
-			page_size = 50;
+			page_size = 30;
 			products = [];
+			all_products = [];
+			search_products = [];
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
 
 		methods: {
+			
+			//分页点击
+			change_page(e){
+				page_num = e.current
+				that.get_productList();
+			},
+			
 			//筛选点击
 			shaixuan() {
 				that.showOptions = true;
@@ -176,6 +193,9 @@
 			confirm(e) {
 				search_text = e.detail.value
 				that.search_text = e.detail.value
+				that.page_num = 1
+				page_num = 1
+				
 				that.get_productList()
 			},
 
@@ -211,55 +231,42 @@
 
 			//头部的options选择
 			selectd(type) {
-				page_size = 50;
+				page_size = 30;
 				that.checked_option = type;
-				that.get_productList();
-			},
-
-			//加载更多
-			load_more() {
-				page_size += 50;
 				that.get_productList();
 			},
 
 			//多选选择触发
 			radioChange: function(e) {
-				products = e.detail.value;
-			},
-
-			radioChange_search(e) {
-				let search_products = e.detail.value;
-				products = this.concat_(products, search_products)
-				console.log(products)
-			},
-
-			concat_(arr1, arr2) {
-				let arr = arr1.concat();
-				//或者使用slice()复制，var arr = arr1.slice(0)  
-				for (let i = 0; i < arr2.length; i++) {
-					arr.indexOf(arr2[i]) === -1 ? arr.push(arr2[i]) : 0;
+				let current = []
+				if(search_text){
+					search_products[page_num - 1] = e.detail.value
+				}else{
+					products[page_num - 1] = e.detail.value
 				}
-				return arr;
+				all_products = search_products.concat(products).flat(Infinity)
+				
+				console.log(all_products)
 			},
 
 			//点击去到添加产品
 			go_goodsconfrim() {
-				console.log(products)
-				if (products.length == 0) {
+				console.log(all_products)
+				if (all_products.length == 0) {
 					uni.showToast({
 						title: "请选择产品",
 						icon: "none"
 					})
 				} else {
 					let index = 0;
-					for (let item of products) {
-						products[index] = JSON.parse(item)
-						products[index].num = 1;
-						products[index].total_money = 1 * products[index].retailPrice;
-						products[index].modify_retailPrice = products[index].retailPrice;
+					for (let item of all_products) {
+						all_products[index] = JSON.parse(item)
+						all_products[index].num = 1;
+						all_products[index].total_money = 1 * all_products[index].retailPrice;
+						all_products[index].modify_retailPrice = all_products[index].retailPrice;
 						index += 1;
 					}
-					uni.setStorageSync("products", products);
+					uni.setStorageSync("products", all_products);
 					uni.navigateTo({
 						url: this.url
 					})
@@ -268,6 +275,7 @@
 
 			//查询产品列表
 			get_productList() {
+				that.productList = []
 				const query = Bmob.Query("Goods");
 				query.select("goodsName","reserve","goodsIcon","packageContent","packingUnit","retailPrice","costPrice");
 				query.equalTo("userId", "==", uid);
@@ -282,17 +290,22 @@
 				});
 				query.or(query1, query2);
 				query.limit(page_size);
+				query.skip(page_size*(page_num-1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.find().then(res => {
-					console.log(products)
-
-					for (let item of res) {
-						if (products.indexOf(JSON.stringify(item)) > -1) {
-							console.log(products.indexOf(JSON.stringify(item)))
-							item.checked = true
+					console.log(all_products)
+					
+					if(all_products.length >=1){
+						for(let item of all_products){
+							for(let product of res){
+								if(product.objectId == JSON.parse(item).objectId){
+									product.checked = true
+								}
+								
+							}
 						}
 					}
-
+					
 					this.productList = res;
 					this.loading = false;
 				});
@@ -305,7 +318,7 @@
 				uni.removeStorageSync("shop");
 
 				search_text = '';
-				page_size = 50;
+				page_size = 30;
 			},
 
 		}
@@ -329,7 +342,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 164rpx);
+		height: calc(100vh - 236rpx);
 	}
 
 	.uni-product {

@@ -14,6 +14,18 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.2 公测版</text>
+						<text class="desc-time">2019.09.14</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>产品出库、入库、盘点、退货选择产品优化</text>
+						<text>修改、增加产品bug修复</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.1 公测版</text>
 						<text class="desc-time">2019.09.03</text>
 					</view>

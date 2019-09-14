@@ -264,7 +264,7 @@
 					var timestamp = Date.parse(new Date());
 					query.equalTo("bad_time", "<=", timestamp);
 				}
-				query.limit(page_size*page_num);
+				query.limit(page_size);
 				query.skip(page_size*(page_num-1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.include("goodsClass", "stocks", "second_class");
