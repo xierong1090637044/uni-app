@@ -61,7 +61,6 @@
 
 			that.identity = uni.getStorageSync("identity");
 			mine.query_setting().then(res => {
-				uni.setStorageSync("setting", res[0])
 				that.params = res[0]
 				if (res[0].wx_openid) {
 					that.params.wechat_info = true

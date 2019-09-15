@@ -440,12 +440,8 @@
 				that.category = "" //分类
 				that.reserve = 0 //初始库存
 				that.goodsIcon = "" //产品图片
-				that.stocks = [{
-					"stock": {
-						'stock_name': '默认仓库'
-					},
-					'reserve': 0
-				}] //存放的仓库
+				that.stocks = "" //存放的仓库
+				that.stock_name = ""
 				that.producttime = ""
 				that.nousetime = ""
 			}

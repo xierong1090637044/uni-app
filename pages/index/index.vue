@@ -95,6 +95,7 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
+	import mine from '@/utils/mine.js';
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	let that;
 	let uid;
@@ -144,6 +145,9 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+			this.$wechat.share_pyq();
+			mine.query_setting()
 			
 			console.log(options)
 			if(options.openid){

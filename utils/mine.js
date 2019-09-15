@@ -2,7 +2,7 @@ export default{
 	
 	//修改配置信息
 	modify_setting(params){
-		let uid = wx.getStorageSync("uid");
+		let uid = uni.getStorageSync("uid");
 		let setting = uni.getStorageSync("setting");
 		
 		return new Promise((resolve, reject) => {
@@ -39,14 +39,14 @@ export default{
 	
 	//查询当前用户的设置
 	query_setting() {
-		let uid = wx.getStorageSync("uid");
+		let uid = uni.getStorageSync("uid");
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query("setting");
 			query.equalTo("parent", "==", uid);
 			query.find().then(res => {
 				//console.log(res)
+				uni.setStorageSync("setting", res[0])
 				resolve(res)
-				
 			});
 		})
 	},

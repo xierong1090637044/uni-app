@@ -245,7 +245,7 @@
 					products[page_num - 1] = e.detail.value
 				}
 				all_products = search_products.concat(products)
-				all_products = [].concat.apply([],all_products)
+				all_products = all_products.reduce(function (a, b) { return a.concat(b)} );
 				
 				console.log(all_products)
 			},
