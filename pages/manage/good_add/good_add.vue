@@ -207,45 +207,50 @@
 			uni.removeStorageSync("warehouse")
 			uni.removeStorageSync("is_add");
 			
-			that.scan_by_id(options.id)
+			if(options.id){
+				that.scan_by_id(options.id)
+			}else{
+				if (uni.getStorageSync("now_product")) {
+					uni.setNavigationBarTitle({
+						title: "编辑产品"
+					})
+				
+					let now_product = uni.getStorageSync("now_product")
+				
+					that.goodsName = now_product.goodsName
+					that.costPrice = now_product.costPrice //进价
+					that.retailPrice = now_product.retailPrice //售价
+					that.packageContent = now_product.packageContent //包装含量
+					that.packingUnit = now_product.packingUnit //包装单位
+					that.warning_num = now_product.warning_num //预警库存
+					that.producer = now_product.producer //生产厂家
+					that.regNumber = now_product.regNumber //货号
+					that.position = now_product.position //位置
+					that.product_info = now_product.product_info //产品简介
+					that.productCode = now_product.productCode //产品条码
+					that.category = now_product.second_class ? now_product.second_class : '' //分类
+					that.reserve = now_product.reserve
+					that.goodsIcon = now_product.goodsIcon //产品图片
+					that.product_state = now_product.product_state //产品是否是半成品
+					that.stocks = now_product.stocks
+					that.stock_name = (now_product.stocks)?(now_product.stocks.stock_name):""
+					
+					if (now_product.goodsClass) {
+						let pointer2 = Bmob.Pointer('class_user')
+						p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
+					}
+				
+					if (now_product.second_class) {
+						let pointer3 = Bmob.Pointer('second_class')
+						p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+					}
+				}
+			}
+			
 		},
 		onShow() {
 
-			if (uni.getStorageSync("now_product")) {
-				uni.setNavigationBarTitle({
-					title: "编辑产品"
-				})
 			
-				let now_product = uni.getStorageSync("now_product")
-			
-				that.goodsName = now_product.goodsName
-				that.costPrice = now_product.costPrice //进价
-				that.retailPrice = now_product.retailPrice //售价
-				that.packageContent = now_product.packageContent //包装含量
-				that.packingUnit = now_product.packingUnit //包装单位
-				that.warning_num = now_product.warning_num //预警库存
-				that.producer = now_product.producer //生产厂家
-				that.regNumber = now_product.regNumber //货号
-				that.position = now_product.position //位置
-				that.product_info = now_product.product_info //产品简介
-				that.productCode = now_product.productCode //产品条码
-				that.category = now_product.second_class ? now_product.second_class : '' //分类
-				that.reserve = now_product.reserve
-				that.goodsIcon = now_product.goodsIcon //产品图片
-				that.product_state = now_product.product_state //产品是否是半成品
-				that.stocks = now_product.stocks
-				that.stock_name = (now_product.stocks)?(now_product.stocks.stock_name):""
-				
-				if (now_product.goodsClass) {
-					let pointer2 = Bmob.Pointer('class_user')
-					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
-				}
-			
-				if (now_product.second_class) {
-					let pointer3 = Bmob.Pointer('second_class')
-					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
-				}
-			}
 			
 			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
 				that.stocks = uni.getStorageSync("warehouse")[0].stock
@@ -335,10 +340,12 @@
 						icon: "none"
 					})
 				} else {
+					console.log(that.goodsIcon)
 					if (that.goodsIcon) {
 						let file;
 						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
 						file.save().then(res => {
+							console.log("图片地址",res)
 							that.goodsIcon = JSON.parse(res).url;
 							that.upload_good(good)
 						})
@@ -388,6 +395,7 @@
 			},
 			
 			add_good(good,type){
+				
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 				
@@ -397,7 +405,7 @@
 				const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 				
 				const query = Bmob.Query('Goods');
-				query.set("goodsIcon", that.goodsIcon)
+				query.set("goodsIcon", that.goodsIcon?that.goodsIcon:'')
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? good.costPrice : "0")
 				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
@@ -456,7 +464,7 @@
 				that.product_info = '' //产品简介
 				that.productCode = "" //产品条码
 				that.category = "" //分类
-				that.reserve = [0] //初始库存
+				that.reserve = 0 //初始库存
 				that.goodsIcon = "" //产品图片
 				that.stocks = "" //存放的仓库
 				that.stock_name = ""
