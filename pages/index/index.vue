@@ -93,10 +93,12 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	
 	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	import record from '@/utils/record.js';
 	let that;
 	let uid;
 
@@ -269,46 +271,18 @@
 						}
 					}
 
-					that.get_reserve = get_reserve.toFixed(wx.getStorageSync("print_setting").show_float)
-					that.out_reserve = out_reserve.toFixed(wx.getStorageSync("print_setting").show_float)
+					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
+					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 				})
 			},
 
 			//得到总库存数和总金额
 			loadallGoods: function() {
-				var total_reserve = 0;
-				var total_money = 0;
-				let length = 0
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.limit(500);
-				query.find().then(res => {
-					for (let item of res) {
-						total_reserve = total_reserve + item.reserve;
-						total_money = total_money + item.reserve * item.costPrice;
-						if (res.length == 500) {
-							const query = Bmob.Query("Goods");
-							query.equalTo("userId", "==", uid);
-							query.skip(500);
-							query.limit(500);
-							query.find().then(res => {
-								for (var i = 0; i < res.length; i++) {
-									total_reserve = total_reserve + res[i].reserve;
-									total_money = total_money + res[i].reserve * res[i].costPrice;
-								}
-							})
-							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_products = res.length
-						} else {
-							length += 1
-							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_products = length
-						}
-					}
-
-				});
+				record.loadallGoods().then(res=>{
+					that.total_money = res.total_money
+					that.total_reserve = res.total_reserve
+					that.total_products = res.total_products
+				})
 			},
 
 			//得到日志列表
