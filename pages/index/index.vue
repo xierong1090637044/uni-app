@@ -19,7 +19,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view>{{openid}}</view>
 
 		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
@@ -139,19 +139,19 @@
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
-				openid:''
+				openid: ''
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
+
 			this.$wechat.share_pyq();
 			mine.query_setting()
-			
+
 			console.log(options)
-			if(options.openid){
-				uni.setStorageSync("openid",options.openid)
+			if (options.openid) {
+				uni.setStorageSync("openid", options.openid)
 			}
 
 			let now = new Date();
@@ -215,10 +215,9 @@
 
 			//扫码操作
 			scan: function(type) {
-				this.$wechat.scanQRCode().then(res => {
-					let result = res.split(",")[1]
-					let array = result.split("-");
-
+				this.$wechat.scanQRCode().then(res=>{
+					let array = res.split("-");
+					
 					if (type == 0) {
 						uni.navigateTo({
 							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
