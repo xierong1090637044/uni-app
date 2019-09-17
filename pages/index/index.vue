@@ -126,6 +126,11 @@
 						url: '/pages/common/goods-select/goods-select?type=delivery'
 					},
 					{
+						name: '产品调拨',
+						icon: '/static/allocation.png',
+						url: '/pages/common/goods-select/goods-select?type=allocation'
+					},
+					{
 						name: '退货入库',
 						icon: '/static/return_goods.png',
 						url: '/pages/common/goods-select/goods-select?type=returing'

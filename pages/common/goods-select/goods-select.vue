@@ -125,6 +125,7 @@
 				checked_option: 'createdAt', //tab的筛选条件
 				category: "", //选择的类别
 				stock: "", //选择的仓库
+				type:'',//操作类型
 			}
 		},
 
@@ -140,7 +141,11 @@
 				this.url = "../good_return/good_return"
 			} else if (option.type == "counting") {
 				this.url = "../good_count/good_count"
+			} else if (option.type == "allocation") {
+				this.url = "../good_allocation/good_allocation"
 			}
+			
+			this.type = option.type
 
 			uid = uni.getStorageSync('uid');
 			that.get_productList();

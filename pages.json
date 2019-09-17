@@ -313,7 +313,11 @@
 			"path": "pages/test/test",
 			"style": {}
 		}
-	],
+        ,{
+            "path" : "pages/common/good_allocation/good_allocation",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",
