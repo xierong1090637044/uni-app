@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="微信搜索服务号'库存表',记得关注我们哦!" />
+		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="为了更好的给大家服务,此版将于七天后关闭,请大家直接搜索'库存表'即可进入,或者关注'库存表'服务号" :scrollable="true"/>
 		
 		<view style="background: #426ab3;" v-if="weather">
 			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
@@ -83,6 +83,11 @@
 		<view class='scan_code display_flex' @click='scan_code'>
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
 			<text>扫描产品条形码</text>
+		</view>
+		
+		<view class='display_flex scan_code1' @click='wx_gotominiprogram'>
+			<fa-icon type="telegram" size="20" color="#fff" class="icon-scan" />
+			<text>去到‘库存表’小程序</text>
 		</view>
 
 
@@ -205,6 +210,18 @@
 		},
 
 		methods: {
+			//跳转到新的库存表
+			  wx_gotominiprogram(){
+			    wx.navigateToMiniProgram({
+			      appId: 'wxdd08cef3fc260a38',
+			      path:"pages/index/index?user_id="+uni.getStorageSync("userid"),
+			      envVersion: 'release',
+			      success(res) {
+			        // 打开成功
+			      }
+			    })
+			  },
+				
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
@@ -362,6 +379,21 @@
 		border-radius: 4px;
 		color: #fff;
 		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2)
+	}
+	
+	.scan_code1 {
+		position: fixed;
+		width: calc(100% - 60rpx);
+		left: 30rpx;
+		right: 30rpx;
+		bottom: 20%;
+		background: linear-gradient(to right, #426ab3, #118fff);
+		line-height: 80rpx;
+		text-align: center;
+		border-radius: 4px;
+		color: #fff;
+		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+		justify-content: center;
 	}
 
 	.icon-scan {

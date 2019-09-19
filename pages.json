@@ -337,6 +337,8 @@
 			}
 		]
 	},
+	"navigateToMiniProgramAppIdList":["wxdd08cef3fc260a38"],
+		
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "库存表",
