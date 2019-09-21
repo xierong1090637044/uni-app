@@ -317,6 +317,10 @@
             "path" : "pages/common/good_allocation/good_allocation",
             "style" : {}
         }
+        ,{
+            "path" : "pages/common/good_allocation/allocation_detail/allocation_detail",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

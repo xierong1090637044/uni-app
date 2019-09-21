@@ -76,7 +76,8 @@
 				stocks: null,
 				items: ['已启用', '未启用'],
 				current: 0,
-				disabled:false
+				disabled:false,
+				type:'',//'out_choose'是调拨时的选择
 			}
 		},
 
@@ -85,8 +86,9 @@
 			uid = uni.getStorageSync('uid');
 
 			console.log(options)
-			if (options.type == "choose") {
+			if (options.type == "choose" || options.type == "out_choose") {
 				that.is_choose = true
+				that.type = options.type
 			}
 		},
 		onShow() {
@@ -131,12 +133,17 @@
 				
 				if(JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) ==-1){
 					warehouse.push(_stocks);
-					
-					uni.setStorageSync("warehouse", warehouse)
-					uni.navigateBack({
-						delta: 1
-					})
-					
+					if(that.type == "out_choose"){
+						uni.setStorageSync("out_warehouse", warehouse)
+						uni.navigateBack({
+							delta: 1
+						})
+					}else{
+						uni.setStorageSync("warehouse", warehouse)
+						uni.navigateBack({
+							delta: 1
+						})
+					}
 				}else{
 					uni.showToast({
 						title:"已选择此仓库",

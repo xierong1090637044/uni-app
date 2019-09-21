@@ -264,19 +264,36 @@
 						icon: "none"
 					})
 				} else {
-					let index = 0;
-					for (let item of all_products) {
-						all_products[index] = JSON.parse(item)
-						all_products[index].num = 1;
-						all_products[index].total_money = 1 * all_products[index].retailPrice;
-						all_products[index].modify_retailPrice = all_products[index].retailPrice;
-						index += 1;
+					
+					if(this.type =="allocation"){
+						if(this.stock){
+							this.confrim_next()
+						}else{
+							uni.showToast({
+								title:"请选择调拨的仓库",
+								icon:"none"
+							})
+						}
+					}else{
+						this.confrim_next()
 					}
-					uni.setStorageSync("products", all_products);
-					uni.navigateTo({
-						url: this.url
-					})
+					
 				}
+			},
+			
+			confrim_next(){
+				let index = 0;
+				for (let item of all_products) {
+					all_products[index] = JSON.parse(item)
+					all_products[index].num = 1;
+					all_products[index].total_money = 1 * all_products[index].retailPrice;
+					all_products[index].modify_retailPrice = all_products[index].retailPrice;
+					index += 1;
+				}
+				uni.setStorageSync("products", all_products);
+				uni.navigateTo({
+					url: this.url
+				})
 			},
 
 			//查询产品列表
