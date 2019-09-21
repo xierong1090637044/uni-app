@@ -88,43 +88,53 @@
 
 						resolve(false)
 					} else {
-						console.log(that.check_goods())
-						if(that.check_goods() == true){
-							resolve(true)
-						}else{
-							uni.showModal({
-								title: "提示",
-								content: that.check_goods() + '没有关联到调出仓库',
-								showCancel: true,
-								success: res => {
-									console.log(res)
-								},
-								fail: () => {},
-								complete: () => {
-									resolve(false)
-								}
-							});
-						}
+						that.check_goods().then(res=>{
+							if(res == true){
+								resolve(true)
+							}else{
+								uni.showModal({
+									title: "提示",
+									content:"'"+ res +"'"+'没有关联到调出仓库',
+									showCancel: true,
+									success: res => {
+										console.log(res)
+										if(res.confirm){
+											uni.navigateBack({
+												delta:1
+											})
+										}
+									},
+									fail: () => {},
+									complete: () => {
+										resolve(false)
+									}
+								});
+							}
+						})
+						
 					}
 				})
 			},
 			
 			//校验产品是否关联
 			check_goods(){
-				for (let i = 0; i < that.products.length; i++) {
-					const query = Bmob.Query('Goods');
-					query.equalTo("objectId", "==", that.products[i].objectId);
-					query.equalTo("stocks", "==", that.out_stock.objectId);
-					query.find().then(res => {
-						console.log(res)
-						if (res.length == 0) {
-							console.log(that.products[i].goodsName)
-							return that.products[i].goodsName
-						}else{
-							return true
-						}
-					})
-				}
+				return new Promise((resolve, reject) => {
+					for (let i = 0; i < that.products.length; i++) {
+						const query = Bmob.Query('Goods');
+						query.equalTo("objectId", "==", that.products[i].objectId);
+						query.equalTo("stocks", "==", that.out_stock.objectId);
+						query.find().then(res => {
+							console.log(res)
+							if (res.length == 0) {
+								//console.log(that.products[i].goodsName)
+								resolve(that.products[i].goodsName)
+							}else{
+								resolve(true)
+							}
+						})
+					}
+				})
+				
 			},
 
 			formSubmit: function(e) {

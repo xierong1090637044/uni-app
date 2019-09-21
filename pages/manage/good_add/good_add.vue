@@ -76,7 +76,7 @@
 
 					<view style="line-height: 70rpx;">
 						<view class="display_flex_bet">
-							<view class="display_flex_bet">
+							<view class="input_item" style="width: 100%;">
 								<view class="left_item">初始库存</view>
 								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" />
 							</view>

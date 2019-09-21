@@ -2,8 +2,8 @@
 	<view class="page">
 
 		<view class="frist">
-			<image v-if="product.goodsIcon" :src="product.goodsIcon" style="width: 100%;height: 100%;" mode="aspectFill"></image>
-			<image v-else src="/static/goods-default.png" style="height: 100%;"></image>
+			<image v-if="product.goodsIcon" :src="product.goodsIcon" style="width: 100%;height: 100%;" mode="aspectFit"></image>
+			<image v-else src="/static/goods-default.png" style="height: 100%;" mode="aspectFit"></image>
 		</view>
 
 		<view class="second">

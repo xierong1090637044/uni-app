@@ -3,7 +3,7 @@
 		<view class="uni-pagination__btns">
 			<view :class="['uni-pagination__btn',{'uni-pagination--disabled':currentIndex === 1}]" :hover-class="currentIndex === 1 ? '' : 'uni-pagination--hover'" :hover-start-time="20" :hover-stay-time="70" @click="clickLeft">
 				<template v-if="showIcon">
-					<uni-icon color="#000" size="20" type="arrowleft" />
+					<fa-icon type="angle-left" size="20" color="#999" />
 				</template>
 				<template v-else>
 					{{ prevText }}
@@ -11,7 +11,7 @@
 			</view>
 			<view :class="['uni-pagination__btn',{'uni-pagination--disabled':currentIndex === maxPage}]" :hover-class="currentIndex === maxPage ? '' : 'uni-pagination--hover'" :hover-start-time="20" :hover-stay-time="70" @click="clickRight">
 				<template v-if="showIcon">
-					<uni-icon color="#000" size="20" type="arrowright" />
+					<fa-icon type="angle-right" size="20" color="#999" />
 				</template>
 				<template v-else>
 					{{ nextText }}
