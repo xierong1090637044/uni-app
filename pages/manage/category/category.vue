@@ -8,7 +8,7 @@
 					<view v-for="(item,index) in frist_class" :key="index" :class="selected_id===item.objectId?'selectd_item':''"
 					 class="class_item" style="font-weight: bold;">
 						<view class="class_texxt_view" @click="get_second_category(item.objectId)">{{item.class_text}}</view>
-						<fa-icon type="pencil-square-o" size="20" color="#fff" @click.stop="showoption(selected_id,1,item.class_text)" />
+						<fa-icon type="pencil-square-o" size="20" color="#fff" @click="showoption(selected_id,1,item.class_text)" />
 					</view>
 				</view>
 
@@ -24,7 +24,7 @@
 						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(item)">
 							<text style="color: #d93a49;">选择</text>
 						</view>
-						<fa-icon v-else type="pencil-square-o" size="20" color="#3d3d3d" @click.stop="showoption(item.objectId,2,item.class_text)" />
+						<fa-icon v-else type="pencil-square-o" size="20" color="#3d3d3d" @click="showoption(item.objectId,2,item.class_text)" />
 					</view>
 				</view>
 				<view class="class_item_bottom" @click="add_secondclass">
