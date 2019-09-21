@@ -33,7 +33,7 @@
 				<fa-icon type="angle-right" size="20" color="#999" />
 			</navigator>
 			
-			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
+			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false" :h5Top="true">
 				<view style="width: 500rpx;">
 					<view class="display_flex">
 						<view style="width: 160rpx;color: #999;">本次收款：</view>
