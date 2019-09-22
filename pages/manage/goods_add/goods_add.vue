@@ -381,8 +381,8 @@
 					query.save().then(res => {
 						uni.hideLoading();
 						
-						if(key == that.stocks.length){
-							common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, res.objectId);
+						if(key == that.stocks.length - 1){
+							common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 6, res.objectId);
 						}
 						
 						uni.setStorageSync("is_add", true)
