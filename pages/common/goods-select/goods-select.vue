@@ -57,7 +57,7 @@
 		</view>
 
 		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
+		<view v-if="showOptions" class="modal_background">
 			<view class="showOptions">
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
@@ -270,7 +270,7 @@
 							this.confrim_next()
 						}else{
 							uni.showToast({
-								title:"请选择调拨的仓库",
+								title:"请在筛选中选择调拨的仓库",
 								icon:"none"
 							})
 						}
