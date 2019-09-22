@@ -7,6 +7,10 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName" :extra="'可调数量：'+item.reserve">
 					<view>
+						<view class='margin-t-5 display_flex'>
+							调出仓库：
+							<view>{{stock.stock_name}}</view>
+						</view>
 						<view class='margin-t-5'>
 							调出库存：
 							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="item.reserve"/>
@@ -42,7 +46,8 @@
 		},
 		data() {
 			return {
-				products: null
+				products: null,
+				stock:uni.getStorageSync("warehouse")[0].stock
 			}
 		},
 

@@ -41,6 +41,12 @@
 						color: "#f30"
 					},
 					{
+						name: '调拨记录',
+						icon: 'file-o',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
+						color: "#4e72b8"
+					},
+					{
 						name: '客户退货记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=2',

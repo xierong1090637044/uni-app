@@ -4,11 +4,10 @@
 			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
 			<view style='max-height:25vh;overflow-x:scroll'>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>
-						<view>产品：{{item.goodsName}}</view>
-						<view>可调库存：{{item.reserve}}</view>
-					</view>
+					<view class='pro_list' style='color:#3D3D3D'>产品：{{item.goodsName}}</view>
+					<view class='pro_list' style='color:#3D3D3D'>调出仓库：{{stock.stock_name}}</view>
 					<view class='pro_list'>
+						<view>可调库存：{{item.reserve}}</view>
 						<view>调出库存：{{item.num}}</view>
 					</view>
 				</view>
@@ -47,8 +46,6 @@
 
 	let uid;
 	let that;
-	let shopId;
-	let shop; //门店
 
 	export default {
 		data() {
@@ -57,8 +54,7 @@
 				out_stock: '', //调入仓库
 				button_disabled: false,
 				beizhu_text: "",
-				real_money: 0, //实际付款金额
-				all_money: 0, //总价
+				out_products: [], //调入的商品
 			}
 		},
 		onLoad() {
@@ -76,7 +72,7 @@
 			that.out_stock = uni.getStorageSync("out_warehouse") ? uni.getStorageSync("out_warehouse")[0].stock : ''
 		},
 		methods: {
-			
+
 			//校验
 			check() {
 				return new Promise((resolve, reject) => {
@@ -88,19 +84,19 @@
 
 						resolve(false)
 					} else {
-						that.check_goods().then(res=>{
-							if(res == true){
+						that.check_goods().then(res => {
+							if (res == true) {
 								resolve(true)
-							}else{
+							} else {
 								uni.showModal({
 									title: "提示",
-									content:"'"+ res +"'"+'没有关联到调出仓库',
+									content: "'" + res + "'" + '没有关联到调出仓库',
 									showCancel: true,
 									success: res => {
 										console.log(res)
-										if(res.confirm){
+										if (res.confirm) {
 											uni.navigateBack({
-												delta:1
+												delta: 1
 											})
 										}
 									},
@@ -111,39 +107,52 @@
 								});
 							}
 						})
-						
+
 					}
 				})
 			},
-			
+
 			//校验产品是否关联
-			check_goods(){
+			check_goods() {
 				return new Promise((resolve, reject) => {
 					for (let i = 0; i < that.products.length; i++) {
 						const query = Bmob.Query('Goods');
-						query.equalTo("objectId", "==", that.products[i].objectId);
+						query.equalTo("goodsName", "==", that.products[i].goodsName);
+						query.equalTo("userId", "==", uid);
 						query.equalTo("stocks", "==", that.out_stock.objectId);
 						query.find().then(res => {
 							console.log(res)
 							if (res.length == 0) {
 								//console.log(that.products[i].goodsName)
 								resolve(that.products[i].goodsName)
-							}else{
+							} else {
+								that.out_products = that.out_products.concat(res)
 								resolve(true)
 							}
 						})
 					}
 				})
-				
+
 			},
 
 			formSubmit: function(e) {
 				console.log(e)
 				this.button_disabled = true;
-				that.check().then(res=>{
+				that.check().then(res => {
 					console.log(res)
+
+					if (res) {
+						that.add_tb_record(e)
+					} else {
+						that.button_disabled = false;
+					}
 				})
-				/*uni.showLoading({
+
+			},
+
+			//生成调拨单
+			add_tb_record(e) {
+				uni.showLoading({
 					title: "上传中..."
 				});
 
@@ -156,6 +165,7 @@
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
+					let num1 = Number(this.out_products[i].reserve) + this.products[i].num;
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
@@ -184,6 +194,12 @@
 					detailBills.stock = that.stock.stock_name
 					detailBills.out_stock = that.out_stock.stock_name
 					detailBills.reserve = this.products[i].reserve
+					detailBills.out_reserve = this.out_products[i].reserve
+					goodsId.objectId = this.products[i].objectId
+					goodsId.out_objectId = this.out_products[i].objectId
+					goodsId.reserve = num
+					goodsId.out_reserve = num1
+					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
 					detailBills.type = -2
 
@@ -213,19 +229,21 @@
 						query.set("type", -2);
 						query.set("opreater", poiID1);
 						query.set("stock", stockId);
+						query.set("out_stock", out_stockId);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
 
 						query.save().then(res => {
 							console.log("添加操作历史记录成功", res);
 							uni.hideLoading();
-							uni.removeStorageSync("customs"); //移除这个缓存
+							//uni.removeStorageSync("customs"); //移除这个缓存
 							uni.showToast({
-								title: '产品出库成功',
+								title: '产品调拨成功',
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
 										let num = Number(that.products[i].reserve) - that.products[i].num;
+										let num1 = Number(that.out_products[i].reserve) + that.products[i].num;
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
@@ -233,28 +251,33 @@
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
+											query.get(that.out_products[i].objectId).then(res => {
+												res.set('reserve', num1)
+												res.set('stocktype', (num1 > that.out_products[i].warning_num) ? 1 : 0)
+												res.save()
+											})
 										}).catch(err => {
 											console.log(err)
 										})
 									}
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
-									uni.removeStorageSync("warehouse");
+									//uni.removeStorageSync("warehouse");
 
 									setTimeout(() => {
-										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that
-											.products.length + "商品", -1, res.objectId);
+										common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that
+											.products.length + "商品", -2, res.objectId);
 
-										let params = {
+										/*let params = {
 											"data1": res.objectId,
-											"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.products
+											"data2": uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that.products
 												.length + "商品",
 											"data3": that.stock ? that.stock.stock_name : "未填写",
 											"data4": res.createdAt,
 											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
-										send_temp.send_temp(params);
+										send_temp.send_temp(params);*/
 										uni.navigateBack({
 											delta: 2
 										});
@@ -268,7 +291,7 @@
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
-					});*/
+					});
 			}
 		}
 	}

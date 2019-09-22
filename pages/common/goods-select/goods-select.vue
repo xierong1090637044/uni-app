@@ -338,6 +338,7 @@
 			handle_data() {
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
+				uni.removeStorageSync("out_warehouse");
 				uni.removeStorageSync("shop");
 
 				search_text = '';
