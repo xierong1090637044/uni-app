@@ -86,7 +86,7 @@
 			uid = uni.getStorageSync('uid');
 
 			console.log(options)
-			if (options.type == "choose" || options.type == "out_choose") {
+			if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more") {
 				that.is_choose = true
 				that.type = options.type
 			}
@@ -124,12 +124,18 @@
 
 			//选择此仓库
 			select_this(item) {
-				//let warehouse = uni.getStorageSync("warehouse") || [];
-				let warehouse = [];
+				let warehouse;
+				if(that.type == "choose_more"){
+					 warehouse = uni.getStorageSync("warehouse") || [];
+				}else{
+					warehouse = []
+				}
+				
 				let _stocks ={};
 				
 				_stocks.stock = item;
 				_stocks.reserve = 0;
+				_stocks.warning_num = 0;
 				
 				if(JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) ==-1){
 					warehouse.push(_stocks);

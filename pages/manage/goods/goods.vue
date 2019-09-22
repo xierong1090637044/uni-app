@@ -196,7 +196,23 @@
 
 			//确定点击
 			goto_add() {
-				this.goAdd();
+				uni.showActionSheet({
+				    itemList: ['单产品上传', '多仓库产品上传'],
+				    success: function (res) {
+						if(res.tapIndex == 0){
+							uni.navigateTo({
+								url: "../good_add/good_add"
+							})
+						}else if(res.tapIndex == 1){
+							uni.navigateTo({
+								url: "../goods_add/goods_add"
+							})
+						}
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
 			},
 
 			//modal重置的确认点击
@@ -235,13 +251,6 @@
 				uni.setStorageSync("now_product", value);
 				uni.navigateTo({
 					url: "../good_det/good_det"
-				})
-			},
-
-			//点击去到添加产品
-			goAdd() {
-				uni.navigateTo({
-					url: "../good_add/good_add"
 				})
 			},
 

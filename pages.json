@@ -315,11 +315,21 @@
 		}
         ,{
             "path" : "pages/common/good_allocation/good_allocation",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "产品调拨"
+			}
         }
         ,{
             "path" : "pages/common/good_allocation/allocation_detail/allocation_detail",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "调拨详情"
+			}
+        }
+        ,{
+            "path" : "pages/manage/goods_add/goods_add",
+            "style" : {
+				"navigationBarTitleText": "多仓库商品添加"
+			}
         }
     ],
 	"tabBar": {
