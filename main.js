@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n' 
 import App from './App'
 import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+import no_content from "@/components/No_content.vue"
 import wechat from './utils/wechat'    
 
 Vue.config.productionTip = false
