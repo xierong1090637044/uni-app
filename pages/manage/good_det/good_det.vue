@@ -2,30 +2,31 @@
 	<view class="page">
 
 		<view class="frist">
-			<image v-if="product.goodsIcon" :src="product.goodsIcon" style="width: 100%;height: 100%;" mode="aspectFit"></image>
+			<image v-if="product.info.goodsIcon" :src="product.info.goodsIcon" style="width: 100%;height: 100%;" mode="aspectFit"></image>
 			<image v-else src="/static/goods-default.png" style="height: 100%;" mode="aspectFit"></image>
 		</view>
 
 		<view class="second">
 			<view class="second_one">
-				<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.goodsName}}</view>
-				<view>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice?product.costPrice:"未填写"}}</text></view>
-				<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice ?product.retailPrice:"未填写"}}</text></view>
+				<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.info.goodsName}}</view>
+				<view>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.info.costPrice?product.info.costPrice:"未填写"}}</text></view>
+				<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.info.retailPrice ?product.info.retailPrice:"未填写"}}</text></view>
 			</view>
 
 			<view class="second_one">
-				<view>品牌: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
-				<view>条码: <text class="second_right_text">{{product.productCode?product.productCode:product.objectId}}</text></view>
-				<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
-				<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
+				<view>品牌: <text class="second_right_text">{{product.info.producer?product.info.producer:"未填写"}}</text></view>
+				<view>条码: <text class="second_right_text">{{product.info.product.infoCode?product.info.product.infoCode:product.info.objectId}}</text></view>
+				<view>型号: <text class="second_right_text">{{product.info.packageContent?product.info.packageContent:"未填写"}}*{{product.info.packingUnit?product.info.packingUnit:"未填写"}}</text></view>
+				<view>简介: <text class="second_right_text">{{product.info.product_info?product.info.product_info:"未填写"}}</text></view>
+				<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.info.position?product.position:"未填写"}}</text></view>
 			</view>
 
-			<view class="second_one">
-				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.stocks.stock_name?product.stocks.stock_name:"未填写"}}</text></view>
-				<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
-				<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.reserve}}</text></view>
-				<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
-				<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
+			<view class="second_one" v-for="(item,index) in product.stocks" :key="index">
+				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+				
+				<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
+				<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.warning_num ?item.warning_num:0}}</text></view>
+				<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.bad_num ?item.bad_num:0}}</text></view>
 			</view>
 
 		</view>
@@ -126,13 +127,14 @@
 					marginTop: 50,
 					marginLeft: 98
 				},
-				product: "",
+				product: {},
 				is_show: false, //二维码显示
 				bar_code_show: false, //条形码显示
 			}
 		},
 		onLoad(options) {
 			that = this;
+			let stocks = [];
 			uid = uni.getStorageSync("uid");
 
 			console.log(options)
@@ -147,10 +149,43 @@
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
 					console.log(res)
-					this.product = res[0];
+					let product = res[0];
+					
+					query.equalTo("userId", "==", uid);
+					query.include("stocks");
+					query.equalTo("goodsName", "==", product.goodsName);
+					query.find().then(res => {
+						for(let item of res){
+							item.stocks.reserve = item.reserve
+							item.stocks.warning_num = item.warning_num
+							item.stocks.bad_num = item.bad_num
+							stocks.push(item.stocks)
+						}
+						
+						this.product.info = product;
+						this.product.stocks = stocks
+						console.log(this.product)
+					})
 				})
 			} else {
-				this.product = uni.getStorageSync("now_product");
+				let product = uni.getStorageSync("now_product");
+				
+				const query = Bmob.Query('Goods');
+				query.equalTo("userId", "==", uid);
+				query.include("stocks");
+				query.equalTo("goodsName", "==", product.goodsName);
+				query.find().then(res => {
+					for(let item of res){
+						item.stocks.reserve = item.reserve
+						item.stocks.warning_num = item.warning_num
+						item.stocks.bad_num = item.bad_num
+						stocks.push(item.stocks)
+					}
+					
+					this.product.info = uni.getStorageSync("now_product");
+					this.product.stocks = stocks
+					console.log(this.product)
+				})
 			}
 
 

@@ -353,8 +353,6 @@
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("goodsName", "==", good.goodsName);
-					query.equalTo("position", "==", good.position);
-					query.equalTo("stocks", "==", that.stocks.objectId);
 					query.find().then(res => {
 						if (res.length >= 1) {
 							uni.showToast({
