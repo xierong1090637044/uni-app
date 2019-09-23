@@ -84,10 +84,10 @@
 				}, ]
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = wx.getStorageSync("uid");
-			goodsId = uni.getStorageSync("now_product").objectId;
+			goodsId = options.objectId;
 			that.getdetail();
 		},
 		methods: {

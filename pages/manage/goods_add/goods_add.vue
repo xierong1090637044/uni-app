@@ -369,9 +369,10 @@
 					query.set("position", good.position)
 					query.set("warning_num", Number(that.stocks[key].warning_num))
 					query.set("stocktype", (Number(that.stocks[key].warning_num) >= Number(that.stocks[key].reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-					if(key > 0){
+					query.set("order", Number(key))
+					/*if(key > 0){
 						query.set("accessory", true)
-					}
+					}*/
 					
 					query.set("product_state", good.product_state) //改产品是否是半成品
 					if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
