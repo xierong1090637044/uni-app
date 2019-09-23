@@ -34,13 +34,13 @@ export default {
 				//console.log(res)
 				for (var i = 0; i < res.length; i++) {
 					if (res[i].type == 1) {
-						get_reserve = get_reserve + res[i].num;
-						get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
-						get_reserve_num = get_reserve_num + res[i].total_money;
+						get_reserve += res[i].num;
+						get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
+						get_reserve_num +=  res[i].total_money;
 					} else if (res[i].type == -1) {
-						out_reserve = out_reserve + res[i].num;
-						out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
-						out_reserve_num = out_reserve_num + res[i].total_money;
+						out_reserve += res[i].num;
+						out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
+						out_reserve_num += res[i].total_money;
 					}
 				}
 
@@ -69,8 +69,8 @@ export default {
 				query.find().then(res => {
 					//console.log(res);
 					for (var i = 0; i < res.length; i++) {
-						should_get_money = should_get_money + res[i].all_money;
-						real_get_money = real_get_money + res[i].real_money;
+						should_get_money += res[i].all_money;
+						real_get_money += res[i].real_money;
 					}
 
 					params.should_get_money = should_get_money
@@ -104,8 +104,8 @@ export default {
 					if (item.stocktype == 0) {
 						warn_num += 1;
 					}
-					total_reserve = total_reserve + item.reserve;
-					total_money = total_money + item.reserve * item.costPrice;
+					total_reserve +=  item.reserve;
+					total_money += item.reserve * item.costPrice;
 					length += 1
 					params.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
 					params.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
