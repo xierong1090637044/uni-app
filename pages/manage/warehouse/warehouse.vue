@@ -229,6 +229,20 @@
 					//console.log(res)
 					that.loading = false;
 					that.stocks = res;
+					
+					if(search_text){
+						return
+					}else{
+						
+						let _warehouse = []
+						for(let item of res){
+							let warehouse = {}
+							warehouse.name = item.stock_name
+							warehouse.objectId = item.objectId
+							_warehouse.push(warehouse)
+						}
+						uni.setStorageSync("_warehouse",_warehouse)
+					}
 				});
 			},
 

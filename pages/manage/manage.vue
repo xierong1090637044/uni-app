@@ -73,12 +73,20 @@
 				key: 'identity',
 				success: function(res) {
 					if(res.data == "2"){
-						let rights = uni.getStorageSync("user").rights.current;
-						let manage_rights=[]
-						for(let item in rights){
-							manage_rights.push(that.optionsLists[item])
-						}
-						that.now_optionsLists = manage_rights
+						let rights;
+						staffs.get_satffAuth().then(res=>{
+							console.log(res)
+							if(res){
+								rights= res.rights.current;
+							}else{
+								rights = uni.getStorageSync("user").rights.current;
+							}
+							let manage_rights=[]
+							for(let item in rights){
+								manage_rights.push(that.optionsLists[item])
+							}
+							that.now_optionsLists = manage_rights
+						});
 					}else if(res.data == "1"){
 						that.now_optionsLists = that.optionsLists;
 					}
