@@ -1,3 +1,4 @@
+import Bmob from '@/utils/bmob.js';
 export default {
 
 	//得到记录的总条数

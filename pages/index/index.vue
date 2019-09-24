@@ -152,9 +152,6 @@
 			that = this;
 			uid = uni.getStorageSync('uid');
 
-			this.$wechat.share_pyq();
-			mine.query_setting()
-
 			console.log(options)
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
