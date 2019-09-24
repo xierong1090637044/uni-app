@@ -37,7 +37,7 @@
 				<view>条码: <text class="second_right_text">{{item.productCode}}</text></view>
 
 				<view class="display_flex">
-					<view class="opion_item" @click="is_show = true,select_qrcode = item.productCode">生成二维码</view>
+					<view class="opion_item" @click="show_qrcode(item.productCode)">生成二维码</view>
 					<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+item.good_id" class="opion_item">客户统计</navigator>
 					<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id" class="opion_item">此产品的操作记录</navigator>
 				</view>
@@ -200,13 +200,16 @@
 				query.include("stocks");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
+					console.log(res)
 					for (let item of res) {
-						item.stocks.reserve = item.reserve
-						item.stocks.warning_num = item.warning_num
-						item.stocks.bad_num = item.bad_num
-						item.stocks.good_id = item.objectId
-						item.stocks.accessory = item.accessory
-						item.stocks.productCode = (item.productCode) ? item.productCode : item.objectId
+						let stocks_o = {}
+						stocks_o.reserve = item.reserve
+						stocks_o.warning_num = item.warning_num
+						stocks_o.bad_num = item.bad_num
+						stocks_o.good_id = item.objectId
+						stocks_o.accessory = item.accessory
+						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
+						item.stocks = stocks_o
 						all_reserve += item.reserve
 						stocks.push(item.stocks)
 					}
@@ -222,6 +225,12 @@
 		},
 
 		methods: {
+			
+			//点击显示二维码
+			show_qrcode(qrcode){
+				that.is_show = true;
+				that.select_qrcode = qrcode;
+			},
 
 			//分库存的switch点击
 			change_state(e) {

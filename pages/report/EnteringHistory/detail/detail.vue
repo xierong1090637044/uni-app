@@ -37,11 +37,11 @@
 			<view v-else-if="detail.type == -2">
 				<view style='max-height:50vh;overflow-x:scroll'>
 					<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-						<view class='pro_list' style='color:#000'>
+						<view class='pro_list' style='color:#000;border-bottom: 1rpx solid#EEEEEE;padding:0 0 10rpx;'>
 							<view>产品：{{item.goodsName}}</view>
 							<view>调拨数量：{{item.num}}</view>
 						</view>
-						<view class='pro_list'>
+						<view class='pro_list' style="padding: 10rpx 0;">
 							<view>调出仓库：{{item.stock}}</view>
 							<view>当前库存：{{item.reserve - item.num}}</view>
 						</view>
