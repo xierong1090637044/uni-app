@@ -1,6 +1,21 @@
 import Bmob from '@/utils/bmob.js';
 export default {
 	
+	//得到员工的权限
+	get_satffAuth(){
+		return new Promise((resolve, reject) => {
+			let userid = uni.getStorageSync("user").objectId
+			const query = Bmob.Query('staffs');
+			query.get(userid).then(res => {
+			  //console.log(res)
+			  resolve(res)
+			}).catch(err => {
+			  //console.log(err)
+			  resolve()
+			})
+		})
+	},
+	
 	//得到员工列表
 	get_stafflist(disabled,search_text) {
 		return new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="start_add">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="modify_desc" @click-right="start_add">
 			<view></view>
 		
 		</uni-nav-bar>
@@ -89,6 +89,7 @@
 		},
 		data() {
 			return {
+				modify_desc:"添加",
 				disabled: true, //是否启用
 				shop_name:'',
 				staff_name: '',
@@ -130,14 +131,18 @@
 					},
 					{
 						id: 3,
-						name: '客户退货记录'
+						name: '调拨记录'
 					},
 					{
 						id: 4,
-						name: '盘点记录'
+						name: '客户退货记录'
 					},
 					{
 						id: 5,
+						name: '盘点记录'
+					},
+					{
+						id: 6,
 						name: '经营状况'
 					},
 				],
@@ -158,6 +163,7 @@
 				uni.setNavigationBarTitle({
 					title:"修改员工信息"
 				});
+				that.modify_desc = "修改"
 				that.staff_name = staff.username
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber

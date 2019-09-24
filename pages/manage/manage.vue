@@ -16,6 +16,8 @@
 </template>
 
 <script>
+	import Bmob from '@/utils/bmob.js';
+	import staffs from '@/utils/staffs.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	
 	let that;
@@ -69,16 +71,27 @@
 			that = this;
 		},
 		onShow() {
+			let current = Bmob.User.current()
+			console.log(current);
+			
 			uni.getStorage({
 				key: 'identity',
 				success: function(res) {
 					if(res.data == "2"){
-						let rights = uni.getStorageSync("user").rights.current;
-						let manage_rights=[]
-						for(let item in rights){
-							manage_rights.push(that.optionsLists[item])
-						}
-						that.now_optionsLists = manage_rights
+						let rights;
+						staffs.get_satffAuth().then(res=>{
+							console.log(res)
+							if(res){
+								rights= res.rights.current;
+							}else{
+								rights = uni.getStorageSync("user").rights.current;
+							}
+							let manage_rights=[]
+							for(let item in rights){
+								manage_rights.push(that.optionsLists[item])
+							}
+							that.now_optionsLists = manage_rights
+						});
 					}else if(res.data == "1"){
 						that.now_optionsLists = that.optionsLists;
 					}
