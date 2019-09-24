@@ -1,4 +1,3 @@
-import Bmob from '@/utils/bmob.js';
 export default{
 	
 	//修改配置信息

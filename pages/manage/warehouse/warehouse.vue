@@ -77,17 +77,19 @@
 				stocks: null,
 				items: ['已启用', '未启用'],
 				current: 0,
-				disabled:false
+				disabled:false,
+				type:'',//'out_choose'是调拨时的选择
 			}
 		},
-
+	
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-
+	
 			console.log(options)
-			if (options.type == "choose") {
+			if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more") {
 				that.is_choose = true
+				that.type = options.type
 			}
 		},
 		onShow() {
@@ -120,24 +122,35 @@
 					url:"detail/detail"
 				})
 			},
-
+	
 			//选择此仓库
 			select_this(item) {
-				//let warehouse = uni.getStorageSync("warehouse") || [];
-				let warehouse = [];
+				let warehouse;
+				if(that.type == "choose_more"){
+					 warehouse = uni.getStorageSync("warehouse") || [];
+				}else{
+					warehouse = []
+				}
+				
 				let _stocks ={};
 				
 				_stocks.stock = item;
 				_stocks.reserve = 0;
+				_stocks.warning_num = 0;
 				
 				if(JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) ==-1){
 					warehouse.push(_stocks);
-					
-					uni.setStorageSync("warehouse", warehouse)
-					uni.navigateBack({
-						delta: 1
-					})
-					
+					if(that.type == "out_choose"){
+						uni.setStorageSync("out_warehouse", warehouse)
+						uni.navigateBack({
+							delta: 1
+						})
+					}else{
+						uni.setStorageSync("warehouse", warehouse)
+						uni.navigateBack({
+							delta: 1
+						})
+					}
 				}else{
 					uni.showToast({
 						title:"已选择此仓库",
@@ -146,7 +159,7 @@
 				}
 				
 			},
-
+	
 			//编辑操作
 			edit(item) {
 				uni.setStorageSync("warehouse", item);
@@ -156,7 +169,7 @@
 					url: "add/add"
 				})
 			},
-
+	
 			//删除操作
 			delete_this(id) {
 				uni.showModal({
@@ -170,7 +183,7 @@
 					}
 				});
 			},
-
+	
 			//删除数据
 			delete_data(id) {
 				console.log(id)
@@ -199,7 +212,7 @@
 				search_text = e.detail.value
 				that.getstock_list();
 			},
-
+	
 			//得到仓库列表
 			getstock_list: function() {
 				const query = Bmob.Query("stocks");
@@ -211,7 +224,7 @@
 					query.equalTo("stock_name", "==", {
 						"$regex": "" + search_text + ".*"
 					});
-
+	
 				}
 				query.find().then(res => {
 					//console.log(res)
@@ -219,7 +232,7 @@
 					that.stocks = res;
 				});
 			},
-
+	
 		}
 	}
 </script>

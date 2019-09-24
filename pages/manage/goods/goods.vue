@@ -36,7 +36,7 @@
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-							<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+							<!--<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>-->
 							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 						</view>
 					
@@ -50,7 +50,7 @@
 			</scroll-view>
 			
 			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
-				<uni-pagination show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
+				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 			</view>
 		</view>
 
@@ -103,8 +103,8 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
-	import Bmob from '@/utils/bmob.js'
 	import common from '@/utils/common.js';
+	import Bmob from '@/utils/bmob.js';
 
 	let uid;
 	let that;
@@ -197,7 +197,23 @@
 
 			//确定点击
 			goto_add() {
-				this.goAdd();
+				uni.showActionSheet({
+				    itemList: ['单产品上传', '多仓库产品上传'],
+				    success: function (res) {
+						if(res.tapIndex == 0){
+							uni.navigateTo({
+								url: "../good_add/good_add"
+							})
+						}else if(res.tapIndex == 1){
+							uni.navigateTo({
+								url: "../goods_add/goods_add"
+							})
+						}
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
 			},
 
 			//modal重置的确认点击
@@ -239,19 +255,15 @@
 				})
 			},
 
-			//点击去到添加产品
-			goAdd() {
-				uni.navigateTo({
-					url: "../good_add/good_add"
-				})
-			},
-
 			//查询产品列表
 			get_productList() {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
+				if(that.stock){}else{
+					query.equalTo("accessory", "!=", true);
+				}
 				query.equalTo("second_class", "==", that.category.objectId);
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
@@ -297,7 +309,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 224rpx);
+		height: calc(100vh - 236rpx);
 	}
 
 	.uni-product {

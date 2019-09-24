@@ -33,6 +33,26 @@
 				</view>
 				<view class='pro_allmoney'>总计：￥{{detail.all_money}}</view>
 			</view>
+			
+			<view v-else-if="detail.type == -2">
+				<view style='max-height:50vh;overflow-x:scroll'>
+					<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
+						<view class='pro_list' style='color:#000'>
+							<view>产品：{{item.goodsName}}</view>
+							<view>调拨数量：{{item.num}}</view>
+						</view>
+						<view class='pro_list'>
+							<view>调出仓库：{{item.stock}}</view>
+							<view>当前库存：{{item.reserve - item.num}}</view>
+						</view>
+						<view class='pro_list'>
+							<view>调入仓库：{{item.out_stock}}</view>
+							<view>当前库存：{{item.out_reserve + item.num}}</view>
+						</view>
+					</view>
+				</view>
+				<view class='pro_allmoney' v-if="detail.type != -2">总计：￥{{detail.all_money}}</view>
+			</view>
 
 			<view v-else>
 				<view style='max-height:50vh;overflow-x:scroll'>

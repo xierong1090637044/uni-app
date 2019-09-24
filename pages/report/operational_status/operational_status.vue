@@ -3,6 +3,27 @@
 		<loading v-if="loading"></loading>
 
 		<view v-else>
+			<!--*筛选器*-->
+			<view class='select'>
+			  <view class="section" style="border-right: 1rpx solid#DDDDDD;">
+			    <picker @change="bindDate_startChange" mode="date" :end="start_date_desc">
+			      <view class="picker">
+			        <text style="margin-right: 6rpx;">{{start_date.split(" ")[0]}}</text>
+			        <fa-icon type="angle-down" size="20" color="#999" />
+			      </view>
+			    </picker>
+			  </view>
+			
+			  <view class="section">
+			    <picker @change="bindDate_endChange" mode="date" :end="end_date_desc">
+			      <view class="picker">
+			        <text style="margin-right: 6rpx;">{{end_date.split(" ")[0]}}</text>
+							<fa-icon type="angle-down" size="20" color="#999" />
+			      </view>
+			    </picker>
+			  </view>
+			</view>
+			
 			<view class="list">
 				<view class="display_flex list_frst">
 					<image src="/static/chengben.png" class="icon_img"></image>
@@ -93,12 +114,14 @@
 </template>
 
 <script>
-	import common from '@/utils/common.js';
 	import Bmob from '@/utils/bmob.js';
+	import common from '@/utils/common.js';
+	import record from '@/utils/record.js';
 	import loading from "@/components/Loading/index.vue"
 
 	let that = this;
 	let uid;
+	
 	export default {
 		components: {
 			loading
@@ -106,6 +129,10 @@
 		data() {
 			return {
 				loading: true,
+				start_date:common.getDay(0, true),
+				end_date:common.getDay(1, true),
+				start_date_desc:common.getDay(0, true).split(" ")[0],
+				end_date_desc:common.getDay(1, true).split(" ")[0],
 				reserve_money: 0, //库存成本
 				all_reserve: 0, //总库存
 				warn_num: 0, //预警产品数量
@@ -127,99 +154,49 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid")
+
 			that.get_allCost();
-
 			that.gettoday_detail()
-
-			console.log(common.getDay(0, true))
-
+			console.log(common.getDay(1, true))
 		},
 		methods: {
+			//起始时间改变
+			bindDate_startChange(e){
+				that.start_date = e.detail.value+" 00:00:00"
+				that.gettoday_detail()
+			},
+			
+			//截止时间改变
+			bindDate_endChange(e){
+				that.start_date = e.detail.value+" 00:00:00"
+				that.gettoday_detail()
+			},
+			
 			//获得库存成本和总库存
 			get_allCost() {
-				let reserve_money = 0;
-				let all_reserve = 0;
-				let warn_num = 0;
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.limit(500);
-				query.find().then(res => {
-					//console.log(res)
-					
-					for (let item of res) {
-						reserve_money += Number(item.costPrice) * item.reserve
-						all_reserve =all_reserve+ item.reserve
-
-						if (item.stocktype = 0) {
-							warn_num += 1;
-						}
-					}
-
-					that.reserve_money = reserve_money
-					that.all_reserve = all_reserve
-					that.warn_num = warn_num
+				record.loadallGoods().then(res=>{
+					console.log(res)
+					that.reserve_money = res.total_money
+					that.all_reserve = res.total_reserve
+					that.warn_num = res.warn_num
 					that.loading = false
 				});
 			},
 
 			//得到今日概况
 			gettoday_detail: function() {
-				let get_reserve = 0;
-				let out_reserve = 0;
-				let get_reserve_real_money = 0;
-				let out_reserve_real_money = 0;
-				let get_reserve_num = 0;
-				let out_reserve_num = 0;
-
-				const query = Bmob.Query("Bills");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("createdAt", ">=", common.getDay(0, true));
-
-				query.include("goodsId");
-				query.find().then(res => {
-					for (var i = 0; i < res.length; i++) {
-						if (res[i].type == 1) {
-							get_reserve = get_reserve + res[i].num;
-							get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
-							get_reserve_num = get_reserve_num + res[i].total_money;
-						} else if (res[i].type == -1) {
-							out_reserve = out_reserve + res[i].num;
-							out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
-							out_reserve_num = out_reserve_num + res[i].total_money;
-						}
-					}
-
-
-					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("setting").show_float)
-					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("setting").show_float)
-					that.get_reserve_real_money = get_reserve_real_money.toFixed(uni.getStorageSync("setting").show_float)
-					that.out_reserve_real_money = out_reserve_real_money.toFixed(uni.getStorageSync("setting").show_float)
-					that.get_reserve_num = get_reserve_num.toFixed(uni.getStorageSync("setting").show_float)
-					that.out_reserve_num = out_reserve_num.toFixed(uni.getStorageSync("setting").show_float)
-					that.get_reserve_get_num = (get_reserve_real_money - get_reserve_num).toFixed(uni.getStorageSync("setting").show_float)
-					that.out_reserve_get_num = (out_reserve_num - out_reserve_real_money).toFixed(uni.getStorageSync("setting").show_float)
-
-
-					console.log(get_reserve)
-
-
-					//查询当日应收和实际收款
-					let should_get_money = 0;
-					let real_get_money = 0;
-					const query = Bmob.Query("order_opreations");
-					query.equalTo("master", "==", uid);
-					query.equalTo("createdAt", ">=", common.getDay(0, true));
-					query.equalTo("type", "==", -1);
-					query.find().then(res => {
-						//console.log(res);
-						for (var i = 0; i < res.length; i++) {
-							should_get_money = should_get_money + res[i].all_money;
-							real_get_money = real_get_money + res[i].real_money;
-						}
-
-						that.should_get_money = should_get_money
-						that.real_get_money = real_get_money
-					});
+				record.gettoday_detail(that.start_date,that.end_date).then(res=>{
+					console.log("今日概况",res)
+					that.get_reserve = res.get_reserve
+					that.out_reserve = res.out_reserve
+					that.get_reserve_real_money = res.get_reserve_real_money
+					that.out_reserve_real_money = res.out_reserve_real_money
+					that.get_reserve_num = res.get_reserve_num
+					that.out_reserve_num = res.out_reserve_num
+					that.get_reserve_get_num = res.get_reserve_get_num
+					that.out_reserve_get_num = res.out_reserve_get_num
+					that.should_get_money = res.should_get_money
+					that.real_get_money = res.real_get_money
 				});
 			},
 
@@ -233,6 +210,18 @@
 </script>
 
 <style lang="scss">
+	.select{
+		display:flex;
+		align-items: center;
+		justify-content: space-between;
+		background: #fff;
+		padding: 20rpx 30rpx;
+		margin-bottom: 20rpx;
+		.section{
+			width: 50%;
+			text-align:center;
+		}
+	}
 	.list {
 		background: #FFFFFF;
 

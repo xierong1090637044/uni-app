@@ -2,7 +2,7 @@
 	<!--当月详情-->
 	<view>
 		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="微信搜索服务号'库存表',记得关注我们哦!" />
-		
+
 		<view style="background: #426ab3;" v-if="weather">
 			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
 				<fa-icon :type="welcome.icon" size="20" color="#fdb933" />
@@ -19,7 +19,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
 			<block>
 				<swiper-item class="item">
@@ -53,12 +53,12 @@
 			</block>
 		</swiper>
 
-		
+
 		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true">
 			<block>
 				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
-					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;"
-					 hover-class="none" :url="item.link">
+					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"
+					 :url="item.link">
 						<view style="line-height: 5vh;width: 90%;">
 							<view style="font-weight: bold;" class="text_overflow">{{item.log}}</view>
 							<view style="font-size: 24rpx;color: #999;">{{item.createdAt}}</view>
@@ -91,12 +91,13 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
+	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+
 	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
-	
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	import record from '@/utils/record.js';
+	import Bmob from '@/utils/bmob.js';
 	let that;
 	let uid;
 
@@ -124,6 +125,11 @@
 						url: '/pages/common/goods-select/goods-select?type=delivery'
 					},
 					{
+						name: '产品调拨',
+						icon: '/static/allocation.png',
+						url: '/pages/common/goods-select/goods-select?type=allocation'
+					},
+					{
 						name: '退货入库',
 						icon: '/static/return_goods.png',
 						url: '/pages/common/goods-select/goods-select?type=returing'
@@ -139,14 +145,21 @@
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
+				openid: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
-			mine.query_setting();
-			
+
+			this.$wechat.share_pyq();
+			mine.query_setting()
+
+			console.log(options)
+			if (options.openid) {
+				uni.setStorageSync("openid", options.openid)
+			}
+
 			let now = new Date();
 			let hour = now.getHours(); //得到小时
 			let myAmapFun = new amapFile.AMapWX({
@@ -157,25 +170,25 @@
 					console.log(data)
 					that.weather = data
 
-					if (hour<6) {
+					if (hour < 6) {
 						console.log(hour)
 						that.welcome.text = "凌晨注意休息！好的身体才能高效的工作"
 						that.welcome.icon = "moon-o"
-					} else if (hour<9) {
+					} else if (hour < 9) {
 						that.welcome.text = "早上好，又是开心快乐的一天！"
 						that.welcome.icon = "sun-o"
 					} else if (hour < 11) {
 						that.welcome.text = "上午好，请努力加油哦，会成功的！"
 						that.welcome.icon = "sun-o"
-					}  else if (hour < 14) {
+					} else if (hour < 14) {
 						that.welcome.text = "中午好，辛勤劳动的你是最可爱的！"
 						that.welcome.icon = "sun-o"
-					}else if (hour < 18) {
+					} else if (hour < 18) {
 						that.welcome.text = "下午好，没有什么会阻挡你的，相信自己！"
 						that.welcome.icon = "sun-o"
 					} else {
 						that.welcome.text = "晚上好，更深露重，适当工作，适当休息！"
-						that.welcome.icon = "star-o"
+						that.welcome.icon = "sun-o"
 					}
 					//成功回调
 				},
@@ -190,18 +203,6 @@
 			that.gettoday_detail();
 			that.loadallGoods();
 			that.get_logsList();
-		},
-
-		//分享
-		onShareAppMessage: function(res) {
-			if (res.from === 'button') {
-				// 来自页面内转发按钮
-				console.log(res.target)
-			}
-			return {
-				title: '库存表，欢迎您的加入',
-				path: '/pages/index/index'
-			}
 		},
 
 		methods: {
@@ -220,37 +221,28 @@
 
 			//扫码操作
 			scan: function(type) {
-				uni.scanCode({
-					success(res) {
-						var result = res.result;
-						var array = result.split("-");
+				this.$wechat.scanQRCode().then(res => {
+					let array = res.split("-");
 
-						if (type == 0) {
-							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 1) {
-							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 2) {
-							uni.navigateTo({
-								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 3) {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 4) {
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
-							})
-						}
-					},
-					fail(res) {
-						uni.showToast({
-							title: '未识别到条形码',
-							icon: "none"
+					if (type == 0) {
+						uni.navigateTo({
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 1) {
+						uni.navigateTo({
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 2) {
+						uni.navigateTo({
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 3) {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 4) {
+						uni.navigateTo({
+							url: '/pages/manage/good_add/good_add?id=' + result,
 						})
 					}
 				})
@@ -283,46 +275,18 @@
 						}
 					}
 
-					that.get_reserve = get_reserve.toFixed(wx.getStorageSync("print_setting").show_float)
-					that.out_reserve = out_reserve.toFixed(wx.getStorageSync("print_setting").show_float)
+					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
+					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 				})
 			},
 
 			//得到总库存数和总金额
 			loadallGoods: function() {
-				var total_reserve = 0;
-				var total_money = 0;
-				let length = 0
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.limit(500);
-				query.find().then(res => {
-					for (let item of res) {
-						total_reserve = total_reserve + item.reserve;
-						total_money = total_money + item.reserve * item.costPrice;
-						if (res.length == 500) {
-							const query = Bmob.Query("Goods");
-							query.equalTo("userId", "==", uid);
-							query.skip(500);
-							query.limit(500);
-							query.find().then(res => {
-								for (var i = 0; i < res.length; i++) {
-									total_reserve = total_reserve + res[i].reserve;
-									total_money = total_money + res[i].reserve * res[i].costPrice;
-								}
-							})
-							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_products = res.length
-						} else {
-							length += 1
-							that.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-								that.total_products = length
-						}
-					}
-
-				});
+				record.loadallGoods().then(res => {
+					that.total_money = res.total_money
+					that.total_reserve = res.total_reserve
+					that.total_products = res.total_products
+				})
 			},
 
 			//得到日志列表

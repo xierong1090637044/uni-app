@@ -28,12 +28,13 @@
 		
 		
 		<scroll-view class='page'  scroll-y="true">
-			<view class='list-item' v-if="list.length > 0">
+			<view class='list-item' v-if="list">
 				<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
 					<view style='display:flex;width:calc(100% - 120rpx);'>
 						<view style='line-height:80rpx'>
 							<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
 							<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
+							<fa-icon v-if='item.type == -2' type="random" size="20" color="#4e72b8" />
 							<fa-icon v-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
 							<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
 						</view>
@@ -45,6 +46,7 @@
 						</view>
 					</view>
 					<view v-if='item.type == -1' class='order_out'>出库</view>
+					<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
 					<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 					<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
 					<view v-else class='order_get'>入库</view>
@@ -86,8 +88,8 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
 	import common from '@/utils/common.js';
+	import Bmob from '@/utils/bmob.js';
 	
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"

@@ -91,11 +91,11 @@
 </template>
 
 <script>
+	import Bmob from '@/utils/bmob.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
-	import Bmob from '@/utils/bmob.js'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 
 	let products = [];
@@ -125,13 +125,14 @@
 				checked_option: 'createdAt', //tab的筛选条件
 				category: "", //选择的类别
 				stock: "", //选择的仓库
+				type:'',//操作类型
 			}
 		},
-	
+
 		onLoad(option) {
 			that = this;
 			this.handle_data();
-	
+
 			if (option.type == "entering") {
 				this.url = "../good_confrim/good_confrim"
 			} else if (option.type == "delivery") {
@@ -140,26 +141,30 @@
 				this.url = "../good_return/good_return"
 			} else if (option.type == "counting") {
 				this.url = "../good_count/good_count"
+			} else if (option.type == "allocation") {
+				this.url = "../good_allocation/good_allocation"
 			}
-	
+			
+			this.type = option.type
+
 			uid = uni.getStorageSync('uid');
 			that.get_productList();
 		},
-	
+
 		onShow() {
-	
+
 			uni.removeStorageSync("products");
-	
+
 			if (uni.getStorageSync("category")) {
 				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
 			}
-	
+
 			if (uni.getStorageSync("warehouse")) {
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
-	
+
 			if (uni.getStorageSync("is_option")) {
 				this.productList = []
 				that.get_productList();
@@ -175,7 +180,7 @@
 			search_products = [];
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
-	
+
 		methods: {
 			
 			//分页点击
@@ -188,7 +193,7 @@
 			shaixuan() {
 				that.showOptions = true;
 			},
-	
+
 			//输入框输入点击确定
 			confirm(e) {
 				search_text = e.detail.value
@@ -198,12 +203,12 @@
 				
 				that.get_productList()
 			},
-	
+
 			//确定点击
 			confrim_this() {
 				this.go_goodsconfrim();
 			},
-	
+
 			//modal重置的确认点击
 			option_reset() {
 				this.productList = [];
@@ -214,28 +219,28 @@
 				that.showOptions = false;
 				that.get_productList()
 			},
-	
+
 			//modal筛选的确认点击
 			option_confrim() {
 				this.productList = [];
 				if (uni.getStorageSync("category")) {
 					that.category = uni.getStorageSync("category")
 				}
-	
+
 				if (uni.getStorageSync("warehouse")) {
 					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 				}
 				that.showOptions = false;
 				that.get_productList()
 			},
-	
+
 			//头部的options选择
 			selectd(type) {
 				page_size = 30;
 				that.checked_option = type;
 				that.get_productList();
 			},
-	
+
 			//多选选择触发
 			radioChange: function(e) {
 				let current = []
@@ -244,11 +249,12 @@
 				}else{
 					products[page_num - 1] = e.detail.value
 				}
-				all_products = search_products.concat(products).flat(Infinity)
+				all_products = search_products.concat(products)
+				all_products = all_products.reduce(function (a, b) { return a.concat(b)} );
 				
 				console.log(all_products)
 			},
-	
+
 			//点击去到添加产品
 			go_goodsconfrim() {
 				console.log(all_products)
@@ -258,21 +264,38 @@
 						icon: "none"
 					})
 				} else {
-					let index = 0;
-					for (let item of all_products) {
-						all_products[index] = JSON.parse(item)
-						all_products[index].num = 1;
-						all_products[index].total_money = 1 * all_products[index].retailPrice;
-						all_products[index].modify_retailPrice = all_products[index].retailPrice;
-						index += 1;
+					
+					if(this.type =="allocation"){
+						if(this.stock){
+							this.confrim_next()
+						}else{
+							uni.showToast({
+								title:"请在筛选中选择调拨的仓库",
+								icon:"none"
+							})
+						}
+					}else{
+						this.confrim_next()
 					}
-					uni.setStorageSync("products", all_products);
-					uni.navigateTo({
-						url: this.url
-					})
+					
 				}
 			},
-	
+			
+			confrim_next(){
+				let index = 0;
+				for (let item of all_products) {
+					all_products[index] = JSON.parse(item)
+					all_products[index].num = 1;
+					all_products[index].total_money = 1 * all_products[index].retailPrice;
+					all_products[index].modify_retailPrice = all_products[index].retailPrice;
+					index += 1;
+				}
+				uni.setStorageSync("products", all_products);
+				uni.navigateTo({
+					url: this.url
+				})
+			},
+
 			//查询产品列表
 			get_productList() {
 				that.productList = []
@@ -281,6 +304,9 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
+				if(that.stock){}else{
+					query.equalTo("accessory", "!=", true);
+				}
 				query.equalTo("second_class", "==", that.category.objectId);
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
@@ -310,17 +336,18 @@
 					this.loading = false;
 				});
 			},
-	
+
 			//数据重置
 			handle_data() {
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
+				uni.removeStorageSync("out_warehouse");
 				uni.removeStorageSync("shop");
-	
+
 				search_text = '';
 				page_size = 30;
 			},
-	
+
 		}
 	}
 </script>
