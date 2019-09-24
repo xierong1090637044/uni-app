@@ -1,3 +1,4 @@
+import Bmob from '@/utils/bmob.js';
 export default {
 	//得到客户列表
 	get_customList(disabled, search_text) {

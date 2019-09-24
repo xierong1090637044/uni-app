@@ -319,6 +319,12 @@
 							"navigationBarTitleText": "盘点详情"
 						}
         }
+        ,{
+            "path" : "pages/manage/goods_add/goods_add",
+            "style" : {
+							"navigationBarTitleText": "多库存商品上传"
+						}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

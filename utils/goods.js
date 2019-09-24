@@ -1,3 +1,4 @@
+import Bmob from '@/utils/bmob.js';
 export default {
 	//批量删除功能
 	delete_goods(goods) {
