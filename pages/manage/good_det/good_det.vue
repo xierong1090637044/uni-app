@@ -171,14 +171,17 @@
 					query.include("stocks");
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
-						for (let item of res) {
-							item.stocks.reserve = item.reserve
-							item.stocks.warning_num = item.warning_num
-							item.stocks.bad_num = item.bad_num
-							item.stocks.good_id = item.objectId
-							item.stocks.accessory = item.accessory
-							item.stocks.productCode = (item.productCode) ? item.productCode : item.objectId + '-' + false
-							all_reserve += all_reserve + item.reserve
+
+						for(let item of res){
+							let stocks_o = {}
+							stocks_o.reserve = item.reserve
+							stocks_o.warning_num = item.warning_num
+							stocks_o.bad_num = item.bad_num
+							stocks_o.good_id = item.objectId
+							stocks_o.accessory = item.accessory
+							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
+							item.stocks = stocks_o
+							all_reserve += item.reserve
 							stocks.push(item.stocks)
 						}
 
@@ -191,20 +194,23 @@
 			} else {
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
-
+				
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.include("stocks");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
-					for (let item of res) {
-						item.stocks.reserve = item.reserve
-						item.stocks.warning_num = item.warning_num
-						item.stocks.bad_num = item.bad_num
-						item.stocks.good_id = item.objectId
-						item.stocks.accessory = item.accessory
-						item.stocks.productCode = (item.productCode) ? item.productCode : item.objectId
+
+					for(let item of res){
+						let stocks_o = {}
+						stocks_o.reserve = item.reserve
+						stocks_o.warning_num = item.warning_num
+						stocks_o.bad_num = item.bad_num
+						stocks_o.good_id = item.objectId
+						stocks_o.accessory = item.accessory
+						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
+						item.stocks = stocks_o
 						all_reserve += item.reserve
 						stocks.push(item.stocks)
 					}

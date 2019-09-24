@@ -42,9 +42,9 @@
 
 							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<!--<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>-->
+								<view class="product_reserve" v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-								<!--<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>-->
+								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 							</view>
 						</label>
@@ -300,13 +300,12 @@
 			get_productList() {
 				that.productList = []
 				const query = Bmob.Query("Goods");
-				query.select("goodsName","reserve","goodsIcon","packageContent","packingUnit","retailPrice","costPrice");
+				query.select("goodsName","reserve","goodsIcon","packageContent","packingUnit","retailPrice","costPrice","stocks");
+				query.include("stocks");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				if(that.stock){}else{
-					query.equalTo("accessory", "!=", true);
-				}
+
 				query.equalTo("second_class", "==", that.category.objectId);
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
