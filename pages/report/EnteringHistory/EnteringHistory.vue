@@ -1,60 +1,71 @@
 <template>
 	<view>
 		<loading v-if="loading"></loading>
-		
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选"  @click-right="shaixuan_click" >
-			<view></view>
-				
-		</uni-nav-bar>
-		
-		<view class="display_flex good_option_view">
-			<view class="good_option" @click="selectd('one')">
-				<text :class="(checked_option == 'one')?'option_selected':''">今天</text>
-				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'one'"></fa-icon>
-			</view>
-			<view class="good_option" @click="selectd('two')">
-				<text :class="(checked_option == 'two')?'option_selected':''">昨天</text>
-				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'two'"></fa-icon>
-			</view>
-			<view class="good_option" @click="selectd('three')">
-				<text :class="(checked_option == 'three')?'option_selected':''">七天</text>
-				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'three'"></fa-icon>
-			</view>
-			<view class="good_option" @click="selectd('four')">
-				<text :class="(checked_option == 'four')?'option_selected':'three'">一个月</text>
-				<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'four'"></fa-icon>
-			</view>
-		</view>
-		
-		
-		<scroll-view class='page'  scroll-y="true">
-			<view class='list-item' v-if="list">
-				<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
-					<view style='display:flex;width:calc(100% - 120rpx);'>
-						<view style='line-height:80rpx'>
-							<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
-							<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
-							<fa-icon v-if='item.type == -2' type="random" size="20" color="#4e72b8" />
-							<fa-icon v-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
-							<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
-						</view>
-						<view style='margin-left:20rpx'>
-							<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
-							<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-							<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
-							<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
-						</view>
-					</view>
-					<view v-if='item.type == -1' class='order_out'>出库</view>
-					<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
-					<view v-else-if='item.type == 2' class='order_returning'>退货</view>
-					<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-					<view v-else class='order_get'>入库</view>
+
+		<view v-else>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"></uni-nav-bar>
+
+			<view class="display_flex good_option_view">
+				<view class="good_option" @click="selectd('all')">
+					<text :class="(checked_option == 'all')?'option_selected':''">全部</text>
+					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'all'"></fa-icon>
+				</view>
+				<view class="good_option" @click="selectd('one')">
+					<text :class="(checked_option == 'one')?'option_selected':''">今天</text>
+					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'one'"></fa-icon>
+				</view>
+				<view class="good_option" @click="selectd('two')">
+					<text :class="(checked_option == 'two')?'option_selected':''">昨天</text>
+					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'two'"></fa-icon>
+				</view>
+				<view class="good_option" @click="selectd('three')">
+					<text :class="(checked_option == 'three')?'option_selected':''">七天</text>
+					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'three'"></fa-icon>
+				</view>
+				<view class="good_option" @click="selectd('four')">
+					<text :class="(checked_option == 'four')?'option_selected':'three'">一个月</text>
+					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'four'"></fa-icon>
 				</view>
 			</view>
-			
-		</scroll-view>
-		
+
+			<view>
+				<view v-if="list.length > 0">
+					<scroll-view class='page' scroll-y="true" >
+						<view class='list-item' v-if="list">
+							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
+								<view style='display:flex;width:calc(100% - 120rpx);'>
+									<view style='line-height:80rpx'>
+										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
+										<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
+										<fa-icon v-if='item.type == -2' type="random" size="20" color="#4e72b8" />
+										<fa-icon v-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
+										<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
+									</view>
+									<view style='margin-left:20rpx'>
+										<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
+										<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
+										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
+									</view>
+								</view>
+								<view v-if='item.type == -1' class='order_out'>出库</view>
+								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
+								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
+								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
+								<view v-else class='order_get'>入库</view>
+							</view>
+						</view>
+
+					</scroll-view>
+					<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
+						<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
+					</view>
+				</view>
+
+				<nocontent v-else :type="1"></nocontent>
+			</view>
+		</view>
+
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background" @tap.stop.native="showOptions = false">
 			<view class="showOptions">
@@ -63,71 +74,95 @@
 						<view class="left_item">产品名称</view>
 						<view class="right_input"><input placeholder="产品名称" v-model="goodsName" @click.stop></input></view>
 					</view>
-			
+
 				</view>
-				
+
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/staff/staff?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">操作者</view>
 						<view class="right_input"><input placeholder="操作者" :value="staff.username" disabled="true"></input></view>
 					</view>
-				
+
 					<view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
 				
+				<view class="input_item1">
+					<view>
+						<picker mode="date" :value="option_now_day" @change.stop="bindDateChange1" :end="max_day" @click.stop>
+							<view style="display: flex;align-items: center;">
+								<view style="margin-right: 20rpx;">{{option_now_day}}</view>
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</picker>
+					</view>
+					<view>至</view>
+					<view>
+						<picker mode="date" :value="option_end_day" :end="max_day" @change.stop="bindDateChange2" @click.stop>
+							<view style="display: flex;align-items: center;">
+								<view style="margin-right: 20rpx;">{{option_end_day}}</view>
+				
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</picker>
+					</view>
+				</view>
+
 				<view class="option_bottom">
-					<view class="selection"  @click="option_reset">重置</view>
+					<view class="selection" @click="option_reset">重置</view>
 					<view class="selection1" @click="option_confrim">确定</view>
 				</view>
 			</view>
 		</view>
-
 	</view>
 </template>
 
 <script>
 	import common from '@/utils/common.js';
-	
 	import loading from "@/components/Loading/index.vue"
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
+	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 
 	let uid;
 	let that;
 	let opeart_type;
-
+	let page_size = 30;
+	let page_num = 1;
+	
 	export default {
 		components: {
+			uniPagination,
 			loading,
-			faIcon,
 			uniNavBar,
 			uniIcon
 		},
 		data() {
 			return {
-				checked_option:"one",
-				loading: true,
-				list: null,
-				
-				showOptions: false, //是否显示筛选
-				goodsName:"",//输入的操作产品名字
-				staff:"",//选择的操作者
-				
 				now_day: common.getDay(0, false),
 				end_day: common.getDay(1, false),
+				option_now_day: common.getDay(0, false),
+				option_end_day: common.getDay(1, false),
 				max_day: common.getDay(0, false),
+				page_num:1,
+				checked_option: "all",
+				loading: true,
+				list: null,
+
+				showOptions: false, //是否显示筛选
+				is_checked:false,
+				goodsName: "", //输入的操作产品名字
+				staff: "", //选择的操作者
 			}
 		},
-		
+
 		onLoad(options) {
 			that = this;
 			opeart_type = Number(options.type);
 			uid = uni.getStorageSync("uid");
 			uni.removeStorageSync("charge");
-			
+
 			if (opeart_type == 1) {
 				uni.setNavigationBarTitle({
 					title: "入库详情"
@@ -149,15 +184,30 @@
 
 		onShow() {
 			this.get_list();
-			
-			if(uni.getStorageSync("charge")){
+
+			if (uni.getStorageSync("charge")) {
 				that.staff = uni.getStorageSync("charge")
 			}
+		},
+		
+		onUnload() {
+			page_size = 30;
+			page_num = 1;
 		},
 
 		methods: {
 			
-			selectd(type){
+			bindDateChange1(e) {
+				that.now_day = e.detail.value;
+				that.option_now_day = e.detail.value;
+			},
+			
+			bindDateChange2(e) {
+				that.end_day = e.detail.value;
+				that.option_end_day = e.detail.value;
+			},
+
+			selectd(type) {
 				if (type == 'one') {
 					that.now_day = common.getDay(0, false)
 					that.end_day = common.getDay(1, false)
@@ -170,30 +220,44 @@
 				} else if (type == 'four') {
 					that.now_day = common.getDay(-30, false)
 					that.end_day = common.getDay(1, false)
+				}else{
+					that.now_day = ''
+					that.end_day = ''
 				}
+				
+				page_num = 1
+				that.page_num = 1
 				that.checked_option = type
 				that.get_list()
 			},
-			
-			shaixuan_click(){
+
+			shaixuan_click() {
 				that.showOptions = true;
 			},
-			
+
 			//modal重置的确认点击
-			option_reset(){
+			option_reset() {
 				uni.removeStorageSync("charge");
-				that.goodsName ="";
-				that.staff ="";
-				that.showOptions= false;
+				that.goodsName = "";
+				that.staff = "";
+				that.is_checked = false;
+				that.showOptions = false;
 				that.get_list()
 			},
-			
+
 			//modal筛选的确认点击
-			option_confrim(){				
-				that.showOptions= false;
+			option_confrim() {
+				that.is_checked = true;
+				that.showOptions = false;
 				that.get_list()
 			},
 			
+			//分页点击
+			change_page(e){
+				page_num = e.current
+				that.get_list();
+			},
+
 			//得到列表
 			get_list() {
 				const query = Bmob.Query("order_opreations");
@@ -203,8 +267,17 @@
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
-				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
-				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
+				if(that.checked_option !='all'){
+					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
+					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
+				}else{
+					if(that.is_checked){
+						query.equalTo("createdAt", ">=", that.option_now_day + ' 00:00:00');
+						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
+					}	
+				}
+				query.limit(page_size);
+				query.skip(page_size*(page_num-1));
 				query.include("opreater");
 				query.order("-createdAt");
 				query.find().then(res => {
@@ -227,7 +300,7 @@
 <style>
 	.page {
 		overflow: hidden;
-		height: calc(100vh - 160rpx);
+		height: calc(100vh - 234rpx);
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;

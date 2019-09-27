@@ -21,6 +21,7 @@
 					<view class="desc-list">
 						<text>产品出库、入库、盘点、退货选择产品优化</text>
 						<text>修改、增加产品bug修复</text>
+						<text>所有的操作记录增加分页显示，支持可以查看所有日期的记录</text>
 					</view>
 				</view>
 				
@@ -78,7 +79,7 @@
 	export default {
 		data() {
 			return {
-				version:"1.0.0",
+				version:"1.0.2",
 				year: new Date().getFullYear()
 			}
 		},
