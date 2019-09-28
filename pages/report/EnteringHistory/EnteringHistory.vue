@@ -29,9 +29,9 @@
 			</view>
 
 			<view>
-				<view v-if="list.length > 0">
-					<scroll-view class='page' scroll-y="true" >
-						<view class='list-item' v-if="list">
+				<view class='page'>
+					<scroll-view class='page' scroll-y="true" v-if="list.length > 0">
+						<view class='list-item'>
 							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
 								<view style='display:flex;width:calc(100% - 120rpx);'>
 									<view style='line-height:80rpx'>
@@ -57,12 +57,13 @@
 						</view>
 
 					</scroll-view>
-					<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
-						<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
-					</view>
+					<nocontent v-else :type="1"></nocontent>
+				</view>
+				<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
+					<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 				</view>
 
-				<nocontent v-else :type="1"></nocontent>
+
 			</view>
 		</view>
 
@@ -87,7 +88,7 @@
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
-				
+
 				<view class="input_item1">
 					<view>
 						<picker mode="date" :value="option_now_day" @change.stop="bindDateChange1" :end="max_day" @click.stop>
@@ -102,7 +103,7 @@
 						<picker mode="date" :value="option_end_day" :end="max_day" @change.stop="bindDateChange2" @click.stop>
 							<view style="display: flex;align-items: center;">
 								<view style="margin-right: 20rpx;">{{option_end_day}}</view>
-				
+
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</picker>
@@ -130,7 +131,7 @@
 	let opeart_type;
 	let page_size = 30;
 	let page_num = 1;
-	
+
 	export default {
 		components: {
 			uniPagination,
@@ -145,13 +146,13 @@
 				option_now_day: common.getDay(0, false),
 				option_end_day: common.getDay(1, false),
 				max_day: common.getDay(0, false),
-				page_num:1,
+				page_num: 1,
 				checked_option: "all",
 				loading: true,
 				list: null,
 
 				showOptions: false, //是否显示筛选
-				is_checked:false,
+				is_checked: false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
 			}
@@ -189,19 +190,19 @@
 				that.staff = uni.getStorageSync("charge")
 			}
 		},
-		
+
 		onUnload() {
 			page_size = 30;
 			page_num = 1;
 		},
 
 		methods: {
-			
+
 			bindDateChange1(e) {
 				that.now_day = e.detail.value;
 				that.option_now_day = e.detail.value;
 			},
-			
+
 			bindDateChange2(e) {
 				that.end_day = e.detail.value;
 				that.option_end_day = e.detail.value;
@@ -220,11 +221,11 @@
 				} else if (type == 'four') {
 					that.now_day = common.getDay(-30, false)
 					that.end_day = common.getDay(1, false)
-				}else{
+				} else {
 					that.now_day = ''
 					that.end_day = ''
 				}
-				
+
 				page_num = 1
 				that.page_num = 1
 				that.checked_option = type
@@ -251,9 +252,9 @@
 				that.showOptions = false;
 				that.get_list()
 			},
-			
+
 			//分页点击
-			change_page(e){
+			change_page(e) {
 				page_num = e.current
 				that.get_list();
 			},
@@ -267,17 +268,17 @@
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
-				if(that.checked_option !='all'){
+				if (that.checked_option != 'all') {
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
-				}else{
-					if(that.is_checked){
+				} else {
+					if (that.is_checked) {
 						query.equalTo("createdAt", ">=", that.option_now_day + ' 00:00:00');
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
-					}	
+					}
 				}
 				query.limit(page_size);
-				query.skip(page_size*(page_num-1));
+				query.skip(page_size * (page_num - 1));
 				query.include("opreater");
 				query.order("-createdAt");
 				query.find().then(res => {

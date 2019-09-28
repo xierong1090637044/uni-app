@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="新版库存表上线啦,接下来将更新此小程序,旧版的将不再更新" />
+		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="借此佳节之日：祝你人生旅途一帆风顺，事业学业一马当先，健康美满一生相随" />
 
 		<view style="background: #426ab3;" v-if="weather">
 			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
