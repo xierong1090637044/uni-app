@@ -4,18 +4,19 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
 					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
 				</view>
 			</uni-nav-bar>
-			
+
 			<view class="uni-common-mt">
 				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
-			
-			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true" enable-back-to-top="true">
+
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
+			 enable-back-to-top="true">
 				<view v-for="(stock,index) in stocks" :key="index">
 					<view class='content'>
 						<view class="display_flex_bet" @click="goto_detail(stock)">
@@ -27,10 +28,10 @@
 									<view class='stock_mobile' v-else>负责人：未填写</view>
 								</view>
 							</view>
-							
+
 							<fa-icon type="angle-right" size="20" color="#999" />
 						</view>
-						
+
 						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;" v-else></fa-icon>-->
 						<view class="right_item">
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(stock)">
@@ -52,6 +53,8 @@
 </template>
 
 <script>
+	import staffs from "@/utils/staffs.js"
+
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
@@ -76,8 +79,8 @@
 				stocks: null,
 				items: ['已启用', '未启用'],
 				current: 0,
-				disabled:false,
-				type:'',//'out_choose'是调拨时的选择
+				disabled: false,
+				type: '', //'out_choose'是调拨时的选择
 			}
 		},
 
@@ -95,68 +98,68 @@
 			that.getstock_list()
 		},
 		onUnload() {
-			search_text =""
+			search_text = ""
 		},
 		methods: {
-			
+
 			//tab点击
 			onClickItem(index) {
 				if (this.current !== index) {
 					this.current = index
-			
+
 					if (index == 0) {
 						that.disabled = false,
-						that.getstock_list()
+							that.getstock_list()
 					} else if (index == 1) {
 						that.disabled = true,
-						that.getstock_list()
-					} 
+							that.getstock_list()
+					}
 				}
 			},
-			
+
 			//点击仓库去到详情
-			goto_detail(stock){
-				uni.setStorageSync("stock",stock)
+			goto_detail(stock) {
+				uni.setStorageSync("stock", stock)
 				uni.navigateTo({
-					url:"detail/detail"
+					url: "detail/detail"
 				})
 			},
 
 			//选择此仓库
 			select_this(item) {
 				let warehouse;
-				if(that.type == "choose_more"){
-					 warehouse = uni.getStorageSync("warehouse") || [];
-				}else{
+				if (that.type == "choose_more") {
+					warehouse = uni.getStorageSync("warehouse") || [];
+				} else {
 					warehouse = []
 				}
-				
-				let _stocks ={};
-				
+
+				let _stocks = {};
+
 				_stocks.stock = item;
 				_stocks.reserve = 0;
 				_stocks.warning_num = 0;
-				
-				if(JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) ==-1){
+
+				if (JSON.stringify(warehouse).indexOf(JSON.stringify(_stocks)) == -1) {
 					warehouse.push(_stocks);
-					if(that.type == "out_choose"){
+					if (that.type == "out_choose") {
 						uni.setStorageSync("out_warehouse", warehouse)
 						uni.navigateBack({
 							delta: 1
 						})
-					}else{
+					} else {
 						uni.setStorageSync("warehouse", warehouse)
 						uni.navigateBack({
 							delta: 1
 						})
 					}
-				}else{
+				} else {
 					uni.showToast({
-						title:"已选择此仓库",
-						icon:"none"
+						title: "已选择此仓库",
+						icon: "none"
 					})
 				}
-				
+
 			},
 
 			//编辑操作
@@ -198,16 +201,16 @@
 					console.log(err)
 				})
 			},
-			
+
 			//前去添加员工
-			goto_add(){
+			goto_add() {
 				uni.navigateTo({
 					url: "add/add"
 				})
 			},
-			
+
 			//输入内容筛选
-			input_confirm(e){
+			input_confirm(e) {
 				search_text = e.detail.value
 				that.getstock_list();
 			},
@@ -216,7 +219,7 @@
 			getstock_list: function() {
 				const query = Bmob.Query("stocks");
 				query.order("-num");
-				query.include("charge","shop")
+				query.include("charge", "shop")
 				query.equalTo("parent", "==", uid);
 				query.equalTo("disabled", "!=", !that.disabled);
 				if (search_text) {
@@ -228,21 +231,38 @@
 				query.find().then(res => {
 					//console.log(res)
 					that.loading = false;
-					that.stocks = res;
+					let stocks = res;
 					
-					if(search_text){
-						return
-					}else{
-						
-						let _warehouse = []
-						for(let item of res){
-							let warehouse = {}
-							warehouse.name = item.stock_name
-							warehouse.objectId = item.objectId
-							_warehouse.push(warehouse)
-						}
-						uni.setStorageSync("_warehouse",_warehouse)
+					let _warehouse = []
+					for (let item of stocks) {
+						let warehouse = {}
+						warehouse.name = item.stock_name
+						warehouse.objectId = item.objectId
+						_warehouse.push(warehouse)
 					}
+					uni.setStorageSync("_warehouse", _warehouse)
+
+					uni.getStorage({
+						key: 'identity',
+						success: function(res) {
+							if (res.data == "2") {
+								staffs.get_satffAuth().then(res => {
+									console.log(res)
+									let manange_stocks = []
+									for (let item of res.stocks) {
+										for (let stock of stocks) {
+											if (stock.objectId == item) {
+												manange_stocks.push(stock)
+											}
+										}
+									}
+									that.stocks = manange_stocks
+								});
+							} else if (res.data == "1") {
+								that.stocks = stocks
+							}
+						},
+					})
 				});
 			},
 
@@ -255,10 +275,12 @@
 		height: 100vh;
 		background: #FAFAFA;
 	}
+
 	.uni-common-mt {
 		background: #FFFFFF;
 		padding: 20rpx 0;
 	}
+
 	.stock_name {
 		font-weight: bold;
 		font-size: 30rpx;

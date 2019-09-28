@@ -4,13 +4,13 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
 					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
 				</view>
 			</uni-nav-bar>
-			
+
 			<view class="uni-common-mt">
 				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+	import staffs from "@/utils/staffs.js"
+
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
@@ -108,14 +110,14 @@
 					itemList: ['员工列表', '查看记录'],
 					success: function(res) {
 						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-						
-						if(res.tapIndex == 0){
+
+						if (res.tapIndex == 0) {
 							uni.navigateTo({
-								url:"staff_in/staff_in?shopId="+shopId
+								url: "staff_in/staff_in?shopId=" + shopId
 							})
-						}else{
+						} else {
 							uni.navigateTo({
-								url:"record/record?shopId="+shopId
+								url: "record/record?shopId=" + shopId
 							})
 						}
 					},
@@ -185,16 +187,16 @@
 					console.log(err)
 				})
 			},
-			
+
 			//前去添加员工
-			goto_add(){
+			goto_add() {
 				uni.navigateTo({
 					url: "add/add"
 				})
 			},
-			
+
 			//输入内容筛选
-			input_confirm(e){
+			input_confirm(e) {
 				search_text = e.detail.value
 				that.getshop_list();
 			},
@@ -214,7 +216,30 @@
 				query.find().then(res => {
 					console.log(res, uid)
 					that.loading = false;
-					that.shops = res;
+					let shops = res;
+
+					uni.getStorage({
+						key: 'identity',
+						success: function(res) {
+							if (res.data == "2") {
+								staffs.get_satffAuth().then(res => {
+									console.log(res)
+									let manange_shops = []
+									if (res.shop) {
+										for (let shop of shops) {
+											if (shop.objectId == res.shop.objectId) {
+												manange_shops.push(shop)
+											}
+										}
+									}
+									that.shops = manange_shops;
+								});
+							} else if (res.data == "1") {
+								that.shops = shops;
+							}
+						},
+					})
+
 				});
 			},
 

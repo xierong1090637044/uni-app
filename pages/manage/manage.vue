@@ -17,6 +17,7 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import staffs from "@/utils/staffs.js"
 	
 	let that;
 	export default {
