@@ -42,6 +42,7 @@
 					<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id" class="opion_item">此产品的操作记录</navigator>
 				</view>
 				<view class="display_flex">
+					<view class="opion_item" @click='print_info(item)'>打印</view>
 					<view class="opion_item" @click='modify(item)'>编辑</view>
 					<view class="opion_item" @click='delete_good(item.good_id,item.accessory,index)'>删除</view>
 				</view>
@@ -64,41 +65,11 @@
 			</view>
 		</view>
 
-		<!--<view class="thrid" @click="showcode_option">
-			<view>生成条码</view>
-			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
-		</view>
-		
-		<navigator class="thrid" hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" style="margin-bottom: 20rpx;">
-			<view>客户统计</view>
-			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
-		</navigator>
-
-		<navigator class="thrid" hover-class="none" url="../operations/operations" style="margin-bottom: 20rpx;">
-			<view>此产品的操作记录</view>
-			<fa-icon type="angle-right" size="20" color="#ccc"></fa-icon>
-		</navigator>
-
-		<view class="qrimg" v-if="bar_code_show">
-			<view style="text-align: right;margin-right: 20rpx;" @click="bar_code_show = false">
-				<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
-			</view>
-			<view style="margin-top: 20%;text-align: center;" @tap="saveBccode">
-				<view style="padding: 20rpx;background: #fff;">
-					<tki-barcode ref="barcode" :val="(product.productCode)?product.productCode:product.objectId+'-'+false"
-					 loadMake="true" :opations="opations" onval="true" format="code128" unit="upx" @result="bcR" />
-				</view>
-				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
-				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击条形码可下载)</view>
-			</view>
-		</view>-->
-
-		<!--<uni-fab ref="fab" :pattern="pattern" :content="content" horizontal="right" vertical="bottom" direction="horizontal"
-		 @trigger="trigger" />-->
 	</view>
 </template>
 
 <script>
+	import print from "@/utils/print.js"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
@@ -116,30 +87,6 @@
 		data() {
 			return {
 				select_qrcode: '',
-				/*pattern: {
-					color: '#7A7E83',
-					backgroundColor: '#fff',
-					selectedColor: '#426ab3',
-					buttonColor: '#426ab3'
-				},
-				content: [{
-					iconPath: '/static/edit.png',
-					selectedIconPath: '/static/edit.png',
-					text: '编辑',
-					active: false
-				}, {
-					iconPath: '/static/delete.png',
-					selectedIconPath: '/static/delete.png',
-					text: '删除',
-					active: false
-				}],
-				opations: {
-					width: 2,
-					height: 80,
-					displayValue: true,
-					marginTop: 50,
-					marginLeft: 98
-				},*/
 				get_reserve_checked: true, //分库存显示控制
 				product: {},
 				is_show: false, //二维码显示
@@ -172,13 +119,14 @@
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
 
-						for(let item of res){
+						for (let item of res) {
 							let stocks_o = {}
+							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.reserve = item.reserve
 							stocks_o.warning_num = item.warning_num
 							stocks_o.bad_num = item.bad_num
 							stocks_o.good_id = item.objectId
-							stocks_o.accessory = item.accessory
+							stocks_o.accessory = (item.accessory)?item.accessory:''
 							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
 							item.stocks = stocks_o
 							all_reserve += item.reserve
@@ -194,7 +142,7 @@
 			} else {
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
-				
+
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
@@ -202,13 +150,14 @@
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
 
-					for(let item of res){
+					for (let item of res) {
 						let stocks_o = {}
+						stocks_o.stock_name = item.stocks.stock_name
 						stocks_o.reserve = item.reserve
 						stocks_o.warning_num = item.warning_num
 						stocks_o.bad_num = item.bad_num
 						stocks_o.good_id = item.objectId
-						stocks_o.accessory = item.accessory
+						stocks_o.accessory = (item.accessory)?item.accessory:''
 						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
 						item.stocks = stocks_o
 						all_reserve += item.reserve
@@ -230,6 +179,11 @@
 			//分库存的switch点击
 			change_state(e) {
 				that.get_reserve_checked = e.detail.value
+			},
+
+			//商品信息点击
+			print_info(item) {
+				print.print_goodDet(item)
 			},
 
 			//产品信息修改点击
@@ -292,7 +246,7 @@
 			},
 
 			//删除商品
-			delete_good(objectId, accessory,index) {
+			delete_good(objectId, accessory, index) {
 				uni.showModal({
 					title: '提示',
 					content: '是否删除该商品',
@@ -315,37 +269,37 @@
 										})
 									}, 1000)
 								} else {
-									if(that.product.stocks.length > 1){
+									if (that.product.stocks.length > 1) {
 										let next_good = that.product.stocks[index + 1].good_id
 										const query = Bmob.Query('Goods');
 										query.get(next_good).then(res => {
-										  console.log(res)
-										  res.set('accessory',false)
-										  res.save()
+											console.log(res)
+											res.set('accessory', false)
+											res.save()
 											uni.navigateTo({
 												url: '../goods/goods'
 											});
-											
+
 											setTimeout(function() {
 												uni.showToast({
 													title: "删除成功"
 												})
 											}, 1000)
 										}).catch(err => {
-										  console.log(err)
+											console.log(err)
 										})
-									}else{
+									} else {
 										uni.navigateTo({
 											url: '../goods/goods'
 										});
-										
+
 										setTimeout(function() {
 											uni.showToast({
 												title: "删除成功"
 											})
 										}, 1000)
 									}
-									
+
 								}
 
 

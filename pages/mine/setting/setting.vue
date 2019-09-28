@@ -7,20 +7,20 @@
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
-				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" />
+				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting"/>
 			</view>
 
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">USER账号</view>
-				<input class="uni-input" placeholder="请输入USER账号" v-model="params.USER" />
+				<input class="uni-input" placeholder="请输入USER账号" v-model="params.USER" @blur="modify_setting"/>
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
-				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" />
+				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY"  @blur="modify_setting"/>
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
-				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" />
+				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number"  @blur="modify_setting"/>
 			</view>
 
 		</view>
@@ -70,6 +70,11 @@
 			})
 		},
 		methods: {
+			
+			modify_setting(){
+				mine.modify_setting(that.params)
+			},
+			
 			link_wechatinfo(e) {
 				let value = e.detail.value
 

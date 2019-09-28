@@ -41,7 +41,7 @@
 		},
 		data() {
 			return {
-				name: null,
+				name: '',
 				address: '',
 				phone: '',
 				debt: 0,

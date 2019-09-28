@@ -15,13 +15,16 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.2 公测版</text>
-						<text class="desc-time">2019.09.14</text>
+						<text class="desc-time">2019.09.28</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>产品出库、入库、盘点、退货选择产品优化</text>
 						<text>修改、增加产品bug修复</text>
 						<text>所有的操作记录增加分页显示，支持可以查看所有日期的记录</text>
+						<text>员工的权限可以实时同步，并增加仓库管理、调拨记录的权限</text>
+						<text>增加商品信息打印功能、操作记录打印功能，后续将开放更多打印功能</text>
+						<text>优化一些页面的操作以及UI体验</text>
 					</view>
 				</view>
 				
