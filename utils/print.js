@@ -139,11 +139,6 @@ export default {
 	
 	//打印商品信息
 	print_by_code: function(orderInfo) {
-
-
-		uni.showLoading({
-			title: '打印中...',
-		})
 		//USER和UKEY在飞鹅云（ http://admin.feieyun.com/ ）管理后台的个人中心可以查看
 		var USER = uni.getStorageSync("setting").USER; //必填，飞鹅云 http://admin.feieyun.com/ 管理后台注册的账号名
 		var UKEY = uni.getStorageSync("setting").UKEY; //必填，这个不是填打印机的key，是在飞鹅云后台注册账号后生成的UKEY
@@ -284,7 +279,6 @@ export default {
 					"content-type": "application/x-www-form-urlencoded"
 				},
 				success: function(res) {
-					uni.hideLoading();
 					console.log(res.data)
 					if (res.data.ret != 0) {
 						uni.showToast({
