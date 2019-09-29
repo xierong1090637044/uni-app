@@ -82,9 +82,9 @@
 						staffs.get_satffAuth().then(res=>{
 							console.log(res)
 							if(res){
-								rights= res.rights.current;
+								rights= res.rights.recodecurrent;
 							}else{
-								rights = uni.getStorageSync("user").rights.current;
+								rights = uni.getStorageSync("user").rights.recodecurrent;
 							}
 							let manage_rights=[]
 							for(let item in rights){

@@ -92,6 +92,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 /* pages/home/index/index.wxss */
 .manage_icon {
 	width: 60rpx;

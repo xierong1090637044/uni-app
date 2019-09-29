@@ -28,14 +28,14 @@
 
 <script>
 	export default {
-		name: 'NoContent',
+		name: 'no_content',
 		props: {
 			type: {
 				type: Number,
 				default: 1
 			} // 标题
 		},
-		data: {
+		data() {
 			return {
 				imgurl_1: "https://bmob-cdn-23134.bmobcloud.com/2019/07/31/9700d09c4059d2a0804641a914dde991.png",
 				imgurl_3: "https://bmob-cdn-23134.bmobcloud.com/2019/08/07/f7be03304055d15f80e8c7bc82291965.png",

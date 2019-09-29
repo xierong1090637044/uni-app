@@ -25,39 +25,45 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
-
-			<scroll-view class="uni-product-list" scroll-y>
-				<checkbox-group @change="radioChange">
-					<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
-						<view>
-							<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
-							 :id="index" :checked="product.checked" />
-						</view>
-
-						<label class="uni-product" :for="index">
+			
+			<view class="uni-product-list">
+				<scroll-view class="uni-product-list" scroll-y v-if="productList.length > 0">
+					<checkbox-group @change="radioChange">
+						<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 							<view>
-								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
+								 :id="''+index" :checked="product.checked" />
 							</view>
-
-							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
-								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-								<view class="product_reserve" v-if="product.stocks.stock_name">存放仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
-								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-								<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
-							</view>
-						</label>
-					</view>
-				</checkbox-group>
-			</scroll-view>
+				
+							<label class="uni-product" :for="''+index">
+								<view>
+									<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
+									<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+								</view>
+				
+								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
+									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+									<view class="product_reserve" v-if="product.stocks">
+										<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+									</view>
+									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+									<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
+								</view>
+							</label>
+						</view>
+					</checkbox-group>
+				</scroll-view>
+				<nocontent v-else :type="1"></nocontent>
+			</view>
+			
 			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
 				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 			</view>
 		</view>
 
 		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
+		<view v-if="showOptions" class="modal_background">
 			<view class="showOptions">
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
@@ -92,7 +98,8 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from '@/utils/bmob.js'
+	
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
@@ -306,7 +313,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				
+
 				query.equalTo("second_class", "==", that.category.objectId);
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
@@ -369,7 +376,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 224rpx);
+		height: calc(100vh - 236rpx);
 	}
 
 	.uni-product {

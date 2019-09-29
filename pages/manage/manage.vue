@@ -71,9 +71,6 @@
 			that = this;
 		},
 		onShow() {
-			let current = Bmob.User.current()
-			console.log(current);
-			
 			uni.getStorage({
 				key: 'identity',
 				success: function(res) {

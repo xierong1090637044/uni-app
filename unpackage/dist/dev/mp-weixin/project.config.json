@@ -11,8 +11,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
-	"appid": "wxd732ba05c712a198",
-	"projectname": "my_stock2",
+	"appid": "wxdd08cef3fc260a38",
+	"projectname": "库存表",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {

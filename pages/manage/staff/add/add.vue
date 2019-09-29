@@ -1,9 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="modify_desc" @click-right="start_add">
-			<view></view>
-		
-		</uni-nav-bar>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="modify_desc" @click-right="start_add">		</uni-nav-bar>
 		<view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">姓名</text>
@@ -29,6 +26,14 @@
 			
 				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 			</navigator>
+			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../warehouse/warehouse?type=choose" v-if="current.indexOf('2') != -1">
+				<view class="display_flex">
+					<text style="margin-right: 20rpx;">仓库</text>
+					<input placeholder="请选择仓库" :value="stock?stock.stock_name:''" style="width: calc(100% - 200rpx)" />
+				</view>
+			
+				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+			</navigator>-->
 			<view class="display_flex_bet item" style="margin-bottom:60rpx">
 				<text style="margin-right: 20rpx;">启用</text>
 				<switch :checked="disabled" @change="switchChange" />
@@ -38,11 +43,24 @@
 				<uni-collapse-item :show-animation="true" title="管理权限">
 					<view style="padding: 30rpx;">
 						<checkbox-group @change="checkboxChange">
-							<view class="display_flex rights_item" v-for="(item,index) in manage" :key="index">
-								<checkbox :value="index" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
-								<text style="margin-left: 20rpx;">{{item.name}}</text>
+							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">
+								<view class="display_flex">
+									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
+									<text style="margin-left: 20rpx;">{{item.name}}</text>
+								</view>
+								
+								<view v-if="index == 2" style="padding-left: 80rpx;">
+									<checkbox-group @change="checkstockChange" v-if="current.indexOf('2') != -1">
+										<view class="display_flex rights_item" v-for="(item,index) in stocks" :key="index">
+											<checkbox :value="item.objectId" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
+											<text style="margin-left: 20rpx;">{{item.name}}</text>
+										</view>
+									</checkbox-group>
+								</view>
 							</view>
+							
 						</checkbox-group>
+						
 					</view>
 				</uni-collapse-item>
 			</uni-collapse>
@@ -52,8 +70,8 @@
 					<uni-collapse-item :show-animation="true" title="查看权限">
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_record">
-								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="index">
-									<checkbox :value="index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
+								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="''+index">
+									<checkbox :value="''+index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -68,8 +86,8 @@
 </template>
 
 <script>
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from '@/utils/bmob.js';
+	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
@@ -89,6 +107,8 @@
 		},
 		data() {
 			return {
+				select_stocks:[],//选中的仓库
+				stocks:uni.getStorageSync("_warehouse"),//管理的仓库
 				modify_desc:"添加",
 				disabled: true, //是否启用
 				shop_name:'',
@@ -158,27 +178,36 @@
 		onShow() {
 			staff = uni.getStorageSync("staff");
 			shop = uni.getStorageSync("shop");
+			that.stock = uni.getStorageSync("warehouse")?uni.getStorageSync("warehouse")[0].stock:'';
 			
 			if (staff) {
 				uni.setNavigationBarTitle({
 					title:"修改员工信息"
 				});
 				that.modify_desc = "修改"
+				that.shop_name = staff.shop.name
 				that.staff_name = staff.username
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
 				that.staff_password = staff.password
+				that.current = []
+				that.recodecurrent = []
 				
 				for(let i of staff.rights.current)
 				{
-					console.log(i)
+					//console.log(i)
 					that.manage[i].checked = true;
+					that.current.push(i)
 				}
 				
 				for(let i of staff.rights.recodecurrent)
 				{
 					that.recode[i].checked = true;
+					that.recodecurrent.push(i)
 				}
+				
+				rights.current = that.current
+				rights.recodecurrent = that.recodecurrent
 			}
 			
 			if(shop){
@@ -192,6 +221,11 @@
 
 		methods: {
 			
+			//仓库多选器
+			checkstockChange(e){
+				that.select_stocks = e.detail.value
+			},
+			
 			//启用的switech
 			switchChange(e){
 				that.disabled = e.detail.value;
@@ -199,12 +233,13 @@
 
 			//管理权限
 			checkboxChange(e) {
+				that.current = e.detail.value
 				rights.current = e.detail.value;
-
 			},
 
 			//记录权限
 			checkboxChange_record(e) {
+				that.recodecurrent = e.detail.value
 				rights.recodecurrent = e.detail.value;
 			},
 			
@@ -251,6 +286,7 @@
 					query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 					query.set("masterId", poiID);
 					query.set("disabled", !that.disabled);
+					query.set("stocks", that.select_stocks);
 					if(shop) query.set("shop",shopId);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
@@ -258,6 +294,7 @@
 						uni.showToast({
 							title: "修改成功"
 						})
+						that.select_stocks = []
 					}).catch(err => {
 						console.log(err)
 
@@ -279,6 +316,7 @@
 							const query = Bmob.Query('staffs');
 							query.set("username", that.staff_name);
 							if(shop) query.set("shop",shopId);
+							query.set("stocks", that.select_stocks);
 							query.set("nickName", that.staff_name);
 							query.set("password", that.staff_password);
 							query.set("mobilePhoneNumber", that.staff_phone);
@@ -293,6 +331,8 @@
 								uni.showToast({
 									title: "添加成功"
 								})
+								
+								that.select_stocks = []
 							}).catch(err => {
 								console.log(err)
 

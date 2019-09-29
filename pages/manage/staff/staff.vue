@@ -49,12 +49,13 @@
 </template>
 
 <script>
+	import Bmob from '@/utils/bmob.js'
+	
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
 
 	let that;
 	let search_text;
@@ -176,6 +177,7 @@
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
 				query.equalTo("disabled", "==", that.disabled);
+				query.include("shop")
 				if (search_text) {
 					query.equalTo("username", "==", {
 						"$regex": "" + search_text + ".*"
