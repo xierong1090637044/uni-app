@@ -302,7 +302,7 @@
 <style>
 	.page {
 		overflow: hidden;
-		height: calc(100vh - 234rpx);
+		height: calc(100vh - 224rpx);
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;
