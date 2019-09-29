@@ -1,10 +1,12 @@
 export default {
 	//打印产品信息
 	print_goodDet(item){
+		//console.log(item)
 		let orderInfo;
 		let good = uni.getStorageSync("now_product")
 		good.objectId = item.good_id
 		good.stocks = item
+		good.productCode = item.productCode
 		
 		orderInfo = '<CB>商品信息</CB><BR>';
 		orderInfo += '--------------------------------<BR>';
@@ -21,11 +23,7 @@ export default {
 		if(good.bad_num) orderInfo += '货损数量:      ' + good.bad_num + '<BR>';
 		orderInfo += '--------------------------------<BR>';
 		orderInfo += '产品二维码：<BR>';
-		if (good.productCode == "") {
-			orderInfo += '<QR>' + good.goodsId + '-false</QR>'; //把二维码字符串用标签套上即可自动生成二维码
-		} else {
-			orderInfo += '<QR>' + good.productCode + '</QR>'; //把二维码字符串用标签套上即可自动生成二维码
-		}
+		orderInfo += '<QR>' + good.productCode + '</QR>'; //把二维码字符串用标签套上即可自动生成二维码
 					
 		this.print_by_code(orderInfo);
 	},
