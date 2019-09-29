@@ -11,7 +11,7 @@
 				<uni-icon color="#bbb" size="20" type="arrowdown" />
 			</view>
 		</view>
-		<view :class="{'uni-collapse-cell--animation':showAnimation===true}" :style="{height:isOpen ? height : '0px'}" class="uni-collapse-cell__content">
+		<view :class="{'uni-collapse-cell--animation':showAnimation===true}" :style="{height:isOpen ? 'auto' : '0px'}" class="uni-collapse-cell__content">
 			<view :id="elId">
 				<slot />
 			</view>

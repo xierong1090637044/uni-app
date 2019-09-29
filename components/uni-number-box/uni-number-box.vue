@@ -19,7 +19,7 @@
 			},
 			max: {
 				type: Number,
-				default: 100
+				default: 9999999999999999,
 			},
 			step: {
 				type: Number,
