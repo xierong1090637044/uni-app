@@ -1,4 +1,4 @@
-import Bmob from '@/utils/bmob.js';
+import Bmob from "hydrogen-js-sdk";
 module.exports = {
 	//清除缓存
 	handleData(){

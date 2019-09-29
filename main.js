@@ -3,9 +3,10 @@ import VueI18n from 'vue-i18n'
 import App from './App'
 import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 import nocontent from "@/components/No_content.vue"
-import Bmob from '@/utils/bmob.js';
+import Bmob from "hydrogen-js-sdk";
 
-Bmob.initialize("afaa8342776ad99ff0d49bca224de9b2", "9eed865dc5914f2ecedcd63be31e33e9","47f76baf4ee4d90630d7b2bc17f7505c");
+Bmob.initialize("825b954fe97e9186", "109063","47f76baf4ee4d90630d7b2bc17f7505c");
+Vue.prototype.Bmob = Bmob
 Vue.config.productionTip = false
 App.mpType = 'app'
 

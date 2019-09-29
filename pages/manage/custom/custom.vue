@@ -71,7 +71,7 @@
 <script>
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/xierong1090637044/uni-app#readme",
   "dependencies": {
+    "hydrogen-js-sdk": "^2.2.0",
     "vue-i18n": "^8.11.2"
   }
 }

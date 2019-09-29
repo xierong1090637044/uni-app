@@ -166,7 +166,7 @@
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 	import common from '@/utils/common.js';
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 
 	let that;
 	let tempFilePaths;

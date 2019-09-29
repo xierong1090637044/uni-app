@@ -1,12 +1,1 @@
-
-page {
-	background: #FAFAFA;
-}
-.item {
-	padding: 20rpx 30rpx;
-	background: #FFFFFF;
-}
-.rights_item {
-	margin-bottom: 20rpx;
-}
-
+page{background:#fafafa}.item{padding:20rpx 30rpx;background:#fff}.rights_item{margin-bottom:20rpx}

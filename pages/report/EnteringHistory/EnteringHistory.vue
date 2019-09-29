@@ -120,7 +120,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'

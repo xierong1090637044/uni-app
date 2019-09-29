@@ -53,7 +53,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"

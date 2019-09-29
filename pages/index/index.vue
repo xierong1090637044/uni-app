@@ -97,7 +97,7 @@
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	let that;
 	let uid;
 

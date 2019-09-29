@@ -26,7 +26,7 @@
 		</view>
 
 		<view style="margin-top: 30rpx;" v-if="identity == 1">
-			<view class="display_flex_bet item">
+			<view class="display_flex_bet item" style="padding: 20rpx 0;">
 				<view>关联微信通知</view>
 				<switch @change="link_wechatinfo" :checked="params.wechat_info" />
 			</view>

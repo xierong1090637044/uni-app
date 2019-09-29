@@ -28,7 +28,7 @@
 	import unicard from '@/components/uni-card/uni-card.vue'
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from '@/utils/bmob.js'
+	import Bmob from "hydrogen-js-sdk"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 

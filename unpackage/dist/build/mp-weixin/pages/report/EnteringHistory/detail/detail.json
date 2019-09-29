@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "明细",
   "usingComponents": {
-    "loading": "/components/Loading/index"
+    "loading": "/components/Loading/index",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
   }
 }

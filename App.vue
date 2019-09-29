@@ -1,5 +1,5 @@
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 
 	export default {
 		onLaunch: function() {

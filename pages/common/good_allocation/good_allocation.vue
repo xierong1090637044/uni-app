@@ -29,7 +29,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	import unicard from '@/components/uni-card/uni-card.vue'
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"

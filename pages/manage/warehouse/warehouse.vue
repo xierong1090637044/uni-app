@@ -54,7 +54,7 @@
 
 <script>
 	import staffs from "@/utils/staffs.js"
-	import Bmob from '@/utils/bmob.js'
+	import Bmob from "hydrogen-js-sdk"
 
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js'
+	import Bmob from "hydrogen-js-sdk"
 	
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'

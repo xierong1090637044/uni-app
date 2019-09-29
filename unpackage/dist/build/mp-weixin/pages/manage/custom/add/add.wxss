@@ -1,9 +1,1 @@
-
-page {
-	background: #FAFAFA;
-}
-.item {
-	padding: 20rpx 30rpx;
-	background: #FFFFFF;
-}
-
+page{background:#fafafa}.item{padding:20rpx 30rpx;background:#fff}

@@ -114,7 +114,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import record from '@/utils/record.js';
 	import loading from "@/components/Loading/index.vue"

@@ -1,4 +1,4 @@
-import Bmob from '@/utils/bmob.js';
+import Bmob from "hydrogen-js-sdk";
 export default {
 	
 	//得到员工的权限

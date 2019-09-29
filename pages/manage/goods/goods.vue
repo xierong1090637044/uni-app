@@ -104,7 +104,7 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 	import common from '@/utils/common.js';
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 
 	let uid;
 	let that;

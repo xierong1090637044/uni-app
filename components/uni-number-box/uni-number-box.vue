@@ -136,8 +136,7 @@
 	.uni-numbox__value {
 		position: relative;
 		background-color: #fff;
-		min-width: 80upx;
-		max-width: 200upx;
+		width: 200upx;
 		height: 100%;
 		text-align: center;
 		padding: 0

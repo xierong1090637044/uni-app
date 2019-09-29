@@ -37,7 +37,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 
 	let that;
 	let phone_number = "";

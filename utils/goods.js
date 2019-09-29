@@ -1,4 +1,4 @@
-import Bmob from '@/utils/bmob.js';
+import Bmob from "hydrogen-js-sdk";
 export default {
 	//批量删除功能
 	delete_goods(goods) {

@@ -149,7 +149,7 @@
 </template>
 
 <script>
-	import Bmob from '@/utils/bmob.js';
+	import Bmob from "hydrogen-js-sdk";
 	import print from "@/utils/print.js"
 	
 	import loading from "@/components/Loading/index.vue"

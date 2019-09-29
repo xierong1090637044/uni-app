@@ -49,7 +49,10 @@
     "pages/mine/update_history/update_history",
     "pages/manage/custom/producer_detail/history/history",
     "pages/manage/custom/producer_detail/debt_history/debt_history",
-    "pages/manage/warehouse/record/record"
+    "pages/manage/warehouse/record/record",
+    "pages/common/good_allocation/good_allocation",
+    "pages/common/good_allocation/allocation_detail/allocation_detail",
+    "pages/manage/goods_add/goods_add"
   ],
   "subPackages": [],
   "window": {
@@ -96,7 +99,8 @@
     }
   },
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content"
   },
   "sitemapLocation": "sitemap.json"
 }
