@@ -121,7 +121,7 @@
 					query.find().then(res => {
 
 						for (let item of res) {
-							cache.log(item)
+							//cons.log(item)
 							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.reserve = item.reserve

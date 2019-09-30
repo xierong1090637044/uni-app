@@ -73,20 +73,16 @@
 				</view>-->
 
 				<view class="frist" style="margin-bottom: 30rpx;">
-				
-					<view style="line-height: 70rpx;">
-						<view class="display_flex_bet">
-							<view class="display_flex_bet">
-								<view class="left_item">初始库存</view>
-								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" />
-							</view>
-						</view>
+
+					<view class="input_item">
+						<view class="left_item">初始库存</view>
+						<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" />
 					</view>
 					<view class="input_item">
 						<view class="left_item">预警库存</view>
 						<view class="right_input1"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 					</view>
-				
+
 					<navigator class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view style="display: flex;align-items: center;">
 							<view class="left_item">仓库</view>
@@ -94,7 +90,7 @@
 								<input placeholder="选择仓库" v-model="stock_name" disabled="true"></input>
 							</view>
 						</view>
-				
+
 						<view>
 							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
@@ -192,8 +188,8 @@
 				category: "", //分类
 				reserve: 0, //初始库存
 				goodsIcon: "", //产品图片
-				stock_name:"",//存放仓库的名字
-				stocks: "",//存放的仓库
+				stock_name: "", //存放仓库的名字
+				stocks: "", //存放的仓库
 				producttime: "",
 				nousetime: "",
 				product_state: false, //产品是否是半成品
@@ -206,17 +202,17 @@
 			uni.removeStorageSync("category")
 			uni.removeStorageSync("warehouse")
 			uni.removeStorageSync("is_add");
-			
-			if(options.id){
+
+			if (options.id) {
 				that.scan_by_id(options.id)
-			}else{
+			} else {
 				if (uni.getStorageSync("now_product")) {
 					uni.setNavigationBarTitle({
 						title: "编辑产品"
 					})
-				
+
 					let now_product = uni.getStorageSync("now_product")
-				
+
 					that.goodsName = now_product.goodsName
 					that.costPrice = now_product.costPrice //进价
 					that.retailPrice = now_product.retailPrice //售价
@@ -233,39 +229,39 @@
 					that.goodsIcon = now_product.goodsIcon //产品图片
 					that.product_state = now_product.product_state //产品是否是半成品
 					that.stocks = now_product.stocks
-					that.stock_name = (now_product.stocks)?(now_product.stocks.stock_name):""
-					
+					that.stock_name = (now_product.stocks) ? (now_product.stocks.stock_name) : ""
+
 					if (now_product.goodsClass) {
 						let pointer2 = Bmob.Pointer('class_user')
 						p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
 					}
-				
+
 					if (now_product.second_class) {
 						let pointer3 = Bmob.Pointer('second_class')
 						p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
 					}
 				}
 			}
-			
+
 		},
 		onShow() {
 
-			
-			
+
+
 			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
 				that.stocks = uni.getStorageSync("warehouse")[0].stock
 				that.stock_name = uni.getStorageSync("warehouse")[0].stock.stock_name
 			}
-			
+
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
-			
+
 				let pointer2 = Bmob.Pointer('class_user')
 				p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-			
+
 				let pointer3 = Bmob.Pointer('second_class')
 				p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-			
+
 				console.log(that.category.parent.objectId, that.category.objectId)
 			}
 		},
@@ -278,7 +274,7 @@
 		},
 
 		methods: {
-			
+
 			//通过条形码扫码得到商品信息
 			scan_by_id: function(id) {
 				console.log(id);
@@ -298,14 +294,14 @@
 					success(res) {
 						wx.hideLoading();
 						let good = res.data.showapi_res_body;
-						
+
 						console.log(good)
-			
+
 						that.goodsName = good.goodsName,
-						that.producer = good.manuName,
-						that.goodsIcon = good.img //产品图片
+							that.producer = good.manuName,
+							that.goodsIcon = good.img //产品图片
 						that.product_info = good.note //产品简介
-						
+
 						that.productCode = id
 					}
 				});
@@ -345,8 +341,8 @@
 						let file;
 						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
 						file.save().then(res => {
-							console.log("图片地址",res)
-							that.goodsIcon =res[0].url;
+							console.log("图片地址", res)
+							that.goodsIcon = res[0].url;
 							that.upload_good(good)
 						})
 					} else {
@@ -372,10 +368,10 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
-				if(uni.getStorageSync("now_product")){
-					that.add_good(good,"edit")
-				}else{
+
+				if (uni.getStorageSync("now_product")) {
+					that.add_good(good, "edit")
+				} else {
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("goodsName", "==", good.goodsName);
@@ -388,24 +384,24 @@
 								icon: 'none'
 							})
 						} else {
-							that.add_good(good,"add")
+							that.add_good(good, "add")
 						}
 					});
 				}
 			},
-			
-			add_good(good,type){
-				
+
+			add_good(good, type) {
+
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
-				
+
 				let stock_id = (that.stocks.objectId ? that.stocks.objectId : '')
-				
+
 				const pointer1 = Bmob.Pointer('stocks')
 				const p_stock_id = pointer1.set(stock_id) //仓库的id关联
-				
+
 				const query = Bmob.Query('Goods');
-				query.set("goodsIcon", that.goodsIcon?that.goodsIcon:'')
+				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? good.costPrice : "0")
 				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
@@ -422,28 +418,29 @@
 				query.set("position", good.position)
 				query.set("warning_num", Number(good.warning_num))
 				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-				
+
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 					query.set("second_class", p_second_class_id)
 					query.set("goodsClass", p_class_user_id)
 				}
-				
+
 				query.set("userId", userid)
-				query.set("id", uni.getStorageSync("now_product")?uni.getStorageSync("now_product").objectId:"")
+				query.set("id", uni.getStorageSync("now_product") ? uni.getStorageSync("now_product").objectId : "")
 				query.save().then(res => {
 					uni.hideLoading();
-					if(type == "add"){
+					if (type == "add") {
 						common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, res.objectId);
-					}else{
-						common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'", 5, uni.getStorageSync("now_product").objectId);
+					} else {
+						common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'", 5, uni.getStorageSync(
+							"now_product").objectId);
 					}
-					
+
 					uni.setStorageSync("is_add", true)
 					uni.showToast({
 						title: "上传成功"
 					})
-				
+
 					//that.handledata()
 				}).catch(err => {
 					console.log(err)
@@ -516,7 +513,7 @@
 		line-height: 80rpx;
 		border-bottom: 1rpx solid#f6f5ec;
 	}
-	
+
 	.input_item2 {
 		display: flex;
 		align-items: center;
@@ -539,7 +536,7 @@
 		width: 50%;
 		background: #426ab3;
 		border-radius: 40rpx;
-		margin:10rpx 30rpx;
+		margin: 10rpx 30rpx;
 		height: 88rpx;
 		line-height: 88rpx;
 		color: #fff;
@@ -567,7 +564,7 @@
 		width: 50%;
 		background: #999;
 		border-radius: 40rpx;
-		margin:10rpx 30rpx;
+		margin: 10rpx 30rpx;
 		height: 88rpx;
 		line-height: 88rpx;
 		color: #fff;
