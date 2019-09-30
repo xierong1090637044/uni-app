@@ -52,6 +52,7 @@
 					UKEY: '',
 					number: '',
 					wechat_info: '',
+					wx_openid:'',
 				},
 			}
 		},
@@ -61,8 +62,11 @@
 
 			that.identity = uni.getStorageSync("identity");
 			mine.query_setting().then(res => {
-				that.params = res[0]
-				if (res[0].wx_openid) {
+				console.log(res)
+				if(res[0]){
+					that.params = res[0]
+				}
+				if (that.params.wx_openid) {
 					that.params.wechat_info = true
 				} else {
 					that.params.wechat_info = false
