@@ -121,6 +121,7 @@
 					query.find().then(res => {
 
 						for (let item of res) {
+							cache.log(item)
 							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.reserve = item.reserve
@@ -143,6 +144,7 @@
 			} else {
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
+				console.log(product)
 
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
@@ -152,6 +154,7 @@
 				query.find().then(res => {
 
 					for (let item of res) {
+						console.log(item)
 						let stocks_o = {}
 						stocks_o.stock_name = item.stocks.stock_name
 						stocks_o.reserve = item.reserve

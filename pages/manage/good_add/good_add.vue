@@ -346,7 +346,7 @@
 						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
 						file.save().then(res => {
 							console.log("图片地址",res)
-							that.goodsIcon = JSON.parse(res).url;
+							that.goodsIcon =res[0].url;
 							that.upload_good(good)
 						})
 					} else {

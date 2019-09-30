@@ -202,6 +202,18 @@
 			that.get_logsList();
 		},
 
+		//分享
+		onShareAppMessage: function(res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log(res.target)
+			}
+			return {
+				title: '库存表，欢迎您的加入',
+				path: '/pages/index/index'
+			}
+		},
+
 		methods: {
 			//点击扫描产品条形码
 			scan_code: function() {
@@ -218,28 +230,37 @@
 
 			//扫码操作
 			scan: function(type) {
-				this.$wechat.scanQRCode().then(res => {
-					let array = res.split("-");
+				uni.scanCode({
+					success(res) {
+						var result = res.result;
+						var array = result.split("-");
 
-					if (type == 0) {
-						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
-						})
-					} else if (type == 1) {
-						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
-						})
-					} else if (type == 2) {
-						uni.navigateTo({
-							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
-						})
-					} else if (type == 3) {
-						uni.navigateTo({
-							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-						})
-					} else if (type == 4) {
-						uni.navigateTo({
-							url: '/pages/manage/good_add/good_add?id=' + result,
+						if (type == 0) {
+							uni.navigateTo({
+								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 1) {
+							uni.navigateTo({
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 2) {
+							uni.navigateTo({
+								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 3) {
+							uni.navigateTo({
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 4) {
+							uni.navigateTo({
+								url: '/pages/manage/good_add/good_add?id=' + result,
+							})
+						}
+					},
+					fail(res) {
+						uni.showToast({
+							title: '未识别到条形码',
+							icon: "none"
 						})
 					}
 				})
