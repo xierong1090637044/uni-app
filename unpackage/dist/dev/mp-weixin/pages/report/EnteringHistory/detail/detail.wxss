@@ -39,7 +39,7 @@
 	background: #426ab3;
 	color: #fff;
 	font-size: 32rpx;
-	margin-top: 10%;
+	margin: 10% 20%;
 }
 .detail_bottom {
 	width: calc(100% - 40rpx);

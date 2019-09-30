@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "多仓库商品添加",
+  "usingComponents": {
+    "uni-collapse": "/components/uni-collapse/uni-collapse",
+    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

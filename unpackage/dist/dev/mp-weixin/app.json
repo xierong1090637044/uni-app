@@ -48,10 +48,15 @@
     "pages/register/user_protocol/user_protocol",
     "pages/mine/update_history/update_history",
     "pages/manage/custom/producer_detail/history/history",
-    "pages/manage/custom/producer_detail/debt_history/debt_history"
+    "pages/manage/custom/producer_detail/debt_history/debt_history",
+    "pages/test/test",
+    "pages/common/good_allocation/good_allocation",
+    "pages/common/good_allocation/allocation_detail/allocation_detail",
+    "pages/manage/goods_add/goods_add"
   ],
   "subPackages": [],
   "window": {
+    "navigationStyle": "custom",
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "库存表",
     "navigationBarBackgroundColor": "#426ab3",
@@ -95,7 +100,8 @@
     }
   },
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content"
   },
-  "sitemapLocation": "sitemap82.json"
+  "sitemapLocation": "sitemap66.json"
 }

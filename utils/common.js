@@ -4,7 +4,6 @@ module.exports = {
 		uni.removeStorageSync("warehouse");
 		uni.removeStorageSync("stock");
 		uni.removeStorageSync("custom");
-		uni.removeStorageSync("now_product");
 		uni.removeStorageSync("category");
 		uni.removeStorageSync("class_user")
 		uni.removeStorageSync("second_class")
