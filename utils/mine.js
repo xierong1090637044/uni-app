@@ -2,8 +2,9 @@ export default{
 	
 	//修改配置信息
 	modify_setting(params){
+		console.log(params)
 		let uid = uni.getStorageSync("uid");
-		let setting = uni.getStorageSync("setting");
+		let setting = uni.getStorageSync("setting") || {};
 		
 		return new Promise((resolve, reject) => {
 			uni.showLoading({
@@ -13,7 +14,7 @@ export default{
 			const pointer = Bmob.Pointer('_User')
 			const poiID = pointer.set(uid)
 			
-			query.set("id", setting.objectId)
+			if(setting.objectId)query.set("id", setting.objectId)
 			query.set("show_float", Number(params.show_float))
 			query.set("USER", params.USER)
 			query.set("UKEY", params.UKEY)
