@@ -219,7 +219,8 @@
 							uni.showToast({
 								title: '产品入库成功',
 								icon: 'success',
-								success: function() {
+								duration:1000,
+								complete: function() {
 									for (let i = 0; i < that.products.length; i++) {
 										let num = Number(that.products[i].reserve) + that.products[i].num;
 										const query = Bmob.Query('Goods');
@@ -246,8 +247,6 @@
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
 										send_temp.send_in(params);
-
-
 									}, 500)
 
 									that.can_addGoods().then(res => {
@@ -269,15 +268,21 @@
 															icon: 'none'
 														})
 													}
-
-													that.button_disabled = false;
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("warehouse");
-													uni.navigateBack({
-														delta: 2
-													});
 												})
 											}
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("warehouse");
+											uni.navigateBack({
+												delta: 2
+											});
+										}else{
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("warehouse");
+											uni.navigateBack({
+												delta: 2
+											});
 										}
 									})
 								}
@@ -316,8 +321,12 @@
 										resolve(false)
 									}
 								});
+							}else{
+								resolve(false)
 							}
 						}
+					}else{
+						resolve(false)
 					}
 				})
 
