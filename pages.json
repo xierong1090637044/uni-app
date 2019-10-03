@@ -331,6 +331,14 @@
 				"navigationBarTitleText": "多仓库商品添加"
 			}
         }
+        ,{
+            "path" : "pages/manage/good_det/edit_stock/edit_stock",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/manage/good_det/edit_info/edit_info",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

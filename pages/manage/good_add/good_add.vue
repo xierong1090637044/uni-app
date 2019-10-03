@@ -147,7 +147,7 @@
 
 
 			<view class="display_flex_bet">
-				<button formType="submit" class="submit_button">保存</button>
+				<button formType="submit" class="submit_button">{{text_desc}}</button>
 
 				<button class="reset_button" formType="reset">重置</button>
 			</view>
@@ -177,6 +177,7 @@
 		},
 		data() {
 			return {
+				text_desc:"保存",
 				goodsName: '',
 				costPrice: '', //进价
 				retailPrice: '', //售价
@@ -203,7 +204,6 @@
 			that = this;
 			uid = uni.getStorageSync('uid');
 			uni.removeStorageSync("category")
-			uni.removeStorageSync("warehouse")
 			uni.removeStorageSync("is_add");
 
 			if (options.id) {
@@ -218,7 +218,8 @@
 				})
 
 				let now_product = uni.getStorageSync("now_product")
-
+				
+				that.text_desc="修改"
 				that.goodsName = now_product.goodsName
 				that.costPrice = now_product.costPrice //进价
 				that.retailPrice = now_product.retailPrice //售价
@@ -234,8 +235,6 @@
 				that.reserve = now_product.reserve
 				that.goodsIcon = now_product.goodsIcon //产品图片
 				that.product_state = now_product.product_state //产品是否是半成品
-				that.stocks = now_product.stocks
-				that.stock_name = (now_product.stocks)?(now_product.stocks.stock_name):""
 				
 				if (now_product.goodsClass) {
 					let pointer2 = Bmob.Pointer('class_user')
@@ -299,8 +298,8 @@
 						console.log(good)
 
 						that.goodsName = good.goodsName,
-							that.producer = good.manuName,
-							that.goodsIcon = good.img //产品图片
+						that.producer = good.manuName,
+						that.goodsIcon = good.img //产品图片
 						that.product_info = good.note //产品简介
 
 						that.productCode = id
@@ -407,14 +406,24 @@
 					uni.hideLoading();
 					if(type == "add"){
 						common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, res.objectId);
+						uni.showToast({
+							title: "上传成功"
+						})
 					}else{
 						common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'", 5, uni.getStorageSync("now_product").objectId);
+						uni.navigateBack({
+							delta:2
+						})
+						
+						setTimeout(function(){
+							uni.showToast({
+								title: "修改成功",
+								duration:1000,
+							})
+						},1000)
 					}
 					
 					uni.setStorageSync("is_add", true)
-					uni.showToast({
-						title: "上传成功"
-					})
 				
 					//that.handledata()
 				}).catch(err => {

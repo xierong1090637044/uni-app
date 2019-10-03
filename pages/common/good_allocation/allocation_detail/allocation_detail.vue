@@ -164,8 +164,8 @@
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
-					let num = Number(this.products[i].reserve) - this.products[i].num;
-					let num1 = Number(this.out_products[i].reserve) + this.products[i].num;
+					let num = Number(this.products[i].reserve) - Number(this.products[i].num);
+					let num1 = Number(this.out_products[i].reserve) + Number(this.products[i].num);
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
@@ -180,7 +180,7 @@
 
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', this.products[i].num);
+					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
@@ -200,7 +200,7 @@
 					goodsId.reserve = num
 					goodsId.out_reserve = num1
 					detailBills.goodsId = goodsId
-					detailBills.num = this.products[i].num
+					detailBills.num = Number(this.products[i].num)
 					detailBills.type = -2
 
 					billsObj.push(tempBills)
@@ -242,8 +242,8 @@
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
-										let num = Number(that.products[i].reserve) - that.products[i].num;
-										let num1 = Number(that.out_products[i].reserve) + that.products[i].num;
+										let num = Number(that.products[i].reserve) - Number(that.products[i].num);
+										let num1 = Number(that.out_products[i].reserve) + Number(that.products[i].num);
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
