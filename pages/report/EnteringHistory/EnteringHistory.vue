@@ -154,6 +154,7 @@
 
 				showOptions: false, //是否显示筛选
 				is_checked: false,
+				data_change:false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
 			}
@@ -182,14 +183,15 @@
 					title: "盘点详情"
 				})
 			}
+			
+			this.get_list();
 		},
 
 		onShow() {
-			this.get_list();
-
 			if (uni.getStorageSync("charge")) {
 				that.staff = uni.getStorageSync("charge")
 			}
+			
 		},
 
 		onUnload() {
@@ -200,11 +202,13 @@
 		methods: {
 
 			bindDateChange1(e) {
+				that.data_change = true
 				that.now_day = e.detail.value;
 				that.option_now_day = e.detail.value;
 			},
 
 			bindDateChange2(e) {
+				that.data_change = true
 				that.end_day = e.detail.value;
 				that.option_end_day = e.detail.value;
 			},
@@ -262,6 +266,7 @@
 
 			//得到列表
 			get_list() {
+				console.log(that.staff)
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', opeart_type);
@@ -273,7 +278,7 @@
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				} else {
-					if (that.is_checked) {
+					if (that.is_checked==true && that.data_change==true) {
 						query.equalTo("createdAt", ">=", that.option_now_day + ' 00:00:00');
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}

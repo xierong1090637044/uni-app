@@ -6,7 +6,7 @@ import nocontent from "@/components/No_content.vue"
 import Bmob from "hydrogen-js-sdk";
 
 Bmob.initialize("825b954fe97e9186", "109063","47f76baf4ee4d90630d7b2bc17f7505c");
-Vue.prototype.Bmob = Bmob
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 
