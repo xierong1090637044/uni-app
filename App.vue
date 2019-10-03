@@ -1,48 +1,28 @@
 <script>
-	import Bmob from "hydrogen-js-sdk";
-
 	export default {
 		onLaunch: function() {
-			console.log(wx.getLaunchOptionsSync().query.user_id)
-			
-			if(wx.getLaunchOptionsSync().query.user_id){
-				const query = Bmob.Query('_User');
-				query.get(wx.getLaunchOptionsSync().query.user_id).then(res => {
-					uni.setStorageSync("user",res)
-					uni.setStorageSync("identity","1")
-					uni.setStorageSync("uid",res.objectId)
-					uni.setStorageSync("masterId",res.objectId)
-				}).catch(err => {
-				  console.log(err)
-				})
-			}else{
-				//console.log('App Launch')
-				uni.getStorage({
-					key: 'user',
-					success: function(res) {
-						//console.log(res.data);
-						/*uni.setStorageSync('uid', res.data.objectId); //缓存测试
-						const query = Bmob.Query("setting");
-						query.equalTo("parent", "==", res.data.objectId);
-						query.find().then(res => {
-							//console.log(res)
-							uni.setStorageSync("setting", res[0])
-						});
-						/*uni.switchTab({
-							url:'/pages/index/index'
-						})*/
-					},
-					fail: function() {
-						uni.reLaunch({
-							url: '/pages/landing/landing'
-						})
-					},
-				});
-			}
-
-			
-
-
+			//console.log('App Launch')
+			uni.getStorage({
+				key: 'user',
+				success: function(res) {
+					//console.log(res.data);
+					/*uni.setStorageSync('uid', res.data.objectId); //缓存测试
+					const query = Bmob.Query("setting");
+					query.equalTo("parent", "==", res.data.objectId);
+					query.find().then(res => {
+						//console.log(res)
+						uni.setStorageSync("setting", res[0])
+					});
+					/*uni.switchTab({
+						url:'/pages/index/index'
+					})*/
+				},
+				fail: function() {
+					uni.reLaunch({
+						url: '/pages/landing/landing'
+					})
+				},
+			});
 		},
 		onShow: function() {
 			//console.log('App Show')
@@ -58,24 +38,22 @@
 	@import 'uni.css';
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
-	
-	.text_overflow
-	{
-	  overflow: hidden;
-	  text-overflow:ellipsis;
-	  white-space: nowrap;
+
+	.text_overflow {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
-	.text_overflow_2
-	{
-	  overflow: hidden;
-	  text-overflow: ellipsis;
-	  display: -webkit-box;
-	  -webkit-line-clamp: 2;
-	  -webkit-box-orient: vertical;
+
+	.text_overflow_2 {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
-	
-	.user_avatar
-	{
+
+	.user_avatar {
 		width: 60rpx;
 		height: 60rpx;
 		border-radius: 50%;

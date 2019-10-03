@@ -121,14 +121,14 @@
 					query.find().then(res => {
 
 						for (let item of res) {
-							//cons.log(item)
 							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
+							stocks_o.stock_objectid = item.stocks.objectId
 							stocks_o.reserve = item.reserve
 							stocks_o.warning_num = item.warning_num
 							stocks_o.bad_num = item.bad_num
 							stocks_o.good_id = item.objectId
-							stocks_o.accessory = (item.accessory)?item.accessory:''
+							stocks_o.accessory = (item.accessory) ? item.accessory : ''
 							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
 							item.stocks = stocks_o
 							all_reserve += item.reserve
@@ -144,7 +144,6 @@
 			} else {
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
-				console.log(product)
 
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
@@ -154,14 +153,14 @@
 				query.find().then(res => {
 
 					for (let item of res) {
-						console.log(item)
 						let stocks_o = {}
 						stocks_o.stock_name = item.stocks.stock_name
+						stocks_o.stock_objectid = item.stocks.objectId
 						stocks_o.reserve = item.reserve
 						stocks_o.warning_num = item.warning_num
 						stocks_o.bad_num = item.bad_num
 						stocks_o.good_id = item.objectId
-						stocks_o.accessory = (item.accessory)?item.accessory:''
+						stocks_o.accessory = (item.accessory) ? item.accessory : ''
 						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
 						item.stocks = stocks_o
 						all_reserve += item.reserve
@@ -179,11 +178,10 @@
 		},
 
 		methods: {
-			
 			//生成二维码
-			show_qrcode(item){
+			show_qrcode(item) {
 				that.is_show = true,
-				that.select_qrcode = item.productCode
+					that.select_qrcode = item.productCode
 			},
 
 			//分库存的switch点击
@@ -198,13 +196,44 @@
 
 			//产品信息修改点击
 			modify(item) {
+				console.log(item)
 				let now_product = uni.getStorageSync("now_product")
 				now_product.objectId = item.good_id
-				now_product.stocks = item
-				uni.setStorageSync("now_product", now_product)
-				uni.navigateTo({
-					url: '../good_add/good_add'
+				now_product.reserve = item.reserve
+				now_product.warning_num = (item.warning_num) ? item.warning_num : 0
+				now_product.bad_num = (item.bad_num) ? item.bad_num : 0
+				
+				uni.showActionSheet({
+					itemList: ['编辑产品信息', '编辑产品的库存信息'],
+					success: function(res) {
+						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+						if (res.tapIndex == 0) {
+							uni.navigateTo({
+								url: 'edit_info/edit_info'
+							});
+							now_product.ids = that.product.stocks
+							console.log(that.product.stocks)
+							uni.setStorageSync("now_product", now_product)
+						} else {
+							if (item.stock_name) {
+								let warehouse = []
+								let stock = {}
+								let _stock = {}
+								_stock.stock_name = item.stock_name
+								_stock.objectId = item.stock_objectid
+								stock.stock = _stock
+								warehouse.push(stock)
+								uni.setStorageSync("warehouse", warehouse)
+							}
+							uni.navigateTo({
+								url: 'edit_stock/edit_stock'
+							});
+							
+							uni.setStorageSync("now_product", now_product)
+						}
+					},
 				});
+
 			},
 
 			//fab列目点击

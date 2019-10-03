@@ -64,8 +64,8 @@
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
 							</view>
 							<view class='pro_list'>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.retailPrice}}（X{{item.num}}）</view>
-								<view v-else>实际进货价：￥{{item.retailPrice}}（X{{item.num}}）</view>
+								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+								<view v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 								<view>总价：￥{{item.total_money }}</view>
 							</view>
 						</view>

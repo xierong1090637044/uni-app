@@ -21,6 +21,69 @@ export default {
 	},
 
 	//上传商品
+	upload_good_withNoCan(good, stock) {
+		return new Promise((resolve, reject) => {
+			let uid = uni.getStorageSync("uid");
+			const pointer = Bmob.Pointer('_User')
+			const userid = pointer.set(uid)
+
+			let reserve = good.reserve
+
+			const pointer1 = Bmob.Pointer('stocks')
+			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
+
+			const query = Bmob.Query("Goods");
+			query.equalTo("userId", "==", uid);
+			query.equalTo("goodsName", "==", good.goodsName);
+			query.equalTo("stocks", "==", stock.objectId);
+			query.find().then(res => {
+				console.log(res)
+				if (res.length >= 1) {
+					resolve([false, '该商品存在此仓库中'])
+				} else {
+					const query = Bmob.Query('Goods');
+					query.set("goodsName", good.goodsName)
+					query.set("goodsIcon", good.goodsIcon)
+					query.set("costPrice", good.costPrice)
+					query.set("retailPrice", good.retailPrice)
+					//query.set("producttime", good.producttime)
+					//query.set("nousetime", good.nousetime)
+					//query.set("regNumber", good.regNumber)
+					query.set("reserve", Number(good.reserve))
+					query.set("productCode", good.productCode?good.productCode:'')
+					query.set("stocks", p_stock_id)
+					query.set("product_info", good.product_info?good.product_info:'')
+					query.set("producer", good.producer?good.producer:'')
+					query.set("packingUnit", good.packingUnit?good.packingUnit:'')
+					query.set("packageContent", good.packageContent?good.packageContent:'')
+					query.set("warning_num", Number(good.warning_num?good.warning_num:0))
+					query.set("stocktype", (Number(good.warning_num?good.warning_num:0) >= Number(reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+					
+					if(good.second_class){
+						let pointer2 = Bmob.Pointer('class_user')
+						let p_class_user_id = pointer2.set(good.goodsClass) //一级分类id关联
+						query.set("second_class", p_second_class_id)
+						
+						let pointer3 = Bmob.Pointer('second_class')
+						let p_second_class_id = pointer3.set(good.second_class) //仓库的id关联
+						query.set("goodsClass", p_class_user_id)
+					}
+					
+					query.set("userId", userid)
+					query.save().then(res => {
+						console.log(res)
+						resolve([true, res])
+					}).catch(err => {
+						console.log(err)
+					})
+				}
+			})
+
+		})
+
+	},
+
+	//上传商品
 	upload_good(good) {
 		return new Promise((resolve, reject) => {
 			let uid = JSON.parse(localStorage.getItem('bmob')).objectId;
@@ -42,20 +105,20 @@ export default {
 			query.find().then(res => {
 				console.log(res)
 				if (res.length >= 1) {
-					resolve([false,res])
+					resolve([false, res])
 				} else {
 					let reserve = good.reserve
 
 					const pointer1 = Bmob.Pointer('stocks')
-					const p_stock_id = pointer1.set( good.stocks) //仓库的id关联
+					const p_stock_id = pointer1.set(good.stocks) //仓库的id关联
 
 					const query = Bmob.Query('Goods');
 					query.set("goodsName", good.goodsName)
 					query.set("goodsIcon", good.goodsIcon)
 					query.set("costPrice", good.costPrice)
 					query.set("retailPrice", good.retailPrice)
-					query.set("producttime",  good.producttime)
-					query.set("nousetime",good.nousetime )
+					query.set("producttime", good.producttime)
+					query.set("nousetime", good.nousetime)
 					query.set("regNumber", good.regNumber)
 					query.set("reserve", Number(good.reserve))
 					query.set("productCode", good.productCode)
@@ -72,7 +135,7 @@ export default {
 					query.set("userId", userid)
 					query.save().then(res => {
 						console.log(res)
-						resolve([true,res])
+						resolve([true, res])
 					}).catch(err => {
 						console.log(err)
 					})
@@ -92,7 +155,7 @@ export default {
 			query.equalTo("parent", "==", userid);
 			query.find().then(res => {
 				//console.log(res)
-				localStorage.setItem("frist_class",JSON.stringify(res))
+				localStorage.setItem("frist_class", JSON.stringify(res))
 				resolve(res)
 			});
 
@@ -129,7 +192,7 @@ export default {
 			}
 			query.find().then(res => {
 				//console.log(res)
-				localStorage.setItem("stocks",JSON.stringify(res))
+				localStorage.setItem("stocks", JSON.stringify(res))
 				resolve(res)
 			});
 		})
