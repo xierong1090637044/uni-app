@@ -306,7 +306,6 @@
 			get_productList() {
 				that.productList = []
 				const query = Bmob.Query("Goods");
-				query.select("goodsName","reserve","goodsIcon","packageContent","packingUnit","retailPrice","costPrice","stocks");
 				query.include("stocks");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);

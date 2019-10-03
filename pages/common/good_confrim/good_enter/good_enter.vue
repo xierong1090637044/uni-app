@@ -21,7 +21,7 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
-						
+
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 							<view>选择仓库</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
@@ -65,6 +65,7 @@
 
 <script>
 	import common from '@/utils/common.js';
+	import _goods from '@/utils/goods.js';
 	import send_temp from '@/utils/send_temp.js';
 
 	let uid;
@@ -75,7 +76,7 @@
 	export default {
 		data() {
 			return {
-				stock:'',//仓库
+				stock: '', //仓库
 				shop_name: '',
 				products: null,
 				button_disabled: false,
@@ -106,8 +107,8 @@
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(shop.objectId);
 			}
-			
-			that.stock = uni.getStorageSync("warehouse")?uni.getStorageSync("warehouse")[0].stock:''
+
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
 
@@ -117,9 +118,9 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
+
 				const pointer = Bmob.Pointer('stocks');
-				let stockId = pointer.set(that.stock?that.stock.objectId:'');
+				let stockId = pointer.set(that.stock ? that.stock.objectId : '');
 
 				let billsObj = new Array();
 				let detailObj = [];
@@ -141,8 +142,8 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', 1);
-					(shop)?tempBills.set("shop", shopId):'';
-					tempBills.set("stock",stockId);
+					(shop) ? tempBills.set("shop", shopId): '';
+					tempBills.set("stock", stockId);
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -185,7 +186,7 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						query.set("stock",stockId);
+						query.set("stock", stockId);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
@@ -232,10 +233,6 @@
 										})
 									}
 
-									that.button_disabled = false;
-									uni.setStorageSync("is_option", true);
-									uni.removeStorageSync("warehouse");
-									
 									setTimeout(() => {
 										common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 1, res.objectId);
@@ -243,17 +240,46 @@
 										let params = {
 											"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
 												.length + "商品",
-											"data1":res.createdAt,
-											"data2":that.stock ? that.stock.stock_name : "未填写",
+											"data1": res.createdAt,
+											"data2": that.stock ? that.stock.stock_name : "未填写",
 											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
 										send_temp.send_in(params);
 
-										uni.navigateBack({
-											delta: 2
-										});
+
 									}, 500)
+
+									that.can_addGoods().then(res => {
+										if (res) {
+											let products = uni.getStorageSync("products");
+											let warehouse = uni.getStorageSync("warehouse")
+											for (let item of products) {
+												item.reserve = item.num
+												_goods.upload_good_withNoCan(item, warehouse[0].stock).then(res => {
+													console.log(res)
+													if (res[0]) {
+														uni.showToast({
+															title: '添加成功',
+															icon: 'none'
+														})
+													} else {
+														uni.showToast({
+															title: res[1],
+															icon: 'none'
+														})
+													}
+
+													that.button_disabled = false;
+													uni.setStorageSync("is_option", true);
+													uni.removeStorageSync("warehouse");
+													uni.navigateBack({
+														delta: 2
+													});
+												})
+											}
+										}
+									})
 								}
 							})
 						})
@@ -263,7 +289,39 @@
 						// 批量新增异常处理
 						console.log("异常处理");
 					});
-			}
+			},
+
+
+			//判断此商品是否在此仓库中
+			can_addGoods() {
+				return new Promise((resolve, reject) => {
+					let products = uni.getStorageSync("products");
+					let warehouse = uni.getStorageSync("warehouse")
+					if (warehouse) {
+						for (let item of products) {
+							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
+									0].stock.stock_name) {
+								uni.showModal({
+									title: "'" + item.goodsName + "'" + '没有关联到调出仓库',
+									content: "是否将它关联到此仓库",
+									showCancel: true,
+									success: res => {
+										console.log(res)
+										if (res.confirm) {
+											resolve(true)
+										}
+									},
+									fail: () => {},
+									complete: () => {
+										resolve(false)
+									}
+								});
+							}
+						}
+					}
+				})
+
+			},
 		}
 	}
 </script>
