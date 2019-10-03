@@ -181,11 +181,11 @@
 					title: "盘点详情"
 				})
 			}
+			
+			this.get_list();
 		},
 
 		onShow() {
-			this.get_list();
-
 			if (uni.getStorageSync("charge")) {
 				that.staff = uni.getStorageSync("charge")
 			}
@@ -264,7 +264,7 @@
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', opeart_type);
-				query.equalTo("opreater", '==', that.staff.objectId);
+				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.userId.objectId);
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
