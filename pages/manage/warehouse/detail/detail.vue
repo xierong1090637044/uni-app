@@ -30,7 +30,7 @@
 		<view style="margin: 40rpx 0 20rpx;">
 			<view style="padding: 0 30rpx 20rpx;">存货统计</view>
 			<view style="background: #FFFFFF;padding: 0 30rpx;">
-				<view v-if="Goods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
+				<view v-if="Goods && Goods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
 				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)" v-else>
 					<view>
 						<view>{{good.goodsName}}</view>

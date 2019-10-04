@@ -141,6 +141,7 @@
 		},
 		data() {
 			return {
+				
 				now_day: common.getDay(0, false),
 				end_day: common.getDay(1, false),
 				option_now_day: common.getDay(0, false),
@@ -153,6 +154,7 @@
 
 				showOptions: false, //是否显示筛选
 				is_checked: false,
+				data_change:false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
 			}
@@ -160,9 +162,9 @@
 
 		onLoad(options) {
 			that = this;
+			uni.removeStorageSync("charge");
 			opeart_type = Number(options.type);
 			uid = uni.getStorageSync("uid");
-			uni.removeStorageSync("charge");
 
 			if (opeart_type == 1) {
 				uni.setNavigationBarTitle({
@@ -181,14 +183,13 @@
 					title: "盘点详情"
 				})
 			}
-			
-			this.get_list();
 		},
 
 		onShow() {
 			if (uni.getStorageSync("charge")) {
 				that.staff = uni.getStorageSync("charge")
 			}
+			that.get_list()
 		},
 
 		onUnload() {
@@ -199,11 +200,13 @@
 		methods: {
 
 			bindDateChange1(e) {
+				that.data_change = true
 				that.now_day = e.detail.value;
 				that.option_now_day = e.detail.value;
 			},
 
 			bindDateChange2(e) {
+				that.data_change = true
 				that.end_day = e.detail.value;
 				that.option_end_day = e.detail.value;
 			},
@@ -241,6 +244,7 @@
 				uni.removeStorageSync("charge");
 				that.goodsName = "";
 				that.staff = "";
+				that.data_change = false;
 				that.is_checked = false;
 				that.showOptions = false;
 				that.get_list()
@@ -272,7 +276,7 @@
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				} else {
-					if (that.is_checked) {
+					if (that.is_checked==true && that.data_change==true) {
 						query.equalTo("createdAt", ">=", that.option_now_day + ' 00:00:00');
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}

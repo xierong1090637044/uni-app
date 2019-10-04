@@ -733,7 +733,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1498,9 +1498,9 @@ uni$1;exports.default = _default;
 /***/ }),
 
 /***/ 102:
-/*!**************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/print.js ***!
-  \**************************************************************************/
+/*!***********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/print.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1508,10 +1508,12 @@ uni$1;exports.default = _default;
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
   //打印产品信息
   print_goodDet: function print_goodDet(item) {
+    //console.log(item)
     var orderInfo;
     var good = uni.getStorageSync("now_product");
     good.objectId = item.good_id;
     good.stocks = item;
+    good.productCode = item.productCode;
 
     orderInfo = '<CB>商品信息</CB><BR>';
     orderInfo += '--------------------------------<BR>';
@@ -1528,11 +1530,7 @@ uni$1;exports.default = _default;
     if (good.bad_num) orderInfo += '货损数量:      ' + good.bad_num + '<BR>';
     orderInfo += '--------------------------------<BR>';
     orderInfo += '产品二维码：<BR>';
-    if (good.productCode == "") {
-      orderInfo += '<QR>' + good.goodsId + '-false</QR>'; //把二维码字符串用标签套上即可自动生成二维码
-    } else {
-      orderInfo += '<QR>' + good.productCode + '</QR>'; //把二维码字符串用标签套上即可自动生成二维码
-    }
+    orderInfo += '<QR>' + good.productCode + '</QR>'; //把二维码字符串用标签套上即可自动生成二维码
 
     this.print_by_code(orderInfo);
   },
@@ -1914,9 +1912,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 16:
-/*!***************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/wechat.js ***!
-  \***************************************************************************/
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/wechat.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2018,9 +2016,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 17:
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/node_modules/jweixin-module/out/index.js ***!
-  \****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/node_modules/jweixin-module/out/index.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2030,9 +2028,9 @@ function _defineProperty(obj, key, value) {if (key in obj) {Object.definePropert
 /***/ }),
 
 /***/ 183:
-/*!******************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/send_temp.js ***!
-  \******************************************************************************/
+/*!***************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/send_temp.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2084,6 +2082,216 @@ function _defineProperty(obj, key, value) {if (key in obj) {Object.definePropert
         console.log(res);
       } });
 
+  } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 192:
+/*!***********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/goods.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  //批量删除功能
+  delete_goods: function delete_goods(goods) {
+    return new Promise(function (resolve, reject) {
+      var count = 0;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+        for (var _iterator = goods[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var good = _step.value;
+          var query = Bmob.Query('Goods');
+          query.destroy(good.objectId).then(function (res) {
+
+            count += 1;
+            if (count == goods.length) {
+              //console.log(res,count)
+              resolve(true);
+            }
+          }).catch(function (err) {
+            console.log(err);
+          });
+        }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+    });
+  },
+
+  //上传商品
+  upload_good_withNoCan: function upload_good_withNoCan(good, stock) {
+    return new Promise(function (resolve, reject) {
+      var uid = uni.getStorageSync("uid");
+      var pointer = Bmob.Pointer('_User');
+      var userid = pointer.set(uid);
+
+      var reserve = good.reserve;
+
+      var pointer1 = Bmob.Pointer('stocks');
+      var p_stock_id = pointer1.set(stock.objectId); //仓库的id关联
+
+      var query = Bmob.Query("Goods");
+      query.equalTo("userId", "==", uid);
+      query.equalTo("goodsName", "==", good.goodsName);
+      query.equalTo("stocks", "==", stock.objectId);
+      query.find().then(function (res) {
+        console.log(res);
+        if (res.length >= 1) {
+          resolve([false, '该商品存在此仓库中']);
+        } else {
+          var _query = Bmob.Query('Goods');
+          _query.set("goodsName", good.goodsName);
+          _query.set("goodsIcon", good.goodsIcon);
+          _query.set("costPrice", good.costPrice);
+          _query.set("retailPrice", good.retailPrice);
+          //query.set("producttime", good.producttime)
+          //query.set("nousetime", good.nousetime)
+          //query.set("regNumber", good.regNumber)
+          _query.set("reserve", Number(good.reserve));
+          _query.set("productCode", good.productCode ? good.productCode : '');
+          _query.set("stocks", p_stock_id);
+          _query.set("product_info", good.product_info ? good.product_info : '');
+          _query.set("producer", good.producer ? good.producer : '');
+          _query.set("packingUnit", good.packingUnit ? good.packingUnit : '');
+          _query.set("packageContent", good.packageContent ? good.packageContent : '');
+          _query.set("warning_num", Number(good.warning_num ? good.warning_num : 0));
+          _query.set("stocktype", Number(good.warning_num ? good.warning_num : 0) >= Number(reserve) ? 0 : 1); //库存数量类型 0代表库存不足 1代表库存充足
+
+          if (good.second_class) {
+            var pointer2 = Bmob.Pointer('class_user');
+            var p_class_user_id = pointer2.set(good.goodsClass); //一级分类id关联
+            _query.set("second_class", p_second_class_id);
+
+            var pointer3 = Bmob.Pointer('second_class');
+            var p_second_class_id = pointer3.set(good.second_class); //仓库的id关联
+            _query.set("goodsClass", p_class_user_id);
+          }
+
+          _query.set("userId", userid);
+          _query.save().then(function (res) {
+            console.log(res);
+            resolve([true, res]);
+          }).catch(function (err) {
+            console.log(err);
+          });
+        }
+      });
+
+    });
+
+  },
+
+  //上传商品
+  upload_good: function upload_good(good) {
+    return new Promise(function (resolve, reject) {
+      var uid = JSON.parse(localStorage.getItem('bmob')).objectId;
+
+      var pointer = Bmob.Pointer('_User');
+      var userid = pointer.set(uid);
+
+      var pointer2 = Bmob.Pointer('class_user');
+      var p_class_user_id = pointer2.set(good.goodsClass); //一级分类id关联
+
+      var pointer3 = Bmob.Pointer('second_class');
+      var p_second_class_id = pointer3.set(good.second_class); //仓库的id关联
+
+      var query = Bmob.Query("Goods");
+      query.equalTo("userId", "==", uid);
+      query.equalTo("goodsName", "==", good.goodsName);
+      query.equalTo("position", "==", good.position);
+      query.equalTo("stocks", "==", good.stocks);
+      query.find().then(function (res) {
+        console.log(res);
+        if (res.length >= 1) {
+          resolve([false, res]);
+        } else {
+          var reserve = good.reserve;
+
+          var pointer1 = Bmob.Pointer('stocks');
+          var p_stock_id = pointer1.set(good.stocks); //仓库的id关联
+
+          var _query2 = Bmob.Query('Goods');
+          _query2.set("goodsName", good.goodsName);
+          _query2.set("goodsIcon", good.goodsIcon);
+          _query2.set("costPrice", good.costPrice);
+          _query2.set("retailPrice", good.retailPrice);
+          _query2.set("producttime", good.producttime);
+          _query2.set("nousetime", good.nousetime);
+          _query2.set("regNumber", good.regNumber);
+          _query2.set("reserve", Number(good.reserve));
+          _query2.set("productCode", good.productCode);
+          _query2.set("stocks", p_stock_id);
+          _query2.set("product_info", good.product_info);
+          _query2.set("producer", good.producer);
+          _query2.set("packingUnit", good.packingUnit);
+          _query2.set("packageContent", good.packageContent);
+          _query2.set("warning_num", Number(good.warning_num));
+          _query2.set("stocktype", Number(good.warning_num) >= Number(reserve) ? 0 : 1); //库存数量类型 0代表库存不足 1代表库存充足
+          _query2.set("second_class", p_second_class_id);
+          _query2.set("goodsClass", p_class_user_id);
+
+          _query2.set("userId", userid);
+          _query2.save().then(function (res) {
+            console.log(res);
+            resolve([true, res]);
+          }).catch(function (err) {
+            console.log(err);
+          });
+        }
+      });
+    });
+
+  },
+
+
+  //获得产品一级分类
+  get_fristclass: function get_fristclass() {
+    var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+    return new Promise(function (resolve, reject) {
+
+      var query = Bmob.Query("class_user");
+      query.equalTo("parent", "==", userid);
+      query.find().then(function (res) {
+        //console.log(res)
+        localStorage.setItem("frist_class", JSON.stringify(res));
+        resolve(res);
+      });
+
+    });
+  },
+
+  //获得产品的二级分类
+  get_secondclass: function get_secondclass(frist_classid) {
+    return new Promise(function (resolve, reject) {
+
+      var query = Bmob.Query('class_user');
+      query.field('second', frist_classid);
+      query.relation('second_class').then(function (res) {
+        //console.log(res);
+        resolve(res.results);
+      });
+    });
+  },
+
+  //得到仓库列表
+  getstock_list: function getstock_list(search_text) {
+    var userid = JSON.parse(localStorage.getItem('bmob')).objectId;
+    return new Promise(function (resolve, reject) {
+      var query = Bmob.Query("stocks");
+      query.order("-num");
+      query.include("charge", "shop");
+      query.equalTo("parent", "==", userid);
+      //query.equalTo("disabled", "==", that.disabled);
+      if (search_text) {
+        query.equalTo("stock_name", "==", {
+          "$regex": "" + search_text + ".*" });
+
+
+      }
+      query.find().then(function (res) {
+        //console.log(res)
+        localStorage.setItem("stocks", JSON.stringify(res));
+        resolve(res);
+      });
+    });
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
@@ -7571,7 +7779,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7592,14 +7800,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7675,7 +7883,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8052,10 +8260,10 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 208:
-/*!***************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/staffs.js ***!
-  \***************************************************************************/
+/***/ 209:
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/staffs.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8191,9 +8399,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 24:
-/*!****************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/amap-wx.js ***!
-  \****************************************************************************/
+/*!*************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/amap-wx.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8203,9 +8411,9 @@ function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx
 /***/ }),
 
 /***/ 25:
-/*!***************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/common.js ***!
-  \***************************************************************************/
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/common.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8216,7 +8424,6 @@ function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx
     uni.removeStorageSync("warehouse");
     uni.removeStorageSync("stock");
     uni.removeStorageSync("custom");
-    uni.removeStorageSync("now_product");
     uni.removeStorageSync("category");
     uni.removeStorageSync("class_user");
     uni.removeStorageSync("second_class");
@@ -8317,9 +8524,9 @@ function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx
 /***/ }),
 
 /***/ 26:
-/*!*************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/mine.js ***!
-  \*************************************************************************/
+/*!**********************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/mine.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8328,8 +8535,9 @@ function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx
 
   //修改配置信息
   modify_setting: function modify_setting(params) {var _this = this;
+    console.log(params);
     var uid = uni.getStorageSync("uid");
-    var setting = uni.getStorageSync("setting");
+    var setting = uni.getStorageSync("setting") || {};
 
     return new Promise(function (resolve, reject) {
       uni.showLoading({
@@ -8339,7 +8547,7 @@ function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx
       var pointer = Bmob.Pointer('_User');
       var poiID = pointer.set(uid);
 
-      query.set("id", setting.objectId);
+      if (setting.objectId) query.set("id", setting.objectId);
       query.set("show_float", Number(params.show_float));
       query.set("USER", params.USER);
       query.set("UKEY", params.UKEY);
@@ -8381,9 +8589,9 @@ function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx
 /***/ }),
 
 /***/ 27:
-/*!***************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/record.js ***!
-  \***************************************************************************/
+/*!************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/record.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8543,9 +8751,9 @@ module.exports = g;
 /***/ }),
 
 /***/ 4:
-/*!**********************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/pages.json ***!
-  \**********************************************************************/
+/*!*******************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/pages.json ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9438,10 +9646,10 @@ main();
 
 /***/ }),
 
-/***/ 529:
-/*!*******************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-qrcode/qrcode.js ***!
-  \*******************************************************************************************/
+/***/ 546:
+/*!****************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-qrcode/qrcode.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10656,15 +10864,15 @@ QRCode;exports.default = _default;
 
 /***/ }),
 
-/***/ 537:
-/*!*********************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcode.js ***!
-  \*********************************************************************************************/
+/***/ 554:
+/*!******************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcode.js ***!
+  \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 538)['default'];
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var barcodes = __webpack_require__(/*! ./barcodes/index.js */ 555)['default'];
 var _barcode = {};
 (function () {
   // 初始化
@@ -10858,10 +11066,10 @@ _barcode;exports.default = _default;
 
 /***/ }),
 
-/***/ 538:
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/index.js ***!
-  \****************************************************************************************************/
+/***/ 555:
+/*!*************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/index.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10872,21 +11080,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE = __webpack_require__(/*! ./CODE39/ */ 539);
+var _CODE = __webpack_require__(/*! ./CODE39/ */ 556);
 
-var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 541);
+var _CODE2 = __webpack_require__(/*! ./CODE128/ */ 558);
 
-var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 549);
+var _EAN_UPC = __webpack_require__(/*! ./EAN_UPC/ */ 566);
 
-var _ITF = __webpack_require__(/*! ./ITF/ */ 559);
+var _ITF = __webpack_require__(/*! ./ITF/ */ 576);
 
-var _MSI = __webpack_require__(/*! ./MSI/ */ 563);
+var _MSI = __webpack_require__(/*! ./MSI/ */ 580);
 
-var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 570);
+var _pharmacode = __webpack_require__(/*! ./pharmacode/ */ 587);
 
-var _codabar = __webpack_require__(/*! ./codabar */ 571);
+var _codabar = __webpack_require__(/*! ./codabar */ 588);
 
-var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 572);
+var _GenericBarcode = __webpack_require__(/*! ./GenericBarcode/ */ 589);
 
 exports.default = {
   CODE39: _CODE.CODE39,
@@ -10902,10 +11110,10 @@ exports.default = {
 
 /***/ }),
 
-/***/ 539:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE39/index.js ***!
-  \***********************************************************************************************************/
+/***/ 556:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE39/index.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10919,7 +11127,7 @@ exports.CODE39 = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11017,10 +11225,10 @@ exports.CODE39 = CODE39;
 
 /***/ }),
 
-/***/ 540:
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/Barcode.js ***!
-  \******************************************************************************************************/
+/***/ 557:
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/Barcode.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11045,10 +11253,10 @@ exports.default = Barcode;
 
 /***/ }),
 
-/***/ 541:
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/index.js ***!
-  \************************************************************************************************************/
+/***/ 558:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/index.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11060,19 +11268,19 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.CODE128C = exports.CODE128B = exports.CODE128A = exports.CODE128 = undefined;
 
-var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 542);
+var _CODE128_AUTO = __webpack_require__(/*! ./CODE128_AUTO.js */ 559);
 
 var _CODE128_AUTO2 = _interopRequireDefault(_CODE128_AUTO);
 
-var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 546);
+var _CODE128A = __webpack_require__(/*! ./CODE128A.js */ 563);
 
 var _CODE128A2 = _interopRequireDefault(_CODE128A);
 
-var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 547);
+var _CODE128B = __webpack_require__(/*! ./CODE128B.js */ 564);
 
 var _CODE128B2 = _interopRequireDefault(_CODE128B);
 
-var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 548);
+var _CODE128C = __webpack_require__(/*! ./CODE128C.js */ 565);
 
 var _CODE128C2 = _interopRequireDefault(_CODE128C);
 
@@ -11085,10 +11293,10 @@ exports.CODE128C = _CODE128C2.default;
 
 /***/ }),
 
-/***/ 542:
-/*!*******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
-  \*******************************************************************************************************************/
+/***/ 559:
+/*!****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/CODE128_AUTO.js ***!
+  \****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11099,11 +11307,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _CODE2 = __webpack_require__(/*! ./CODE128 */ 543);
+var _CODE2 = __webpack_require__(/*! ./CODE128 */ 560);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _auto = __webpack_require__(/*! ./auto */ 545);
+var _auto = __webpack_require__(/*! ./auto */ 562);
 
 var _auto2 = _interopRequireDefault(_auto);
 
@@ -11137,10 +11345,10 @@ exports.default = CODE128AUTO;
 
 /***/ }),
 
-/***/ 543:
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
-  \**************************************************************************************************************/
+/***/ 560:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/CODE128.js ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11153,11 +11361,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _constants = __webpack_require__(/*! ./constants */ 544);
+var _constants = __webpack_require__(/*! ./constants */ 561);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11315,10 +11523,10 @@ exports.default = CODE128;
 
 /***/ }),
 
-/***/ 544:
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/constants.js ***!
-  \****************************************************************************************************************/
+/***/ 561:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/constants.js ***!
+  \*************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11380,10 +11588,10 @@ var BARS = exports.BARS = [11011001100, 11001101100, 11001100110, 10010011000, 1
 
 /***/ }),
 
-/***/ 545:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/auto.js ***!
-  \***********************************************************************************************************/
+/***/ 562:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/auto.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11394,7 +11602,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ 544);
+var _constants = __webpack_require__(/*! ./constants */ 561);
 
 // Match Set functions
 var matchSetALength = function matchSetALength(string) {
@@ -11464,10 +11672,10 @@ exports.default = function (string) {
 
 /***/ }),
 
-/***/ 546:
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
-  \***************************************************************************************************************/
+/***/ 563:
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/CODE128A.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11480,11 +11688,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 543);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 560);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 544);
+var _constants = __webpack_require__(/*! ./constants */ 561);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11517,10 +11725,10 @@ exports.default = CODE128A;
 
 /***/ }),
 
-/***/ 547:
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
-  \***************************************************************************************************************/
+/***/ 564:
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/CODE128B.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11533,11 +11741,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 543);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 560);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 544);
+var _constants = __webpack_require__(/*! ./constants */ 561);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11570,10 +11778,10 @@ exports.default = CODE128B;
 
 /***/ }),
 
-/***/ 548:
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
-  \***************************************************************************************************************/
+/***/ 565:
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/CODE128/CODE128C.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11586,11 +11794,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 543);
+var _CODE2 = __webpack_require__(/*! ./CODE128.js */ 560);
 
 var _CODE3 = _interopRequireDefault(_CODE2);
 
-var _constants = __webpack_require__(/*! ./constants */ 544);
+var _constants = __webpack_require__(/*! ./constants */ 561);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -11623,10 +11831,10 @@ exports.default = CODE128C;
 
 /***/ }),
 
-/***/ 549:
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
-  \************************************************************************************************************/
+/***/ 566:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/index.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11638,27 +11846,27 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.UPCE = exports.UPC = exports.EAN2 = exports.EAN5 = exports.EAN8 = exports.EAN13 = undefined;
 
-var _EAN = __webpack_require__(/*! ./EAN13.js */ 550);
+var _EAN = __webpack_require__(/*! ./EAN13.js */ 567);
 
 var _EAN2 = _interopRequireDefault(_EAN);
 
-var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 554);
+var _EAN3 = __webpack_require__(/*! ./EAN8.js */ 571);
 
 var _EAN4 = _interopRequireDefault(_EAN3);
 
-var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 555);
+var _EAN5 = __webpack_require__(/*! ./EAN5.js */ 572);
 
 var _EAN6 = _interopRequireDefault(_EAN5);
 
-var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 556);
+var _EAN7 = __webpack_require__(/*! ./EAN2.js */ 573);
 
 var _EAN8 = _interopRequireDefault(_EAN7);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ 557);
+var _UPC = __webpack_require__(/*! ./UPC.js */ 574);
 
 var _UPC2 = _interopRequireDefault(_UPC);
 
-var _UPCE = __webpack_require__(/*! ./UPCE.js */ 558);
+var _UPCE = __webpack_require__(/*! ./UPCE.js */ 575);
 
 var _UPCE2 = _interopRequireDefault(_UPCE);
 
@@ -11673,10 +11881,10 @@ exports.UPCE = _UPCE2.default;
 
 /***/ }),
 
-/***/ 550:
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
-  \************************************************************************************************************/
+/***/ 567:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/EAN13.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11691,9 +11899,9 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _constants = __webpack_require__(/*! ./constants */ 551);
+var _constants = __webpack_require__(/*! ./constants */ 568);
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ 552);
+var _EAN2 = __webpack_require__(/*! ./EAN */ 569);
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -11803,10 +12011,10 @@ exports.default = EAN13;
 
 /***/ }),
 
-/***/ 551:
-/*!****************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
-  \****************************************************************************************************************/
+/***/ 568:
+/*!*************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/constants.js ***!
+  \*************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11844,10 +12052,10 @@ var EAN13_STRUCTURE = exports.EAN13_STRUCTURE = ['LLLLLL', 'LLGLGG', 'LLGGLG', '
 
 /***/ }),
 
-/***/ 552:
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
-  \**********************************************************************************************************/
+/***/ 569:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/EAN.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11860,13 +12068,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 551);
+var _constants = __webpack_require__(/*! ./constants */ 568);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 553);
+var _encoder = __webpack_require__(/*! ./encoder */ 570);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -11947,10 +12155,10 @@ exports.default = EAN;
 
 /***/ }),
 
-/***/ 553:
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
-  \**************************************************************************************************************/
+/***/ 570:
+/*!***********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/encoder.js ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11961,7 +12169,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _constants = __webpack_require__(/*! ./constants */ 551);
+var _constants = __webpack_require__(/*! ./constants */ 568);
 
 // Encode data string
 var encode = function encode(data, structure, separator) {
@@ -11985,10 +12193,10 @@ exports.default = encode;
 
 /***/ }),
 
-/***/ 554:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
-  \***********************************************************************************************************/
+/***/ 571:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/EAN8.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12003,7 +12211,7 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
 
-var _EAN2 = __webpack_require__(/*! ./EAN */ 552);
+var _EAN2 = __webpack_require__(/*! ./EAN */ 569);
 
 var _EAN3 = _interopRequireDefault(_EAN2);
 
@@ -12077,10 +12285,10 @@ exports.default = EAN8;
 
 /***/ }),
 
-/***/ 555:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
-  \***********************************************************************************************************/
+/***/ 572:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/EAN5.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12093,13 +12301,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 551);
+var _constants = __webpack_require__(/*! ./constants */ 568);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 553);
+var _encoder = __webpack_require__(/*! ./encoder */ 570);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12153,10 +12361,10 @@ exports.default = EAN5;
 
 /***/ }),
 
-/***/ 556:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
-  \***********************************************************************************************************/
+/***/ 573:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/EAN2.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12169,13 +12377,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 551);
+var _constants = __webpack_require__(/*! ./constants */ 568);
 
-var _encoder = __webpack_require__(/*! ./encoder */ 553);
+var _encoder = __webpack_require__(/*! ./encoder */ 570);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12222,10 +12430,10 @@ exports.default = EAN2;
 
 /***/ }),
 
-/***/ 557:
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
-  \**********************************************************************************************************/
+/***/ 574:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/UPC.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12240,11 +12448,11 @@ var _createClass = function () {function defineProperties(target, props) {for (v
 
 exports.checksum = checksum;
 
-var _encoder = __webpack_require__(/*! ./encoder */ 553);
+var _encoder = __webpack_require__(/*! ./encoder */ 570);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12398,10 +12606,10 @@ exports.default = UPC;
 
 /***/ }),
 
-/***/ 558:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
-  \***********************************************************************************************************/
+/***/ 575:
+/*!********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/EAN_UPC/UPCE.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12414,15 +12622,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _encoder = __webpack_require__(/*! ./encoder */ 553);
+var _encoder = __webpack_require__(/*! ./encoder */ 570);
 
 var _encoder2 = _interopRequireDefault(_encoder);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
-var _UPC = __webpack_require__(/*! ./UPC.js */ 557);
+var _UPC = __webpack_require__(/*! ./UPC.js */ 574);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -12594,10 +12802,10 @@ exports.default = UPCE;
 
 /***/ }),
 
-/***/ 559:
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/ITF/index.js ***!
-  \********************************************************************************************************/
+/***/ 576:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/ITF/index.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12609,11 +12817,11 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.ITF14 = exports.ITF = undefined;
 
-var _ITF = __webpack_require__(/*! ./ITF */ 560);
+var _ITF = __webpack_require__(/*! ./ITF */ 577);
 
 var _ITF2 = _interopRequireDefault(_ITF);
 
-var _ITF3 = __webpack_require__(/*! ./ITF14 */ 562);
+var _ITF3 = __webpack_require__(/*! ./ITF14 */ 579);
 
 var _ITF4 = _interopRequireDefault(_ITF3);
 
@@ -12624,10 +12832,10 @@ exports.ITF14 = _ITF4.default;
 
 /***/ }),
 
-/***/ 560:
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/ITF/ITF.js ***!
-  \******************************************************************************************************/
+/***/ 577:
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/ITF/ITF.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12640,9 +12848,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _constants = __webpack_require__(/*! ./constants */ 561);
+var _constants = __webpack_require__(/*! ./constants */ 578);
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12704,10 +12912,10 @@ exports.default = ITF;
 
 /***/ }),
 
-/***/ 561:
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/ITF/constants.js ***!
-  \************************************************************************************************************/
+/***/ 578:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/ITF/constants.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12724,10 +12932,10 @@ var BINARIES = exports.BINARIES = ['00110', '10001', '01001', '11000', '00101', 
 
 /***/ }),
 
-/***/ 562:
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/ITF/ITF14.js ***!
-  \********************************************************************************************************/
+/***/ 579:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/ITF/ITF14.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12740,7 +12948,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _ITF2 = __webpack_require__(/*! ./ITF */ 560);
+var _ITF2 = __webpack_require__(/*! ./ITF */ 577);
 
 var _ITF3 = _interopRequireDefault(_ITF2);
 
@@ -12790,10 +12998,10 @@ exports.default = ITF14;
 
 /***/ }),
 
-/***/ 563:
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/index.js ***!
-  \********************************************************************************************************/
+/***/ 580:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/index.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12805,23 +13013,23 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.MSI1110 = exports.MSI1010 = exports.MSI11 = exports.MSI10 = exports.MSI = undefined;
 
-var _MSI = __webpack_require__(/*! ./MSI.js */ 564);
+var _MSI = __webpack_require__(/*! ./MSI.js */ 581);
 
 var _MSI2 = _interopRequireDefault(_MSI);
 
-var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 565);
+var _MSI3 = __webpack_require__(/*! ./MSI10.js */ 582);
 
 var _MSI4 = _interopRequireDefault(_MSI3);
 
-var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 567);
+var _MSI5 = __webpack_require__(/*! ./MSI11.js */ 584);
 
 var _MSI6 = _interopRequireDefault(_MSI5);
 
-var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 568);
+var _MSI7 = __webpack_require__(/*! ./MSI1010.js */ 585);
 
 var _MSI8 = _interopRequireDefault(_MSI7);
 
-var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 569);
+var _MSI9 = __webpack_require__(/*! ./MSI1110.js */ 586);
 
 var _MSI10 = _interopRequireDefault(_MSI9);
 
@@ -12835,10 +13043,10 @@ exports.MSI1110 = _MSI10.default;
 
 /***/ }),
 
-/***/ 564:
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/MSI.js ***!
-  \******************************************************************************************************/
+/***/ 581:
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/MSI.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12851,7 +13059,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -12920,10 +13128,10 @@ exports.default = MSI;
 
 /***/ }),
 
-/***/ 565:
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/MSI10.js ***!
-  \********************************************************************************************************/
+/***/ 582:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/MSI10.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12934,11 +13142,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 564);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 581);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 566);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 583);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -12964,10 +13172,10 @@ exports.default = MSI10;
 
 /***/ }),
 
-/***/ 566:
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/checksums.js ***!
-  \************************************************************************************************************/
+/***/ 583:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/checksums.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13004,10 +13212,10 @@ function mod11(number) {
 
 /***/ }),
 
-/***/ 567:
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/MSI11.js ***!
-  \********************************************************************************************************/
+/***/ 584:
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/MSI11.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13018,11 +13226,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 564);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 581);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 566);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 583);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -13048,10 +13256,10 @@ exports.default = MSI11;
 
 /***/ }),
 
-/***/ 568:
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
-  \**********************************************************************************************************/
+/***/ 585:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/MSI1010.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13062,11 +13270,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 564);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 581);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 566);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 583);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -13094,10 +13302,10 @@ exports.default = MSI1010;
 
 /***/ }),
 
-/***/ 569:
-/*!**********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
-  \**********************************************************************************************************/
+/***/ 586:
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/MSI/MSI1110.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13108,11 +13316,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true });
 
 
-var _MSI2 = __webpack_require__(/*! ./MSI.js */ 564);
+var _MSI2 = __webpack_require__(/*! ./MSI.js */ 581);
 
 var _MSI3 = _interopRequireDefault(_MSI2);
 
-var _checksums = __webpack_require__(/*! ./checksums.js */ 566);
+var _checksums = __webpack_require__(/*! ./checksums.js */ 583);
 
 function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
@@ -13140,10 +13348,10 @@ exports.default = MSI1110;
 
 /***/ }),
 
-/***/ 570:
-/*!***************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/pharmacode/index.js ***!
-  \***************************************************************************************************************/
+/***/ 587:
+/*!************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/pharmacode/index.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13157,7 +13365,7 @@ exports.pharmacode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -13224,10 +13432,10 @@ exports.pharmacode = pharmacode;
 
 /***/ }),
 
-/***/ 571:
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/codabar/index.js ***!
-  \************************************************************************************************************/
+/***/ 588:
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/codabar/index.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13241,7 +13449,7 @@ exports.codabar = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -13327,10 +13535,10 @@ exports.codabar = codabar;
 
 /***/ }),
 
-/***/ 572:
-/*!*******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
-  \*******************************************************************************************************************/
+/***/ 589:
+/*!****************************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/components/tki-barcode/barcodes/GenericBarcode/index.js ***!
+  \****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13344,7 +13552,7 @@ exports.GenericBarcode = undefined;
 
 var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
 
-var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 540);
+var _Barcode2 = __webpack_require__(/*! ../Barcode.js */ 557);
 
 var _Barcode3 = _interopRequireDefault(_Barcode2);
 
@@ -13405,9 +13613,9 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 /***/ }),
 
 /***/ 68:
-/*!****************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/customs.js ***!
-  \****************************************************************************/
+/*!*************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/customs.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13562,21 +13770,21 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 /***/ }),
 
 /***/ 7:
-/*!***************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/pages.json?{"type":"style"} ***!
-  \***************************************************************************************/
+/*!************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/pages.json?{"type":"style"} ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页" }, "pages/manage/shops/record/record": { "navigationBarTitleText": "全部记录" }, "pages/manage/good_add/good_add": { "navigationBarTitleText": "新建产品" }, "pages/manage/custom/custom_detail/history/history": { "navigationBarTitleText": "销售明细" }, "pages/manage/goods/goods": { "navigationBarTitleText": "我的产品" }, "pages/manage/good_det/custom_detail/custom_detail": { "navigationBarTitleText": "客户统计" }, "pages/manage/custom/custom_detail/debt_history/debt_history": { "navigationBarTitleText": "收款列表" }, "pages/manage/custom/producer_detail/producer_detail": { "navigationBarTitleText": "供货商详情" }, "pages/manage/custom/custom_detail/custom_detail": { "navigationBarTitleText": "客户详情" }, "pages/manage/good_det/good_det": { "navigationBarTitleText": "产品详情" }, "pages/landing/landing": { "navigationBarTitleText": "登陆" }, "pages/register/register": { "navigationBarTitleText": "注册" }, "pages/mine/mine": { "navigationBarTitleText": "我的" }, "pages/manage/warehouse/detail/detail": { "navigationBarTitleText": "仓库详情" }, "pages/report/operational_status/operational_status": { "navigationBarTitleText": "经营状况" }, "pages/mine/logs/logs": { "navigationBarTitleText": "操作记录" }, "pages/report/EnteringHistory/EnteringHistory": {}, "pages/common/goods-select/goods-select": { "navigationBarTitleText": "选择产品" }, "pages/common/good_return/return_detail/return_detail": { "navigationBarTitleText": "退货详情" }, "pages/common/goods_out/out_detail/out_detail": { "navigationBarTitleText": "出库详情" }, "pages/common/good_confrim/good_enter/good_enter": { "navigationBarTitleText": "入库详情" }, "pages/manage/staff/staff": { "navigationBarTitleText": "员工管理" }, "pages/manage/shops/shops": { "navigationBarTitleText": "门店管理" }, "pages/manage/warehouse/warehouse": { "navigationBarTitleText": "仓库管理" }, "pages/manage/warehouse/add/add": { "navigationBarTitleText": "新增仓库" }, "pages/manage/shops/add/add": { "navigationBarTitleText": "新增门店" }, "pages/manage/staff/add/add": { "navigationBarTitleText": "新增员工" }, "pages/mine/setting/setting": { "navigationBarTitleText": "我的设置" }, "pages/manage/custom/custom": { "navigationBarTitleText": "客户管理" }, "pages/manage/custom/add/add": {}, "pages/manage/operations/operations": { "navigationBarTitleText": "操作详情" }, "pages/manage/manage": { "navigationBarTitleText": "管理" }, "pages/manage/category/category": { "navigationBarTitleText": "类别管理" }, "pages/common/good_confrim/good_confrim": { "navigationBarTitleText": "产品入库" }, "pages/report/report": { "navigationBarTitleText": "报表" }, "pages/report/EnteringHistory/detail/detail": { "navigationBarTitleText": "明细" }, "pages/common/goods_out/goods_out": { "navigationBarTitleText": "产品出库" }, "pages/common/good_return/good_return": { "navigationBarTitleText": "产品退货" }, "pages/common/good_count/good_count": { "navigationBarTitleText": "产品盘点" }, "pages/common/good_count/count_detail/count_detail": { "navigationBarTitleText": "盘点详情" }, "pages/mine/about_us/about_us": { "navigationBarTitleText": "关于我们" }, "pages/mine/home_page/home_page": { "navigationBarTitleText": "账号信息" }, "pages/staff_landing/staff_landing": { "navigationBarTitleText": "员工登陆" }, "pages/mine/warning_log/warning_log": { "navigationBarTitleText": "预警记录" }, "pages/manage/shops/staff_in/staff_in": { "navigationBarTitleText": "员工列表" }, "pages/register/user_protocol/user_protocol": { "navigationBarTitleText": "用户协议" }, "pages/mine/update_history/update_history": { "navigationBarTitleText": "更新历史" }, "pages/manage/custom/producer_detail/history/history": { "navigationBarTitleText": "采购明细" }, "pages/manage/custom/producer_detail/debt_history/debt_history": {}, "pages/test/test": {}, "pages/common/good_allocation/good_allocation": { "navigationBarTitleText": "产品调拨" }, "pages/common/good_allocation/allocation_detail/allocation_detail": { "navigationBarTitleText": "调拨详情" }, "pages/manage/goods_add/goods_add": { "navigationBarTitleText": "多仓库商品添加" } }, "globalStyle": { "navigationStyle": "custom", "navigationBarTextStyle": "white", "navigationBarTitleText": "库存表", "navigationBarBackgroundColor": "#426ab3", "backgroundColor": "#fff" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "首页" }, "pages/manage/shops/record/record": { "navigationBarTitleText": "全部记录" }, "pages/manage/good_add/good_add": { "navigationBarTitleText": "新建产品" }, "pages/manage/custom/custom_detail/history/history": { "navigationBarTitleText": "销售明细" }, "pages/manage/goods/goods": { "navigationBarTitleText": "我的产品" }, "pages/manage/good_det/custom_detail/custom_detail": { "navigationBarTitleText": "客户统计" }, "pages/manage/custom/custom_detail/debt_history/debt_history": { "navigationBarTitleText": "收款列表" }, "pages/manage/custom/producer_detail/producer_detail": { "navigationBarTitleText": "供货商详情" }, "pages/manage/custom/custom_detail/custom_detail": { "navigationBarTitleText": "客户详情" }, "pages/manage/good_det/good_det": { "navigationBarTitleText": "产品详情" }, "pages/landing/landing": { "navigationBarTitleText": "登陆" }, "pages/register/register": { "navigationBarTitleText": "注册" }, "pages/mine/mine": { "navigationBarTitleText": "我的" }, "pages/manage/warehouse/detail/detail": { "navigationBarTitleText": "仓库详情" }, "pages/report/operational_status/operational_status": { "navigationBarTitleText": "经营状况" }, "pages/mine/logs/logs": { "navigationBarTitleText": "操作记录" }, "pages/report/EnteringHistory/EnteringHistory": {}, "pages/common/goods-select/goods-select": { "navigationBarTitleText": "选择产品" }, "pages/common/good_return/return_detail/return_detail": { "navigationBarTitleText": "退货详情" }, "pages/common/goods_out/out_detail/out_detail": { "navigationBarTitleText": "出库详情" }, "pages/common/good_confrim/good_enter/good_enter": { "navigationBarTitleText": "入库详情" }, "pages/manage/staff/staff": { "navigationBarTitleText": "员工管理" }, "pages/manage/shops/shops": { "navigationBarTitleText": "门店管理" }, "pages/manage/warehouse/warehouse": { "navigationBarTitleText": "仓库管理" }, "pages/manage/warehouse/add/add": { "navigationBarTitleText": "新增仓库" }, "pages/manage/shops/add/add": { "navigationBarTitleText": "新增门店" }, "pages/manage/staff/add/add": { "navigationBarTitleText": "新增员工" }, "pages/mine/setting/setting": { "navigationBarTitleText": "我的设置" }, "pages/manage/custom/custom": { "navigationBarTitleText": "客户管理" }, "pages/manage/custom/add/add": {}, "pages/manage/operations/operations": { "navigationBarTitleText": "操作详情" }, "pages/manage/manage": { "navigationBarTitleText": "管理" }, "pages/manage/category/category": { "navigationBarTitleText": "类别管理" }, "pages/common/good_confrim/good_confrim": { "navigationBarTitleText": "产品入库" }, "pages/report/report": { "navigationBarTitleText": "报表" }, "pages/report/EnteringHistory/detail/detail": { "navigationBarTitleText": "明细" }, "pages/common/goods_out/goods_out": { "navigationBarTitleText": "产品出库" }, "pages/common/good_return/good_return": { "navigationBarTitleText": "产品退货" }, "pages/common/good_count/good_count": { "navigationBarTitleText": "产品盘点" }, "pages/common/good_count/count_detail/count_detail": { "navigationBarTitleText": "盘点详情" }, "pages/mine/about_us/about_us": { "navigationBarTitleText": "关于我们" }, "pages/mine/home_page/home_page": { "navigationBarTitleText": "账号信息" }, "pages/staff_landing/staff_landing": { "navigationBarTitleText": "员工登陆" }, "pages/mine/warning_log/warning_log": { "navigationBarTitleText": "预警记录" }, "pages/manage/shops/staff_in/staff_in": { "navigationBarTitleText": "员工列表" }, "pages/register/user_protocol/user_protocol": { "navigationBarTitleText": "用户协议" }, "pages/mine/update_history/update_history": { "navigationBarTitleText": "更新历史" }, "pages/manage/custom/producer_detail/history/history": { "navigationBarTitleText": "采购明细" }, "pages/manage/custom/producer_detail/debt_history/debt_history": {}, "pages/test/test": {}, "pages/common/good_allocation/good_allocation": { "navigationBarTitleText": "产品调拨" }, "pages/common/good_allocation/allocation_detail/allocation_detail": { "navigationBarTitleText": "调拨详情" }, "pages/manage/goods_add/goods_add": { "navigationBarTitleText": "多仓库商品添加" }, "pages/manage/good_det/edit_stock/edit_stock": {}, "pages/manage/good_det/edit_info/edit_info": {} }, "globalStyle": { "navigationStyle": "custom", "navigationBarTextStyle": "white", "navigationBarTitleText": "库存表", "navigationBarBackgroundColor": "#426ab3", "backgroundColor": "#fff" } };exports.default = _default;
 
 /***/ }),
 
 /***/ 8:
-/*!**************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/pages.json?{"type":"stat"} ***!
-  \**************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/pages.json?{"type":"stat"} ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13586,9 +13794,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 85:
-/*!******************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/utils/producers.js ***!
-  \******************************************************************************/
+/*!***************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/utils/producers.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13720,9 +13928,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 9:
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/新建文件夹 (8)/wechat_web/node_modules/vue-i18n/dist/vue-i18n.esm.js ***!
-  \******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wechat/kcb_mobile/node_modules/vue-i18n/dist/vue-i18n.esm.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

@@ -135,12 +135,18 @@
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
+					
+					let masterId = uni.getStorageSync("masterId");
+					let pointer2 = Bmob.Pointer('_User')
+					let poiID2 = pointer2.set(masterId);
+					
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
 					tempBills.set('num', this.products[i].num);
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
+					tempBills.set("opreater", poiID2);
 					tempBills.set('type', 1);
 					(shop) ? tempBills.set("shop", shopId): '';
 					tempBills.set("stock", stockId);

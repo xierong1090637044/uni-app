@@ -339,6 +339,14 @@
             "path" : "pages/manage/good_det/edit_info/edit_info",
             "style" : {}
         }
+        ,{
+            "path" : "pages/manage/staff/detail/detail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/manage/staff/history/history",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

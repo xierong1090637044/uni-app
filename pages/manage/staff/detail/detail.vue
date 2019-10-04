@@ -1,0 +1,105 @@
+<template>
+	<view>
+		<view style="padding: 0 30rpx;background: #fff;">
+			<view class="display_flex_bet frist border_bottom" @click="goto_edit()">
+				<view class="display_flex">
+					<view>员工姓名</view>
+					<view style="margin-left: 30rpx;">{{staff.username}}</view>
+				</view>
+				<fa-icon type="angle-right" size="20" color="#999" />
+			</view>
+
+			<view class="display_flex_bet frist border_bottom">
+				<view>联系电话</view>
+				<view style="color: #999;">{{staff.mobilePhoneNumber}}</view>
+			</view>
+
+			<view class="display_flex_bet frist border_bottom">
+				<view class="display_flex_bet" style="width: 100%;">
+					<view>是否成功激活</view>
+					<view v-if="staff.userId" style="color: #999;">已登录成功并激活</view>
+					<view v-else style="color: #999;">请让他登录激活</view>
+				</view>
+			</view>
+
+			<view class="display_flex_bet frist">
+				<view class="display_flex_bet" style="width: 100%;">
+					<view>创建时间</view>
+					<view style="color: #999;">{{staff.createdAt}}</view>
+				</view>
+			</view>
+		</view>
+
+		<!---相关的操作记录-->
+		<navigator v-if="staff.userId" class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'../history/history?id='+staff.userId.objectId">
+			<text class="left_desc">相关的操作记录</text>
+			<fa-icon type="angle-right" size="20" color="#999" />
+		</navigator>
+		<view v-else class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none">
+			<text class="left_desc">未激活，未产生操作记录</text>
+			<fa-icon type="angle-right" size="20" color="#999" />
+		</view>
+		
+	</view>
+</template>
+
+<script>
+	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import loading from "@/components/Loading/index.vue"
+
+	let that;
+	let uid;
+	export default {
+		components: {
+			faIcon,
+			loading
+		},
+		data() {
+			return {
+				staff: "",
+				Goods: null,
+				reserve_num: 0,
+				reserve_money: 0,
+			}
+		},
+
+		onLoad() {
+			that = this;
+			uid = uni.getStorageSync("uid");
+			that.staff = uni.getStorageSync("staff")
+		},
+		methods: {
+			goto_edit(){
+				uni.navigateTo({
+					url: "../add/add"
+				})
+			},
+			
+			goto_detail(good) {
+				uni.setStorageSync("now_product", good);
+				uni.navigateTo({
+					url: "/pages/manage/good_det/good_det"
+				})
+			},
+		}
+	}
+</script>
+
+<style lang="scss">
+	.frist {
+		padding: 20rpx 0;
+	}
+	
+	.list_item {
+		padding: 20rpx 30rpx;
+		background: #FFFFFF;
+	}
+	
+	.border_bottom {
+		border-bottom: 1rpx solid#f6f5ec;
+	}
+
+	.second {
+		line-height: 44rpx;
+	}
+</style>

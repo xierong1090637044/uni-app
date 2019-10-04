@@ -5,9 +5,9 @@
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" @click-right="showOptions = true" right-text="筛选"></uni-nav-bar>
 
 			<view>
-				<view class="uni-common-mt" style="background: #FFFFFF;">
+				<view style="background: #FFFFFF;margin-top: 10rpx;">
 					<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
-					<view class="display_flex_bet" style="padding: 20rpx 30rpx;border-bottom: 10rpx solid#ddd;text-align:center">
+					<view class="display_flex_bet" style="padding: 0rpx 30rpx;border-bottom: 10rpx solid#ddd;text-align:center">
 						<view>
 							<view>{{header.total}}</view>
 							<view style="color:#999;font-size: 24rpx;">单品数</view>
@@ -33,7 +33,12 @@
 									<fa-icon type="sign-in" size="20" color="#2ca879" />
 								</view>
 								<view style='margin-left:20rpx'>
-									<view><text style='color:#999' v-if="item.opreater">操作者：</text>{{item.opreater.nickName}}</view>
+									<view v-if="item.opreater">
+										<view v-if="item.opreater.nickName">
+											<text style='color:#999' >操作者：</text>
+											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
+										</view>
+									</view>
 									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
 									<view><text style='color:#999'>采购数量：</text>{{item.num}}</view>
 									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
@@ -44,7 +49,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view class='list-item' v-if="seleted_tab == -1">
 					<view v-for="(item,index) in list" :key="index">
 						<view class='item'>
@@ -53,7 +58,12 @@
 									<fa-icon type="sign-out" size="20" color="#f30" />
 								</view>
 								<view style='margin-left:20rpx'>
-									<view><text style='color:#999' v-if="item.opreater">操作者：</text>{{item.opreater.nickName}}</view>
+									<view v-if="item.opreater">
+										<view v-if="item.opreater.nickName">
+											<text style='color:#999' >操作者：</text>
+											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
+										</view>
+									</view>
 									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
 									<view><text style='color:#999'>销售数量：</text>{{item.num}}</view>
 									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
@@ -64,7 +74,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view class='list-item' v-if="seleted_tab == 2">
 					<view v-for="(item,index) in list" :key="index">
 						<view class='item'>
@@ -73,7 +83,12 @@
 									<fa-icon type="sign-out" size="20" color="#b3b242" />
 								</view>
 								<view style='margin-left:20rpx'>
-									<view><text style='color:#999' v-if="item.opreater">操作者：</text>{{item.opreater.nickName}}</view>
+									<view v-if="item.opreater">
+										<view v-if="item.opreater.nickName">
+											<text style='color:#999' >操作者：</text>
+											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
+										</view>
+									</view>
 									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
 									<view><text style='color:#999'>退货数量：</text>{{item.num}}</view>
 									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
@@ -96,7 +111,7 @@
 						<view style="margin-right: 10px;">类型</view>
 						<picker :range="types" range-key="name" @change.stop="bindtypechange" @click.stop class="select_type" style="width: 500rpx;">{{selected_text}}</picker>
 					</view>
-					
+
 					<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 				</view>
 				<view class="input_item1">
@@ -167,7 +182,7 @@
 				max_day: common.getDay(0, false),
 
 				seleted_tab: -1, //1采购  -1销售  2退货
-				selected_text:"销售",
+				selected_text: "销售",
 				types: [{
 					name: '采购',
 					type: 1
@@ -188,9 +203,9 @@
 			that.getdetail();
 		},
 		methods: {
-			
+
 			//选择类型改变
-			bindtypechange(e){
+			bindtypechange(e) {
 				console.log(e)
 				index = e.detail.value
 				that.selected_text = that.types[index].name
@@ -203,7 +218,7 @@
 					get_money: 0,
 				}
 				that.seleted_tab = that.types[index].type
-				
+
 				that.showOptions = false;
 				that.getdetail()
 			},
@@ -217,11 +232,11 @@
 				}
 				that.seleted_tab = -1;
 				that.selected_text = '销售';
-				
+
 				that.now_day = common.getDay(0, false),
-				that.end_day = common.getDay(1, false),
-				that.max_day = common.getDay(0, false),
-				that.showOptions = false;
+					that.end_day = common.getDay(1, false),
+					that.max_day = common.getDay(0, false),
+					that.showOptions = false;
 				that.getdetail()
 			},
 
@@ -268,7 +283,7 @@
 				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.order("-createdAt")
-				query.include("opreater","goodsId");
+				query.include("operater", "goodsId");
 				query.find().then(res => {
 					console.log(res)
 					for (let item of res) {
@@ -288,19 +303,20 @@
 <style>
 	.page {
 		overflow: hidden;
-		height: calc(100vh - 256rpx);
+		height: calc(100vh - 260rpx);
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;
 	}
-	
-	.input_item{
+
+	.input_item {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		line-height: 80rpx;
 		padding: 0 30rpx;
 	}
+
 	.pro_list {
 		font-size: 20rpx !important;
 		display: flex;

@@ -4,27 +4,31 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加"  @click-right="goto_add" >
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
 					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
 				</view>
 			</uni-nav-bar>
-			
+
 			<view class="uni-common-mt">
 				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
-			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true" enable-back-to-top="true">
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
+			 enable-back-to-top="true">
 				<view v-for="(staff,index) in staffs" :key="index">
 					<view class='content'>
 						<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
-						<view class="display_flex">
-							<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
-							<view>
-								<view class='staff_name'>{{staff.username}}</view>
-								<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
-							</view>
+						<view class="display_flex_bet" @click="goto_detail(staff)">
+							<view class="display_flex">
+								<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
+								<view>
+									<view class='staff_name'>{{staff.username}}</view>
+									<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
+								</view>
 
+							</view>
+							<fa-icon type="angle-right" size="20" color="#999" />
 						</view>
 
 						<view class="right_item">
@@ -73,7 +77,7 @@
 				is_choose: false,
 				items: ['已启用', '未启用'],
 				current: 0,
-				disabled:false
+				disabled: false
 			}
 		},
 
@@ -94,18 +98,26 @@
 		},
 		methods: {
 			
+			//去到员工详情
+			goto_detail(staff){
+				uni.setStorageSync("staff", staff)
+				uni.navigateTo({
+					url: "detail/detail"
+				})
+			},
+
 			//tab点击
 			onClickItem(index) {
 				if (this.current !== index) {
 					this.current = index
-			
+
 					if (index == 0) {
 						that.disabled = false,
-						that.getstaff_list()
+							that.getstaff_list()
 					} else if (index == 1) {
 						that.disabled = true,
-						that.getstaff_list()
-					} 
+							that.getstaff_list()
+					}
 				}
 			},
 
@@ -155,16 +167,16 @@
 					console.log(err)
 				})
 			},
-			
+
 			//前去添加员工
-			goto_add(){
+			goto_add() {
 				uni.navigateTo({
 					url: "add/add"
 				})
 			},
-			
+
 			//输入内容筛选
-			input_confirm(e){
+			input_confirm(e) {
 				search_text = e.detail.value
 				that.getstaff_list();
 			},
@@ -198,7 +210,7 @@
 		height: 100vh;
 		background: #FAFAFA;
 	}
-	
+
 	.uni-common-mt {
 		background: #FFFFFF;
 		padding: 20rpx 0;
