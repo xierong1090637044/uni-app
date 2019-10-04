@@ -45,11 +45,11 @@
 							</view>
 							<view class='pro_list' style="padding: 10rpx 0;">
 								<view>调出仓库：{{item.stock}}</view>
-								<view>当前库存：{{item.reserve - item.num}}</view>
+								<view>调拨后库存：{{item.reserve - item.num}}</view>
 							</view>
 							<view class='pro_list'>
 								<view>调入仓库：{{item.out_stock}}</view>
-								<view>当前库存：{{item.out_reserve + item.num}}</view>
+								<view>调拨后库存：{{item.out_reserve + item.num}}</view>
 							</view>
 						</view>
 					</view>

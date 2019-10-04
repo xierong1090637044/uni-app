@@ -6,10 +6,10 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 		  <unicard :title="'品名：'+item.goodsName" :extra="'库存：'+item.reserve">
 		    <view>
-		      <view>建议零售价格：{{item.retailPrice}}(元)</view>
+		      <view>期初进货价：{{item.costPrice}}(元)</view>
 		      <view class='input_withlabel'>
-		          <view>实际价格(可修改)：</view>
-		          <view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/></view>
+		          <view>实际进货价(可修改)：</view>
+		          <view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/></view>
 		      </view>
 		      <view class='margin-t-5'>
 		        入库量：<uninumberbox :min="1" @change="handleNumChange($event, index)" />

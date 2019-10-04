@@ -35,11 +35,11 @@ export default {
 				for (var i = 0; i < res.length; i++) {
 					if (res[i].type == 1) {
 						get_reserve += res[i].num;
-						get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
+						get_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
 						get_reserve_num +=  res[i].total_money;
 					} else if (res[i].type == -1) {
 						out_reserve += res[i].num;
-						out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
+						out_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
 						out_reserve_num += res[i].total_money;
 					}
 				}
@@ -51,7 +51,7 @@ export default {
 				params.out_reserve_real_money = out_reserve_real_money.toFixed(uni.getStorageSync("setting").show_float)
 				params.get_reserve_num = get_reserve_num.toFixed(uni.getStorageSync("setting").show_float)
 				params.out_reserve_num = out_reserve_num.toFixed(uni.getStorageSync("setting").show_float)
-				params.get_reserve_get_num = (get_reserve_real_money - get_reserve_num).toFixed(uni.getStorageSync("setting").show_float)
+				params.get_reserve_get_num = (get_reserve_num - get_reserve_real_money).toFixed(uni.getStorageSync("setting").show_float)
 				params.out_reserve_get_num = (out_reserve_num - out_reserve_real_money).toFixed(uni.getStorageSync("setting").show_float)
 
 
@@ -97,6 +97,7 @@ export default {
 			let params = {}
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
+			query.equalTo("status", "!=", -1);
 			query.select("reserve", "costPrice");
 			query.limit(1000);
 			query.find().then(res => {

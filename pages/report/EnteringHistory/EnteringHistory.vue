@@ -43,6 +43,7 @@
 									</view>
 									<view style='margin-left:20rpx'>
 										<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
+										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>仓库：</text>{{item.stock.stock_name}}</view>
 										<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
@@ -84,6 +85,17 @@
 						<view class="right_input"><input placeholder="操作者" :value="staff.username" disabled="true"></input></view>
 					</view>
 
+					<view>
+						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</view>
+				</navigator>
+				
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+					<view style="display: flex;align-items: center;width: 100%;">
+						<view class="left_item">仓库</view>
+						<view class="right_input"><input placeholder="选择仓库" :value="stock.stock_name" disabled="true"></input></view>
+					</view>
+				
 					<view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
@@ -141,7 +153,7 @@
 		},
 		data() {
 			return {
-				
+				stock:'',
 				now_day: common.getDay(0, false),
 				end_day: common.getDay(1, false),
 				option_now_day: common.getDay(0, false),
@@ -183,13 +195,18 @@
 					title: "盘点详情"
 				})
 			}
+			
+			that.get_list()
 		},
 
 		onShow() {
 			if (uni.getStorageSync("charge")) {
 				that.staff = uni.getStorageSync("charge")
 			}
-			that.get_list()
+			
+			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+				that.stock = uni.getStorageSync("warehouse")[0].stock
+			}
 		},
 
 		onUnload() {
@@ -242,6 +259,8 @@
 			//modal重置的确认点击
 			option_reset() {
 				uni.removeStorageSync("charge");
+				uni.removeStorageSync("warehouse");
+				that.stock = '';
 				that.goodsName = "";
 				that.staff = "";
 				that.data_change = false;
@@ -272,6 +291,7 @@
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
+				if(that.stock) query.equalTo("stock", "==", that.stock.objectId);
 				if (that.checked_option != 'all') {
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
@@ -283,7 +303,7 @@
 				}
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
-				query.include("opreater");
+				query.include("opreater","stock");
 				query.order("-createdAt");
 				query.find().then(res => {
 					//console.log(res)

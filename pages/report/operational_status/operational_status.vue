@@ -46,14 +46,14 @@
 					<view class="display_flex second_item">
 						<image src="/static/reserve_in.png" class="icon_img"></image>
 						<view>
-							<view class="text_notice">今日入库</view>
+							<view class="text_notice">此时间段入库数</view>
 							<view class="reserve_text">{{get_reserve}}</view>
 						</view>
 					</view>
 					<view class="display_flex second_item">
 						<image src="/static/reserve_out.png" class="icon_img"></image>
 						<view>
-							<view class="text_notice">今日出库</view>
+							<view class="text_notice">此时间段出库数</view>
 							<view class="reserve_text">{{out_reserve}}</view>
 						</view>
 					</view>
