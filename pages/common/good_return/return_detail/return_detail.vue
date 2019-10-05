@@ -122,7 +122,7 @@
 					tempBills.set('num', this.products[i].num);
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
-					tempBills.set('operater', operater);
+					tempBills.set('operater', poiID2);
 					tempBills.set('userId', user);
 					tempBills.set('type', 2);
 
@@ -185,10 +185,24 @@
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
-										let num = Number(that.products[i].reserve) + that.products[i].num;
+										let num = 0;
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
+											if (that.products[i].selectd_model) {
+												for (let model of JSON.parse(that.products[i].selectd_model)) {
+													for (let item of that.products[i].models) {
+														num += Number(item.reserve)
+														if (item.id == JSON.parse(model).id){
+															item.reserve = Number(item.reserve) + Number(that.products[i].num)
+														}
+													}
+												}
+												num =num + Number(that.products[i].num)
+												res.set('models', that.products[i].models)
+											}else{
+												num = Number(that.products[i].reserve) + that.products[i].num;
+											}
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()

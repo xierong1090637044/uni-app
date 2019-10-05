@@ -66,6 +66,14 @@
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
+				let key = 0;
+				for (let item of uni.getStorageSync("products")) {
+					console.log(item)
+					if (item.selectd_model) {
+						this.make_goods(item, item.selectd_model, key)
+					}
+					key +=1;
+				}
 			}
 
 		},
@@ -73,6 +81,45 @@
 			uni.removeStorageSync("products");
 		},
 		methods: {
+			make_goods(good, selectd_model, key) {
+				console.log(good, selectd_model, key)
+				let model_goods = []
+				this.products.splice(key,1)
+				for (let model of JSON.parse(selectd_model)) {
+					let new_good ={}
+					new_good.reserve = JSON.parse(model).reserve
+					new_good.costPrice= good.costPrice
+					new_good.createdAt= good.createdAt
+					new_good.goodsIcon= good.goodsIcon
+					new_good.goodsName= good.goodsName+JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(model).custom3.value + JSON.parse(model).custom4.value
+					new_good.is_selected= good.is_selected
+					new_good.key=good.key
+					new_good.models= good.models
+					new_good.modify_retailPrice= good.modify_retailPrice
+					new_good.num= good.num
+					new_good.objectId= good.objectId
+					new_good.packageContent= good.packageContent
+					new_good.packingUnit= good.packingUnit
+					new_good.position= good.position
+					new_good.producer= good.producer
+					new_good.productCode= good.productCode
+					new_good.product_info= good.product_info
+					new_good.product_state= good.product_state
+					new_good.regNumber= good.regNumber
+					new_good.retailPrice= good.retailPrice
+					new_good.selectd_model= good.selectd_model
+					new_good.stocks= good.stocks
+					new_good.stocktype= good.stocktype
+					new_good.total_money= good.total_money
+					new_good.updatedAt= good.updatedAt
+					new_good.userId= good.userId
+					new_good.warning_num=good.warning_num
+					model_goods.push(new_good)
+					//console.log(model_goods,good.reserve)
+				}
+				this.products = this.products.concat(model_goods)
+				//console.log(model_goods)
+			},
 			
 			//头部确定点击
 			confrim_this(){

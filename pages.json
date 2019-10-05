@@ -347,6 +347,14 @@
             "path" : "pages/manage/staff/history/history",
             "style" : {}
         }
+        ,{
+            "path" : "pages/manage/goods_add_MoreG/goods_add_MoreG",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/manage/goods_add_MoreG/G_More/G_More",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

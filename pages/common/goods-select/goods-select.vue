@@ -25,7 +25,7 @@
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
 			</view>
-			
+
 			<view class="uni-product-list">
 				<scroll-view class="uni-product-list" scroll-y v-if="productList.length > 0">
 					<checkbox-group @change="radioChange">
@@ -34,13 +34,13 @@
 								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
 								 :id="''+index" :checked="product.checked" />
 							</view>
-				
+
 							<label class="uni-product" :for="''+index">
 								<view>
 									<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
 									<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 								</view>
-				
+
 								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 									<view class="product_reserve" v-if="product.stocks">
@@ -56,7 +56,7 @@
 				</scroll-view>
 				<nocontent v-else :type="1"></nocontent>
 			</view>
-			
+
 			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
 				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 			</view>
@@ -94,6 +94,44 @@
 			</view>
 		</view>
 
+		<view class="custom_mask" v-if="models_good" @click.stop="hide_mask">
+			<view class="custom_mask_content">
+				<view class="display_flex" style="padding: 0 0 20rpx;border-bottom: 1rpx solid#ccc;">
+					<image v-if="models_good.goodsIcon" class="product_image" :src="models_good.goodsIcon" mode="widthFix" lazy-load="true"></image>
+					<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+					<view style="margin-left: 20rpx;">
+						<view>{{models_good.goodsName}}</view>
+						<view style="font-size: 24rpx;color: #999;">总库存:{{models_good.reserve}}</view>
+					</view>
+				</view>
+				<view @click.stop="">
+					<checkbox-group @change="modelChange">
+						<view v-for="(item,index) in models_good.models" :key="index" style="display: flex;align-items: center;">
+							<view>
+								<checkbox :value="JSON.stringify(item)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
+								 :id="'s'+index"/>
+							</view>
+
+							<label class="uni-product" :for="'s'+index">
+								<view class="display_flex_bet" style="width: 100%;">
+									<view class="display_flex">
+										<view v-if="item.custom1.value">{{item.custom1.value}}</view>
+										<view v-if="item.custom2.value" style="margin-left: 6rpx;">{{item.custom2.value}}</view>
+										<view v-if="item.custom3.value" style="margin-left: 6rpx;">{{item.custom3.value}}</view>
+										<view v-if="item.custom4.value" style="margin-left: 6rpx;">{{item.custom4.value}}</view>
+									</view>
+									
+									<view>库存:{{item.reserve}}</view>
+								</view>
+							</label>
+						</view>
+					</checkbox-group>
+				</view>
+				<view style="margin-top: 100rpx;"><button class='confrim_button' @click="confrim_thismodel()">确认</button></view>
+			</view>
+		</view>
+	</view>
+
 	</view>
 </template>
 
@@ -122,7 +160,10 @@
 		},
 		data() {
 			return {
-				page_num:1,
+				selectd_model:'',
+				models_good: '',
+				models_good_key:'',
+				page_num: 1,
 				search_text: '',
 				url: null,
 				showOptions: false, //是否显示筛选
@@ -131,7 +172,7 @@
 				checked_option: 'createdAt', //tab的筛选条件
 				category: "", //选择的类别
 				stock: "", //选择的仓库
-				type:'',//操作类型
+				type: '', //操作类型
 			}
 		},
 
@@ -150,7 +191,7 @@
 			} else if (option.type == "allocation") {
 				this.url = "../good_allocation/good_allocation"
 			}
-			
+
 			this.type = option.type
 
 			uid = uni.getStorageSync('uid');
@@ -176,7 +217,7 @@
 				that.get_productList();
 			}
 		},
-		
+
 		onHide() {
 			//数据重置
 			search_text = '';
@@ -189,12 +230,16 @@
 
 		methods: {
 			
+			hide_mask(){
+				that.models_good = ''
+			},
+			
 			//分页点击
-			change_page(e){
+			change_page(e) {
 				page_num = e.current
 				that.get_productList();
 			},
-			
+
 			//筛选点击
 			shaixuan() {
 				that.showOptions = true;
@@ -206,7 +251,7 @@
 				that.search_text = e.detail.value
 				that.page_num = 1
 				page_num = 1
-				
+
 				that.get_productList()
 			},
 
@@ -247,18 +292,61 @@
 				that.get_productList();
 			},
 
+			//多选规格
+			modelChange(e) {
+				that.selectd_model = e.detail.value
+				console.log(e.detail.value)
+			},
+			
+			confrim_thismodel(){
+				if(that.selectd_model){
+					
+					console.log(that.models_good)
+					let good_key = that.models_good.key
+					all_products.splice(that.models_good_key-1,1)
+					
+					that.models_good.is_selected = true
+					that.models_good.selectd_model = JSON.stringify(that.selectd_model)
+						//_models_good.goodsName = _models_good.goodsName + JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(model).custom3.value + JSON.parse(model).custom4.value
+					all_products.push(JSON.stringify(that.models_good))
+					that.productList.splice(good_key,1,that.models_good)
+					
+					that.models_good = ''
+				}else{
+					uni.showToast({
+						title:"请选择规格",
+						icon:"none"
+					})
+				}
+			},
+
 			//多选选择触发
 			radioChange: function(e) {
+				console.log(e)
 				let current = []
-				if(search_text){
+				let key =0
+				if (search_text) {
 					search_products[page_num - 1] = e.detail.value
-				}else{
+				} else {
 					products[page_num - 1] = e.detail.value
 				}
 				all_products = search_products.concat(products)
-				all_products = all_products.reduce(function (a, b) { return a.concat(b)} );
+				all_products = all_products.reduce(function(a, b) {
+					return a.concat(b)
+				});
 				
-				console.log(all_products)
+				if(this.type != "allocation"){
+					for (let item of all_products) {
+						item = JSON.parse(item)
+						console.log(item)
+						key = key +1
+						if (item.models && item.models.length > 0 &&item.is_selected !=true) {
+							that.models_good = item
+							that.models_good_key = key
+						}
+					}
+				}
+				
 			},
 
 			//点击去到添加产品
@@ -270,32 +358,43 @@
 						icon: "none"
 					})
 				} else {
-					
-					if(this.type =="allocation"){
-						if(this.stock){
+
+					if (this.type == "allocation") {
+						if (this.stock) {
 							this.confrim_next()
-						}else{
+						} else {
 							uni.showToast({
-								title:"请在筛选中选择调拨的仓库",
-								icon:"none"
+								title: "请在筛选中选择调拨的仓库",
+								icon: "none"
 							})
 						}
-					}else{
+					} else {
 						this.confrim_next()
 					}
-					
+
 				}
 			},
-			
-			confrim_next(){
+
+			confrim_next() {
 				let index = 0;
-				for (let item of all_products) {
-					all_products[index] = JSON.parse(item)
-					all_products[index].num = 1;
-					all_products[index].total_money = 1 * all_products[index].retailPrice;
-					all_products[index].modify_retailPrice = all_products[index].retailPrice;
-					index += 1;
+				if (this.type == "entering") {
+					for (let item of all_products) {
+						all_products[index] = JSON.parse(item)
+						all_products[index].num = 1;
+						all_products[index].total_money = 1 * all_products[index].costPrice;
+						all_products[index].modify_retailPrice = all_products[index].costPrice;
+						index += 1;
+					}
+				} else {
+					for (let item of all_products) {
+						all_products[index] = JSON.parse(item)
+						all_products[index].num = 1;
+						all_products[index].total_money = 1 * all_products[index].retailPrice;
+						all_products[index].modify_retailPrice = all_products[index].retailPrice;
+						index += 1;
+					}
 				}
+
 				uni.setStorageSync("products", all_products);
 				uni.navigateTo({
 					url: this.url
@@ -320,22 +419,28 @@
 				});
 				query.or(query1, query2);
 				query.limit(page_size);
-				query.skip(page_size*(page_num-1));
+				query.skip(page_size * (page_num - 1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.find().then(res => {
-					console.log(all_products)
-					
-					if(all_products.length >=1){
-						for(let item of all_products){
-							for(let product of res){
-								if(product.objectId == JSON.parse(item).objectId){
+					//console.log(all_products)
+					let key = 0;
+					if (all_products.length >= 1) {
+						for (let item of all_products) {
+							for (let product of res) {
+								if (product.objectId == JSON.parse(item).objectId) {
 									product.checked = true
+									product.key = key
+									key +=1
 								}
-								
 							}
 						}
+					}else{
+						for (let product of res) {
+							product.key = key
+							key +=1
+						}
 					}
-					
+
 					this.productList = res;
 					this.loading = false;
 				});
@@ -363,6 +468,31 @@
 
 	.text_notice {
 		margin-left: 6rpx;
+	}
+
+	.custom_mask {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		z-index: 1;
+		background-color: rgba(0, 0, 0, 0.3);
+	}
+	.confrim_button {
+		background: #aa2116;
+		color: #fff;
+		font-weight: bold;
+		font-size: 32rpx;
+	}
+	.custom_mask_content {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: calc(100% - 60rpx);
+		z-index: 10;
+		background: #fff;
+		padding: 30rpx;
 	}
 
 	.content {
