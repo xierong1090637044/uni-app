@@ -3,6 +3,7 @@ import VueI18n from 'vue-i18n'
 import App from './App'
 import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 import nocontent from "@/components/No_content.vue"
+import loading from "@/components/Loading/index.vue"
 import wechat from './utils/wechat'    
 
 Vue.config.productionTip = false
@@ -32,6 +33,7 @@ Vue.prototype.$wechat =wechat;
 Vue.prototype._i18n = i18n 
 Vue.component('faIcon',faIcon)
 Vue.component('nocontent',nocontent)
+Vue.component('loading',loading)
 
 const app = new Vue({
 	i18n, 
@@ -40,7 +42,8 @@ const app = new Vue({
 export default {
     components: {
         faIcon,
-				nocontent
+				nocontent,
+				loading
     }
 }
 app.$mount()

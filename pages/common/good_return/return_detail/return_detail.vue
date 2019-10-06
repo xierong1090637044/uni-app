@@ -119,7 +119,7 @@
 
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', this.products[i].num);
+					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('operater', poiID2);
@@ -201,7 +201,7 @@
 												num =num + Number(that.products[i].num)
 												res.set('models', that.products[i].models)
 											}else{
-												num = Number(that.products[i].reserve) + that.products[i].num;
+												num = Number(that.products[i].reserve) + Number(that.products[i].num);
 											}
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)

@@ -92,6 +92,12 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', 3);
+					if(that.products[i].stocks && that.products[i].stocks.objectId){
+						let pointer3 = Bmob.Pointer('stocks')
+						let poiID3 = pointer3.set(that.products[i].stocks.objectId);
+						
+						tempBills.set('stock', poiID3);
+					}
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -119,6 +125,12 @@
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
+						if(that.products[0].stocks && that.products[0].stocks.objectId){
+							let pointer3 = Bmob.Pointer('stocks')
+							let poiID3 = pointer3.set(that.products[0].stocks.objectId);
+							
+							query.set('stock', poiID3);
+						}
 
 						query.save().then(res => {
 							console.log("添加操作历史记录成功", res);

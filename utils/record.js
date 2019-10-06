@@ -98,7 +98,7 @@ export default {
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
 			query.equalTo("status", "!=", -1);
-			query.select("reserve", "costPrice");
+			query.select("reserve", "costPrice","stocktype");
 			query.limit(1000);
 			query.find().then(res => {
 				for (let item of res) {

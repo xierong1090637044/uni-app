@@ -368,6 +368,15 @@
 								icon: "none"
 							})
 						}
+					}else if (this.type == "counting") {
+						if (this.stock) {
+							this.confrim_next()
+						} else {
+							uni.showToast({
+								title: "请在筛选中选择要盘点的仓库",
+								icon: "none"
+							})
+						}
 					} else {
 						this.confrim_next()
 					}

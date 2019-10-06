@@ -55,7 +55,7 @@
 		</view>
 
 		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
+		<view v-if="showOptions" class="modal_background">
 			<view class="showOptions">
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
@@ -78,6 +78,13 @@
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
+				
+				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
+					<view>是否已预警</view>
+					<view @click.stop="" style="margin-left: 30rpx;">
+						<switch :checked="stock_checked" @change="change_stocktatus" />
+					</view>
+				</view>
 
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
 					<view>是否失效</view>
@@ -128,6 +135,7 @@
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
+				stock_checked:false,
 			}
 		},
 
@@ -181,6 +189,12 @@
 				console.log(e)
 				that.checked = e.detail.value
 			},
+			
+			//是否已预警的改变
+			change_stocktatus(e){
+				console.log(e)
+				that.stock_checked = e.detail.value
+			},
 
 			//输入框确定输入
 			input_confirm(e) {
@@ -223,6 +237,7 @@
 			option_reset() {
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
+				that.stock_checked = false,
 				that.category = "";
 				that.stock = "";
 				that.showOptions = false;
@@ -279,6 +294,9 @@
 				if (that.checked) {
 					var timestamp = Date.parse(new Date());
 					query.equalTo("bad_time", "<=", timestamp);
+				}
+				if (that.stock_checked) {
+					query.equalTo("stocktype", "==", 0);
 				}
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));

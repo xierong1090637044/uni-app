@@ -184,7 +184,7 @@
 					title:"修改员工信息"
 				});
 				that.modify_desc = "修改"
-				that.shop_name = staff.shop.name
+				that.shop_name =(staff.shop)?staff.shop.name:''
 				that.staff_name = staff.username
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
