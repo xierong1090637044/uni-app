@@ -5,7 +5,7 @@
 			<view class="frist">客户名字： <text>{{name}}</text></view>
 			<scroll-view style="height: calc(100vh - 80rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);" scroll-y>
 				<view v-for="(item,index) in debt_list" :key="index" class="list_item">
-					<view v-if="item.operater.nickName"> 操作人：{{item.operater.nickName}}</view>
+					<view v-if="item.operater"> 操作人：{{item.operater.nickName}}</view>
 					<view class="display_flex_bet">
 						 <view>收款金额：<text style="color: #f30;">￥{{item.debt_number}}</text></view>
 						 <view style="color: #999999;">{{item.createdAt}}</view>

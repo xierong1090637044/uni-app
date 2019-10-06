@@ -78,6 +78,10 @@
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
+					
+					let masterId = uni.getStorageSync("masterId");
+					let pointer2 = Bmob.Pointer('_User')
+					let poiID2 = pointer2.set(masterId);
 
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
@@ -85,9 +89,16 @@
 					tempBills.set('reserve', this.products[i].reserve);
 					tempBills.set('now_reserve', this.products[i].num.toString());
 					tempBills.set('total_money', this.products[i].total_money);
+					tempBills.set('operater', poiID2);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', 3);
+					if(that.products[i].stocks && that.products[i].stocks.objectId){
+						let pointer3 = Bmob.Pointer('stocks')
+						let poiID3 = pointer3.set(that.products[i].stocks.objectId);
+						
+						tempBills.set('stock', poiID3);
+					}
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -115,6 +126,12 @@
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
+						if(that.products[0].stocks && that.products[0].stocks.objectId){
+							let pointer3 = Bmob.Pointer('stocks')
+							let poiID3 = pointer3.set(that.products[0].stocks.objectId);
+							
+							query.set('stock', poiID3);
+						}
 
 						query.save().then(res => {
 							console.log("添加操作历史记录成功", res);
@@ -124,11 +141,28 @@
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
+										let num = 0;
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
-											res.set('reserve', Number(that.products[i].num))
-											res.set('stocktype', (Number(that.products[i].num) > that.products[i].warning_num) ? 1 : 0)
+											if (that.products[i].selectd_model) {
+												for (let model of JSON.parse(that.products[i].selectd_model)) {
+													for (let item of that.products[i].models) {
+														if (item.id == JSON.parse(model).id){
+															item.reserve = Number(that.products[i].num)
+															num += Number(that.products[i].num)
+														}else{
+															num += Number(item.reserve)
+														}
+													}
+												}
+												res.set('models', that.products[i].models)
+											}else{
+												num = Number(that.products[i].num);
+											}
+											
+											res.set('reserve', num)
+											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
 										}).catch(err => {
 											console.log(err)

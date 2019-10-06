@@ -9,7 +9,7 @@
 						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
 					<view class='pro_list'>
-						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+						<view>实际零售价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.total_money}}</view>
 					</view>
 				</view>
@@ -21,25 +21,25 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
-						
+
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 							<view>选择仓库</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
 						</navigator>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
 							<view>选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;">
 							<view>客户姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择客户" disabled="true" :value="custom.custom_name" /></view>
 						</navigator>
-						<view class="display_flex">
+						<view class="display_flex" style="padding: 10rpx 0;">
 							<view>实际应付</view>
 							<view class="kaidan_rightinput"><input placeholder="实际应付" disabled="true" :value="all_money" /></view>
 						</view>
 
-						<view class="display_flex">
+						<view class="display_flex" style="padding: 10rpx 0;">
 							<view>实际付款（可修改）</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>
@@ -63,6 +63,7 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
+	import send_temp from '@/utils/send_temp.js';
 
 	let uid;
 	let that;
@@ -72,7 +73,7 @@
 	export default {
 		data() {
 			return {
-				stock:'',//仓库
+				stock: '', //仓库
 				shop_name: '',
 				products: null,
 				button_disabled: false,
@@ -102,8 +103,8 @@
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(shop.objectId);
 			}
-			
-			that.stock = uni.getStorageSync("warehouse")?uni.getStorageSync("warehouse")[0].stock:''
+
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
 
@@ -113,9 +114,9 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
+
 				const pointer = Bmob.Pointer('stocks');
-				let stockId = pointer.set(that.stock?that.stock.objectId:'');
+				let stockId = pointer.set(that.stock ? that.stock.objectId : '');
 
 				let billsObj = new Array();
 				let detailObj = [];
@@ -140,17 +141,13 @@
 					}
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', this.products[i].num);
+					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
 					tempBills.set('operater', operater);
-					tempBills.set("stock",stockId);
-					if (shop) {
-						tempBills.set("shop", shopId);
-						common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
-					}
+					tempBills.set("stock", stockId);
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -164,6 +161,11 @@
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
 					detailBills.type = -1
+
+					if (shop) {
+						tempBills.set("shop", shopId);
+						common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
+					}
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
@@ -192,7 +194,7 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("type", -1);
 						query.set("opreater", poiID1);
-						query.set("stock",stockId);
+						query.set("stock", stockId);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
@@ -230,7 +232,7 @@
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
-										let num = Number(that.products[i].reserve) - that.products[i].num;
+										let num = 0;
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
@@ -239,6 +241,21 @@
 													that.products[i].warning_num : 0),
 												-2, that.products[i].objectId);
 
+											if (that.products[i].selectd_model) {
+												for (let model of JSON.parse(that.products[i].selectd_model)) {
+													for (let item of that.products[i].models) {
+														num += Number(item.reserve)
+														if (item.id == JSON.parse(model).id){
+															item.reserve = Number(item.reserve) - Number(that.products[i].num)
+														}
+													}
+												}
+												num =num - Number(that.products[i].num)
+												res.set('models', that.products[i].models)
+											}else{
+												num = Number(that.products[i].reserve) -  Number(that.products[i].num);
+											}
+											
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
@@ -248,11 +265,22 @@
 									}
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
-									uni.removeStorageSync("warehouse")
-
+									uni.removeStorageSync("warehouse");
+									
 									setTimeout(() => {
 										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that
 											.products.length + "商品", -1, res.objectId);
+
+										let params = {
+											"data1": res.objectId,
+											"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.products
+												.length + "商品",
+											"data3": that.stock ? that.stock.stock_name : "未填写",
+											"data4": res.createdAt,
+											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu: "未填写",
+											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
+										};
+										send_temp.send_temp(params);
 										uni.navigateBack({
 											delta: 2
 										});

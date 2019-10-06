@@ -35,10 +35,11 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
+	
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import loading from "@/components/Loading/index.vue"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import Bmob from "hydrogen-js-sdk";
 
 	let that;
 	let search_text;

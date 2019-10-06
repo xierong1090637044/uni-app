@@ -64,7 +64,7 @@
 </template>
 
 <script>
-	import Bmob from "hydrogen-js-sdk"
+	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import _goods from '@/utils/goods.js';
 	import send_temp from '@/utils/send_temp.js';
@@ -136,12 +136,18 @@
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
+
+					let masterId = uni.getStorageSync("masterId");
+					let pointer2 = Bmob.Pointer('_User')
+					let poiID2 = pointer2.set(masterId);
+
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', this.products[i].num);
+					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
+					tempBills.set("opreater", poiID2);
 					tempBills.set('type', 1);
 					(shop) ? tempBills.set("shop", shopId): '';
 					tempBills.set("stock", stockId);
@@ -220,13 +226,29 @@
 							uni.showToast({
 								title: '产品入库成功',
 								icon: 'success',
-								duration:1000,
+								duration: 1000,
 								complete: function() {
 									for (let i = 0; i < that.products.length; i++) {
-										let num = Number(that.products[i].reserve) + that.products[i].num;
+										let num = 0;
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
+											
+											if (that.products[i].selectd_model) {
+												for (let model of JSON.parse(that.products[i].selectd_model)) {
+													for (let item of that.products[i].models) {
+														num += Number(item.reserve)
+														if (item.id == JSON.parse(model).id){
+															item.reserve = Number(item.reserve) + Number(that.products[i].num)
+														}
+													}
+												}
+												num =num + Number(that.products[i].num)
+												res.set('models', that.products[i].models)
+											}else{
+												num = Number(that.products[i].reserve) + Number(that.products[i].num);
+											}
+											
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
@@ -277,7 +299,7 @@
 											uni.navigateBack({
 												delta: 2
 											});
-										}else{
+										} else {
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("warehouse");
@@ -322,11 +344,11 @@
 										resolve(false)
 									}
 								});
-							}else{
+							} else {
 								resolve(false)
 							}
 						}
-					}else{
+					} else {
 						resolve(false)
 					}
 				})

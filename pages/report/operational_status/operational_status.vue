@@ -46,14 +46,14 @@
 					<view class="display_flex second_item">
 						<image src="/static/reserve_in.png" class="icon_img"></image>
 						<view>
-							<view class="text_notice">今日入库</view>
+							<view class="text_notice">此时间段入库数</view>
 							<view class="reserve_text">{{get_reserve}}</view>
 						</view>
 					</view>
 					<view class="display_flex second_item">
 						<image src="/static/reserve_out.png" class="icon_img"></image>
 						<view>
-							<view class="text_notice">今日出库</view>
+							<view class="text_notice">此时间段出库数</view>
 							<view class="reserve_text">{{out_reserve}}</view>
 						</view>
 					</view>
@@ -63,13 +63,13 @@
 					<view class="display_flex second_item">
 						<view>
 							<view class="text_notice">入库成本总额</view>
-							<view class="reserve_text">{{get_reserve_real_money}}</view>
+							<view class="reserve_text">{{get_reserve_num}}</view>
 						</view>
 					</view>
 					<view class="display_flex second_item">
 						<view>
 							<view class="text_notice">出库成本总额</view>
-							<view class="reserve_text">{{out_reserve_real_money}}</view>
+							<view class="reserve_text">{{out_reserve_num}}</view>
 						</view>
 					</view>
 				</view>
@@ -79,13 +79,13 @@
 					<view class="display_flex second_item">
 						<view>
 							<view class="text_notice">预计卖出总额</view>
-							<view class="reserve_text">{{get_reserve_num}}</view>
+							<view class="reserve_text">{{get_reserve_real_money}}</view>
 						</view>
 					</view>
 					<view class="display_flex second_item">
 						<view>
 							<view class="text_notice">预计买进总额</view>
-							<view class="reserve_text">{{out_reserve_num}}</view>
+							<view class="reserve_text">{{out_reserve_real_money}}</view>
 						</view>
 					</view>
 				</view>

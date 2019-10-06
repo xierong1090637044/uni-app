@@ -57,8 +57,8 @@
 </template>
 
 <script>
-	import Bmob from "hydrogen-js-sdk"
 	import staffs from "@/utils/staffs.js"
+	import Bmob from "hydrogen-js-sdk";
 
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import loading from "@/components/Loading/index.vue"

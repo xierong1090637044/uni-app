@@ -18,6 +18,7 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
 	import producers from '@/utils/producers.js';
 	import loading from "@/components/Loading/index.vue"
 	

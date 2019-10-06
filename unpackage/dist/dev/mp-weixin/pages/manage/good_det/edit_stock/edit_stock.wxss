@@ -4,6 +4,12 @@
 	height: 6px;
 	background-color: transparent;
 }
+.uni-input-placeholder {
+	font-size: 12px;
+}
+input {
+	font-size: 12px;
+}
 
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
@@ -31,22 +37,7 @@
 	    -ms-flex-align: center;
 	        align-items: center;
 	line-height: 80rpx;
-	border-bottom: 1rpx solid#f6f5ec;
-}
-.input_item1 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	    -ms-flex-align: center;
-	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	    -ms-flex-pack: justify;
-	        justify-content: space-between;
-	line-height: 80rpx;
+	height: 80rpx;
 	border-bottom: 1rpx solid#f6f5ec;
 }
 .input_item2 {
@@ -70,14 +61,14 @@
 	color: #333333;
 	width: 150rpx;
 }
-.right_input {
-	margin-left: 20rpx;
+.right_input1 {
+	font-size: 12px;
 }
 .submit_button {
 	width: 50%;
 	background: #426ab3;
 	border-radius: 40rpx;
-	margin: 10rpx 30rpx;
+	margin: 30rpx;
 	height: 88rpx;
 	line-height: 88rpx;
 	color: #fff;
@@ -102,7 +93,7 @@
 	width: 50%;
 	background: #999;
 	border-radius: 40rpx;
-	margin: 10rpx 30rpx;
+	margin: 30rpx;
 	height: 88rpx;
 	line-height: 88rpx;
 	color: #fff;

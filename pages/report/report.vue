@@ -20,8 +20,8 @@
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
-	import staffs from '@/utils/staffs.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import staffs from "@/utils/staffs.js"
 	
 	let that;
 	export default {

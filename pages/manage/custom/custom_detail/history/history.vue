@@ -42,16 +42,16 @@
 							</view>
 							<view class='order_out'>销售</view>
 						</view>
-						<uni-collapse accordion="true">
+						<uni-collapse :accordion="true">
 							<uni-collapse-item title="明细">
 								<view v-for="(item,index) in item.relations" :key="index" class='pro_listitem'>
 									<view class='pro_list' style='color:#3D3D3D'>
-										<view style="font-size: 24rpx !important;">产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
-										<view style="font-size: 24rpx !important;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
+										<view style="font-size: 20rpx !important;">产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
+										<view style="font-size: 20rpx !important;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
 									</view>
 									<view class='pro_list'>
-										<view style="font-size: 24rpx !important;">实际卖出价：￥{{item.retailPrice}}（X{{item.num}}）</view>
-										<view style="font-size: 24rpx !important;">总价：￥{{item.total_money }}</view>
+										<view style="font-size: 20rpx !important;">实际卖出价：￥{{item.retailPrice}}（X{{item.num}}）</view>
+										<view style="font-size: 20rpx !important;">总价：￥{{item.total_money }}</view>
 									</view>
 								</view>
 							</uni-collapse-item>
@@ -101,7 +101,6 @@
 </template>
 
 <script>
-	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
@@ -230,7 +229,7 @@
 					//console.log(res)
 
 					for (let item of res) {
-						console.log(item)
+						//console.log(item)
 						that.header.total += item.num
 						that.header.total_money += Number(item.goodsId.costPrice) * item.num
 							that.header.get_money += item.total_money - Number(item.goodsId.costPrice) * item.num
@@ -250,20 +249,10 @@
 				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.order("-createdAt");
 				query.find().then(res => {
-					//console.log(res)
+					console.log(res)
 					let details = res
 					for (let item of details) {
-						if(item.detail){
-							item.relations = item.detail;
-						}else{
-							const query = Bmob.Query('order_opreations');
-							query.include("goodsId");
-							query.field('relations', item.objectId);
-							query.relation('Bills').then(res => {
-								item.relations = res.results;
-							})
-						}
-						
+						item.relations = item.detail;	
 					}
 					that.list = details
 					that.loading = false

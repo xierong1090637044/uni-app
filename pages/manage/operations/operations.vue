@@ -58,6 +58,7 @@
 </template>
 <script>
 	import Bmob from "hydrogen-js-sdk";
+	
 	let that;
 	let uid;
 	let goodsId;
@@ -85,10 +86,10 @@
 				}, ]
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = wx.getStorageSync("uid");
-			goodsId = uni.getStorageSync("now_product").objectId;
+			goodsId = options.objectId;
 			that.getdetail();
 		},
 		methods: {
@@ -122,7 +123,10 @@
 		color: #3D3D3D;
 		background: #FFFFFF;
 	}
-
+	.swiper-tab-list{
+		height: 100%;
+		line-height: 100rpx !important;
+	}
 	.content {
 		width: 100%;
 		padding: 10rpx 30rpx;

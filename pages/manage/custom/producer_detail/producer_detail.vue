@@ -56,12 +56,12 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
 	import producers from '@/utils/producers.js';
 	import common from '@/utils/common.js';
 	
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import Bmob from "hydrogen-js-sdk";
 	import loading from "@/components/Loading/index.vue"
 
 	let that;

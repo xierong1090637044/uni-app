@@ -20,12 +20,12 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录退货客户）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
 							<view>选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
 
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;">
 							<view>客户姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择客户" disabled="true" :value="custom.custom_name" /></view>
 						</navigator>
@@ -113,12 +113,17 @@
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
+					
+					let masterId = uni.getStorageSync("masterId");
+					let pointer2 = Bmob.Pointer('_User')
+					let poiID2 = pointer2.set(masterId);
 
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', this.products[i].num);
+					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
+					tempBills.set('operater', poiID2);
 					tempBills.set('userId', user);
 					tempBills.set('type', 2);
 
@@ -181,10 +186,24 @@
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
-										let num = Number(that.products[i].reserve) + that.products[i].num;
+										let num = 0;
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
+											if (that.products[i].selectd_model) {
+												for (let model of JSON.parse(that.products[i].selectd_model)) {
+													for (let item of that.products[i].models) {
+														num += Number(item.reserve)
+														if (item.id == JSON.parse(model).id){
+															item.reserve = Number(item.reserve) + Number(that.products[i].num)
+														}
+													}
+												}
+												num =num + Number(that.products[i].num)
+												res.set('models', that.products[i].models)
+											}else{
+												num = Number(that.products[i].reserve) + Number(that.products[i].num);
+											}
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()

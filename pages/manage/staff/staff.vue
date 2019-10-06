@@ -18,8 +18,8 @@
 			 enable-back-to-top="true">
 				<view v-for="(staff,index) in staffs" :key="index">
 					<view class='content'>
-						<view class="display_flex_bet" @click="goto_detail(stock)">
-							<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
+						<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
+						<view class="display_flex_bet" @click="goto_detail(staff)">
 							<view class="display_flex">
 								<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
 								<view>
@@ -30,7 +30,6 @@
 							</view>
 							<fa-icon type="angle-right" size="20" color="#999" />
 						</view>
-
 
 						<view class="right_item">
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(staff)">
@@ -54,8 +53,8 @@
 </template>
 
 <script>
-	import Bmob from "hydrogen-js-sdk"
-
+	import Bmob from "hydrogen-js-sdk";
+	
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
@@ -100,6 +99,14 @@
 			search_text = ""
 		},
 		methods: {
+			
+			//去到员工详情
+			goto_detail(staff){
+				uni.setStorageSync("staff", staff)
+				uni.navigateTo({
+					url: "detail/detail"
+				})
+			},
 
 			//tab点击
 			onClickItem(index) {

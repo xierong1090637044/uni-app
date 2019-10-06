@@ -333,6 +333,18 @@
             "path" : "pages/manage/good_det/edit_stock/edit_stock",
             "style" : {}
         }
+        ,{
+            "path" : "pages/manage/staff/detail/detail",
+            "style" : {}
+        }
+				,{
+				    "path" : "pages/manage/goods_add_MoreG/goods_add_MoreG",
+				    "style" : {}
+				}
+				,{
+				    "path" : "pages/manage/goods_add_MoreG/G_More/G_More",
+				    "style" : {}
+				}
     ],
 	"tabBar": {
 		"color": "#000",

@@ -1,12 +1,12 @@
 
 .page {
 	overflow: hidden;
-	height: calc(100vh - 256rpx);
+	height: calc(100vh - 260rpx);
 	font-size: 28rpx;
 	color: #3D3D3D;
 	background: #fafafa;
 }
-.input_item{
+.input_item {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;

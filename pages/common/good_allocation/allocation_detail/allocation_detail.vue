@@ -51,7 +51,6 @@
 	export default {
 		data() {
 			return {
-				products:[],
 				stock: '', //调出仓库
 				out_stock: '', //调入仓库
 				button_disabled: false,

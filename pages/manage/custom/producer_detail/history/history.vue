@@ -18,16 +18,15 @@
 						</view>
 						<view class='order_get'>采购</view>
 					</view>
-					<uni-collapse accordion="true">
+					<uni-collapse :accordion="true">
 					    <uni-collapse-item title="明细">
 					        <view v-for="(item,index) in item.relations" :key="index" class='pro_listitem'>
 					        	<view class='pro_list' style='color:#3D3D3D'>
-					        		<view style="font-size: 24rpx !important;">产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
-					        		<view style="font-size: 24rpx !important;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
+					        		<view style="font-size: 20rpx !important;">产品：{{item.goodsName}}</view>
 					        	</view>
 					        	<view class='pro_list'>
-					        		<view style="font-size: 24rpx !important;">实际进货价：￥{{item.retailPrice}}（X{{item.num}}）</view>
-					        		<view style="font-size: 24rpx !important;">总价：￥{{item.total_money }}</view>
+					        		<view style="font-size: 20rpx !important;">实际进货价：￥{{item.retailPrice}}（X{{item.num}}）</view>
+					        		<view style="font-size: 20rpx !important;">总价：￥{{item.total_money }}</view>
 					        	</view>
 					        </view>
 					    </uni-collapse-item>
@@ -80,12 +79,7 @@
 					console.log(res)
 					let details = res
 					for(let item of details){
-						const query = Bmob.Query('order_opreations');
-						query.include("goodsId");
-						query.field('relations', item.objectId);
-						query.relation('Bills').then(res => {
-							item.relations = res.results;
-						})
+						item.relations = item.detail;
 					}
 					that.list = details
 					that.loading = false

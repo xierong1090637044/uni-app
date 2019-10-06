@@ -32,32 +32,30 @@
 							<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix"></image>
 							<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
 						</view>
-					
+
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-							<view class="product_reserve" v-if="product.stocks">
-								<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
-							</view>
+							<!--<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>-->
 							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 						</view>
-					
+
 						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 					</view>
 				</view>
 				<view v-else>
 					<view style="margin-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有商品啦!</view>
 				</view>
-				
+
 			</scroll-view>
-			
+
 			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
 				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 			</view>
 		</view>
 
 		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
+		<view v-if="showOptions" class="modal_background">
 			<view class="showOptions">
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
@@ -80,6 +78,13 @@
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
+				
+				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
+					<view>是否已预警</view>
+					<view @click.stop="" style="margin-left: 30rpx;">
+						<switch :checked="stock_checked" @change="change_stocktatus" />
+					</view>
+				</view>
 
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
 					<view>是否失效</view>
@@ -100,13 +105,13 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 	import common from '@/utils/common.js';
-	import Bmob from "hydrogen-js-sdk";
 
 	let uid;
 	let that;
@@ -123,7 +128,7 @@
 		},
 		data() {
 			return {
-				page_num:1,
+				page_num: 1,
 				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
@@ -131,6 +136,7 @@
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
+				stock_checked:false,
 			}
 		},
 
@@ -172,9 +178,9 @@
 		},
 
 		methods: {
-			
+
 			//分页点击
-			change_page(e){
+			change_page(e) {
 				page_num = e.current
 				that.get_productList();
 			},
@@ -183,6 +189,12 @@
 			change_timestatus(e) {
 				console.log(e)
 				that.checked = e.detail.value
+			},
+			
+			//是否已预警的改变
+			change_stocktatus(e){
+				console.log(e)
+				that.stock_checked = e.detail.value
 			},
 
 			//输入框确定输入
@@ -200,21 +212,25 @@
 			//确定点击
 			goto_add() {
 				uni.showActionSheet({
-				    itemList: ['单产品上传', '多仓库产品上传'],
-				    success: function (res) {
-						if(res.tapIndex == 0){
+					itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
+					success: function(res) {
+						if (res.tapIndex == 0) {
 							uni.navigateTo({
 								url: "../good_add/good_add"
 							})
-						}else if(res.tapIndex == 1){
+						} else if (res.tapIndex == 1) {
 							uni.navigateTo({
 								url: "../goods_add/goods_add"
 							})
+						}else if (res.tapIndex == 2) {
+							uni.navigateTo({
+								url: "../goods_add_MoreG/goods_add_MoreG"
+							})
 						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
 				});
 			},
 
@@ -222,6 +238,7 @@
 			option_reset() {
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
+				that.stock_checked = false,
 				that.category = "";
 				that.stock = "";
 				that.showOptions = false;
@@ -263,7 +280,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				if(that.stock){}else{
+				if (that.stock) {} else {
 					query.equalTo("accessory", "!=", true);
 				}
 				query.equalTo("second_class", "==", that.category.objectId);
@@ -279,8 +296,11 @@
 					var timestamp = Date.parse(new Date());
 					query.equalTo("bad_time", "<=", timestamp);
 				}
+				if (that.stock_checked) {
+					query.equalTo("stocktype", "==", 0);
+				}
 				query.limit(page_size);
-				query.skip(page_size*(page_num-1));
+				query.skip(page_size * (page_num - 1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.include("goodsClass", "stocks", "second_class");
 				query.find().then(res => {
@@ -311,7 +331,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 224rpx);
+		height: calc(100vh - 236rpx);
 	}
 
 	.uni-product {

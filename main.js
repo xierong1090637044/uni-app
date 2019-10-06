@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n' 
 import App from './App'
 import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+import loading from "@/components/Loading/index.vue"
 import nocontent from "@/components/No_content.vue"
 import Bmob from "hydrogen-js-sdk";
 
@@ -29,18 +30,22 @@ const i18n = new VueI18n({
   }  
 })  
 
-Vue.prototype._i18n = i18n  
+Vue.prototype._i18n = i18n
+ Vue.prototype.Bmob = Bmob
+Vue.component('loading',loading)
 Vue.component('faIcon',faIcon)
 Vue.component('nocontent',nocontent)
 
 const app = new Vue({
-	i18n, 
+	i18n,
+	Bmob,
     ...App
 })
 export default {
     components: {
         faIcon,
-				nocontent
+				nocontent,
+				loading
     }
 }
 app.$mount()

@@ -1,75 +1,84 @@
 <template>
 	<view class="page">
+		<loading v-if="loading"></loading>
 
-		<view class="frist">
-			<image v-if="product.goodsIcon" :src="product.goodsIcon" style="width: 100%;height: 100%;" mode="aspectFit"></image>
-			<image v-else src="/static/goods-default.png" style="height: 100%;" mode="aspectFit"></image>
+		<view v-else>
+			<view class="frist">
+				<image v-if="product.goodsIcon" :src="product.goodsIcon" style="width: 100%;height: 100%;" mode="aspectFit"></image>
+				<image v-else src="/static/goods-default.png" style="height: 100%;" mode="aspectFit"></image>
+			</view>
+
+			<view class="second">
+				<view class="second_one">
+					<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.goodsName}}</view>
+					<view>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice?product.costPrice:"未填写"}}</text></view>
+					<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice ?product.retailPrice:"未填写"}}</text></view>
+				</view>
+
+				<view class="second_one">
+					<view>品牌: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
+					<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
+					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
+					<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
+				</view>
+
+				<view class="second_one display_flex_bet">
+					<view>总库存: <text class="second_right_text">{{product.all_reserve}}</text></view>
+					<view class="display_flex">
+						<text style="margin-right: 10rpx;">分库存</text>
+						<switch @change="change_state" :checked="get_reserve_checked" />
+					</view>
+				</view>
+
+				<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
+					<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+
+					<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
+					<view v-if="item.models" style="color: #3D3D3D;">
+						<view v-for="(model,index) in item.models" :key="index" class="display_flex_bet">
+							<view style="font-size: 24rpx;">{{model.custom1.value}}{{model.custom2.value}}{{model.custom3.value}}{{model.custom4.value}}</view>
+							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
+						</view>
+					</view>
+					<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.warning_num ?item.warning_num:0}}</text></view>
+					<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.bad_num ?item.bad_num:0}}</text></view>
+					<view>条码: <text class="second_right_text">{{item.productCode}}</text></view>
+
+					<view class="display_flex">
+						<view class="opion_item" @click="show_qrcode(item)">生成二维码</view>
+						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+item.good_id" class="opion_item">客户统计</navigator>
+						<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id" class="opion_item">此产品的操作记录</navigator>
+					</view>
+					<view class="display_flex">
+						<view class="opion_item" @click='print_info(item)'>打印</view>
+						<view class="opion_item" @click='modify(item)'>编辑</view>
+						<view class="opion_item" @click='delete_good(item.good_id,item.accessory,index)'>删除</view>
+					</view>
+				</view>
+
+			</view>
+
+			<view class="qrimg" v-if="is_show">
+				<view style="text-align: right;margin-right: 20rpx;" @click="is_show = false">
+					<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
+				</view>
+				<view style="margin-top: 20%;" @tap="saveQrcode">
+					<view style="padding: 20rpx;background: #fff;">
+						<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="200" :loadMake="true" :usingComponents="true"
+						 unit="rpx" @result="qrR" />
+					</view>
+
+					<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
+					<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
+				</view>
+			</view>
 		</view>
-
-		<view class="second">
-			<view class="second_one">
-				<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.goodsName}}</view>
-				<view>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice?product.costPrice:"未填写"}}</text></view>
-				<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice ?product.retailPrice:"未填写"}}</text></view>
-			</view>
-
-			<view class="second_one">
-				<view>品牌: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
-				<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
-				<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
-				<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
-			</view>
-
-			<view class="second_one display_flex_bet">
-				<view>总库存: <text class="second_right_text">{{product.all_reserve}}</text></view>
-				<view class="display_flex">
-					<text style="margin-right: 10rpx;">分库存</text>
-					<switch @change="change_state" :checked="get_reserve_checked" />
-				</view>
-			</view>
-
-			<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
-				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
-
-				<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
-				<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.warning_num ?item.warning_num:0}}</text></view>
-				<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.bad_num ?item.bad_num:0}}</text></view>
-				<view>条码: <text class="second_right_text">{{item.productCode}}</text></view>
-
-				<view class="display_flex">
-					<view class="opion_item" @click="show_qrcode(item)">生成二维码</view>
-					<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+item.good_id" class="opion_item">客户统计</navigator>
-					<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id" class="opion_item">此产品的操作记录</navigator>
-				</view>
-				<view class="display_flex">
-					<view class="opion_item" @click='print_info(item)'>打印</view>
-					<view class="opion_item" @click='modify(item)'>编辑</view>
-					<view class="opion_item" @click='delete_good(item.good_id,item.accessory,index)'>删除</view>
-				</view>
-			</view>
-
-		</view>
-
-		<view class="qrimg" v-if="is_show">
-			<view style="text-align: right;margin-right: 20rpx;" @click="is_show = false">
-				<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
-			</view>
-			<view style="margin-top: 20%;" @tap="saveQrcode">
-				<view style="padding: 20rpx;background: #fff;">
-					<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="200" :loadMake="true" :usingComponents="true"
-					 unit="rpx" @result="qrR" />
-				</view>
-
-				<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
-				<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
-			</view>
-		</view>
-
 	</view>
+	
 </template>
 
 <script>
-	import Bmob from "hydrogen-js-sdk"
+	import Bmob from "hydrogen-js-sdk";
 	import print from "@/utils/print.js"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
@@ -87,6 +96,7 @@
 		},
 		data() {
 			return {
+				loading:true,
 				select_qrcode: '',
 				get_reserve_checked: true, //分库存显示控制
 				product: {},
@@ -125,6 +135,7 @@
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.stock_objectid = item.stocks.objectId
 							stocks_o.reserve = item.reserve
+							stocks_o.models = (item.models) ? item.models : ''
 							stocks_o.warning_num = item.warning_num
 							stocks_o.bad_num = item.bad_num
 							stocks_o.good_id = item.objectId
@@ -138,6 +149,7 @@
 						this.product = product;
 						this.product.all_reserve = all_reserve;
 						this.product.stocks = stocks
+						that.loading = false
 						console.log(this.product)
 					})
 				})
@@ -157,6 +169,7 @@
 						stocks_o.stock_name = item.stocks.stock_name
 						stocks_o.stock_objectid = item.stocks.objectId
 						stocks_o.reserve = item.reserve
+						stocks_o.models = item.models
 						stocks_o.warning_num = item.warning_num
 						stocks_o.bad_num = item.bad_num
 						stocks_o.good_id = item.objectId
@@ -170,6 +183,7 @@
 					this.product = uni.getStorageSync("now_product");
 					this.product.all_reserve = all_reserve;
 					this.product.stocks = stocks
+					that.loading = false
 					console.log(this.product)
 				})
 			}
@@ -202,7 +216,7 @@
 				now_product.reserve = item.reserve
 				now_product.warning_num = (item.warning_num) ? item.warning_num : 0
 				now_product.bad_num = (item.bad_num) ? item.bad_num : 0
-				
+
 				uni.showActionSheet({
 					itemList: ['编辑产品信息', '编辑产品的库存信息'],
 					success: function(res) {
@@ -228,7 +242,7 @@
 							uni.navigateTo({
 								url: 'edit_stock/edit_stock'
 							});
-							
+
 							uni.setStorageSync("now_product", now_product)
 						}
 					},

@@ -43,9 +43,9 @@
 				<uni-collapse-item :show-animation="true" title="管理权限">
 					<view style="padding: 30rpx;">
 						<checkbox-group @change="checkboxChange">
-							<view class="rights_item" v-for="(item,index) in manage" :key="index">
+							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">
 								<view class="display_flex">
-									<checkbox :value="index" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
+									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 								
@@ -70,8 +70,8 @@
 					<uni-collapse-item :show-animation="true" title="查看权限">
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_record">
-								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="index">
-									<checkbox :value="index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
+								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="''+index">
+									<checkbox :value="''+index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -185,7 +185,7 @@
 					title:"修改员工信息"
 				});
 				that.modify_desc = "修改"
-				that.shop_name = staff.shop.name
+				that.shop_name =(staff.shop)?staff.shop.name:''
 				that.staff_name = staff.username
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
