@@ -35,8 +35,12 @@
 
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
-							<!--<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>-->
+							<!--<view class="product_reserve" v-if="product.stocks">
+								<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+							</view>
+							<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>-->
+							
 							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 						</view>
 
@@ -80,14 +84,14 @@
 				</navigator>
 				
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
-					<view>是否已预警</view>
+					<view>预警产品</view>
 					<view @click.stop="" style="margin-left: 30rpx;">
 						<switch :checked="stock_checked" @change="change_stocktatus" />
 					</view>
 				</view>
 
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
-					<view>是否失效</view>
+					<view>失效产品</view>
 					<view @click.stop="" style="margin-left: 30rpx;">
 						<switch :checked="checked" @change="change_timestatus" />
 					</view>
@@ -265,6 +269,7 @@
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.stock_checked = false,
+				that.checked = false,
 				that.category = "";
 				that.stock = "";
 				that.showOptions = false;
@@ -320,7 +325,7 @@
 
 				if (that.checked) {
 					var timestamp = Date.parse(new Date());
-					query.equalTo("bad_time", "<=", timestamp);
+					query.equalTo("nousetime", "<=", timestamp);
 				}
 				if (that.stock_checked) {
 					query.equalTo("stocktype", "==", 0);

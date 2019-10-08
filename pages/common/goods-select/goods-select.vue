@@ -46,8 +46,8 @@
 									<view class="product_reserve" v-if="product.stocks">
 										<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 									</view>
-									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
 									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
 									<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 								</view>
 							</label>

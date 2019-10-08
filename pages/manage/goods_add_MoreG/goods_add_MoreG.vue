@@ -55,23 +55,6 @@
 					</view>
 				</view>
 
-				<!--<view class="frist">
-					<view class="input_item">
-						<view class="left_item">生产日期</view>
-						<picker mode="date" @change="bindproducttimeChange">
-							<view class="right_input1"><input placeholder="生产日期" name="producttime" disabled="true" v-model="producttime"></input></view>
-						</picker>
-					</view>
-				
-					<view class="input_item">
-						<view class="left_item">失效日期</view>
-						<picker mode="date" @change="bindDateChange">
-							<view class="right_input1"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
-						</picker>
-				
-					</view>
-				</view>-->
-
 				<view class="frist" style="margin-bottom: 30rpx;">
 
 					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" url="G_More/G_More">
@@ -106,6 +89,13 @@
 				<uni-collapse :accordion="true">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
 						<view class="frist" style="margin-top: 0;">
+							<view class="input_item">
+								<view class="left_item">失效日期</view>
+								<picker mode="date" @change="bindDateChange">
+									<view class="right_input1"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
+								</picker>
+											
+							</view>
 							<view class="input_item">
 								<view class="left_item">生产厂家</view>
 								<view class="right_input1"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
@@ -250,10 +240,6 @@
 
 		methods: {
 
-			bindproducttimeChange: function(e) {
-				that.producttime = e.target.value;
-			},
-
 			bindDateChange: function(e) {
 				that.nousetime = e.target.value
 			},
@@ -341,8 +327,11 @@
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? good.costPrice : "0")
 				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
-				//query.set("producttime",  new Date(that.producttime.replace("-","/")))
-				//query.set("nousetime",new Date(that.nousetime.replace("-","/")) )
+				if(that.nousetime){
+					let time = that.nousetime.replace(new RegExp('-','g'),"/")
+					time = new Date(time).getTime()
+					query.set("nousetime",time )
+				}
 				query.set("regNumber", good.regNumber)
 				query.set("models", uni.getStorageSync("now_model"))
 				query.set("reserve", Number(good.reserve))

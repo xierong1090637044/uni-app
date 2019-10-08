@@ -54,23 +54,6 @@
 					</view>
 				</view>
 
-				<!--<view class="frist">
-					<view class="input_item">
-						<view class="left_item">生产日期</view>
-						<picker mode="date" @change="bindproducttimeChange">
-							<view class="right_input1"><input placeholder="生产日期" name="producttime" disabled="true" v-model="producttime"></input></view>
-						</picker>
-					</view>
-				
-					<view class="input_item">
-						<view class="left_item">失效日期</view>
-						<picker mode="date" @change="bindDateChange">
-							<view class="right_input1"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
-						</picker>
-				
-					</view>
-				</view>-->
-
 				<view class="frist1" v-if="stocks.length>0" v-for="(item,index) in stocks" :key="index">
 					<view style="line-height: 70rpx;">
 						<view class="display_flex_bet">
@@ -109,6 +92,12 @@
 				<uni-collapse :accordion="true">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
 						<view class="frist" style="margin-top: 0;">
+							<view class="input_item">
+								<view class="left_item">有效期</view>
+								<picker mode="date" @change="bindDateChange">
+									<view class="right_input"><input placeholder="有效期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
+								</picker>
+							</view>
 							<view class="input_item">
 								<view class="left_item">生产厂家</view>
 								<view class="right_input1"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
@@ -266,58 +255,11 @@
 				that.stocks.splice(index, 1)
 				uni.setStorageSync("warehouse", that.stocks)
 			},
-
-			//通过条形码扫码得到商品信息
-			scan_by_id: function(id) {
-				console.log(id);
-				wx.showLoading({
-					title: '加载中...',
-				})
-				wx.request({
-					url: 'https://route.showapi.com/66-22',
-					data: {
-						showapi_appid: '84916',
-						showapi_sign: 'ad4b63369c834759b411a9d7fcb07ed7',
-						code: id,
-					},
-					header: {
-						'content-type': 'application/json' // 默认值
-					},
-					success(res) {
-						wx.hideLoading();
-						let good = res.data.showapi_res_body;
-
-						console.log(good)
-
-						that.goodsName = good.goodsName,
-							that.producer = good.manuName,
-							that.goodsIcon = good.img //产品图片
-						that.product_info = good.note //产品简介
-
-						that.productCode = id
-					}
-				});
-			},
-
-			//扫码操作
-			scan_code() {
-				uni.scanCode({
-					onlyFromCamera: true,
-					success: function(res) {
-						console.log('条码类型：' + res.scanType);
-						console.log('条码内容：' + res.result);
-						that.productCode = res.result
-					}
-				});
-			},
-
-			bindproducttimeChange: function(e) {
-				that.producttime = e.target.value;
-			},
-
+			
 			bindDateChange: function(e) {
 				that.nousetime = e.target.value
 			},
+			
 			//保存提交
 			formSubmit: function(e) {
 				console.log(e.detail.value)
@@ -379,8 +321,11 @@
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice ? good.costPrice : "0")
 					query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
-					//query.set("producttime",  new Date(that.producttime.replace("-","/")))
-					//query.set("nousetime",new Date(that.nousetime.replace("-","/")) )
+					if(that.nousetime){
+						let time = that.nousetime.replace(new RegExp('-','g'),"/")
+						time = new Date(time).getTime()
+						query.set("nousetime",time )
+					}
 					query.set("regNumber", good.regNumber)
 					query.set("reserve", Number(that.stocks[key].reserve))
 					query.set("productCode", good.productCode)
