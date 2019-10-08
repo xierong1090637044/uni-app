@@ -4,11 +4,11 @@
 
 			<scroll-view style="height: calc(100vh - 148rpx);" scroll-y>
 				<view class="frist">
-					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;">(暂时不支持上传图片，请先去小程序端上传)</text></view>
+					<view class="notice_text">产品图</view>
 
 
 					<view style="width: 100%;padding: 20rpx 0;">
-						<view class="upload_image">
+						<view class="upload_image"  @click="upload_image">
 							<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
 							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else style="height: 180rpx;line-height: 180rpx;"></fa-icon>
 						</view>
@@ -268,6 +268,14 @@
 					})
 				} else {
 					if(uni.getStorageSync("now_model")){
+						if (that.goodsIcon) {
+							let file;
+							file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
+							file.save().then(res => {
+								console.log("图片地址", res)
+								that.goodsIcon = res[0].url;
+							})
+						}
 						that.upload_good(good)
 					}else{
 						uni.showToast({
@@ -278,6 +286,19 @@
 					}
 					
 				}
+			},
+			
+			//上传产品图片
+			upload_image: function() {
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], //从相册选择
+					success: function(res) {
+						console.log(res);
+						that.goodsIcon = res.tempFilePaths[0];
+					},
+				});
 			},
 
 			//上传商品

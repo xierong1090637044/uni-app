@@ -24,6 +24,12 @@
 
 				<view><button class='login_button' plain="true" form-type="submit" hover-class="bg_button">注册</button></view>
 
+				<!-- 底部信息 -->
+				<button open-type="getPhoneNumber" @getphonenumber="get_userInfo" class="display_flex wechat_login" plain="true">
+					<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
+					<view style="font-size: 24rpx;">微信注册</view>
+				</button>
+
 				<view class="footer">
 					<text @tap="isShowAgree" :class="showAgree?'cuIcon-radiobox':'cuIcon-round'" style="margin-right: 10rpx;"></text>
 					<text>同意</text>
@@ -55,6 +61,53 @@
 			that = this;
 		},
 		methods: {
+
+			//微信登录获取用户信息
+			get_userInfo(res) {
+				console.log(res)
+				if (this.showAgree == false) {
+					uni.showToast({
+						title: '请勾选用户协议',
+						icon: "none"
+					})
+				} else {
+					wx.Bmob.User.decryption(res).then(res => {
+						console.log(res)
+						let phone = res.phoneNumber
+						let params = {
+							username: String(phone),
+							password: String(phone),
+							mobilePhoneNumber: String(phone),
+							nickName: String(phone),
+							avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png"
+						}
+						Bmob.User.register(params).then(res => {
+							console.log(res)
+							uni.showToast({
+									title: "注册成功"
+								}),
+								Bmob.User.login(String(phone), String(phone)).then(res => {
+									uni.setStorageSync("user", res)
+									uni.setStorageSync("masterId", res.objectId)
+									uni.setStorageSync("identity", 1); //1是老板，2是员工
+									uni.setStorageSync("uid", res.objectId)
+									uni.switchTab({
+										url: "/pages/index/index"
+									});
+								}).catch(err => {
+									console.log(err)
+								});
+						}).catch(err => {
+							console.log(err)
+							uni.showToast({
+								icon:"none",
+								title: "该手机号已注册"
+							})
+						});
+					})
+				}
+
+			},
 
 			isShowAgree() {
 				//是否选择协议
@@ -136,20 +189,24 @@
 					Bmob.User.register(params).then(res => {
 						console.log(res)
 						uni.showToast({
-							title:"注册成功"
-						}),
-						Bmob.User.login(String(phone), String(phone)).then(res => {
-							uni.setStorageSync("user", res)
-							uni.setStorageSync("masterId", res.objectId)
-							uni.setStorageSync("identity", 1); //1是老板，2是员工
-							uni.setStorageSync("uid", res.objectId)
-							uni.switchTab({
-								url: "/pages/index/index"
+								title: "注册成功"
+							}),
+							Bmob.User.login(String(phone), String(phone)).then(res => {
+								uni.setStorageSync("user", res)
+								uni.setStorageSync("masterId", res.objectId)
+								uni.setStorageSync("identity", 1); //1是老板，2是员工
+								uni.setStorageSync("uid", res.objectId)
+								uni.switchTab({
+									url: "/pages/index/index"
+								});
+							}).catch(err => {
+								console.log(err)
 							});
-						}).catch(err => {
-							console.log(err)
-						});
 					}).catch(err => {
+						uni.showToast({
+							icon: "none",
+							title: "该手机号已注册"
+						}),
 						console.log(err)
 					});
 				}
@@ -172,6 +229,12 @@
 
 	input:focus {
 		border-bottom: 1px solid#426ab3 !important;
+	}
+
+	.wechat_login {
+		justify-content: center;
+		margin: 100rpx 0;
+		border: unset !important;
 	}
 
 	.header_text {

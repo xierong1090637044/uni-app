@@ -8,6 +8,13 @@
 			}
 		},
 		{
+		    "path" : "pages/mine/vip/vip",
+		    "style" : {
+					"navigationBarTitleText": "会员",
+					"navigationBarBackgroundColor":"#1297fe"
+				}
+		},
+		{
 			"path": "pages/manage/shops/record/record",
 			"style": {
 				"navigationBarTitleText": "全部记录"
@@ -345,6 +352,7 @@
 				    "path" : "pages/manage/goods_add_MoreG/G_More/G_More",
 				    "style" : {}
 				}
+        
     ],
 	"tabBar": {
 		"color": "#000",
@@ -380,5 +388,15 @@
 		"navigationBarTitleText": "库存表",
 		"navigationBarBackgroundColor": "#426ab3",
 		"backgroundColor": "#fff"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
 	}
 }

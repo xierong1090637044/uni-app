@@ -214,17 +214,35 @@
 				uni.showActionSheet({
 					itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
 					success: function(res) {
-						if (res.tapIndex == 0) {
-							uni.navigateTo({
-								url: "../good_add/good_add"
-							})
-						} else if (res.tapIndex == 1) {
-							uni.navigateTo({
-								url: "../goods_add/goods_add"
-							})
-						}else if (res.tapIndex == 2) {
-							uni.navigateTo({
-								url: "../goods_add_MoreG/goods_add_MoreG"
+						let user = uni.getStorageSync("user")
+						if(user.is_vip || that.productList.length <50){
+							if (res.tapIndex == 0) {
+								uni.navigateTo({
+									url: "../good_add/good_add"
+								})
+							} else if (res.tapIndex == 1) {
+								uni.navigateTo({
+									url: "../goods_add/goods_add"
+								})
+							}else if (res.tapIndex == 2) {
+								uni.navigateTo({
+									url: "../goods_add_MoreG/goods_add_MoreG"
+								})
+							}
+						}else{
+							uni.showModal({
+							    title: '提示',
+							    content: '非会员最多上传50件产品',
+									confirmText:"充值会员",
+							    success: function (res) {
+							        if (res.confirm) {
+							            uni.navigateTo({
+							            	url:"/pages/mine/vip/vip"
+							            })
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');
+							        }
+							    }
 							})
 						}
 					},

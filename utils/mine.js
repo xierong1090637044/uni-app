@@ -1,11 +1,11 @@
 import Bmob from "hydrogen-js-sdk";
-export default{
-	
+export default {
+
 	//修改配置信息
-	modify_setting(params){
+	modify_setting(params) {
 		let uid = uni.getStorageSync("uid");
 		let setting = uni.getStorageSync("setting") || {};
-		
+
 		return new Promise((resolve, reject) => {
 			uni.showLoading({
 				title: "上传中"
@@ -13,8 +13,8 @@ export default{
 			const query = Bmob.Query("setting");
 			const pointer = Bmob.Pointer('_User')
 			const poiID = pointer.set(uid)
-			
-			if(setting.objectId)query.set("id", setting.objectId)
+
+			if (setting.objectId) query.set("id", setting.objectId)
 			query.set("show_float", Number(params.show_float))
 			query.set("USER", params.USER)
 			query.set("UKEY", params.UKEY)
@@ -29,15 +29,15 @@ export default{
 					title: "保存成功",
 				})
 				this.query_setting()
-			
+
 			}).catch(err => {
 				console.log(err)
 			})
 		})
-		
+
 	},
-	
-	
+
+
 	//查询当前用户的设置
 	query_setting() {
 		let uid = uni.getStorageSync("uid");
@@ -51,4 +51,23 @@ export default{
 			});
 		})
 	},
+
+	//i修改用户信息
+	update_user(user) {
+		let uid = uni.getStorageSync("uid");
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query('_User');
+			query.get(uid).then(res => {
+			  res.set('avatarUrl', user.avatarUrl)
+			  res.set('nickName', user.nickName)
+			  res.set('sex', Number(user.sex)?Number(user.sex):0)
+			  res.save()
+				resolve(true,res)
+			}).catch(err => {
+			  resolve(false,err)
+			})
+		})
+	},
+
+
 }

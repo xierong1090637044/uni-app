@@ -1,21 +1,37 @@
 <script>
+	import Bmob from "hydrogen-js-sdk";
+
 	export default {
 		onLaunch: function() {
+
+			// #ifdef APP-PLUS || MP-WEIXIN
+			Bmob.User.auth().then(res => {
+				console.log(res)
+				console.log('一键登陆成功')
+			}).catch(err => {
+				console.log(err)
+			});
+			// #endif
+
 			//console.log('App Launch')
 			uni.getStorage({
 				key: 'user',
 				success: function(res) {
-					//console.log(res.data);
-					/*uni.setStorageSync('uid', res.data.objectId); //缓存测试
-					const query = Bmob.Query("setting");
-					query.equalTo("parent", "==", res.data.objectId);
-					query.find().then(res => {
-						//console.log(res)
-						uni.setStorageSync("setting", res[0])
-					});
-					/*uni.switchTab({
-						url:'/pages/index/index'
-					})*/
+					let user = res.data
+					let now_time = new Date().getTime()
+					console.log(user)
+					if (user.vip_time <= now_time) {
+						const query = Bmob.Query('_User');
+						query.get(user.objectId).then(res => {
+							res.set('is_vip', false)
+							res.set('vip_time', 0)
+							res.save()
+							
+							user.is_vip = false
+							user.vip_time = 0
+							uni.setStorageSync("user",user)
+						}).catch(err => {})
+					}
 				},
 				fail: function() {
 					uni.reLaunch({

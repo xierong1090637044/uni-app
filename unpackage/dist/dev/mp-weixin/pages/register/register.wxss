@@ -968,6 +968,14 @@ page {
 input:focus {
   border-bottom: 1px solid #426ab3 !important;
 }
+.wechat_login {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 100rpx 0;
+  border: unset !important;
+}
 .header_text {
   color: #4d4d4d;
   font-weight: bold;

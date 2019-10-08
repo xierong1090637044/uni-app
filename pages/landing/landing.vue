@@ -29,9 +29,10 @@
 		</view>
 		
 		<!-- 底部信息 -->
-		<view class="footer">
-			<navigator url="/pages/register/register" open-type="navigate">注册账号</navigator>
-		</view>
+		<navigator class="footer" url="/pages/register/register" open-type="navigate" hover-class="none">
+			<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
+			<view>注册账号</view>
+		</navigator>
 
 	</view>
 </template>

@@ -191,9 +191,27 @@
 
 			//前去添加员工
 			goto_add() {
-				uni.navigateTo({
-					url: "add/add"
-				})
+				let user = uni.getStorageSync("user")
+				if(user.is_vip || that.shops.length <2){
+					uni.navigateTo({
+						url: "add/add"
+					})
+				}else{
+					uni.showModal({
+					    title: '提示',
+					    content: '非会员最多上传2个门店',
+							confirmText:"充值会员",
+					    success: function (res) {
+					        if (res.confirm) {
+					            uni.navigateTo({
+					            	url:"/pages/mine/vip/vip"
+					            })
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					})
+				}
 			},
 
 			//输入内容筛选

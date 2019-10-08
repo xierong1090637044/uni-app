@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class='frist'>
-			<view class='display_flex_bet item' bindtap='setheaderimg'>
+			<view class='display_flex_bet item' @click="setheaderimg()">
 				<view>头像</view>
 				<view class='display_flex'>
 					<image :src='userInfo.avatarUrl' class='avatar'></image>
@@ -41,6 +41,10 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import Bmob from "hydrogen-js-sdk";
+	import mine from "@/utils/mine.js";
+	
+	let that;
 	export default {
 		components: {
 			faIcon
@@ -50,8 +54,35 @@
 				userInfo:uni.getStorageSync("user")
 			}
 		},
+		onLoad() {
+			that = this
+		},
+		
 		methods: {
-
+			setheaderimg(){
+				console.log("sss")
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], //从相册选择
+					success: function(res) {
+						console.log(res);
+						let file;
+						file = Bmob.File(that.userInfo.nickName + ".png", res.tempFilePaths[0]);
+						file.save().then(res => {
+							console.log("图片地址", res)
+							that.userInfo.avatarUrl = res[0].url;
+							mine.update_user(that.userInfo).then(res=>{
+								if(res){
+									uni.setStorageSync("user",that.userInfo)
+								}
+							})
+						})
+						
+					},
+				});
+			},
+			
 		}
 	}
 </script>
