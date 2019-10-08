@@ -81,6 +81,15 @@
 						let rights;
 						staffs.get_satffAuth().then(res=>{
 							console.log(res)
+							let now_staff = uni.getStorageSync("user")
+							if(res.masterId.is_vip){
+								now_staff.is_vip = true
+								now_staff.vip_time = now_staff.masterId.vip_time
+							}else{
+								now_staff.is_vip = false
+								now_staff.vip_time = 0
+							}
+							
 							if(res){
 								rights= res.rights.recodecurrent;
 							}else{
@@ -91,6 +100,7 @@
 								manage_rights.push(that.optionsLists[item])
 							}
 							that.now_optionsLists = manage_rights
+							uni.setStorageSync("user",now_staff)
 						});
 					}else if(res.data == "1"){
 						that.now_optionsLists = that.optionsLists;

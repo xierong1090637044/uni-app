@@ -192,6 +192,7 @@
 			//前去添加员工
 			goto_add() {
 				let user = uni.getStorageSync("user")
+				let identity = uni.getStorageSync("identity")
 				if(user.is_vip || that.shops.length <2){
 					uni.navigateTo({
 						url: "add/add"
@@ -203,9 +204,16 @@
 							confirmText:"充值会员",
 					    success: function (res) {
 					        if (res.confirm) {
-					            uni.navigateTo({
-					            	url:"/pages/mine/vip/vip"
-					            })
+					            if(identity == 1){
+					            	uni.navigateTo({
+					            		url:"/pages/mine/vip/vip"
+					            	})
+					            }else{
+					            	uni.showToast({
+					            		title:"员工不能充值",
+					            		icon:"none"
+					            	})
+					            }
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
 					        }

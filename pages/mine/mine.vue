@@ -3,10 +3,11 @@
 		<view class="header">
 			<view class="bg">
 				<view class="box">
-					<view class="box-hd">
+					<view class="box-hd" style="position: relative;">
 						<view class="avator">
 							<img :src="user.avatarUrl">
 						</view>
+						<fa-icon type="vimeo" size="18" color="#ffcd00" v-if="user.is_vip" class="vip_logo"></fa-icon>
 						<view class="phone-number">
 							<fa-icon type="mobile" size="18" color="#130c0e"></fa-icon>
 							<text style="margin-left: 10rpx;">{{user.mobilePhoneNumber}}</text>
@@ -104,7 +105,12 @@
 		background-color: #f1f1f1;
 		font-size: 30rpx;
 	}
-
+	
+	.vip_logo{
+		position: absolute;
+		bottom: 66%;
+		right: 40%;
+	}
 	.header {
 		background: #fff;
 		height: 290rpx;
@@ -140,7 +146,7 @@
 				border-radius: 50%;
 				margin-top: -80rpx;
 				overflow: hidden;
-
+				position: relative;
 				img {
 					width: 100%;
 					height: 100%;

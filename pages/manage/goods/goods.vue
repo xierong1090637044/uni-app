@@ -215,7 +215,8 @@
 					itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
 					success: function(res) {
 						let user = uni.getStorageSync("user")
-						if(user.is_vip || that.productList.length <50){
+						let identity = uni.getStorageSync("identity")
+						if(user.is_vip || that.productList.length <30){
 							if (res.tapIndex == 0) {
 								uni.navigateTo({
 									url: "../good_add/good_add"
@@ -232,13 +233,20 @@
 						}else{
 							uni.showModal({
 							    title: '提示',
-							    content: '非会员最多上传50件产品',
+							    content: '非会员最多上传30件产品',
 									confirmText:"充值会员",
 							    success: function (res) {
 							        if (res.confirm) {
-							            uni.navigateTo({
-							            	url:"/pages/mine/vip/vip"
-							            })
+												if(identity == 1){
+													uni.navigateTo({
+														url:"/pages/mine/vip/vip"
+													})
+												}else{
+													uni.showToast({
+														title:"员工不能充值",
+														icon:"none"
+													})
+												}
 							        } else if (res.cancel) {
 							            console.log('用户点击取消');
 							        }

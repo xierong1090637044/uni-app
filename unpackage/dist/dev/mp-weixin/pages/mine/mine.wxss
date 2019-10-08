@@ -28,6 +28,11 @@ page {
   background-color: #f1f1f1;
   font-size: 30rpx;
 }
+.vip_logo {
+  position: absolute;
+  bottom: 66%;
+  right: 40%;
+}
 .header {
   background: #fff;
   height: 290rpx;
@@ -74,6 +79,7 @@ page {
       border-radius: 50%;
       margin-top: -80rpx;
       overflow: hidden;
+      position: relative;
 }
 .box .box-hd .avator ._img {
         width: 100%;

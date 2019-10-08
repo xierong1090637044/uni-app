@@ -6,6 +6,7 @@ export default {
 		return new Promise((resolve, reject) => {
 			let userid = uni.getStorageSync("user").objectId
 			const query = Bmob.Query('staffs');
+			query.include("masterId")
 			query.get(userid).then(res => {
 			  //console.log(res)
 			  resolve(res)

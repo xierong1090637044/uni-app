@@ -35,6 +35,17 @@
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 			</view>
+			<view class='display_flex_bet item1'>
+				<view>是否已是会员</view>
+				<view class='display_flex right_item' v-if="userInfo.is_vip">
+					<text>是</text>
+					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
+				</view>
+				<navigator class='display_flex right_item' v-else hover-class="none" url="/pages/mine/vip/vip">
+					<text style="color: #999999;">否</text>
+					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
+				</navigator>
+			</view>
 		</view>
 	</view>
 </template>
@@ -51,11 +62,15 @@
 		},
 		data() {
 			return {
-				userInfo:uni.getStorageSync("user")
+				userInfo:''
 			}
 		},
 		onLoad() {
 			that = this
+		},
+		
+		onShow() {
+			that.userInfo = uni.getStorageSync("user")
 		},
 		
 		methods: {

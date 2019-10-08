@@ -34,6 +34,9 @@ page {
 	background: #FAFAFA;
 	font-size: 28rpx;
 }
+button{
+	border: unset !important;
+}
 .display_flex {
 	display: -webkit-box;
 	display: -webkit-flex;

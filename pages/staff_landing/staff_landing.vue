@@ -60,6 +60,7 @@
 					const query = Bmob.Query("staffs");
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
 					query.equalTo("password", "==", that.password);
+					query.include("masterId");
 					query.find().then(res => {
 						console.log(res[0])
 
@@ -67,6 +68,13 @@
 
 						if (now_staff.userId) {
 							uni.hideLoading();
+							if(now_staff.masterId.is_vip){
+								now_staff.is_vip = true
+								now_staff.vip_time = now_staff.masterId.vip_time
+							}else{
+								now_staff.is_vip = false
+								now_staff.vip_time = 0
+							}
 							uni.setStorageSync("user", now_staff)
 							uni.setStorageSync("identity", 2) //1是老板，2是员工
 							uni.setStorageSync("masterId", now_staff.userId.objectId)
@@ -98,7 +106,14 @@
 								query.save().then(res => {
 									console.log(res)
 									uni.hideLoading();
-
+									
+									if(now_staff.masterId.is_vip){
+										now_staff.is_vip = true
+										now_staff.vip_time = now_staff.masterId.vip_time
+									}else{
+										now_staff.is_vip = false
+										now_staff.vip_time = 0
+									}
 									uni.setStorageSync("user", now_staff)
 									uni.setStorageSync("identity", 2) //1是老板，2是员工
 									uni.setStorageSync("masterId", user_info.objectId)
