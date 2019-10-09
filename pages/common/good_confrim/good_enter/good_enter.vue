@@ -296,16 +296,21 @@
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("warehouse");
-											uni.navigateBack({
-												delta: 2
-											});
+											setTimeout(function(){
+												uni.navigateBack({
+													delta: 2
+												});
+											},1000)
+											
 										} else {
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("warehouse");
-											uni.navigateBack({
-												delta: 2
-											});
+											setTimeout(function(){
+												uni.navigateBack({
+													delta: 2
+												});
+											},1000)
 										}
 									})
 								}

@@ -108,5 +108,6 @@
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "nocontent": "/components/No_content"
-  }
+  },
+  "sitemapLocation": "sitemap62.json"
 }

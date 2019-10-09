@@ -66,7 +66,7 @@
 
 						let now_staff = res[0]
 
-						if (now_staff.userId) {
+						if (now_staff && now_staff.userId) {
 							uni.hideLoading();
 							if(now_staff.masterId.is_vip){
 								now_staff.is_vip = true
@@ -84,9 +84,12 @@
 								url: "/pages/index/index"
 							});
 						} else {
+							const pointer2 = Bmob.Pointer('_User')
+							const poiID2 = pointer2.set(now_staff.masterId.objectId);
+							
 							let params = {
 								rights: now_staff.rights,
-								masterId: now_staff.masterId,
+								masterId: poiID2,
 								nickName: now_staff.username,
 								username: now_staff.mobilePhoneNumber,
 								password: now_staff.password,

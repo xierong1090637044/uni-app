@@ -132,8 +132,13 @@
 
 						for (let item of res) {
 							let stocks_o = {}
-							stocks_o.stock_name = item.stocks.stock_name
-							stocks_o.stock_objectid = item.stocks.objectId
+							if(item.stocks){
+								stocks_o.stock_name = item.stocks.stock_name
+								stocks_o.stock_objectid = item.stocks.objectId
+							}else{
+								stocks_o.stock_name = ''
+								stocks_o.stock_objectid = ''
+							}
 							stocks_o.reserve = item.reserve
 							stocks_o.models = (item.models) ? item.models : ''
 							stocks_o.warning_num = item.warning_num
@@ -166,8 +171,14 @@
 
 					for (let item of res) {
 						let stocks_o = {}
-						stocks_o.stock_name = item.stocks.stock_name
-						stocks_o.stock_objectid = item.stocks.objectId
+						if(item.stocks){
+							stocks_o.stock_name = item.stocks.stock_name
+							stocks_o.stock_objectid = item.stocks.objectId
+						}else{
+							stocks_o.stock_name = ''
+							stocks_o.stock_objectid = ''
+						}
+						
 						stocks_o.reserve = item.reserve
 						stocks_o.models = item.models
 						stocks_o.warning_num = item.warning_num
