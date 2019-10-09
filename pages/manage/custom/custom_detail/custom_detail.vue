@@ -56,6 +56,7 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
 	import customs from '@/utils/customs.js';
 	import common from '@/utils/common.js';
 	

@@ -29,6 +29,7 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let type;

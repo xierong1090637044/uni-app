@@ -107,10 +107,6 @@
 
 	.uni-card__header-title-text {
 		font-size: 32upx;
-		flex: 1;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden
 	}
 
 	.uni-card__header-extra-img-view {

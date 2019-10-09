@@ -5,8 +5,10 @@
 		</uni-nav-bar>
 		<view class="page">
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-				<unicard :title="'品名：'+item.goodsName" :extra="'可调数量：'+item.reserve">
+				<unicard :title="'品名：'+item.goodsName">
 					<view>
+						<view style="margin-bottom: 10rpx;">可调数量：{{item.reserve}}</view>
+						
 						<view class='margin-t-5 display_flex'>
 							调出仓库：
 							<view>{{stock.stock_name}}</view>

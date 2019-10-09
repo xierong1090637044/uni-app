@@ -5,8 +5,9 @@
 		</uni-nav-bar>
 		<view class="page">
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-				<unicard :title="'品名：'+item.goodsName" :extra="'当前库存：'+item.reserve">
+				<unicard :title="'品名：'+item.goodsName">
 					<view>
+						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						<view class='margin-t-5'>
 							盘点后库存：
 							<uninumberbox :min="0" @change="handleNumChange($event, index)" />

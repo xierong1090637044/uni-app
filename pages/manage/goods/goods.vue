@@ -29,7 +29,7 @@
 				<view v-if="productList.length > 0">
 					<view class="uni-product" v-for="(product,index) in productList" :key="index">
 						<view>
-							<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix"></image>
+							<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" @click="priviewImg(product.goodsIcon)"></image>
 							<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
 						</view>
 
@@ -40,7 +40,7 @@
 							</view>
 							<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>-->
-							
+
 							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
 						</view>
 
@@ -82,7 +82,7 @@
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
-				
+
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
 					<view>预警产品</view>
 					<view @click.stop="" style="margin-left: 30rpx;">
@@ -140,7 +140,7 @@
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
-				stock_checked:false,
+				stock_checked: false,
 			}
 		},
 
@@ -183,6 +183,14 @@
 
 		methods: {
 
+			//支持预览图片
+			priviewImg(imgurl) {
+				uni.previewImage({
+					current:imgurl,
+					urls: [imgurl],
+				});
+			},
+
 			//分页点击
 			change_page(e) {
 				page_num = e.current
@@ -194,9 +202,9 @@
 				console.log(e)
 				that.checked = e.detail.value
 			},
-			
+
 			//是否已预警的改变
-			change_stocktatus(e){
+			change_stocktatus(e) {
 				console.log(e)
 				that.stock_checked = e.detail.value
 			},
@@ -220,7 +228,7 @@
 					success: function(res) {
 						let user = uni.getStorageSync("user")
 						let identity = uni.getStorageSync("identity")
-						if(user.is_vip || that.productList.length <30){
+						if (user.is_vip || that.productList.length < 30) {
 							if (res.tapIndex == 0) {
 								uni.navigateTo({
 									url: "../good_add/good_add"
@@ -229,32 +237,32 @@
 								uni.navigateTo({
 									url: "../goods_add/goods_add"
 								})
-							}else if (res.tapIndex == 2) {
+							} else if (res.tapIndex == 2) {
 								uni.navigateTo({
 									url: "../goods_add_MoreG/goods_add_MoreG"
 								})
 							}
-						}else{
+						} else {
 							uni.showModal({
-							    title: '提示',
-							    content: '非会员最多上传30件产品',
-									confirmText:"充值会员",
-							    success: function (res) {
-							        if (res.confirm) {
-												if(identity == 1){
-													uni.navigateTo({
-														url:"/pages/mine/vip/vip"
-													})
-												}else{
-													uni.showToast({
-														title:"员工不能充值",
-														icon:"none"
-													})
-												}
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');
-							        }
-							    }
+								title: '提示',
+								content: '非会员最多上传30件产品',
+								confirmText: "充值会员",
+								success: function(res) {
+									if (res.confirm) {
+										if (identity == 1) {
+											uni.navigateTo({
+												url: "/pages/mine/vip/vip"
+											})
+										} else {
+											uni.showToast({
+												title: "员工不能充值",
+												icon: "none"
+											})
+										}
+									} else if (res.cancel) {
+										console.log('用户点击取消');
+									}
+								}
 							})
 						}
 					},
@@ -269,8 +277,8 @@
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.stock_checked = false,
-				that.checked = false,
-				that.category = "";
+					that.checked = false,
+					that.category = "";
 				that.stock = "";
 				that.showOptions = false;
 				that.get_productList()

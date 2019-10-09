@@ -35,6 +35,23 @@
 				</view>
 
 				<view class="pay_button" @click="pay_off">支付</view>
+				
+				<view style="margin-top: 40rpx;line-height: 50rpx;">
+					<view style="font-size: 32rpx;">
+						<text>会员的好处</text>
+						<text style="font-size: 20rpx;">（感谢您一如既往的支持）</text>
+						<fa-icon type="info-circle" size="18" color="#12b9fe" style="margin-left: 20rpx;"></fa-icon>
+					</view>
+					
+					<view style="color: #999999;">
+						<view>1.会员可无限制上传产品</view>
+						<view>2.会员可无限制上传员工</view>
+						<view>3.会员可无限制上传仓库</view>
+						<view>4.会员可无限制上传门店</view>
+						<view>5.更多特权正在开发中...</view>
+					</view>
+					
+				</view>
 			</view>
 		</view>
 

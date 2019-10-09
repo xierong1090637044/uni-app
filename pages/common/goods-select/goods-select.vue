@@ -228,6 +228,16 @@
 			search_products = [];
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
+		
+		onUnload() {
+			//数据重置
+			search_text = '';
+			page_size = 30;
+			products = [];
+			all_products = [];
+			search_products = [];
+			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
+		},
 
 		methods: {
 			

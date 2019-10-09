@@ -14,6 +14,39 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.3 公测版</text>
+						<text class="desc-time">2019.10.09</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>产品出库、入库、盘点、退货选择产品增加多规格的产品出入库</text>
+						<text>产品管理新增多规格产品添加（适用于鞋子，衣服，工业产品...）</text>
+						<view>产品列表支持产品大图查看</view>
+						<view>产品详情修改完善</view>
+						<view>增加产品有效期，以及筛选过期产品</view>
+						<text>bug修复，操作以及显示优化</text>
+						<text>新增vip功能，我们希望你们可以理解</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
+						<text class="desc-v">v1.0.2 公测版</text>
+						<text class="desc-time">2019.09.28</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>产品出库、入库、盘点、退货选择产品优化</text>
+						<text>修改、增加产品bug修复</text>
+						<text>所有的操作记录增加分页显示，支持可以查看所有日期的记录</text>
+						<text>员工的权限可以实时同步，并增加仓库管理、调拨记录的权限</text>
+						<text>增加商品信息打印功能、操作记录打印功能，后续将开放更多打印功能</text>
+						<text>优化一些页面的操作以及UI体验</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.1 公测版</text>
 						<text class="desc-time">2019.09.03</text>
 					</view>
@@ -66,7 +99,7 @@
 	export default {
 		data() {
 			return {
-				version:"1.0.0",
+				version:"1.0.3",
 				year: new Date().getFullYear()
 			}
 		},

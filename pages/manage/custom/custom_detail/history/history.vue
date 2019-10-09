@@ -101,6 +101,7 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
