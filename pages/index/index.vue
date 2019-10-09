@@ -54,7 +54,7 @@
 		</swiper>
 
 
-		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true">
+		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
 			<block>
 				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
 					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"

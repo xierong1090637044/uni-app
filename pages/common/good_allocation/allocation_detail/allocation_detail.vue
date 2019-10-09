@@ -186,7 +186,7 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', -2);
-					tempBills.set('operater', operater);
+					tempBills.set('opreater', operater);
 					tempBills.set("stock", stockId);
 					tempBills.set("out_stock", out_stockId);
 

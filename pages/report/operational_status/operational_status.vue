@@ -62,13 +62,13 @@
 				<view class="display_flex_bet list_item">
 					<view class="display_flex second_item">
 						<view>
-							<view class="text_notice">入库成本总额</view>
+							<view class="text_notice">入库实际总额</view>
 							<view class="reserve_text">{{get_reserve_num}}</view>
 						</view>
 					</view>
 					<view class="display_flex second_item">
 						<view>
-							<view class="text_notice">出库成本总额</view>
+							<view class="text_notice">出库实际总额</view>
 							<view class="reserve_text">{{out_reserve_num}}</view>
 						</view>
 					</view>
@@ -78,13 +78,13 @@
 				<view class="display_flex_bet list_item">
 					<view class="display_flex second_item">
 						<view>
-							<view class="text_notice">预计卖出总额</view>
+							<view class="text_notice">入库的卖出总额</view>
 							<view class="reserve_text">{{get_reserve_real_money}}</view>
 						</view>
 					</view>
 					<view class="display_flex second_item">
 						<view>
-							<view class="text_notice">预计买进总额</view>
+							<view class="text_notice">出库的成本总额</view>
 							<view class="reserve_text">{{out_reserve_real_money}}</view>
 						</view>
 					</view>

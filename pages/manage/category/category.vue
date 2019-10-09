@@ -8,7 +8,10 @@
 					<view v-for="(item,index) in frist_class" :key="index" :class="selected_id===item.objectId?'selectd_item':''"
 					 class="class_item" style="font-weight: bold;">
 						<view class="class_texxt_view" @click="get_second_category(item.objectId)">{{item.class_text}}</view>
-						<fa-icon type="pencil-square-o" size="20" color="#fff" @click.stop="showoption(selected_id,1,item.class_text)" />
+						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(item,1)">
+							<text style="color: #d93a49;">选择</text>
+						</view>
+						<fa-icon v-else type="pencil-square-o" size="20" color="#fff" @click.stop="showoption(selected_id,1,item.class_text)" />
 					</view>
 				</view>
 
@@ -21,7 +24,7 @@
 				<view style="height: calc(100vh - 80rpx);overflow: scroll;">
 					<view v-for="(item,index) in second_class" :key="index" class="class_item" style="color: #333333;">
 						<view class="class_texxt_view">{{item.class_text}}</view>
-						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(item)">
+						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(item,2)">
 							<text style="color: #d93a49;">选择</text>
 						</view>
 						<fa-icon v-else type="pencil-square-o" size="20" color="#3d3d3d" @click.stop="showoption(item.objectId,2,item.class_text)" />
@@ -96,7 +99,8 @@
 		methods: {
 			
 			//选择分类的情况下选择分类
-			select_this(item){
+			select_this(item,type){
+				item.type = type
 				uni.setStorageSync("category", item)
 				uni.navigateBack({
 					delta: 1

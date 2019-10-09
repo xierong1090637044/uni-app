@@ -14,6 +14,20 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.4 公测版</text>
+						<text class="desc-time">2019.10.09</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						 <text>新增员工操作记录页面，以及汇总</text>
+						 <text>添加产品支持选择一级分类</text>
+						 <text>经营状况计算方式以及文字描述修改</text>
+						 <text>修改一些页面文字</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.3 公测版</text>
 						<text class="desc-time">2019.10.09</text>
 					</view>

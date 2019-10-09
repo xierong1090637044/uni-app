@@ -2,7 +2,7 @@
 	<view>
 		<!--pages/mine/about-us/about-us.wxml-->
 		<text class="desc">
-			「库存表」是一款免费的库存管理小程序，旨在“化繁为简，让库存管理更加便捷，使其成为您的库存小助手”
+			「库存表」是一款关于库存管理的小程序，旨在“化繁为简，让库存管理更加便捷，使其成为您的库存小助手”
 		</text>
 		<image :src="imgurl[0]" @tap='handlePreviewImage' mode="widthFix" />
 		<view style="margin-top: 30rpx;color:#333;">长按图片,识别关注我们哦！</view>

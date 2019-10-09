@@ -331,6 +331,12 @@
 							"navigationBarTitleText": "多库存商品上传"
 						}
         }
+				,{
+				    "path" : "pages/manage/staff/history/history",
+				    "style" : {
+							"navigationBarTitleText": "员工的操作记录"
+						}
+				}
         ,{
             "path" : "pages/manage/good_det/edit_info/edit_info",
             "style" : {}

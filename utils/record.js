@@ -36,11 +36,11 @@ export default {
 				for (var i = 0; i < res.length; i++) {
 					if (res[i].type == 1) {
 						get_reserve += res[i].num;
-						get_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
+						get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
 						get_reserve_num +=  res[i].total_money;
 					} else if (res[i].type == -1) {
 						out_reserve += res[i].num;
-						out_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
+						out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
 						out_reserve_num += res[i].total_money;
 					}
 				}

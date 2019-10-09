@@ -210,13 +210,18 @@
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
 
-				let pointer2 = Bmob.Pointer('class_user')
-				p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-
-				let pointer3 = Bmob.Pointer('second_class')
-				p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-
-				console.log(that.category.parent.objectId, that.category.objectId)
+				if(that.category.type == 2){
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
+					
+					let pointer3 = Bmob.Pointer('second_class')
+					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+					
+					console.log(that.category.parent.objectId, that.category.objectId)
+				}else{
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
+				}
 			}
 			
 			if(uni.getStorageSync("now_model")){
@@ -347,8 +352,11 @@
 				
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
-					query.set("second_class", p_second_class_id)
-					query.set("goodsClass", p_class_user_id)
+					if (that.category.type == 1) {
+						query.set("goodsClass", p_class_user_id)
+					} else {
+						query.set("second_class", p_second_class_id)
+					}
 				}
 				
 				query.set("userId", userid)
