@@ -26,9 +26,9 @@
 						<view style="position: relative;color: #999;font-size: 24rpx;">原价60 <view class="price_line">————</view>
 						</view>
 					</view>
-					<view :class="['price_content',(selected_price==120)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(120)">
+					<view :class="['price_content',(selected_price==100)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(100)">
 						<view class="time_desc">一年</view>
-						<view class="price_text">￥120</view>
+						<view class="price_text">￥100</view>
 						<view style="position: relative;color: #999;font-size: 24rpx;">原价240 <view class="price_line">————</view>
 						</view>
 					</view>

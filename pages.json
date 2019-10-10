@@ -358,6 +358,10 @@
 				    "style" : {}
 				}
         
+        ,{
+            "path" : "pages/manage/good_det/bad_history/bad_history",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#000",

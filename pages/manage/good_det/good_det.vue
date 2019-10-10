@@ -41,7 +41,10 @@
 						</view>
 					</view>
 					<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.warning_num ?item.warning_num:0}}</text></view>
-					<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.bad_num ?item.bad_num:0}}</text></view>
+					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+item.good_id">
+						<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.bad_num ?item.bad_num:0}}</text></view>
+						<fa-icon type="angle-right" size="20" color="#999" />
+					</navigator>
 					<view>条码: <text class="second_right_text">{{item.productCode}}</text></view>
 
 					<view class="display_flex">
@@ -52,6 +55,7 @@
 					<view class="display_flex">
 						<view class="opion_item" @click='print_info(item)'>打印</view>
 						<view class="opion_item" @click='modify(item)'>编辑</view>
+						<view class="opion_item" @click='add_badnum(item)'>记录货损</view>
 						<view class="opion_item" @click='delete_good(item.good_id,item.accessory,index)'>删除</view>
 					</view>
 				</view>
@@ -72,9 +76,19 @@
 					<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
 				</view>
 			</view>
+
+			<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
+				<view class="popup_content">
+					<view class="popup_title" style="text-align: center;margin-bottom: 20rpx;">记录货损</view>
+					<view style="margin-bottom: 20rpx;"><input placeholder="请输入该产品的货损数量" class="popup_input" v-model="badnum.num" /></view>
+					<view style="margin-bottom: 20rpx;"><input placeholder="请输入备注" class="popup_input" v-model="badnum.desc" /></view>
+					<view><button class="popup_button" @click="confrim_badnum">确认</button></view>
+				</view>
+			</uni-popup>
+
 		</view>
 	</view>
-	
+
 </template>
 
 <script>
@@ -84,11 +98,13 @@
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
 	import uniFab from '@/components/uni-fab/uni-fab.vue'
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
 	let that;
 	let uid;
 	export default {
 		components: {
+			uniPopup,
 			faIcon,
 			tkiQrcode,
 			tkiBarcode,
@@ -96,53 +112,71 @@
 		},
 		data() {
 			return {
-				loading:true,
+				badnum: {
+					num: '',
+					desc: '',
+				},
+				bad_numshow: false,
+				loading: true,
 				select_qrcode: '',
 				get_reserve_checked: true, //分库存显示控制
 				product: {},
 				is_show: false, //二维码显示
 				bar_code_show: false, //条形码显示
+				selected_item: '', //选择的产品
 			}
 		},
 		onLoad(options) {
 			that = this;
-			let stocks = [];
 			uid = uni.getStorageSync("uid");
 
 			console.log(options)
 
 			if (options.id) {
+				that.getDetail_byId(options.id,options.type)
+			} else {
+				that.getDetail_noId()
+			}
+
+
+		},
+
+		methods: {
+			
+			//得到产品详情 有id
+			getDetail_byId(id,type){
+				let stocks = [];
 				const query = Bmob.Query('Goods');
-				if (options.type == "false") {
-					query.equalTo("objectId", "==", options.id);
+				if (type == "false") {
+					query.equalTo("objectId", "==", id);
 				} else {
-					query.equalTo("productCode", "==", options.id)
+					query.equalTo("productCode", "==", id)
 				}
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
 					console.log(res)
 					let product = res[0];
 					let all_reserve = 0;
-
+				
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.include("stocks");
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
-
+				
 						for (let item of res) {
 							let stocks_o = {}
-							if(item.stocks){
+							if (item.stocks) {
 								stocks_o.stock_name = item.stocks.stock_name
 								stocks_o.stock_objectid = item.stocks.objectId
-							}else{
+							} else {
 								stocks_o.stock_name = ''
 								stocks_o.stock_objectid = ''
 							}
 							stocks_o.reserve = item.reserve
 							stocks_o.models = (item.models) ? item.models : ''
 							stocks_o.warning_num = item.warning_num
-							stocks_o.bad_num = item.bad_num
+							stocks_o.bad_num = (item.bad_num)?item.bad_num:0
 							stocks_o.good_id = item.objectId
 							stocks_o.accessory = (item.accessory) ? item.accessory : ''
 							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
@@ -150,7 +184,7 @@
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
 						}
-
+				
 						this.product = product;
 						this.product.all_reserve = all_reserve;
 						this.product.stocks = stocks
@@ -158,31 +192,35 @@
 						console.log(this.product)
 					})
 				})
-			} else {
+			},
+			
+			//得到产品详情没有id
+			getDetail_noId(){
+				let stocks = [];
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
-
+				
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.include("stocks");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
-
+				
 					for (let item of res) {
 						let stocks_o = {}
-						if(item.stocks){
+						if (item.stocks) {
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.stock_objectid = item.stocks.objectId
-						}else{
+						} else {
 							stocks_o.stock_name = ''
 							stocks_o.stock_objectid = ''
 						}
-						
+				
 						stocks_o.reserve = item.reserve
 						stocks_o.models = item.models
 						stocks_o.warning_num = item.warning_num
-						stocks_o.bad_num = item.bad_num
+						stocks_o.bad_num = (item.bad_num)?item.bad_num:0
 						stocks_o.good_id = item.objectId
 						stocks_o.accessory = (item.accessory) ? item.accessory : ''
 						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
@@ -190,19 +228,62 @@
 						all_reserve += item.reserve
 						stocks.push(item.stocks)
 					}
-
+				
 					this.product = uni.getStorageSync("now_product");
 					this.product.all_reserve = all_reserve;
 					this.product.stocks = stocks
 					that.loading = false
 					console.log(this.product)
 				})
-			}
+			},
 
+			//确认货损
+			confrim_badnum() {
+				console.log(that.selected_item)
+				if (that.badnum.num) {
+					const pointer = Bmob.Pointer('_User');
+					const poiID = pointer.set(uni.getStorageSync("masterId"));
+					
+					const pointer1 = Bmob.Pointer('Goods');
+					const poiID1 = pointer1.set(that.selected_item.good_id);
+					
+					const product_id = that.selected_item.good_id;
+					const last_bad_num = Number(that.selected_item.bad_num);
+					
+					const now_bad_num = last_bad_num + Number(that.badnum.num);
+					
+					const query = Bmob.Query('bad_goods');
+					query.set("bad_num", that.badnum.num);
+					query.set("beizhu_text", that.badnum.desc);
+					query.set("operater", poiID);
+					query.set("goods", poiID1);
+					query.save().then(res => {
 
-		},
+						const query = Bmob.Query('Goods');
+						query.set('id', product_id) //需要修改的objectId
+						query.set('bad_num', now_bad_num)
+						query.save().then(res => {
+							that.bad_numshow = false
+							uni.showToast({
+								title: '记录成功',
+							});
+						})
+						that.getDetail_noId()
+					})
+				} else {
+					uni.showToast({
+						title: "请输入货损数量",
+						icon: "none"
+					})
+				}
+			},
 
-		methods: {
+			//记录货损点击
+			add_badnum(item) {
+				that.bad_numshow = true
+				that.selected_item = item
+			},
+
 			//生成二维码
 			show_qrcode(item) {
 				that.is_show = true,
@@ -392,6 +473,15 @@
 		height: 100vh;
 		overflow: scroll;
 		font-size: 28rpx;
+	}
+
+	.popup_content {
+		width: 500rpx;
+	}
+
+	.popup_button {
+		background: #426ab3;
+		color: #fff;
 	}
 
 	.frist {

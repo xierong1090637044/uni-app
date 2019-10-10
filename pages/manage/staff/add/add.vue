@@ -8,7 +8,7 @@
 			</view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">账号</text>
-				<input placeholder="最好输入手机号" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<input placeholder="手机号(员工不用注册,直接在员工登陆界面输入即可)" v-model="staff_phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">密码</text>
@@ -249,9 +249,9 @@
 						title: "请输入姓名",
 						icon: "none"
 					})
-				} else if (this.staff_phone.length < 6) {
+				} else if (this.staff_phone.length < 11) {
 					uni.showToast({
-						title: "账号不能少于6位",
+						title: "账号不能少于11位",
 						icon: "none"
 					})
 				}else if(this.staff_password.length <6){

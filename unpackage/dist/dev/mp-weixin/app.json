@@ -54,6 +54,7 @@
     "pages/common/good_allocation/good_allocation",
     "pages/common/good_allocation/allocation_detail/allocation_detail",
     "pages/manage/goods_add/goods_add",
+    "pages/manage/staff/history/history",
     "pages/manage/good_det/edit_info/edit_info",
     "pages/manage/good_det/edit_stock/edit_stock",
     "pages/manage/staff/detail/detail",
@@ -108,6 +109,5 @@
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "nocontent": "/components/No_content"
-  },
-  "sitemapLocation": "sitemap62.json"
+  }
 }

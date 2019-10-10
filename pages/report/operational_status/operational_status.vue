@@ -29,8 +29,8 @@
 					<image src="/static/chengben.png" class="icon_img"></image>
 					<text class="text_notice">{{ i18n.a }} {{reserve_money}}</text>
 				</view>
-				<view class="display_flex_bet list_second">
-					<view class="item" style="border-right: 1rpx solid#CCCCCC;">
+				<view class="display_flex_bet list_second" style="border-bottom: 1rpx solid#CCCCCC;">
+					<view class="item" style="border-right: 1rpx solid#ddd;">
 						<view>库存总数</view>
 						<view class="show_num">{{all_reserve}}</view>
 					</view>
@@ -39,6 +39,18 @@
 						<view class="show_num">{{warn_num}}</view>
 					</view>
 				</view>
+				
+				<view class="display_flex_bet list_second">
+					<view class="item" style="border-right: 1rpx solid#CCCCCC;">
+						<view>当日应收</view>
+						<view class="show_num">{{should_get_money}}</view>
+					</view>
+					<view class="item">
+						<view>当日实收</view>
+						<view class="show_num">{{real_get_money}}</view>
+					</view>
+				</view>
+				
 			</view>
 
 			<view class="second_list">
