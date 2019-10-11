@@ -16,7 +16,7 @@
 			</view>
 			<view class='pro_allmoney'>总计：￥{{all_money}}</view>
 
-			<form @submit="formSubmit">
+			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
@@ -110,6 +110,7 @@
 
 			formSubmit: function(e) {
 				console.log(e)
+				let fromid = e.detail.formId
 				this.button_disabled = true;
 				uni.showLoading({
 					title: "上传中..."
@@ -146,7 +147,7 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
-					tempBills.set('operater', operater);
+					tempBills.set('opreater', operater);
 					tempBills.set("stock", stockId);
 
 					let goodsId = {}
@@ -281,6 +282,25 @@
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
 										send_temp.send_temp(params);
+										let params1 = {
+											"keyword1": {
+												"value": that.products[0].goodsName + "'等",
+												"color": "#173177"
+											},
+											"keyword2": {
+												"value":  e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+											},
+											"keyword3": {
+												"value": res.createdAt
+											},
+											"keyword4": {
+												"value":  uni.getStorageSync("user").nickName,
+											}
+										}
+										params1.form_Id = fromid
+										params1.id = res.objectId
+										send_temp.send_out_mini(params1);
+										
 										uni.navigateBack({
 											delta: 2
 										});

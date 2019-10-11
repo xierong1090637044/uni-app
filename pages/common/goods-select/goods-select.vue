@@ -8,7 +8,7 @@
 			 @click-right="confrim_this" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" />
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" @blur="confirm"/>
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -379,16 +379,7 @@
 								icon: "none"
 							})
 						}
-					}else if (this.type == "counting") {
-						if (this.stock) {
-							this.confrim_next()
-						} else {
-							uni.showToast({
-								title: "请在筛选中选择要盘点的仓库",
-								icon: "none"
-							})
-						}
-					} else {
+					}else {
 						this.confrim_next()
 					}
 

@@ -4,7 +4,7 @@
 
 			<scroll-view style="height: calc(100vh - 148rpx);" scroll-y>
 				<view class="frist">
-					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;">(暂时不支持上传图片，请先去小程序端上传)</text></view>
+					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;">(修改库存模式不支持上传图片)</text></view>
 
 
 					<view style="width: 100%;padding: 20rpx 0;">
@@ -54,23 +54,6 @@
 						<view class="right_input1"><input placeholder="包装单位" name="packingUnit" :value="packingUnit" disabled="true"></input></view>
 					</view>
 				</view>
-
-				<!--<view class="frist">
-					<view class="input_item">
-						<view class="left_item">生产日期</view>
-						<picker mode="date" @change="bindproducttimeChange">
-							<view class="right_input1"><input placeholder="生产日期" name="producttime" disabled="true" v-model="producttime"></input></view>
-						</picker>
-					</view>
-				
-					<view class="input_item">
-						<view class="left_item">失效日期</view>
-						<picker mode="date" @change="bindDateChange">
-							<view class="right_input1"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
-						</picker>
-				
-					</view>
-				</view>-->
 
 				<view class="frist" style="margin-bottom: 30rpx;">
 

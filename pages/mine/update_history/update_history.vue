@@ -22,6 +22,9 @@
 						 <text>新增员工操作记录页面，以及汇总</text>
 						 <text>添加产品支持选择一级分类</text>
 						 <text>经营状况计算方式以及文字描述修改</text>
+						 <text>产品信息修改支持图片上传</text>
+						 <text>产品搜索优化</text>
+						 <text>增加小程序通知功能</text>
 						 <text>修改一些页面文字</text>
 					</view>
 				</view>

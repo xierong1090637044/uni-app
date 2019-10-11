@@ -9,6 +9,13 @@
 	overflow: scroll;
 	font-size: 28rpx;
 }
+.popup_content {
+	width: 500rpx;
+}
+.popup_button {
+	background: #426ab3;
+	color: #fff;
+}
 .frist {
 	text-align: center;
 	width: 100%;

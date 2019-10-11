@@ -123,7 +123,7 @@
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('goodsId', tempGoods_id);
-					tempBills.set('operater', poiID2);
+					tempBills.set('opreater', poiID2);
 					tempBills.set('userId', user);
 					tempBills.set('type', 2);
 

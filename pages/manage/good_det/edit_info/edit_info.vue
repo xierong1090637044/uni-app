@@ -4,11 +4,10 @@
 
 			<scroll-view style="height: calc(100vh - 148rpx);" scroll-y>
 				<view class="frist">
-					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;">(暂时不支持上传图片，请先去小程序端上传)</text></view>
-
+					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;"></text></view>
 
 					<view style="width: 100%;padding: 20rpx 0;">
-						<view class="upload_image">
+						<view class="upload_image"  @click="upload_image">
 							<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
 							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else style="height: 180rpx;line-height: 180rpx;"></fa-icon>
 						</view>
@@ -55,27 +54,16 @@
 					</view>
 				</view>
 
-				<!--<view class="frist">
-					<view class="input_item">
-						<view class="left_item">生产日期</view>
-						<picker mode="date" @change="bindproducttimeChange">
-							<view class="right_input1"><input placeholder="生产日期" name="producttime" disabled="true" v-model="producttime"></input></view>
-						</picker>
-					</view>
-				
-					<view class="input_item">
-						<view class="left_item">失效日期</view>
-						<picker mode="date" @change="bindDateChange">
-							<view class="right_input1"><input placeholder="失效日期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
-						</picker>
-				
-					</view>
-				</view>-->
-
 				<!--更多产品信息-->
 				<uni-collapse :accordion="true" style="margin-top: 30rpx;">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
 						<view class="frist" style="margin-top: 0;">
+							<view class="input_item">
+								<view class="left_item">有效期</view>
+								<picker mode="date" @change="bindDateChange">
+									<view class="right_input"><input placeholder="有效期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
+								</picker>
+							</view>
 							<view class="input_item">
 								<view class="left_item">生产厂家</view>
 								<view class="right_input1"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
@@ -169,6 +157,7 @@
 				producttime: "",
 				nousetime: "",
 				product_state: false, //产品是否是半成品
+				uploadImg:false,
 			}
 		},
 
@@ -207,6 +196,7 @@
 				that.reserve = now_product.reserve
 				that.goodsIcon = now_product.goodsIcon //产品图片
 				that.product_state = now_product.product_state //产品是否是半成品
+				that.nousetime = (now_product.nousetime)?common.js_date_time(now_product.nousetime):''
 
 				if (now_product.goodsClass) {
 					let pointer2 = Bmob.Pointer('class_user')
@@ -264,8 +254,32 @@
 						icon: "none"
 					})
 				} else {
-					that.upload_good(good)
+					if (that.uploadImg) {
+						let file;
+						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
+						file.save().then(res => {
+							console.log("图片地址", res)
+							that.goodsIcon = res[0].url;
+							that.upload_good(good)
+						})
+					} else {
+						that.upload_good(good)
+					}
 				}
+			},
+			
+			//上传产品图片
+			upload_image: function() {
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], //从相册选择
+					success: function(res) {
+						console.log(res);
+						that.uploadImg = true;
+						that.goodsIcon = res.tempFilePaths[0];
+					},
+				});
 			},
 
 			//上传商品
@@ -280,8 +294,7 @@
 				}
 
 			},
-
-
+			
 			add_good(good, type) {
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
@@ -291,8 +304,11 @@
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? good.costPrice : "0")
 				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
-				//query.set("producttime",  new Date(that.producttime.replace("-","/")))
-				//query.set("nousetime",new Date(that.nousetime.replace("-","/")) )
+				if (that.nousetime) {
+					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
+					time = new Date(time).getTime()
+					query.set("nousetime", time)
+				}
 				query.set("regNumber", good.regNumber)
 				query.set("productCode", good.productCode)
 				query.set("product_info", good.product_info)
@@ -335,6 +351,7 @@
 
 			//数据重置
 			handledata() {
+				that.uploadImg = false;
 				that.goodsName = ''
 				that.costPrice = '' //进价
 				that.retailPrice = '' //售价

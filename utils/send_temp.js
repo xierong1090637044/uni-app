@@ -1,3 +1,4 @@
+import Bmob from "hydrogen-js-sdk";
 export default {
 	//发送入库模板
 	send_in(params){
@@ -22,6 +23,43 @@ export default {
 		    }
 		});
 	},
+	
+	//发送入库模板
+	send_in_mini(params){
+		let modelData = {
+		    "touser": uni.getStorageSync("openid"),
+		    "template_id": "nqZl9FWDofCo9cxU4de45grLKh2GU-PJcAvWSbJMy9k",
+		    "page": "/pages/report/EnteringHistory/detail/detail?id="+params.id,
+		    "form_id":params.form_Id,
+		    "data": params,
+		    "emphasis_keyword": ""
+		}
+		
+		Bmob.sendWeAppMessage(modelData).then(function (response) {
+		    console.log(response);
+		}).catch(function (error) {
+		    console.log(error);
+		});
+	},
+	
+	//发送入库模板
+	send_out_mini(params){
+		let modelData = {
+		    "touser": uni.getStorageSync("openid"),
+		    "template_id": "z0Km0FFiuvnNiUcXtZD046j43ue5_AxR05cDHFLLXPY",
+		    "page": "/pages/report/EnteringHistory/detail/detail?id="+params.id,
+		    "form_id":params.form_Id,
+		    "data": params,
+		    "emphasis_keyword": ""
+		}
+		
+		Bmob.sendWeAppMessage(modelData).then(function (response) {
+		    console.log(response);
+		}).catch(function (error) {
+		    console.log(error);
+		});
+	},
+	
 	//发送出库模板
 	send_temp(params){
 		let openid = uni.getStorageSync("setting").wx_openid

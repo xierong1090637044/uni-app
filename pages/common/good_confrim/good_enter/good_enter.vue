@@ -16,7 +16,7 @@
 			</view>
 			<view class='pro_allmoney'>总计：￥{{all_money}}</view>
 
-			<form @submit="formSubmit">
+			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
@@ -115,6 +115,7 @@
 
 			formSubmit: function(e) {
 				console.log(e)
+				let fromid = e.detail.formId
 				this.button_disabled = true;
 				uni.showLoading({
 					title: "上传中..."
@@ -233,22 +234,22 @@
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
-											
+
 											if (that.products[i].selectd_model) {
 												for (let model of JSON.parse(that.products[i].selectd_model)) {
 													for (let item of that.products[i].models) {
 														num += Number(item.reserve)
-														if (item.id == JSON.parse(model).id){
+														if (item.id == JSON.parse(model).id) {
 															item.reserve = Number(item.reserve) + Number(that.products[i].num)
 														}
 													}
 												}
-												num =num + Number(that.products[i].num)
+												num = num + Number(that.products[i].num)
 												res.set('models', that.products[i].models)
-											}else{
+											} else {
 												num = Number(that.products[i].reserve) + Number(that.products[i].num);
 											}
-											
+
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
@@ -270,6 +271,25 @@
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
 										send_temp.send_in(params);
+
+										let params1 = {
+											"keyword1": {
+												"value": that.products[0].goodsName + "'等",
+												"color": "#173177"
+											},
+											"keyword2": {
+												"value":  e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+											},
+											"keyword3": {
+												"value": res.createdAt
+											},
+											"keyword4": {
+												"value":  uni.getStorageSync("user").nickName,
+											}
+										}
+										params1.form_Id = fromid
+										params1.id = res.objectId
+										send_temp.send_in_mini(params1);
 									}, 500)
 
 									that.can_addGoods().then(res => {
@@ -296,21 +316,21 @@
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("warehouse");
-											setTimeout(function(){
+											setTimeout(function() {
 												uni.navigateBack({
 													delta: 2
 												});
-											},1000)
-											
+											}, 1000)
+
 										} else {
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("warehouse");
-											setTimeout(function(){
+											setTimeout(function() {
 												uni.navigateBack({
 													delta: 2
 												});
-											},1000)
+											}, 1000)
 										}
 									})
 								}

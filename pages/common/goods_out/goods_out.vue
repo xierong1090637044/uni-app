@@ -14,7 +14,7 @@
 		          <view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/></view>
 		      </view>
 		      <view class='margin-t-5'>
-		        出库量：<uninumberbox :min="1"  @change="handleNumChange($event, index)" />
+		        出库量：<uninumberbox :min="1" :max="item.reserve"  @change="handleNumChange($event, index)" />
 					</view>
 		      <view class="bottom_del">
 						<view class='del' @click="handleDel(index)">

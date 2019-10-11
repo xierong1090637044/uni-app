@@ -39,12 +39,17 @@
 				<view>是否已是会员</view>
 				<view class='display_flex right_item' v-if="userInfo.is_vip">
 					<text>是</text>
-					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 				<navigator class='display_flex right_item' v-else hover-class="none" url="/pages/mine/vip/vip">
-					<text style="color: #999999;">否</text>
+					<text style="color: #426ab3;">成为会员</text>
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</navigator>
+			</view>
+			<view class='display_flex_bet item1' v-if="userInfo.is_vip">
+				<view>会员截止日期</view>
+				<view class='display_flex right_item'>
+					<text>{{userInfo.vip_time}}</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -54,6 +59,7 @@
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import Bmob from "hydrogen-js-sdk";
 	import mine from "@/utils/mine.js";
+	import common from "@/utils/common.js";
 	
 	let that;
 	export default {
@@ -71,6 +77,7 @@
 		
 		onShow() {
 			that.userInfo = uni.getStorageSync("user")
+			that.userInfo.vip_time = common.js_date_time(that.userInfo.vip_time)
 		},
 		
 		methods: {

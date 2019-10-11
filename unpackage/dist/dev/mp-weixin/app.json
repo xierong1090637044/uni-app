@@ -59,7 +59,8 @@
     "pages/manage/good_det/edit_stock/edit_stock",
     "pages/manage/staff/detail/detail",
     "pages/manage/goods_add_MoreG/goods_add_MoreG",
-    "pages/manage/goods_add_MoreG/G_More/G_More"
+    "pages/manage/goods_add_MoreG/G_More/G_More",
+    "pages/manage/good_det/bad_history/bad_history"
   ],
   "subPackages": [],
   "window": {
@@ -109,5 +110,6 @@
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "nocontent": "/components/No_content"
-  }
+  },
+  "sitemapLocation": "sitemap65.json"
 }

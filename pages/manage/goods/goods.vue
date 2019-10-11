@@ -8,7 +8,7 @@
 			 @click-right="goto_add" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm" />
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm"  @blur="input_confirm"/>
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -35,10 +35,12 @@
 
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+							<view class="product_reserve" v-if="product.models"><text class="text_notice">多规格产品</text></view>
+							<view class="product_reserve" v-else>库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 							<!--<view class="product_reserve" v-if="product.stocks">
 								<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 							</view>
-							<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+							
 							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>-->
 
 							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>

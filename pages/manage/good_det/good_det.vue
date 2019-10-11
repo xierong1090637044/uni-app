@@ -20,6 +20,9 @@
 					<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
 					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 					<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
+					<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
+					<view v-if="product.goodsClass && product.goodsClass.class_text">所属一级分类 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text></view>
+					<view v-if="product.second_class && product.second_class.class_text">所属二级分类 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.second_class.class_text}}</text></view>
 				</view>
 
 				<view class="second_one display_flex_bet">
@@ -94,6 +97,7 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import print from "@/utils/print.js"
+	import common from "@/utils/common.js"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
@@ -160,7 +164,7 @@
 				
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
-					query.include("stocks");
+					query.include("stocks","goodsClass","second_class");
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
 				
@@ -186,6 +190,7 @@
 						}
 				
 						this.product = product;
+						if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve;
 						this.product.stocks = stocks
 						that.loading = false
@@ -203,7 +208,7 @@
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
-				query.include("stocks");
+				query.include("stocks","goodsClass","second_class");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
 				
@@ -230,6 +235,7 @@
 					}
 				
 					this.product = uni.getStorageSync("now_product");
+					if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve;
 					this.product.stocks = stocks
 					that.loading = false
