@@ -421,7 +421,11 @@
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
 
-				query.equalTo("second_class", "==", that.category.objectId);
+				if(that.category.type == 1){
+					query.equalTo("goodsClass", "==", that.category.objectId);
+				}else{
+					query.equalTo("second_class", "==", that.category.objectId);
+				}
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});

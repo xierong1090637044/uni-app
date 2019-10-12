@@ -25,6 +25,7 @@
 						 <text>产品信息修改支持图片上传</text>
 						 <text>产品搜索优化</text>
 						 <text>增加小程序通知功能</text>
+						 <text>兼容老数据，支持一级分类的筛选</text>
 						 <text>修改一些页面文字</text>
 					</view>
 				</view>
@@ -116,7 +117,7 @@
 	export default {
 		data() {
 			return {
-				version:"1.0.3",
+				version:"1.0.4",
 				year: new Date().getFullYear()
 			}
 		},

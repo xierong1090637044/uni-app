@@ -11,7 +11,7 @@
 
 		<view class="vip_content">
 			<view class="content_bg">
-				<view>你还不是会员，开通会员可以体验全部功能哦！</view>
+				<view>开通会员可以体验全部功能哦！</view>
 				<view class="display_flex_bet" style="margin-top: 40rpx;">
 					<view :class="['price_content',(selected_price==10)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(10)">
 						<view class="time_desc">一个月</view>

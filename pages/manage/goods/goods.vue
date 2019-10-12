@@ -324,7 +324,11 @@
 				if (that.stock) {} else {
 					query.equalTo("accessory", "!=", true);
 				}
-				query.equalTo("second_class", "==", that.category.objectId);
+				if(that.category.type == 1){
+					query.equalTo("goodsClass", "==", that.category.objectId);
+				}else{
+					query.equalTo("second_class", "==", that.category.objectId);
+				}
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
 				});

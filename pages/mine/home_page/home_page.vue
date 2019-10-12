@@ -35,16 +35,17 @@
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 			</view>
-			<view class='display_flex_bet item1'>
+			<navigator class='display_flex_bet item1' hover-class="none" url="/pages/mine/vip/vip">
 				<view>是否已是会员</view>
 				<view class='display_flex right_item' v-if="userInfo.is_vip">
 					<text>是</text>
+					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
-				<navigator class='display_flex right_item' v-else hover-class="none" url="/pages/mine/vip/vip">
+				<view class='display_flex right_item' v-else>
 					<text style="color: #426ab3;">成为会员</text>
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
-				</navigator>
-			</view>
+				</view>
+			</navigator>
 			<view class='display_flex_bet item1' v-if="userInfo.is_vip">
 				<view>会员截止日期</view>
 				<view class='display_flex right_item'>
