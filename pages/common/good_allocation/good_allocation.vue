@@ -77,9 +77,7 @@
 			}
 
 		},
-		onUnload() {
-			uni.removeStorageSync("products");
-		},
+
 		methods: {
 			
 			//头部确定点击

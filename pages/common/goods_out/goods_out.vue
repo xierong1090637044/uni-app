@@ -84,9 +84,7 @@
 				
 			}
 		},
-		onUnload() {
-			uni.removeStorageSync("products");
-		},
+
 		methods: {
 			make_goods(good, selectd_model, key) {
 				console.log(good, selectd_model, key)

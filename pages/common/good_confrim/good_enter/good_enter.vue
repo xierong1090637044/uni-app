@@ -90,7 +90,6 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			uni.removeStorageSync("producer"); //移除这个缓存
 			this.products = uni.getStorageSync("products");
 			for (let i = 0; i < this.products.length; i++) {
 				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))

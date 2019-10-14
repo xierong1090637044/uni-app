@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/report/chart/chart",
     "pages/index/index",
+    "pages/report/chart/chart",
     "pages/mine/vip/vip",
     "pages/manage/shops/record/record",
     "pages/manage/good_add/good_add",
@@ -112,5 +112,6 @@
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "nocontent": "/components/No_content"
-  }
+  },
+  "sitemapLocation": "sitemap48.json"
 }
