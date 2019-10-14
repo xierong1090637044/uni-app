@@ -298,6 +298,18 @@
 						scrollPosition: 'right',
 						animation: false
 					});
+					canvaLineB.updateData({
+						series: newdata.series,
+						categories: newdata.categories,
+						scrollPosition: 'right',
+						animation: false
+					});
+					canvaLineC.updateData({
+						series: newdata.series,
+						categories: newdata.categories,
+						scrollPosition: 'right',
+						animation: false
+					});
 				} else {
 					uni.showToast({
 						title: '数据格式错误',
@@ -329,5 +341,9 @@
 		color: #333;
 		font-weight: bold;
 		padding: 20rpx;
+	}
+	
+	.qiun-title-bar{
+		padding: 20rpx 0;;
 	}
 </style>
