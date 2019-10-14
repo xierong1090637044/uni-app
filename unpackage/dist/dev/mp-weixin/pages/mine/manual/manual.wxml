@@ -1,0 +1,1 @@
+<view><web-view webview-styles="{{webviewStyles}}" src="https://www.jimuzhou.com/extra/pages/manual/manual"></web-view></view>

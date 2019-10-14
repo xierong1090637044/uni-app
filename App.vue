@@ -4,7 +4,7 @@
 	export default {
 		onLaunch: function() {
 			
-			/*const updateManager = uni.getUpdateManager();
+			const updateManager = uni.getUpdateManager();
 			updateManager.onCheckForUpdate(function (res) {
 			  // 请求完新版本信息的回调
 			  console.log(res.hasUpdate);
@@ -20,16 +20,11 @@
 			      }
 			    }
 			  });
-			});*/
+			});
 			
 
 			// #ifdef APP-PLUS || MP-WEIXIN
-			Bmob.User.auth().then(res => {
-				console.log(res)
-				console.log('一键登陆成功')
-			}).catch(err => {
-				console.log(err)
-			});
+			Bmob.User.auth().then(res => {}).catch(err => {console.log(err)});
 			// #endif
 
 			//console.log('App Launch')

@@ -67,6 +67,12 @@
 						url: '/pages/report/operational_status/operational_status',
 						color: "#426ab3"
 					},
+					{
+						name: '报表',
+						icon: 'pie-chart',
+						url: '/pages/report/chart/chart',
+						color: "#0c95bc"
+					},
 				]
 			}
 		},

@@ -38,6 +38,11 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
+				<navigator class="li " hover-class="none" url="manual/manual">
+					<fa-icon type="book" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">操作手册</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</navigator>
 				<navigator class="li noborder" hover-class="none" url="setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
