@@ -84,6 +84,7 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
+				really_total_money:0,//实际的总价
 				producer: null, //制造商
 			}
 		},
@@ -93,6 +94,7 @@
 			this.products = uni.getStorageSync("products");
 			for (let i = 0; i < this.products.length; i++) {
 				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 			}
 			this.real_money = Number(this.all_money.toFixed(2))
 		},
@@ -145,6 +147,7 @@
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
+					tempBills.set('really_total_money', this.products[i].really_total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set("opreater", poiID2);

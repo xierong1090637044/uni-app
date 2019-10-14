@@ -175,7 +175,7 @@
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				type: '', //操作类型
-				is_selected:false,//是否筛选
+				is_selected: false, //是否筛选
 			}
 		},
 
@@ -211,6 +211,12 @@
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
+			
+			//操作完成后刷新数据
+			if (uni.getStorageSync("is_option")) {
+				this.productList = []
+				that.get_productList();
+			}
 		},
 
 		onUnload() {
@@ -234,9 +240,9 @@
 			change_page(e) {
 				page_num = e.current
 				if (search_text && page_num > 1) {
-					search_count +=1
+					search_count += 1
 				}
-				
+
 				that.get_productList();
 			},
 
@@ -338,7 +344,7 @@
 
 				if (this.type != "allocation") {
 					for (let item of all_products) {
-						item = ((typeof item == 'object')?item:JSON.parse(item))
+						item = ((typeof item == 'object') ? item : JSON.parse(item))
 						console.log(item)
 						key = key + 1
 						if (item.models && item.models.length > 0 && item.is_selected != true) {
@@ -380,17 +386,19 @@
 				let index = 0;
 				if (this.type == "entering") {
 					for (let item of all_products) {
-						all_products[index] = (typeof item == 'object')?item:JSON.parse(item)
+						all_products[index] = (typeof item == 'object') ? item : JSON.parse(item)
 						all_products[index].num = 1;
 						all_products[index].total_money = 1 * all_products[index].costPrice;
+						all_products[index].really_total_money = 1 * all_products[index].costPrice;
 						all_products[index].modify_retailPrice = all_products[index].costPrice;
 						index += 1;
 					}
 				} else {
 					for (let item of all_products) {
-						all_products[index] = (typeof item == 'object')?item:JSON.parse(item)
+						all_products[index] = (typeof item == 'object') ? item : JSON.parse(item)
 						all_products[index].num = 1;
 						all_products[index].total_money = 1 * all_products[index].retailPrice;
+						all_products[index].really_total_money = 1 * all_products[index].costPrice;
 						all_products[index].modify_retailPrice = all_products[index].retailPrice;
 						index += 1;
 					}
@@ -431,15 +439,15 @@
 					let key = 0;
 					if (all_products.length >= 1) {
 
-							for (let item of all_products) {
-								for (let product of res) {
-									if (product.objectId == (typeof item == 'object'?item.objectId:JSON.parse(item).objectId)) {
-										product.checked = true
-										product.key = key
-										key += 1
-									}
+						for (let item of all_products) {
+							for (let product of res) {
+								if (product.objectId == (typeof item == 'object' ? item.objectId : JSON.parse(item).objectId)) {
+									product.checked = true
+									product.key = key
+									key += 1
 								}
 							}
+						}
 					} else {
 						for (let product of res) {
 							product.key = key

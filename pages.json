@@ -9,7 +9,7 @@
 		},
 		{
 		    "path" : "pages/report/chart/chart",
-		    "style" : {}
+		    "style" : {"navigationBarTitleText": "报表"}
 		},
 		{
 		    "path" : "pages/mine/vip/vip",
