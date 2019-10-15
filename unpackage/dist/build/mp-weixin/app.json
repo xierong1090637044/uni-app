@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/report/chart/chart",
     "pages/mine/vip/vip",
     "pages/manage/shops/record/record",
     "pages/manage/good_add/good_add",
@@ -60,7 +61,8 @@
     "pages/manage/staff/detail/detail",
     "pages/manage/goods_add_MoreG/goods_add_MoreG",
     "pages/manage/goods_add_MoreG/G_More/G_More",
-    "pages/manage/good_det/bad_history/bad_history"
+    "pages/manage/good_det/bad_history/bad_history",
+    "pages/mine/manual/manual"
   ],
   "subPackages": [],
   "window": {

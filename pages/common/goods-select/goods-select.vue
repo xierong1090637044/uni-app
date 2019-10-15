@@ -211,7 +211,7 @@
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 			}
-			
+
 			//操作完成后刷新数据
 			if (uni.getStorageSync("is_option")) {
 				search_text = '';
@@ -263,6 +263,7 @@
 				that.search_text = e.detail.value
 				that.page_num = 1
 				page_num = 1
+				search_count += 1
 
 				that.get_productList()
 			},
@@ -286,14 +287,17 @@
 			//modal筛选的确认点击
 			option_confrim() {
 				if (uni.getStorageSync("category")) {
+					search_count += 1
+					that.is_selected = true;
 					that.category = uni.getStorageSync("category")
 				}
 
 				if (uni.getStorageSync("warehouse")) {
+					search_count += 1
+					that.is_selected = true;
 					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 				}
 				that.showOptions = false;
-				that.is_selected = true;
 				that.get_productList()
 			},
 
@@ -334,11 +338,10 @@
 
 			//多选选择触发
 			radioChange: function(e) {
-				console.log(e)
+				//console.log(e)
 				let current = []
 				let key = 0
 				if (search_text || that.is_selected) {
-					search_count += 1
 					search_products[search_count - 1] = e.detail.value
 				} else {
 					products[page_num - 1] = e.detail.value
@@ -346,12 +349,14 @@
 				all_products = search_products.concat(products)
 				all_products = all_products.reduce(function(a, b) {
 					return a.concat(b)
-				});
+				})
+				all_products = Array.from(new Set(all_products))
+				//console.log(all_products)
 
 				if (this.type != "allocation") {
 					for (let item of all_products) {
 						item = ((typeof item == 'object') ? item : JSON.parse(item))
-						console.log(item)
+						//console.log(item)
 						key = key + 1
 						if (item.models && item.models.length > 0 && item.is_selected != true) {
 							that.models_good = item
@@ -359,7 +364,6 @@
 						}
 					}
 				}
-
 			},
 
 			//点击去到添加产品
@@ -443,8 +447,7 @@
 				query.find().then(res => {
 					console.log(all_products)
 					let key = 0;
-					if (all_products.length >= 1) {
-
+					if (all_products.length >= 1 &&that.showOptions == false && that.is_selected == false && that.search_text == '') {
 						for (let item of all_products) {
 							for (let product of res) {
 								if (product.objectId == (typeof item == 'object' ? item.objectId : JSON.parse(item).objectId)) {

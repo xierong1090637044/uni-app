@@ -172,6 +172,10 @@
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
 									setTimeout(() => {
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
 										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 3, res.objectId);
 										uni.navigateBack({

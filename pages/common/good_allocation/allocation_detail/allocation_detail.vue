@@ -51,11 +51,14 @@
 	export default {
 		data() {
 			return {
+				products:[],
 				stock: '', //调出仓库
 				out_stock: '', //调入仓库
 				button_disabled: false,
 				beizhu_text: "",
 				out_products: [], //调入的商品
+				all_money:0,
+				real_money:0,
 			}
 		},
 		onLoad() {
@@ -266,6 +269,10 @@
 									//uni.removeStorageSync("warehouse");
 
 									setTimeout(() => {
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
 										common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that
 											.products.length + "商品", -2, res.objectId);
 
