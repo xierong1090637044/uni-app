@@ -35,8 +35,7 @@
 
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-							<view class="product_reserve" v-if="product.models"><text class="text_notice">多规格产品</text></view>
-							<view class="product_reserve" v-else>库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+							<view class="product_reserve" >库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 							<!--<view class="product_reserve" v-if="product.stocks">
 								<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 							</view>

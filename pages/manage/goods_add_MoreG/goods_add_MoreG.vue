@@ -259,23 +259,13 @@
 					})
 				} else {
 					if(uni.getStorageSync("now_model")){
-						if (that.goodsIcon) {
-							let file;
-							file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
-							file.save().then(res => {
-								console.log("图片地址", res)
-								that.goodsIcon = res[0].url;
-							})
-						}
 						that.upload_good(good)
 					}else{
 						uni.showToast({
 							title: "请输入规格以及对应的库存",
 							icon: "none"
 						})
-						
 					}
-					
 				}
 			},
 			
@@ -287,7 +277,15 @@
 					sourceType: ['album', 'camera'], //从相册选择
 					success: function(res) {
 						console.log(res);
-						that.goodsIcon = res.tempFilePaths[0];
+						let timestamp = Date.parse(new Date());
+						let tempFilePaths = res.tempFilePaths
+						let file;
+						for (let item of tempFilePaths) {
+							file = Bmob.File(timestamp + '.jpg', item);
+						}
+						file.save().then(res => {
+							that.goodsIcon = res.tempFilePaths[0];
+						})
 					},
 				});
 			},
@@ -303,6 +301,7 @@
 				}else{
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
+					query.equalTo("status", "!=", -1);
 					query.equalTo("goodsName", "==", good.goodsName);
 					query.find().then(res => {
 						if (res.length >= 1) {

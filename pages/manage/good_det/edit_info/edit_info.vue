@@ -7,7 +7,7 @@
 					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;"></text></view>
 
 					<view style="width: 100%;padding: 20rpx 0;">
-						<view class="upload_image"  @click="upload_image">
+						<view class="upload_image" @click="upload_image">
 							<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
 							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else style="height: 180rpx;line-height: 180rpx;"></fa-icon>
 						</view>
@@ -157,7 +157,7 @@
 				producttime: "",
 				nousetime: "",
 				product_state: false, //产品是否是半成品
-				uploadImg:false,
+				uploadImg: false,
 			}
 		},
 
@@ -194,9 +194,9 @@
 				that.productCode = now_product.productCode //产品条码
 				that.category = now_product.second_class ? now_product.second_class : '' //分类
 				that.reserve = now_product.reserve
-				that.goodsIcon = now_product.goodsIcon //产品图片
+				that.goodsIcon = now_product.goodsIcon ? now_product.goodsIcon : '' //产品图片
 				that.product_state = now_product.product_state //产品是否是半成品
-				that.nousetime = (now_product.nousetime)?common.js_date_time(now_product.nousetime):''
+				that.nousetime = (now_product.nousetime) ? common.js_date_time(now_product.nousetime) : ''
 
 				if (now_product.goodsClass) {
 					let pointer2 = Bmob.Pointer('class_user')
@@ -254,20 +254,10 @@
 						icon: "none"
 					})
 				} else {
-					if (that.uploadImg) {
-						let file;
-						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
-						file.save().then(res => {
-							console.log("图片地址", res)
-							that.goodsIcon = res[0].url;
-							that.upload_good(good)
-						})
-					} else {
-						that.upload_good(good)
-					}
+					that.upload_good(good)
 				}
 			},
-			
+
 			//上传产品图片
 			upload_image: function() {
 				uni.chooseImage({
@@ -276,8 +266,15 @@
 					sourceType: ['album', 'camera'], //从相册选择
 					success: function(res) {
 						console.log(res);
-						that.uploadImg = true;
-						that.goodsIcon = res.tempFilePaths[0];
+						let tempFilePaths = res.tempFilePaths
+						let file;
+						for (let item of tempFilePaths) {
+							file = Bmob.File(that.goodsName + ".png", item);
+						}
+						file.save().then(res => {
+							console.log(res.length);
+							that.goodsIcon = res[0].url;
+						})
 					},
 				});
 			},
@@ -294,7 +291,7 @@
 				}
 
 			},
-			
+
 			add_good(good, type) {
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)

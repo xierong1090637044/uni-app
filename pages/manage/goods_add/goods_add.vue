@@ -207,15 +207,15 @@
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
 
-				if(that.category.type == 2){
+				if (that.category.type == 2) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-					
+
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-					
+
 					console.log(that.category.parent.objectId, that.category.objectId)
-				}else{
+				} else {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
 				}
@@ -240,7 +240,15 @@
 					sourceType: ['album', 'camera'], //从相册选择
 					success: function(res) {
 						console.log(res);
-						that.goodsIcon = res.tempFilePaths[0];
+						let timestamp = Date.parse(new Date());
+						let tempFilePaths = res.tempFilePaths
+						let file;
+						for (let item of tempFilePaths) {
+							file = Bmob.File(timestamp + '.jpg', item);
+						}
+						file.save().then(res => {
+							that.goodsIcon = res.tempFilePaths[0];
+						})
 					},
 				});
 			},
@@ -260,11 +268,11 @@
 				that.stocks.splice(index, 1)
 				uni.setStorageSync("warehouse", that.stocks)
 			},
-			
+
 			bindDateChange: function(e) {
 				that.nousetime = e.target.value
 			},
-			
+
 			//保存提交
 			formSubmit: function(e) {
 				console.log(e.detail.value)
@@ -275,17 +283,7 @@
 						icon: "none"
 					})
 				} else {
-					if (that.goodsIcon) {
-						let file;
-						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
-						file.save().then(res => {
-							console.log("图片地址",res)
-							that.goodsIcon = res[0].url;
-							that.upload_good(good)
-						})
-					} else {
-						that.upload_good(good)
-					}
+					that.upload_good(good)
 				}
 			},
 
@@ -297,6 +295,7 @@
 
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
+				query.equalTo("status", "!=", -1);
 				query.equalTo("goodsName", "==", good.goodsName);
 				query.find().then(res => {
 					if (res.length >= 1) {
@@ -326,10 +325,10 @@
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice ? good.costPrice : "0")
 					query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
-					if(that.nousetime){
-						let time = that.nousetime.replace(new RegExp('-','g'),"/")
+					if (that.nousetime) {
+						let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 						time = new Date(time).getTime()
-						query.set("nousetime",time )
+						query.set("nousetime", time)
 					}
 					query.set("regNumber", good.regNumber)
 					query.set("reserve", Number(that.stocks[key].reserve))
@@ -343,7 +342,7 @@
 					query.set("warning_num", Number(that.stocks[key].warning_num))
 					query.set("stocktype", (Number(that.stocks[key].warning_num) >= Number(that.stocks[key].reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 					query.set("order", Number(key))
-					if(key > 0){
+					if (key > 0) {
 						query.set("accessory", true)
 					}
 

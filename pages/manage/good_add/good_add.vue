@@ -234,8 +234,6 @@
 		},
 		onShow() {
 
-
-
 			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
 				that.stocks = uni.getStorageSync("warehouse")[0].stock
 				that.stock_name = uni.getStorageSync("warehouse")[0].stock.stock_name
@@ -243,20 +241,20 @@
 
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
-				
-				if(that.category.type == 2){
+
+				if (that.category.type == 2) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-					
+
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-					
+
 					console.log(that.category.parent.objectId, that.category.objectId)
-				}else{
+				} else {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
 				}
-				
+
 			}
 		},
 
@@ -327,18 +325,7 @@
 						icon: "none"
 					})
 				} else {
-					console.log(that.goodsIcon)
-					if (that.goodsIcon) {
-						let file;
-						file = Bmob.File(good.goodsName + ".png", that.goodsIcon);
-						file.save().then(res => {
-							console.log("图片地址", res)
-							that.goodsIcon = res[0].url;
-							that.upload_good(good)
-						})
-					} else {
-						that.upload_good(good)
-					}
+					that.upload_good(good)
 				}
 			},
 			//上传产品图片
@@ -349,7 +336,16 @@
 					sourceType: ['album', 'camera'], //从相册选择
 					success: function(res) {
 						console.log(res);
-						that.goodsIcon = res.tempFilePaths[0];
+						let timestamp = Date.parse(new Date());
+						let tempFilePaths = res.tempFilePaths
+						let file;
+						for (let item of tempFilePaths) {
+							file = Bmob.File(timestamp + '.jpg', item);
+						}
+						file.save().then(res => {
+							that.goodsIcon = res.tempFilePaths[0];
+						})
+
 					},
 				});
 			},
@@ -365,6 +361,7 @@
 				} else {
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
+					query.equalTo("status", "!=", -1);
 					query.equalTo("goodsName", "==", good.goodsName);
 					query.equalTo("position", "==", good.position);
 					query.equalTo("stocks", "==", that.stocks.objectId);
