@@ -133,6 +133,7 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
+			uni.removeStorageSync("now_model")
 
 			console.log(options)
 

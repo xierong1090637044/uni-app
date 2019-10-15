@@ -284,7 +284,7 @@
 							file = Bmob.File(timestamp + '.jpg', item);
 						}
 						file.save().then(res => {
-							that.goodsIcon = res.tempFilePaths[0];
+							that.goodsIcon = res[0].url;
 						})
 					},
 				});

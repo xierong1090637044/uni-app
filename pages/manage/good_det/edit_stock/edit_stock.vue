@@ -293,12 +293,11 @@
 				const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
 				const query = Bmob.Query('Goods');
-
+				query.set("stocks", p_stock_id)
 				query.set("reserve", Number(good.reserve))
 				if(uni.getStorageSync("now_model")) query.set("models", uni.getStorageSync("now_model"))
 				query.set("warning_num", Number(good.warning_num))
 				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-
 				query.set("userId", userid)
 				query.set("id", uni.getStorageSync("now_product") ? uni.getStorageSync("now_product").objectId : "")
 				query.save().then(res => {
