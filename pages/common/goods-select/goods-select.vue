@@ -214,6 +214,12 @@
 			
 			//操作完成后刷新数据
 			if (uni.getStorageSync("is_option")) {
+				search_text = '';
+				page_size = 30;
+				search_count = 1;
+				all_products = [];
+				products = [];
+				search_products = [];
 				this.productList = []
 				that.get_productList();
 			}
@@ -398,7 +404,7 @@
 						all_products[index] = (typeof item == 'object') ? item : JSON.parse(item)
 						all_products[index].num = 1;
 						all_products[index].total_money = 1 * all_products[index].retailPrice;
-						all_products[index].really_total_money = 1 * all_products[index].costPrice;
+						all_products[index].really_total_money = 1 * all_products[index].retailPrice;
 						all_products[index].modify_retailPrice = all_products[index].retailPrice;
 						index += 1;
 					}

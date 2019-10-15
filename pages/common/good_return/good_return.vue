@@ -49,6 +49,7 @@
 		
 		onLoad() {
 			this.products = uni.getStorageSync("products");
+			uni.removeStorageSync("is_option");
 			let key = 0;
 			for (let item of uni.getStorageSync("products")) {
 				console.log(item)

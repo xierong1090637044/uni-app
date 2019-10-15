@@ -54,6 +54,7 @@
 
 		onLoad(options) {
 			this.products = []
+			uni.removeStorageSync("is_option")
 			uid = uni.getStorageSync("uid")
 
 			if (options.id) {
@@ -119,6 +120,7 @@
 					new_good.stocks= good.stocks
 					new_good.stocktype= good.stocktype
 					new_good.total_money= good.total_money
+					new_good.really_total_money= good.really_total_money
 					new_good.updatedAt= good.updatedAt
 					new_good.userId= good.userId
 					new_good.warning_num=good.warning_num
@@ -141,6 +143,7 @@
 				//console.log($event,index)
 				this.products[index].num = Number($event)
 				this.products[index].total_money = Number($event) * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = Number($event) * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)
 			},
 

@@ -56,6 +56,7 @@
 
 		onLoad(options) {
 			uid = uni.getStorageSync("uid")
+			uni.removeStorageSync("is_option")
 
 			if (options.id) {
 				const query = Bmob.Query('Goods');
