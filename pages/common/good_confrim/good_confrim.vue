@@ -69,6 +69,7 @@
 					console.log(res)
 					res[0].num = 1;
 					res[0].total_money = 1 * res[0].costPrice;
+					res[0].really_total_money = 1 * res[0].costPrice;
 					res[0].modify_retailPrice = res[0].costPrice;
 					this.products = res;
 				})
