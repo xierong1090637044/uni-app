@@ -64,6 +64,12 @@
 						url: '/pages/manage/category/category',
 						color: "#426ab3"
 					},
+					{
+						name: '单品统计',
+						icon: 'quora',
+						url: '/pages/manage/productCount/productCount',
+						color: "#65c294"
+					},
 				]
 			}
 		},

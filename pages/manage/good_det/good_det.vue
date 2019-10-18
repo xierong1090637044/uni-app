@@ -53,7 +53,7 @@
 					<view class="display_flex">
 						<view class="opion_item" @click="show_qrcode(item)">生成二维码</view>
 						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+item.good_id" class="opion_item">客户统计</navigator>
-						<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id" class="opion_item">此产品的操作记录</navigator>
+						<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id+'&goodsName='+product.goodsName" class="opion_item">此产品的操作记录</navigator>
 					</view>
 					<view class="display_flex">
 						<view class="opion_item" @click='print_info(item)'>打印</view>

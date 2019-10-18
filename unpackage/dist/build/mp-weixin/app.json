@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/manage/operations/operations",
     "pages/report/chart/chart",
     "pages/mine/vip/vip",
     "pages/manage/shops/record/record",
@@ -32,7 +33,6 @@
     "pages/mine/setting/setting",
     "pages/manage/custom/custom",
     "pages/manage/custom/add/add",
-    "pages/manage/operations/operations",
     "pages/manage/manage",
     "pages/manage/category/category",
     "pages/common/good_confrim/good_confrim",
