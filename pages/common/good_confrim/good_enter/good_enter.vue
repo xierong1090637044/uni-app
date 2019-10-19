@@ -14,7 +14,6 @@
 					</view>
 				</view>
 			</view>
-			<view class='pro_allmoney'>总计：￥{{all_money}}</view>
 
 			<form @submit="formSubmit" report-submit="true">
 
@@ -37,24 +36,38 @@
 						</navigator>
 
 						<view class="display_flex" style="padding: 10rpx 0;">
-							<view>实际应付</view>
-							<view class="kaidan_rightinput"><input placeholder="选择供货商" disabled="true" :value="all_money" /></view>
+							<view>发货方式</view>
+							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
+								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" />
+							</picker>
 						</view>
-
+						<view class="display_flex" style="padding: 10rpx 0;" v-if="outType.type == 2 || outType.type == 3">
+							<view>快递单号</view>
+							<view class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
+								<input placeholder="请输入快递单号" v-model="expressNum" />
+							</view>
+						</view>
 						<view class="display_flex" style="padding: 10rpx 0;">
-							<view>实际付款（可修改）</view>
+							<view>实际付款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>
+
 					</view>
 				</view>
-
 
 				<view style='margin-top:20px'>
 					<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
 				</view>
 
-				<view style="padding: 0 30rpx;margin-top: 60rpx;">
-					<button class='confrim_button' :disabled='button_disabled' form-type="submit">确认入库</button>
+				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
+					<view>
+						<text>合计：￥{{all_money}}</text>
+					</view>
+					<view class="display_flex">
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">入库</button>
+					</view>
+
 				</view>
 			</form>
 
@@ -84,8 +97,27 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
-				really_total_money:0,//实际的总价
+				really_total_money: 0, //实际的总价
 				producer: null, //制造商
+				outType: '', //发货方式
+				pickerTypes: [{
+						desc: "自提",
+						type: 1
+					},
+					{
+						desc: "快递",
+						type: 2
+					},
+					{
+						desc: "物流",
+						type: 3
+					},
+					{
+						desc: "送货上门",
+						type: 4
+					},
+				],
+				expressNum:'',//快递单号
 			}
 		},
 		onLoad() {
@@ -113,10 +145,20 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
-
+			//选择物流方式
+			select_outType(e){
+				//console.log(e)
+				that.outType = that.pickerTypes[e.detail.value]
+				if(that.outType.type !=2 || that.outType.type !=3){
+					that.expressNum = ''
+				}
+			},
+			
+			//表单提交
 			formSubmit: function(e) {
 				console.log(e)
 				let fromid = e.detail.formId
+				let extraType = Number(e.detail.target.dataset.type) // 判断是采购还是入库
 				this.button_disabled = true;
 				uni.showLoading({
 					title: "上传中..."
@@ -152,6 +194,7 @@
 					tempBills.set('userId', user);
 					tempBills.set("opreater", poiID2);
 					tempBills.set('type', 1);
+					tempBills.set('extra_type', extraType);
 					(shop) ? tempBills.set("shop", shopId): '';
 					tempBills.set("stock", stockId);
 
@@ -193,6 +236,7 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("detail", detailObj);
 						query.set("type", 1);
+						query.set("extra_type", extraType);
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
@@ -221,7 +265,11 @@
 								})
 							}
 						}
-
+						
+						if(that.outType){
+							query.set("typeDesc", that.outType.desc);
+							query.set("expressNum", that.expressNum);
+						}
 						query.set("all_money", that.all_money);
 						query.save().then(res => {
 							console.log("添加操作历史记录成功", res);
@@ -265,7 +313,7 @@
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
-										
+
 										common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 1, res.objectId);
 
@@ -285,13 +333,13 @@
 												"color": "#173177"
 											},
 											"keyword2": {
-												"value":  e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+												"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 											},
 											"keyword3": {
 												"value": res.createdAt
 											},
 											"keyword4": {
-												"value":  uni.getStorageSync("user").nickName,
+												"value": uni.getStorageSync("user").nickName,
 											}
 										}
 										params1.form_Id = fromid
@@ -398,6 +446,15 @@
 		overflow: scroll;
 	}
 
+	.bottomEle {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: calc(100% - 30rpx);
+		background: #FAFAFA;
+		padding: 20rpx 0rpx 20rpx 30rpx;
+	}
+
 	.pro_list {
 		display: flex;
 		justify-content: space-between;
@@ -426,9 +483,10 @@
 	}
 
 	.confrim_button {
-		background: #aa2116;
+		background: #1651aa;
 		color: #fff;
 		font-weight: bold;
 		font-size: 32rpx;
+		border-radius: unset;
 	}
 </style>

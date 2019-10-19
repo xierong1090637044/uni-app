@@ -14,6 +14,19 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.5 公测版</text>
+						<text class="desc-time">2019.10.19</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						 <text>新增产品报表页面</text>
+						 <text>新增单品统计页面</text>
+						 <text>支持连续扫码添加产品</text>
+						 <text>一些bug修复</text>
+					</view>
+				</view>
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.4 公测版</text>
 						<text class="desc-time">2019.10.09</text>
 					</view>

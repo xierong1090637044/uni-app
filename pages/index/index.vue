@@ -102,12 +102,12 @@
 				weather: '',
 				logsList: [],
 				optionsLists: [{
-						name: '产品入库',
+						name: '采购或入库',
 						icon: '/static/entering.png',
 						url: '/pages/common/goods-select/goods-select?type=entering'
 					},
 					{
-						name: '产品出库',
+						name: '销售或出库',
 						icon: '/static/delivery.png',
 						url: '/pages/common/goods-select/goods-select?type=delivery'
 					},

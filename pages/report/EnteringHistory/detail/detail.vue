@@ -89,6 +89,15 @@
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;">
+							<view class="display_flex">
+								<view class="left_content">发送方式</view>
+								<view class="real_color">{{detail.typeDesc}}</view>
+							</view>
+							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
+								<view class="real_color">{{detail.expressNum}}</view>
+							</view>
+						</view>
 					</view>
 				</view>
 
@@ -106,6 +115,15 @@
 						<view class="display_flex" v-if="detail.debt > 0">
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
+						</view>
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;">
+							<view class="display_flex">
+								<view class="left_content">发送方式</view>
+								<view class="real_color">{{detail.typeDesc}}</view>
+							</view>
+							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
+								<view class="real_color">{{detail.expressNum}}</view>
+							</view>
 						</view>
 					</view>
 				</view>

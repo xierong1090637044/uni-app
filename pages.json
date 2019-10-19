@@ -7,9 +7,9 @@
 			}
 		},
 		{
-			"path": "pages/common/good_confrim/good_confrim",
+			"path": "pages/common/goods_out/out_detail/out_detail",
 			"style": {
-				"navigationBarTitleText": "产品入库"
+				"navigationBarTitleText": "出库详情"
 			}
 		},
 		{
@@ -18,6 +18,13 @@
 				"navigationBarTitleText": "入库详情"
 			}
 		},
+		{
+			"path": "pages/common/good_confrim/good_confrim",
+			"style": {
+				"navigationBarTitleText": "产品入库"
+			}
+		},
+		
 		
 		{
 			"path": "pages/manage/productCount/productCount",
@@ -165,12 +172,7 @@
 				"navigationBarTitleText": "退货详情"
 			}
 		},
-		{
-			"path": "pages/common/goods_out/out_detail/out_detail",
-			"style": {
-				"navigationBarTitleText": "出库详情"
-			}
-		},
+		
 		{
 			"path": "pages/manage/staff/staff",
 			"style": {

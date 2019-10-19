@@ -1,8 +1,9 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/common/good_confrim/good_confrim",
+    "pages/common/goods_out/out_detail/out_detail",
     "pages/common/good_confrim/good_enter/good_enter",
+    "pages/common/good_confrim/good_confrim",
     "pages/manage/productCount/productCount",
     "pages/manage/operations/operations",
     "pages/report/chart/chart",
@@ -25,7 +26,6 @@
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
     "pages/common/good_return/return_detail/return_detail",
-    "pages/common/goods_out/out_detail/out_detail",
     "pages/manage/staff/staff",
     "pages/manage/shops/shops",
     "pages/manage/warehouse/warehouse",
@@ -113,5 +113,6 @@
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "nocontent": "/components/No_content"
-  }
+  },
+  "sitemapLocation": "sitemap44.json"
 }

@@ -49,11 +49,17 @@
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 									</view>
 								</view>
-								<view v-if='item.type == -1' class='order_out'>出库</view>
+								<view v-if='item.type == -1' class='order_out'>
+									 <text v-if="item.extra_type == 1">销售</text>
+									 <text v-else>出库</text>
+								</view>
 								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
 								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-								<view v-else class='order_get'>入库</view>
+								<view v-else-if='item.type == 1' class='order_get'>
+									<text v-if="item.extra_type == 1">采购</text>
+									<text v-else>入库</text>
+								</view>
 							</view>
 						</view>
 
@@ -285,6 +291,7 @@
 
 			//得到列表
 			get_list() {
+				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', opeart_type);
@@ -310,6 +317,7 @@
 					//console.log(res)
 					this.list = res;
 					this.loading = false;
+					wx.hideLoading()
 				});
 			},
 
