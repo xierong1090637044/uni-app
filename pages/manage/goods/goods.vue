@@ -8,7 +8,7 @@
 			 @click-right="goto_add" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm"  @blur="input_confirm"/>
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm"  @blur="input_confirm" :value="search_text"/>
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -142,16 +142,21 @@
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
 				stock_checked: false,
+				search_text:''
 			}
 		},
 
-		onLoad() {
+		onLoad(option) {
 			that = this;
 			uni.removeStorageSync("category");
 			uni.removeStorageSync("warehouse");
 
 			uid = uni.getStorageSync('uid');
-
+			
+			if(option.search_text){
+				that.search_text = option.search_text
+				search_text = option.search_text
+			}
 			that.get_productList();
 		},
 		onShow() {

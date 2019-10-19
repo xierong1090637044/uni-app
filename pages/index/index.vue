@@ -2,24 +2,9 @@
 	<!--当月详情-->
 	<view>
 		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="微信搜索服务号'库存表',记得关注我们哦!" />
-
-		<view style="background: #426ab3;" v-if="weather">
-			<view class="display_flex" style="padding: 20rpx 30rpx 10rpx;">
-				<fa-icon :type="welcome.icon" size="20" color="#fdb933" />
-				<text style="font-weight: bold;margin-left: 10rpx;color: #fff;">{{welcome.text}}</text>
-			</view>
-			<view style="padding: 0 30rpx 10rpx;color: #fff;font-size: 24rpx;" class="display_flex_bet">
-				<view class="display_flex">
-					<view>{{weather.city.data}}</view>
-					<view style="margin-left: 10px;">{{weather.temperature.data}}℃</view>
-				</view>
-				<view class="display_flex">
-					<view>{{weather.weather.data}}</view>
-					<view style="margin-left: 10px;">{{weather.winddirection.data}} {{weather.windpower.data}}</view>
-				</view>
-			</view>
+		<view class="fristSearchView">
+			<uni-search-bar :radius="100" @confirm="search" color="#fff"/>
 		</view>
-
 		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
 			<block>
 				<swiper-item class="item">
@@ -92,6 +77,7 @@
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 
 	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
@@ -104,7 +90,8 @@
 	export default {
 		components: {
 			faIcon,
-			uniNoticeBar
+			uniNoticeBar,
+			uniSearchBar
 		},
 		data() {
 			return {
@@ -156,44 +143,6 @@
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
-
-			let now = new Date();
-			let hour = now.getHours(); //得到小时
-			let myAmapFun = new amapFile.AMapWX({
-				key: 'ddf21583182190befcf92c027b97f8ab'
-			});
-			myAmapFun.getWeather({
-				success: function(data) {
-					console.log(data)
-					that.weather = data
-
-					if (hour < 6) {
-						console.log(hour)
-						that.welcome.text = "凌晨注意休息！好的身体才能高效的工作"
-						that.welcome.icon = "moon-o"
-					} else if (hour < 9) {
-						that.welcome.text = "早上好，又是开心快乐的一天！"
-						that.welcome.icon = "sun-o"
-					} else if (hour < 11) {
-						that.welcome.text = "上午好，请努力加油哦，会成功的！"
-						that.welcome.icon = "sun-o"
-					} else if (hour < 14) {
-						that.welcome.text = "中午好，辛勤劳动的你是最可爱的！"
-						that.welcome.icon = "sun-o"
-					} else if (hour < 18) {
-						that.welcome.text = "下午好，没有什么会阻挡你的，相信自己！"
-						that.welcome.icon = "sun-o"
-					} else {
-						that.welcome.text = "晚上好，更深露重，适当工作，适当休息！"
-						that.welcome.icon = "sun-o"
-					}
-					//成功回调
-				},
-				fail: function(info) {
-					//失败回调
-					console.log(info)
-				}
-			})
 		},
 
 		onShow() {
@@ -215,6 +164,16 @@
 		},
 
 		methods: {
+			
+			//首页搜索
+			search(e){
+				console.log(e)
+				let search_text = e.value
+				uni.navigateTo({
+					url:"/pages/manage/goods/goods?search_text="+search_text
+				})
+			},
+			
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
@@ -332,6 +291,10 @@
 </script>
 
 <style>
+	.fristSearchView{
+		padding: 10rpx 30rpx;
+		background: #426ab3;
+	}
 	.scan_code {
 		position: fixed;
 		width: calc(100% - 60rpx);

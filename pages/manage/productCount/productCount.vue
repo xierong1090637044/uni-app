@@ -10,13 +10,21 @@
 				<fa-icon type="angle-down" size="20" color="#999" />
 			</picker>
 		</view>
+		<view class="display_flex_bet" style="padding: 20rpx 30rpx;">
+			<view class="input_goodname"><input placeholder="请输入产品名字" @confirm="seachGoodName" @blur="seachGoodName" style="height: 60rpx;"/></view>
+
+			<navigator class="display_flex" hover-class="none" url="/pages/manage/category/category?type=choose">
+				<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true" style="width: 140rpx;"></input></view>
+				<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+			</navigator>
+		</view>
 		<view style="padding: 4rpx 30rpx;">
 			<view style="background: #90d7ec;padding: 10rpx 0;" class="display_flex_bet">
 				<view class="Listitem" style="padding: 0 10rpx;">产品名称</view>
 				<view class="Listitem" style="padding: 0 10rpx;">当前库存</view>
 				<view class="Listitem">进</view>
 				<view class="Listitem">出</view>
-				<view class="Listitem">成本</view>
+				<view class="Listitem">总成本</view>
 				<view class="Listitem">销售额</view>
 			</view>
 		</view>
@@ -52,11 +60,14 @@
 				pageSize: 30,
 				pageNum: 1,
 				is_selected: false,
+				searchGoodName:'',//搜索的产品名字
+				category:'',//搜索的类别
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = wx.getStorageSync("uid");
+			uni.removeStorageSync("category")
 
 			let data = new Date()
 			let year = data.getFullYear();
@@ -68,29 +79,44 @@
 			endTime = common.getDay(0);
 			that.getdetail();
 		},
+		
+		onShow() {
+			if (uni.getStorageSync("category")) {
+				that.category = uni.getStorageSync("category")
+				that.is_selected = false
+				that.getdetail()
+			}
+		},
+		
 		methods: {
+			
+			//输入产品的名字触发
+			seachGoodName(e){
+				that.is_selected = true
+				that.searchGoodName = e.detail.value
+				that.getdetail()
+			},
 
 			//选择开始日期
 			selected_startday(e) {
 				that.starttime = e.detail.value
-				that.getdetail()
-
 				if (that.starttime == startTime && that.endtime == endTime) {
 					that.is_selected = false
 				} else {
 					that.is_selected = true
 				}
+				that.getdetail()
 			},
 
 			//选择结束日期
 			selected_endday(e) {
 				that.endtime = e.detail.value
-				that.getdetail()
 				if (that.starttime == startTime && that.endtime == endTime) {
 					that.is_selected = false
 				} else {
 					that.is_selected = true
 				}
+				that.getdetail()
 			},
 
 			getdetail() {
@@ -101,13 +127,16 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("createdAt", ">=", that.starttime + " 00:00:00");
 				query.equalTo("createdAt", "<=", that.endtime + " 23:59:59");
+				query.equalTo("goodsName", "==", {
+					"$regex": "" + that.searchGoodName + ".*"
+				});
 				const query1 = query.equalTo("type", '==', 1);
 				const query2 = query.equalTo("type", '==', -1);
 				query.or(query1, query2);
 				query.include("goodsId");
 				query.statTo("sum", "num,total_money");
 				query.statTo("groupby", "goodsId,type");
-				query.statTo("order", "_sumnum");
+				query.statTo("order", "-_sumnum");
 				query.find().then(res => {
 					uni.hideLoading()
 					//console.log(res)
@@ -169,6 +198,11 @@
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
+					if(that.category.type == 1){
+						query.equalTo("goodsClass", "==", that.category.objectId);
+					}else{
+						query.equalTo("second_class", "==", that.category.objectId);
+					}
 					query.select("goodsName,reserve");
 					query.limit(500)
 					query.find().then(res => {
@@ -195,7 +229,7 @@
 					console.log(compareGoods)
 					that.dataList = compareGoods
 				}
-				
+
 				wx.hideLoading()
 			},
 
@@ -209,7 +243,12 @@
 		color: #3D3D3D;
 		background: #FFFFFF;
 	}
-
+	.input_goodname{
+		background: #E5E5E5;
+		border-radius: 40rpx;
+		padding: 0 20rpx;
+		font-size: 24rpx;
+	}
 	.Listitem {
 		width: 16.66%;
 		text-align: center;
