@@ -1,7 +1,7 @@
 <template>
 	
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this" leftIcon="scan" left-text="扫码" @click-left="scanGoods">
 		</uni-nav-bar>
 		<view class="page">
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
@@ -61,6 +61,40 @@
 		},
 
 		methods: {
+			//扫码
+			scanGoods(){
+				uni.scanCode({
+					success(res) {
+						let result = res.result;
+						let array = result.split("-");
+				
+						const query = Bmob.Query('Goods');
+						if (array[1] == "false") {
+							query.equalTo("objectId", "==", array[0]);
+						} else {
+							query.equalTo("productCode", "==", array[0])
+						}
+						query.equalTo("userId", "==", uid);
+						query.find().then(res => {
+							console.log(res)
+							for(let item of res){
+								item.num = 1;
+								item.total_money = 1 * item.retailPrice;
+								item.really_total_money = 1 * item.retailPrice;
+								item.modify_retailPrice = item.retailPrice;
+							}
+							that.products = that.products.concat(res);
+						})
+					},
+					fail(res) {
+						uni.showToast({
+							title: '未识别到条形码',
+							icon: "none"
+						})
+					}
+				})
+			},
+			
 			make_goods(good, selectd_model, key) {
 				console.log(good, selectd_model, key)
 				let model_goods = []

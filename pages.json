@@ -1,12 +1,24 @@
 {
 	"pages": [
-		
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},
+		{
+			"path": "pages/common/good_confrim/good_confrim",
+			"style": {
+				"navigationBarTitleText": "产品入库"
+			}
+		},
+		{
+			"path": "pages/common/good_confrim/good_enter/good_enter",
+			"style": {
+				"navigationBarTitleText": "入库详情"
+			}
+		},
+		
 		{
 			"path": "pages/manage/productCount/productCount",
 			"style": {
@@ -160,13 +172,6 @@
 			}
 		},
 		{
-			"path": "pages/common/good_confrim/good_enter/good_enter",
-			"style": {
-				"navigationBarTitleText": "入库详情"
-			}
-		},
-
-		{
 			"path": "pages/manage/staff/staff",
 			"style": {
 				"navigationBarTitleText": "员工管理"
@@ -239,12 +244,7 @@
 			}
 		},
 
-		{
-			"path": "pages/common/good_confrim/good_confrim",
-			"style": {
-				"navigationBarTitleText": "产品入库"
-			}
-		},
+		
 
 		{
 			"path": "pages/report/report",
