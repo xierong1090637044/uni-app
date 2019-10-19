@@ -488,5 +488,6 @@
 		font-weight: bold;
 		font-size: 32rpx;
 		border-radius: unset;
+		padding: 0 50rpx;
 	}
 </style>

@@ -1,6 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/common/goods_out/out_detail/out_detail",
+    "pages/common/good_confrim/good_enter/good_enter",
+    "pages/common/good_confrim/good_confrim",
+    "pages/manage/productCount/productCount",
     "pages/manage/operations/operations",
     "pages/report/chart/chart",
     "pages/mine/vip/vip",
@@ -22,8 +26,6 @@
     "pages/report/EnteringHistory/EnteringHistory",
     "pages/common/goods-select/goods-select",
     "pages/common/good_return/return_detail/return_detail",
-    "pages/common/goods_out/out_detail/out_detail",
-    "pages/common/good_confrim/good_enter/good_enter",
     "pages/manage/staff/staff",
     "pages/manage/shops/shops",
     "pages/manage/warehouse/warehouse",
@@ -35,7 +37,6 @@
     "pages/manage/custom/add/add",
     "pages/manage/manage",
     "pages/manage/category/category",
-    "pages/common/good_confrim/good_confrim",
     "pages/report/report",
     "pages/report/EnteringHistory/detail/detail",
     "pages/common/goods_out/goods_out",

@@ -419,6 +419,7 @@
 	}
 
 	.confrim_button {
+		padding: 0 50rpx;
 		background: #1651aa;
 		color: #fff;
 		font-weight: bold;

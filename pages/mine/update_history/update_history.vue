@@ -21,6 +21,7 @@
 					<view class="desc-list">
 						 <text>新增产品报表页面</text>
 						 <text>新增单品统计页面</text>
+						 <text>新增采购、销售操作以及发货方式选项</text>
 						 <text>支持连续扫码添加产品</text>
 						 <text>一些bug修复</text>
 					</view>
@@ -130,7 +131,7 @@
 	export default {
 		data() {
 			return {
-				version:"1.0.4",
+				version:"1.0.5",
 				year: new Date().getFullYear()
 			}
 		},
