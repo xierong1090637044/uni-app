@@ -39,6 +39,7 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 
 	let uid;
+	let that;
 	export default {
 		components: {
 			unicard,
@@ -56,6 +57,7 @@
 
 		onLoad(options) {
 			uid = uni.getStorageSync("uid")
+			that = this;
 			uni.removeStorageSync("is_option")
 
 			if (options.id) {

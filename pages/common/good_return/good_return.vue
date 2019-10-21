@@ -33,6 +33,7 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	
+	let that;
 	export default {
 		components: {
 			unicard,
@@ -49,6 +50,7 @@
 		
 		onLoad() {
 			this.products = uni.getStorageSync("products");
+			that = this
 			uni.removeStorageSync("is_option");
 			let key = 0;
 			for (let item of uni.getStorageSync("products")) {

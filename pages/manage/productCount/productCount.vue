@@ -1,11 +1,11 @@
 <template>
 	<view class="uni-tab-bar">
 		<view class="display_flex_bet" style="padding: 30rpx 0;border-bottom: 6rpx solid#DDDDDD;">
-			<picker class="frist_item display_flex" mode="date" @change="selected_startday" fields="day">
+			<picker class="frist_item display_flex" mode="date" @change="selected_startday" fields="day" :start="starttime">
 				<text style="margin-right: 10rpx;">{{starttime}}</text>
 				<fa-icon type="angle-down" size="20" color="#999" />
 			</picker>
-			<picker class="frist_item display_flex" mode="date" @change="selected_endday" fields="day">
+			<picker class="frist_item display_flex" mode="date" @change="selected_endday" fields="day" :start="endtime">
 				<text style="margin-right: 10rpx;">{{endtime}}</text>
 				<fa-icon type="angle-down" size="20" color="#999" />
 			</picker>

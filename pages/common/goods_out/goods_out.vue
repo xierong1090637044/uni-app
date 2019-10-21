@@ -38,6 +38,7 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	
 	let uid;
+	let that;
 	export default {
 		components: {
 			unicard,
@@ -56,6 +57,7 @@
 			console.log(options)
 			uni.removeStorageSync("is_option")
 			uid = uni.getStorageSync("uid")
+			that = this
 			if (options.id) {
 				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
