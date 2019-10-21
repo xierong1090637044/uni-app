@@ -31,7 +31,7 @@
 					<checkbox-group @change="radioChange">
 						<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 							<view>
-								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
+								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index"
 								 :id="''+index" :checked="product.checked" />
 							</view>
 
@@ -490,7 +490,6 @@
 	page {
 		background: #FFFFFF;
 	}
-
 	.text_notice {
 		margin-left: 6rpx;
 	}

@@ -13,7 +13,7 @@
 
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 							<view>实际进货价(可修改)：</view>
-							<view><input :placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+							<view><input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 						</view>
 						<view class='input_withlabel' v-else>
 							<view>实际进货价(可修改)：</view>

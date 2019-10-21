@@ -409,6 +409,9 @@
 		]
 	},
 	"globalStyle": {
+		// #ifdef H5
+		"navigationStyle": "custom",
+		// #endif
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "库存表",
 		"navigationBarBackgroundColor": "#426ab3",

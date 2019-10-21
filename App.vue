@@ -4,6 +4,7 @@
 	export default {
 		onLaunch: function() {
 			
+			// #ifdef MP-WEIXIN
 			const updateManager = uni.getUpdateManager();
 			updateManager.onCheckForUpdate(function (res) {
 			  // 请求完新版本信息的回调
@@ -21,9 +22,6 @@
 			    }
 			  });
 			});
-			
-
-			// #ifdef APP-PLUS || MP-WEIXIN
 			Bmob.User.auth().then(res => {}).catch(err => {console.log(err)});
 			// #endif
 
@@ -73,8 +71,10 @@
 <style lang="scss">
 	/*每个页面公共css */
 	@import 'uni.css';
+	/* #ifdef MP-WEIXIN */
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
+	/* #endif */
 
 	.text_overflow {
 		overflow: hidden;
