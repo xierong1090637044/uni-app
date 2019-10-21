@@ -62,6 +62,7 @@
 			uni.removeStorageSync("is_option")
 
 			if (options.id) {
+				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
@@ -82,7 +83,7 @@
 						res[0].modify_retailPrice = res[0].retailPrice;
 						this.products = res;
 					}
-
+					uni.hideLoading()
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
@@ -95,6 +96,7 @@
 			scanGoods() {
 				uni.scanCode({
 					success(res) {
+						uni.showLoading({title:"加载中..."})
 						let result = res.result;
 						let array = result.split("-");
 
@@ -121,6 +123,7 @@
 								}
 								that.products = that.products.concat(res);
 							}
+							uni.hideLoading()
 						})
 					},
 					fail(res) {

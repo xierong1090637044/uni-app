@@ -153,6 +153,7 @@
 			//得到产品详情 有id
 			getDetail_byId(id,type){
 				let stocks = [];
+				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query('Goods');
 				if (type == "false") {
 					query.equalTo("objectId", "==", id);
@@ -197,6 +198,7 @@
 						this.product.all_reserve = all_reserve;
 						this.product.stocks = stocks
 						that.loading = false
+						uni.hideLoading()
 						console.log(this.product)
 					})
 				})
@@ -208,6 +210,7 @@
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
 				
+				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
@@ -242,6 +245,7 @@
 					this.product.all_reserve = all_reserve;
 					this.product.stocks = stocks
 					that.loading = false
+					uni.hideLoading()
 					console.log(this.product)
 				})
 			},

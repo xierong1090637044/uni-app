@@ -69,6 +69,7 @@
 			scanGoods() {
 				uni.scanCode({
 					success(res) {
+						uni.showLoading({title:"加载中..."})
 						let result = res.result;
 						let array = result.split("-");
 
@@ -95,7 +96,7 @@
 								}
 								that.products = that.products.concat(res);
 							}
-
+							uni.hideLoading()
 						})
 					},
 					fail(res) {
