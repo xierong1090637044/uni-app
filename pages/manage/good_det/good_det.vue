@@ -11,7 +11,8 @@
 			<view class="second">
 				<view class="second_one">
 					<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.goodsName}}</view>
-					<view>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice?product.costPrice:"未填写"}}</text></view>
+					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+					<view v-else>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice?product.costPrice:"未填写"}}</text></view>
 					<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice ?product.retailPrice:"未填写"}}</text></view>
 				</view>
 
@@ -116,6 +117,7 @@
 		},
 		data() {
 			return {
+				user: uni.getStorageSync("user"),
 				badnum: {
 					num: '',
 					desc: '',
@@ -411,7 +413,7 @@
 							query.save().then(res => {
 
 								if (accessory) {
-									uni.navigateTo({
+									uni.redirectTo({
 										url: '../goods/goods'
 									});
 
@@ -428,7 +430,7 @@
 											console.log(res)
 											res.set('accessory', false)
 											res.save()
-											uni.navigateTo({
+											uni.redirectTo({
 												url: '../goods/goods'
 											});
 
@@ -441,7 +443,7 @@
 											console.log(err)
 										})
 									} else {
-										uni.navigateTo({
+										uni.redirectTo({
 											url: '../goods/goods'
 										});
 

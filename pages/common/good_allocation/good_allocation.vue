@@ -1,21 +1,22 @@
 <template>
 
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this" leftIcon="scan" left-text="扫码" @click-left="scanGoods">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this"
+		 leftIcon="scan" left-text="扫码" @click-left="scanGoods">
 		</uni-nav-bar>
 		<view class="page">
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
 						<view style="margin-bottom: 10rpx;">可调数量：{{item.reserve}}</view>
-						
+
 						<view class='margin-t-5 display_flex'>
 							调出仓库：
 							<view>{{stock.stock_name}}</view>
 						</view>
 						<view class='margin-t-5'>
 							调出库存：
-							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="item.reserve"/>
+							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="item.reserve" />
 						</view>
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">
@@ -51,7 +52,7 @@
 		data() {
 			return {
 				products: null,
-				stock:uni.getStorageSync("warehouse")[0].stock
+				stock: uni.getStorageSync("warehouse")[0].stock
 			}
 		},
 
@@ -70,10 +71,18 @@
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
 					console.log(res)
-					res[0].num = 1;
-					res[0].total_money = 1 * res[0].retailPrice;
-					res[0].modify_retailPrice = res[0].retailPrice;
-					this.products = res;
+					if (res[0].status == -1) {
+						uni.showToast({
+							title: "该产品已删除",
+							icon: "none"
+						})
+					} else {
+						res[0].num = 1;
+						res[0].total_money = 1 * res[0].retailPrice;
+						res[0].modify_retailPrice = res[0].retailPrice;
+						this.products = res;
+					}
+
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
@@ -83,12 +92,12 @@
 
 		methods: {
 			//扫码
-			scanGoods(){
+			scanGoods() {
 				uni.scanCode({
 					success(res) {
 						let result = res.result;
 						let array = result.split("-");
-				
+
 						const query = Bmob.Query('Goods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
@@ -98,13 +107,20 @@
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
 							console.log(res)
-							for(let item of res){
-								item.num = 1;
-								item.total_money = 1 * item.retailPrice;
-								item.really_total_money = 1 * item.retailPrice;
-								item.modify_retailPrice = item.retailPrice;
+							if (res[0].status == -1) {
+								uni.showToast({
+									title: "该产品已删除",
+									icon: "none"
+								})
+							} else {
+								for (let item of res) {
+									item.num = 1;
+									item.total_money = 1 * item.retailPrice;
+									item.really_total_money = 1 * item.retailPrice;
+									item.modify_retailPrice = item.retailPrice;
+								}
+								that.products = that.products.concat(res);
 							}
-							that.products = that.products.concat(res);
 						})
 					},
 					fail(res) {
@@ -115,16 +131,18 @@
 					}
 				})
 			},
-			
+
 			//头部确定点击
-			confrim_this(){
-				uni.navigateTo({url:"/pages/common/good_allocation/allocation_detail/allocation_detail"})
+			confrim_this() {
+				uni.navigateTo({
+					url: "/pages/common/good_allocation/allocation_detail/allocation_detail"
+				})
 			},
-			
+
 			//数量改变
 			handleNumChange($event, index) {
 				//console.log($event,index)
-				this.products[index].num = $event?$event:0
+				this.products[index].num = $event ? $event : 0
 				this.products[index].total_money = $event * Number(this.products[index].modify_retailPrice)
 				uni.setStorageSync("products", this.products)
 			},

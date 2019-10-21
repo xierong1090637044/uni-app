@@ -34,8 +34,9 @@
 							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
 					</navigator>
-
-					<view class="input_item">
+					
+					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+					<view class="input_item" v-else>
 						<view class="left_item">进价</view>
 						<view class="right_input1"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
 					</view>
@@ -137,6 +138,7 @@
 		},
 		data() {
 			return {
+				user: uni.getStorageSync("user"),
 				text_desc: "保存",
 				goodsName: '',
 				costPrice: '', //进价

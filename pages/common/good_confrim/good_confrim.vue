@@ -1,14 +1,21 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this" leftIcon="scan" left-text="扫码" @click-left="scanGoods">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this"
+		 leftIcon="scan" left-text="扫码" @click-left="scanGoods">
 		</uni-nav-bar>
 		<view class="page">
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
 						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-						<view>期初进货价：{{item.costPrice}}(元)</view>
-						<view class='input_withlabel'>
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+						<view v-else>期初进货价：{{item.costPrice}}(元)</view>
+
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+							<view>实际进货价(可修改)：</view>
+							<view><input :placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+						</view>
+						<view class='input_withlabel' v-else>
 							<view>实际进货价(可修改)：</view>
 							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 						</view>
@@ -49,7 +56,8 @@
 		},
 		data() {
 			return {
-				products: []
+				products: [],
+				user: uni.getStorageSync("user")
 			}
 		},
 
@@ -69,22 +77,29 @@
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
 					console.log(res)
-					res[0].num = 1;
-					res[0].total_money = 1 * res[0].costPrice;
-					res[0].really_total_money = 1 * res[0].costPrice;
-					res[0].modify_retailPrice = res[0].costPrice;
-					this.products = res;
+					if (res[0].status == -1) {
+						uni.showToast({
+							title: "该产品已删除",
+							icon: "none"
+						})
+					} else {
+						res[0].num = 1;
+						res[0].total_money = 1 * res[0].costPrice;
+						res[0].really_total_money = 1 * res[0].costPrice;
+						res[0].modify_retailPrice = res[0].costPrice;
+						this.products = res;
+					}
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
-				
+
 				let key = 0;
 				for (let item of uni.getStorageSync("products")) {
 					console.log(item)
 					if (item.selectd_model) {
 						this.make_goods(item, item.selectd_model, key)
 					}
-					key +=1;
+					key += 1;
 				}
 
 			}
@@ -93,12 +108,12 @@
 
 		methods: {
 			//扫码
-			scanGoods(){
+			scanGoods() {
 				uni.scanCode({
 					success(res) {
 						let result = res.result;
 						let array = result.split("-");
-				
+
 						const query = Bmob.Query('Goods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
@@ -108,13 +123,20 @@
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
 							console.log(res)
-							for(let item of res){
-								item.num = 1;
-								item.total_money = 1 * item.costPrice;
-								item.really_total_money = 1 * item.costPrice;
-								item.modify_retailPrice = item.costPrice;
+							if (res[0].status == -1) {
+								uni.showToast({
+									title: "该产品已删除",
+									icon: "none"
+								})
+							} else {
+								for (let item of res) {
+									item.num = 1;
+									item.total_money = 1 * item.costPrice;
+									item.really_total_money = 1 * item.costPrice;
+									item.modify_retailPrice = item.costPrice;
+								}
+								that.products = that.products.concat(res);
 							}
-							that.products = that.products.concat(res);
 						})
 					},
 					fail(res) {
@@ -125,42 +147,43 @@
 					}
 				})
 			},
-			
+
 			//排列产品
 			make_goods(good, selectd_model, key) {
 				console.log(good, selectd_model, key)
 				let model_goods = []
-				this.products.splice(key,1)
+				this.products.splice(key, 1)
 				for (let model of JSON.parse(selectd_model)) {
-					let new_good ={}
+					let new_good = {}
 					new_good.reserve = JSON.parse(model).reserve
-					new_good.costPrice= good.costPrice
-					new_good.createdAt= good.createdAt
-					new_good.goodsIcon= good.goodsIcon
-					new_good.goodsName= good.goodsName+JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(model).custom3.value + JSON.parse(model).custom4.value
-					new_good.is_selected= good.is_selected
-					new_good.key=good.key
-					new_good.models= good.models
-					new_good.modify_retailPrice= good.modify_retailPrice
-					new_good.num= good.num
-					new_good.objectId= good.objectId
-					new_good.packageContent= good.packageContent
-					new_good.packingUnit= good.packingUnit
-					new_good.position= good.position
-					new_good.producer= good.producer
-					new_good.productCode= good.productCode
-					new_good.product_info= good.product_info
-					new_good.product_state= good.product_state
-					new_good.regNumber= good.regNumber
-					new_good.retailPrice= good.retailPrice
-					new_good.selectd_model= good.selectd_model
-					new_good.stocks= good.stocks
-					new_good.stocktype= good.stocktype
-					new_good.total_money= good.total_money
-					new_good.really_total_money= good.really_total_money
-					new_good.updatedAt= good.updatedAt
-					new_good.userId= good.userId
-					new_good.warning_num=good.warning_num
+					new_good.costPrice = good.costPrice
+					new_good.createdAt = good.createdAt
+					new_good.goodsIcon = good.goodsIcon
+					new_good.goodsName = good.goodsName + JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(
+						model).custom3.value + JSON.parse(model).custom4.value
+					new_good.is_selected = good.is_selected
+					new_good.key = good.key
+					new_good.models = good.models
+					new_good.modify_retailPrice = good.modify_retailPrice
+					new_good.num = good.num
+					new_good.objectId = good.objectId
+					new_good.packageContent = good.packageContent
+					new_good.packingUnit = good.packingUnit
+					new_good.position = good.position
+					new_good.producer = good.producer
+					new_good.productCode = good.productCode
+					new_good.product_info = good.product_info
+					new_good.product_state = good.product_state
+					new_good.regNumber = good.regNumber
+					new_good.retailPrice = good.retailPrice
+					new_good.selectd_model = good.selectd_model
+					new_good.stocks = good.stocks
+					new_good.stocktype = good.stocktype
+					new_good.total_money = good.total_money
+					new_good.really_total_money = good.really_total_money
+					new_good.updatedAt = good.updatedAt
+					new_good.userId = good.userId
+					new_good.warning_num = good.warning_num
 					model_goods.push(new_good)
 					//console.log(model_goods,good.reserve)
 				}

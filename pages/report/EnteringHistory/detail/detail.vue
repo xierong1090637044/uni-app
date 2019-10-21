@@ -61,17 +61,25 @@
 					<view style='max-height:50vh;overflow-x:scroll'>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
-								<view>产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
+								<view>产品：{{item.goodsName}}
+								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'"></text>
+								<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
+							 </view>
 							</view>
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
 								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
-								<view v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+								<view v-else>
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0（X{{item.num}}）</text>
+									<text v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</text>
+								</view>
 							</view>
-							<view style="text-align: right;">总价：￥{{item.total_money }}</view>
+							<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
+							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>
 						</view>
 					</view>
-					<view class='pro_allmoney'>总计：￥{{detail.all_money }}</view>
+					<view class='pro_allmoney' v-if="user.rights&&user.rights.othercurrent[0] != '0'">总计：￥{{detail.all_money }}</view>
+					<view class='pro_allmoney' v-else>总计：￥0</view>
 				</view>
 
 				<view v-if="detail.type == -1">
@@ -184,6 +192,7 @@
 		},
 		data() {
 			return {
+				user: uni.getStorageSync("user"),
 				bills: [],
 				loading: true,
 				products: null,

@@ -230,7 +230,8 @@
 			//确定点击
 			goto_add() {
 				uni.showActionSheet({
-					itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
+					//itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
+					itemList: ['单产品上传', '多仓库产品上传'],
 					success: function(res) {
 						let user = uni.getStorageSync("user")
 						let identity = uni.getStorageSync("identity")

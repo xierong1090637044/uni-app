@@ -6,9 +6,14 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
 						<view>产品：{{item.goodsName}}</view>
-						<view>期初进货价：￥{{item.costPrice}}</view>
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">期初进货价：￥0</view>
+						<view v-else>期初进货价：￥{{item.costPrice}}</view>
 					</view>
-					<view class='pro_list'>
+					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+						<view>实际进货价：￥0（X{{item.num}}）</view>
+						<view>合计：￥0</view>
+					</view>
+					<view class='pro_list' v-else>
 						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.total_money}}</view>
 					</view>
@@ -47,7 +52,8 @@
 								<input placeholder="请输入快递单号" v-model="expressNum" />
 							</view>
 						</view>
-						<view class="display_flex" style="padding: 10rpx 0;">
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+						<view class="display_flex" style="padding: 10rpx 0;" v-else>
 							<view>实际付款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>
@@ -60,7 +66,10 @@
 				</view>
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
-					<view>
+					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+						<text>合计：￥0</text>
+					</view>
+					<view v-else>
 						<text>合计：￥{{all_money}}</text>
 					</view>
 					<view class="display_flex">
@@ -90,6 +99,7 @@
 	export default {
 		data() {
 			return {
+				user: uni.getStorageSync("user"),
 				stock: '', //仓库
 				shop_name: '',
 				products: null,

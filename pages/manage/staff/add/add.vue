@@ -79,6 +79,20 @@
 					</uni-collapse-item>
 				</uni-collapse>
 			</view>
+			<view>
+				<uni-collapse>
+					<uni-collapse-item :show-animation="true" title="其他权限">
+						<view style="padding: 30rpx;">
+							<checkbox-group @change="checkboxChange_other">
+								<view class="display_flex rights_item" v-for="(item,index) in others" :key="''+index">
+									<checkbox :value="''+index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
+									<text style="margin-left: 20rpx;">{{item.name}}</text>
+								</view>
+							</checkbox-group>
+						</view>
+					</uni-collapse-item>
+				</uni-collapse>
+			</view>
 
 
 		</view>
@@ -166,8 +180,13 @@
 						name: '经营状况'
 					},
 				],
+				others:[{
+					id: 1,
+					name: '进价隐藏'
+				}],
 				current: [],
 				recodecurrent: [],
+				othercurrent:[],
 			}
 		},
 		onLoad(options) {
@@ -192,6 +211,7 @@
 				that.staff_password = staff.password
 				that.current = []
 				that.recodecurrent = []
+				that.othercurrent = []
 				
 				for(let i of staff.rights.current)
 				{
@@ -206,8 +226,15 @@
 					that.recodecurrent.push(i)
 				}
 				
+				for(let i of staff.rights.othercurrent)
+				{
+					that.others[i].checked = true;
+					that.othercurrent.push(i)
+				}
+				
 				rights.current = that.current
 				rights.recodecurrent = that.recodecurrent
+				rights.othercurrent = that.othercurrent
 			}
 			
 			if(shop){
@@ -241,6 +268,12 @@
 			checkboxChange_record(e) {
 				that.recodecurrent = e.detail.value
 				rights.recodecurrent = e.detail.value;
+			},
+			
+			//其他权限
+			checkboxChange_other(e) {
+				that.othercurrent = e.detail.value
+				rights.othercurrent = e.detail.value;
 			},
 			
 			start_add(){
