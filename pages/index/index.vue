@@ -3,7 +3,7 @@
 	<view>
 		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="微信搜索服务号'库存表',记得关注我们哦!" />
 		<view class="fristSearchView">
-			<uni-search-bar :radius="100" @confirm="search" color="#fff"/>
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
 		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
 			<block>
@@ -138,8 +138,9 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-
-			console.log(options)
+			this.$wechat.share_pyq();
+			mine.query_setting()
+			
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
@@ -164,16 +165,16 @@
 		},
 
 		methods: {
-			
+
 			//首页搜索
-			search(e){
+			search(e) {
 				console.log(e)
 				let search_text = e.value
 				uni.navigateTo({
-					url:"/pages/manage/goods/goods?search_text="+search_text
+					url: "/pages/manage/goods/goods?search_text=" + search_text
 				})
 			},
-			
+
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
@@ -189,6 +190,35 @@
 
 			//扫码操作
 			scan: function(type) {
+				// #ifdef H5
+				this.$wechat.scanQRCode().then(res => {
+					let array = res.split("-");
+
+					if (type == 0) {
+						uni.navigateTo({
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 1) {
+						uni.navigateTo({
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 2) {
+						uni.navigateTo({
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 3) {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 4) {
+						uni.navigateTo({
+							url: '/pages/manage/good_add/good_add?id=' + result,
+						})
+					}
+				})
+				// #endif
+
+				// #ifdef MP-WEIXIN
 				uni.scanCode({
 					success(res) {
 						var result = res.result;
@@ -223,6 +253,8 @@
 						})
 					}
 				})
+				// #endif
+
 			},
 			//得到今日概况
 			gettoday_detail: function() {
@@ -291,10 +323,11 @@
 </script>
 
 <style>
-	.fristSearchView{
+	.fristSearchView {
 		padding: 10rpx 30rpx;
 		background: #426ab3;
 	}
+
 	.scan_code {
 		position: fixed;
 		width: calc(100% - 60rpx);

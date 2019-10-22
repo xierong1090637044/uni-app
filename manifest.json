@@ -120,8 +120,17 @@
         }
     },
     "h5" : {
-        "title" : "my_stock2",
-        "domain" : ""
+        "title" : "库存表",
+        "domain" : "https://www.jimuzhou.com",
+        "router" : {
+            "base" : "/h5/",
+            "mode" : "history"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
     }
 }
 /* 快应用特有相关 *//* 小程序特有相关 */

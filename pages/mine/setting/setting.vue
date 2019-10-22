@@ -78,6 +78,7 @@
 				let value = e.detail.value
 
 				if (value) {
+					// #ifdef MP-WEIXIN
 					if (uni.getStorageSync("openid")) {
 						uni.showModal({
 							title: '提示',
@@ -101,7 +102,38 @@
 							}
 						});
 					}
+					// #endif
 
+					// #ifdef H5
+					if (uni.getStorageSync("openid")) {
+						uni.showModal({
+							title: '提示',
+							content: '是否确定关联微信通知',
+							confirmText: "关联",
+							success: function(res) {
+								if (res.confirm) {
+									that.params.wx_openid = uni.getStorageSync("openid")
+									mine.modify_setting(that.params)
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+					} else {
+						uni.showModal({
+							title: '提示',
+							content: '请关闭当前窗口，重新进入后关联',
+							confirmText: "关闭",
+							success: function(res) {
+								if (res.confirm) {
+									this.$wechat.close()
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+					}
+					// #endif
 				} else {
 					that.params.wx_openid = ''
 					mine.modify_setting(that.params)
