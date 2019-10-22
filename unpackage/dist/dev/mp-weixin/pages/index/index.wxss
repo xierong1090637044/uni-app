@@ -1,5 +1,5 @@
 
-.fristSearchView{
+.fristSearchView {
 	padding: 10rpx 30rpx;
 	background: #426ab3;
 }
@@ -22,6 +22,7 @@
 .icon-scan {
 	margin-right: 20rpx;
 }
+
 /* pages/home/index/index.wxss */
 .swiper {
 	background: #426ab3;

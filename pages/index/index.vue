@@ -138,7 +138,10 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			// #ifdef H5
 			this.$wechat.share_pyq();
+			// #endif
+			
 			mine.query_setting()
 			
 			if (options.openid) {

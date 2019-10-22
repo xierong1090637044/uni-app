@@ -7,20 +7,20 @@
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
-				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting" />
+				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting" :disabled="inputCan"/>
 			</view>
 
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">USER账号</view>
-				<input class="uni-input" placeholder="请输入USER账号" v-model="params.USER" @blur="modify_setting" />
+				<input class="uni-input" placeholder="请输入USER账号" v-model="params.USER" @blur="modify_setting"  :disabled="inputCan"/>
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
-				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" @blur="modify_setting" />
+				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" @blur="modify_setting"  :disabled="inputCan"/>
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
-				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" @blur="modify_setting" />
+				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" @blur="modify_setting"  :disabled="inputCan"/>
 			</view>
 
 		</view>
@@ -45,7 +45,7 @@
 			return {
 				identity: "", //身份码，
 				user: "",
-
+				inputCan:(uni.getStorageSync("identity") == 1)?false:true,
 				params: {
 					show_float: '',
 					USER: '',
