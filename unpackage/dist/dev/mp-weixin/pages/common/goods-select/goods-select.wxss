@@ -2,6 +2,19 @@
 page {
 	background: #FFFFFF;
 }
+.gLButton {
+	position: fixed;
+	bottom: 10%;
+	right: 18rpx;
+	background: #007AFF;
+	color: #fff;
+	height: 120rpx;
+	line-height: 120rpx;
+	width: 120rpx;
+	border-radius: 50%;
+	-webkit-box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
+	        box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
+}
 .text_notice {
 	margin-left: 6rpx;
 }

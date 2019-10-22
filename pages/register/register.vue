@@ -81,8 +81,8 @@
 							mobilePhoneNumber: String(phone),
 							nickName: String(phone),
 							avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png",
-							is_vip:true,
-							vip_time:timestamp+7*24*60*60*1000
+							//is_vip:true,
+							//vip_time:timestamp+7*24*60*60*1000
 						}
 						Bmob.User.register(params).then(res => {
 							console.log(res)
@@ -189,8 +189,8 @@
 						mobilePhoneNumber: String(phone),
 						nickName: String(phone),
 						avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png",
-						is_vip:true,
-						vip_time:timestamp+7*24*60*60*1000
+						//is_vip:true,
+						//vip_time:timestamp+7*24*60*60*1000
 					}
 					Bmob.User.register(params).then(res => {
 						console.log(res)

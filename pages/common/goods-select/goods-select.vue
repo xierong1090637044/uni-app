@@ -31,8 +31,8 @@
 					<checkbox-group @change="radioChange">
 						<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 							<view>
-								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index"
-								 :id="''+index" :checked="product.checked" />
+								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" :id="''+index" class="round blue"
+								 :checked="product.checked" />
 							</view>
 
 							<label class="uni-product" :for="''+index">
@@ -130,6 +130,9 @@
 				<view style="margin-top: 100rpx;"><button class='confrim_button' @click="confrim_thismodel()">确认</button></view>
 			</view>
 		</view>
+
+		<!--一键清零显示-->
+		<view class="gLButton" @click="reserveTo" v-if="type=='counting' && identity == 1">一键归零</view>
 	</view>
 
 	</view>
@@ -162,6 +165,7 @@
 		},
 		data() {
 			return {
+				identity:uni.getStorageSync("identity"),
 				selectd_model: '',
 				models_good: '',
 				models_good_key: '',
@@ -242,6 +246,33 @@
 				that.models_good = ''
 			},
 
+			//一键归零点击
+			reserveTo() {
+				uni.showModal({
+					title: '提示（暂时只支持500条）',
+					content: '是否将所有库存都归0，归0后不可恢复',
+					success: function(res) {
+						if (res.confirm) {
+							const query = Bmob.Query('Goods');
+							query.equalTo("userId", "==", uid);
+							query.equalTo("status", "!=", -1);
+							query.limit(500);
+							query.find().then(todos => {
+								todos.set('reserve', 0);
+								todos.saveAll().then(res => {
+									// 成功批量修改
+									console.log(res, 'ok')
+								}).catch(err => {
+									console.log(err)
+								});
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			},
+			
 			//分页点击
 			change_page(e) {
 				page_num = e.current
@@ -447,7 +478,7 @@
 				query.find().then(res => {
 					console.log(all_products)
 					let key = 0;
-					if (all_products.length >= 1 &&that.showOptions == false && that.is_selected == false && that.search_text == '') {
+					if (all_products.length >= 1 && that.showOptions == false && that.is_selected == false && that.search_text == '') {
 						for (let item of all_products) {
 							for (let product of res) {
 								if (product.objectId == (typeof item == 'object' ? item.objectId : JSON.parse(item).objectId)) {
@@ -490,6 +521,20 @@
 	page {
 		background: #FFFFFF;
 	}
+
+	.gLButton {
+		position: fixed;
+		bottom: 10%;
+		right: 18rpx;
+		background: #007AFF;
+		color: #fff;
+		height: 120rpx;
+		line-height: 120rpx;
+		width: 120rpx;
+		border-radius: 50%;
+		box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
+	}
+
 	.text_notice {
 		margin-left: 6rpx;
 	}

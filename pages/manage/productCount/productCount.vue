@@ -14,7 +14,7 @@
 			<view class="input_goodname"><input placeholder="请输入产品名字" @confirm="seachGoodName" @blur="seachGoodName" style="height: 60rpx;"/></view>
 
 			<navigator class="display_flex" hover-class="none" url="/pages/manage/category/category?type=choose">
-				<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true" style="width: 140rpx;"></input></view>
+				<view><input placeholder="产品类别" :value="category.class_text" disabled="true" style="width: 140rpx;"></input></view>
 				<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 			</navigator>
 		</view>

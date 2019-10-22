@@ -15,14 +15,17 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.5 公测版</text>
-						<text class="desc-time">2019.10.19</text>
+						<text class="desc-time">2019.10.22</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						 <text>新增产品报表页面</text>
 						 <text>新增单品统计页面</text>
 						 <text>新增采购、销售操作以及发货方式选项</text>
+						 <text>新增一键清零操作</text>
 						 <text>支持连续扫码添加产品</text>
+						 <text>库存种类显示错误修复</text>
+						 <text>新增员工进价隐藏权限</text>
 						 <text>一些bug修复</text>
 					</view>
 				</view>

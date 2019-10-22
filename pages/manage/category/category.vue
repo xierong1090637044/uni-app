@@ -343,6 +343,7 @@
 	}
 
 	.class_texxt_view {
+		padding: 10rpx 0;
 		width: calc(100% - 30rpx);
 		overflow: hidden;
 		text-overflow: ellipsis;

@@ -142,6 +142,9 @@
 
 
 
+
+
+
 /* pages/mine/upgrade/upgrade.wxss */
 .container {
 	background: #f4f4f4;

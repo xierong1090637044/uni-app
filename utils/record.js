@@ -5,10 +5,13 @@ export default {
 	querycount: function() {
 		let uid = uni.getStorageSync("uid")
 
-		const query = Bmob.Query("Goods");
-		query.equalTo("userId", "==", uid);
-		query.count().then(res => {
-			console.log(`共有${res}条记录`)
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("Goods");
+			query.equalTo("userId", "==", uid);
+			query.count().then(res => {
+				resolve(res)
+				console.log(`共有${res}条记录`)
+			})
 		})
 	},
 
@@ -28,7 +31,7 @@ export default {
 			query.equalTo("userId", "==", uid);
 			query.equalTo("createdAt", ">=", start_date);
 			query.equalTo("createdAt", "<=", end_date);
-			query.select("goodsId", "num","total_money","type");
+			query.select("goodsId", "num", "total_money", "type");
 			query.limit(1000);
 			query.include("goodsId");
 			query.find().then(res => {
@@ -37,7 +40,7 @@ export default {
 					if (res[i].type == 1) {
 						get_reserve += res[i].num;
 						get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
-						get_reserve_num +=  res[i].total_money;
+						get_reserve_num += res[i].total_money;
 					} else if (res[i].type == -1) {
 						out_reserve += res[i].num;
 						out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
@@ -94,28 +97,34 @@ export default {
 			var total_money = 0;
 			let length = 0;
 			let warn_num = 0;
-			
+
 			let params = {}
-			const query = Bmob.Query("Goods");
-			query.equalTo("userId", "==", uid);
-			query.equalTo("status", "!=", -1);
-			query.select("reserve", "costPrice","stocktype");
-			query.limit(1000);
-			query.find().then(res => {
-				for (let item of res) {
-					if (item.stocktype == 0) {
-						warn_num += 1;
+			this.querycount().then(count => {
+				params.total_products = count
+				const query = Bmob.Query("Goods");
+				query.equalTo("userId", "==", uid);
+				query.equalTo("status", "!=", -1);
+				query.select("reserve", "costPrice", "stocktype");
+				query.limit(1000);
+				query.find().then(res => {
+
+
+
+					for (let item of res) {
+						if (item.stocktype == 0) {
+							warn_num += 1;
+						}
+						total_reserve += item.reserve;
+						total_money += item.reserve * item.costPrice;
+						params.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
+							params.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
+
+							params.warn_num = warn_num
+						resolve(params)
 					}
-					total_reserve +=  item.reserve;
-					total_money += item.reserve * item.costPrice;
-					length += 1
-					params.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-					params.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-					params.total_products = length
-					params.warn_num = warn_num
-					resolve(params)
-				}
-			});
+				});
+			})
+
 		})
 
 	},
