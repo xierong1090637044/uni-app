@@ -26,7 +26,7 @@
 					</view>
 
 					<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
-						<view style="display: flex;align-items: center;">
+						<view style="display: flex;align-items: center;width: 100%;">
 							<view class="left_item">类别</view>
 							<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
 						</view>
@@ -67,7 +67,7 @@
 					</view>
 
 					<navigator class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
-						<view style="display: flex;align-items: center;">
+						<view style="display: flex;align-items: center;width: 100%;">
 							<view class="left_item">仓库</view>
 							<view class="right_input1">
 								<input placeholder="选择仓库" v-model="stock_name" disabled="true"></input>
@@ -81,12 +81,12 @@
 				</view>
 
 				<!--更多产品信息-->
-				<uni-collapse accordion="true">
+				<uni-collapse :accordion="true">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
 						<view class="frist" style="margin-top: 0;">
 							<view class="input_item">
 								<view class="left_item">有效期</view>
-								<picker mode="date" @change="bindDateChange">
+								<picker mode="date" @change="bindDateChange" style="width: 100%;">
 									<view class="right_input"><input placeholder="有效期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
 								</picker>
 							</view>
@@ -100,7 +100,7 @@
 							</view>
 							<view class="input_item1">
 
-								<view style="display: flex;align-items: center;">
+								<view style="display: flex;align-items: center;width: 100%;">
 									<view class="left_item">条码</view>
 									<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
 								</view>
@@ -118,7 +118,7 @@
 								<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
 							</view>
 							<view class="input_item">
-								<view class="left_item">是否半成品</view>
+								<view class="left_item">半成品</view>
 								<view class="right_input">
 									<switch :checked="product_state" name="product_state" />
 								</view>
@@ -505,14 +505,15 @@
 	.input_item {
 		display: flex;
 		align-items: center;
+		height: 80rpx;
 		line-height: 80rpx;
 		border-bottom: 1rpx solid#f6f5ec;
 	}
-
+	
 	.input_item1 {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		height: 80rpx;
 		line-height: 80rpx;
 		border-bottom: 1rpx solid#f6f5ec;
 	}

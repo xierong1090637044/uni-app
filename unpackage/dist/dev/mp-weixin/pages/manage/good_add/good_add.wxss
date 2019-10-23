@@ -30,6 +30,7 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
+	height: 80rpx;
 	line-height: 80rpx;
 	border-bottom: 1rpx solid#f6f5ec;
 }
@@ -42,10 +43,7 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	    -ms-flex-pack: justify;
-	        justify-content: space-between;
+	height: 80rpx;
 	line-height: 80rpx;
 	border-bottom: 1rpx solid#f6f5ec;
 }

@@ -89,6 +89,9 @@
 					if (item.selectd_model) {
 						this.make_goods(item, item.selectd_model, key)
 					}
+					if(key == uni.getStorageSync("products").length-1){
+						this.products = [].concat.apply([],this.products)
+					}
 					key += 1;
 				}
 			}
@@ -176,7 +179,7 @@
 					model_goods.push(new_good)
 					//console.log(model_goods,good.reserve)
 				}
-				this.products = this.products.concat(model_goods)
+				this.products[key] = model_goods
 				//console.log(model_goods)
 			},
 

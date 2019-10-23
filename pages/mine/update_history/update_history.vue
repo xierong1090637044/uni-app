@@ -26,6 +26,7 @@
 						 <text>支持连续扫码添加产品</text>
 						 <text>库存种类显示错误修复</text>
 						 <text>新增员工进价隐藏权限</text>
+						 <text>多规格产品出入库bug修复</text>
 						 <text>一些bug修复</text>
 					</view>
 				</view>

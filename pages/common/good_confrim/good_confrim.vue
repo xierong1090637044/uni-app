@@ -97,9 +97,13 @@
 
 				let key = 0;
 				for (let item of uni.getStorageSync("products")) {
-					console.log(item)
+					//console.log(item)
 					if (item.selectd_model) {
 						this.make_goods(item, item.selectd_model, key)
+					}
+					
+					if(key == uni.getStorageSync("products").length-1){
+						this.products = [].concat.apply([],this.products)
 					}
 					key += 1;
 				}
@@ -154,9 +158,8 @@
 
 			//排列产品
 			make_goods(good, selectd_model, key) {
-				console.log(good, selectd_model, key)
+				//console.log(good, selectd_model, key)
 				let model_goods = []
-				this.products.splice(key, 1)
 				for (let model of JSON.parse(selectd_model)) {
 					let new_good = {}
 					new_good.reserve = JSON.parse(model).reserve
@@ -191,8 +194,8 @@
 					model_goods.push(new_good)
 					//console.log(model_goods,good.reserve)
 				}
-				this.products = this.products.concat(model_goods)
-				//console.log(model_goods)
+				this.products[key] = model_goods
+				console.log(this.products)
 			},
 
 			//头部确定点击

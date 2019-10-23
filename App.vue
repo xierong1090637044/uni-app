@@ -160,7 +160,6 @@
 
 		.right_input {
 			margin-left: 20rpx;
-			border-bottom: 1rpx solid#ccc;
 			width: 100%;
 		}
 

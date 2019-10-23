@@ -9,12 +9,15 @@ uni-page {
 	background: #f3f3f3;
 	font-size: 28rpx;
 }
-.uni-input-input{
+
+.uni-input-input {
 	font-size: 24rpx;
 }
+
 .uni-input-placeholder {
-    font-size: 24rpx;
+	font-size: 24rpx;
 }
+
 .user_avatar {
 	width: 60rpx;
 	height: 60rpx;
@@ -49,6 +52,12 @@ uni-page {
 	font-weight: bold;
 }
 
+.input_item1 {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	line-height: 80rpx;
+}
 
 .modal_background {
 	position: fixed;
@@ -72,21 +81,12 @@ uni-page {
 	z-index: 100000;
 }
 
-.input_item1 {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	line-height: 80rpx;
-	padding: 20rpx 30rpx;
-}
-
 .left_item {
 	width: 150rpx;
 }
 
 .right_input {
 	margin-left: 20rpx;
-	border-bottom: 1rpx solid#ccc;
 	width: 100%;
 }
 

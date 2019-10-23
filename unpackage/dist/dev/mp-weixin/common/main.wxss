@@ -35,11 +35,11 @@ uni-page {
 	background: #f3f3f3;
 	font-size: 28rpx;
 }
-.uni-input-input{
+.uni-input-input {
 	font-size: 24rpx;
 }
 .uni-input-placeholder {
-    font-size: 24rpx;
+	font-size: 24rpx;
 }
 .user_avatar {
 	width: 60rpx;
@@ -78,6 +78,21 @@ uni-page {
 	color: #1d953f;
 	font-weight: bold;
 }
+.input_item1 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	line-height: 80rpx;
+}
 .modal_background {
 	position: fixed;
 	top: 0;
@@ -99,28 +114,11 @@ uni-page {
 	        box-shadow: 0 10rpx 10rpx rgba(0, 122, 255, 0.2);
 	z-index: 100000;
 }
-.input_item1 {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	    -ms-flex-align: center;
-	        align-items: center;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	    -ms-flex-pack: justify;
-	        justify-content: space-between;
-	line-height: 80rpx;
-	padding: 20rpx 30rpx;
-}
 .left_item {
 	width: 150rpx;
 }
 .right_input {
 	margin-left: 20rpx;
-	border-bottom: 1rpx solid#ccc;
 	width: 100%;
 }
 .option_bottom {
@@ -416,9 +414,6 @@ form {
 }
 .uni-common-pl {
 	padding-left: 30rpx;
-}
-.uni-common-mt {
-	margin-top: 30rpx;
 }
 /* 背景色 */
 .uni-bg-red {
@@ -6850,7 +6845,6 @@ scroll-view.cu-steps .cu-item {
 }
 .showOptions .right_input {
     margin-left: 20rpx;
-    border-bottom: 1rpx solid #ccc;
     width: 100%;
 }
 .showOptions .option_bottom {
