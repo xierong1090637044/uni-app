@@ -9,6 +9,7 @@
 	var canvases = {};
 	
 	export default {
+		name: 'uCharts',
 		props: {
 			chartType: {
 				required: true,

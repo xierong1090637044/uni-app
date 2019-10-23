@@ -52,9 +52,7 @@
 	import uCharts from '@/components/u-charts/u-charts.js';
 	import chart from "@/utils/chart.js";
 	import common from "@/utils/common.js";
-	import {
-		isJSON
-	} from '@/utils/checker.js';
+	import {isJSON} from '@/utils/checker.js';
 	let _self;
 	let canvaLineA;
 	let canvaLineB;
