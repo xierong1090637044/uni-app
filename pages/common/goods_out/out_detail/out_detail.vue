@@ -290,7 +290,7 @@
 						query.set("opreater", poiID1);
 						query.set("stock", stockId);
 						query.set("master", poiID);
-						query.set('discount', that.discount);
+						if(that.discount) query.set('discount', that.discount);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));

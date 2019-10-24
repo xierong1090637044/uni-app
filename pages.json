@@ -380,7 +380,11 @@
 			"path": "pages/mine/manual/detail/detail",
 			"style": {}
 		}
-	],
+	    ,{
+            "path" : "pages/mine/uploadFile/uploadFile",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",
