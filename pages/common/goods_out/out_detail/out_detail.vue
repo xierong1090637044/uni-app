@@ -22,31 +22,37 @@
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
-							<view>选择仓库</text></view>
+							<view style="width: 140rpx;">选择仓库</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
 						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
-							<view>选择门店</text></view>
+							<view style="width: 140rpx;">选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;">
-							<view>客户姓名</view>
+							<view style="width: 140rpx;">客户姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择客户" disabled="true" :value="custom.custom_name" /></view>
 						</navigator>
 						<view class="display_flex" style="padding: 10rpx 0;">
-							<view>发货方式</view>
+							<view style="width: 140rpx;">发货方式</view>
 							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" />
 							</picker>
 						</view>
 						<view class="display_flex" style="padding: 10rpx 0;" v-if="outType.type == 2 || outType.type == 3">
-							<view>快递单号</view>
+							<view style="width: 140rpx;">快递单号</view>
 							<view class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请输入快递单号" v-model="expressNum" />
 							</view>
 						</view>
+						<view class="display_flex" style="padding: 10rpx 0;" v-if="custom.discount">
+							<view style="width: 140rpx;">折扣率</view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;" type="number" @input="getDiscount" />%
+							</view>
+						</view>
 						<view class="display_flex" style="padding: 10rpx 0;">
-							<view>实际付款</view>
+							<view style="width: 140rpx;">实际付款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>
 					</view>
@@ -68,7 +74,7 @@
 						<!-- #ifdef H5 -->
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">出库</button>
 						<!-- #endif -->
-						
+
 					</view>
 
 				</view>
@@ -101,6 +107,7 @@
 				all_money: 0, //总价
 				custom: null, //制造商
 				outType: '', //发货方式
+				discount:'',//会员率
 				pickerTypes: [{
 						desc: "自提",
 						type: 1
@@ -126,13 +133,13 @@
 			uid = uni.getStorageSync("uid");
 
 			this.products = uni.getStorageSync("products");
-			for (let i = 0; i < this.products.length; i++) {
-				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
-				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
-			}
-			this.real_money = Number(this.all_money.toFixed(2))
+			
 		},
 		onShow() {
+			this.really_total_money = 0
+			this.all_money = 0
+			this.real_money = 0
+			
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
 
@@ -143,15 +150,44 @@
 				shopId = pointer.set(shop.objectId);
 			}
 
+			if (that.custom.discount) {
+				that.discount = that.custom.discount
+				for (let i = 0; i < this.products.length; i++) {
+					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+				}
+				this.really_total_money = this.really_total_money* that.discount/100
+				this.real_money = Number(this.all_money.toFixed(2))* that.discount/100
+				this.all_money = this.all_money* that.discount/100
+			}else{
+				for (let i = 0; i < this.products.length; i++) {
+					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+				}
+				this.real_money = Number(this.all_money.toFixed(2))
+			}
+
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
+
+			//修改会员率
+			getDiscount(e) {
+				let discount = Number(e.detail.value)
+				if (discount >= 100) {
+					that.discount = 100
+				} else {
+					that.discount = discount
+					that.real_money = Number(this.all_money.toFixed(2)) * discount / 100
+				}
+			},
+
 			//选择物流方式
-			select_outType(e){
+			select_outType(e) {
 				//console.log(e)
 				that.outType = that.pickerTypes[e.detail.value]
-				
-				if(that.outType.type !=2 || that.outType.type !=3){
+
+				if (that.outType.type != 2 || that.outType.type != 3) {
 					that.expressNum = ''
 				}
 			},
@@ -254,6 +290,7 @@
 						query.set("opreater", poiID1);
 						query.set("stock", stockId);
 						query.set("master", poiID);
+						query.set('discount', that.discount);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
@@ -279,8 +316,8 @@
 								})
 							}
 						}
-						
-						if(that.outType){
+
+						if (that.outType) {
 							query.set("typeDesc", that.outType.desc);
 							query.set("expressNum", that.expressNum);
 						}

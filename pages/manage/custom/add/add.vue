@@ -6,22 +6,28 @@
 		</uni-nav-bar>
 		<view>
 			<view class="display_flex item">
-				<text style="margin-right: 20rpx;">姓名</text>
+				<view style="margin-right: 20rpx;width: 160rpx;">姓名</view>
 				<input placeholder="请输入姓名" v-model="name" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<view class="display_flex item">
-				<text style="margin-right: 20rpx;">联系地址</text>
+				<view style="margin-right: 20rpx;width: 160rpx;">联系地址</view>
 				<input placeholder="请输入地址" v-model="address" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<view class="display_flex item">
-				<text style="margin-right: 20rpx;">联系电话</text>
-				<input placeholder="请输入电话" v-model="phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<view style="margin-right: 20rpx;width: 160rpx;">联系电话</view>
+				<input placeholder="请输入电话" v-model="phone" type="number" maxlength="11" style="width: calc(100% - 200rpx)"/>
+			</view>
+			
+			<view class="display_flex item">
+				<view style="margin-right: 20rpx;width: 160rpx;">折扣率</view>
+				<input placeholder="请输入折扣率" v-model="discount" type="number" maxlength="3" style="width: calc(100% - 200rpx)" @input="getDiscount"/>
+				<text>%</text>
 			</view>
 
 			<view class="display_flex item">
-				<text style="margin-right: 20rpx;">欠款金额</text>
+				<view style="margin-right: 20rpx;width: 160rpx;">欠款金额</view>
 				<input placeholder="请输入起初欠款金额" v-model="debt" type="digit" style="width: calc(100% - 200rpx)" />
 			</view>
 		</view>
@@ -46,6 +52,7 @@
 				address: '',
 				phone: '',
 				debt: 0,
+				discount:100,//折扣率
 			}
 		},
 		onLoad(options) {
@@ -101,6 +108,15 @@
 		},
 
 		methods: {
+			
+			//得到输入的折扣率
+			getDiscount(e){
+				//console.log(e)
+				let discount = Number(e.detail.value)
+				if(discount >=100){
+					that.discount =100
+				}
+			},
 
 			//增加数据操作
 			add_data() {
@@ -120,6 +136,7 @@
 						query.set("custom_phone", that.phone ? that.phone : '')
 						query.set("custom_address", that.address ? that.address : '')
 						query.set("debt", Number(that.debt))
+						query.set("discount", Number(that.discount))
 						query.set("parent", poiID)
 						//query.set("beizhu", "Bmob")
 						query.save().then(res => {
@@ -147,6 +164,7 @@
 						query.set("producer_phone", that.phone ? that.phone : '')
 						query.set("producer_address", that.address ? that.address : '')
 						query.set("debt", Number(that.debt))
+						query.set("discount", Number(that.discount))
 						query.set("parent", poiID)
 						//query.set("beizhu", "Bmob")
 						query.save().then(res => {

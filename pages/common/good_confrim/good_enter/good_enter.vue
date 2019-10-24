@@ -27,34 +27,34 @@
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
-							<view>选择仓库</text></view>
+							<view style="width: 140rpx;">选择仓库</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
 						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
-							<view>选择门店</text></view>
+							<view style="width: 140rpx;">选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding: 10rpx 0;">
-							<view>供应商姓名</view>
+							<view style="width: 140rpx;">供应商姓名</view>
 							<view class="kaidan_rightinput"><input placeholder="选择供货商" disabled="true" :value="producer.producer_name" /></view>
 						</navigator>
 
 						<view class="display_flex" style="padding: 10rpx 0;">
-							<view>发货方式</view>
+							<view style="width: 140rpx;">发货方式</view>
 							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" />
 							</picker>
 						</view>
 						<view class="display_flex" style="padding: 10rpx 0;" v-if="outType.type == 2 || outType.type == 3">
-							<view>快递单号</view>
+							<view style="width: 140rpx;">快递单号</view>
 							<view class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请输入快递单号" v-model="expressNum" />
 							</view>
 						</view>
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
 						<view class="display_flex" style="padding: 10rpx 0;" v-else>
-							<view>实际付款</view>
+							<view style="width: 140rpx;">实际付款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>
 

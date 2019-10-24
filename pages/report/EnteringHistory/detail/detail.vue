@@ -89,6 +89,10 @@
 							<view class="left_content">客户姓名</view>
 							<view>{{detail.custom.custom_name}}</view>
 						</view>
+						<view v-if="detail.discount" class="display_flex">
+							<view class="left_content">折扣率</view>
+							<view>{{detail.discount}}%</view>
+						</view>
 						<view class="display_flex">
 							<view class="left_content">实际付款</view>
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
