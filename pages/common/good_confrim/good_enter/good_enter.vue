@@ -96,7 +96,8 @@
 	import common from '@/utils/common.js';
 	import _goods from '@/utils/goods.js';
 	import send_temp from '@/utils/send_temp.js';
-
+	import print from'@/utils/print.js';
+	
 	let uid;
 	let that;
 	let shopId;
@@ -295,7 +296,8 @@
 						}
 						query.set("all_money", that.all_money);
 						query.save().then(res => {
-							console.log("添加操作历史记录成功", res);
+							let operationId = res.objectId
+							//console.log("添加操作历史记录成功", res);
 							uni.hideLoading();
 							uni.showToast({
 								title: '产品入库成功',
@@ -368,6 +370,11 @@
 										params1.form_Id = fromid
 										params1.id = res.objectId
 										send_temp.send_in_mini(params1);
+										
+										//自动打印
+										if(uni.getStorageSync("setting").auto_print){
+											print.autoPrint(operationId);
+										}
 									}, 500)
 
 									that.can_addGoods().then(res => {

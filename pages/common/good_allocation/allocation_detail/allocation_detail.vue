@@ -44,7 +44,8 @@
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import send_temp from '@/utils/send_temp.js';
-
+	import print from'@/utils/print.js';
+	
 	let uid;
 	let that;
 
@@ -238,7 +239,8 @@
 						query.set('goodsName', that.products[0].goodsName);
 
 						query.save().then(res => {
-							console.log("添加操作历史记录成功", res);
+							let operationId = res.objectId;
+							//console.log("添加操作历史记录成功", res);
 							uni.hideLoading();
 							//uni.removeStorageSync("customs"); //移除这个缓存
 							uni.showToast({
@@ -286,6 +288,11 @@
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
 										send_temp.send_temp(params);*/
+										
+										//自动打印
+										if(uni.getStorageSync("setting").auto_print){
+											print.autoPrint(operationId);
+										}
 										uni.navigateBack({
 											delta: 2
 										});

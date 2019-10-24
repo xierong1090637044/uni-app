@@ -1,140 +1,152 @@
+import Bmob from "hydrogen-js-sdk";
 export default {
+	//自动打印凭证
+	autoPrint(id) {
+		console.log("sssss",id)
+		const query = Bmob.Query('order_opreations');
+		query.include("opreater", "custom", "producer", "stock");
+		query.get(id).then(res => {
+			console.log(res);
+			this.print_operations(res, res.detail)
+		})
+	},
+
 	//打印产品信息
-	print_goodDet(item){
+	print_goodDet(item) {
 		//console.log(item)
 		let orderInfo;
 		let good = uni.getStorageSync("now_product")
 		good.objectId = item.good_id
 		good.stocks = item
 		good.productCode = item.productCode
-		
+
 		orderInfo = '<CB>商品信息</CB><BR>';
 		orderInfo += '--------------------------------<BR>';
 		orderInfo += '产品名称：　　 ' + good.goodsName + '<BR>';
 		if (good.stocks) orderInfo += '存放仓库：　　 ' + good.stocks.stock_name + '<BR>';
-		
+
 		if (good.position) orderInfo += '货架位置：　　 ' + good.position + '<BR>';
 		if (good.producttime) orderInfo += '生产日期：　　 ' + good.producttime + '<BR>';
 		if (good.nousetime) orderInfo += '失效日期：　　 ' + good.nousetime + '<BR>';
 		orderInfo += '当前库存：　　 ' + good.reserve + '<BR>';
-		orderInfo += '产品规格:　　　' + good.packageContent +'*' +good.packingUnit + '<BR>';
+		orderInfo += '产品规格:　　　' + good.packageContent + '*' + good.packingUnit + '<BR>';
 		orderInfo += '进货价格:      ' + good.costPrice + '<BR>';
 		orderInfo += '零售价格:      ' + good.retailPrice + '<BR>';
-		if(good.bad_num) orderInfo += '货损数量:      ' + good.bad_num + '<BR>';
+		if (good.bad_num) orderInfo += '货损数量:      ' + good.bad_num + '<BR>';
 		orderInfo += '--------------------------------<BR>';
 		orderInfo += '产品二维码：<BR>';
 		orderInfo += '<QR>' + good.productCode + '</QR>'; //把二维码字符串用标签套上即可自动生成二维码
-					
+
 		this.print_by_code(orderInfo);
 	},
-	
+
 	//打印操作记录明细
-	print_operations(detail,products){
+	print_operations(detail, products) {
 		console.log(products)
-					
+
 		if (detail.type == 3) {
-		  orderInfo = '<CB>盘点单</CB><BR>';
-		  orderInfo += '--------------------------------<BR>';
-		  for (let i = 0; i < products.length; i++) {
-		    orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
-		    orderInfo += '盘点前库存：' + products[i].reserve + '<BR>';
-		    orderInfo += '盘点后库存：' + products[i].now_reserve + '<BR>';
-		    orderInfo += '--------------------------------<BR>';
-		  }
-		}else if (detail.type == -2) {
-		  orderInfo = '<CB>调拨单</CB><BR>';
-		  orderInfo += '--------------------------------<BR>';
-		  for (let i = 0; i < products.length; i++) {
-		    orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
-			orderInfo += '调拨数量：' + products[i].num + '<BR>';
-		    orderInfo += '--------------------------------<BR>';
-		    for(let item of detail.detail){
-				orderInfo += '调出仓库：' + item.stock + '<BR>';
-				orderInfo += '<RIGHT>当前库存：' + (item.reserve-item.num) + '</RIGHT><BR>';
-				orderInfo += '调入仓库：' + item.out_stock + '<BR>';
-				orderInfo += '<RIGHT>当前库存：' + (item.out_reserve+item.num) + '</RIGHT><BR>';
+			orderInfo = '<CB>盘点单</CB><BR>';
+			orderInfo += '--------------------------------<BR>';
+			for (let i = 0; i < products.length; i++) {
+				orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
+				orderInfo += '盘点前库存：' + products[i].reserve + '<BR>';
+				orderInfo += '盘点后库存：' + products[i].now_reserve + '<BR>';
+				orderInfo += '--------------------------------<BR>';
 			}
-		  }
-		  orderInfo += '--------------------------------<BR>';
-		}  else if (detail.type == 2) {
-		  orderInfo = '<CB>退货单</CB><BR>';
-		  orderInfo += '--------------------------------<BR>';
-		  for (let i = 0; i < products.length; i++) {
-		    orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
-		    orderInfo += '零售价：' + products[i].retailPrice + '<BR>';
-		    orderInfo += '数量    ：X' + products[i].num + '<BR>';
-		    orderInfo += '<RIGHT>总计：' + products[i].total_money + '</RIGHT>';
-		    orderInfo += '--------------------------------<BR>';
-		    orderInfo += '退货明细：<BR>';
-		    if (detail.custom != null) {
-		      orderInfo += '客户姓名：' + detail.custom.custom_name + '<BR>';
-		    } else {
-		      orderInfo += '未记录客户 <BR>';
-		    }
-		  }
-		  orderInfo += '<BOLD><RIGHT>全部总计：' + detail.all_money + '</RIGHT></BOLD>';
-		  orderInfo += '--------------------------------<BR>';
+		} else if (detail.type == -2) {
+			orderInfo = '<CB>调拨单</CB><BR>';
+			orderInfo += '--------------------------------<BR>';
+			for (let i = 0; i < products.length; i++) {
+				orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
+				orderInfo += '调拨数量：' + products[i].num + '<BR>';
+				orderInfo += '--------------------------------<BR>';
+				for (let item of detail.detail) {
+					orderInfo += '调出仓库：' + item.stock + '<BR>';
+					orderInfo += '<RIGHT>当前库存：' + (item.reserve - item.num) + '</RIGHT><BR>';
+					orderInfo += '调入仓库：' + item.out_stock + '<BR>';
+					orderInfo += '<RIGHT>当前库存：' + (item.out_reserve + item.num) + '</RIGHT><BR>';
+				}
+			}
+			orderInfo += '--------------------------------<BR>';
+		} else if (detail.type == 2) {
+			orderInfo = '<CB>退货单</CB><BR>';
+			orderInfo += '--------------------------------<BR>';
+			for (let i = 0; i < products.length; i++) {
+				orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
+				orderInfo += '零售价：' + products[i].retailPrice + '<BR>';
+				orderInfo += '数量    ：X' + products[i].num + '<BR>';
+				orderInfo += '<RIGHT>总计：' + products[i].total_money + '</RIGHT>';
+				orderInfo += '--------------------------------<BR>';
+				orderInfo += '退货明细：<BR>';
+				if (detail.custom != null) {
+					orderInfo += '客户姓名：' + detail.custom.custom_name + '<BR>';
+				} else {
+					orderInfo += '未记录客户 <BR>';
+				}
+			}
+			orderInfo += '<BOLD><RIGHT>全部总计：' + detail.all_money + '</RIGHT></BOLD>';
+			orderInfo += '--------------------------------<BR>';
 		} else {
-		  var orderInfo;
-		  if (detail.type == 1) {
-		    orderInfo = '<CB>入库单</CB><BR>';
-		  } else {
-		    orderInfo = '<CB>出库单</CB><BR>';
-		  }
-		  orderInfo += '--------------------------------<BR>';
-		  for (let i = 0; i < products.length; i++) {
-		    orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
-		    orderInfo += '实际单价：' + products[i].retailPrice + '<BR>';
-		    orderInfo += '数量    ：X' + products[i].num + '<BR>';
-		    orderInfo += '<RIGHT>总计：' + products[i].total_money + '</RIGHT>';
-		    orderInfo += '--------------------------------<BR>';
-		  }
-		  orderInfo += '<BOLD><RIGHT>全部总计：' + detail.all_money + '</RIGHT></BOLD>';
-		  orderInfo += '--------------------------------<BR>';
-		  if (detail.type == 1) {
-		    orderInfo += '开单明细：<BR>';
-		    orderInfo += '<BR>';
-		    if (detail.producer != null) {
-		      orderInfo += '供货商姓名：' + detail.producer.producer_name + '<BR>';
-		    }
-		    if (detail.real_money == null) {
-		      orderInfo += '实际收款：未填写 <BR>';
-		    } else {
-		      orderInfo += '实际收款：' + detail.real_money + '<BR>';
-		    }
-		    if (detail.debt > 0) {
-		      orderInfo += '本次欠款：' + detail.debt + '<BR>';
-		    }
-		    orderInfo += '--------------------------------<BR>';
-		  }
-					
-		  if (detail.type == -1) {
-		    orderInfo += '开单明细：<BR>';
-		    orderInfo += '<BR>';
-		    if (detail.custom) {
-		      orderInfo += '客户姓名：' + detail.custom.custom_name + '<BR>';
-		    }
-		    if (detail.real_money) {
-		      orderInfo += '实际收款：未填写 <BR>';
-		    } else {
-		      orderInfo += '实际收款：' + detail.real_money + '<BR>';
-		    }
-					
-		    if (detail.debt > 0) {
-		      orderInfo += '本次欠款  ：' + detail.debt + '<BR>';
-		    }
-					
-		    orderInfo += '--------------------------------<BR>';
-		  }
+			var orderInfo;
+			if (detail.type == 1) {
+				orderInfo = '<CB>入库单</CB><BR>';
+			} else {
+				orderInfo = '<CB>出库单</CB><BR>';
+			}
+			orderInfo += '--------------------------------<BR>';
+			for (let i = 0; i < products.length; i++) {
+				orderInfo += '产品名称：' + products[i].goodsName + '<BR>';
+				orderInfo += '实际单价：' + products[i].retailPrice + '<BR>';
+				orderInfo += '数量    ：X' + products[i].num + '<BR>';
+				orderInfo += '<RIGHT>总计：' + products[i].total_money + '</RIGHT>';
+				orderInfo += '--------------------------------<BR>';
+			}
+			orderInfo += '<BOLD><RIGHT>全部总计：' + detail.all_money + '</RIGHT></BOLD>';
+			orderInfo += '--------------------------------<BR>';
+			if (detail.type == 1) {
+				orderInfo += '开单明细：<BR>';
+				orderInfo += '<BR>';
+				if (detail.producer != null) {
+					orderInfo += '供货商姓名：' + detail.producer.producer_name + '<BR>';
+				}
+				if (detail.real_money == null) {
+					orderInfo += '实际收款：未填写 <BR>';
+				} else {
+					orderInfo += '实际收款：' + detail.real_money + '<BR>';
+				}
+				if (detail.debt > 0) {
+					orderInfo += '本次欠款：' + detail.debt + '<BR>';
+				}
+				orderInfo += '--------------------------------<BR>';
+			}
+
+			if (detail.type == -1) {
+				orderInfo += '开单明细：<BR>';
+				orderInfo += '<BR>';
+				if (detail.custom) {
+					orderInfo += '客户姓名：' + detail.custom.custom_name + '<BR>';
+				}
+				if (detail.real_money) {
+					orderInfo += '实际收款：未填写 <BR>';
+				} else {
+					orderInfo += '实际收款：' + detail.real_money + '<BR>';
+				}
+
+				if (detail.debt > 0) {
+					orderInfo += '本次欠款  ：' + detail.debt + '<BR>';
+				}
+
+				orderInfo += '--------------------------------<BR>';
+			}
 		}
-					
+
 		orderInfo += '操作者：' + detail.opreater.nickName + '<BR>';
 		orderInfo += '备注：' + (detail.beizhu == '') ? '备注：暂无' + '<BR>' : detail.beizhu + '<BR>';
 		orderInfo += '操作时间：' + detail.createdAt + '<BR>';
-					
+
 		this.print_by_code(orderInfo);
 	},
-	
+
 	//打印商品信息
 	print_by_code: function(orderInfo) {
 		//USER和UKEY在飞鹅云（ http://admin.feieyun.com/ ）管理后台的个人中心可以查看

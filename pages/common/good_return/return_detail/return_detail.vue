@@ -49,7 +49,8 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
-
+	import print from'@/utils/print.js';
+	
 	let uid;
 	let that;
 	let shopId;
@@ -179,6 +180,7 @@
 						query.set("all_money", that.all_money);
 						query.save().then(res => {
 							console.log("添加操作历史记录成功", res);
+							let operationId = res.objectId;
 							uni.hideLoading();
 							uni.removeStorageSync("customs"); //移除这个缓存
 							uni.showToast({
@@ -222,6 +224,11 @@
 										
 										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that
 											.products.length + "商品的退货", 2, res.objectId);
+										//自动打印
+										if(uni.getStorageSync("setting").auto_print){
+											print.autoPrint(operationId);
+										}
+										
 										uni.navigateBack({
 											delta: 2
 										});

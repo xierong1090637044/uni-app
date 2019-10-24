@@ -33,7 +33,8 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
-
+	import print from'@/utils/print.js';
+	
 	let uid;
 	let that;
 
@@ -134,7 +135,8 @@
 						}
 
 						query.save().then(res => {
-							console.log("添加操作历史记录成功", res);
+							let operationId = res.objectId;
+							//console.log("添加操作历史记录成功", res);
 							uni.hideLoading();
 							uni.showToast({
 								title: '产品盘点成功',
@@ -178,6 +180,11 @@
 										uni.removeStorageSync("warehouse")
 										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 3, res.objectId);
+											
+											//自动打印
+											if(uni.getStorageSync("setting").auto_print){
+												print.autoPrint(operationId);
+											}
 										uni.navigateBack({
 											delta: 2
 										});

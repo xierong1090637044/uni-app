@@ -89,6 +89,7 @@
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import send_temp from '@/utils/send_temp.js';
+	import print from'@/utils/print.js';
 
 	let uid;
 	let that;
@@ -323,7 +324,8 @@
 						}
 						query.set("all_money", that.all_money);
 						query.save().then(res => {
-							console.log("添加操作历史记录成功", res);
+							//console.log("添加操作历史记录成功", res);
+							let operationId = res.objectId;
 							uni.hideLoading();
 							uni.removeStorageSync("customs"); //移除这个缓存
 							uni.showToast({
@@ -401,7 +403,12 @@
 										params1.form_Id = fromid
 										params1.id = res.objectId
 										send_temp.send_out_mini(params1);
-
+										
+										//自动打印
+										if(uni.getStorageSync("setting").auto_print){
+											print.autoPrint(operationId);
+										}
+										
 										uni.navigateBack({
 											delta: 2
 										});
