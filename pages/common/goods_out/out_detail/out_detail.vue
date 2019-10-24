@@ -107,7 +107,7 @@
 				all_money: 0, //总价
 				custom: null, //制造商
 				outType: '', //发货方式
-				discount:'',//会员率
+				discount: '', //会员率
 				pickerTypes: [{
 						desc: "自提",
 						type: 1
@@ -133,13 +133,13 @@
 			uid = uni.getStorageSync("uid");
 
 			this.products = uni.getStorageSync("products");
-			
+
 		},
 		onShow() {
 			this.really_total_money = 0
 			this.all_money = 0
 			this.real_money = 0
-			
+
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
 
@@ -156,10 +156,10 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 				}
-				this.really_total_money = this.really_total_money* that.discount/100
-				this.real_money = Number(this.all_money.toFixed(2))* that.discount/100
-				this.all_money = this.all_money* that.discount/100
-			}else{
+				this.really_total_money = this.really_total_money * that.discount / 100
+				this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100
+				this.all_money = this.all_money * that.discount / 100
+			} else {
 				for (let i = 0; i < this.products.length; i++) {
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
@@ -335,10 +335,9 @@
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
-											common.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + (that.products[
-														i].warning_num ?
-													that.products[i].warning_num : 0),
-												-2, that.products[i].objectId);
+											if (that.products[i].warning_num >= that.products[i].reserve) {
+												common.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + that.products[i].warning_num,-2, that.products[i].objectId);
+											}
 
 											if (that.products[i].selectd_model) {
 												for (let model of JSON.parse(that.products[i].selectd_model)) {

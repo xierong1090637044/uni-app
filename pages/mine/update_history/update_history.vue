@@ -19,15 +19,18 @@
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
-						 <text>新增产品报表页面</text>
-						 <text>新增单品统计页面</text>
-						 <text>新增采购、销售操作以及发货方式选项</text>
-						 <text>新增一键清零操作</text>
-						 <text>支持连续扫码添加产品</text>
-						 <text>库存种类显示错误修复</text>
-						 <text>新增员工进价隐藏权限</text>
-						 <text>多规格产品出入库bug修复</text>
-						 <text>一些bug修复</text>
+						<text>新增操作手册说明</text>
+						<text>新增会员率以及一些样式修改</text>
+						<text>新增产品报表页面</text>
+						<text>新增单品统计页面</text>
+						<text>新增采购、销售操作以及发货方式选项</text>
+						<text>新增一键清零操作</text>
+						<text>支持连续扫码添加产品</text>
+						<text>库存种类显示错误修复</text>
+						<text>新增员工进价隐藏权限</text>
+						<text>多规格产品出入库bug修复</text>
+						<text>门店修改bug修复</text>
+						<text>产品出入预警bug修复</text>
 					</view>
 				</view>
 				<view class="describe">
@@ -37,17 +40,17 @@
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
-						 <text>新增员工操作记录页面，以及汇总</text>
-						 <text>添加产品支持选择一级分类</text>
-						 <text>经营状况计算方式以及文字描述修改</text>
-						 <text>产品信息修改支持图片上传</text>
-						 <text>产品搜索优化</text>
-						 <text>增加小程序通知功能</text>
-						 <text>兼容老数据，支持一级分类的筛选</text>
-						 <text>修改一些页面文字</text>
+						<text>新增员工操作记录页面，以及汇总</text>
+						<text>添加产品支持选择一级分类</text>
+						<text>经营状况计算方式以及文字描述修改</text>
+						<text>产品信息修改支持图片上传</text>
+						<text>产品搜索优化</text>
+						<text>增加小程序通知功能</text>
+						<text>兼容老数据，支持一级分类的筛选</text>
+						<text>修改一些页面文字</text>
 					</view>
 				</view>
-				
+
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.3 公测版</text>
@@ -64,7 +67,7 @@
 						<text>新增vip功能，我们希望你们可以理解</text>
 					</view>
 				</view>
-				
+
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.2 公测版</text>
@@ -80,7 +83,7 @@
 						<text>优化一些页面的操作以及UI体验</text>
 					</view>
 				</view>
-				
+
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.1 公测版</text>
@@ -100,7 +103,7 @@
 						<text>客户明细bug修复</text>
 					</view>
 				</view>
-				
+
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.0 公测版</text>
@@ -135,7 +138,7 @@
 	export default {
 		data() {
 			return {
-				version:"1.0.5",
+				version: "1.0.5",
 				year: new Date().getFullYear()
 			}
 		},

@@ -1,6 +1,5 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -24,8 +23,8 @@
 				"navigationBarTitleText": "产品入库"
 			}
 		},
-		
-		
+
+
 		{
 			"path": "pages/manage/productCount/productCount",
 			"style": {
@@ -172,7 +171,7 @@
 				"navigationBarTitleText": "退货详情"
 			}
 		},
-		
+
 		{
 			"path": "pages/manage/staff/staff",
 			"style": {
@@ -246,7 +245,7 @@
 			}
 		},
 
-		
+
 
 		{
 			"path": "pages/report/report",
@@ -377,6 +376,9 @@
 			"style": {
 				"navigationBarTitleText": "操作手册"
 			}
+		}, {
+			"path": "pages/mine/manual/detail/detail",
+			"style": {}
 		}
 	],
 	"tabBar": {
