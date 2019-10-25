@@ -55,8 +55,9 @@
 					USER: '',
 					UKEY: '',
 					number: '',
-					wechat_info: '',
-					auto_print:'',//自动打印
+					wx_openid:'',
+					wechat_info: false,
+					auto_print:false,//自动打印
 				},
 			}
 		},
@@ -66,11 +67,23 @@
 
 			that.identity = uni.getStorageSync("identity");
 			mine.query_setting().then(res => {
-				that.params = res[0]
-				if (res[0].wx_openid) {
-					that.params.wechat_info = true
-				} else {
-					that.params.wechat_info = false
+				
+				if(res[0]){
+					that.params.show_float = res[0].show_float?res[0].show_float:''
+					that.params.USER = res[0].USER?res[0].USER:''
+					that.params.UKEY = res[0].UKEY?res[0].UKEY:''
+					that.params.number = res[0].show_float?res[0].number:''
+					if (res[0].wx_openid) {
+						that.params.wechat_info = true
+					} else {
+						that.params.wechat_info = false
+					}
+					
+					if (res[0].auto_print) {
+						that.params.auto_print = true
+					} else {
+						that.params.auto_print = false
+					}
 				}
 			})
 		},

@@ -1,5 +1,8 @@
 {
-	"pages": [
+	"pages": [{
+			"path": "pages/mine/uploadFile/uploadFile",
+			"style": {}
+		},
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -379,9 +382,6 @@
 			}
 		}, {
 			"path": "pages/mine/manual/detail/detail",
-			"style": {}
-		},{
-			"path": "pages/mine/uploadFile/uploadFile",
 			"style": {}
 		}
 	],

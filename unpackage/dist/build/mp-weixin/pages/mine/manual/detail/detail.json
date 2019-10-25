@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}
