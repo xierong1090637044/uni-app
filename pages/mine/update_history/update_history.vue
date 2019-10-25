@@ -14,6 +14,18 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.6 公测版</text>
+						<text class="desc-time">2019.10.25</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>新增自动打印</text>
+						<text>新增批量导入导出（待测试）</text>
+						<text>支持修改个人头像，昵称，性别</text>
+					</view>
+				</view>
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.5 公测版</text>
 						<text class="desc-time">2019.10.22</text>
 					</view>
@@ -138,7 +150,7 @@
 	export default {
 		data() {
 			return {
-				version: "1.0.5",
+				version: "1.0.6",
 				year: new Date().getFullYear()
 			}
 		},

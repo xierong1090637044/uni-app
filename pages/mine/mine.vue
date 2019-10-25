@@ -43,11 +43,11 @@
 					<view class="text">操作手册</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="uploadFile/uploadFile">
+				<view class="li " @click="willCome()">
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
+				</view>
 				<navigator class="li noborder" hover-class="none" url="setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
@@ -105,7 +105,12 @@
 			that.user = uni.getStorageSync("user");
 		},
 		methods: {
-
+			willCome(){
+				uni.showToast({
+					title:"敬请期待",
+					icon:"none"
+				})
+			}
 		}
 	}
 </script>

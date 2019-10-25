@@ -63,7 +63,9 @@
     "pages/manage/goods_add_MoreG/goods_add_MoreG",
     "pages/manage/goods_add_MoreG/G_More/G_More",
     "pages/manage/good_det/bad_history/bad_history",
-    "pages/mine/manual/manual"
+    "pages/mine/manual/manual",
+    "pages/mine/manual/detail/detail",
+    "pages/mine/uploadFile/uploadFile"
   ],
   "subPackages": [],
   "window": {
