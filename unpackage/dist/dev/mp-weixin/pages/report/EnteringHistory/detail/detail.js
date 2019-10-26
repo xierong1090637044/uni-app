@@ -305,6 +305,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
 var _print = _interopRequireDefault(__webpack_require__(/*! @/utils/print.js */ 89));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -488,8 +494,15 @@ var _print = _interopRequireDefault(__webpack_require__(/*! @/utils/print.js */ 
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 665));};var that;var id;var _default = { components: { loading: loading, uniNavBar: uniNavBar }, data: function data() {return { user: uni.getStorageSync("user"), bills: [], loading: true, products: null, detail: null };}, onLoad: function onLoad(options) {console.log(options);that = this;id = options.id;that.getdetail(id);}, methods: { //点击显示操作菜单
-    show_options: function show_options() {uni.showActionSheet({ itemList: ['打印'], success: function success(res) {if (res.tapIndex == 0) {_print.default.print_operations(that.detail, that.products);}}, fail: function fail(res) {console.log(res.errMsg);} });}, getdetail: function getdetail(id) {var query = _hydrogenJsSdk.default.Query('order_opreations');query.include("opreater", "custom", "producer", "stock");query.get(id).then(function (res) {console.log(res);that.detail = res;if (res.detail) {that.products = res.detail;that.bills = res.bills;that.loading = false;} else {var _query = _hydrogenJsSdk.default.Query('order_opreations');_query.include("goodsId");_query.field('relations', res.objectId);_query.relation('Bills').then(function (res) {//console.log(res);
+//
+//
+//
+//
+//
+//
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 665));};var that;var id;var _default = { components: { loading: loading, uniNavBar: uniNavBar }, data: function data() {return { user: uni.getStorageSync("user"), bills: [], loading: true, products: null, detail: null };}, onLoad: function onLoad(options) {console.log(options);that = this;id = options.id;that.getdetail(id);}, methods: { //预览图片
+    priview: function priview(url) {uni.previewImage({ current: url, urls: that.detail.Images });}, //点击显示操作菜单
+    show_options: function show_options() {var options = ['打印'];if (that.detail.type == -1 || that.detail.type == 1) {options = ['打印', '撤销'];}uni.showActionSheet({ itemList: options, success: function success(res) {if (res.tapIndex == 0) {_print.default.print_operations(that.detail, that.products);} else if (res.tapIndex == 1) {that.revoke();}}, fail: function fail(res) {console.log(res.errMsg);} });}, getdetail: function getdetail(id) {var query = _hydrogenJsSdk.default.Query('order_opreations');query.include("opreater", "custom", "producer", "stock");query.get(id).then(function (res) {console.log(res);that.detail = res;if (res.detail) {that.products = res.detail;that.bills = res.bills;that.loading = false;} else {var _query = _hydrogenJsSdk.default.Query('order_opreations');_query.include("goodsId");_query.field('relations', res.objectId);_query.relation('Bills').then(function (res) {//console.log(res);
             that.products = res.results;that.loading = false;});}}).catch(function (err) {console.log(err);});}, //数据撤销点击
     revoke: function revoke() {wx.showModal({ title: '提示', content: '数据撤销后不可恢复，请谨慎撤销！', success: function success(res) {if (res.confirm) {uni.showLoading({ title: '撤销中...' });var query = _hydrogenJsSdk.default.Query('order_opreations');query.destroy(that.detail.objectId).then(function (res) {for (var i = 0; i < that.products.length; i++) {that.delete_bill(i);}}).catch(function (err) {console.log(err);});}} });}, delete_bill: function delete_bill(i) {var product = that.products[i];var bill = that.bills[i];var query = _hydrogenJsSdk.default.Query('Bills');query.destroy(bill).then(function (res) {var query1 = _hydrogenJsSdk.default.Query('Goods');query1.set('id', product.goodsId.objectId);if (product.type == 1) {query1.set('reserve', product.goodsId.reserve - product.num);} else if (product.type == -1) {query1.set('reserve', product.goodsId.reserve + product.num);}query1.save().then(function (res) {if (i == that.products.length - 1) {uni.hideLoading();uni.navigateBack({ delta: 1 });setTimeout(function () {uni.showToast({ title: '撤销成功' });}, 1000);}});});} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

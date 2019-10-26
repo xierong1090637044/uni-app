@@ -210,6 +210,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 77));
 var _send_temp = _interopRequireDefault(__webpack_require__(/*! @/utils/send_temp.js */ 88));
@@ -300,18 +316,54 @@ var _print = _interopRequireDefault(__webpack_require__(/*! @/utils/print.js */ 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var uid;var that;var shopId;var shop; //门店
-var _default = { data: function data() {return { stock: '', //仓库
+var _default = { data: function data() {return { user: uni.getStorageSync("user"), Images: [], //上传凭证图
+      stock: '', //仓库
       shop_name: '', products: null, button_disabled: false, beizhu_text: "", real_money: 0, //实际付款金额
       all_money: 0, //总价
       custom: null, //制造商
       outType: '', //发货方式
       discount: '', //会员率
       pickerTypes: [{ desc: "自提", type: 1 }, { desc: "快递", type: 2 }, { desc: "物流", type: 3 }, { desc: "送货上门", type: 4 }], expressNum: '' //快递单号
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, onShow: function onShow() {this.really_total_money = 0;this.all_money = 0;this.real_money = 0;that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _hydrogenJsSdk.default.Pointer('shops');shopId = pointer.set(shop.objectId);}if (that.custom.discount) {that.discount = that.custom.discount;for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2));}this.really_total_money = this.really_total_money * that.discount / 100;this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100;this.all_money = this.all_money * that.discount / 100;} else {for (var _i = 0; _i < this.products.length; _i++) {this.all_money = Number((this.products[_i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[_i].really_total_money + this.really_total_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : '';}, methods: { //修改会员率
-    getDiscount: function getDiscount(e) {var discount = Number(e.detail.value);if (discount >= 100) {that.discount = 100;} else {that.discount = discount;that.real_money = Number(this.all_money.toFixed(2)) * discount / 100;}}, //选择物流方式
-    select_outType: function select_outType(e) {//console.log(e)
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, onShow: function onShow() {this.really_total_money = 0;this.all_money = 0;this.real_money = 0;that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _hydrogenJsSdk.default.Pointer('shops');shopId = pointer.set(shop.objectId);}if (that.custom.discount) {that.discount = that.custom.discount;for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2));}this.really_total_money = this.really_total_money * that.discount / 100;this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100;this.all_money = this.all_money * that.discount / 100;} else {for (var _i = 0; _i < this.products.length; _i++) {this.all_money = Number((this.products[_i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[_i].really_total_money + this.really_total_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : '';}, methods: { //移除此张照片
+    removeImg: function removeImg(index) {that.Images.splice(index, 1);that.Images = that.Images;}, //上传凭证图
+    upload_image: function upload_image() {if (that.user.is_vip) {uni.chooseImage({ count: 3, //默认9
+          sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'], //从相册选择
+          success: function success(res) {console.log(res);var timestamp = Date.parse(new Date());var tempFilePaths = res.tempFilePaths;var file;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {for (var _iterator = tempFilePaths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;file = _hydrogenJsSdk.default.File(timestamp + '.jpg', item);}} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}file.save().then(function (res) {var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {for (var _iterator2 = res[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {var item = _step2.value;that.Images.push(res[0].url);}} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}});} });} else {uni.showToast({ title: "您还不是会员，无法使用", icon: 'none' });}},
+
+    //修改会员率
+    getDiscount: function getDiscount(e) {
+      var discount = Number(e.detail.value);
+      if (discount >= 100) {
+        that.discount = 100;
+      } else {
+        that.discount = discount;
+        that.real_money = Number(this.all_money.toFixed(2)) * discount / 100;
+      }
+    },
+
+    //选择物流方式
+    select_outType: function select_outType(e) {
+      //console.log(e)
       that.outType = that.pickerTypes[e.detail.value];
+
       if (that.outType.type != 2 || that.outType.type != 3) {
         that.expressNum = '';
       }
@@ -447,6 +499,7 @@ var _default = { data: function data() {return { stock: '', //仓库
           query.set("expressNum", that.expressNum);
         }
         query.set("all_money", that.all_money);
+        query.set("Images", that.Images);
         query.save().then(function (res) {
           //console.log("添加操作历史记录成功", res);
           var operationId = res.objectId;
@@ -465,15 +518,15 @@ var _default = { data: function data() {return { stock: '', //仓库
                     _common.default.log(that.products[_i3].goodsName + "出库了" + that.products[_i3].num + "件，已经低于预警数量" + that.products[_i3].warning_num, -2, that.products[_i3].objectId);
                   }
 
-                  if (that.products[_i3].selectd_model) {var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
-                      for (var _iterator = JSON.parse(that.products[_i3].selectd_model)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var model = _step.value;var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {
-                          for (var _iterator2 = that.products[_i3].models[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {var item = _step2.value;
+                  if (that.products[_i3].selectd_model) {var _iteratorNormalCompletion3 = true;var _didIteratorError3 = false;var _iteratorError3 = undefined;try {
+                      for (var _iterator3 = JSON.parse(that.products[_i3].selectd_model)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {var model = _step3.value;var _iteratorNormalCompletion4 = true;var _didIteratorError4 = false;var _iteratorError4 = undefined;try {
+                          for (var _iterator4 = that.products[_i3].models[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {var item = _step4.value;
                             num += Number(item.reserve);
                             if (item.id == JSON.parse(model).id) {
                               item.reserve = Number(item.reserve) - Number(that.products[_i3].num);
                             }
-                          }} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}
-                      }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+                          }} catch (err) {_didIteratorError4 = true;_iteratorError4 = err;} finally {try {if (!_iteratorNormalCompletion4 && _iterator4.return != null) {_iterator4.return();}} finally {if (_didIteratorError4) {throw _iteratorError4;}}}
+                      }} catch (err) {_didIteratorError3 = true;_iteratorError3 = err;} finally {try {if (!_iteratorNormalCompletion3 && _iterator3.return != null) {_iterator3.return();}} finally {if (_didIteratorError3) {throw _iteratorError3;}}}
                     num = num - Number(that.products[_i3].num);
                     res.set('models', that.products[_i3].models);
                   } else {
@@ -481,7 +534,7 @@ var _default = { data: function data() {return { stock: '', //仓库
                   }
 
                   res.set('reserve', num);
-                  res.set('stocktype', num > that.products[_i3].warning_num ? 1 : 0);
+                  res.set('stocktype', num >= that.products[_i3].warning_num ? 1 : 0);
                   res.save();
                 }).catch(function (err) {
                   console.log(err);

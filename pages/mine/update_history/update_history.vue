@@ -20,7 +20,9 @@
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>新增自动打印</text>
-						<text>新增批量导入导出（待测试）</text>
+						<text>新增批量导入导出</text>
+						<text>出入库新增凭证图</text>
+						<text>预警记录以及操作记录支持查询到一年</text>
 						<text>支持修改个人头像，昵称，性别</text>
 					</view>
 				</view>

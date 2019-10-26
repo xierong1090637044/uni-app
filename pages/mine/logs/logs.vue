@@ -18,7 +18,10 @@
 				</view>
 				
 			</scroll-view>
-			<nocontent v-else :type="1"  class="content"></nocontent>
+			<view v-else  class="content">
+				<nocontent :type="1" ></nocontent>
+			</view>
+			
 			<view style="padding: 6rpx 0;border-top: 1rpx solid#ddd;">
 				<uni-pagination :show-icon="true" total="100000" :current="page_num" @change="change_page($event)"></uni-pagination>
 			</view>

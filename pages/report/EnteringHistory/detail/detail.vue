@@ -62,9 +62,9 @@
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
 								<view>产品：{{item.goodsName}}
-								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'"></text>
-								<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
-							 </view>
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'"></text>
+									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
+								</view>
 							</view>
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
@@ -166,15 +166,21 @@
 						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>
+
+						<view v-if="detail.Images && detail.Images.length > 0">
+							<view class="notice_text">凭证图</view>
+
+							<view style="width: 100%;padding: 20rpx 0;">
+								<view class="upload_image display_flex">
+									<view style="position: relative;" v-for="(url,index) in detail.Images" :key="index" @click="priview(url)">
+										<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+									</view>
+								</view>
+							</view>
+						</view>
 					</view>
 				</view>
-
-				<view v-if="detail.type == -1 || detail.type == 1">
-					<button class='confrim_button' @click='revoke'>此操作有误，撤销</button>
-				</view>
 			</scroll-view>
-
-
 		</view>
 
 	</view>
@@ -211,14 +217,28 @@
 		},
 		methods: {
 
+			//预览图片
+			priview(url) {
+				uni.previewImage({
+					current:url,
+					urls: that.detail.Images,
+				});
+			},
+
 			//点击显示操作菜单
 			show_options() {
+				let options = ['打印'];
+				if(that.detail.type == -1 || that.detail.type == 1){
+					options = ['打印','撤销']
+				}
 				uni.showActionSheet({
-					itemList: ['打印'],
+					itemList:options,
 					success: function(res) {
 
 						if (res.tapIndex == 0) {
 							print.print_operations(that.detail, that.products)
+						}else if(res.tapIndex == 1){
+							that.revoke()
 						}
 					},
 					fail: function(res) {
