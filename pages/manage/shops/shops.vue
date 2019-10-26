@@ -16,7 +16,7 @@
 			</view>
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
-			 enable-back-to-top="true">
+			 enable-back-to-top="true"  v-if="shops && shops.length > 0">
 				<view v-for="(shop,index) in shops" :key="index">
 
 					<view class='content'>
@@ -51,6 +51,7 @@
 
 				</view>
 			</scroll-view>
+			<nocontent v-else :type="1"></nocontent>
 
 		</view>
 	</view>

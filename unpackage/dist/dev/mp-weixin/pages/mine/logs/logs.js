@@ -149,8 +149,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
-var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 77));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 611));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 687));};
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 77));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 611));};var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 687));};var uniPagination = function uniPagination() {return __webpack_require__.e(/*! import() | components/uni-pagination/uni-pagination */ "components/uni-pagination/uni-pagination").then(__webpack_require__.bind(null, /*! @/components/uni-pagination/uni-pagination.vue */ 672));};
+
 
 
 var that;
@@ -161,13 +167,15 @@ var page_size = 50;var _default =
   components: {
     loading: loading,
     faIcon: faIcon,
+    uniPagination: uniPagination,
     uniSegmentedControl: uniSegmentedControl },
 
   data: function data() {
     return {
+      page_num: 1,
       logsList: "",
       loading: true,
-      items: ['今天', '最近七天', '最近一个月'],
+      items: ['今天', '一个月', '一年'],
       current: 0 };
 
   },
@@ -178,9 +186,9 @@ var page_size = 50;var _default =
     that.get_logsList(0);
   },
   methods: {
-    //滚动到底部加载更多
-    load_more: function load_more() {
-      page_size += 50;
+    //分页点击
+    change_page: function change_page(e) {
+      that.page_num = e.current;
       that.get_logsList(day, true);
     },
     //tab点击
@@ -193,14 +201,14 @@ var page_size = 50;var _default =
           that.get_logsList(0);
           console.log(_common.default.getDay(1, true));
         } else if (index == 1) {
-          day = -7;
-          that.get_logsList(-7);
-          console.log(_common.default.getDay(-7, true));
-        } else {
           day = -30;
           that.get_logsList(-30);
-
           console.log(_common.default.getDay(-30, true));
+        } else {
+          day = -365;
+          that.get_logsList(-365);
+
+          console.log(_common.default.getDay(-365, true));
         }
       }
     },
@@ -213,6 +221,7 @@ var page_size = 50;var _default =
       query.equalTo("createdAt", ">=", _common.default.getDay(day, true));
       query.order("-createdAt");
       query.limit(page_size);
+      query.skip(page_size * (that.page_num - 1));
       query.find().then(function (res) {
         //console.log(res)
         that.logsList = res;

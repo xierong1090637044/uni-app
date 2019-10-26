@@ -13,7 +13,7 @@
 			<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
 		</view>
 		
-		<scroll-view class="content" scroll-y="true">
+		<scroll-view class="content" scroll-y="true"  v-if="people && people.length > 0">
 			<view v-show="current === 0" class="info_item">
 				<view v-for="(item,index) in people" :key="index" class="item">
 					<navigator class="display_flex_bet" hover-class="none" :url="'custom_detail/custom_detail?id='+item.objectId">
@@ -65,6 +65,7 @@
 			</view>
 
 		</scroll-view>
+		<nocontent v-else :type="1"></nocontent>
 	</view>
 </template>
 

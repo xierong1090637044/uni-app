@@ -16,7 +16,7 @@
 			</view>
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
-			 enable-back-to-top="true">
+			 enable-back-to-top="true" v-if="stocks && stocks.length > 0">
 				<view v-for="(stock,index) in stocks" :key="index">
 					<view class='content'>
 						<view class="display_flex_bet" @click="goto_detail(stock)">
@@ -47,6 +47,7 @@
 					</view>
 				</view>
 			</scroll-view>
+			<nocontent v-else :type="1"></nocontent>
 
 		</view>
 	</view>

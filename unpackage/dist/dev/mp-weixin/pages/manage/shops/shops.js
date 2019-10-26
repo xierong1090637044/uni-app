@@ -181,6 +181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _staffs = _interopRequireDefault(__webpack_require__(/*! @/utils/staffs.js */ 115));
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -240,9 +241,9 @@ var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-
 //
 //
 //
+//
 var uniSegmentedControl = function uniSegmentedControl() {return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 687));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 611));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 665));};var uniIcon = function uniIcon() {return __webpack_require__.e(/*! import() | components/uni-icon/uni-icon */ "components/uni-icon/uni-icon").then(__webpack_require__.bind(null, /*! @/components/uni-icon/uni-icon.vue */ 630));};var that;var search_text;var uid;var _default = { components: { uniSegmentedControl: uniSegmentedControl, faIcon: faIcon, loading: loading, uniNavBar: uniNavBar, uniIcon: uniIcon }, data: function data() {return { loading: true, shops: null, is_choose: false, items: ['已启用', '未启用'], current: 0, disabled: false };}, onLoad: function onLoad(options) {that = this;uid = uni.getStorageSync('uid');if (options.type == "choose") {that.is_choose = true;}}, onShow: function onShow() {uni.removeStorageSync("shop");that.getshop_list();}, onUnload: function onUnload() {search_text = "";}, methods: { //点击选择操作列表
-    choose_way: function choose_way(shopId) {uni.showActionSheet({ itemList: ['员工列表', '查看记录'], success: function success(res) {console.log('选中了第' + (res.tapIndex + 1) + '个按钮');if (res.tapIndex == 0) {uni.navigateTo({ url: "staff_in/staff_in?shopId=" + shopId });} else {uni.navigateTo({
-              url: "record/record?shopId=" + shopId });
+    choose_way: function choose_way(shopId) {uni.showActionSheet({ itemList: ['员工列表', '查看记录'], success: function success(res) {console.log('选中了第' + (res.tapIndex + 1) + '个按钮');if (res.tapIndex == 0) {uni.navigateTo({ url: "staff_in/staff_in?shopId=" + shopId });} else {uni.navigateTo({ url: "record/record?shopId=" + shopId });
 
           }
         },
