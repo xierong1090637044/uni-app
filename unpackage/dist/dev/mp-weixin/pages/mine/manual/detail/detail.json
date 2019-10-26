@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "详情",
   "usingComponents": {
     "u-parse": "/components/uParse/src/wxParse"
   }

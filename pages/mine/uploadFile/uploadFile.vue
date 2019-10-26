@@ -44,7 +44,7 @@
 							filePath: tempFiles[0].path,
 							name: 'file',
 							formData: {
-								'user': 'test'
+								'userid': uni.getStorageSync('uid')
 							},
 							success: (uploadFileRes) => {
 								console.log(uploadFileRes.data);

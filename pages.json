@@ -1,14 +1,11 @@
 {
 	"pages": [{
-			"path": "pages/mine/uploadFile/uploadFile",
-			"style": {}
-		},
-		{
-			"path": "pages/index/index",
+			"path": "pages/tarBar/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},
+
 		{
 			"path": "pages/common/goods_out/out_detail/out_detail",
 			"style": {
@@ -28,93 +25,17 @@
 			}
 		},
 
+		{
+			"path": "pages/tarBar/manage",
+			"style": {
+				"navigationBarTitleText": "管理"
+			}
+		},
 
-		{
-			"path": "pages/manage/productCount/productCount",
-			"style": {
-				"navigationBarTitleText": "产品统计"
-			}
-		},
-		{
-			"path": "pages/manage/operations/operations",
-			"style": {
-				"navigationBarTitleText": "操作详情"
-			}
-		},
 		{
 			"path": "pages/report/chart/chart",
 			"style": {
 				"navigationBarTitleText": "报表"
-			}
-		},
-		{
-			"path": "pages/mine/vip/vip",
-			"style": {
-				"navigationBarTitleText": "会员",
-				"navigationBarBackgroundColor": "#1297fe"
-			}
-		},
-		{
-			"path": "pages/manage/shops/record/record",
-			"style": {
-				"navigationBarTitleText": "全部记录"
-			}
-		},
-
-		{
-			"path": "pages/manage/good_add/good_add",
-			"style": {
-				"navigationBarTitleText": "新建产品"
-			}
-		},
-
-		{
-			"path": "pages/manage/custom/custom_detail/history/history",
-			"style": {
-				"navigationBarTitleText": "销售明细"
-			}
-		},
-
-		{
-			"path": "pages/manage/goods/goods",
-			"style": {
-				"navigationBarTitleText": "我的产品"
-			}
-		},
-
-
-
-		{
-			"path": "pages/manage/good_det/custom_detail/custom_detail",
-			"style": {
-				"navigationBarTitleText": "客户统计"
-			}
-		},
-
-		{
-			"path": "pages/manage/custom/custom_detail/debt_history/debt_history",
-			"style": {
-				"navigationBarTitleText": "收款列表"
-			}
-		},
-
-		{
-			"path": "pages/manage/custom/producer_detail/producer_detail",
-			"style": {
-				"navigationBarTitleText": "供货商详情"
-			}
-		},
-		{
-			"path": "pages/manage/custom/custom_detail/custom_detail",
-			"style": {
-				"navigationBarTitleText": "客户详情"
-			}
-		},
-
-		{
-			"path": "pages/manage/good_det/good_det",
-			"style": {
-				"navigationBarTitleText": "产品详情"
 			}
 		},
 
@@ -131,30 +52,18 @@
 			}
 		},
 		{
-			"path": "pages/mine/mine",
+			"path": "pages/tarBar/mine",
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
 		},
-		{
-			"path": "pages/manage/warehouse/detail/detail",
-			"style": {
-				"navigationBarTitleText": "仓库详情"
-			}
-		},
+
 		{
 			"path": "pages/report/operational_status/operational_status",
 			"style": {
 				"navigationBarTitleText": "经营状况"
 			}
 		},
-		{
-			"path": "pages/mine/logs/logs",
-			"style": {
-				"navigationBarTitleText": "操作记录"
-			}
-		},
-
 		{
 			"path": "pages/report/EnteringHistory/EnteringHistory",
 			"style": {}
@@ -177,82 +86,7 @@
 		},
 
 		{
-			"path": "pages/manage/staff/staff",
-			"style": {
-				"navigationBarTitleText": "员工管理"
-			}
-		},
-
-		{
-			"path": "pages/manage/shops/shops",
-			"style": {
-				"navigationBarTitleText": "门店管理"
-			}
-		},
-		{
-			"path": "pages/manage/warehouse/warehouse",
-			"style": {
-				"navigationBarTitleText": "仓库管理"
-			}
-		},
-		{
-			"path": "pages/manage/warehouse/add/add",
-			"style": {
-				"navigationBarTitleText": "新增仓库"
-			}
-		},
-
-		{
-			"path": "pages/manage/shops/add/add",
-			"style": {
-				"navigationBarTitleText": "新增门店"
-			}
-		},
-		{
-			"path": "pages/manage/staff/add/add",
-			"style": {
-				"navigationBarTitleText": "新增员工"
-			}
-		},
-		{
-			"path": "pages/mine/setting/setting",
-			"style": {
-				"navigationBarTitleText": "我的设置"
-			}
-		},
-
-
-		{
-			"path": "pages/manage/custom/custom",
-			"style": {
-				"navigationBarTitleText": "客户管理"
-			}
-		},
-
-		{
-			"path": "pages/manage/custom/add/add",
-			"style": {}
-		},
-		{
-			"path": "pages/manage/manage",
-			"style": {
-				"navigationBarTitleText": "管理"
-			}
-		},
-
-
-
-		{
-			"path": "pages/manage/category/category",
-			"style": {
-				"navigationBarTitleText": "类别管理"
-			}
-		},
-
-
-
-		{
-			"path": "pages/report/report",
+			"path": "pages/tarBar/report",
 			"style": {
 				"navigationBarTitleText": "报表"
 			}
@@ -281,59 +115,17 @@
 			"style": {
 				"navigationBarTitleText": "盘点详情"
 			}
-		}, {
-			"path": "pages/mine/about_us/about_us",
-			"style": {
-				"navigationBarTitleText": "关于我们"
-			}
-		}, {
-			"path": "pages/mine/home_page/home_page",
-			"style": {
-				"navigationBarTitleText": "账号信息"
-			}
-		}
+		},
 
-		, {
+		{
 			"path": "pages/staff_landing/staff_landing",
 			"style": {
 				"navigationBarTitleText": "员工登陆"
 			}
 		}, {
-			"path": "pages/mine/warning_log/warning_log",
-			"style": {
-				"navigationBarTitleText": "预警记录"
-			}
-		}, {
-			"path": "pages/manage/shops/staff_in/staff_in",
-			"style": {
-				"navigationBarTitleText": "员工列表"
-			}
-		}, {
 			"path": "pages/register/user_protocol/user_protocol",
 			"style": {
 				"navigationBarTitleText": "用户协议"
-			}
-		}, {
-			"path": "pages/mine/update_history/update_history",
-			"style": {
-				"navigationBarTitleText": "更新历史"
-			}
-		}
-
-		, {
-			"path": "pages/manage/custom/producer_detail/history/history",
-			"style": {
-				"navigationBarTitleText": "采购明细"
-			}
-		}
-
-		, {
-			"path": "pages/manage/custom/producer_detail/debt_history/debt_history",
-			"style": {}
-		}, {
-			"path": "pages/manage/warehouse/record/record",
-			"style": {
-				"navigationBarTitleText": "仓库记录"
 			}
 		}, {
 			"path": "pages/common/good_allocation/good_allocation",
@@ -345,69 +137,274 @@
 			"style": {
 				"navigationBarTitleText": "盘点详情"
 			}
-		}, {
-			"path": "pages/manage/goods_add/goods_add",
-			"style": {
-				"navigationBarTitleText": "多库存商品上传"
-			}
-		}, {
-			"path": "pages/manage/staff/history/history",
-			"style": {
-				"navigationBarTitleText": "员工的操作记录"
-			}
-		}, {
-			"path": "pages/manage/good_det/edit_info/edit_info",
-			"style": {}
-		}, {
-			"path": "pages/manage/good_det/edit_stock/edit_stock",
-			"style": {}
-		}, {
-			"path": "pages/manage/staff/detail/detail",
-			"style": {}
-		}, {
-			"path": "pages/manage/goods_add_MoreG/goods_add_MoreG",
-			"style": {}
-		}, {
-			"path": "pages/manage/goods_add_MoreG/G_More/G_More",
-			"style": {}
-		}
-
-		, {
-			"path": "pages/manage/good_det/bad_history/bad_history",
-			"style": {}
-		}, {
-			"path": "pages/mine/manual/manual",
-			"style": {
-				"navigationBarTitleText": "操作手册"
-			}
-		}, {
-			"path": "pages/mine/manual/detail/detail",
-			"style": {}
 		}
 	],
+
+	"subPackages": [{
+			"root": "pages/mine",
+			"pages": [{
+				"path": "manual/manual",
+				"style": {
+					"navigationBarTitleText": "操作手册"
+				}
+			}, {
+				"path": "manual/detail/detail",
+				"style": {
+					"navigationBarTitleText": "详情"
+				}
+			}, {
+				"path": "update_history/update_history",
+				"style": {
+					"navigationBarTitleText": "更新历史"
+				}
+			}, {
+				"path": "uploadFile/uploadFile",
+				"style": {
+					"navigationBarTitleText": "批量操作"
+				}
+			}, {
+				"path": "vip/vip",
+				"style": {
+					"navigationBarTitleText": "会员",
+					"navigationBarBackgroundColor": "#1297fe"
+				}
+			}, {
+				"path": "logs/logs",
+				"style": {
+					"navigationBarTitleText": "操作记录"
+				}
+			}, {
+				"path": "setting/setting",
+				"style": {
+					"navigationBarTitleText": "我的设置"
+				}
+			}, {
+				"path": "about_us/about_us",
+				"style": {
+					"navigationBarTitleText": "关于我们"
+				}
+			}, {
+				"path": "home_page/home_page",
+				"style": {
+					"navigationBarTitleText": "账号信息"
+				}
+			}, {
+				"path": "warning_log/warning_log",
+				"style": {
+					"navigationBarTitleText": "预警记录"
+				}
+			}]
+		},
+		{
+			"root": "pages/manage",
+			"pages": [{
+					"path": "productCount/productCount",
+					"style": {
+						"navigationBarTitleText": "产品统计"
+					}
+				},
+				{
+					"path": "operations/operations",
+					"style": {
+						"navigationBarTitleText": "操作详情"
+					}
+				}, {
+					"path": "shops/record/record",
+					"style": {
+						"navigationBarTitleText": "全部记录"
+					}
+				},
+
+				{
+					"path": "good_add/good_add",
+					"style": {
+						"navigationBarTitleText": "新建产品"
+					}
+				},
+
+				{
+					"path": "custom/custom_detail/history/history",
+					"style": {
+						"navigationBarTitleText": "销售明细"
+					}
+				},
+
+				{
+					"path": "goods/goods",
+					"style": {
+						"navigationBarTitleText": "我的产品"
+					}
+				},
+				{
+					"path": "good_det/custom_detail/custom_detail",
+					"style": {
+						"navigationBarTitleText": "客户统计"
+					}
+				},
+
+				{
+					"path": "custom/custom_detail/debt_history/debt_history",
+					"style": {
+						"navigationBarTitleText": "收款列表"
+					}
+				},
+
+				{
+					"path": "custom/producer_detail/producer_detail",
+					"style": {
+						"navigationBarTitleText": "供货商详情"
+					}
+				},
+				{
+					"path": "custom/custom_detail/custom_detail",
+					"style": {
+						"navigationBarTitleText": "客户详情"
+					}
+				},
+
+				{
+					"path": "good_det/good_det",
+					"style": {
+						"navigationBarTitleText": "产品详情"
+					}
+				},
+				{
+					"path": "warehouse/detail/detail",
+					"style": {
+						"navigationBarTitleText": "仓库详情"
+					}
+				},
+				{
+					"path": "staff/staff",
+					"style": {
+						"navigationBarTitleText": "员工管理"
+					}
+				},
+
+				{
+					"path": "shops/shops",
+					"style": {
+						"navigationBarTitleText": "门店管理"
+					}
+				},
+				{
+					"path": "warehouse/warehouse",
+					"style": {
+						"navigationBarTitleText": "仓库管理"
+					}
+				},
+				{
+					"path": "warehouse/add/add",
+					"style": {
+						"navigationBarTitleText": "新增仓库"
+					}
+				},
+
+				{
+					"path": "shops/add/add",
+					"style": {
+						"navigationBarTitleText": "新增门店"
+					}
+				},
+				{
+					"path": "staff/add/add",
+					"style": {
+						"navigationBarTitleText": "新增员工"
+					}
+				},
+				{
+					"path": "custom/custom",
+					"style": {
+						"navigationBarTitleText": "客户管理"
+					}
+				},
+				{
+					"path": "custom/add/add",
+					"style": {}
+				},
+				{
+					"path": "category/category",
+					"style": {
+						"navigationBarTitleText": "类别管理"
+					}
+				},
+				{
+					"path": "shops/staff_in/staff_in",
+					"style": {
+						"navigationBarTitleText": "员工列表"
+					}
+				},
+				{
+					"path": "custom/producer_detail/history/history",
+					"style": {
+						"navigationBarTitleText": "采购明细"
+					}
+				}, {
+					"path": "custom/producer_detail/debt_history/debt_history",
+					"style": {}
+				}, {
+					"path": "warehouse/record/record",
+					"style": {
+						"navigationBarTitleText": "仓库记录"
+					}
+				}, {
+					"path": "goods_add/goods_add",
+					"style": {
+						"navigationBarTitleText": "多库存商品上传"
+					}
+				}, {
+					"path": "staff/history/history",
+					"style": {
+						"navigationBarTitleText": "员工的操作记录"
+					}
+				}, {
+					"path": "good_det/edit_info/edit_info",
+					"style": {}
+				}, {
+					"path": "good_det/edit_stock/edit_stock",
+					"style": {}
+				}, {
+					"path": "staff/detail/detail",
+					"style": {}
+				}, {
+					"path": "goods_add_MoreG/goods_add_MoreG",
+					"style": {}
+				}, {
+					"path": "goods_add_MoreG/G_More/G_More",
+					"style": {}
+				}
+
+				, {
+					"path": "good_det/bad_history/bad_history",
+					"style": {}
+				}
+			]
+		}
+	],
+
 	"tabBar": {
 		"color": "#000",
 		"selectedColor": "#426ab3",
 		"backgroundColor": "#fff",
 		"borderStyle": "white",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/tarBar/index",
 				"iconPath": "static/chuan.png",
 				"selectedIconPath": "static/chuan.png",
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/manage/manage",
+				"pagePath": "pages/tarBar/manage",
 				"iconPath": "static/manage.png",
 				"selectedIconPath": "static/manage.png",
 				"text": "管理"
 			}, {
-				"pagePath": "pages/report/report",
+				"pagePath": "pages/tarBar/report",
 				"iconPath": "static/report.png",
 				"selectedIconPath": "static/report.png",
 				"text": "记录"
 			}, {
-				"pagePath": "pages/mine/mine",
+				"pagePath": "pages/tarBar/mine",
 				"iconPath": "static/person.png",
 				"selectedIconPath": "static/person.png",
 				"text": "我的"

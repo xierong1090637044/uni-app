@@ -1,1 +1,0 @@
-<view><view class="list-content"><view class="list"><view data-event-opts="{{[['tap',[['uploadfile',['$event']]]]]}}" class="li " bindtap="__e"><fa-icon vue-id="1" type="book" size="18" color="#3d3d3d3" bind:__l="__l"></fa-icon><view class="text">操作手册</view><fa-icon vue-id="2" type="angle-right" size="18" color="#999" bind:__l="__l"></fa-icon></view></view></view></view>
