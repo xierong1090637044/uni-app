@@ -30,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _producer_detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./producer_detail.vue?vue&type=script&lang=js& */ 414);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _producer_detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _producer_detail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _producer_detail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./producer_detail.vue?vue&type=style&index=0&lang=css& */ 417);
-/* harmony import */ var _D_Downloads_HBuilderX_2_3_3_20190923_full_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 69);
+/* harmony import */ var _D_Downloads_HBuilderX_2_3_3_20190923_full_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 70);
 
 
 
@@ -191,7 +191,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
 var _producers = _interopRequireDefault(__webpack_require__(/*! @/utils/producers.js */ 416));
-var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 77));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 78));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //
@@ -248,7 +248,7 @@ var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js *
 //
 //
 //
-var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 611));};var uniPopup = function uniPopup() {return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 694));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var that;var _default = { components: { faIcon: faIcon, loading: loading, uniPopup: uniPopup }, data: function data() {return { loading: true, modal_show: false, producer: {}, modal_sk: { sk_number: '', beizhu: "" } };}, onLoad: function onLoad(options) {that = this; //console.log(options.id)
+var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 612));};var uniPopup = function uniPopup() {return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 695));};var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 619));};var that;var _default = { components: { faIcon: faIcon, loading: loading, uniPopup: uniPopup }, data: function data() {return { loading: true, modal_show: false, producer: {}, modal_sk: { sk_number: '', beizhu: "" } };}, onLoad: function onLoad(options) {that = this; //console.log(options.id)
     _producers.default.producer_detail(options.id).then(function (res) {console.log(res);if (res.debt) {} else {res.debt = 0;}that.producer = res;that.loading = false;});}, methods: { //确认收款金额
     confrim_sk: function confrim_sk() {console.log(that.modal_sk);var input_money = that.modal_sk.sk_number;var beizhu = that.modal_sk.beizhu;var producer_id = that.producer.objectId;if (input_money == null || input_money.length == 0) {uni.showToast({ title: '请输入还款金额', icon: "none" });} else {uni.showLoading({ title: '加载中...' });that.modal_show = false;var query = _hydrogenJsSdk.default.Query('producers');query.get(producer_id).then(function (res) {if (res.debt - Number(input_money) < 0) {
             uni.hideLoading();

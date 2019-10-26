@@ -19,7 +19,7 @@
 			</view>
 		</view>
 		<view class="uni-pagination__num">
-			<text class="uni-pagination__num-current">{{ currentIndex }}</text>
+			<input class="uni-pagination__num-current" :value="currentIndex" style="text-align: center;" type="number" @blur="inputNumber" @confirm="inputNumber"/>
 		</view>
 	</view>
 </template>
@@ -96,7 +96,16 @@
 				this.currentIndex += 1
 				this.change('next')
 			},
+			inputNumber(e){
+				console.log(e)
+				this.currentIndex = e.detail.value
+				this.$emit('change', {
+					type: e,
+					current: this.currentIndex
+				})
+			},
 			change(e) {
+				console.log(e)
 				this.$emit('change', {
 					type: e,
 					current: this.currentIndex

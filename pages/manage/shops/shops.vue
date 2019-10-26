@@ -16,16 +16,20 @@
 			</view>
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
-			 enable-back-to-top="true"  v-if="shops && shops.length > 0">
+			 enable-back-to-top="true" v-if="shops && shops.length > 0">
 				<view v-for="(shop,index) in shops" :key="index">
 
 					<view class='content'>
 						<view class="display_flex_bet" @click="choose_way(shop.objectId)">
 							<view class="display_flex">
-								<image src="/static/shop.png" class="shop_avatar"></image>
+								<image v-if="shop.Image && shop.Image.length> 0 " :src="shop.Image[0]" class="shop_avatar" @click.stop="priviewImg(shop.Image[0])" mode="aspectFit"></image>
+								<image src="/static/shop.png" class="shop_avatar" v-else></image>
 								<view>
 									<view class='shop_name'>{{shop.name}}</view>
-									<view class='shop_mobile'>地址：{{shop.address}}</view>
+									<view class='shop_mobile'>地址：
+										<text v-if="shop.address">{{shop.address}}</text>
+										<text v-else="shop.address">未填写</text>
+									</view>
 								</view>
 							</view>
 
@@ -105,6 +109,13 @@
 			search_text = ""
 		},
 		methods: {
+			//预览图片
+			priviewImg(url){
+				uni.previewImage({
+					current:url,
+					urls: [url],
+				});
+			},
 
 			//点击选择操作列表
 			choose_way(shopId) {
@@ -194,31 +205,31 @@
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				if(user.is_vip || that.shops.length <2){
+				if (user.is_vip || that.shops.length < 2) {
 					uni.navigateTo({
 						url: "add/add"
 					})
-				}else{
+				} else {
 					uni.showModal({
-					    title: '提示',
-					    content: '非会员最多上传2个门店',
-							confirmText:"充值会员",
-					    success: function (res) {
-					        if (res.confirm) {
-					            if(identity == 1){
-					            	uni.navigateTo({
-					            		url:"/pages/mine/vip/vip"
-					            	})
-					            }else{
-					            	uni.showToast({
-					            		title:"员工不能充值",
-					            		icon:"none"
-					            	})
-					            }
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
+						title: '提示',
+						content: '非会员最多上传2个门店',
+						confirmText: "充值会员",
+						success: function(res) {
+							if (res.confirm) {
+								if (identity == 1) {
+									uni.navigateTo({
+										url: "/pages/mine/vip/vip"
+									})
+								} else {
+									uni.showToast({
+										title: "员工不能充值",
+										icon: "none"
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
 					})
 				}
 			},

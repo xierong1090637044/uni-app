@@ -95,11 +95,6 @@
 		},
 		data() {
 			return {
-				welcome: {
-					text: '',
-					icon: '',
-				},
-				weather: '',
 				logsList: [],
 				optionsLists: [{
 						name: '采购或入库',

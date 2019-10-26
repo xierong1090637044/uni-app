@@ -30,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _report_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./report.vue?vue&type=script&lang=js& */ 189);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _report_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _report_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _report_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./report.vue?vue&type=style&index=0&lang=css& */ 191);
-/* harmony import */ var _D_Downloads_HBuilderX_2_3_3_20190923_full_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 69);
+/* harmony import */ var _D_Downloads_HBuilderX_2_3_3_20190923_full_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 70);
 
 
 
@@ -165,7 +165,7 @@ var _staffs = _interopRequireDefault(__webpack_require__(/*! @/utils/staffs.js *
 //
 //
 //
-var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 611));};var that;var _default = { components: { faIcon: faIcon }, data: function data() {return { now_optionsLists: [], optionsLists: [{ name: '入库记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=1', color: "#2ca879" }, { name: '出库记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=-1', color: "#f30" },
+var faIcon = function faIcon() {return __webpack_require__.e(/*! import() | components/kilvn-fa-icon/fa-icon */ "components/kilvn-fa-icon/fa-icon").then(__webpack_require__.bind(null, /*! @/components/kilvn-fa-icon/fa-icon.vue */ 612));};var that;var _default = { components: { faIcon: faIcon }, data: function data() {return { now_optionsLists: [], optionsLists: [{ name: '入库记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=1', color: "#2ca879" }, { name: '出库记录', icon: 'file-o', url: '/pages/report/EnteringHistory/EnteringHistory?type=-1', color: "#f30" },
 
       {
         name: '调拨记录',

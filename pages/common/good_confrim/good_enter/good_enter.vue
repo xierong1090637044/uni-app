@@ -71,8 +71,8 @@
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image display_flex">
 							<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
-							  <image :src="url"  style="width: 180rpx;height: 180rpx;"></image>
-								<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: 10rpx;right: 10rpx;" @click="removeImg(index)"></fa-icon>
+							  <image :src="url"  style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+								<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: -10rpx;right: -10rpx;" @click="removeImg(index)"></fa-icon>
 							</view>
 							<view style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx" @click="upload_image" v-if="Images.length < 3">
 								<fa-icon type="plus-square-o" size="40" color="#426ab3"></fa-icon>
@@ -203,7 +203,7 @@
 							}
 							file.save().then(res => {
 								for(let item of res){
-									that.Images.push(res[0].url);
+									that.Images.push(item.url);
 								}
 							})
 						},

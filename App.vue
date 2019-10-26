@@ -1,6 +1,7 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
-
+	import mine from '@/utils/mine.js';
+	
 	export default {
 		onLaunch: function() {
 			
@@ -51,6 +52,8 @@
 							uni.setStorageSync("user",user)
 						}
 					}
+					
+					mine.query_setting()//获取用户设置
 				},
 				fail: function() {
 					uni.reLaunch({

@@ -5,6 +5,22 @@
 		
 		</uni-nav-bar>
 		<view>
+			<view style='margin-top:20px;background: #fff;padding: 0 30rpx;'>
+				<view class="notice_text">上传门店图(会员可用)</view>
+				
+				<view style="width: 100%;padding: 20rpx 0;">
+					<view class="upload_image display_flex">
+						<view v-if="Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
+						  <image :src="url"  style="width: 180rpx;height: 180rpx;"></image>
+							<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top:-10rpx;right:-10rpx;" @click="removeImg(index)"></fa-icon>
+						</view>
+						<view v-if="Images.length == 0" style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx" @click="upload_image" >
+							<fa-icon type="plus-square-o" size="40" color="#426ab3"></fa-icon>
+						</view>
+					</view>
+				</view>
+			</view>
+			
 			<view class="display_flex item">
 				<text style="margin-right: 6rpx;">门店名字</text><text style="color: #d93a49;margin-right: 20rpx;">*</text>
 				<input placeholder="请输入门店名字" v-model="shop_name" style="width: calc(100% - 200rpx)" />
@@ -38,6 +54,7 @@
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
+	import upload from "@/utils/upload.js";
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
@@ -52,6 +69,8 @@
 		},
 		data() {
 			return {
+				user:uni.getStorageSync("user"),
+				Images:[],//上传凭证图
 				disabled: true, //是否启用
 				shop_name: '', //名称
 				shop_address: '', //地址
@@ -72,6 +91,7 @@
 				uni.setNavigationBarTitle({
 					title: '修改门店'
 				});
+				that.Images = shop.Image
 				that.shop_name = shop.name
 				that.shop_address = shop.address
 				that.shop_phone = shop.phone
@@ -89,6 +109,20 @@
 		},
 
 		methods: {
+			
+			//移除此张照片
+			removeImg(index){
+				that.Images.splice(index,1)
+				that.Images = that.Images
+			},
+			
+			//上传凭证图
+			upload_image(){
+				upload.upload_image(1).then(res=>{
+					console.log(res)
+					that.Images = res
+				})
+			},
 			
 			//启用的switech
 			switchChange(e){
@@ -117,6 +151,7 @@
 				
 				if (shop) {//修改操作
 					const query = Bmob.Query('shops');
+					query.set("Image", that.Images);
 					query.set("name", that.shop_name);
 					query.set("num", Number(that.shop_num));
 					query.set("address", that.shop_address);
@@ -144,6 +179,7 @@
 						console.log(res)
 						if (res.length == 0) {
 							const query = Bmob.Query('shops');
+							query.set("Image", that.Images);
 							query.set("name", that.shop_name);
 							query.set("num", Number(that.shop_num));
 							query.set("address", that.shop_address);

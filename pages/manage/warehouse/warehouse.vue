@@ -21,7 +21,8 @@
 					<view class='content'>
 						<view class="display_flex_bet" @click="goto_detail(stock)">
 							<view class="display_flex">
-								<image src="/static/warehouse.png" class="stock_avatar"></image>
+								<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])" mode="aspectFit"></image>
+								<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
 								<view>
 									<view class='stock_name'>{{stock.stock_name}}</view>
 									<view class='stock_mobile' v-if="stock.charge">负责人：{{stock.charge.nickName}}</view>
@@ -103,6 +104,13 @@
 			search_text = ""
 		},
 		methods: {
+			//预览图片
+			priviewImg(url){
+				uni.previewImage({
+					current:url,
+					urls: [url],
+				});
+			},
 
 			//tab点击
 			onClickItem(index) {

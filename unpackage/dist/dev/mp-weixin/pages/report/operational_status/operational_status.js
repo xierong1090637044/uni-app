@@ -30,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _operational_status_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./operational_status.vue?vue&type=script&lang=js& */ 157);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _operational_status_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _operational_status_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _operational_status_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./operational_status.vue?vue&type=style&index=0&lang=scss& */ 159);
-/* harmony import */ var _D_Downloads_HBuilderX_2_3_3_20190923_full_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 69);
+/* harmony import */ var _D_Downloads_HBuilderX_2_3_3_20190923_full_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/lib/runtime/componentNormalizer.js */ 70);
 
 
 
@@ -262,7 +262,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
-var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 77));
+var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 78));
 var _record = _interopRequireDefault(__webpack_require__(/*! @/utils/record.js */ 79));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -390,7 +390,7 @@ var _record = _interopRequireDefault(__webpack_require__(/*! @/utils/record.js *
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 618));};var that = void 0;var uid;var _default = { components: { loading: loading }, data: function data() {return { loading: true, start_date: _common.default.getDay(0, true), end_date: _common.default.getDay(1, true), start_date_desc: _common.default.getDay(0, true).split(" ")[0], end_date_desc: _common.default.getDay(1, true).split(" ")[0], reserve_money: 0, //库存成本
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 619));};var that = void 0;var uid;var _default = { components: { loading: loading }, data: function data() {return { loading: true, start_date: _common.default.getDay(0, true), end_date: _common.default.getDay(1, true), start_date_desc: _common.default.getDay(0, true).split(" ")[0], end_date_desc: _common.default.getDay(1, true).split(" ")[0], reserve_money: 0, //库存成本
       all_reserve: 0, //总库存
       warn_num: 0, //预警产品数量
       today_in: 0, today_out: 0, get_reserve: 0, out_reserve: 0, get_reserve_real_money: 0, out_reserve_real_money: 0, get_reserve_num: 0, out_reserve_num: 0, get_reserve_get_num: 0, out_reserve_get_num: 0, should_get_money: 0, real_get_money: 0 };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");that.get_allCost();that.gettoday_detail();console.log(_common.default.getDay(1, true));}, methods: { //起始时间改变

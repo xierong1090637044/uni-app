@@ -42,7 +42,7 @@ export default {
 
 	//打印操作记录明细
 	print_operations(detail, products) {
-		console.log(products)
+		console.log(detail)
 
 		if (detail.type == 3) {
 			orderInfo = '<CB>盘点单</CB><BR>';
@@ -141,7 +141,7 @@ export default {
 		}
 
 		orderInfo += '操作者：' + detail.opreater.nickName + '<BR>';
-		orderInfo += '备注：' + (detail.beizhu == '') ? '备注：暂无' + '<BR>' : detail.beizhu + '<BR>';
+		orderInfo += '备注：' + (detail.beizhu) ? '备注：'+detail.beizhu + '<BR>':'备注：暂无' + '<BR>' ;
 		orderInfo += '操作时间：' + detail.createdAt + '<BR>';
 
 		this.print_by_code(orderInfo);
