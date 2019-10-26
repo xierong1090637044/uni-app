@@ -220,7 +220,7 @@ var that;var phone_number = "";var _default = { data: function data() {return { 
     get_userInfo: function get_userInfo(res) {console.log(res);if (this.showAgree == false) {uni.showToast({ title: '请勾选用户协议', icon: "none" });} else {wx.Bmob.User.decryption(res).then(function (res) {console.log(res);var phone = res.phoneNumber;var timestamp = new Date().getTime();var params = { username: String(phone), password: String(phone), mobilePhoneNumber: String(phone), nickName: String(phone), avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png" //is_vip:true,
             //vip_time:timestamp+7*24*60*60*1000
           };_hydrogenJsSdk.default.User.register(params).then(function (res) {console.log(res);uni.showToast({ title: "注册成功" }), _hydrogenJsSdk.default.User.login(String(phone), String(phone)).then(function (res) {uni.setStorageSync("user", res);uni.setStorageSync("masterId", res.objectId);uni.setStorageSync("identity", 1); //1是老板，2是员工
-              uni.setStorageSync("uid", res.objectId);uni.switchTab({ url: "/pages/index/index" });
+              uni.setStorageSync("uid", res.objectId);uni.switchTab({ url: "/pages/tarBar/index" });
             }).catch(function (err) {
               console.log(err);
             });
@@ -327,7 +327,7 @@ var that;var phone_number = "";var _default = { data: function data() {return { 
             uni.setStorageSync("identity", 1); //1是老板，2是员工
             uni.setStorageSync("uid", res.objectId);
             uni.switchTab({
-              url: "/pages/index/index" });
+              url: "/pages/tarBar/index" });
 
           }).catch(function (err) {
             console.log(err);

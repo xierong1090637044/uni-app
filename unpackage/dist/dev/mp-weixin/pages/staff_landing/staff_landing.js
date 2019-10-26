@@ -205,7 +205,7 @@ var that;var _default = { data: function data() {return { phone: "", password: "
             uni.setStorageSync("uid", now_staff.masterId.objectId);
 
             uni.switchTab({
-              url: "/pages/index/index" });
+              url: "/pages/tarBar/index" });
 
           } else {
             var pointer2 = _hydrogenJsSdk.default.Pointer('_User');
@@ -247,7 +247,7 @@ var that;var _default = { data: function data() {return { phone: "", password: "
                 uni.setStorageSync("uid", now_staff.masterId.objectId);
 
                 uni.switchTab({
-                  url: "/pages/index/index" });
+                  url: "/pages/tarBar/index" });
 
 
               }).catch(function (err) {

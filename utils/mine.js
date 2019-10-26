@@ -52,8 +52,21 @@ export default {
 			});
 		})
 	},
-
-	//i修改用户信息
+	
+	//得到用户信息
+	getUserInfo(){
+		let uid = uni.getStorageSync("uid");
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query('_User');
+			query.get(uid).then(res => {
+				uni.setStorageSync("user",res)
+				resolve(true,res)
+			}).catch(err => {
+			  resolve(false,err)
+			})
+		})
+	},
+	//修改用户信息
 	update_user(user) {
 		let uid = uni.getStorageSync("uid");
 		return new Promise((resolve, reject) => {

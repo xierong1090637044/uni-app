@@ -90,7 +90,7 @@
 					tempBills.set('reserve', this.products[i].reserve);
 					tempBills.set('now_reserve', this.products[i].num.toString());
 					tempBills.set('total_money', this.products[i].total_money);
-					tempBills.set('operater', poiID2);
+					tempBills.set('opreater', poiID2);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', 3);

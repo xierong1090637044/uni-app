@@ -24517,7 +24517,20 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     });
   },
 
-  //i修改用户信息
+  //得到用户信息
+  getUserInfo: function getUserInfo() {
+    var uid = uni.getStorageSync("uid");
+    return new Promise(function (resolve, reject) {
+      var query = _hydrogenJsSdk.default.Query('_User');
+      query.get(uid).then(function (res) {
+        uni.setStorageSync("user", res);
+        resolve(true, res);
+      }).catch(function (err) {
+        resolve(false, err);
+      });
+    });
+  },
+  //修改用户信息
   update_user: function update_user(user) {
     var uid = uni.getStorageSync("uid");
     return new Promise(function (resolve, reject) {

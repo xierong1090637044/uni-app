@@ -14,19 +14,19 @@
 						</view>
 					</view>
 					<view class="box-bd">
-						<navigator class="item" hover-class="none" url="logs/logs">
+						<navigator class="item" hover-class="none" url="/pages/mine/logs/logs">
 							<view class="icon">
 								<image src="/static/logs.png"></image>
 							</view>
 							<view class="text">操作记录</view>
 						</navigator>
-						<navigator class="item" hover-class="none" url="warning_log/warning_log">
+						<navigator class="item" hover-class="none" url="/pages/mine/warning_log/warning_log">
 							<view class="icon">
 								<image src="/static/warning.png"></image>
 							</view>
 							<view class="text">预警记录</view>
 						</navigator>
-						<navigator class="item" hover-class="none" url="home_page/home_page">
+						<navigator class="item" hover-class="none" url="/pages/mine/home_page/home_page">
 							<view class="icon">
 								<image src="/static/account.png"></image>
 							</view>
@@ -38,17 +38,17 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
-				<navigator class="li " hover-class="none" url="manual/manual">
+				<navigator class="li " hover-class="none" url="/pages/mine/manual/manual">
 					<fa-icon type="book" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">操作手册</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="uploadFile/uploadFile">
+				<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li noborder" hover-class="none" url="setting/setting">
+				<navigator class="li noborder" hover-class="none" url="/pages/mine/setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
 					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 300rpx;justify-content: flex-end">
@@ -60,12 +60,12 @@
 			</view>
 			<view class="list">
 
-				<navigator class="li " hover-class="none" url="update_history/update_history">
+				<navigator class="li " hover-class="none" url="/pages/mine/update_history/update_history">
 					<fa-icon type="yelp" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="about_us/about_us">
+				<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
 					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>

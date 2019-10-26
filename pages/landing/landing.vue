@@ -125,7 +125,7 @@
 						uni.setStorageSync("identity", 1); //1是老板，2是员工
 						uni.setStorageSync("uid", res.objectId)
 						uni.switchTab({
-							url: "/pages/index/index"
+							url: "/pages/tarBar/index"
 						});
 					}).catch(err => {
 						uni.showToast({

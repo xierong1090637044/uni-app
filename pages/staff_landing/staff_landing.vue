@@ -81,7 +81,7 @@
 							uni.setStorageSync("uid", now_staff.masterId.objectId)
 
 							uni.switchTab({
-								url: "/pages/index/index"
+								url: "/pages/tarBar/index"
 							});
 						} else {
 							const pointer2 = Bmob.Pointer('_User')
@@ -123,7 +123,7 @@
 									uni.setStorageSync("uid", now_staff.masterId.objectId)
 
 									uni.switchTab({
-										url: "/pages/index/index"
+										url: "/pages/tarBar/index"
 									});
 
 								}).catch(err => {

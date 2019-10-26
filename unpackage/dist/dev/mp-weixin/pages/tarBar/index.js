@@ -287,7 +287,7 @@ var uid;var _default =
     }
     return {
       title: '库存表，欢迎您的加入',
-      path: '/pages/index/index' };
+      path: '/pages/tarBar/index' };
 
   },
 

@@ -2,9 +2,19 @@
 	<view>
 		<view class="list-content">
 			<view class="list">
+				<view class="li " @click="downloadDemoFile">
+					<fa-icon type="download" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">数据模板</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</view>
 				<view class="li " @click="uploadfile">
-					<fa-icon type="book" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">操作手册</view>
+					<fa-icon type="upload" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">批量导入</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</view>
+				<view class="li ">
+					<fa-icon type="info-circle" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">更多功能正在开发中....</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</view>
 			</view>
@@ -30,30 +40,64 @@
 			that.user = uni.getStorageSync("user");
 		},
 		methods: {
-			uploadfile() {
-				wx.chooseMessageFile({
-					count: 1,
-					type: 'file',
-					success(res) {
-						console.log(res)
-						// tempFilePath可以作为img标签的src属性显示图片
-						const tempFiles = res.tempFiles
-
-						uni.uploadFile({
-							url: 'https://www.jimuzhou.com/api/getfile.php', //仅为示例，非真实的接口地址
-							filePath: tempFiles[0].path,
-							name: 'file',
-							formData: {
-								'userid': uni.getStorageSync('uid')
-							},
-							success: (uploadFileRes) => {
-								console.log(uploadFileRes.data);
-							}
-						});
-						
-						
-					}
+			
+			//下载数据模板
+			downloadDemoFile(){
+				wx.downloadFile({
+				  // 示例 url，并非真实存在
+				  url: 'https://www.jimuzhou.com/static/demo.xlsx',
+				  success: function (res) {
+				    const filePath = res.tempFilePath
+				    wx.openDocument({
+				      filePath: filePath,
+							fileType:'xlsx',
+				      success: function (res) {
+				        console.log('打开文档成功')
+				      }
+				    })
+				  }
 				})
+			},
+			
+			uploadfile() {
+				if(that.user.is_vip){
+					uni.showLoading({
+						title:"上传中..."
+					})
+					wx.chooseMessageFile({
+						count: 1,
+						type: 'file',
+						success(res) {
+							console.log(res)
+							// tempFilePath可以作为img标签的src属性显示图片
+							const tempFiles = res.tempFiles
+					
+							uni.uploadFile({
+								url: 'https://www.jimuzhou.com/api/getfile.php', //仅为示例，非真实的接口地址
+								filePath: tempFiles[0].path,
+								name: 'file',
+								formData: {
+									'userid': uni.getStorageSync('uid')
+								},
+								success: (uploadFileRes) => {
+									console.log(JSON.parse(uploadFileRes.data))
+									let result = JSON.parse(uploadFileRes.data)
+									uni.hideLoading();
+									if(result.code == "1"){
+										uni.showToast({
+											title:"上传成功"
+										})
+									}
+								}
+							});
+						}
+					})
+				}else{
+					uni.showToast({
+						title:"您还不是会员",
+						icon:"none"
+					})
+				}
 			},
 		}
 	}
