@@ -19,7 +19,7 @@
 			</view>
 		</view>
 		<view class="uni-pagination__num">
-			<input class="uni-pagination__num-current" :value="currentIndex" style="text-align: center;" type="number" @blur="inputNumber" @confirm="inputNumber"/>
+			<input class="uni-pagination__num-current" :value="currentIndex" style="text-align: center;margin-top: 10rpx;" type="number" @blur="inputNumber" @confirm="inputNumber"/>
 		</view>
 	</view>
 </template>
@@ -98,7 +98,7 @@
 			},
 			inputNumber(e){
 				console.log(e)
-				this.currentIndex = e.detail.value
+				this.currentIndex = Number(e.detail.value)
 				this.$emit('change', {
 					type: e,
 					current: this.currentIndex

@@ -205,7 +205,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     },
     inputNumber: function inputNumber(e) {
       console.log(e);
-      this.currentIndex = e.detail.value;
+      this.currentIndex = Number(e.detail.value);
       this.$emit('change', {
         type: e,
         current: this.currentIndex });
