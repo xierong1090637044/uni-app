@@ -11,7 +11,7 @@ import wechat from './utils/wechat'
 // #endif
 
 
-Bmob.initialize("825b954fe97e9186", "109063","47f76baf4ee4d90630d7b2bc17f7505c");
+Bmob.initialize("db7d7df44b87bb60", "109063","db1c531222c31c7511629dd458a72436");
 
 Vue.config.productionTip = false
 App.mpType = 'app'
