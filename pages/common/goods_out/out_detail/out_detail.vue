@@ -61,17 +61,19 @@
 				<view style='margin-top:20px'>
 					<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></textarea>
 				</view>
-				
+
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
-					<view class="notice_text">上传凭证图(会员可用)</view>
-					
+					<view class="notice_text">上传凭证图</view>
+
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image display_flex">
 							<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
-							  <image :src="url"  style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
-								<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: -10rpx;right: -10rpx;" @click="removeImg(index)"></fa-icon>
+								<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+								<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: -10rpx;right: -10rpx;"
+								 @click="removeImg(index)"></fa-icon>
 							</view>
-							<view style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx" @click="upload_image" v-if="Images.length < 3">
+							<view style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx"
+							 @click="upload_image" v-if="Images.length < 3">
 								<fa-icon type="plus-square-o" size="40" color="#426ab3"></fa-icon>
 							</view>
 						</view>
@@ -105,7 +107,7 @@
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import send_temp from '@/utils/send_temp.js';
-	import print from'@/utils/print.js';
+	import print from '@/utils/print.js';
 
 	let uid;
 	let that;
@@ -115,8 +117,8 @@
 	export default {
 		data() {
 			return {
-				user:uni.getStorageSync("user"),
-				Images:[],//上传凭证图
+				user: uni.getStorageSync("user"),
+				Images: [], //上传凭证图
 				stock: '', //仓库
 				shop_name: '',
 				products: null,
@@ -187,41 +189,34 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
-			
+
 			//移除此张照片
-			removeImg(index){
-				that.Images.splice(index,1)
+			removeImg(index) {
+				that.Images.splice(index, 1)
 				that.Images = that.Images
 			},
-			
+
 			//上传凭证图
-			upload_image(){
-				if(that.user.is_vip){
-					uni.chooseImage({
-						count: 3, //默认9
-						sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
-						sourceType: ['album', 'camera'], //从相册选择
-						success: function(res) {
-							console.log(res);
-							let timestamp = Date.parse(new Date());
-							let tempFilePaths = res.tempFilePaths
-							let file;
-							for (let item of tempFilePaths) {
-								file = Bmob.File(timestamp + '.jpg', item);
+			upload_image() {
+				uni.chooseImage({
+					count: 3, //默认9
+					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], //从相册选择
+					success: function(res) {
+						console.log(res);
+						let timestamp = Date.parse(new Date());
+						let tempFilePaths = res.tempFilePaths
+						let file;
+						for (let item of tempFilePaths) {
+							file = Bmob.File(timestamp + '.jpg', item);
+						}
+						file.save().then(res => {
+							for (let item of res) {
+								that.Images.push(item.url);
 							}
-							file.save().then(res => {
-								for(let item of res){
-									that.Images.push(item.url);
-								}
-							})
-						},
-					});
-				}else{
-					uni.showToast({
-						title:"您还不是会员，无法使用",
-						icon:'none'
-					})
-				}
+						})
+					},
+				});
 			},
 
 			//修改会员率
@@ -343,7 +338,7 @@
 						query.set("opreater", poiID1);
 						query.set("stock", stockId);
 						query.set("master", poiID);
-						if(that.discount) query.set('discount', that.discount);
+						if (that.discount) query.set('discount', that.discount);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
@@ -391,7 +386,8 @@
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
 											if (that.products[i].warning_num >= that.products[i].reserve) {
-												common.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + that.products[i].warning_num,-2, that.products[i].objectId);
+												common.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + that.products[
+													i].warning_num, -2, that.products[i].objectId);
 											}
 
 											if (that.products[i].selectd_model) {
@@ -456,12 +452,12 @@
 										params1.form_Id = fromid
 										params1.id = res.objectId
 										send_temp.send_out_mini(params1);
-										
+
 										//自动打印
-										if(uni.getStorageSync("setting").auto_print){
+										if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);
 										}
-										
+
 										uni.navigateBack({
 											delta: 2
 										});

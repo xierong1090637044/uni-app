@@ -1,4 +1,9 @@
 {
   "navigationBarTitleText": "全部记录",
-  "usingComponents": {}
+  "usingComponents": {
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
+  }
 }

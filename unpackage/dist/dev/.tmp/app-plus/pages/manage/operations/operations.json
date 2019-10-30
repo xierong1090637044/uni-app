@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "操作详情",
-  "usingComponents": {}
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
 }

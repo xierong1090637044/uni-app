@@ -66,7 +66,7 @@
 				</view>
 				
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
-					<view class="notice_text">上传凭证图(会员可用)</view>
+					<view class="notice_text">上传凭证图</view>
 					
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image display_flex">
@@ -188,7 +188,6 @@
 			
 			//上传凭证图
 			upload_image(){
-				if(that.user.is_vip){
 					uni.chooseImage({
 						count: 3, //默认9
 						sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -208,12 +207,6 @@
 							})
 						},
 					});
-				}else{
-					uni.showToast({
-						title:"您还不是会员，无法使用",
-						icon:'none'
-					})
-				}
 			},
 
 			//选择物流方式

@@ -7,10 +7,9 @@
 						<view class="avator">
 							<img :src="user.avatarUrl">
 						</view>
-						<fa-icon type="vimeo" size="18" color="#ffcd00" v-if="user.is_vip" class="vip_logo"></fa-icon>
 						<view class="phone-number">
 							<fa-icon type="mobile" size="18" color="#130c0e"></fa-icon>
-							<text style="margin-left: 10rpx;">{{user.mobilePhoneNumber}}</text>
+							<text style="margin-left: 10rpx;">{{user.nickName}}</text>
 						</view>
 					</view>
 					<view class="box-bd">

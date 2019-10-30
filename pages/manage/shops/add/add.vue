@@ -6,7 +6,7 @@
 		</uni-nav-bar>
 		<view>
 			<view style='margin-top:20px;background: #fff;padding: 0 30rpx;'>
-				<view class="notice_text">上传门店图(会员可用)</view>
+				<view class="notice_text">上传门店图</view>
 				
 				<view style="width: 100%;padding: 20rpx 0;">
 					<view class="upload_image display_flex">

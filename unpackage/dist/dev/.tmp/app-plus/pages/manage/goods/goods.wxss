@@ -37,7 +37,7 @@ page {
 .uni-product-list {
   padding: 0 10rpx;
   width: calc(100% - 20rpx);
-  height: calc(100vh - 164rpx);
+  height: calc(100vh - 236rpx);
 }
 .uni-product {
   display: -webkit-box;
@@ -109,7 +109,7 @@ page {
   -webkit-flex-wrap: nowrap;
       -ms-flex-wrap: nowrap;
           flex-wrap: nowrap;
-  margin: 7px 0;
+  margin: 8rpx 0;
   line-height: 30px;
 }
 .input-view .uni-icon {

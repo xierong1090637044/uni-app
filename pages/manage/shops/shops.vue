@@ -22,7 +22,8 @@
 					<view class='content'>
 						<view class="display_flex_bet" @click="choose_way(shop.objectId)">
 							<view class="display_flex">
-								<image v-if="shop.Image && shop.Image.length> 0 " :src="shop.Image[0]" class="shop_avatar" @click.stop="priviewImg(shop.Image[0])" mode="aspectFit"></image>
+								<image v-if="shop.Image && shop.Image.length> 0 " :src="shop.Image[0]" class="shop_avatar" @click.stop="priviewImg(shop.Image[0])"
+								 mode="aspectFit"></image>
 								<image src="/static/shop.png" class="shop_avatar" v-else></image>
 								<view>
 									<view class='shop_name'>{{shop.name}}</view>
@@ -110,9 +111,9 @@
 		},
 		methods: {
 			//预览图片
-			priviewImg(url){
+			priviewImg(url) {
 				uni.previewImage({
-					current:url,
+					current: url,
 					urls: [url],
 				});
 			},
@@ -205,33 +206,9 @@
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				if (user.is_vip || that.shops.length < 2) {
-					uni.navigateTo({
-						url: "add/add"
-					})
-				} else {
-					uni.showModal({
-						title: '提示',
-						content: '非会员最多上传2个门店',
-						confirmText: "充值会员",
-						success: function(res) {
-							if (res.confirm) {
-								if (identity == 1) {
-									uni.navigateTo({
-										url: "/pages/mine/vip/vip"
-									})
-								} else {
-									uni.showToast({
-										title: "员工不能充值",
-										icon: "none"
-									})
-								}
-							} else if (res.cancel) {
-								console.log('用户点击取消');
-							}
-						}
-					})
-				}
+				uni.navigateTo({
+					url: "add/add"
+				})
 			},
 
 			//输入内容筛选

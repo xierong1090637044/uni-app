@@ -5,13 +5,13 @@
     "iPad"
   ],
   "id": "__UNI__3F9221C",
-  "name": "my_stock2",
+  "name": "库存表",
   "version": {
     "name": "1.0.1",
     "code": 200
   },
   "description": "dsadasdasd",
-  "launch_path": "__uniapptabbar.html",
+  "launch_path": "__uniappview.html",
   "developer": {
     "name": "",
     "email": "",
@@ -24,7 +24,7 @@
   },
   "plus": {
     "useragent": {
-      "value": "uni-app appservice",
+      "value": "uni-app",
       "concatenate": true
     },
     "splashscreen": {
@@ -35,7 +35,9 @@
     },
     "popGesture": "close",
     "launchwebview": {
-      "render": "always"
+      "id": "1",
+      "kernel": "WKWebview",
+      "uni-app": "auto"
     },
     "statusbar": {
       "immersed": "supportedDevice",
@@ -128,6 +130,7 @@
         }
       }
     },
+    "arguments": "{\"name\":\"\",\"path\":\"\",\"query\":\"\",\"id\":0}",
     "allowsInlineMediaPlayback": true,
     "safearea": {
       "background": "#fff",
@@ -136,18 +139,47 @@
       }
     },
     "uni-app": {
-      "compilerVersion": "2.2.2",
+      "compilerVersion": "2.3.6",
       "control": "v8",
       "nvueCompiler": "weex",
       "renderer": "auto"
     },
-    "secondwebview": {
-      "id": "1",
-      "launch_path": "__uniappview.html",
-      "kernel": "WKWebview",
-      "mode": "child",
-      "top": 0,
-      "bottom": 56
+    "tabBar": {
+      "color": "#000",
+      "selectedColor": "#426ab3",
+      "backgroundColor": "#fff",
+      "borderStyle": "rgba(255,255,255,0.4)",
+      "list": [
+        {
+          "pagePath": "pages/tarBar/index",
+          "iconPath": "static/chuan.png",
+          "selectedIconPath": "static/chuan.png",
+          "text": "首页"
+        },
+        {
+          "pagePath": "pages/tarBar/manage",
+          "iconPath": "static/manage.png",
+          "selectedIconPath": "static/manage.png",
+          "text": "管理"
+        },
+        {
+          "pagePath": "pages/tarBar/report",
+          "iconPath": "static/report.png",
+          "selectedIconPath": "static/report.png",
+          "text": "记录"
+        },
+        {
+          "pagePath": "pages/tarBar/mine",
+          "iconPath": "static/person.png",
+          "selectedIconPath": "static/person.png",
+          "text": "我的"
+        }
+      ],
+      "height": "50px",
+      "child": [
+        "lauchwebview"
+      ],
+      "selected": 0
     }
   }
 }

@@ -282,9 +282,9 @@
 						title: "请输入姓名",
 						icon: "none"
 					})
-				} else if (this.staff_phone.length < 11) {
+				} else if (this.staff_phone.length < 6) {
 					uni.showToast({
-						title: "账号不能少于11位",
+						title: "账号不能少于6位",
 						icon: "none"
 					})
 				}else if(this.staff_password.length <6){
@@ -309,17 +309,17 @@
 					const pointer = Bmob.Pointer('_User');
 					let poiID = pointer.set(userid);
 
-					const query = Bmob.Query('staffs');
-					query.set("username", that.staff_name);
+					const query = Bmob.Query('_User');
+					query.set("username", that.staff_phone);
 					query.set("nickName", that.staff_name);
 					query.set("password", that.staff_password);
-					query.set("mobilePhoneNumber", that.staff_phone);
 					query.set("rights", rights);
 					query.set("address", (that.staff_address == null) ? '' : that.staff_address);
 					query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 					query.set("masterId", poiID);
 					query.set("disabled", !that.disabled);
 					query.set("stocks", that.select_stocks);
+					query.set("identity", 2);
 					if(shop) query.set("shop",shopId);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
@@ -334,7 +334,7 @@
 					})
 				} else {
 
-					const query = Bmob.Query("staffs");
+					const query = Bmob.Query("_User");
 					query.equalTo("masterId", "==", uid);
 					query.equalTo("mobilePhoneNumber", "==", that.staff_phone);
 					query.find().then(res => {
@@ -346,19 +346,19 @@
 							const pointer = Bmob.Pointer('_User');
 							let poiID = pointer.set(userid);
 
-							const query = Bmob.Query('staffs');
-							query.set("username", that.staff_name);
+							const query = Bmob.Query('_User');
+							query.set("username", that.staff_phone);
 							if(shop) query.set("shop",shopId);
 							query.set("stocks", that.select_stocks);
 							query.set("nickName", that.staff_name);
 							query.set("password", that.staff_password);
-							query.set("mobilePhoneNumber", that.staff_phone);
 							query.set("rights", rights);
 							query.set("address", (that.staff_address == null) ? '' : that.staff_address);
 							query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 							query.set("masterId", poiID);
 							query.set("have_out", 0);
 							query.set("disabled", !that.disabled);
+							query.set("identity", 2);
 							query.save().then(res => {
 								console.log(res)
 								uni.showToast({
