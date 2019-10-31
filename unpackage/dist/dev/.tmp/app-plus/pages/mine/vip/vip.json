@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员",
+  "navigationBarBackgroundColor": "#1297fe",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

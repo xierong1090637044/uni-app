@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"qiun-charts { width: ",[0,750],"; height: ",[0,500],"; background-color: #FFFFFF; }\n.",[1],"charts { width: ",[0,750],"; height: ",[0,500],"; background-color: #FFFFFF; }\n.",[1],"qiun-title-dot-light { text-align: left; font-size: ",[0,32],"; color: #333; font-weight: bold; padding: ",[0,20],"; }\n.",[1],"qiun-title-bar{ padding: ",[0,20]," 0; }\n",],undefined,{path:"./pages/report/chart/chart.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/report/chart/chart.wxml') } }));

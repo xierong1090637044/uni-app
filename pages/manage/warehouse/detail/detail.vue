@@ -68,7 +68,7 @@
 			}
 		},
 		
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
 			that.stock = uni.getStorageSync("stock")

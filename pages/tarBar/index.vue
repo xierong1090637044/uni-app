@@ -176,7 +176,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加商品'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -205,9 +205,22 @@
 							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 						})
 					} else if (type == 3) {
-						uni.navigateTo({
-							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-						})
+						if(array[1] == 'stock'){
+							const query = Bmob.Query('stocks');
+							query.get(array[0]).then(res => {
+							 uni.setStorageSync("stock",res)
+							 uni.navigateTo({
+							 	url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
+							 })
+							}).catch(err => {
+							  console.log(err)
+							})
+						}else{
+							uni.navigateTo({
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						}
+						
 					} else if (type == 4) {
 						uni.navigateTo({
 							url: '/pages/manage/good_add/good_add?id=' + result,
@@ -235,9 +248,21 @@
 								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 							})
 						} else if (type == 3) {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-							})
+							if(array[1] == 'stock'){
+								const query = Bmob.Query('stocks');
+								query.get(array[0]).then(res => {
+								 uni.setStorageSync("stock",res)
+								 uni.navigateTo({
+								 	url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
+								 })
+								}).catch(err => {
+								  console.log(err)
+								})
+							}else{
+								uni.navigateTo({
+									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+								})
+							}
 						} else if (type == 4) {
 							uni.navigateTo({
 								url: '/pages/manage/good_add/good_add?id=' + result,

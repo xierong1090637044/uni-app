@@ -51,7 +51,6 @@
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
 					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 300rpx;justify-content: flex-end">
-						<text style="margin-right: 10rpx;">(电脑版网址)</text>
 						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 					</view>
 					
@@ -64,16 +63,16 @@
 					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
+				<!--<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
 					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
-				<view class="li ">
+				</navigator>-->
+				<!--<view class="li ">
 					<fa-icon type="envira" size="18" color="#3d3d3d3"></fa-icon>
 					<button class="text" plain="true" open-type="feedback">意见反馈</button>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>
+				</view>-->
 			</view>
 			<view class="list">
 				<navigator class="li noborder" hover-class="none" url="/pages/landing/landing">
