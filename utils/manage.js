@@ -44,7 +44,7 @@ export default {
 		const pointer = Bmob.Pointer('_User');
 		let poiID = pointer.set(userid);
 
-		const pointer1 = Bmob.Pointer('staffs');
+		const pointer1 = Bmob.Pointer('_User');
 		let chargeId = pointer1.set(params.charge);
 
 		//const pointer2 = Bmob.Pointer('shops');
