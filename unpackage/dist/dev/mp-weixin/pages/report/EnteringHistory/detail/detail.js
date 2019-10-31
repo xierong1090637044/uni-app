@@ -311,6 +311,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
 var _print = _interopRequireDefault(__webpack_require__(/*! @/utils/print.js */ 89));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -500,7 +508,15 @@ var _print = _interopRequireDefault(__webpack_require__(/*! @/utils/print.js */ 
 //
 //
 //
-var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 619));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 666));};var that;var id;var _default = { components: { loading: loading, uniNavBar: uniNavBar }, data: function data() {return { user: uni.getStorageSync("user"), bills: [], loading: true, products: null, detail: null };}, onLoad: function onLoad(options) {console.log(options);that = this;id = options.id;that.getdetail(id);}, methods: { //预览图片
+//
+//
+//
+//
+//
+//
+//
+//
+var loading = function loading() {return __webpack_require__.e(/*! import() | components/Loading/index */ "components/Loading/index").then(__webpack_require__.bind(null, /*! @/components/Loading/index.vue */ 619));};var uniNavBar = function uniNavBar() {return __webpack_require__.e(/*! import() | components/uni-nav-bar/uni-nav-bar */ "components/uni-nav-bar/uni-nav-bar").then(__webpack_require__.bind(null, /*! @/components/uni-nav-bar/uni-nav-bar.vue */ 666));};var that;var id;var _default = { components: { loading: loading, uniNavBar: uniNavBar }, data: function data() {return { user: uni.getStorageSync("user"), bills: [], loading: true, products: null, detail: null };}, onLoad: function onLoad(options) {console.log(options);that = this;id = options.id;that.getdetail(id);}, methods: { gotoexpressDet: function gotoexpressDet() {if (that.user.is_vip) {uni.navigateTo({ url: "../expressDet/expressDet?number=" + that.detail.expressNum });} else {uni.showToast({ title: "您还不是会员，无法使用", icon: 'none' });}}, //预览图片
     priview: function priview(url) {uni.previewImage({ current: url, urls: that.detail.Images });}, //点击显示操作菜单
     show_options: function show_options() {var options = ['打印'];if (that.detail.type == -1 || that.detail.type == 1) {options = ['打印', '撤销'];}uni.showActionSheet({ itemList: options, success: function success(res) {if (res.tapIndex == 0) {_print.default.print_operations(that.detail, that.products);} else if (res.tapIndex == 1) {that.revoke();}}, fail: function fail(res) {console.log(res.errMsg);} });}, getdetail: function getdetail(id) {var query = _hydrogenJsSdk.default.Query('order_opreations');query.include("opreater", "custom", "producer", "stock");query.get(id).then(function (res) {console.log(res);that.detail = res;if (res.detail) {that.products = res.detail;that.bills = res.bills;that.loading = false;} else {var _query = _hydrogenJsSdk.default.Query('order_opreations');_query.include("goodsId");_query.field('relations', res.objectId);_query.relation('Bills').then(function (res) {//console.log(res);
             that.products = res.results;that.loading = false;});}}).catch(function (err) {console.log(err);});}, //数据撤销点击

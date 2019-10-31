@@ -226,10 +226,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _hydrogenJsSdk = _interopRequireDefault(__webpack_require__(/*! hydrogen-js-sdk */ 13));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 78));
 var _send_temp = _interopRequireDefault(__webpack_require__(/*! @/utils/send_temp.js */ 88));
 var _print = _interopRequireDefault(__webpack_require__(/*! @/utils/print.js */ 89));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
 //
 //
 //
@@ -341,12 +345,30 @@ var _default = { data: function data() {return { user: uni.getStorageSync("user"
       outType: '', //发货方式
       discount: '', //会员率
       pickerTypes: [{ desc: "自提", type: 1 }, { desc: "快递", type: 2 }, { desc: "物流", type: 3 }, { desc: "送货上门", type: 4 }], expressNum: '' //快递单号
-    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, onShow: function onShow() {this.really_total_money = 0;this.all_money = 0;this.real_money = 0;that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _hydrogenJsSdk.default.Pointer('shops');shopId = pointer.set(shop.objectId);}if (that.custom.discount) {that.discount = that.custom.discount;for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2));}this.really_total_money = this.really_total_money * that.discount / 100;this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100;this.all_money = this.all_money * that.discount / 100;} else {for (var _i = 0; _i < this.products.length; _i++) {this.all_money = Number((this.products[_i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[_i].really_total_money + this.really_total_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : '';}, methods: { //移除此张照片
+    };}, onLoad: function onLoad() {that = this;uid = uni.getStorageSync("uid");this.products = uni.getStorageSync("products");}, onShow: function onShow() {this.really_total_money = 0;this.all_money = 0;this.real_money = 0;that.custom = uni.getStorageSync("custom");shop = uni.getStorageSync("shop");if (shop) {that.shop_name = shop.name;var pointer = _hydrogenJsSdk.default.Pointer('shops');shopId = pointer.set(shop.objectId);}if (that.custom.discount) {that.discount = that.custom.discount;for (var i = 0; i < this.products.length; i++) {this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2));}this.really_total_money = this.really_total_money * that.discount / 100;this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100;this.all_money = this.all_money * that.discount / 100;} else {for (var _i = 0; _i < this.products.length; _i++) {this.all_money = Number((this.products[_i].total_money + this.all_money).toFixed(2));this.really_total_money = Number((this.products[_i].really_total_money + this.really_total_money).toFixed(2));}this.real_money = Number(this.all_money.toFixed(2));}that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : '';}, methods: { //扫码操作
+    scan_code: function scan_code() {uni.scanCode({ onlyFromCamera: true, success: function success(res) {console.log('条码类型：' + res.scanType);console.log('条码内容：' + res.result);that.expressNum = res.result;} });}, //移除此张照片
     removeImg: function removeImg(index) {that.Images.splice(index, 1);that.Images = that.Images;}, //上传凭证图
     upload_image: function upload_image() {if (that.user.is_vip) {uni.chooseImage({ count: 3, //默认9
           sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'], //从相册选择
-          success: function success(res) {console.log(res);var timestamp = Date.parse(new Date());var tempFilePaths = res.tempFilePaths;var file;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {for (var _iterator = tempFilePaths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;file = _hydrogenJsSdk.default.File(timestamp + '.jpg', item);}} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}file.save().then(function (res) {var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {for (var _iterator2 = res[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {var item = _step2.value;that.Images.push(item.url);}} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}});} });} else {uni.showToast({ title: "您还不是会员，无法使用", icon: 'none' });}},
+          success: function success(res) {console.log(res);var timestamp = Date.parse(new Date());var tempFilePaths = res.tempFilePaths;var file;var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+              for (var _iterator = tempFilePaths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var item = _step.value;
+                file = _hydrogenJsSdk.default.File(timestamp + '.jpg', item);
+              }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+            file.save().then(function (res) {var _iteratorNormalCompletion2 = true;var _didIteratorError2 = false;var _iteratorError2 = undefined;try {
+                for (var _iterator2 = res[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {var item = _step2.value;
+                  that.Images.push(item.url);
+                }} catch (err) {_didIteratorError2 = true;_iteratorError2 = err;} finally {try {if (!_iteratorNormalCompletion2 && _iterator2.return != null) {_iterator2.return();}} finally {if (_didIteratorError2) {throw _iteratorError2;}}}
+            });
+          } });
+
+      } else {
+        uni.showToast({
+          title: "您还不是会员，无法使用",
+          icon: 'none' });
+
+      }
+    },
 
     //修改会员率
     getDiscount: function getDiscount(e) {

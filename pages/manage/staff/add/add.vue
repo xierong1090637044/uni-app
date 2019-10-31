@@ -213,23 +213,29 @@
 				that.recodecurrent = []
 				that.othercurrent = []
 				
-				for(let i of staff.rights.current)
-				{
-					//console.log(i)
-					that.manage[i].checked = true;
-					that.current.push(i)
+				if(staff.rights.current){
+					for(let i of staff.rights.current)
+					{
+						//console.log(i)
+						that.manage[i].checked = true;
+						that.current.push(i)
+					}
 				}
 				
-				for(let i of staff.rights.recodecurrent)
-				{
-					that.recode[i].checked = true;
-					that.recodecurrent.push(i)
+				if(staff.rights.recodecurrent){
+					for(let i of staff.rights.recodecurrent)
+					{
+						that.recode[i].checked = true;
+						that.recodecurrent.push(i)
+					}
 				}
 				
-				for(let i of staff.rights.othercurrent)
-				{
-					that.others[i].checked = true;
-					that.othercurrent.push(i)
+				if(staff.rights.othercurrent){
+					for(let i of staff.rights.othercurrent)
+					{
+						that.others[i].checked = true;
+						that.othercurrent.push(i)
+					}
 				}
 				
 				rights.current = that.current

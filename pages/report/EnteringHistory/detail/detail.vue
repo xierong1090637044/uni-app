@@ -78,8 +78,8 @@
 							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>
 						</view>
 					</view>
-					<view class='pro_allmoney' v-if="user.rights&&user.rights.othercurrent[0] != '0'">总计：￥{{detail.all_money }}</view>
-					<view class='pro_allmoney' v-else>总计：￥0</view>
+					<view class='pro_allmoney' v-if="user.rights&&user.rights.othercurrent[0] != '0'">总计：￥0</view>
+					<view class='pro_allmoney' v-else>总计：￥{{detail.all_money }}</view>
 				</view>
 
 				<view v-if="detail.type == -1">
@@ -110,6 +110,10 @@
 								<view class="real_color">{{detail.expressNum}}</view>
 							</view>
 						</view>
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;" @click="gotoexpressDet">
+							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
+							<fa-icon type="angle-right" size="20" color="#0a53c3" />
+						</view>
 					</view>
 				</view>
 
@@ -135,6 +139,10 @@
 							</view>
 							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
 								<view class="real_color">{{detail.expressNum}}</view>
+							</view>
+							<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;" @click="gotoexpressDet">
+								<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
+								<fa-icon type="angle-right" size="20" color="#0a53c3" />
 							</view>
 						</view>
 					</view>
@@ -216,6 +224,19 @@
 			that.getdetail(id);
 		},
 		methods: {
+			
+			gotoexpressDet(){
+				if(that.user.is_vip){
+					uni.navigateTo({
+						url:"../expressDet/expressDet?number="+that.detail.expressNum
+					})
+				}else{
+					uni.showToast({
+						title:"您还不是会员，无法使用",
+						icon:'none'
+					})
+				}
+			},
 
 			//预览图片
 			priview(url) {

@@ -203,7 +203,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _amapWx = _interopRequireDefault(__webpack_require__(/*! @/utils/amap-wx.js */ 77));
 var _common = _interopRequireDefault(__webpack_require__(/*! @/utils/common.js */ 78));
 var _mine = _interopRequireDefault(__webpack_require__(/*! @/utils/mine.js */ 67));
 var _record = _interopRequireDefault(__webpack_require__(/*! @/utils/record.js */ 79));

@@ -22,7 +22,8 @@
     "pages/staff_landing/staff_landing",
     "pages/register/user_protocol/user_protocol",
     "pages/common/good_allocation/good_allocation",
-    "pages/common/good_allocation/allocation_detail/allocation_detail"
+    "pages/common/good_allocation/allocation_detail/allocation_detail",
+    "pages/report/EnteringHistory/expressDet/expressDet"
   ],
   "subPackages": [
     {
@@ -127,6 +128,5 @@
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "uni-icon": "/components/uni-icon/uni-icon",
     "nocontent": "/components/No_content"
-  },
-  "sitemapLocation": "sitemap14.json"
+  }
 }

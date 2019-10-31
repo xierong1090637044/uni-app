@@ -79,7 +79,6 @@
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 
-	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';

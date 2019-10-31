@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "loading": "/components/Loading/index"
-  }
-}

@@ -15,16 +15,19 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.6 公测版</text>
-						<text class="desc-time">2019.10.25</text>
+						<text class="desc-time">2019.11.01</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>新增自动打印</text>
 						<text>新增批量导入导出</text>
 						<text>新增上传门店图片，以及仓库图片</text>
+						<text>新增会员可以在操作记录详情查看物流详情</text>
 						<text>出入库新增凭证图</text>
 						<text>预警记录以及操作记录支持查询到一年</text>
-						<text>修复出入库 备注打印bug的bug</text>
+						<text>修复出入库 备注打印bug</text>
+						<text>修复经营状况bug</text>
+						<text>修复操作记录总价显示bug</text>
 						<text>支持修改个人头像，昵称，性别</text>
 					</view>
 				</view>

@@ -138,7 +138,11 @@
 				"navigationBarTitleText": "盘点详情"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/report/EnteringHistory/expressDet/expressDet",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/mine",

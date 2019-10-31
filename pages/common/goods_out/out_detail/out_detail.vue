@@ -41,8 +41,10 @@
 						</view>
 						<view class="display_flex" style="padding: 10rpx 0;" v-if="outType.type == 2 || outType.type == 3">
 							<view style="width: 140rpx;">快递单号</view>
-							<view class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
+							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请输入快递单号" v-model="expressNum" />
+								
+								<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
 							</view>
 						</view>
 						<view class="display_flex" style="padding: 10rpx 0;" v-if="custom.discount">
@@ -187,6 +189,26 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
+			
+			//扫码操作
+			scan_code() {
+				// #ifdef H5
+				this.$wechat.scanQRCode().then(res => {
+					that.expressNum = res.result
+				})
+				// #endif
+				
+				// #ifdef MP-WEIXIN
+				uni.scanCode({
+					onlyFromCamera: true,
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						that.expressNum = res.result
+					}
+				});
+				// #endif
+			},
 			
 			//移除此张照片
 			removeImg(index){
