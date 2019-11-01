@@ -16,12 +16,14 @@ export default {
 			query.select("reserve","goodsName");
 			query.find().then(res => {
 				//console.log(res)
-				let data = {}
+				let series = []
 				for(let item of res){
+					let data = {}
 					data.name = item.goodsName
 					data.data = item.reserve
+					series.push(data)
 				}
-				ringChart.series = res
+				ringChart.series = series
 				resolve(ringChart)
 			});
 		})
