@@ -80,7 +80,7 @@
 									'userid': uni.getStorageSync('uid')
 								},
 								success: (uploadFileRes) => {
-									console.log(JSON.parse(uploadFileRes.data))
+									//console.log(JSON.parse(uploadFileRes.data))
 									let result = JSON.parse(uploadFileRes.data)
 									uni.hideLoading();
 									if(result.code == "1"){

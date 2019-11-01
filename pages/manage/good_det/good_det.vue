@@ -165,7 +165,8 @@
 					console.log(res)
 					let product = res[0];
 					let all_reserve = 0;
-				
+					
+					uni.setStorageSync("now_product",product)
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.include("stocks","goodsClass","second_class");

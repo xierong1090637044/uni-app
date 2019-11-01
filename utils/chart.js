@@ -1,9 +1,38 @@
 import Bmob from "hydrogen-js-sdk";
 import common from "@/utils/common.js";
 export default {
+	
+	//查询产品列表
+	RingChart() {
+		let uid = uni.getStorageSync("uid")
+		let ringChart = {}
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("Goods");
+			query.equalTo("userId", "==", uid);
+			query.equalTo("status", "!=", -1);
+			
+			query.order("-reserve"); //按照条件降序
+			query.limit(30);
+			query.select("reserve","goodsName");
+			query.find().then(res => {
+				//console.log(res)
+				let data = {}
+				for(let item of res){
+					data.name = item.goodsName
+					data.data = item.reserve
+				}
+				ringChart.series = res
+				resolve(ringChart)
+			});
+		})
+		
+	},
+	
 	//得到出入库的线形图数据
 	getLineChart(year, month) {
 		let lineReserve = {}
+		let columnChart = {}
+		
 		let categories = []
 		let series = []
 		let seriesItem1 = {}
@@ -22,6 +51,9 @@ export default {
 		let seriesItem6 = {}
 		let outReaMoney = []
 		let inReaMoney = []
+		
+		let columnSeries1 = [] // 入库统计
+		let columnSeries2 = [] // 出库统计
 
 		let uid = uni.getStorageSync("uid")
 		let Day = new Date()
@@ -45,8 +77,8 @@ export default {
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query("Bills");
 			query.equalTo("userId", "==", uid);
-			query.equalTo("createdAt", "<=", start_date);
 			query.equalTo("createdAt", ">=", end_date);
+			query.equalTo("createdAt", "<=", start_date);
 			query.statTo("sum", "num,total_money,really_total_money");
 			query.statTo("groupby", "createdAt,type");
 			query.statTo("order", "-createdAt");
@@ -92,29 +124,36 @@ export default {
 				seriesItem1.name = "入库量"
 				seriesItem1.data = inData
 				series.push(seriesItem1)
+				columnSeries1.push(seriesItem1)
 				seriesItem2.name = "出库量"
 				seriesItem2.data = outData
 				series.push(seriesItem2)
+				columnSeries2.push(seriesItem2)
 				
-				seriesItem3.name = "入库金额"
+				seriesItem3.name = "出库金额"
 				seriesItem3.data = outMoney
 				series1.push(seriesItem3)
-				seriesItem4.name = "出库金额"
+				//columnSeries1.push(seriesItem3)
+				seriesItem4.name = "入库金额"
 				seriesItem4.data = inMoney
 				series1.push(seriesItem4)
 				
-				seriesItem5.name = "入库金额"
+				seriesItem5.name = "出库金额"
 				seriesItem5.data = outReaMoney
+				columnSeries2.push(seriesItem5)
 				series2.push(seriesItem5)
-				seriesItem6.name = "出库金额"
+				seriesItem6.name = "入库金额"
 				seriesItem6.data = inReaMoney
 				series2.push(seriesItem6)
+				columnSeries1.push(seriesItem6)
 				
 
 				lineReserve.categories = categories
 				lineReserve.series = series
 				lineReserve.series1 = series1
 				lineReserve.series2 = series2
+				lineReserve.columnSeries1 = columnSeries1
+				lineReserve.columnSeries2 = columnSeries2
 
 				resolve(lineReserve)
 				//console.log(lineReserve)

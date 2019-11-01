@@ -87,7 +87,7 @@
 						<text>合计：￥0</text>
 					</view>
 					<view v-else>
-						<text>合计：￥{{all_money}}</text>
+						<text>合计：￥{{real_money}}</text>
 					</view>
 					<view class="display_flex">
 						<!-- #ifdef MP-WEIXIN -->
