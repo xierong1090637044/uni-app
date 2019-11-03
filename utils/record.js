@@ -8,6 +8,7 @@ export default {
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
+			query.equalTo("status", "!=", -1);
 			query.count().then(res => {
 				resolve(res)
 				console.log(`共有${res}条记录`)

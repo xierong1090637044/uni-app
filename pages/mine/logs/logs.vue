@@ -8,14 +8,14 @@
 			</view>
 
 			<scroll-view class="content" scroll-y="true" v-if="logsList && logsList.length > 0">
-				<view v-for="(item,index) in logsList" :key="index" class="list_item">
+				<navigator v-for="(item,index) in logsList" :key="index" class="list_item" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.detail_id">
 					<view class="display_flex">
 						<fa-icon type="info-circle" size="20" color="#426ab3"></fa-icon>
 						<view class="information">{{item.log}}</view>
 					</view>
 					
 					<view class="option_time">记录于{{item.createdAt}}</view>
-				</view>
+				</navigator>
 				
 			</scroll-view>
 			<view v-else  class="content">

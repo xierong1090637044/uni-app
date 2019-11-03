@@ -234,7 +234,7 @@
 			//选择操作类型
 			select_operatertype(){
 				uni.showActionSheet({
-				    itemList: ['入库', '采购'],
+				    itemList:(opeart_type == 1)?['入库', '采购']:['出库', '销售'],
 				    success: function (res) {
 							if(opeart_type == 1){
 								if(res.tapIndex == 0){
