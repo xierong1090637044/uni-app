@@ -411,6 +411,8 @@
 					content: '是否删除该商品',
 					success: function(res) {
 						if (res.confirm) {
+							
+							uni.setStorageSync("is_add",true)
 
 							const query = Bmob.Query('Goods');
 							query.set('id', objectId) //需要修改的objectId
@@ -418,9 +420,9 @@
 							query.save().then(res => {
 
 								if (accessory) {
-									uni.redirectTo({
-										url: '../goods/goods'
-									});
+									uni.navigateBack({
+										delta:1
+									})
 
 									setTimeout(function() {
 										uni.showToast({
@@ -435,9 +437,9 @@
 											console.log(res)
 											res.set('accessory', false)
 											res.save()
-											uni.redirectTo({
-												url: '../goods/goods'
-											});
+											uni.navigateBack({
+												delta:1
+											})
 
 											setTimeout(function() {
 												uni.showToast({
@@ -448,9 +450,9 @@
 											console.log(err)
 										})
 									} else {
-										uni.redirectTo({
-											url: '../goods/goods'
-										});
+										uni.navigateBack({
+											delta:1
+										})
 
 										setTimeout(function() {
 											uni.showToast({

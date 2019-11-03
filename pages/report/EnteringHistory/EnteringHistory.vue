@@ -47,16 +47,24 @@
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 									</view>
 								</view>
-								<view v-if='item.type == -1' class='order_out' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-									 <text v-if="item.extra_type == 1">销售</text>
-									 <text v-else>出库</text>
+								<view v-if='item.type == -1'>
+									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+										<text>销售</text>
+									</view>
+									<view v-else class='order_get'>
+										<text>出库</text>
+									</view>
 								</view>
 								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
 								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-								<view v-else-if='item.type == 1' class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-									<text v-if="item.extra_type == 1">采购</text>
-									<text v-else>入库</text>
+								<view v-if='item.type == 1'>
+									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+										<text>采购</text>
+									</view>
+									<view v-else class='order_get'>
+										<text>入库</text>
+									</view>
 								</view>
 							</view>
 						</view>
@@ -235,7 +243,11 @@
 									that.operaterTypeDesc = "采购"
 								}
 							}else if(opeart_type == -1){
-								
+								if(res.tapIndex == 0){
+									that.operaterTypeDesc = "出库"
+								}else{
+									that.operaterTypeDesc = "销售"
+								}
 							}
 							that.get_list();
 				    },
@@ -331,9 +343,9 @@
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
-				if(that.operaterTypeDesc == "采购"){
+				if(that.operaterTypeDesc == "采购" ||that.operaterTypeDesc == "出售"){
 					query.equalTo("extra_type", "==", 1);
-				}else if(that.operaterTypeDesc == "入库"){
+				}else if(that.operaterTypeDesc == "入库"||that.operaterTypeDesc == "出库"){
 					query.equalTo("extra_type", "==", 2);
 				}
 				query.limit(page_size);

@@ -93,44 +93,7 @@
 				</view>
 			</view>
 		</view>
-
-		<view class="custom_mask" v-if="models_good" @click.stop="hide_mask">
-			<view class="custom_mask_content">
-				<view class="display_flex" style="padding: 0 0 20rpx;border-bottom: 1rpx solid#ccc;">
-					<image v-if="models_good.goodsIcon" class="product_image" :src="models_good.goodsIcon" mode="widthFix" lazy-load="true"></image>
-					<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
-					<view style="margin-left: 20rpx;">
-						<view>{{models_good.goodsName}}</view>
-						<view style="font-size: 24rpx;color: #999;">总库存:{{models_good.reserve}}</view>
-					</view>
-				</view>
-				<view @click.stop="">
-					<checkbox-group @change="modelChange">
-						<view v-for="(item,index) in models_good.models" :key="index" style="display: flex;align-items: center;">
-							<view>
-								<checkbox :value="JSON.stringify(item)" style="transform:scale(0.9)" color="#426ab3" :data="index" class="round blue"
-								 :id="'s'+index" />
-							</view>
-
-							<label class="uni-product" :for="'s'+index">
-								<view class="display_flex_bet" style="width: 100%;">
-									<view class="display_flex">
-										<view v-if="item.custom1.value">{{item.custom1.value}}</view>
-										<view v-if="item.custom2.value" style="margin-left: 6rpx;">{{item.custom2.value}}</view>
-										<view v-if="item.custom3.value" style="margin-left: 6rpx;">{{item.custom3.value}}</view>
-										<view v-if="item.custom4.value" style="margin-left: 6rpx;">{{item.custom4.value}}</view>
-									</view>
-
-									<view>库存:{{item.reserve}}</view>
-								</view>
-							</label>
-						</view>
-					</checkbox-group>
-				</view>
-				<view style="margin-top: 100rpx;"><button class='confrim_button' @click="confrim_thismodel()">确认</button></view>
-			</view>
-		</view>
-
+		
 		<!--一键清零显示-->
 		<view class="gLButton" @click="reserveTo" v-if="type=='counting' && identity == 1">一键归零</view>
 	</view>
@@ -339,34 +302,6 @@
 				that.get_productList();
 			},
 
-			//多选规格
-			modelChange(e) {
-				that.selectd_model = e.detail.value
-				console.log(e.detail.value)
-			},
-
-			confrim_thismodel() {
-				if (that.selectd_model) {
-
-					console.log(that.models_good)
-					let good_key = that.models_good.key
-					all_products.splice(that.models_good_key - 1, 1)
-
-					that.models_good.is_selected = true
-					that.models_good.selectd_model = JSON.stringify(that.selectd_model)
-					//_models_good.goodsName = _models_good.goodsName + JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(model).custom3.value + JSON.parse(model).custom4.value
-					all_products.push(JSON.stringify(that.models_good))
-					that.productList.splice(good_key, 1, that.models_good)
-
-					that.models_good = ''
-				} else {
-					uni.showToast({
-						title: "请选择规格",
-						icon: "none"
-					})
-				}
-			},
-
 			//多选选择触发
 			radioChange: function(e) {
 				//console.log(e)
@@ -383,18 +318,6 @@
 				})
 				all_products = Array.from(new Set(all_products))
 				//console.log(all_products)
-
-				if (this.type != "allocation") {
-					for (let item of all_products) {
-						item = ((typeof item == 'object') ? item : JSON.parse(item))
-						//console.log(item)
-						key = key + 1
-						if (item.models && item.models.length > 0 && item.is_selected != true) {
-							that.models_good = item
-							that.models_good_key = key
-						}
-					}
-				}
 			},
 
 			//点击去到添加产品

@@ -65,6 +65,12 @@
 									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
 								</view>
 							</view>
+							<view v-if="item.goodsId.selected_model">
+								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet">
+									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
+								</view>
+							</view>
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
 								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
@@ -73,6 +79,7 @@
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</text>
 								</view>
 							</view>
+
 							<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
 							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>
 						</view>
@@ -198,6 +205,14 @@
 			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已审核</text>
 			</view>
+			
+			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
+				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未审核</text>
+				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
+			</view>
+			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
+				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已审核</text>
+			</view>
 		</view>
 
 	</view>
@@ -265,19 +280,29 @@
 					itemList: options,
 					success: function(res) {
 						if (res.tapIndex == 0) {
-							if (that.detail.status) {
-								uni.showToast({
-									title: "该笔采购单已审核",
-									icon: "none"
-								})
-							} else {
-								that.confrimOrder()
+							if(that.detail.type == 1){
+								if (that.detail.status) {
+									uni.showToast({
+										title: "该笔采购单已审核",
+										icon: "none"
+									})
+								} else {
+									that.confrimOrder()
+								}
+							}else if(that.detail.type == -1){
+								if (that.detail.status) {
+									uni.showToast({
+										title: "该笔销售单已审核",
+										icon: "none"
+									})
+								} else {
+									that.confrimOrder()
+								}
 							}
-							
-							uni.setStorageSync("is_option",true)
+							uni.setStorageSync("is_option", true)
 						} else if (res.tapIndex == 1) {
 							that.revoke()
-							uni.setStorageSync("is_option",true)
+							uni.setStorageSync("is_option", true)
 						} else if (res.tapIndex == 1) {
 							print.print_operations(that.detail, that.products)
 						}
@@ -349,12 +374,20 @@
 							query.set('id', id) //需要修改的objectId
 							query.set('status', true)
 							query.save().then(res => {
-								console.log(res)
+								//console.log(res)
 								let count = 0
-								for (let item of that.products) {
-									that.addOrReduceGoodReserve(item, count);
-									count += 1;
+								if(that.detail.type == 1){
+									for (let item of that.products) {
+										that.addOrReduceGoodReserve(item, count);
+										count += 1;
+									}
+								}else if(that.detail.type == -1){
+									for (let item of that.products) {
+										that.ReduceGoodReserve(item, count);
+										count += 1;
+									}
 								}
+								
 							}).catch(err => {
 								console.log(err)
 							})
@@ -363,48 +396,101 @@
 				})
 			},
 
-			//确定审核之后改变产品库存
+			//采购单确定审核之后改变产品库存
 			addOrReduceGoodReserve(product, count) {
 				const query1 = Bmob.Query('Goods');
-				query1.set('id', product.goodsId.objectId);
-				if(product.goodsId.selectd_model){
-					let num = 0;
-					for (let model of JSON.parse(product.goodsId.selectd_model)) {
-						for (let item of product.goodsId.models) {
-							num += Number(product.goodsId.reserve)
-							if (item.id == JSON.parse(model).id) {
-								item.reserve = Number(item.reserve) + Number(product.num)
+				query1.get(product.goodsId.objectId).then(res => {
+					//console.log(res)
+					if (product.goodsId.selected_model) {
+						let num = 0;
+						for (let model of product.goodsId.selected_model) {
+							for (let item of res.models) {
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) + Number(model.num)
+									//console.log(item.reserve)
+									num += Number(model.num)
+								}
 							}
 						}
+						//console.log(res.models)
+						res.set('models', res.models)
+						res.set('reserve', res.reserve + num);
+					} else {
+						res.set('reserve', res.reserve + product.num);
 					}
-					query1.set('models', product.goodsId)
-					query1.set('reserve', num);
-				}else{
-					query1.set('reserve', product.goodsId.reserve);
-				}
-				
-				query1.save().then(res => {
-					if (count == (that.products.length - 1)) {
-						const query = Bmob.Query('Bills');
-						query.containedIn("objectId", that.bills);
-						query.find().then(todos => {
-							todos.set('status', true);
-							todos.saveAll().then(res => {
-								uni.hideLoading();
-								uni.navigateBack({
-									delta: 1
-								})
-								setTimeout(function() {
-									uni.showToast({
-										title: '审核成功'
+
+					res.save().then(res => {
+						if (count == (that.products.length - 1)) {
+							const query = Bmob.Query('Bills');
+							query.containedIn("objectId", that.bills);
+							query.find().then(todos => {
+								todos.set('status', true);
+								todos.saveAll().then(res => {
+									uni.hideLoading();
+									uni.navigateBack({
+										delta: 1
 									})
-								}, 1000);
-								console.log(res, 'ok')
-							}).catch(err => {
-								console.log(err)
-							});
-						})
+									setTimeout(function() {
+										uni.showToast({
+											title: '审核成功'
+										})
+									}, 1000);
+									//console.log(res, 'ok')
+								}).catch(err => {
+									console.log(err)
+								});
+							})
+						}
+					})
+				})
+			},
+			
+			//销售单确认审核之后减少库存
+			ReduceGoodReserve(product, count){
+				const query1 = Bmob.Query('Goods');
+				query1.get(product.goodsId.objectId).then(res => {
+					//console.log(res)
+					if (product.goodsId.selected_model) {
+						let num = 0;
+						for (let model of product.goodsId.selected_model) {
+							for (let item of res.models) {
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) - Number(model.num)
+									//console.log(item.reserve)
+									num += Number(model.num)
+								}
+							}
+						}
+						//console.log(res.models)
+						res.set('models', res.models)
+						res.set('reserve', res.reserve - num);
+					} else {
+						res.set('reserve', res.reserve - product.num);
 					}
+				
+					res.save().then(res => {
+						if (count == (that.products.length - 1)) {
+							const query = Bmob.Query('Bills');
+							query.containedIn("objectId", that.bills);
+							query.find().then(todos => {
+								todos.set('status', true);
+								todos.saveAll().then(res => {
+									uni.hideLoading();
+									uni.navigateBack({
+										delta: 1
+									})
+									setTimeout(function() {
+										uni.showToast({
+											title: '审核成功'
+										})
+									}, 1000);
+									//console.log(res, 'ok')
+								}).catch(err => {
+									console.log(err)
+								});
+							})
+						}
+					})
 				})
 			},
 

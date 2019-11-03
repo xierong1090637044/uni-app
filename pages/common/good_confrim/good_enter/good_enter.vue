@@ -2,21 +2,28 @@
 	<view>
 		<view class='page'>
 			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
-			<view style='max-height:25vh;overflow-x:scroll'>
+			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>
-						<view>产品：{{item.goodsName}}</view>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">期初进货价：￥0</view>
-						<view v-else>期初进货价：￥{{item.costPrice}}</view>
-					</view>
-					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-						<view>实际进货价：￥0（X{{item.num}}）</view>
-						<view>合计：￥0</view>
-					</view>
-					<view class='pro_list' v-else>
-						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
-						<view>合计：￥{{item.total_money}}</view>
-					</view>
+						<view class='pro_list' style='color:#3D3D3D'>
+							<view>产品：{{item.goodsName}}</view>
+							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">期初进货价：￥0</view>
+							<view v-else>期初进货价：￥{{item.costPrice}}</view>
+						</view>
+						<view v-if="item.selected_model">
+							<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">
+								<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+								<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
+							</view>
+						</view>
+						<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+							<view>实际进货价：￥0（X{{item.num}}）</view>
+							<view>合计：￥0</view>
+						</view>
+						<view class='pro_list' v-else>
+							<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+							<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
+						</view>
+						
 				</view>
 			</view>
 
@@ -309,9 +316,9 @@
 					goodsId.objectId = this.products[i].objectId
 					goodsId.reserve = num
 					if(this.products[i].selectd_model){
-						goodsId.selectd_model = this.products[i].selectd_model
+						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
-					}  
+					}
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
 					detailBills.type = 1
@@ -397,7 +404,7 @@
 												uni.removeStorageSync("warehouse")
 											
 												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
-													.length + "商品", 1, res.objectId);
+													.length + "商品", 1, operationId);
 											
 												let params = {
 													"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
@@ -405,7 +412,7 @@
 													"data1": res.createdAt,
 													"data2": that.stock ? that.stock.stock_name : "未填写",
 													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
+													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
 												};
 												send_temp.send_in(params);
 											
@@ -425,7 +432,7 @@
 													}
 												}
 												params1.form_Id = fromid
-												params1.id = res.objectId
+												params1.id = operationId
 												send_temp.send_in_mini(params1);
 											
 												//自动打印
@@ -493,7 +500,7 @@
 											uni.removeStorageSync("warehouse")
 
 											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-												.length + "商品", 1, res.objectId);
+												.length + "商品", 1, operationId);
 
 											let params = {
 												"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
@@ -501,7 +508,7 @@
 												"data1": res.createdAt,
 												"data2": that.stock ? that.stock.stock_name : "未填写",
 												"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
+												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
 											};
 											send_temp.send_in(params);
 
@@ -521,7 +528,7 @@
 												}
 											}
 											params1.form_Id = fromid
-											params1.id = res.objectId
+											params1.id = operationId
 											send_temp.send_in_mini(params1);
 
 											//自动打印

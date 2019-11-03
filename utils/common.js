@@ -7,18 +7,17 @@ module.exports = {
 				let num = 0;
 				const query = Bmob.Query('Goods');
 				query.get(products[i].objectId).then(res => {
-					//console.log(res)
+					console.log(products[i])
 			
 					if (products[i].selectd_model) {
-						for (let model of JSON.parse(products[i].selectd_model)) {
+						for (let model of products[i].selected_model) {
 							for (let item of products[i].models) {
-								num += Number(item.reserve)
-								if (item.id == JSON.parse(model).id) {
-									item.reserve = Number(item.reserve) + Number(products[i].num)
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) + Number(model.num)
 								}
 							}
 						}
-						num = num + Number(products[i].num)
+						num = Number(products[i].reserve) + Number(products[i].num);
 						res.set('models', products[i].models)
 					} else {
 						num = Number(products[i].reserve) + Number(products[i].num);
@@ -26,6 +25,50 @@ module.exports = {
 					res.set('reserve', num)
 					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 					res.save()
+					
+					if(i == products.length - 1){
+						resolve(true)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		})
+	},
+	
+	
+	//出库时减少产品数量
+	outRedGoodNum(products){
+		return new Promise((resolve, reject) => {
+			for (let i = 0; i < that.products.length; i++) {
+				let num = 0;
+				const query = Bmob.Query('Goods');
+				query.get(that.products[i].objectId).then(res => {
+					//console.log(res)
+					if (that.products[i].warning_num >= that.products[i].reserve) {
+						this.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + that.products[i].warning_num, -2, that.products[i].objectId);
+					}
+			
+					if (that.products[i].selectd_model) {
+						for (let model of JSON.parse(that.products[i].selectd_model)) {
+							for (let item of that.products[i].models) {
+								num += Number(item.reserve)
+								if (item.id == JSON.parse(model).id) {
+									item.reserve = Number(item.reserve) - Number(that.products[i].num)
+								}
+							}
+						}
+						num = num - Number(that.products[i].num)
+						res.set('models', that.products[i].models)
+					} else {
+						num = Number(that.products[i].reserve) - Number(that.products[i].num);
+					}
+			
+					res.set('reserve', num)
+					res.set('stocktype', (num >= that.products[i].warning_num) ? 1 : 0)
+					res.save()
+					
+					common.record_staffOut(this.products[i].num)
 					
 					if(i == products.length - 1){
 						resolve(true)

@@ -19,14 +19,19 @@
 							<view>实际进货价(可修改)：</view>
 							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 						</view>
-						<view class='margin-t-5' v-if="item.selectd_model" v-for="(model,key) in JSON.parse(item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
-							{{JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(model).custom3.value + JSON.parse(model).custom4.value}}入库量：
-							<uninumberbox :min="1" @change="handleModelNumChange($event, index,key,JSON.parse(model))" />
+						
+						<view v-if="item.selectd_model">
+							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key"
+							 style="margin-bottom: 10rpx;">
+								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>入库量：
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0'/>
+							</view>
 						</view>
 						<view class='margin-t-5' v-else>
 							入库量：
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
+						
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">
 								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
@@ -62,8 +67,8 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
-				nums:[], // 多规格时的数量
-				_sumNum:0,
+				nums: [],
+				selected_model:[]
 			}
 		},
 
@@ -74,7 +79,9 @@
 			uid = uni.getStorageSync("uid")
 
 			if (options.id) {
-				uni.showLoading({title:"加载中..."})
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
@@ -100,16 +107,10 @@
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
-
-				let key = 0;
-				for (let item of uni.getStorageSync("products")) {
-					
-					if(key == uni.getStorageSync("products").length-1){
-						this.products = [].concat.apply([],this.products)
-					}
-					key += 1;
+				for(let item of this.products){
+					item.selectd_model = item.models
 				}
-
+				this.products = this.products
 			}
 
 		},
@@ -119,7 +120,9 @@
 			scanGoods() {
 				uni.scanCode({
 					success(res) {
-						uni.showLoading({title:"加载中..."})
+						uni.showLoading({
+							title: "加载中..."
+						})
 						let result = res.result;
 						let array = result.split("-");
 
@@ -173,20 +176,25 @@
 				this.products[index].really_total_money = Number($event) * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)
 			},
-			
+
 			//多类型产品数量改变
-			handleModelNumChange($event, index,key,item){
-				that.nums[key] = Number($event)
+			handleModelNumChange($event, index, key, item) {
 				
-				for(let model of this.products[index].models){
-					if(model.id == item.id){
-						model.num = Number($event)
+				that.nums[key] = Number($event)
+				for (let model of this.products[index].models) {
+					if (model.id == item.id) {
+						item.num = Number($event)
 					}
 				}
-				
-				this.products[index].num = that._sumNum
-				this.products[index].total_money = that._sumNum * Number(this.products[index].modify_retailPrice)
-				this.products[index].really_total_money = that._sumNum * Number(this.products[index].really_total_money)
+				let _sumNum = 0;
+				for(let item of that.nums){
+					_sumNum +=item
+				}
+				that.selected_model[key] = item
+				this.products[index].num = _sumNum
+				this.products[index].selected_model = that.selected_model
+				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)
 			},
 
