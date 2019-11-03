@@ -6,7 +6,7 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 						<view class='pro_list' style='color:#3D3D3D'>
 							<view>产品：{{item.goodsName}}</view>
-							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">期初进货价：￥0</view>
+							<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
 							<view v-else>期初进货价：￥{{item.costPrice}}</view>
 						</view>
 						<view v-if="item.selected_model">
@@ -100,7 +100,7 @@
 					</view>
 					<view class="display_flex">
 						<!-- #ifdef MP-WEIXIN -->
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;" v-if="othercurrent.indexOf('1') !=-1">采购</button>
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2" value="2">入库</button>
 						<!-- #endif -->
 						<!-- #ifdef H5 -->
@@ -133,6 +133,7 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
+				othercurrent:uni.getStorageSync("user").rights.othercurrent,
 				Images: [], //上传凭证图
 				stock: '', //仓库
 				shop_name: '',
@@ -510,7 +511,7 @@
 												"data1": operationId,
 												"data2": uni.getStorageSync("user").nickName,
 												"data3": "未审核",
-												"data3":  res.createdAt,
+												"data4":  res.createdAt,
 												"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
 											};

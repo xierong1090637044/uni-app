@@ -95,7 +95,7 @@
 					</view>
 					<view class="display_flex">
 						<!-- #ifdef MP-WEIXIN -->
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;" v-if="othercurrent.indexOf('2') !=-1">销售</button>
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">出库</button>
 						<!-- #endif -->
 						<!-- #ifdef H5 -->
@@ -127,6 +127,7 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
+				othercurrent:uni.getStorageSync("user").rights.othercurrent,
 				Images: [], //上传凭证图
 				stock: '', //仓库
 				shop_name: '',

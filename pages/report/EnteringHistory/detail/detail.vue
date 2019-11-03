@@ -205,7 +205,7 @@
 			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已审核</text>
 			</view>
-			
+
 			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未审核</text>
 				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
@@ -235,6 +235,7 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
+				othercurrent:uni.getStorageSync("user").rights.othercurrent,
 				bills: [],
 				loading: true,
 				products: null,
@@ -274,13 +275,17 @@
 			show_options() {
 				let options = ['打印'];
 				if (that.detail.type == -1 || that.detail.type == 1) {
-					options = ['审核', '撤销', '打印']
+					if(that.othercurrent.indexOf("3") ==-1){
+						options = ['撤销', '打印']
+					}else{
+						options = ['审核', '撤销', '打印']
+					}
 				}
 				uni.showActionSheet({
 					itemList: options,
 					success: function(res) {
 						if (res.tapIndex == 0) {
-							if(that.detail.type == 1){
+							if (that.detail.type == 1) {
 								if (that.detail.status) {
 									uni.showToast({
 										title: "该笔采购单已审核",
@@ -289,7 +294,7 @@
 								} else {
 									that.confrimOrder()
 								}
-							}else if(that.detail.type == -1){
+							} else if (that.detail.type == -1) {
 								if (that.detail.status) {
 									uni.showToast({
 										title: "该笔销售单已审核",
@@ -345,9 +350,22 @@
 
 									todos.destroyAll().then(res => {
 										// 成功批量修改
-										for (var i = 0; i < that.products.length; i++) {
-											that.delete_bill(i);
+										if (that.detail.status) {
+											for (var i = 0; i < that.products.length; i++) {
+												that.delete_bill(i);
+											}
+										} else {
+											uni.hideLoading();
+											uni.navigateBack({
+												delta: 1
+											})
+											setTimeout(function() {
+												uni.showToast({
+													title: '撤销成功'
+												})
+											}, 1000);
 										}
+
 									}).catch(err => {
 										console.log(err)
 									});
@@ -376,18 +394,18 @@
 							query.save().then(res => {
 								//console.log(res)
 								let count = 0
-								if(that.detail.type == 1){
+								if (that.detail.type == 1) {
 									for (let item of that.products) {
 										that.addOrReduceGoodReserve(item, count);
 										count += 1;
 									}
-								}else if(that.detail.type == -1){
+								} else if (that.detail.type == -1) {
 									for (let item of that.products) {
 										that.ReduceGoodReserve(item, count);
 										count += 1;
 									}
 								}
-								
+
 							}).catch(err => {
 								console.log(err)
 							})
@@ -444,9 +462,9 @@
 					})
 				})
 			},
-			
+
 			//销售单确认审核之后减少库存
-			ReduceGoodReserve(product, count){
+			ReduceGoodReserve(product, count) {
 				const query1 = Bmob.Query('Goods');
 				query1.get(product.goodsId.objectId).then(res => {
 					//console.log(res)
@@ -467,7 +485,7 @@
 					} else {
 						res.set('reserve', res.reserve - product.num);
 					}
-				
+
 					res.save().then(res => {
 						if (count == (that.products.length - 1)) {
 							const query = Bmob.Query('Bills');
