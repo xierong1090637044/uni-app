@@ -153,6 +153,10 @@
 					{
 						id: 6,
 						name: '产品类别管理'
+					},
+					{
+						id: 7,
+						name: '单品统计'
 					}
 				],
 				recode: [{
@@ -179,10 +183,23 @@
 						id: 6,
 						name: '经营状况'
 					},
+					{
+						id: 7,
+						name: '报表查看'
+					},
 				],
 				others:[{
 					id: 1,
 					name: '进价隐藏'
+				},{
+					id: 2,
+					name: '销售'
+				},{
+					id: 3,
+					name: '采购'
+				},{
+					id: 4,
+					name: '审核'
 				}],
 				current: [],
 				recodecurrent: [],

@@ -226,7 +226,7 @@
 						sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 						sourceType: ['album', 'camera'], //从相册选择
 						success: function(res) {
-							console.log(res);
+							//console.log(res);
 							let timestamp = Date.parse(new Date());
 							let tempFilePaths = res.tempFilePaths
 							let file;
@@ -259,7 +259,7 @@
 
 			//表单提交
 			formSubmit: function(e) {
-				console.log(e)
+				//console.log(e)
 				this.button_disabled = true;
 				let fromid = e.detail.formId
 				// #ifdef MP-WEIXIN
@@ -329,7 +329,7 @@
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
-						console.log("批量新增单据成功", res);
+						//console.log("批量新增单据成功", res);
 						let bills = []
 						for (let i = 0; i < res.length; i++) {
 							bills.push(res[i].success.objectId)
@@ -369,7 +369,7 @@
 								query.get(that.producer.objectId).then(res => {
 									var debt = (res.debt == null) ? 0 : res.debt;
 									debt = debt + (that.all_money - Number(that.real_money));
-									console.log(debt);
+									//console.log(debt);
 									let query = Bmob.Query('producers');
 									query.get(that.producer.objectId).then(res => {
 										res.set('debt', debt)

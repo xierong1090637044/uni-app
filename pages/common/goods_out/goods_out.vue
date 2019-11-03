@@ -85,7 +85,7 @@
 				}
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
-					console.log(res)
+					//console.log(res)
 					if (res[0].status == -1) {
 						uni.showToast({
 							title: "该产品已删除",
@@ -96,6 +96,7 @@
 						res[0].total_money = 1 * res[0].retailPrice;
 						res[0].really_total_money = 1 * res[0].retailPrice;
 						res[0].modify_retailPrice = res[0].retailPrice;
+						if(res[0].models) res[0].selectd_model = res[0].models
 						this.products = res;
 					}
 					wx.hideLoading()
@@ -195,7 +196,7 @@
 
 			//删除点击
 			handleDel(index) {
-				console.log(index)
+				//console.log(index)
 				if (this.products.length == 1) {
 					uni.showToast({
 						title: "最少选择一个产品",

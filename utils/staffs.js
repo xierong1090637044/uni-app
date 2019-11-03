@@ -9,6 +9,7 @@ export default {
 			query.include("masterId")
 			query.get(userid).then(res => {
 			  //console.log(res)
+				uni.setStorageSync("user",res);
 			  resolve(res)
 			}).catch(err => {
 			  //console.log(err)
