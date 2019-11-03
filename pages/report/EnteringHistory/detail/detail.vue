@@ -235,7 +235,8 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
-				othercurrent:uni.getStorageSync("user").rights.othercurrent,
+				identity:uni.getStorageSync("identity"),
+				othercurrent:'',
 				bills: [],
 				loading: true,
 				products: null,
@@ -246,6 +247,9 @@
 			console.log(options)
 			that = this;
 			id = options.id;
+			if(that.user.rights && that.user.rights.othercurrent){
+				that.othercurrent = that.user.rights.othercurrent
+			}
 			that.getdetail(id);
 		},
 		methods: {
@@ -275,10 +279,10 @@
 			show_options() {
 				let options = ['打印'];
 				if (that.detail.type == -1 || that.detail.type == 1) {
-					if(that.othercurrent.indexOf("3") ==-1){
-						options = ['撤销', '打印']
-					}else{
+					if(that.othercurrent.indexOf("3") !=-1 || that.identity==1){
 						options = ['审核', '撤销', '打印']
+					}else{
+						options = ['撤销', '打印']
 					}
 				}
 				uni.showActionSheet({

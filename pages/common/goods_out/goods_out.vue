@@ -25,7 +25,7 @@
 						</view>
 						<view class='margin-t-5' v-else>
 							出库量：
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)"/>
 						</view>
 
 						<view class="bottom_del">

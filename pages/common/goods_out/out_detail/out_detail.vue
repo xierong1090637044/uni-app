@@ -95,7 +95,7 @@
 					</view>
 					<view class="display_flex">
 						<!-- #ifdef MP-WEIXIN -->
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;" v-if="othercurrent.indexOf('2') !=-1">销售</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;" v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">出库</button>
 						<!-- #endif -->
 						<!-- #ifdef H5 -->
@@ -127,7 +127,8 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
-				othercurrent:uni.getStorageSync("user").rights.othercurrent,
+				identity:uni.getStorageSync("identity"),
+				othercurrent:'',
 				Images: [], //上传凭证图
 				stock: '', //仓库
 				shop_name: '',
@@ -164,6 +165,10 @@
 			that = this;
 			uid = uni.getStorageSync("uid");
 			this.products = uni.getStorageSync("products");
+			
+			if(that.user.rights && that.user.rights.othercurrent){
+				that.othercurrent = that.user.rights.othercurrent
+			}
 		},
 		onShow() {
 			this.really_total_money = 0

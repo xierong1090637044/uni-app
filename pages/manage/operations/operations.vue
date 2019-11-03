@@ -114,11 +114,21 @@
 				details: null,
 				tabBars: [{
 					name: '入库',
-					type: 1
+					type: 1,
+					extra_type:2,
+				}, {
+					name: '采购',
+					type: 1,
+					extra_type:1,
 				}, {
 					name: '出库',
-					type: -1
+					type: -1,
+					extra_type:2,
 				}, {
+					name: '销售',
+					type: -1,
+					extra_type:1,
+				},{
 					name: '盘点',
 					type: 3
 				}, {
@@ -166,10 +176,10 @@
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", that.seleted_tab);
+				query.equalTo("status", "!=", false);
 				query.equalTo("goodsId", "==", goodsId);
 				query.equalTo("createdAt", ">=", that.year + "-" + that.month + "-01 00:00:00");
-				query.equalTo("createdAt", "<=", that.year + "-" + that.month + "-" + new Date(that.year, that.month, 0).getDate() +
-					" 23:59:59");
+				query.equalTo("createdAt", "<=", that.year + "-" + that.month + "-" + new Date(that.year, that.month, 0).getDate() +" 23:59:59");
 				query.order("-createdAt")
 				query.find().then(res => {
 					console.log(res)
@@ -179,6 +189,7 @@
 					if (that.seleted_tab != 3) {
 						const query = Bmob.Query("Bills");
 						query.equalTo("userId", "==", uid);
+						query.equalTo("status", "!=", false);
 						query.equalTo("type", "==", that.seleted_tab);
 						query.equalTo("goodsId", "==", goodsId);
 						query.equalTo("createdAt", ">=", that.year + "-" + that.month + "-01 00:00:00");
