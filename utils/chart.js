@@ -84,6 +84,7 @@ export default {
 			query.statTo("sum", "num,total_money,really_total_money");
 			query.statTo("groupby", "createdAt,type");
 			query.statTo("order", "-createdAt");
+			query.equalTo("status", "!=", false);
 			query.limit(1000)
 			query.find().then(res => {
 

@@ -1,5 +1,42 @@
 import Bmob from "hydrogen-js-sdk";
 module.exports = {
+	//入库时增加产品数量
+	enterAddGoodNum(products){
+		return new Promise((resolve, reject) => {
+			for (let i = 0; i < products.length; i++) {
+				let num = 0;
+				const query = Bmob.Query('Goods');
+				query.get(products[i].objectId).then(res => {
+					//console.log(res)
+			
+					if (products[i].selectd_model) {
+						for (let model of JSON.parse(products[i].selectd_model)) {
+							for (let item of products[i].models) {
+								num += Number(item.reserve)
+								if (item.id == JSON.parse(model).id) {
+									item.reserve = Number(item.reserve) + Number(products[i].num)
+								}
+							}
+						}
+						num = num + Number(products[i].num)
+						res.set('models', products[i].models)
+					} else {
+						num = Number(products[i].reserve) + Number(products[i].num);
+					}
+					res.set('reserve', num)
+					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+					res.save()
+					
+					if(i == products.length - 1){
+						resolve(true)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		})
+	},
+	
 	//清除缓存
 	handleData(){
 		uni.removeStorageSync("warehouse");

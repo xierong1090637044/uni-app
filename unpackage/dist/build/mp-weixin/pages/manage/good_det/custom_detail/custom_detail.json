@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "客户统计",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index"
+  }
+}

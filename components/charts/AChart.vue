@@ -17,18 +17,6 @@
 				<view class="qiun-title-dot-light">
 					<fa-icon type="eercast" size="20" color="#ff4f00"></fa-icon>
 					<text style="margin-left: 10rpx;">出入库总额</text>
-					<text style="font-size: 24rpx;color:#999">（以实际出入库单价为准）</text>
-				</view>
-			</view>
-			<view class="qiun-charts">
-				<canvas canvas-id="canvasLineB" id="canvasLineB" class="charts" disable-scroll=true @touchstart="touchLineA($event,'B')"
-				 @touchmove="moveLineA($event,'B')" @touchend="touchEndLineA($event,'B')"></canvas>
-			</view>
-
-			<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-				<view class="qiun-title-dot-light">
-					<fa-icon type="eercast" size="20" color="#ff4f00"></fa-icon>
-					<text style="margin-left: 10rpx;">出入库总额</text>
 					<text style="font-size: 24rpx;color:#999">（以成本价、零售价为准，自2019.10.15日更新此数据）</text>
 				</view>
 			</view>
@@ -94,7 +82,6 @@
 					console.log(res)
 					_self.textarea = JSON.stringify(res);
 					_self.showLineA("canvasLineA", res);
-					_self.showLineB("canvasLineB", res);
 					_self.showLineC("canvasLineC", res);
 				})
 			},
@@ -146,54 +133,6 @@
 					},
 				});
 
-			},
-
-			showLineB(canvasId, chartData) {
-				canvaLineB = new uCharts({
-					$this: _self,
-					canvasId: canvasId,
-					type: 'line',
-					fontSize: 11,
-					padding: [15, 15, 0, 15],
-					legend: {
-						show: true,
-						padding: 5,
-						lineHeight: 11,
-						margin: 5,
-					},
-					dataLabel: true,
-					dataPointShape: true,
-					dataPointShapeType: 'hollow',
-					background: '#FFFFFF',
-					pixelRatio: _self.pixelRatio,
-					categories: chartData.categories,
-					series: chartData.series1,
-					animation: true,
-					enableScroll: true, //开启图表拖拽功能
-					xAxis: {
-						disableGrid: false,
-						type: 'grid',
-						gridType: 'dash',
-						itemCount: 4,
-						scrollShow: true,
-						scrollAlign: 'left'
-					},
-					yAxis: {
-						//disabled:true
-						gridType: 'dash',
-						splitNumber: 8,
-						format: (val) => {
-							return val.toFixed(0)
-						} //如不写此方法，Y轴刻度默认保留两位小数
-					},
-					width: _self.cWidth * _self.pixelRatio,
-					height: _self.cHeight * _self.pixelRatio,
-					extra: {
-						line: {
-							type: 'straight'
-						}
-					},
-				});
 			},
 
 			showLineC(canvasId, chartData) {
@@ -249,8 +188,6 @@
 					canvaLineA.scrollStart(e);
 				} else if (type == "C") {
 					canvaLineC.scrollStart(e);
-				} else {
-					canvaLineB.scrollStart(e);
 				}
 			},
 			moveLineA(e, type) {
@@ -258,8 +195,6 @@
 					canvaLineA.scroll(e);
 				} else if (type == "C") {
 					canvaLineC.scroll(e);
-				} else {
-					canvaLineB.scroll(e);
 				}
 			},
 			touchEndLineA(e, type) {
@@ -281,15 +216,6 @@
 							return category + ' ' + item.name + ':' + item.data
 						}
 					});
-				} else {
-					canvaLineB.scrollEnd(e);
-					//下面是toolTip事件，如果滚动后不需要显示，可不填写
-					canvaLineB.touchLegend(e);
-					canvaLineB.showToolTip(e, {
-						format: function(item, category) {
-							return category + ' ' + item.name + ':' + item.data
-						}
-					});
 				}
 
 			},
@@ -297,12 +223,6 @@
 				if (isJSON(_self.textarea)) {
 					let newdata = JSON.parse(_self.textarea);
 					canvaLineA.updateData({
-						series: newdata.series,
-						categories: newdata.categories,
-						scrollPosition: 'right',
-						animation: false
-					});
-					canvaLineB.updateData({
 						series: newdata.series,
 						categories: newdata.categories,
 						scrollPosition: 'right',

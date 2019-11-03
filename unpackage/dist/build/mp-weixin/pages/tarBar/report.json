@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "报表",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

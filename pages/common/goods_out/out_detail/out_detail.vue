@@ -147,6 +147,7 @@
 					},
 				],
 				expressNum: '', //快递单号
+				total_num: 0, //实际的总数量
 			}
 		},
 		onLoad() {
@@ -269,6 +270,7 @@
 
 			formSubmit: function(e) {
 				console.log(e)
+				this.button_disabled = true;
 				let fromid = e.detail.formId
 				// #ifdef MP-WEIXIN
 				let extraType = Number(e.detail.target.dataset.type) // 判断是销售还是出库
@@ -276,7 +278,7 @@
 				// #ifdef H5
 				let extraType = 2 // 判断是销售还是出库
 				// #endif
-				this.button_disabled = true;
+				
 				uni.showLoading({
 					title: "上传中..."
 				});
@@ -316,6 +318,7 @@
 					tempBills.set('extra_type', extraType);
 					tempBills.set('opreater', operater);
 					tempBills.set("stock", stockId);
+					tempBills.set("status", (extraType == 2)?true:false); // 操作单详情
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -365,6 +368,7 @@
 						query.set("opreater", poiID1);
 						query.set("stock", stockId);
 						query.set("master", poiID);
+						query.set("real_num", that.total_num);
 						if(that.discount) query.set('discount', that.discount);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
@@ -398,6 +402,7 @@
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
+						query.set("status", false); // 操作单详情
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;

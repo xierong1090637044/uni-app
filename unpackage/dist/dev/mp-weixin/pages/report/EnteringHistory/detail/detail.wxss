@@ -6,6 +6,17 @@
 	background: #FAFAFA;
 	font-size: 28rpx;
 }
+.operater_status {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 20rpx 0;
+	background: #b82626;
+	color: #fff;
+	z-index: 100;
+	text-align: center;
+}
 .pro_list {
 	display: -webkit-box;
 	display: -webkit-flex;

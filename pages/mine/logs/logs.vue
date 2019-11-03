@@ -7,7 +7,7 @@
 				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
 
-			<scroll-view class="content" scroll-y="true" @scrolltolower="load_more" v-if="logsList && logsList.length > 0">
+			<scroll-view class="content" scroll-y="true" v-if="logsList && logsList.length > 0">
 				<view v-for="(item,index) in logsList" :key="index" class="list_item">
 					<view class="display_flex">
 						<fa-icon type="info-circle" size="20" color="#426ab3"></fa-icon>

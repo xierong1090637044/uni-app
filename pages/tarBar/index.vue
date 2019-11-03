@@ -266,7 +266,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("createdAt", ">=", common.getDay(0, true));
 				query.equalTo("createdAt", "<=", common.getDay(1, true));
-
+				query.equalTo("status", "!=", false);
 				query.include("goodsId");
 				query.find().then(res => {
 					for (var i = 0; i < res.length; i++) {

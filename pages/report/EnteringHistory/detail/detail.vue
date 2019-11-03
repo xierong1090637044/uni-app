@@ -3,9 +3,8 @@
 		<loading v-if="loading"></loading>
 
 		<view class='page' v-else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options">
-			</uni-nav-bar>
-			<scroll-view style="height:calc(100vh - 80rpx)" scroll-y="true">
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
+			<scroll-view style="height:calc(100vh - 170rpx)" scroll-y="true">
 				<view style='line-height:70rpx;padding: 0 20rpx;'>操作产品</view>
 				<view v-if="detail.type == 3">
 					<view style='max-height:50vh;overflow-x:scroll'>
@@ -110,7 +109,8 @@
 								<view class="real_color">{{detail.expressNum}}</view>
 							</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;" @click="gotoexpressDet">
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;"
+						 @click="gotoexpressDet">
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
@@ -140,7 +140,8 @@
 							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
 								<view class="real_color">{{detail.expressNum}}</view>
 							</view>
-							<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;" @click="gotoexpressDet">
+							<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;"
+							 @click="gotoexpressDet">
 								<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 								<fa-icon type="angle-right" size="20" color="#0a53c3" />
 							</view>
@@ -189,6 +190,14 @@
 					</view>
 				</view>
 			</scroll-view>
+
+			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
+				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未审核</text>
+				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
+			</view>
+			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
+				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已审核</text>
+			</view>
 		</view>
 
 	</view>
@@ -214,7 +223,7 @@
 				bills: [],
 				loading: true,
 				products: null,
-				detail: null
+				detail: null,
 			}
 		},
 		onLoad(options) {
@@ -224,16 +233,16 @@
 			that.getdetail(id);
 		},
 		methods: {
-			
-			gotoexpressDet(){
-				if(that.user.is_vip){
+
+			gotoexpressDet() {
+				if (that.user.is_vip) {
 					uni.navigateTo({
-						url:"../expressDet/expressDet?number="+that.detail.expressNum
+						url: "../expressDet/expressDet?number=" + that.detail.expressNum
 					})
-				}else{
+				} else {
 					uni.showToast({
-						title:"您还不是会员，无法使用",
-						icon:'none'
+						title: "您还不是会员，无法使用",
+						icon: 'none'
 					})
 				}
 			},
@@ -241,7 +250,7 @@
 			//预览图片
 			priview(url) {
 				uni.previewImage({
-					current:url,
+					current: url,
 					urls: that.detail.Images,
 				});
 			},
@@ -249,17 +258,28 @@
 			//点击显示操作菜单
 			show_options() {
 				let options = ['打印'];
-				if(that.detail.type == -1 || that.detail.type == 1){
-					options = ['打印','撤销']
+				if (that.detail.type == -1 || that.detail.type == 1) {
+					options = ['审核', '撤销', '打印']
 				}
 				uni.showActionSheet({
-					itemList:options,
+					itemList: options,
 					success: function(res) {
-
 						if (res.tapIndex == 0) {
-							print.print_operations(that.detail, that.products)
-						}else if(res.tapIndex == 1){
+							if (that.detail.status) {
+								uni.showToast({
+									title: "该笔采购单已审核",
+									icon: "none"
+								})
+							} else {
+								that.confrimOrder()
+							}
+							
+							uni.setStorageSync("is_option",true)
+						} else if (res.tapIndex == 1) {
 							that.revoke()
+							uni.setStorageSync("is_option",true)
+						} else if (res.tapIndex == 1) {
+							print.print_operations(that.detail, that.products)
 						}
 					},
 					fail: function(res) {
@@ -274,21 +294,9 @@
 				query.get(id).then(res => {
 					console.log(res);
 					that.detail = res;
-					if (res.detail) {
-						that.products = res.detail;
-						that.bills = res.bills;
-						that.loading = false;
-					} else {
-						const query = Bmob.Query('order_opreations');
-						query.include("goodsId");
-						query.field('relations', res.objectId);
-						query.relation('Bills').then(res => {
-							//console.log(res);
-							that.products = res.results;
-							that.loading = false;
-						})
-					}
-
+					that.products = res.detail;
+					that.bills = res.bills;
+					that.loading = false;
 				}).catch(err => {
 					console.log(err)
 				})
@@ -306,8 +314,46 @@
 							})
 							const query = Bmob.Query('order_opreations');
 							query.destroy(that.detail.objectId).then(res => {
-								for (var i = 0; i < that.products.length; i++) {
-									that.delete_bill(i);
+								const query = Bmob.Query('Bills');
+								query.containedIn("objectId", that.bills);
+								query.find().then(todos => {
+
+									todos.destroyAll().then(res => {
+										// 成功批量修改
+										for (var i = 0; i < that.products.length; i++) {
+											that.delete_bill(i);
+										}
+									}).catch(err => {
+										console.log(err)
+									});
+								})
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+					}
+				})
+			},
+
+			//审核订单
+			confrimOrder() {
+				wx.showModal({
+					title: '提示',
+					content: '是否审核该笔操作单！',
+					success(res) {
+						if (res.confirm) {
+							uni.showLoading({
+								title: '审核中，请勿退出该页面...'
+							})
+							const query = Bmob.Query('order_opreations');
+							query.set('id', id) //需要修改的objectId
+							query.set('status', true)
+							query.save().then(res => {
+								console.log(res)
+								let count = 0
+								for (let item of that.products) {
+									that.addOrReduceGoodReserve(item, count);
+									count += 1;
 								}
 							}).catch(err => {
 								console.log(err)
@@ -315,36 +361,77 @@
 						}
 					}
 				})
+			},
 
+			//确定审核之后改变产品库存
+			addOrReduceGoodReserve(product, count) {
+				const query1 = Bmob.Query('Goods');
+				query1.set('id', product.goodsId.objectId);
+				if(product.goodsId.selectd_model){
+					let num = 0;
+					for (let model of JSON.parse(product.goodsId.selectd_model)) {
+						for (let item of product.goodsId.models) {
+							num += Number(product.goodsId.reserve)
+							if (item.id == JSON.parse(model).id) {
+								item.reserve = Number(item.reserve) + Number(product.num)
+							}
+						}
+					}
+					query1.set('models', product.goodsId)
+					query1.set('reserve', num);
+				}else{
+					query1.set('reserve', product.goodsId.reserve);
+				}
+				
+				query1.save().then(res => {
+					if (count == (that.products.length - 1)) {
+						const query = Bmob.Query('Bills');
+						query.containedIn("objectId", that.bills);
+						query.find().then(todos => {
+							todos.set('status', true);
+							todos.saveAll().then(res => {
+								uni.hideLoading();
+								uni.navigateBack({
+									delta: 1
+								})
+								setTimeout(function() {
+									uni.showToast({
+										title: '审核成功'
+									})
+								}, 1000);
+								console.log(res, 'ok')
+							}).catch(err => {
+								console.log(err)
+							});
+						})
+					}
+				})
 			},
 
 			delete_bill: function(i) {
 				let product = that.products[i];
 				let bill = that.bills[i]
 
-				const query = Bmob.Query('Bills');
-				query.destroy(bill).then(res => {
-					const query1 = Bmob.Query('Goods');
-					query1.set('id', product.goodsId.objectId);
-					if (product.type == 1) {
-						query1.set('reserve', product.goodsId.reserve - product.num);
-					} else if (product.type == -1) {
-						query1.set('reserve', product.goodsId.reserve + product.num);
-					}
-					query1.save().then(res => {
-						if (i == (that.products.length - 1)) {
-							uni.hideLoading();
-							uni.navigateBack({
-								delta: 1
+				const query1 = Bmob.Query('Goods');
+				query1.set('id', product.goodsId.objectId);
+				if (product.type == 1) {
+					query1.set('reserve', product.goodsId.reserve - product.num);
+				} else if (product.type == -1) {
+					query1.set('reserve', product.goodsId.reserve + product.num);
+				}
+				query1.save().then(res => {
+					if (i == (that.products.length - 1)) {
+						uni.hideLoading();
+						uni.navigateBack({
+							delta: 1
+						})
+						setTimeout(function() {
+							uni.showToast({
+								title: '撤销成功'
 							})
-							setTimeout(function() {
-								uni.showToast({
-									title: '撤销成功'
-								})
-							}, 1000);
-						}
-					})
-				});
+						}, 1000);
+					}
+				})
 			}
 
 		}
@@ -358,6 +445,18 @@
 		overflow-y: scroll;
 		background: #FAFAFA;
 		font-size: 28rpx;
+	}
+
+	.operater_status {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: 20rpx 0;
+		background: #b82626;
+		color: #fff;
+		z-index: 100;
+		text-align: center;
 	}
 
 	.pro_list {

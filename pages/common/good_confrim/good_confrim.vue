@@ -19,7 +19,11 @@
 							<view>实际进货价(可修改)：</view>
 							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 						</view>
-						<view class='margin-t-5'>
+						<view class='margin-t-5' v-if="item.selectd_model" v-for="(model,key) in JSON.parse(item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+							{{JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(model).custom3.value + JSON.parse(model).custom4.value}}入库量：
+							<uninumberbox :min="1" @change="handleModelNumChange($event, index,key,JSON.parse(model))" />
+						</view>
+						<view class='margin-t-5' v-else>
 							入库量：
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
@@ -57,7 +61,9 @@
 		data() {
 			return {
 				products: [],
-				user: uni.getStorageSync("user")
+				user: uni.getStorageSync("user"),
+				nums:[], // 多规格时的数量
+				_sumNum:0,
 			}
 		},
 
@@ -97,10 +103,6 @@
 
 				let key = 0;
 				for (let item of uni.getStorageSync("products")) {
-					//console.log(item)
-					if (item.selectd_model) {
-						this.make_goods(item, item.selectd_model, key)
-					}
 					
 					if(key == uni.getStorageSync("products").length-1){
 						this.products = [].concat.apply([],this.products)
@@ -156,48 +158,6 @@
 				})
 			},
 
-			//排列产品
-			make_goods(good, selectd_model, key) {
-				//console.log(good, selectd_model, key)
-				let model_goods = []
-				for (let model of JSON.parse(selectd_model)) {
-					let new_good = {}
-					new_good.reserve = JSON.parse(model).reserve
-					new_good.costPrice = good.costPrice
-					new_good.createdAt = good.createdAt
-					new_good.goodsIcon = good.goodsIcon
-					new_good.goodsName = good.goodsName + JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(
-						model).custom3.value + JSON.parse(model).custom4.value
-					new_good.is_selected = good.is_selected
-					new_good.key = good.key
-					new_good.models = good.models
-					new_good.modify_retailPrice = good.modify_retailPrice
-					new_good.num = good.num
-					new_good.objectId = good.objectId
-					new_good.packageContent = good.packageContent
-					new_good.packingUnit = good.packingUnit
-					new_good.position = good.position
-					new_good.producer = good.producer
-					new_good.productCode = good.productCode
-					new_good.product_info = good.product_info
-					new_good.product_state = good.product_state
-					new_good.regNumber = good.regNumber
-					new_good.retailPrice = good.retailPrice
-					new_good.selectd_model = good.selectd_model
-					new_good.stocks = good.stocks
-					new_good.stocktype = good.stocktype
-					new_good.total_money = good.total_money
-					new_good.really_total_money = good.really_total_money
-					new_good.updatedAt = good.updatedAt
-					new_good.userId = good.userId
-					new_good.warning_num = good.warning_num
-					model_goods.push(new_good)
-					//console.log(model_goods,good.reserve)
-				}
-				this.products[key] = model_goods
-				console.log(this.products)
-			},
-
 			//头部确定点击
 			confrim_this() {
 				uni.navigateTo({
@@ -211,6 +171,22 @@
 				this.products[index].num = Number($event)
 				this.products[index].total_money = Number($event) * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = Number($event) * Number(this.products[index].really_total_money)
+				uni.setStorageSync("products", this.products)
+			},
+			
+			//多类型产品数量改变
+			handleModelNumChange($event, index,key,item){
+				that.nums[key] = Number($event)
+				
+				for(let model of this.products[index].models){
+					if(model.id == item.id){
+						model.num = Number($event)
+					}
+				}
+				
+				this.products[index].num = that._sumNum
+				this.products[index].total_money = that._sumNum * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = that._sumNum * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)
 			},
 

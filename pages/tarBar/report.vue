@@ -32,13 +32,13 @@
 			return {
 				now_optionsLists:[],
 				optionsLists: [{
-						name: '入库记录',
+						name: '入库或采购记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=1',
 						color: "#2ca879"
 					},
 					{
-						name: '出库记录',
+						name: '出库或销售记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1',
 						color: "#f30"

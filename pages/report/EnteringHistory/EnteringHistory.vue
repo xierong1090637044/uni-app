@@ -1,9 +1,7 @@
 <template>
 	<view>
-		<loading v-if="loading"></loading>
-
-		<view v-else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"></uni-nav-bar>
+		<view>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click" :left-text="operaterTypeDesc" @click-left="select_operatertype"></uni-nav-bar>
 
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('all')">
@@ -49,14 +47,14 @@
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 									</view>
 								</view>
-								<view v-if='item.type == -1' class='order_out'>
+								<view v-if='item.type == -1' class='order_out' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 									 <text v-if="item.extra_type == 1">销售</text>
 									 <text v-else>出库</text>
 								</view>
 								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
 								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-								<view v-else-if='item.type == 1' class='order_get'>
+								<view v-else-if='item.type == 1' class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 									<text v-if="item.extra_type == 1">采购</text>
 									<text v-else>入库</text>
 								</view>
@@ -82,7 +80,6 @@
 						<view class="left_item">产品名称</view>
 						<view class="right_input"><input placeholder="产品名称" v-model="goodsName" @click.stop></input></view>
 					</view>
-
 				</view>
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/staff/staff?type=choose">
@@ -140,7 +137,6 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
-	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
@@ -154,7 +150,6 @@
 	export default {
 		components: {
 			uniPagination,
-			loading,
 			uniNavBar,
 			uniIcon
 		},
@@ -168,20 +163,21 @@
 				max_day: common.getDay(0, false),
 				page_num: 1,
 				checked_option: "all",
-				loading: true,
-				list: null,
+				list: [],
 
 				showOptions: false, //是否显示筛选
 				is_checked: false,
 				data_change:false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
+				operaterTypeDesc:"操作类型", // 操作类型描述
 			}
 		},
 
 		onLoad(options) {
 			that = this;
 			uni.removeStorageSync("charge");
+			uni.removeStorageSync("is_option");
 			opeart_type = Number(options.type);
 			uid = uni.getStorageSync("uid");
 
@@ -214,6 +210,10 @@
 			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
 				that.stock = uni.getStorageSync("warehouse")[0].stock
 			}
+			
+			if(uni.getStorageSync("is_option")){
+				that.get_list()
+			}
 		},
 
 		onUnload() {
@@ -222,6 +222,28 @@
 		},
 
 		methods: {
+			
+			//选择操作类型
+			select_operatertype(){
+				uni.showActionSheet({
+				    itemList: ['入库', '采购'],
+				    success: function (res) {
+							if(opeart_type == 1){
+								if(res.tapIndex == 0){
+									that.operaterTypeDesc = "入库"
+								}else{
+									that.operaterTypeDesc = "采购"
+								}
+							}else if(opeart_type == -1){
+								
+							}
+							that.get_list();
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
+			},
 
 			bindDateChange1(e) {
 				that.data_change = true
@@ -309,6 +331,11 @@
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
+				if(that.operaterTypeDesc == "采购"){
+					query.equalTo("extra_type", "==", 1);
+				}else if(that.operaterTypeDesc == "入库"){
+					query.equalTo("extra_type", "==", 2);
+				}
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
 				query.include("opreater","stock");
@@ -316,7 +343,6 @@
 				query.find().then(res => {
 					//console.log(res)
 					this.list = res;
-					this.loading = false;
 					wx.hideLoading()
 				});
 			},
@@ -338,6 +364,11 @@
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;
+	}
+	
+	.status_noconfrim{
+		border: 1prx solid#f30 !important;
+		color: #f30 !important;
 	}
 
 	.item {
