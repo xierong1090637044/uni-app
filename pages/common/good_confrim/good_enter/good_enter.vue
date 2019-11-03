@@ -70,7 +70,7 @@
 				</view>
 
 				<view style='margin-top:20px'>
-					<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
+					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 				</view>
 
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
@@ -507,14 +507,16 @@
 											let params = {
 												"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
 													.length + "商品",
-												"data1": res.createdAt,
-												"data2": that.stock ? that.stock.stock_name : "未填写",
+												"data1": operationId,
+												"data2": uni.getStorageSync("user").nickName,
+												"data3": "未审核",
+												"data3":  res.createdAt,
 												"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
 											};
-											send_temp.send_in(params);
+											send_temp.send_in_noconfrim(params);
 
-											let params1 = {
+											/*let params1 = {
 												"keyword1": {
 													"value": that.products[0].goodsName + "'等",
 													"color": "#173177"
@@ -531,7 +533,7 @@
 											}
 											params1.form_Id = fromid
 											params1.id = operationId
-											send_temp.send_in_mini(params1);
+											send_temp.send_in_mini(params1);*/
 
 											//自动打印
 											if (uni.getStorageSync("setting").auto_print) {

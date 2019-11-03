@@ -30,7 +30,7 @@
 								<view>退货数量：X{{item.num}}</view>
 								<view style="text-align: right;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
 							</view>
-							<view style="text-align: right;">总价：￥{{item.total_money}}</view>
+							<!--<view style="text-align: right;">总价：￥{{item.total_money}}</view>-->
 						</view>
 					</view>
 					<view class='pro_allmoney'>总计：￥{{detail.all_money}}</view>
@@ -80,8 +80,8 @@
 								</view>
 							</view>
 
-							<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
-							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>
+							<!--<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
+							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>-->
 						</view>
 					</view>
 					<view class='pro_allmoney' v-if="user.rights&&user.rights.othercurrent[0] != '0'">总计：￥0</view>

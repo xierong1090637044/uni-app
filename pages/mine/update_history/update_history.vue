@@ -20,7 +20,7 @@
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>销售单、出库单功能完善，并增加审核功能</text>
-						<text>多规格产品操作操作优化</text>
+						<text>多规格产品操作优化</text>
 						<text>操作记录支持跳转到详情</text>
 						<text>二维码bug修复</text>
 						<text>UI升级优化</text>

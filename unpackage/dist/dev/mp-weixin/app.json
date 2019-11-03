@@ -128,6 +128,5 @@
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "uni-icon": "/components/uni-icon/uni-icon",
     "nocontent": "/components/No_content"
-  },
-  "sitemapLocation": "sitemap64.json"
+  }
 }

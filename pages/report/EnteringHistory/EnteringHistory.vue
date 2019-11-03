@@ -178,7 +178,7 @@
 				data_change:false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
-				operaterTypeDesc:"操作类型", // 操作类型描述
+				operaterTypeDesc:'',// 操作类型描述
 			}
 		},
 
@@ -190,10 +190,12 @@
 			uid = uni.getStorageSync("uid");
 
 			if (opeart_type == 1) {
+				that.operaterTypeDesc = "操作类型", 
 				uni.setNavigationBarTitle({
 					title: "入库详情"
 				})
 			} else if (opeart_type == -1) {
+				that.operaterTypeDesc = "操作类型",
 				uni.setNavigationBarTitle({
 					title: "出库详情"
 				})

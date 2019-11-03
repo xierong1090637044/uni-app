@@ -68,7 +68,7 @@
 				</view>
 
 				<view style='margin-top:20px'>
-					<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></textarea>
+					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></input>
 				</view>
 
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
@@ -500,7 +500,7 @@
 											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
 												.length + "商品", -1, res.objectId);
 
-											let params = {
+											/*let params = {
 												"data1": res.objectId,
 												"data2": uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
 													.length + "商品",
@@ -527,7 +527,7 @@
 											}
 											params1.form_Id = fromid
 											params1.id = res.objectId
-											send_temp.send_out_mini(params1);
+											send_temp.send_out_mini(params1);*/
 
 											//自动打印
 											if (uni.getStorageSync("setting").auto_print) {

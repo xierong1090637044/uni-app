@@ -27,7 +27,7 @@
 			<form @submit="formSubmit">
 
 				<view style='margin-top:20px'>
-					<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
+					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 				</view>
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;">
