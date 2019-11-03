@@ -182,7 +182,7 @@
 								stocks_o.stock_name = ''
 								stocks_o.stock_objectid = ''
 							}
-							stocks_o.reserve = item.reserve
+							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.models = (item.models) ? item.models : ''
 							stocks_o.warning_num = item.warning_num
 							stocks_o.bad_num = (item.bad_num)?item.bad_num:0
@@ -196,7 +196,7 @@
 				
 						this.product = product;
 						if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
-						this.product.all_reserve = all_reserve;
+						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
 						that.loading = false
 						uni.hideLoading()
@@ -229,7 +229,7 @@
 							stocks_o.stock_objectid = ''
 						}
 				
-						stocks_o.reserve = item.reserve
+						stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 						stocks_o.models = item.models
 						stocks_o.warning_num = item.warning_num
 						stocks_o.bad_num = (item.bad_num)?item.bad_num:0
@@ -243,7 +243,7 @@
 				
 					this.product = uni.getStorageSync("now_product");
 					if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
-					this.product.all_reserve = all_reserve;
+					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
 					that.loading = false
 					uni.hideLoading()

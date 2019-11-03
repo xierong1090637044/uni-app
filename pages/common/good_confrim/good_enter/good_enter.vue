@@ -398,10 +398,6 @@
 									complete: function() {
 										common.enterAddGoodNum(that.products).then(res=>{ //添加产品数量
 											setTimeout(() => {
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
 											
 												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
 													.length + "商品", 1, operationId);
@@ -465,6 +461,9 @@
 													that.button_disabled = false;
 													uni.setStorageSync("is_option", true);
 													uni.removeStorageSync("warehouse");
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
 													setTimeout(function() {
 														uni.navigateBack({
 															delta: 2
@@ -475,6 +474,9 @@
 													that.button_disabled = false;
 													uni.setStorageSync("is_option", true);
 													uni.removeStorageSync("warehouse");
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
 													setTimeout(function() {
 														uni.navigateBack({
 															delta: 2

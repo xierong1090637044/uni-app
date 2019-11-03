@@ -352,6 +352,9 @@
 				query.include("goodsClass", "stocks", "second_class");
 				query.find().then(res => {
 					//console.log(res)
+					for(let item of res){
+						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
+					}
 					this.productList = res;
 					this.loading = false;
 				});
