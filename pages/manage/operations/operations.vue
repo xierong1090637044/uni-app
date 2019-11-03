@@ -27,10 +27,6 @@
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
-					<view style="text-align: right;margin-top: 10rpx;">
-						总计：<text style="color: #f30;font-weight: bold;">{{detail.total_money}}</text>
-					</view>
-
 				</view>
 
 				<view v-if="seleted_tab === -1">
@@ -44,9 +40,6 @@
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
-					<view style="text-align: right;margin-top: 10rpx;">
-						总计：<text style="color: #f30;font-weight: bold;">{{detail.total_money}}</text>
-					</view>
 				</view>
 
 				<view v-if="seleted_tab === 2">
@@ -59,9 +52,6 @@
 							<text>退货单价：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
 						</view>
-					</view>
-					<view style="text-align: right;margin-top: 10rpx;">
-						总计：<text style="color: #f30;font-weight: bold;">{{detail.total_money}}</text>
 					</view>
 				</view>
 
@@ -112,6 +102,7 @@
 				month: '',
 				seleted_tab: 1,
 				details: null,
+				extra_type:2,
 				tabBars: [{
 					name: '入库',
 					type: 1,
@@ -130,10 +121,12 @@
 					extra_type:1,
 				},{
 					name: '盘点',
-					type: 3
+					type: 3,
+					extra_type:'',
 				}, {
 					name: '退货',
-					type: 2
+					type: 2,
+					extra_type:'',
 				}, ]
 			}
 		},
@@ -156,6 +149,7 @@
 				let index = e.detail.value
 				that.type_dec = that.tabBars[index].name
 				that.seleted_tab = that.tabBars[index].type
+				that.extra_type = that.tabBars[index].extra_type
 				that.getdetail()
 			},
 
@@ -176,6 +170,9 @@
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", that.seleted_tab);
+				if(that.extra_type){
+					query.equalTo("extra_type", "==", that.extra_type);
+				}
 				query.equalTo("status", "!=", false);
 				query.equalTo("goodsId", "==", goodsId);
 				query.equalTo("createdAt", ">=", that.year + "-" + that.month + "-01 00:00:00");
@@ -191,6 +188,9 @@
 						query.equalTo("userId", "==", uid);
 						query.equalTo("status", "!=", false);
 						query.equalTo("type", "==", that.seleted_tab);
+						if(that.extra_type){
+							query.equalTo("extra_type", "==", that.extra_type);
+						}
 						query.equalTo("goodsId", "==", goodsId);
 						query.equalTo("createdAt", ">=", that.year + "-" + that.month + "-01 00:00:00");
 						query.equalTo("createdAt", "<=", that.year + "-" + that.month + "-" + new Date(that.year, that.month, 0).getDate() +
