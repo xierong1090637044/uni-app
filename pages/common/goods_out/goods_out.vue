@@ -25,7 +25,7 @@
 						</view>
 						<view class='margin-t-5' v-else>
 							出库量：
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)"/>
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)"  value='0'/>
 						</view>
 
 						<view class="bottom_del">
@@ -138,10 +138,10 @@
 								})
 							} else {
 								for (let item of res) {
-									item.num = 1;
-									item.total_money = 1 * item.retailPrice;
-									item.really_total_money = 1 * item.retailPrice;
-									item.modify_retailPrice = item.retailPrice;
+									item.num = 0;
+									item.total_money = 0;
+									item.really_total_money = 0;
+									item.modify_retailPrice = 0;
 								}
 								that.products = that.products.concat(res);
 							}
@@ -160,9 +160,22 @@
 
 			//头部确定点击
 			confrim_this() {
-				uni.navigateTo({
-					url: "/pages/common/goods_out/out_detail/out_detail"
-				})
+				let products = uni.getStorageSync('products')
+				for(let item of products){
+					if(item.num == 0){
+						uni.showToast({
+							title:"0库存不能进行操作",
+							icon:"none"
+						})
+						
+						return
+					}else{
+						uni.navigateTo({
+							url: "/pages/common/goods_out/out_detail/out_detail"
+						})
+					}
+				}
+				
 			},
 
 			//多类型产品数量改变
