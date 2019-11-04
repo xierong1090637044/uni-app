@@ -349,8 +349,9 @@
 						goodsId.models = this.products[i].models
 					}
 					detailBills.goodsId = goodsId
-					detailBills.num = this.products[i].num
 					detailBills.type = -1
+					detailBills.num = this.products[i].num
+					detailBills.warning_num = this.products[i].warning_num
 
 					if (shop) {
 						tempBills.set("shop", shopId);
@@ -432,7 +433,7 @@
 									title: '产品出库成功',
 									icon: 'success',
 									success: function() {
-										common.enterAddGoodNum(that.products).then(res => { //减少产品数量
+										common.outRedGoodNum(that.products).then(result => { //减少产品数量
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 
@@ -443,18 +444,17 @@
 												uni.removeStorageSync("warehouse")
 
 												common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-													that
-													.products.length + "商品", -1, res.objectId);
+													that.products.length + "商品", -1, operationId);
 
 												let params = {
-													"data1": res.objectId,
+													"data1": operationId,
 													"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
 														that.products
 														.length + "商品",
 													"data3": that.stock ? that.stock.stock_name : "未填写",
 													"data4": res.createdAt,
 													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
+													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
 												};
 												send_temp.send_temp(params);
 												let params1 = {
@@ -473,7 +473,7 @@
 													}
 												}
 												params1.form_Id = fromid
-												params1.id = res.objectId
+												params1.id =operationId
 												send_temp.send_out_mini(params1);
 
 												//自动打印

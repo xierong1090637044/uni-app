@@ -40,35 +40,35 @@ module.exports = {
 	//出库时减少产品数量
 	outRedGoodNum(products){
 		return new Promise((resolve, reject) => {
-			for (let i = 0; i < that.products.length; i++) {
+			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				query.get(that.products[i].objectId).then(res => {
+				query.get(products[i].objectId).then(res => {
 					//console.log(res)
-					if (that.products[i].warning_num >= that.products[i].reserve) {
-						this.log(that.products[i].goodsName + "出库了" + that.products[i].num + "件，已经低于预警数量" + that.products[i].warning_num, -2, that.products[i].objectId);
-					}
 			
-					if (that.products[i].selectd_model) {
-						for (let model of JSON.parse(that.products[i].selectd_model)) {
-							for (let item of that.products[i].models) {
+					if (products[i].selectd_model) {
+						for (let model of products[i].selectd_model) {
+							for (let item of products[i].models) {
 								num += Number(item.reserve)
-								if (item.id == JSON.parse(model).id) {
-									item.reserve = Number(item.reserve) - Number(that.products[i].num)
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) - Number(model.num)
 								}
 							}
 						}
-						num = num - Number(that.products[i].num)
-						res.set('models', that.products[i].models)
+						num = Number(products[i].reserve) - Number(products[i].num);
+						res.set('models', products[i].models)
 					} else {
-						num = Number(that.products[i].reserve) - Number(that.products[i].num);
+						num = Number(products[i].reserve) - Number(products[i].num);
 					}
 			
 					res.set('reserve', num)
-					res.set('stocktype', (num >= that.products[i].warning_num) ? 1 : 0)
+					res.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
 					res.save()
 					
-					common.record_staffOut(this.products[i].num)
+					if (products[i].warning_num >= num) {
+						this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2, products[i].objectId);
+					}
+					this.record_staffOut(Number(products[i].num))
 					
 					if(i == products.length - 1){
 						resolve(true)
@@ -126,7 +126,7 @@ module.exports = {
 		if(uni.getStorageSync("identity") == 1){}else{
 			const query = Bmob.Query('staffs');
 			query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
-			query.set('have_out', have_out+uni.getStorageSync("user").have_out)
+			query.set('have_out', Number(have_out)+uni.getStorageSync("user").have_out)
 			query.save().then(res => {
 				console.log(res)
 			}).catch(err => {

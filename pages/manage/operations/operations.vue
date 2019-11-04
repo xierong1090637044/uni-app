@@ -19,11 +19,13 @@
 				<view v-if="seleted_tab === 1">
 					<view class="display_flex_bet">
 						<view>
-							<text>入库数量：</text>
+							<text v-if="extra_type ==2">入库数量：</text>
+							<text v-else-if="extra_type ==1">采购数量：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.num}}</text>
 						</view>
 						<view>
-							<text>入库单价：</text>
+							<text v-if="extra_type ==2">入库单价：</text>
+							<text v-else-if="extra_type ==1">采购单价：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
@@ -32,11 +34,13 @@
 				<view v-if="seleted_tab === -1">
 					<view class="display_flex_bet">
 						<view>
-							<text>出库数量：</text>
+							<text v-if="extra_type ==2">出库数量：</text>
+							<text v-else-if="extra_type ==1">销售数量：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.num}}</text>
 						</view>
 						<view>
-							<text>出库单价：</text>
+							<text v-if="extra_type ==2">出库单价：</text>
+							<text v-else-if="extra_type ==1">销售单价：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
 						</view>
 					</view>

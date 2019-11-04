@@ -35,17 +35,20 @@
 								<view style='margin-left:20rpx'>
 									<view v-if="item.opreater">
 										<view v-if="item.opreater.nickName">
-											<text style='color:#999' >操作者：</text>
+											<text style='color:#999'>操作者：</text>
 											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
 										</view>
 									</view>
 									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-									<view><text style='color:#999'>采购数量：</text>{{item.num}}</view>
+									<view>
+										<text v-if="extra_type ==2">入库数量：</text>
+										<text v-else-if="extra_type ==1">采购数量：</text>{{item.num}}</view>
 									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 								</view>
 							</view>
-							<view class='order_get'>采购</view>
+							<view class='order_get' v-if="extra_type ==2">入库</view>
+							<view class='order_get' v-else-if="extra_type ==1">采购</view>
 						</view>
 					</navigator>
 				</view>
@@ -60,17 +63,20 @@
 								<view style='margin-left:20rpx'>
 									<view v-if="item.opreater">
 										<view v-if="item.opreater.nickName">
-											<text style='color:#999' >操作者：</text>
+											<text style='color:#999'>操作者：</text>
 											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
 										</view>
 									</view>
 									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-									<view><text style='color:#999'>销售数量：</text>{{item.num}}</view>
+									<view>
+										<text v-if="extra_type ==2">出库数量：</text>
+										<text v-else-if="extra_type ==1">销售数量：</text>{{item.num}}</view>
 									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 								</view>
 							</view>
-							<view class='order_out'>销售</view>
+							<view class='order_out' v-if="extra_type ==2">出库</view>
+							<view class='order_out' v-else-if="extra_type ==1">销售</view>
 						</view>
 					</navigator>
 				</view>
@@ -85,7 +91,7 @@
 								<view style='margin-left:20rpx'>
 									<view v-if="item.opreater">
 										<view v-if="item.opreater.nickName">
-											<text style='color:#999' >操作者：</text>
+											<text style='color:#999'>操作者：</text>
 											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
 										</view>
 									</view>
@@ -184,16 +190,32 @@
 
 				seleted_tab: -1, //1采购  -1销售  2退货
 				selected_text: "销售",
+				extra_type: 1,
 				types: [{
+					name: '入库',
+					type: 1,
+					extra_type: 2,
+				}, {
 					name: '采购',
-					type: 1
+					type: 1,
+					extra_type: 1,
+				}, {
+					name: '出库',
+					type: -1,
+					extra_type: 2,
 				}, {
 					name: '销售',
-					type: -1
+					type: -1,
+					extra_type: 1,
+				}, {
+					name: '盘点',
+					type: 3,
+					extra_type: '',
 				}, {
 					name: '退货',
-					type: 2
-				}, ]
+					type: 2,
+					extra_type: '',
+				}]
 			}
 		},
 		onLoad(options) {
@@ -219,6 +241,7 @@
 					get_money: 0,
 				}
 				that.seleted_tab = that.types[index].type
+				that.extra_type = that.types[index].extra_type
 
 				that.showOptions = false;
 				that.getdetail()
@@ -232,6 +255,7 @@
 					get_money: 0,
 				}
 				that.seleted_tab = -1;
+				that.extra_type = 1;
 				that.selected_text = '销售';
 
 				that.now_day = common.getDay(0, false),
@@ -280,6 +304,10 @@
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', that.seleted_tab);
+				if (that.extra_type) {
+					query.equalTo("extra_type", "==", that.extra_type);
+				}
+				query.equalTo("status", "!=", false);
 				query.equalTo("opreater", '==', staffId);
 				query.include("opreater");
 				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');

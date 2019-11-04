@@ -34,7 +34,7 @@
 						</view>
 
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
-							<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+							<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name">{{product.goodsName}}</view>
 							<view class="product_reserve display_flex_bet" style="width: 90%;">
 								  <view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 									<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>

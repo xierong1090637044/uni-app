@@ -402,7 +402,7 @@
 									icon: 'success',
 									duration: 1000,
 									complete: function() {
-										common.enterAddGoodNum(that.products).then(res=>{ //添加产品数量
+										common.enterAddGoodNum(that.products).then(result=>{ //添加产品数量
 											setTimeout(() => {
 											
 												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products

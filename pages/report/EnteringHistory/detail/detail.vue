@@ -221,6 +221,7 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import print from "@/utils/print.js"
+	import common from "@/utils/common.js"
 
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
@@ -470,6 +471,7 @@
 			//销售单确认审核之后减少库存
 			ReduceGoodReserve(product, count) {
 				const query1 = Bmob.Query('Goods');
+				let now_reserve = 0;
 				query1.get(product.goodsId.objectId).then(res => {
 					//console.log(res)
 					if (product.goodsId.selected_model) {
@@ -486,11 +488,20 @@
 						//console.log(res.models)
 						res.set('models', res.models)
 						res.set('reserve', res.reserve - num);
+						now_reserve = res.reserve - num
 					} else {
 						res.set('reserve', res.reserve - product.num);
+						now_reserve = res.reserve - product.num
 					}
-
+					
+					console.log(product)
+					
 					res.save().then(res => {
+						
+						if (product.warning_num >= now_reserve) {
+							common.log(product.goodsName + "销售了" + product.num + "件，已经低于预警数量" + product.warning_num, -2, product.goodsId.objectId);
+						}
+						
 						if (count == (that.products.length - 1)) {
 							const query = Bmob.Query('Bills');
 							query.containedIn("objectId", that.bills);
