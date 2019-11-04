@@ -103,7 +103,7 @@
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;" v-if="othercurrent.indexOf('1') !=-1|| identity==1">采购</button>
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2" value="2">入库</button>
 						<!-- #endif -->
-						<!-- #ifdef H5 -->
+						<!-- #ifdef APP-PLUS ||H5 -->
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2" value="2">入库</button>
 						<!-- #endif -->
 
@@ -206,7 +206,7 @@
 				})
 				// #endif
 
-				// #ifdef MP-WEIXIN
+				// #ifdef MP-WEIXIN || APP-PLUS
 				uni.scanCode({
 					onlyFromCamera: true,
 					success: function(res) {
@@ -271,7 +271,7 @@
 				// #ifdef MP-WEIXIN
 				let extraType = Number(e.detail.target.dataset.type) // 判断是采购还是入库  2是入库  1是采购
 				// #endif
-				// #ifdef H5
+				// #ifdef H5 || APP-PLUS
 				let extraType = 2 // 判断是采购还是入库
 				// #endif
 				uni.showLoading({
