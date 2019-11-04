@@ -169,12 +169,12 @@
 						})
 						
 						return
-					}else{
-						uni.navigateTo({
-							url: "/pages/common/goods_out/out_detail/out_detail"
-						})
 					}
 				}
+				
+				uni.navigateTo({
+					url: "/pages/common/goods_out/out_detail/out_detail"
+				})
 				
 			},
 
