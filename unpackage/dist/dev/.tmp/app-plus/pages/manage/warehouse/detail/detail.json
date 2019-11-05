@@ -1,7 +1,7 @@
 {
   "navigationBarTitleText": "仓库详情",
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "loading": "/components/Loading/index"
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }
 }

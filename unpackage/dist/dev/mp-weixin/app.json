@@ -45,6 +45,7 @@
       "root": "pages/manage",
       "pages": [
         "productCount/productCount",
+        "shops/detail/detail",
         "operations/operations",
         "shops/record/record",
         "good_add/good_add",
@@ -127,7 +128,7 @@
     "loading": "/components/Loading/index",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "uni-icon": "/components/uni-icon/uni-icon",
-    "nocontent": "/components/No_content"
-  },
-  "sitemapLocation": "sitemap63.json"
+    "nocontent": "/components/No_content",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
 }

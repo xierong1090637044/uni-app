@@ -92,14 +92,6 @@
 }
 .uni-card__header-title-text {
 	font-size: 32rpx;
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	    -ms-flex: 1;
-	        flex: 1;
-	-o-text-overflow: ellipsis;
-	   text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden
 }
 .uni-card__header-extra-img-view {
 	display: -webkit-box;

@@ -1,8 +1,10 @@
 {
   "navigationBarTitleText": "预警记录",
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content",
+    "uni-pagination": "/components/uni-pagination/uni-pagination",
     "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "报表",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "achart": "/components/charts/AChart",
+    "bchart": "/components/charts/BChart",
+    "cchart": "/components/charts/CChart"
+  }
+}

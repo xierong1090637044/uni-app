@@ -28,7 +28,7 @@
   padding: 20rpx 0;
 }
 .content {
-  height: calc(100vh - 124rpx);
+  height: calc(100vh - 184rpx);
   background: #fff;
   padding: 0 30rpx;
   width: calc(100% - 60rpx);
