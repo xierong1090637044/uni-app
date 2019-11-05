@@ -19,13 +19,17 @@
 				</view>
 			</view>
 			
-			<view class="display_flex_bet frist">
+			<view class="display_flex_bet frist border_bottom">
 				<view class="display_flex_bet" style="width: 100%;">
 					<view>库存金额</view>
 					<view>{{reserve_money}}</view>
 				</view>
 			</view>
 		</view>
+		<navigator class="list_item display_flex_bet" hover-class="none" :url="'../record/record?stockId='+stock.objectId">
+			<text class="left_desc">相关的操作记录</text>
+			<fa-icon type="angle-right" size="20" color="#999" />
+		</navigator>
 		
 		<!---存货统计-->
 		<view style="margin: 40rpx 0 20rpx;">
@@ -175,6 +179,13 @@
 .border_bottom{
 	border-bottom: 1rpx solid#f6f5ec;
 }
+
+.list_item {
+		padding: 20rpx 30rpx;
+		background: #FFFFFF;
+		border-bottom: 1rpx solid#F7F7F7;
+		margin: 0 0 20rpx;
+	}
 
 .second{
 	line-height: 44rpx;

@@ -204,6 +204,9 @@
 							if (res[0]) {
 								that.total_num = res[0]._sumNum
 								that.total_money = res[0]._sumTotal_money
+							}else{
+								that.total_num = 0
+								that.total_money = 0
 							}
 
 						})
