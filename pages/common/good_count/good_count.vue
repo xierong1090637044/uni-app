@@ -10,10 +10,19 @@
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
 						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-						<view class='margin-t-5'>
-							盘点后库存：
-							<uninumberbox :min="0" @change="handleNumChange($event, index)" />
+						<view v-if="item.selectd_model">
+							<view v-if="item.selectd_model">
+								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>盘点后库存：
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='model.reserve' />
+								</view>
+							</view>
 						</view>
+						<view class='margin-t-5' v-else>
+							盘点后库存：
+							<uninumberbox :min="0" @change="handleNumChange($event, index)"  :value='Number(item.reserve)'/>
+						</view>
+						
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">
 								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
@@ -47,7 +56,9 @@
 		},
 		data() {
 			return {
-				products: null
+				products: null,
+				nums: [],
+				selected_model: []
 			}
 		},
 
@@ -84,17 +95,11 @@
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
-				let key = 0;
-				for (let item of uni.getStorageSync("products")) {
-					console.log(item)
-					if (item.selectd_model) {
-						this.make_goods(item, item.selectd_model, key)
-					}
-					if(key == uni.getStorageSync("products").length-1){
-						this.products = [].concat.apply([],this.products)
-					}
-					key += 1;
+				for(let item of this.products){
+					item.selectd_model = item.models
+					item.selected_model = item.models
 				}
+				this.products = this.products
 			}
 
 		},
@@ -143,47 +148,6 @@
 				})
 			},
 
-			make_goods(good, selectd_model, key) {
-				console.log(good, selectd_model, key)
-				let model_goods = []
-				this.products.splice(key, 1)
-				for (let model of JSON.parse(selectd_model)) {
-					let new_good = {}
-					new_good.reserve = JSON.parse(model).reserve
-					new_good.costPrice = good.costPrice
-					new_good.createdAt = good.createdAt
-					new_good.goodsIcon = good.goodsIcon
-					new_good.goodsName = good.goodsName + JSON.parse(model).custom1.value + JSON.parse(model).custom2.value + JSON.parse(
-						model).custom3.value + JSON.parse(model).custom4.value
-					new_good.is_selected = good.is_selected
-					new_good.key = good.key
-					new_good.models = good.models
-					new_good.modify_retailPrice = good.modify_retailPrice
-					new_good.num = good.num
-					new_good.objectId = good.objectId
-					new_good.packageContent = good.packageContent
-					new_good.packingUnit = good.packingUnit
-					new_good.position = good.position
-					new_good.producer = good.producer
-					new_good.productCode = good.productCode
-					new_good.product_info = good.product_info
-					new_good.product_state = good.product_state
-					new_good.regNumber = good.regNumber
-					new_good.retailPrice = good.retailPrice
-					new_good.selectd_model = good.selectd_model
-					new_good.stocks = good.stocks
-					new_good.stocktype = good.stocktype
-					new_good.total_money = good.total_money
-					new_good.updatedAt = good.updatedAt
-					new_good.userId = good.userId
-					new_good.warning_num = good.warning_num
-					model_goods.push(new_good)
-					//console.log(model_goods,good.reserve)
-				}
-				this.products[key] = model_goods
-				//console.log(model_goods)
-			},
-
 			//头部确定点击
 			confrim_this() {
 				uni.navigateTo({
@@ -196,6 +160,28 @@
 				//console.log($event,index)
 				this.products[index].num = $event ? $event : 0
 				this.products[index].total_money = $event * Number(this.products[index].modify_retailPrice)
+				uni.setStorageSync("products", this.products)
+			},
+			
+			//多类型产品数量改变
+			handleModelNumChange($event, index, key, item) {
+			
+				that.nums[key] = Number($event)
+				for (let model of this.products[index].models) {
+					if (model.id == item.id) {
+						item.reserve = Number($event)
+					}
+				}
+				let _sumNum = 0;
+				for (let item of that.nums) {
+					_sumNum += item
+				}
+				
+				that.selected_model[key] = item
+				this.products[index].num = _sumNum
+				this.products[index].selected_model = that.selected_model
+				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)
 			},
 

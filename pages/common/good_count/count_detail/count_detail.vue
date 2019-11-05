@@ -7,7 +7,13 @@
 					<view class='pro_list' style='color:#3D3D3D'>
 						<view>产品：{{item.goodsName}}</view>
 					</view>
-					<view class='pro_list'>
+					<view v-if="item.selected_model">
+						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">
+							<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+							<view style="font-size: 24rpx;color: #f30;" v-if="model">盘点后库存：{{model.reserve}}</view>
+						</view>
+					</view>
+					<view class='pro_list' v-else>
 						<view>盘点前库存：{{item.reserve}}</view>
 						<view>盘点后库存：{{item.num}}</view>
 					</view>
@@ -102,6 +108,11 @@
 					}
 
 					let goodsId = {}
+					if(this.products[i].selectd_model){
+						goodsId.selected_model = this.products[i].selected_model
+						goodsId.models = this.products[i].models
+						detailBills.goodsId = goodsId
+					}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.reserve = this.products[i].reserve
 					detailBills.now_reserve = this.products[i].num.toString()
@@ -148,17 +159,11 @@
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
 											if (that.products[i].selectd_model) {
-												for (let model of JSON.parse(that.products[i].selectd_model)) {
-													for (let item of that.products[i].models) {
-														if (item.id == JSON.parse(model).id){
-															item.reserve = Number(that.products[i].num)
-															num += Number(that.products[i].num)
-														}else{
-															num += Number(item.reserve)
-														}
-													}
+												for(let item of that.products[i].selected_model){
+													delete item.num   // 清除没用的属行
 												}
-												res.set('models', that.products[i].models)
+												res.set('models', that.products[i].selected_model)
+												num = Number(that.products[i].num);
 											}else{
 												num = Number(that.products[i].num);
 											}

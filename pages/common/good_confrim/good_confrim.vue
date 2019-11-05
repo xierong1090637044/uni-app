@@ -111,6 +111,7 @@
 				this.products = uni.getStorageSync("products");
 				for(let item of this.products){
 					item.selectd_model = item.models
+					item.selected_model = item.models
 				}
 				this.products = this.products
 			}
@@ -192,9 +193,9 @@
 				for(let item of that.nums){
 					_sumNum +=item
 				}
-				that.selected_model[key] = item
+				
 				this.products[index].num = _sumNum
-				this.products[index].selected_model = that.selected_model
+				this.products[index].selected_model.splice(key,1,item)
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)

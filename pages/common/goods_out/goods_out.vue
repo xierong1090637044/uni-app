@@ -106,6 +106,7 @@
 				this.products = uni.getStorageSync("products");
 				for(let item of this.products){
 					item.selectd_model = item.models
+					item.selected_model = item.models
 				}
 				this.products = this.products
 			}

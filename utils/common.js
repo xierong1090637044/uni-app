@@ -15,6 +15,7 @@ module.exports = {
 								if (item.id == model.id) {
 									item.reserve = Number(item.reserve) + Number(model.num)
 								}
+								delete item.num   // 清除没用的属行
 							}
 						}
 						num = Number(products[i].reserve) + Number(products[i].num);
@@ -47,12 +48,13 @@ module.exports = {
 					//console.log(res)
 			
 					if (products[i].selectd_model) {
-						for (let model of products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
 							for (let item of products[i].models) {
 								num += Number(item.reserve)
 								if (item.id == model.id) {
 									item.reserve = Number(item.reserve) - Number(model.num)
 								}
+								delete item.num   // 清除没用的属行
 							}
 						}
 						num = Number(products[i].reserve) - Number(products[i].num);
