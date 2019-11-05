@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
 		<view style="padding: 0 30rpx;background: #fff;">
 			<view class="display_flex_bet frist border_bottom" @click="goto_edit()">
 				<view class="display_flex">
@@ -39,7 +40,7 @@
 			<text class="left_desc">未激活，未产生操作记录</text>
 			<fa-icon type="angle-right" size="20" color="#999" />
 		</view>
-		
+
 	</view>
 </template>
 
@@ -70,12 +71,88 @@
 			that.staff = uni.getStorageSync("staff")
 		},
 		methods: {
-			goto_edit(){
+
+			show_options() {
+				uni.showActionSheet({
+					itemList: ["编辑", "删除"],
+					success: function(res) {
+						if (res.tapIndex == 0) {
+							that.edit(that.staff)
+						} else if (res.tapIndex == 1) {
+							that.delete_this(that.staff.objectId)
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
+			},
+
+			//编辑操作
+			edit(item) {
+				console.log(item)
+				uni.setStorageSync("staff", item);
 				uni.navigateTo({
 					url: "../add/add"
 				})
 			},
-			
+
+			//删除操作
+			delete_this(id) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除此员工',
+					success: function(res) {
+						if (res.confirm) {
+							console.log(id);
+							that.delete_data(id)
+						}
+					}
+				});
+			},
+
+			//删除数据
+			delete_data(id) {
+				console.log(id)
+				const query = Bmob.Query("staffs");
+				query.destroy(id).then(res => {
+					const query = Bmob.Query('staffs');
+					query.get(id).then(res => {
+						if (res.userId) {
+							const query = Bmob.Query("_User");
+							query.destroy(res.userId).then(res => {
+								uni.showToast({
+									title: "删除成功",
+									icon: "none"
+								})
+								uni.navigateBack({
+									delta:1
+								})
+							})
+						}
+						console.log(res)
+					}).catch(err => {
+						console.log(err)
+					})
+					console.log(res)
+					uni.showToast({
+						title: "删除成功",
+						icon: "none"
+					})
+					uni.navigateBack({
+						delta:1
+					})
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+
+			goto_edit() {
+				uni.navigateTo({
+					url: "../add/add"
+				})
+			},
+
 			goto_detail(good) {
 				uni.setStorageSync("now_product", good);
 				uni.navigateTo({
@@ -90,12 +167,12 @@
 	.frist {
 		padding: 20rpx 0;
 	}
-	
+
 	.list_item {
 		padding: 20rpx 30rpx;
 		background: #FFFFFF;
 	}
-	
+
 	.border_bottom {
 		border-bottom: 1rpx solid#f6f5ec;
 	}

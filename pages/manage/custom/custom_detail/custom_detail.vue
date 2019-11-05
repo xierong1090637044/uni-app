@@ -3,6 +3,8 @@
 		<loading v-if="loading"></loading>
 		
 		<view v-else>
+			<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
+			
 			<view class="display_flex_bet list_item border_bottom">
 				<view class="left_desc">客户昵称</view>
 				<view>{{custom.custom_name}}</view>
@@ -94,6 +96,62 @@
 			})
 		},
 		methods: {
+			show_options(){
+				uni.showActionSheet({
+					itemList: ["编辑", "删除"],
+					success: function(res) {
+						if (res.tapIndex == 0) {
+							that.edit(that.custom)
+						} else if (res.tapIndex == 1) {
+							that.delete_this(that.custom.objectId)
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
+			},
+			
+			//编辑操作
+			edit(item) {
+				uni.setStorageSync("customs", item);
+				uni.setStorageSync("custom_type", "customs");
+				uni.navigateTo({
+					url: "../add/add"
+				})
+			},
+			
+			//删除操作
+			delete_this(id) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除此客户',
+					success: function(res) {
+						if (res.confirm) {
+							that.delete_data("customs", id)
+						}
+					}
+				});
+			},
+			
+			//删除数据
+			delete_data(type, id) {
+				console.log(id)
+				const query = Bmob.Query(type);
+				query.destroy(id).then(res => {
+					console.log(res)
+					uni.showToast({
+						title: "删除成功",
+						icon: "none"
+					})
+					uni.navigateBack({
+						delta:1
+					})
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			
 			//确认收款金额
 			confrim_sk(){
 				console.log(that.modal_sk)

@@ -208,6 +208,12 @@
 					}
 				},
 				{
+						"path": "shops/detail/detail",
+						"style": {
+							"navigationBarTitleText": "门店详情"
+						}
+				},
+				{
 					"path": "operations/operations",
 					"style": {
 						"navigationBarTitleText": "操作详情"

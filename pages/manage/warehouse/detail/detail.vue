@@ -2,8 +2,9 @@
 	<view>
 		<loading v-if="loading"></loading>
 		
+		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
 		<view style="padding: 0 30rpx;background: #fff;">
-			<view class="display_flex_bet frist border_bottom">
+			<view class="display_flex_bet frist border_bottom" hover-class="none" @click="edit(stock)">
 				<view class="display_flex">
 					<view>仓库名称</view>
 					<view style="margin-left: 30rpx;">{{stock.stock_name}}</view>
@@ -34,7 +35,8 @@
 				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)" v-else>
 					<view>
 						<view>{{good.goodsName}}</view>
-						<view>{{(good.reserve/reserve_num)*100}}%</view>
+						<view v-if="good.reserve == 0">0%</view>
+						<view v-else>{{(good.reserve/reserve_num)*100}}%</view>
 					</view>
 					<view class="display_flex">
 						<view style="margin-right: 20rpx;">{{good.reserve}}</view>
@@ -75,6 +77,64 @@
 			that.get_detail()
 		},
 		methods: {
+			show_options(){
+				uni.showActionSheet({
+					itemList: ["编辑","删除"],
+					success: function(res) {
+						if (res.tapIndex == 0) {
+							that.edit(that.stock)
+						} else if (res.tapIndex == 1) {
+							that.delete_this(that.stock.objectId)
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
+				});
+			},
+			
+			//编辑操作
+			edit(item) {
+				uni.setStorageSync("warehouse", item);
+				uni.setStorageSync("charge", item.charge);
+				uni.setStorageSync("shop", item.shop);
+				uni.navigateTo({
+					url: "../add/add"
+				})
+			},
+			
+			//删除操作
+			delete_this(id) {
+				uni.showModal({
+					title: '提示',
+					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此仓库',
+					success: function(res) {
+						if (res.confirm) {
+							console.log(id);
+							that.delete_data(id)
+						}
+					}
+				});
+			},
+			
+			//删除数据
+			delete_data(id) {
+				console.log(id)
+				const query = Bmob.Query("stocks");
+				query.destroy(id).then(res => {
+					console.log(res)
+					uni.showToast({
+						title: "删除成功",
+						icon: "none"
+					})
+					uni.navigateBack({
+						delta:1
+					})
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			
 			goto_detail(good){
 				uni.setStorageSync("now_product",good);
 				uni.navigateTo({
@@ -93,8 +153,8 @@
 					let reserve_num = 0;
 					let reserve_money = 0;
 					for (let item of res) {
-						reserve_money += Number(item.costPrice) * item.reserve
-						reserve_num += item.reserve
+						reserve_money += Number(item.costPrice) * Number(item.reserve)
+						reserve_num += Number(item.reserve)
 					}
 			
 					that.reserve_money = reserve_money

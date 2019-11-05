@@ -280,47 +280,63 @@
 			show_options() {
 				let options = ['打印'];
 				if (that.detail.type == -1 || that.detail.type == 1) {
-					if(that.othercurrent.indexOf("3") !=-1 || that.identity==1){
+					if(that.othercurrent.indexOf("3") !=-1 || that.identity==1 && that.detail.extra_type == 1){
 						options = ['审核', '撤销', '打印']
+						
+						uni.showActionSheet({
+							itemList: options,
+							success: function(res) {
+								if (res.tapIndex == 0) {
+									if (that.detail.type == 1) {
+										if (that.detail.status) {
+											uni.showToast({
+												title: "该笔采购单已审核",
+												icon: "none"
+											})
+										} else {
+											that.confrimOrder()
+										}
+									} else if (that.detail.type == -1) {
+										if (that.detail.status) {
+											uni.showToast({
+												title: "该笔销售单已审核",
+												icon: "none"
+											})
+										} else {
+											that.confrimOrder()
+										}
+									}
+									uni.setStorageSync("is_option", true)
+								} else if (res.tapIndex == 1) {
+									that.revoke()
+									uni.setStorageSync("is_option", true)
+								} else if (res.tapIndex == 2) {
+									print.print_operations(that.detail, that.products)
+								}
+							},
+							fail: function(res) {
+								console.log(res.errMsg);
+							}
+						});
+						
 					}else{
 						options = ['撤销', '打印']
+						uni.showActionSheet({
+							itemList: options,
+							success: function(res) {
+								if (res.tapIndex == 0) {
+									that.revoke()
+									uni.setStorageSync("is_option", true)
+								} else if (res.tapIndex == 1) {
+									print.print_operations(that.detail, that.products)
+								}
+							},
+							fail: function(res) {
+								console.log(res.errMsg);
+							}
+						});
 					}
 				}
-				uni.showActionSheet({
-					itemList: options,
-					success: function(res) {
-						if (res.tapIndex == 0) {
-							if (that.detail.type == 1) {
-								if (that.detail.status) {
-									uni.showToast({
-										title: "该笔采购单已审核",
-										icon: "none"
-									})
-								} else {
-									that.confrimOrder()
-								}
-							} else if (that.detail.type == -1) {
-								if (that.detail.status) {
-									uni.showToast({
-										title: "该笔销售单已审核",
-										icon: "none"
-									})
-								} else {
-									that.confrimOrder()
-								}
-							}
-							uni.setStorageSync("is_option", true)
-						} else if (res.tapIndex == 1) {
-							that.revoke()
-							uni.setStorageSync("is_option", true)
-						} else if (res.tapIndex == 1) {
-							print.print_operations(that.detail, that.products)
-						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
 			},
 
 			getdetail: function(id) {

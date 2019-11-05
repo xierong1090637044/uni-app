@@ -214,7 +214,10 @@
 		onShow() {
 			staff = uni.getStorageSync("staff");
 			shop = uni.getStorageSync("shop");
-			that.stock = uni.getStorageSync("warehouse")?uni.getStorageSync("warehouse")[0].stock:'';
+			
+			if(uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0){
+				that.stock = uni.getStorageSync("warehouse")[0].stock;
+			}
 			
 			if (staff) {
 				uni.setNavigationBarTitle({

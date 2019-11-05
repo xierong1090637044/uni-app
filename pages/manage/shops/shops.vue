@@ -20,7 +20,7 @@
 				<view v-for="(shop,index) in shops" :key="index">
 
 					<view class='content'>
-						<view class="display_flex_bet" @click="choose_way(shop.objectId)">
+						<view class="display_flex_bet" @click="goto_detail(shop)">
 							<view class="display_flex">
 								<image v-if="shop.Image && shop.Image.length> 0 " :src="shop.Image[0]" class="shop_avatar" @click.stop="priviewImg(shop.Image[0])" mode="aspectFit"></image>
 								<image src="/static/shop.png" class="shop_avatar" v-else></image>
@@ -44,10 +44,10 @@
 								<text style="color: #d93a49;">选择</text>
 							</view>
 
-							<view class="display_flex" style="justify-content: flex-end;" v-else>
+							<!--<view class="display_flex" style="justify-content: flex-end;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(shop.objectId)"></fa-icon>
 								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(shop)"></fa-icon>
-							</view>
+							</view>-->
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
 
@@ -138,6 +138,14 @@
 						console.log(res.errMsg);
 					}
 				});
+			},
+			
+			//点击门店去到详情
+			goto_detail(shop) {
+				uni.setStorageSync("shop", shop)
+				uni.navigateTo({
+					url: "detail/detail"
+				})
 			},
 
 			//tab点击

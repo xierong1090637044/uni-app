@@ -36,10 +36,10 @@
 								<text style="color: #d93a49;">选择</text>
 							</view>
 
-							<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
+							<!--<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
 								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(staff)"></fa-icon>
-							</view>
+							</view>-->
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
 
@@ -85,6 +85,7 @@
 
 		onLoad(options) {
 			that = this;
+			uni.removeStorageSync("")
 			uid = uni.getStorageSync('uid')
 			console.log(options)
 			if (options.type == "choose") {
@@ -128,45 +129,6 @@
 				uni.setStorageSync("charge", charge)
 				uni.navigateBack({
 					delta: 1
-				})
-			},
-
-			//编辑操作
-			edit(item) {
-				console.log(item)
-				uni.setStorageSync("staff", item);
-				uni.navigateTo({
-					url: "add/add"
-				})
-			},
-
-			//删除操作
-			delete_this(id) {
-				uni.showModal({
-					title: '提示',
-					content: '是否删除此员工',
-					success: function(res) {
-						if (res.confirm) {
-							console.log(id);
-							that.delete_data(id)
-						}
-					}
-				});
-			},
-
-			//删除数据
-			delete_data(id) {
-				console.log(id)
-				const query = Bmob.Query("staffs");
-				query.destroy(id).then(res => {
-					console.log(res)
-					uni.showToast({
-						title: "删除成功",
-						icon: "none"
-					})
-					that.getstaff_list()
-				}).catch(err => {
-					console.log(err)
 				})
 			},
 
