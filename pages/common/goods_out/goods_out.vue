@@ -200,7 +200,7 @@
 				
 				this.products[index].num = _sumNum
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
-				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].retailPrice)
 				uni.setStorageSync("products", this.products)
 			},
 
@@ -209,7 +209,7 @@
 				//console.log($event,index)
 				this.products[index].num = Number($event)
 				this.products[index].total_money = Number($event) * Number(this.products[index].modify_retailPrice)
-				this.products[index].really_total_money = Number($event) * Number(this.products[index].really_total_money)
+				this.products[index].really_total_money = Number($event) * Number(this.products[index].retailPrice)
 				uni.setStorageSync("products", this.products)
 			},
 

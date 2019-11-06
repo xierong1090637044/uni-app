@@ -11,7 +11,7 @@
 
 		<view class="vip_content">
 			<view class="content_bg">
-				<view>开通会员可以体验全部功能哦！</view>
+				<view>开通会员可以体验全部功能哦！<text style="font-size: 20rpx;">（将于七日后恢复原价）</text></view>
 				<view class="display_flex_bet" style="margin-top: 40rpx;">
 					<view :class="['price_content',(selected_price==10)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(10)">
 						<view class="time_desc">一个月</view>
@@ -36,7 +36,7 @@
 
 				<view class="pay_button" @click="pay_off">支付</view>
 				
-				<view style="margin-top: 40rpx;line-height: 50rpx;">
+				<!--<view style="margin-top: 40rpx;line-height: 50rpx;">
 					<view style="font-size: 32rpx;">
 						<text>会员的好处</text>
 						<text style="font-size: 20rpx;">（感谢您一如既往的支持）</text>
@@ -51,7 +51,7 @@
 						<view>5.更多特权正在开发中...</view>
 					</view>
 					
-				</view>
+				</view>-->
 			</view>
 		</view>
 
@@ -222,7 +222,7 @@
 	.price_line {
 		position: absolute;
 		left: 40rpx;
-		top: 0rpx;
+		top: -7rpx;
 	}
 
 	.price_text {
