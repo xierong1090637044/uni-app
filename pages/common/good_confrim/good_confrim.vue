@@ -67,8 +67,6 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
-				nums: [],
-				selected_model:[]
 			}
 		},
 
@@ -102,7 +100,13 @@
 						res[0].total_money = 1 * res[0].costPrice;
 						res[0].really_total_money = 1 * res[0].costPrice;
 						res[0].modify_retailPrice = res[0].costPrice;
-						if(res[0].models) res[0].selectd_model = res[0].models
+						if(res[0].models){
+							for(let model of item.models){
+								model.num = 0
+							}
+							res[0].selectd_model = res[0].models
+							res[0].selected_model = res[0].models
+						}
 						this.products = res;
 					}
 					uni.hideLoading()
@@ -110,8 +114,13 @@
 			} else {
 				this.products = uni.getStorageSync("products");
 				for(let item of this.products){
-					item.selectd_model = item.models
-					item.selected_model = item.models
+					if(item.models){
+						for(let model of item.models){
+							model.num = 0
+						}
+						item.selectd_model = item.models
+						item.selected_model = item.models
+					}
 				}
 				this.products = this.products
 			}
@@ -182,20 +191,14 @@
 
 			//多类型产品数量改变
 			handleModelNumChange($event, index, key, item) {
-				
-				that.nums[key] = Number($event)
-				for (let model of this.products[index].models) {
-					if (model.id == item.id) {
-						item.num = Number($event)
-					}
-				}
+				item.num = Number($event)
+				this.products[index].selected_model[key] = item
 				let _sumNum = 0;
-				for(let item of that.nums){
-					_sumNum +=item
+				for (let model of this.products[index].selected_model) {
+					_sumNum += model.num
 				}
 				
 				this.products[index].num = _sumNum
-				this.products[index].selected_model.splice(key,1,item)
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)

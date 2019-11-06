@@ -265,6 +265,8 @@
 
 			//表单提交
 			formSubmit: function(e) {
+				let identity = uni.getStorageSync("identity") // 身份识别标志
+				
 				//console.log(e)
 				this.button_disabled = true;
 				let fromid = e.detail.formId
@@ -310,7 +312,11 @@
 					tempBills.set('extra_type', extraType);
 					(shop) ? tempBills.set("shop", shopId): '';
 					tempBills.set("stock", stockId);
-					tempBills.set("status", (extraType == 2)?true:false); // 操作单详情
+					if(identity == 1){
+						tempBills.set("status", true); // 操作单详情
+					}else if(identity == 2){
+						tempBills.set("status", (extraType == 2) ? true : false); // 操作单详情
+					}
 
 					let goodsId = {}
 					detailBills.goodsName = this.products[i].goodsName
@@ -391,7 +397,11 @@
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", false); // 操作单详情
+						if(identity == 1){
+							query.set("status", true); // 操作单详情
+						}else if(identity == 2){
+							query.set("status", (extraType == 2) ? true : false); // 操作单详情
+						}
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
@@ -501,60 +511,87 @@
 									duration: 1000,
 									complete: function() {
 										//common.enterAddGoodNum(that.products) //添加产品数量
-										setTimeout(() => {
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.removeStorageSync("warehouse")
-
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-												.length + "商品", 1, operationId);
-
-											let params = {
-												"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-													.length + "商品",
-												"data1": operationId,
-												"data2": uni.getStorageSync("user").nickName,
-												"data3": "未审核",
-												"data4":  res.createdAt,
-												"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
-											};
-											send_temp.send_in_noconfrim(params);
-
-											/*let params1 = {
-												"keyword1": {
-													"value": that.products[0].goodsName + "'等",
-													"color": "#173177"
-												},
-												"keyword2": {
-													"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-												},
-												"keyword3": {
-													"value": res.createdAt
-												},
-												"keyword4": {
-													"value": uni.getStorageSync("user").nickName,
-												}
-											}
-											params1.form_Id = fromid
-											params1.id = operationId
-											send_temp.send_in_mini(params1);*/
-
-											//自动打印
-											if (uni.getStorageSync("setting").auto_print) {
-												print.autoPrint(operationId);
-											}
+										if(identity == 1){
+											common.enterAddGoodNum(that.products).then(result=>{ //添加产品数量
+												setTimeout(() => {
+												
+													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
+														.length + "商品", 1, operationId);
+												
+													//自动打印
+													/*if (uni.getStorageSync("setting").auto_print) {
+														print.autoPrint(operationId);
+													}*/
+													
+													that.button_disabled = false;
+													uni.setStorageSync("is_option", true);
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
+													uni.removeStorageSync("warehouse")
+													setTimeout(function() {
+														uni.navigateBack({
+															delta: 2
+														});
+													}, 500)
+												}, 500)
+												
+											}) 
+										}else{
+											setTimeout(() => {
+												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
+													.length + "商品", 1, operationId);
 											
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											uni.removeStorageSync("warehouse");
-											setTimeout(function() {
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 1000)
-										}, 500)
+												let params = {
+													"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
+														.length + "商品",
+													"data1": operationId,
+													"data2": uni.getStorageSync("user").nickName,
+													"data3": "未审核",
+													"data4":  res.createdAt,
+													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
+												};
+												send_temp.send_in_noconfrim(params);
+											
+												/*let params1 = {
+													"keyword1": {
+														"value": that.products[0].goodsName + "'等",
+														"color": "#173177"
+													},
+													"keyword2": {
+														"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+													},
+													"keyword3": {
+														"value": res.createdAt
+													},
+													"keyword4": {
+														"value": uni.getStorageSync("user").nickName,
+													}
+												}
+												params1.form_Id = fromid
+												params1.id = operationId
+												send_temp.send_in_mini(params1);*/
+											
+												//自动打印
+												/*if (uni.getStorageSync("setting").auto_print) {
+													print.autoPrint(operationId);
+												}*/
+												
+												that.button_disabled = false;
+												uni.setStorageSync("is_option", true);
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+												setTimeout(function() {
+													uni.navigateBack({
+														delta: 2
+													});
+												}, 500)
+											}, 500)
+										}
+										
 									}
 								})
 							}

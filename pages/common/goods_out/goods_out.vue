@@ -19,7 +19,7 @@
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>出库量：
-									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0'  :max="model.reserve"/>
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0'  :max="Number(model.reserve)"/>
 								</view>
 							</view>
 						</view>
@@ -63,8 +63,6 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
-				nums: [],
-				selected_model: []
 			}
 		},
 
@@ -97,7 +95,13 @@
 						res[0].total_money = 1 * res[0].retailPrice;
 						res[0].really_total_money = 1 * res[0].retailPrice;
 						res[0].modify_retailPrice = res[0].retailPrice;
-						if(res[0].models) res[0].selectd_model = res[0].models
+						if(res[0].models){
+							for(let model of res[0].models){
+								model.num = 0
+							}
+							res[0].selectd_model = res[0].models
+							res[0].selected_model = res[0].models
+						} 
 						this.products = res;
 					}
 					wx.hideLoading()
@@ -105,8 +109,13 @@
 			} else {
 				this.products = uni.getStorageSync("products");
 				for(let item of this.products){
-					item.selectd_model = item.models
-					item.selected_model = item.models
+					if(item.models){
+						for(let model of item.models){
+							model.num = 0
+						}
+						item.selectd_model = item.models
+						item.selected_model = item.models
+					}
 				}
 				this.products = this.products
 			}
@@ -179,22 +188,17 @@
 				
 			},
 
-			//多类型产品数量改变
+			//多类型产品数量改变  步骤很重要
 			handleModelNumChange($event, index, key, item) {
-
-				that.nums[key] = Number($event)
-				for (let model of this.products[index].models) {
-					if (model.id == item.id) {
-						item.num = Number($event)
-					}
-				}
+				item.num = Number($event)
+				this.products[index].selected_model[key] = item
 				let _sumNum = 0;
-				for (let item of that.nums) {
-					_sumNum += item
+				for (let model of this.products[index].selected_model) {
+					_sumNum += model.num
 				}
-				that.selected_model[key] = item
+				//console.log(this.products[index].selected_model)
+				
 				this.products[index].num = _sumNum
-				this.products[index].selected_model = that.selected_model
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
 				uni.setStorageSync("products", this.products)
