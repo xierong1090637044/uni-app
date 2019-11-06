@@ -116,29 +116,6 @@
 					urls: [url],
 				});
 			},
-
-			//点击选择操作列表
-			choose_way(shopId) {
-				uni.showActionSheet({
-					itemList: ['员工列表', '查看记录'],
-					success: function(res) {
-						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-
-						if (res.tapIndex == 0) {
-							uni.navigateTo({
-								url: "staff_in/staff_in?shopId=" + shopId
-							})
-						} else {
-							uni.navigateTo({
-								url: "record/record?shopId=" + shopId
-							})
-						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
-			},
 			
 			//点击门店去到详情
 			goto_detail(shop) {
@@ -168,44 +145,6 @@
 				uni.setStorageSync("shop", shop)
 				uni.navigateBack({
 					delta: 1
-				})
-			},
-
-			//编辑操作
-			edit(shop) {
-				uni.setStorageSync("shop", shop);
-				uni.navigateTo({
-					url: "add/add"
-				})
-			},
-
-			//删除操作
-			delete_this(id) {
-				uni.showModal({
-					title: '提示',
-					content: '是否删除此门店',
-					success: function(res) {
-						if (res.confirm) {
-							console.log(id);
-							that.delete_data(id)
-						}
-					}
-				});
-			},
-
-			//删除数据
-			delete_data(id) {
-				console.log(id)
-				const query = Bmob.Query("shops");
-				query.destroy(id).then(res => {
-					console.log(res)
-					uni.showToast({
-						title: "删除成功",
-						icon: "none"
-					})
-					that.getshop_list()
-				}).catch(err => {
-					console.log(err)
 				})
 			},
 

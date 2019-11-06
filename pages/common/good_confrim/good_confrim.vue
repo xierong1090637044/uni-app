@@ -24,7 +24,7 @@
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key"
 							 style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>入库量：
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0'/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1'/>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
