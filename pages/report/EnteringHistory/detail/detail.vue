@@ -4,10 +4,10 @@
 
 		<view class='page' v-else>
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
-			<scroll-view style="height:calc(100vh - 170rpx)" scroll-y="true">
+			<scroll-view scroll-y="true" :style="{height:(detail.extra_type == 1&&detail.status== false?'calc(100vh - 170rpx)':'calc(100vh - 80rpx)')}">
 				<view style='line-height:70rpx;padding: 0 20rpx;'>操作产品</view>
 				<view v-if="detail.type == 3">
-					<view style='max-height:50vh;overflow-x:scroll'>
+					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
 								<view>产品：{{item.goodsName}}</view>
@@ -21,7 +21,7 @@
 				</view>
 
 				<view v-else-if="detail.type == 2">
-					<view style='max-height:50vh;overflow-x:scroll'>
+					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
 								<view>产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
@@ -37,7 +37,7 @@
 				</view>
 
 				<view v-else-if="detail.type == -2">
-					<view style='max-height:50vh;overflow-x:scroll'>
+					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000;border-bottom: 1rpx solid#EEEEEE;padding:0 0 10rpx;'>
 								<view>产品：{{item.goodsName}}</view>
@@ -57,7 +57,7 @@
 				</view>
 
 				<view v-else>
-					<view style='max-height:50vh;overflow-x:scroll'>
+					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
 								<view>产品：{{item.goodsName}}

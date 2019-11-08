@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="微信搜索服务号'库存表',记得关注我们哦!" />
+		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="现已支持扫码自动识别条码产品信息并进行添加,但是该功能暂时只对会员使用!" />
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -126,7 +126,7 @@
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
-				openid: ''
+				openid: '',
 			}
 		},
 		onLoad(options) {
@@ -175,7 +175,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加商品'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情','扫码添加产品'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -208,9 +208,17 @@
 							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 						})
 					} else if (type == 4) {
-						uni.navigateTo({
-							url: '/pages/manage/good_add/good_add?id=' + result,
-						})
+						let user = uni.getStorageSync("user")
+						if(user.is_vip){
+							uni.navigateTo({
+								url: '/pages/manage/good_add/good_add?id=' + result,
+							})
+						}else{
+							uni.showToast({
+								title:"该功能只限会员使用",
+								icon:"none"
+							})
+						}
 					}
 				})
 				// #endif
@@ -238,9 +246,17 @@
 								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 							})
 						} else if (type == 4) {
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
-							})
+							let user = uni.getStorageSync("user")
+							if(user.is_vip){
+								uni.navigateTo({
+									url: '/pages/manage/good_add/good_add?id=' + result,
+								})
+							}else{
+								uni.showToast({
+									title:"该功能只限会员使用",
+									icon:"none"
+								})
+							}
 						}
 					},
 					fail(res) {
