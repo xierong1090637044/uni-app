@@ -5,7 +5,7 @@
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
-						<view>产品：{{item.goodsName}}</view>
+						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
 						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
 					<view v-if="item.selected_model">

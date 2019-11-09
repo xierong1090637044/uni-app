@@ -5,7 +5,7 @@
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 						<view class='pro_list' style='color:#3D3D3D'>
-							<view>产品：{{item.goodsName}}</view>
+							<view style="width: calc(100% - 260rpx);">产品：{{item.goodsName}}</view>
 							<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
 							<view v-else>期初进货价：￥{{item.costPrice}}</view>
 						</view>
