@@ -19,13 +19,13 @@
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>出库量：
-									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0'  :max="Number(model.reserve)"/>
+									<uninumberbox :min="1" @change="handleModelNumChange($event, index,key,model)" :value='1' :max="Number(model.reserve)" />
 								</view>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
 							出库量：
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)"  value='0'/>
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' />
 						</view>
 
 						<view class="bottom_del">
@@ -85,34 +85,35 @@
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
 					//console.log(res)
-					if (res[0].status == -1) {
-						uni.showToast({
-							title: "该产品已删除",
-							icon: "none"
-						})
-					} else {
-						res[0].num = 1;
-						res[0].total_money = 1 * res[0].retailPrice;
-						res[0].really_total_money = 1 * res[0].retailPrice;
-						res[0].modify_retailPrice = res[0].retailPrice;
-						if(res[0].models){
-							for(let model of res[0].models){
+					for (let item of res) {
+						item.num = 1;
+						item.total_money = 1 * item.retailPrice;
+						item.really_total_money = 1 * item.retailPrice;
+						item.modify_retailPrice = item.retailPrice;
+						if (item.models) {
+							let count = 0
+							for (let model of item.models) {
 								model.num = 0
+								count += 1
 							}
-							res[0].selectd_model = res[0].models
-							res[0].selected_model = res[0].models
-						} 
-						this.products = res;
+							item.num = count
+							item.selectd_model = item.models
+							item.selected_model = item.models
+						}
 					}
+					this.products = res;
 					wx.hideLoading()
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
-				for(let item of this.products){
-					if(item.models){
-						for(let model of item.models){
-							model.num = 0
+				for (let item of this.products) {
+					if (item.models) {
+						let count = 0
+						for (let model of item.models) {
+							model.num = 1;
+							count +=1;
 						}
+						item.num = count;
 						item.selectd_model = item.models
 						item.selected_model = item.models
 					}
@@ -140,21 +141,25 @@
 						}
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
-							console.log(res)
-							if (res[0].status == -1) {
-								uni.showToast({
-									title: "该产品已删除",
-									icon: "none"
-								})
-							} else {
-								for (let item of res) {
-									item.num = 0;
-									item.total_money = 0;
-									item.really_total_money = 0;
-									item.modify_retailPrice = 0;
+							//console.log(res)
+							for (let item of res) {
+								item.num = 1;
+								item.total_money = 1 * item.retailPrice;
+								item.really_total_money = 1 * item.retailPrice;
+								item.modify_retailPrice = item.retailPrice;
+								if (item.models) {
+									let count = 0
+									for (let model of item.models) {
+										model.num = 0
+										count += 1
+									}
+									item.num = count
+									item.selectd_model = item.models
+									item.selected_model = item.models
 								}
-								that.products = that.products.concat(res);
 							}
+							
+							that.products = that.products.concat(res);
 							uni.hideLoading()
 
 						})
@@ -171,21 +176,21 @@
 			//头部确定点击
 			confrim_this() {
 				let products = uni.getStorageSync('products')
-				for(let item of products){
-					if(item.num == 0){
+				for (let item of products) {
+					if (item.num == 0) {
 						uni.showToast({
-							title:"0库存不能进行操作",
-							icon:"none"
+							title: "0库存不能进行操作",
+							icon: "none"
 						})
-						
+
 						return
 					}
 				}
-				
+
 				uni.navigateTo({
 					url: "/pages/common/goods_out/out_detail/out_detail"
 				})
-				
+
 			},
 
 			//多类型产品数量改变  步骤很重要
@@ -197,7 +202,7 @@
 					_sumNum += model.num
 				}
 				//console.log(this.products[index].selected_model)
-				
+
 				this.products[index].num = _sumNum
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].retailPrice)

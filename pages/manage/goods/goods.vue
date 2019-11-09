@@ -39,7 +39,8 @@
 								  <view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 									<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 							</view>
-							<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>
+							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+							<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
 						</view>
 
 						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>

@@ -62,7 +62,7 @@
 						</view>
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
 						<view class="display_flex" style="padding: 10rpx 0;" v-else>
-							<view style="width: 140rpx;">实际付款</view>
+							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;" type="digit" /></view>
 						</view>
 

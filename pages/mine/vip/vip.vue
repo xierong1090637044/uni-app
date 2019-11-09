@@ -34,24 +34,25 @@
 					</view>
 				</view>
 
-				<view class="pay_button" @click="pay_off">支付</view>
+				<button class="pay_button" @click="pay_off" :disabled="payStatus">支付</button>
 				
-				<!--<view style="margin-top: 40rpx;line-height: 50rpx;">
+				<view style="margin-top: 40rpx;line-height: 50rpx;">
 					<view style="font-size: 32rpx;">
 						<text>会员的好处</text>
 						<text style="font-size: 20rpx;">（感谢您一如既往的支持）</text>
 						<fa-icon type="info-circle" size="18" color="#12b9fe" style="margin-left: 20rpx;"></fa-icon>
 					</view>
 					
-					<view style="color: #999999;">
-						<view>1.会员可无限制上传产品</view>
-						<view>2.会员可无限制上传员工</view>
-						<view>3.会员可无限制上传仓库</view>
-						<view>4.会员可无限制上传门店</view>
-						<view>5.更多特权正在开发中...</view>
+					<view style="color: #999999;font-size: 24rpx;">
+						<view>1.会员可无限制上传产品、员工、仓库、门店</view>
+						<view>2.会员可上传凭证图，门店图、仓库图</view>
+						<view>3.会员可查询出入库单中的物流信息</view>
+						<view>4.会员可扫码添加产品</view>
+						<view>5.会员可使用电脑版</view>
+						<view>6.更多特权正在开发中...</view>
 					</view>
 					
-				</view>-->
+				</view>
 			</view>
 		</view>
 
@@ -65,6 +66,7 @@
 
 		data() {
 			return {
+				payStatus:false,
 				user: uni.getStorageSync("user"),
 				selected_price: 10,
 			}
@@ -87,6 +89,8 @@
 						icon:"none"
 					})
 				}else{
+					uni.showLoading({title:"充值中..."})
+					that.payStatus = true;
 					that.pay().then(res=>{
 						if(res){
 							const query = Bmob.Query('_User');
@@ -117,6 +121,8 @@
 								icon:"none"
 							})
 						}
+						that.payStatus = false;
+						uni.hideLoading()
 					})
 					
 				}

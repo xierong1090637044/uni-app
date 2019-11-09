@@ -88,9 +88,9 @@
 								<view class="left_item">货架位置</view>
 								<view class="right_input1"><input placeholder="货架位置" name="position" :value="position"></input></view>
 							</view>
-							<view class="input_item">
+							<view style="border-bottom: 1rpx solid#f6f5ec;display: flex;">
 								<view class="left_item">产品简介</view>
-								<view class="right_input1"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
+								<view class="right_input1"><textarea placeholder="产品简介" name="product_info" :value="product_info" auto-height="true"></textarea></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">是否半成品</view>
@@ -432,6 +432,7 @@
 	}
 
 	.right_input1 {
+		width: 100%;
 		font-size: 12px;
 	}
 

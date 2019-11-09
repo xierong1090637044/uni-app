@@ -38,9 +38,9 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
-				<navigator class="li " hover-class="none" url="/pages/mine/manual/manual">
-					<fa-icon type="book" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">操作手册</view>
+				<navigator class="li " hover-class="none" url="/pages/mine/vip/vip">
+					<fa-icon type="vimeo" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">会员中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
 				<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">

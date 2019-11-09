@@ -120,6 +120,11 @@
 						icon: '/static/stocking.png',
 						url: '/pages/common/goods-select/goods-select?type=counting'
 					},
+					{
+						name: '使用手册',
+						icon: '/static/userInfo.png',
+						url: '/pages/mine/manual/manual'
+					},
 				],
 				get_reserve: 0,
 				out_reserve: 0,

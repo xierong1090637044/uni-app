@@ -15,7 +15,7 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.7 公测版</text>
-						<text class="desc-time">2019.11.05</text>
+						<text class="desc-time">2019.11.09</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
@@ -24,6 +24,7 @@
 						<text>多规格产品操作优化</text>
 						<text>操作记录支持跳转到详情</text>
 						<text>操作记录bug修复</text>
+						<text>连续扫码bug修复</text>
 						<text>二维码bug修复</text>
 						<text>UI升级优化</text>
 					</view>

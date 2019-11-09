@@ -19,19 +19,18 @@
 							<view>实际进货价(可修改)：</view>
 							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 						</view>
-						
+
 						<view v-if="item.selectd_model">
-							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key"
-							 style="margin-bottom: 10rpx;">
+							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>入库量：
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1'/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
 							入库量：
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
-						
+
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">
 								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
@@ -90,34 +89,36 @@
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
 					console.log(res)
-					if (res[0].status == -1) {
-						uni.showToast({
-							title: "该产品已删除",
-							icon: "none"
-						})
-					} else {
-						res[0].num = 1;
-						res[0].total_money = 1 * res[0].costPrice;
-						res[0].really_total_money = 1 * res[0].costPrice;
-						res[0].modify_retailPrice = res[0].costPrice;
-						if(res[0].models){
-							for(let model of item.models){
+
+					for (let item of res) {
+						item.num = 1;
+						item.total_money = 1 * item.costPrice;
+						item.really_total_money = 1 * item.costPrice;
+						item.modify_retailPrice = item.costPrice;
+						if (item.models) {
+							let count = 0
+							for (let model of item.models) {
 								model.num = 0
+								count += 1
 							}
-							res[0].selectd_model = res[0].models
-							res[0].selected_model = res[0].models
+							item.num = count
+							item.selectd_model = item.models
+							item.selected_model = item.models
 						}
-						this.products = res;
 					}
+					this.products = res;
 					uni.hideLoading()
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
-				for(let item of this.products){
-					if(item.models){
-						for(let model of item.models){
+				for (let item of this.products) {
+					if (item.models) {
+						let count = 0
+						for (let model of item.models) {
 							model.num = 0
+							count += 1
 						}
+						item.num = count
 						item.selectd_model = item.models
 						item.selected_model = item.models
 					}
@@ -147,20 +148,23 @@
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
 							console.log(res)
-							if (res[0].status == -1) {
-								uni.showToast({
-									title: "该产品已删除",
-									icon: "none"
-								})
-							} else {
-								for (let item of res) {
-									item.num = 1;
-									item.total_money = 1 * item.costPrice;
-									item.really_total_money = 1 * item.costPrice;
-									item.modify_retailPrice = item.costPrice;
+							for (let item of res) {
+								item.num = 1;
+								item.total_money = 1 * item.costPrice;
+								item.really_total_money = 1 * item.costPrice;
+								item.modify_retailPrice = item.costPrice;
+								if (item.models) {
+									let count = 0
+									for (let model of item.models) {
+										model.num = 0
+										count += 1
+									}
+									item.num = count
+									item.selectd_model = item.models
+									item.selected_model = item.models
 								}
-								that.products = that.products.concat(res);
 							}
+							that.products = that.products.concat(res);
 							uni.hideLoading()
 						})
 					},
@@ -197,7 +201,7 @@
 				for (let model of this.products[index].selected_model) {
 					_sumNum += model.num
 				}
-				
+
 				this.products[index].num = _sumNum
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].costPrice)
