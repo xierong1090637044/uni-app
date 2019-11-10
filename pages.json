@@ -137,14 +137,38 @@
 			"style": {
 				"navigationBarTitleText": "盘点详情"
 			}
+		}, {
+			"path": "pages/report/EnteringHistory/expressDet/expressDet",
+			"style": {
+				"navigationBarTitleText": "物流详情"
+			}
 		}
-	    ,{
-            "path" : "pages/report/EnteringHistory/expressDet/expressDet",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
+			"root": "pages/production",
+			"pages": [{
+				"path": "index/index",
+				"style": {
+					"navigationBarTitleText": "物料管理"
+				}
+			}, {
+				"path": "matterList/matterList",
+				"style": {
+					"navigationBarTitleText": "物料"
+				}
+			}, {
+				"path": "matterAdd/matterAdd",
+				"style": {
+					"navigationBarTitleText": "物料添加"
+				}
+			}, {
+				"path": "matterCategroy/matterCategroy",
+				"style": {
+					"navigationBarTitleText": "物料类别"
+				}
+			}]
+		}, {
 			"root": "pages/mine",
 			"pages": [{
 				"path": "manual/manual",
@@ -208,10 +232,10 @@
 					}
 				},
 				{
-						"path": "shops/detail/detail",
-						"style": {
-							"navigationBarTitleText": "门店详情"
-						}
+					"path": "shops/detail/detail",
+					"style": {
+						"navigationBarTitleText": "门店详情"
+					}
 				},
 				{
 					"path": "operations/operations",

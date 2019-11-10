@@ -40,7 +40,7 @@
 .price_line {
 	position: absolute;
 	left: 40rpx;
-	top: 0rpx;
+	top: -7rpx;
 }
 .price_text {
 	font-size: 32rpx;

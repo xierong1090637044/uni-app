@@ -27,6 +27,15 @@
   ],
   "subPackages": [
     {
+      "root": "pages/production",
+      "pages": [
+        "index/index",
+        "matterList/matterList",
+        "matterAdd/matterAdd",
+        "matterCategroy/matterCategroy"
+      ]
+    },
+    {
       "root": "pages/mine",
       "pages": [
         "manual/manual",
