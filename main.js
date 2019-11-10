@@ -4,6 +4,7 @@ import App from './App'
 import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 import loading from "@/components/Loading/index.vue"
 import nocontent from "@/components/No_content.vue"
+import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 import uniIcon from "@/components/uni-icon/uni-icon.vue"
 import Bmob from "hydrogen-js-sdk"
 // #ifdef H5
@@ -45,6 +46,7 @@ Vue.component('loading',loading)
 Vue.component('faIcon',faIcon)
 Vue.component('uniIcon',uniIcon)
 Vue.component('nocontent',nocontent)
+Vue.component('uniNavBar',uniNavBar)
 
 const app = new Vue({
 	i18n,

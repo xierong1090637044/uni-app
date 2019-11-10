@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="微信搜索服务号'库存表',记得关注我们哦!" />
+		<uni-notice-bar :show-icon="true" :single="true" color="#426ab3" text="现已支持扫码自动识别条码产品信息并进行添加,但是该功能暂时只对会员使用!" />
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -79,7 +79,6 @@
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 
-	import amapFile from '@/utils/amap-wx.js';
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';
@@ -121,13 +120,18 @@
 						icon: '/static/stocking.png',
 						url: '/pages/common/goods-select/goods-select?type=counting'
 					},
+					{
+						name: '使用手册',
+						icon: '/static/userInfo.png',
+						url: '/pages/mine/manual/manual'
+					},
 				],
 				get_reserve: 0,
 				out_reserve: 0,
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
-				openid: ''
+				openid: '',
 			}
 		},
 		onLoad(options) {
@@ -176,7 +180,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情','扫码添加产品'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -205,26 +209,21 @@
 							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 						})
 					} else if (type == 3) {
-						if(array[1] == 'stock'){
-							const query = Bmob.Query('stocks');
-							query.get(array[0]).then(res => {
-							 uni.setStorageSync("stock",res)
-							 uni.navigateTo({
-							 	url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
-							 })
-							}).catch(err => {
-							  console.log(err)
+						uni.navigateTo({
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 4) {
+						let user = uni.getStorageSync("user")
+						if(user.is_vip){
+							uni.navigateTo({
+								url: '/pages/manage/good_add/good_add?id=' + result,
 							})
 						}else{
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							uni.showToast({
+								title:"该功能只限会员使用",
+								icon:"none"
 							})
 						}
-						
-					} else if (type == 4) {
-						uni.navigateTo({
-							url: '/pages/manage/good_add/good_add?id=' + result,
-						})
 					}
 				})
 				// #endif
@@ -248,25 +247,21 @@
 								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 							})
 						} else if (type == 3) {
-							if(array[1] == 'stock'){
-								const query = Bmob.Query('stocks');
-								query.get(array[0]).then(res => {
-								 uni.setStorageSync("stock",res)
-								 uni.navigateTo({
-								 	url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
-								 })
-								}).catch(err => {
-								  console.log(err)
+							uni.navigateTo({
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 4) {
+							let user = uni.getStorageSync("user")
+							if(user.is_vip){
+								uni.navigateTo({
+									url: '/pages/manage/good_add/good_add?id=' + result,
 								})
 							}else{
-								uni.navigateTo({
-									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+								uni.showToast({
+									title:"该功能只限会员使用",
+									icon:"none"
 								})
 							}
-						} else if (type == 4) {
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
-							})
 						}
 					},
 					fail(res) {
@@ -292,7 +287,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("createdAt", ">=", common.getDay(0, true));
 				query.equalTo("createdAt", "<=", common.getDay(1, true));
-
+				query.equalTo("status", "!=", false);
 				query.include("goodsId");
 				query.find().then(res => {
 					for (var i = 0; i < res.length; i++) {

@@ -40,57 +40,64 @@
 			that.user = uni.getStorageSync("user");
 		},
 		methods: {
-
+			
 			//下载数据模板
-			downloadDemoFile() {
+			downloadDemoFile(){
 				wx.downloadFile({
-					// 示例 url，并非真实存在
-					url: 'https://www.jimuzhou.com/static/demo.xlsx',
-					success: function(res) {
-						const filePath = res.tempFilePath
-						wx.openDocument({
-							filePath: filePath,
-							fileType: 'xlsx',
-							success: function(res) {
-								console.log('打开文档成功')
-							}
-						})
-					}
+				  // 示例 url，并非真实存在
+				  url: 'https://www.jimuzhou.com/static/demo.xlsx',
+				  success: function (res) {
+				    const filePath = res.tempFilePath
+				    wx.openDocument({
+				      filePath: filePath,
+							fileType:'xlsx',
+				      success: function (res) {
+				        console.log('打开文档成功')
+				      }
+				    })
+				  }
 				})
 			},
-
+			
 			uploadfile() {
-				uni.showLoading({
-					title: "上传中..."
-				})
-				wx.chooseMessageFile({
-					count: 1,
-					type: 'file',
-					success(res) {
-						console.log(res)
-						// tempFilePath可以作为img标签的src属性显示图片
-						const tempFiles = res.tempFiles
-
-						uni.uploadFile({
-							url: 'https://www.jimuzhou.com/api/getfile.php', //仅为示例，非真实的接口地址
-							filePath: tempFiles[0].path,
-							name: 'file',
-							formData: {
-								'userid': uni.getStorageSync('uid')
-							},
-							success: (uploadFileRes) => {
-								console.log(JSON.parse(uploadFileRes.data))
-								let result = JSON.parse(uploadFileRes.data)
-								uni.hideLoading();
-								if (result.code == "1") {
-									uni.showToast({
-										title: "上传成功"
-									})
+				if(that.user.is_vip){
+					uni.showLoading({
+						title:"上传中..."
+					})
+					wx.chooseMessageFile({
+						count: 1,
+						type: 'file',
+						success(res) {
+							console.log(res)
+							// tempFilePath可以作为img标签的src属性显示图片
+							const tempFiles = res.tempFiles
+					
+							uni.uploadFile({
+								url: 'https://www.jimuzhou.com/api/getfile.php', //仅为示例，非真实的接口地址
+								filePath: tempFiles[0].path,
+								name: 'file',
+								formData: {
+									'userid': uni.getStorageSync('uid')
+								},
+								success: (uploadFileRes) => {
+									//console.log(JSON.parse(uploadFileRes.data))
+									let result = JSON.parse(uploadFileRes.data)
+									uni.hideLoading();
+									if(result.code == "1"){
+										uni.showToast({
+											title:"上传成功"
+										})
+									}
 								}
-							}
-						});
-					}
-				})
+							});
+						}
+					})
+				}else{
+					uni.showToast({
+						title:"您还不是会员",
+						icon:"none"
+					})
+				}
 			},
 		}
 	}

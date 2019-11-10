@@ -83,6 +83,7 @@
 							query.equalTo("productCode", "==", array[0])
 						}
 						query.equalTo("userId", "==", uid);
+						query.equalTo("status", "!=", -1);
 						query.find().then(res => {
 							console.log(res)
 							if (res[0].status == -1) {

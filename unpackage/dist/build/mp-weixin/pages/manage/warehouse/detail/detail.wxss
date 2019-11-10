@@ -1,1 +1,1 @@
-.frist{padding:20rpx 0}.border_bottom{border-bottom:1rpx solid #f6f5ec}.second{line-height:44rpx}
+.frist{padding:20rpx 0}.border_bottom{border-bottom:1rpx solid #f6f5ec}.list_item{padding:20rpx 30rpx;background:#fff;border-bottom:1rpx solid #f7f7f7;margin:0 0 20rpx}.second{line-height:44rpx}

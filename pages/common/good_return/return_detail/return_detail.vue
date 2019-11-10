@@ -2,10 +2,10 @@
 	<view>
 		<view class='page'>
 			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
-			<view style='max-height:25vh;overflow-x:scroll'>
+			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
-						<view>产品：{{item.goodsName}}</view>
+						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
 						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
 					<view class='pro_list'>
@@ -33,7 +33,7 @@
 				</view>
 
 				<view style='margin-top:20px'>
-					<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
+					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 				</view>
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;">

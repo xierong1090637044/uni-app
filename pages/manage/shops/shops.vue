@@ -20,10 +20,9 @@
 				<view v-for="(shop,index) in shops" :key="index">
 
 					<view class='content'>
-						<view class="display_flex_bet" @click="choose_way(shop.objectId)">
+						<view class="display_flex_bet" @click="goto_detail(shop)">
 							<view class="display_flex">
-								<image v-if="shop.Image && shop.Image.length> 0 " :src="shop.Image[0]" class="shop_avatar" @click.stop="priviewImg(shop.Image[0])"
-								 mode="aspectFit"></image>
+								<image v-if="shop.Image && shop.Image.length> 0 " :src="shop.Image[0]" class="shop_avatar" @click.stop="priviewImg(shop.Image[0])" mode="aspectFit"></image>
 								<image src="/static/shop.png" class="shop_avatar" v-else></image>
 								<view>
 									<view class='shop_name'>{{shop.name}}</view>
@@ -45,10 +44,10 @@
 								<text style="color: #d93a49;">选择</text>
 							</view>
 
-							<view class="display_flex" style="justify-content: flex-end;" v-else>
+							<!--<view class="display_flex" style="justify-content: flex-end;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(shop.objectId)"></fa-icon>
 								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(shop)"></fa-icon>
-							</view>
+							</view>-->
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
 
@@ -111,34 +110,19 @@
 		},
 		methods: {
 			//预览图片
-			priviewImg(url) {
+			priviewImg(url){
 				uni.previewImage({
-					current: url,
+					current:url,
 					urls: [url],
 				});
 			},
-
-			//点击选择操作列表
-			choose_way(shopId) {
-				uni.showActionSheet({
-					itemList: ['员工列表', '查看记录'],
-					success: function(res) {
-						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-
-						if (res.tapIndex == 0) {
-							uni.navigateTo({
-								url: "staff_in/staff_in?shopId=" + shopId
-							})
-						} else {
-							uni.navigateTo({
-								url: "record/record?shopId=" + shopId
-							})
-						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
+			
+			//点击门店去到详情
+			goto_detail(shop) {
+				uni.setStorageSync("shop", shop)
+				uni.navigateTo({
+					url: "detail/detail"
+				})
 			},
 
 			//tab点击
@@ -164,51 +148,37 @@
 				})
 			},
 
-			//编辑操作
-			edit(shop) {
-				uni.setStorageSync("shop", shop);
-				uni.navigateTo({
-					url: "add/add"
-				})
-			},
-
-			//删除操作
-			delete_this(id) {
-				uni.showModal({
-					title: '提示',
-					content: '是否删除此门店',
-					success: function(res) {
-						if (res.confirm) {
-							console.log(id);
-							that.delete_data(id)
-						}
-					}
-				});
-			},
-
-			//删除数据
-			delete_data(id) {
-				console.log(id)
-				const query = Bmob.Query("shops");
-				query.destroy(id).then(res => {
-					console.log(res)
-					uni.showToast({
-						title: "删除成功",
-						icon: "none"
-					})
-					that.getshop_list()
-				}).catch(err => {
-					console.log(err)
-				})
-			},
-
 			//前去添加员工
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				uni.navigateTo({
-					url: "add/add"
-				})
+				if (user.is_vip || that.shops.length < 2) {
+					uni.navigateTo({
+						url: "add/add"
+					})
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '非会员最多上传2个门店',
+						confirmText: "充值会员",
+						success: function(res) {
+							if (res.confirm) {
+								if (identity == 1) {
+									uni.navigateTo({
+										url: "/pages/mine/vip/vip"
+									})
+								} else {
+									uni.showToast({
+										title: "员工不能充值",
+										icon: "none"
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					})
+				}
 			},
 
 			//输入内容筛选

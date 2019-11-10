@@ -8,7 +8,14 @@ export default {
 			const query = Bmob.Query('staffs');
 			query.include("masterId")
 			query.get(userid).then(res => {
-			  //console.log(res)
+				if(res.masterId.is_vip){
+					res.is_vip = true
+					res.vip_time = res.masterId.vip_time
+				}else{
+					res.is_vip = false
+					res.vip_time = 0
+				}
+				uni.setStorageSync("user",res);
 			  resolve(res)
 			}).catch(err => {
 			  //console.log(err)

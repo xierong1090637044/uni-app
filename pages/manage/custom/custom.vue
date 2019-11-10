@@ -29,10 +29,10 @@
 						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_custom" @click="select_this('custom',item)">
 							<text style="color: #d93a49;">选择</text>
 						</view>
-						<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
+						<!--<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 							<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
 							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(item)"></fa-icon>
-						</view>
+						</view>-->
 						
 					</view>
 
@@ -54,10 +54,10 @@
 						<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_producer" @click="select_this('producer',item)">
 							<text style="color: #d93a49;">选择</text>
 						</view>
-						<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
+						<!--<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 							<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(item.objectId)"></fa-icon>
 							<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(item)"></fa-icon>
-						</view>
+						</view>-->
 						
 					</view>
 
@@ -136,53 +136,6 @@
 				uni.setStorageSync(type, producer)
 				uni.navigateBack({
 					delta: 1
-				})
-			},
-
-			//编辑操作
-			edit(item) {
-				uni.setStorageSync("customs", item);
-				if (that.current == 0) {
-					uni.setStorageSync("custom_type", "customs");
-				} else {
-					uni.setStorageSync("custom_type", "producers");
-				}
-				uni.navigateTo({
-					url: "add/add"
-				})
-			},
-
-			//删除操作
-			delete_this(id) {
-				uni.showModal({
-					title: '提示',
-					content: '是否删除此客户',
-					success: function(res) {
-						if (res.confirm) {
-							console.log(id);
-							if (that.current == 0) {
-								that.delete_data("customs", id)
-							} else {
-								that.delete_data("producers", id)
-							}
-						}
-					}
-				});
-			},
-
-			//删除数据
-			delete_data(type, id) {
-				console.log(id)
-				const query = Bmob.Query(type);
-				query.destroy(id).then(res => {
-					console.log(res)
-					uni.showToast({
-						title: "删除成功",
-						icon: "none"
-					})
-					that.load_data(type)
-				}).catch(err => {
-					console.log(err)
 				})
 			},
 			

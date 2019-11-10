@@ -165,7 +165,8 @@
 					console.log(res)
 					let product = res[0];
 					let all_reserve = 0;
-				
+					
+					uni.setStorageSync("now_product",product)
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.include("stocks","goodsClass","second_class");
@@ -181,13 +182,13 @@
 								stocks_o.stock_name = ''
 								stocks_o.stock_objectid = ''
 							}
-							stocks_o.reserve = item.reserve
+							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.models = (item.models) ? item.models : ''
 							stocks_o.warning_num = item.warning_num
 							stocks_o.bad_num = (item.bad_num)?item.bad_num:0
 							stocks_o.good_id = item.objectId
 							stocks_o.accessory = (item.accessory) ? item.accessory : ''
-							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
+							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId+"-"+false
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
@@ -195,7 +196,7 @@
 				
 						this.product = product;
 						if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
-						this.product.all_reserve = all_reserve;
+						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
 						that.loading = false
 						uni.hideLoading()
@@ -228,13 +229,13 @@
 							stocks_o.stock_objectid = ''
 						}
 				
-						stocks_o.reserve = item.reserve
+						stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 						stocks_o.models = item.models
 						stocks_o.warning_num = item.warning_num
 						stocks_o.bad_num = (item.bad_num)?item.bad_num:0
 						stocks_o.good_id = item.objectId
 						stocks_o.accessory = (item.accessory) ? item.accessory : ''
-						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId
+						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId+"-"+false
 						item.stocks = stocks_o
 						all_reserve += item.reserve
 						stocks.push(item.stocks)
@@ -242,7 +243,7 @@
 				
 					this.product = uni.getStorageSync("now_product");
 					if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
-					this.product.all_reserve = all_reserve;
+					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
 					that.loading = false
 					uni.hideLoading()
@@ -410,6 +411,8 @@
 					content: '是否删除该商品',
 					success: function(res) {
 						if (res.confirm) {
+							
+							uni.setStorageSync("is_add",true)
 
 							const query = Bmob.Query('Goods');
 							query.set('id', objectId) //需要修改的objectId
@@ -417,9 +420,9 @@
 							query.save().then(res => {
 
 								if (accessory) {
-									uni.redirectTo({
-										url: '../goods/goods'
-									});
+									uni.navigateBack({
+										delta:1
+									})
 
 									setTimeout(function() {
 										uni.showToast({
@@ -434,9 +437,9 @@
 											console.log(res)
 											res.set('accessory', false)
 											res.save()
-											uni.redirectTo({
-												url: '../goods/goods'
-											});
+											uni.navigateBack({
+												delta:1
+											})
 
 											setTimeout(function() {
 												uni.showToast({
@@ -447,9 +450,9 @@
 											console.log(err)
 										})
 									} else {
-										uni.redirectTo({
-											url: '../goods/goods'
-										});
+										uni.navigateBack({
+											delta:1
+										})
 
 										setTimeout(function() {
 											uni.showToast({

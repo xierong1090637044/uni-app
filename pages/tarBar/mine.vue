@@ -7,6 +7,7 @@
 						<view class="avator">
 							<img :src="user.avatarUrl">
 						</view>
+						<fa-icon type="vimeo" size="18" color="#ffcd00" v-if="user.is_vip" class="vip_logo"></fa-icon>
 						<view class="phone-number">
 							<fa-icon type="mobile" size="18" color="#130c0e"></fa-icon>
 							<text style="margin-left: 10rpx;">{{user.nickName}}</text>
@@ -37,11 +38,6 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
-				<navigator class="li " hover-class="none" url="/pages/mine/manual/manual">
-					<fa-icon type="book" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">操作手册</view>
-					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
 				<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
@@ -51,6 +47,7 @@
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
 					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 300rpx;justify-content: flex-end">
+						<text style="margin-right: 10rpx;">(电脑版网址)</text>
 						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 					</view>
 					
@@ -68,11 +65,11 @@
 					<view class="text">关于我们</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>-->
-				<!--<view class="li ">
+				<view class="li ">
 					<fa-icon type="envira" size="18" color="#3d3d3d3"></fa-icon>
 					<button class="text" plain="true" open-type="feedback">意见反馈</button>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</view>-->
+				</view>
 			</view>
 			<view class="list">
 				<navigator class="li noborder" hover-class="none" url="/pages/landing/landing">

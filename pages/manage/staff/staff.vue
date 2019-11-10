@@ -15,7 +15,7 @@
 				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
-			 enable-back-to-top="true" v-if="staffs && staffs.length > 0">
+			 enable-back-to-top="true"  v-if="staffs && staffs.length > 0">
 				<view v-for="(staff,index) in staffs" :key="index">
 					<view class='content'>
 						<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
@@ -23,8 +23,8 @@
 							<view class="display_flex">
 								<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
 								<view>
-									<view class='staff_name'>{{staff.nickName}}</view>
-									<view class='staff_mobile'>账号：{{staff.username}}</view>
+									<view class='staff_name'>{{staff.username}}</view>
+									<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
 								</view>
 
 							</view>
@@ -36,10 +36,10 @@
 								<text style="color: #d93a49;">选择</text>
 							</view>
 
-							<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
+							<!--<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
 								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
 								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(staff)"></fa-icon>
-							</view>
+							</view>-->
 						</view>
 						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
 
@@ -54,7 +54,7 @@
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
-
+	
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
@@ -85,6 +85,7 @@
 
 		onLoad(options) {
 			that = this;
+			uni.removeStorageSync("")
 			uid = uni.getStorageSync('uid')
 			console.log(options)
 			if (options.type == "choose") {
@@ -99,9 +100,9 @@
 			search_text = ""
 		},
 		methods: {
-
+			
 			//去到员工详情
-			goto_detail(staff) {
+			goto_detail(staff){
 				uni.setStorageSync("staff", staff)
 				uni.navigateTo({
 					url: "detail/detail"
@@ -131,53 +132,38 @@
 				})
 			},
 
-			//编辑操作
-			edit(item) {
-				console.log(item)
-				uni.setStorageSync("staff", item);
-				uni.navigateTo({
-					url: "add/add"
-				})
-			},
-
-			//删除操作
-			delete_this(id) {
-				uni.showModal({
-					title: '提示',
-					content: '是否删除此员工',
-					success: function(res) {
-						if (res.confirm) {
-							console.log(id);
-							that.delete_data(id)
-						}
-					}
-				});
-			},
-
-			//删除数据
-			delete_data(id) {
-				console.log(id)
-				const query = Bmob.Query("staffs");
-				query.destroy(id).then(res => {
-					console.log(res)
-					uni.showToast({
-						title: "删除成功",
-						icon: "none"
-					})
-					that.getstaff_list()
-				}).catch(err => {
-					console.log(err)
-				})
-			},
-
 			//前去添加员工
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
+				if(user.is_vip || that.staffs.length <2){
+					uni.navigateTo({
+						url: "add/add"
+					})
+				}else{
+					uni.showModal({
+					    title: '提示',
+					    content: '非会员最多上传2个员工账号',
+							confirmText:"充值会员",
+					    success: function (res) {
+					        if (res.confirm) {
+										if(identity == 1){
+											uni.navigateTo({
+												url:"/pages/mine/vip/vip"
+											})
+										}else{
+											uni.showToast({
+												title:"员工不能充值",
+												icon:"none"
+											})
+										}
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					})
+				}
 				
-				uni.navigateTo({
-					url: "add/add"
-				})
 			},
 
 			//输入内容筛选
@@ -188,7 +174,7 @@
 
 			//得到员工列表
 			getstaff_list: function() {
-				const query = Bmob.Query("_User");
+				const query = Bmob.Query("staffs");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
 				query.equalTo("disabled", "==", that.disabled);

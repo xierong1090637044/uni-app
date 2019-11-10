@@ -1,5 +1,87 @@
 import Bmob from "hydrogen-js-sdk";
 module.exports = {
+	//入库时增加产品数量
+	enterAddGoodNum(products){
+		return new Promise((resolve, reject) => {
+			for (let i = 0; i < products.length; i++) {
+				let num = 0;
+				const query = Bmob.Query('Goods');
+				query.get(products[i].objectId).then(res => {
+					console.log(products[i])
+			
+					if (products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
+							for (let item of products[i].models) {
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) + Number(model.num)
+								}
+								delete item.num   // 清除没用的属行
+							}
+						}
+						num = Number(products[i].reserve) + Number(products[i].num);
+						res.set('models', products[i].models)
+					} else {
+						num = Number(products[i].reserve) + Number(products[i].num);
+					}
+					res.set('reserve', num)
+					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+					res.save()
+					
+					if(i == products.length - 1){
+						resolve(true)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		})
+	},
+	
+	
+	//出库时减少产品数量
+	outRedGoodNum(products){
+		return new Promise((resolve, reject) => {
+			for (let i = 0; i < products.length; i++) {
+				let num = 0;
+				const query = Bmob.Query('Goods');
+				query.get(products[i].objectId).then(res => {
+					//console.log(res)
+			
+					if (products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
+							for (let item of products[i].models) {
+								num += Number(item.reserve)
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) - Number(model.num)
+								}
+								delete item.num   // 清除没用的属行
+							}
+						}
+						num = Number(products[i].reserve) - Number(products[i].num);
+						res.set('models', products[i].models)
+					} else {
+						num = Number(products[i].reserve) - Number(products[i].num);
+					}
+			
+					res.set('reserve', num)
+					res.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
+					res.save()
+					
+					if (products[i].warning_num >= num) {
+						this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2, products[i].objectId);
+					}
+					this.record_staffOut(Number(products[i].num))
+					
+					if(i == products.length - 1){
+						resolve(true)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		})
+	},
+	
 	//清除缓存
 	handleData(){
 		uni.removeStorageSync("warehouse");
@@ -46,7 +128,7 @@ module.exports = {
 		if(uni.getStorageSync("identity") == 1){}else{
 			const query = Bmob.Query('staffs');
 			query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
-			query.set('have_out', have_out+uni.getStorageSync("user").have_out)
+			query.set('have_out', Number(have_out)+uni.getStorageSync("user").have_out)
 			query.save().then(res => {
 				console.log(res)
 			}).catch(err => {

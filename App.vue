@@ -1,31 +1,12 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import mine from '@/utils/mine.js';
-
+	
 	export default {
 		onLaunch: function() {
-
+			
 			// #ifdef MP-WEIXIN
-			const updateManager = uni.getUpdateManager();
-			updateManager.onCheckForUpdate(function(res) {
-				// 请求完新版本信息的回调
-				console.log(res.hasUpdate);
-			});
-			updateManager.onUpdateReady(function(res) {
-				uni.showModal({
-					title: '更新提示',
-					content: '新版本已经准备好，是否重启应用？',
-					success(res) {
-						if (res.confirm) {
-							// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-							updateManager.applyUpdate();
-						}
-					}
-				});
-			});
-			Bmob.User.auth().then(res => {}).catch(err => {
-				console.log(err)
-			});
+			Bmob.User.auth().then(res => {}).catch(err => {console.log(err)});
 			// #endif
 
 			//console.log('App Launch')
@@ -37,25 +18,25 @@
 					let now_time = new Date().getTime()
 					console.log(user)
 					if (user.vip_time <= now_time) {
-						if (identity == 1) {
+						if(identity == 1){
 							const query = Bmob.Query('_User');
 							query.get(user.objectId).then(res => {
 								res.set('is_vip', false)
 								res.set('vip_time', 0)
 								res.save()
-
+								
 								user.is_vip = false
 								user.vip_time = 0
-								uni.setStorageSync("user", user)
+								uni.setStorageSync("user",user)
 							}).catch(err => {})
-						} else {
+						}else{
 							user.is_vip = false
 							user.vip_time = 0
-							uni.setStorageSync("user", user)
+							uni.setStorageSync("user",user)
 						}
 					}
-
-					mine.query_setting() //获取用户设置
+					
+					mine.query_setting()//获取用户设置
 				},
 				fail: function() {
 					uni.reLaunch({

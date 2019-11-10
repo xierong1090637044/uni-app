@@ -168,17 +168,33 @@
 				max_day: common.getDay(0, false),
 
 				seleted_tab: -1, //1入库  -1出库  2退货
+				extra_type:2,
 				selected_text:"出库",
 				types: [{
 					name: '入库',
-					type: 1
+					type: 1,
+					extra_type:2,
+				}, {
+					name: '采购',
+					type: 1,
+					extra_type:1,
 				}, {
 					name: '出库',
-					type: -1
+					type: -1,
+					extra_type:2,
+				}, {
+					name: '销售',
+					type: -1,
+					extra_type:1,
+				},{
+					name: '盘点',
+					type: 3,
+					extra_type:'',
 				}, {
 					name: '退货',
-					type: 2
-				}, ]
+					type: 2,
+					extra_type:'',
+				},]
 			}
 		},
 		onLoad(options) {
@@ -204,6 +220,7 @@
 					get_money: 0,
 				}
 				that.seleted_tab = that.types[index].type
+				that.extra_type = that.tabBars[index].extra_type
 				
 				that.showOptions = false;
 				that.getdetail()
@@ -265,11 +282,16 @@
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", that.seleted_tab);
+				if(that.extra_type){
+					query.equalTo("extra_type", "==", that.extra_type);
+				}
+				query.equalTo("status", "!=", false);
 				query.equalTo("stock", "==", stockId);
 				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.order("-createdAt")
 				query.include("opreater","goodsId");
+				query.limit(500);
 				query.find().then(res => {
 					console.log(res)
 					for (let item of res) {

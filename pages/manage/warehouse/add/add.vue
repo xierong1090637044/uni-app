@@ -180,7 +180,7 @@
 				
 				const pointer = Bmob.Pointer('_User');
 				let poiID = pointer.set(uid);
-				const pointer1 = Bmob.Pointer('_User');
+				const pointer1 = Bmob.Pointer('staffs');
 				let chargeId = pointer1.set(charge.objectId);
 				
 				if (warehouse) {//修改操作

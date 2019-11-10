@@ -11,7 +11,7 @@
 
 		<view class="vip_content">
 			<view class="content_bg">
-				<view>开通会员可以体验全部功能哦！</view>
+				<view>开通会员可以体验全部功能哦！<text style="font-size: 20rpx;">（将于七日后恢复原价）</text></view>
 				<view class="display_flex_bet" style="margin-top: 40rpx;">
 					<view :class="['price_content',(selected_price==10)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(10)">
 						<view class="time_desc">一个月</view>
@@ -34,7 +34,7 @@
 					</view>
 				</view>
 
-				<view class="pay_button" @click="pay_off">支付</view>
+				<button class="pay_button" @click="pay_off" :disabled="payStatus">支付</button>
 				
 				<view style="margin-top: 40rpx;line-height: 50rpx;">
 					<view style="font-size: 32rpx;">
@@ -43,12 +43,13 @@
 						<fa-icon type="info-circle" size="18" color="#12b9fe" style="margin-left: 20rpx;"></fa-icon>
 					</view>
 					
-					<view style="color: #999999;">
-						<view>1.会员可无限制上传产品</view>
-						<view>2.会员可无限制上传员工</view>
-						<view>3.会员可无限制上传仓库</view>
-						<view>4.会员可无限制上传门店</view>
-						<view>5.更多特权正在开发中...</view>
+					<view style="color: #999999;font-size: 24rpx;">
+						<view>1.会员可无限制上传产品、员工、仓库、门店</view>
+						<view>2.会员可上传凭证图，门店图、仓库图</view>
+						<view>3.会员可查询出入库单中的物流信息</view>
+						<view>4.会员可扫码添加产品</view>
+						<view>5.会员可使用电脑版</view>
+						<view>6.更多特权正在开发中...</view>
 					</view>
 					
 				</view>
@@ -65,6 +66,7 @@
 
 		data() {
 			return {
+				payStatus:false,
 				user: uni.getStorageSync("user"),
 				selected_price: 10,
 			}
@@ -87,6 +89,8 @@
 						icon:"none"
 					})
 				}else{
+					uni.showLoading({title:"充值中..."})
+					that.payStatus = true;
 					that.pay().then(res=>{
 						if(res){
 							const query = Bmob.Query('_User');
@@ -117,6 +121,8 @@
 								icon:"none"
 							})
 						}
+						that.payStatus = false;
+						uni.hideLoading()
 					})
 					
 				}
@@ -222,7 +228,7 @@
 	.price_line {
 		position: absolute;
 		left: 40rpx;
-		top: 0rpx;
+		top: -7rpx;
 	}
 
 	.price_text {

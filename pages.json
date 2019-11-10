@@ -138,7 +138,11 @@
 				"navigationBarTitleText": "盘点详情"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/report/EnteringHistory/expressDet/expressDet",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/mine",
@@ -202,6 +206,12 @@
 					"style": {
 						"navigationBarTitleText": "产品统计"
 					}
+				},
+				{
+						"path": "shops/detail/detail",
+						"style": {
+							"navigationBarTitleText": "门店详情"
+						}
 				},
 				{
 					"path": "operations/operations",

@@ -235,9 +235,9 @@
 				that.selected_text = '销售';
 
 				that.now_day = common.getDay(0, false),
-					that.end_day = common.getDay(1, false),
-					that.max_day = common.getDay(0, false),
-					that.showOptions = false;
+				that.end_day = common.getDay(1, false),
+				that.max_day = common.getDay(0, false),
+				that.showOptions = false;
 				that.getdetail()
 			},
 
@@ -281,10 +281,15 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", that.seleted_tab);
 				query.equalTo("shop", "==", shopId);
+				query.equalTo("status", "!=", false);
+				if(that.seleted_tab!=2){
+					query.equalTo("extra_type", "==", 1);
+				}
 				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 				query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				query.order("-createdAt")
 				query.include("operater", "goodsId");
+				query.limit(500);
 				query.find().then(res => {
 					console.log(res)
 					for (let item of res) {
