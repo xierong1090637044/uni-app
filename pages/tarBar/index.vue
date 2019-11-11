@@ -204,9 +204,21 @@
 							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 						})
 					} else if (type == 3) {
-						uni.navigateTo({
-							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-						})
+						if (array[1] == 'stock') {
+							const query = Bmob.Query('stocks');
+							query.get(array[0]).then(res => {
+								uni.setStorageSync("stock", res)
+								uni.navigateTo({
+									url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
+								})
+							}).catch(err => {
+								console.log(err)
+							})
+						} else {
+							uni.navigateTo({
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						}
 					} else if (type == 4) {
 						uni.navigateTo({
 							url: '/pages/manage/good_add/good_add?id=' + result,
@@ -234,21 +246,25 @@
 								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 							})
 						} else if (type == 3) {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 4) {
-							let user = uni.getStorageSync("user")
-							if (user.is_vip) {
-								uni.navigateTo({
-									url: '/pages/manage/good_add/good_add?id=' + result,
+							if (array[1] == 'stock') {
+								const query = Bmob.Query('stocks');
+								query.get(array[0]).then(res => {
+									uni.setStorageSync("stock", res)
+									uni.navigateTo({
+										url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
+									})
+								}).catch(err => {
+									console.log(err)
 								})
 							} else {
-								uni.showToast({
-									title: "该功能只限会员使用",
-									icon: "none"
+								uni.navigateTo({
+									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 								})
 							}
+						} else if (type == 4) {
+							uni.navigateTo({
+								url: '/pages/manage/good_add/good_add?id=' + result,
+							})
 						}
 					},
 					fail(res) {
