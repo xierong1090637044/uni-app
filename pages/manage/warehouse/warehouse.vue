@@ -174,35 +174,9 @@
 
 			//前去添加仓库
 			goto_add() {
-				let user = uni.getStorageSync("user")
-				let identity = uni.getStorageSync("identity")
-				if(user.is_vip || that.stocks.length <2){
-					uni.navigateTo({
-						url: "add/add"
-					})
-				}else{
-					uni.showModal({
-					    title: '提示',
-					    content: '非会员最多上传2个仓库',
-							confirmText:"充值会员",
-					    success: function (res) {
-					        if (res.confirm) {
-					            if(identity == 1){
-					            	uni.navigateTo({
-					            		url:"/pages/mine/vip/vip"
-					            	})
-					            }else{
-					            	uni.showToast({
-					            		title:"员工不能充值",
-					            		icon:"none"
-					            	})
-					            }
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
-					})
-				}
+				uni.navigateTo({
+					url: "add/add"
+				})
 			},
 
 			//输入内容筛选

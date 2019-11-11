@@ -119,12 +119,7 @@
 						name: '库存盘点',
 						icon: '/static/stocking.png',
 						url: '/pages/common/goods-select/goods-select?type=counting'
-					},
-					{
-						name: '使用手册',
-						icon: '/static/userInfo.png',
-						url: '/pages/mine/manual/manual'
-					},
+					}
 				],
 				get_reserve: 0,
 				out_reserve: 0,
@@ -140,9 +135,9 @@
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			// #endif
-			
+
 			mine.query_setting()
-			
+
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
@@ -180,7 +175,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情','扫码添加产品'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加产品'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -213,17 +208,9 @@
 							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 						})
 					} else if (type == 4) {
-						let user = uni.getStorageSync("user")
-						if(user.is_vip){
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
-							})
-						}else{
-							uni.showToast({
-								title:"该功能只限会员使用",
-								icon:"none"
-							})
-						}
+						uni.navigateTo({
+							url: '/pages/manage/good_add/good_add?id=' + result,
+						})
 					}
 				})
 				// #endif
@@ -252,14 +239,14 @@
 							})
 						} else if (type == 4) {
 							let user = uni.getStorageSync("user")
-							if(user.is_vip){
+							if (user.is_vip) {
 								uni.navigateTo({
 									url: '/pages/manage/good_add/good_add?id=' + result,
 								})
-							}else{
+							} else {
 								uni.showToast({
-									title:"该功能只限会员使用",
-									icon:"none"
+									title: "该功能只限会员使用",
+									icon: "none"
 								})
 							}
 						}
