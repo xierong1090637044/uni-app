@@ -1,25 +1,41 @@
 <template>
 	<!--操作列表-->
-	<view class='o_list'>
-		<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-			<view class='o_left_item'>
-				<view style="width: 50rpx;">
-					<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
-				</view>
-				<span class='o_text'>{{value.name}}</span>
+	<view>
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理模块</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
+				</navigator>
 			</view>
-			<view>
-				<fa-icon type="angle-right" size="20" color="#999" />
+		</view>
+
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">物料管理模块</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in product_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
+				</navigator>
 			</view>
-		</navigator>
+		</view>
+
 	</view>
+
+
+
 </template>
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import staffs from '@/utils/staffs.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	
+
 	let that;
 	export default {
 		components: {
@@ -27,7 +43,23 @@
 		},
 		data() {
 			return {
-				now_optionsLists:[],
+				now_optionsLists: [],
+				product_optionsLists: [{
+					name: '物料管理',
+					icon: 'cubes',
+					url: '/pages/production/matterList/matterList',
+					color: "#704fbb"
+				},{
+					name: '物料类别管理',
+					icon: 'database',
+					url: '/pages/production/matterCategroy/matterCategroy',
+					color: "#bba14f"
+				},{
+					name: '物料采购',
+					icon: 'money',
+					url: '/pages/production/matterSelect/matterSelect?type=entering',
+					color: "#4fbbab"
+				}],
 				optionsLists: [{
 						name: '产品管理',
 						icon: 'envelope-open-o',
@@ -80,32 +112,32 @@
 			uni.getStorage({
 				key: 'identity',
 				success: function(res) {
-					if(res.data == "2"){
+					if (res.data == "2") {
 						let rights;
-						staffs.get_satffAuth().then(res=>{
+						staffs.get_satffAuth().then(res => {
 							console.log(res)
 							let now_staff = uni.getStorageSync("user")
-							if(res.masterId.is_vip){
+							if (res.masterId.is_vip) {
 								now_staff.is_vip = true
 								now_staff.vip_time = now_staff.masterId.vip_time
-							}else{
+							} else {
 								now_staff.is_vip = false
 								now_staff.vip_time = 0
 							}
-							
-							if(res){
-								rights= res.rights.current;
-							}else{
+
+							if (res) {
+								rights = res.rights.current;
+							} else {
 								rights = uni.getStorageSync("user").rights.current;
 							}
-							let manage_rights=[]
-							for(let item in rights){
+							let manage_rights = []
+							for (let item in rights) {
 								manage_rights.push(that.optionsLists[item])
 							}
 							that.now_optionsLists = manage_rights
-							uni.setStorageSync("user",now_staff)
+							uni.setStorageSync("user", now_staff)
 						});
-					}else if(res.data == "1"){
+					} else if (res.data == "1") {
 						that.now_optionsLists = that.optionsLists;
 					}
 				},
@@ -145,17 +177,14 @@
 
 	.o_list {
 		background: #fff;
-		padding: 0 15rpx 10rpx;
+		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.o_item {
-		width: 100%;
+		width: 25%;
 		text-align: center;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
 		padding: 30rpx 0;
-		border-bottom: 1rpx solid#ddd;
 	}
 
 	.o_left_item {
@@ -167,6 +196,5 @@
 		color: #000;
 		font-weight: bold;
 		font-size: 24rpx;
-		margin-left: 30rpx;
 	}
 </style>

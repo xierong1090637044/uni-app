@@ -48,7 +48,7 @@
 					</view>
 				</view>
 				<view v-else>
-					<view style="margin-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有商品啦!</view>
+					<view style="margin-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有物料啦!</view>
 				</view>
 
 			</scroll-view>
@@ -84,16 +84,9 @@
 				</navigator>
 
 				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
-					<view>预警产品</view>
+					<view>预警物料</view>
 					<view @click.stop="" style="margin-left: 30rpx;">
 						<switch :checked="stock_checked" @change="change_stocktatus" />
-					</view>
-				</view>
-
-				<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
-					<view>失效产品</view>
-					<view @click.stop="" style="margin-left: 30rpx;">
-						<switch :checked="checked" @change="change_timestatus" />
 					</view>
 				</view>
 
@@ -296,13 +289,13 @@
 				console.log(value)
 				uni.setStorageSync("now_product", value);
 				uni.navigateTo({
-					url: "../good_det/good_det"
+					url: "../matterDet/matterDet"
 				})
 			},
 
 			//查询产品列表
 			get_productList() {
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("Matters");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
@@ -310,9 +303,9 @@
 					query.equalTo("accessory", "!=", true);
 				}
 				if (that.category.type == 1) {
-					query.equalTo("goodsClass", "==", that.category.objectId);
+					query.equalTo("fristClass", "==", that.category.objectId);
 				} else {
-					query.equalTo("second_class", "==", that.category.objectId);
+					query.equalTo("secondClass", "==", that.category.objectId);
 				}
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
@@ -332,11 +325,11 @@
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
 				query.order("-" + that.checked_option); //按照条件降序
-				query.include("goodsClass", "stocks", "second_class");
+				query.include("fristClass", "stocks", "secondClass");
 				query.find().then(res => {
 					//console.log(res)
 					for (let item of res) {
-						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
+						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
 					}
 					this.productList = res;
 					this.loading = false;

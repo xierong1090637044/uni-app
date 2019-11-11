@@ -121,7 +121,7 @@
 						url: '/pages/common/goods-select/goods-select?type=counting'
 					},
 					{
-						name: '设计生产',
+						name: '生产任务',
 						icon: '/static/all_count.png',
 						url: '/pages/production/index/index'
 					},

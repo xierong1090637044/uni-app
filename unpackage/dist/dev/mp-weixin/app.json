@@ -32,7 +32,12 @@
         "index/index",
         "matterList/matterList",
         "matterAdd/matterAdd",
-        "matterCategroy/matterCategroy"
+        "matterCategroy/matterCategroy",
+        "matterDet/matterDet",
+        "editInfo/editInfo",
+        "matterSelect/matterSelect",
+        "matterEnter/matterEnter",
+        "matterEnter/enterDetail/enterDetail"
       ]
     },
     {

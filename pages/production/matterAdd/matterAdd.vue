@@ -173,15 +173,15 @@
 				that.category = uni.getStorageSync("category")
 
 				if (that.category.type == 2) {
-					let pointer2 = Bmob.Pointer('class_user')
+					let pointer2 = Bmob.Pointer('M_frist_class')
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
 
-					let pointer3 = Bmob.Pointer('second_class')
+					let pointer3 = Bmob.Pointer('M_second_class')
 					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
 
 					console.log(that.category.parent.objectId, that.category.objectId)
 				} else {
-					let pointer2 = Bmob.Pointer('class_user')
+					let pointer2 = Bmob.Pointer('M_frist_class')
 					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
 				}
 			}
@@ -258,7 +258,7 @@
 					title: "上传中..."
 				});
 
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("Matters");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.equalTo("goodsName", "==", good.goodsName);
@@ -278,68 +278,65 @@
 			add_good(good, type) {
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
-
-				for (let key in that.stocks) {
-					let stock_id = that.stocks[key].stock.objectId
-
-					const pointer1 = Bmob.Pointer('stocks')
-					const p_stock_id = pointer1.set(stock_id) //仓库的id关联
-
-					const query = Bmob.Query('Goods');
-					query.set("goodsIcon", that.goodsIcon)
-					query.set("goodsName", good.goodsName)
-					query.set("costPrice", good.costPrice ? good.costPrice : "0")
-					query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
-					if (that.nousetime) {
-						let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
-						time = new Date(time).getTime()
-						query.set("nousetime", time)
-					}
-					query.set("regNumber", good.regNumber)
-					query.set("reserve", Number(that.stocks[key].reserve))
-					query.set("productCode", good.productCode)
-					query.set("stocks", p_stock_id)
-					query.set("product_info", good.product_info)
-					query.set("producer", good.producer)
-					query.set("packingUnit", good.packingUnit)
-					query.set("packageContent", good.packageContent)
-					query.set("position", good.position)
-					query.set("warning_num", Number(that.stocks[key].warning_num))
-					query.set("stocktype", (Number(that.stocks[key].warning_num) >= Number(that.stocks[key].reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-					query.set("order", Number(key))
-					if (key > 0) {
-						query.set("accessory", true)
-					}
-
-					if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
-						if (that.category.type == 1) {
-							query.set("goodsClass", p_class_user_id)
-						} else {
-							query.set("second_class", p_second_class_id)
-						}
-					}
-
-					query.set("userId", userid)
-					query.set("id", uni.getStorageSync("now_product") ? uni.getStorageSync("now_product").objectId : "")
-					query.save().then(res => {
-						uni.hideLoading();
-
-						if (key == that.stocks.length - 1) {
-							common.log(uni.getStorageSync("user").nickName + "增加了物料'" + good.goodsName + "'", 6, res.objectId);
-						}
-
-						uni.setStorageSync("is_add", true)
-						uni.showToast({
-							title: "上传成功"
-						})
-
-						//that.handledata()
-					}).catch(err => {
-						console.log(err)
+				if(that.stocks.length == 0){
+					uni.showToast({
+						title:"请选择仓库",
+						icon:'none'
 					})
+				}else{
+					for (let key in that.stocks) {
+						let stock_id = that.stocks[key].stock.objectId
+					
+						const pointer1 = Bmob.Pointer('stocks')
+						const p_stock_id = pointer1.set(stock_id) //仓库的id关联
+					
+						const query = Bmob.Query('Matters');
+						query.set("goodsIcon", that.goodsIcon)
+						query.set("goodsName", good.goodsName)
+						query.set("costPrice", good.costPrice ? good.costPrice : "0")
+						query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
+						query.set("regNumber", good.regNumber)
+						query.set("reserve", Number(that.stocks[key].reserve))
+						query.set("stocks", p_stock_id)
+						query.set("product_info", good.product_info)
+						query.set("packingUnit", good.packingUnit)
+						query.set("packageContent", good.packageContent)
+						query.set("packingModel", good.packingModel)
+						query.set("warning_num", Number(that.stocks[key].warning_num))
+						query.set("stocktype", (Number(that.stocks[key].warning_num) >= Number(that.stocks[key].reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+						query.set("order", Number(key))
+						if (key > 0) {
+							query.set("accessory", true)
+						}
+					
+						if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+							if (that.category.type == 1) {
+								query.set("fristClass", p_class_user_id)
+							} else {
+								query.set("secondClass", p_second_class_id)
+							}
+						}
+					
+						query.set("userId", userid)
+						query.set("id", uni.getStorageSync("now_product") ? uni.getStorageSync("now_product").objectId : "")
+						query.save().then(res => {
+							uni.hideLoading();
+					
+							if (key == that.stocks.length - 1) {
+								common.log(uni.getStorageSync("user").nickName + "增加了物料'" + good.goodsName + "'", 7, res.objectId);
+							}
+					
+							uni.setStorageSync("is_add", true)
+							uni.showToast({
+								title: "上传成功"
+							})
+					
+							//that.handledata()
+						}).catch(err => {
+							console.log(err)
+						})
+					}
 				}
-
-
 			},
 
 			//数据重置

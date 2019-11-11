@@ -4,7 +4,7 @@
 			<view v-for="(item,index) in detail" :key="index" style='display:flex;justify-content: space-between;border-bottom:1px solid#ddd;padding:5px 0'>
 				<view>
 					<view>{{item.createdAt}}</view>
-					<view>货损数量：￥{{item.bad_num}}</view>
+					<view>货损数量：{{item.bad_num}}</view>
 					<view v-if="item.beizhu_text != ''">备注：{{item.beizhu_text}}</view>
 				</view>
 			</view>
@@ -24,13 +24,24 @@
 		},
 		onLoad(options) {
 			that = this;
-			const query = Bmob.Query("bad_goods");
-			query.equalTo("goods", "==", options.id);
-			query.order("-createdAt");
-			query.find().then(res => {
-				console.log(res)
-				that.detail = res
-			});
+			if(options.type == 'matter'){
+				const query = Bmob.Query("bad_goods");
+				query.equalTo("matters", "==", options.id);
+				query.order("-createdAt");
+				query.find().then(res => {
+					console.log(res)
+					that.detail = res
+				});
+			}else{
+				const query = Bmob.Query("bad_goods");
+				query.equalTo("goods", "==", options.id);
+				query.order("-createdAt");
+				query.find().then(res => {
+					console.log(res)
+					that.detail = res
+				});
+			}
+			
 		},
 		methods: {
 

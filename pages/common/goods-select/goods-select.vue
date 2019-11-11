@@ -407,7 +407,7 @@
 								if (product.objectId == (typeof item == 'object' ? item.objectId : JSON.parse(item).objectId)) {
 									product.checked = true
 									product.key = key
-									product.reserve = product.reserve.toFixed(uni.getStorageSync("setting").show_float)
+									product.reserve = product.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
 									key += 1
 								}
 							}
@@ -415,7 +415,7 @@
 					} else {
 						for (let product of res) {
 							product.key = key
-							product.reserve = product.reserve.toFixed(uni.getStorageSync("setting").show_float)
+							product.reserve = product.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
 							key += 1
 						}
 					}

@@ -167,6 +167,23 @@
 				"style": {
 					"navigationBarTitleText": "物料类别"
 				}
+			}, {
+				"path": "matterDet/matterDet",
+				"style": {
+					"navigationBarTitleText": "物料详情"
+				}
+			}, {
+				"path": "editInfo/editInfo",
+				"style": {}
+			}, {
+				"path": "matterSelect/matterSelect",
+				"style": {}
+			}, {
+				"path": "matterEnter/matterEnter",
+				"style": {}
+			}, {
+				"path": "matterEnter/enterDetail/enterDetail",
+				"style": {}
 			}]
 		}, {
 			"root": "pages/mine",
