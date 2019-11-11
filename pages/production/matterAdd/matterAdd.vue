@@ -49,8 +49,8 @@
 						<view class="right_input1"><input placeholder="规格" name="packageContent" :value="packageContent"></input></view>
 					</view>
 					<view class="input_item">
-						<view class="left_item">包装单位</view>
-						<view class="right_input1"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
+						<view class="left_item">单位</view>
+						<view class="right_input1"><input placeholder="单位" name="packingUnit" :value="packingUnit"></input></view>
 					</view>
 					<view class="input_item">
 						<view class="left_item">材质</view>

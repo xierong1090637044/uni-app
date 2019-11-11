@@ -5,7 +5,7 @@
 		</uni-nav-bar>
 		<view class="page">
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-				<unicard :title="'品名：'+item.goodsName">
+				<unicard :title="'物料名：'+item.goodsName">
 					<view>
 						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
@@ -27,7 +27,7 @@
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							入库量：
+							采购量：
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
 

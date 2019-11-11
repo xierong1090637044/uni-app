@@ -1,29 +1,29 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选物料</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-						<view class='pro_list' style='color:#3D3D3D'>
-							<view style="width: calc(100% - 260rpx);">产品：{{item.goodsName}}</view>
-							<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
-							<view v-else>期初进货价：￥{{item.costPrice}}</view>
+					<view class='pro_list' style='color:#3D3D3D'>
+						<view style="width: calc(100% - 260rpx);">物料：{{item.goodsName}}</view>
+						<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
+						<view v-else>期初进货价：￥{{item.costPrice}}</view>
+					</view>
+					<view v-if="item.selected_model">
+						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">
+							<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
-						<view v-if="item.selected_model">
-							<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">
-								<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
-								<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
-							</view>
-						</view>
-						<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-							<view>实际进货价：￥0（X{{item.num}}）</view>
-							<view>合计：￥0</view>
-						</view>
-						<view class='pro_list' v-else>
-							<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
-							<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
-						</view>
-						
+					</view>
+					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+						<view>实际进货价：￥0（X{{item.num}}）</view>
+						<view>合计：￥0</view>
+					</view>
+					<view class='pro_list' v-else>
+						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+						<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
+					</view>
+
 				</view>
 			</view>
 
@@ -78,7 +78,8 @@
 					</view>
 					<view class="display_flex">
 						<!-- #ifdef MP-WEIXIN -->
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;" v-if="othercurrent.indexOf('1') !=-1|| identity==1">采购</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
+						 v-if="othercurrent.indexOf('1') !=-1|| identity==1">采购</button>
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2" value="2">入库</button>
 						<!-- #endif -->
 						<!-- #ifdef APP-PLUS ||H5 -->
@@ -111,8 +112,8 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
-				identity:uni.getStorageSync("identity"),
-				othercurrent:'',
+				identity: uni.getStorageSync("identity"),
+				othercurrent: '',
 				Images: [], //上传凭证图
 				stock: '', //仓库
 				shop_name: '',
@@ -155,8 +156,8 @@
 				this.total_num += Number(this.products[i].num)
 			}
 			this.real_money = Number(this.all_money.toFixed(2))
-			
-			if(that.user.rights && that.user.rights.othercurrent){
+
+			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
 		},
@@ -244,7 +245,7 @@
 			//表单提交
 			formSubmit: function(e) {
 				let identity = uni.getStorageSync("identity") // 身份识别标志
-				
+
 				//console.log(e)
 				this.button_disabled = true;
 				let fromid = e.detail.formId
@@ -252,7 +253,7 @@
 				let extraType = Number(e.detail.target.dataset.type) // 判断是采购还是入库  2是入库  1是采购
 				// #endif
 				// #ifdef H5 || APP-PLUS
-				let extraType = 2 // 判断是采购还是入库
+				let extraType = 1 // 判断是采购还是入库
 				// #endif
 				uni.showLoading({
 					title: "上传中..."
@@ -271,7 +272,7 @@
 
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
-					let pointer1 = Bmob.Pointer('Goods')
+					let pointer1 = Bmob.Pointer('Matters')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
 
 					let masterId = uni.getStorageSync("masterId");
@@ -283,16 +284,16 @@
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('really_total_money', this.products[i].really_total_money);
-					tempBills.set('goodsId', tempGoods_id);
+					tempBills.set('mattersId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set("opreater", poiID2);
-					tempBills.set('type', 1);
+					tempBills.set('type', 4);
 					tempBills.set('extra_type', extraType);
 					(shop) ? tempBills.set("shop", shopId): '';
 					tempBills.set("stock", stockId);
-					if(identity == 1){
+					if (identity == 1) {
 						tempBills.set("status", true); // 操作单详情
-					}else if(identity == 2){
+					} else if (identity == 2) {
 						tempBills.set("status", (extraType == 2) ? true : false); // 操作单详情
 					}
 
@@ -305,7 +306,7 @@
 					goodsId.retailPrice = this.products[i].retailPrice
 					goodsId.objectId = this.products[i].objectId
 					goodsId.reserve = num
-					if(this.products[i].selectd_model){
+					if (this.products[i].selectd_model) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 					}
@@ -338,7 +339,7 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("detail", detailObj);
 						query.set("real_num", that.total_num);
-						query.set("type", 1);
+						query.set("type", 4);
 						query.set("extra_type", extraType);
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
@@ -375,187 +376,35 @@
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						if(identity == 1){
+						if (identity == 1) {
 							query.set("status", true); // 操作单详情
-						}else if(identity == 2){
+						} else if (identity == 2) {
 							query.set("status", (extraType == 2) ? true : false); // 操作单详情
 						}
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
 							uni.hideLoading();
-							if (extraType == 2) { // 执行入库操作
-								uni.showToast({
-									title: '产品入库成功',
-									icon: 'success',
-									duration: 1000,
-									complete: function() {
-										common.enterAddGoodNum(that.products).then(result=>{ //添加产品数量
+
+							uni.showToast({
+								title: '物料采购成功',
+								icon: 'success',
+								duration: 1000,
+								complete: function() {
+									//common.enterAddGoodNum(that.products) //添加物料数量
+									if (identity == 1) {
+										that.enterAddGoodNum(that.products).then(result => { //添加物料数量
 											setTimeout(() => {
-											
-												common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
-													.length + "商品", 1, operationId);
-											
-												let params = {
-													"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products
-														.length + "商品",
-													"data1": res.createdAt,
-													"data2": that.stock ? that.stock.stock_name : "未填写",
-													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
-												};
-												send_temp.send_in(params);
-											
-												let params1 = {
-													"keyword1": {
-														"value": that.products[0].goodsName + "'等",
-														"color": "#173177"
-													},
-													"keyword2": {
-														"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													},
-													"keyword3": {
-														"value": res.createdAt
-													},
-													"keyword4": {
-														"value": uni.getStorageSync("user").nickName,
-													}
-												}
-												params1.form_Id = fromid
-												params1.id = operationId
-												send_temp.send_in_mini(params1);
-											
-												//自动打印
-												if (uni.getStorageSync("setting").auto_print) {
-													print.autoPrint(operationId);
-												}
-											}, 500)
-											
-											that.can_addGoods().then(res => {
-												if (res) {
-													let products = uni.getStorageSync("products");
-													let warehouse = uni.getStorageSync("warehouse")
-													for (let item of products) {
-														item.reserve = item.num
-														_goods.upload_good_withNoCan(item, warehouse[0].stock).then(res => {
-															console.log(res)
-															if (res[0]) {
-																uni.showToast({
-																	title: '添加成功',
-																	icon: 'none'
-																})
-															} else {
-																uni.showToast({
-																	title: res[1],
-																	icon: 'none'
-																})
-															}
-														})
-													}
-													that.button_disabled = false;
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("warehouse");
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													setTimeout(function() {
-														uni.navigateBack({
-															delta: 2
-														});
-													}, 1000)
-											
-												} else {
-													that.button_disabled = false;
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("warehouse");
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													setTimeout(function() {
-														uni.navigateBack({
-															delta: 2
-														});
-													}, 1000)
-												}
-											})
-										}) 
-										
-									}
-								})
-							} else if (extraType == 1) { // 执行采购操作
-								uni.showToast({
-									title: '产品采购成功',
-									icon: 'success',
-									duration: 1000,
-									complete: function() {
-										//common.enterAddGoodNum(that.products) //添加产品数量
-										if(identity == 1){
-											common.enterAddGoodNum(that.products).then(result=>{ //添加产品数量
-												setTimeout(() => {
-												
-													common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-														.length + "商品", 1, operationId);
-												
-													//自动打印
-													/*if (uni.getStorageSync("setting").auto_print) {
-														print.autoPrint(operationId);
-													}*/
-													
-													that.button_disabled = false;
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
-													setTimeout(function() {
-														uni.navigateBack({
-															delta: 2
-														});
-													}, 500)
-												}, 500)
-												
-											}) 
-										}else{
-											setTimeout(() => {
-												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-													.length + "商品", 1, operationId);
-											
-												let params = {
-													"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-														.length + "商品",
-													"data1": operationId,
-													"data2": uni.getStorageSync("user").nickName,
-													"data3": "未审核",
-													"data4":  res.createdAt,
-													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
-												};
-												send_temp.send_in_noconfrim(params);
-											
-												/*let params1 = {
-													"keyword1": {
-														"value": that.products[0].goodsName + "'等",
-														"color": "#173177"
-													},
-													"keyword2": {
-														"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													},
-													"keyword3": {
-														"value": res.createdAt
-													},
-													"keyword4": {
-														"value": uni.getStorageSync("user").nickName,
-													}
-												}
-												params1.form_Id = fromid
-												params1.id = operationId
-												send_temp.send_in_mini(params1);*/
-											
+
+												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+													that.products
+													.length + "物料", 1, operationId);
+
 												//自动打印
 												/*if (uni.getStorageSync("setting").auto_print) {
 													print.autoPrint(operationId);
 												}*/
-												
+
 												that.button_disabled = false;
 												uni.setStorageSync("is_option", true);
 												uni.removeStorageSync("_warehouse")
@@ -568,11 +417,65 @@
 													});
 												}, 500)
 											}, 500)
-										}
-										
+
+										})
+									} else {
+										setTimeout(() => {
+											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
+												.length + "物料", 1, operationId);
+
+											let params = {
+												"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
+													.length + "物料",
+												"data1": operationId,
+												"data2": uni.getStorageSync("user").nickName,
+												"data3": "未审核",
+												"data4": res.createdAt,
+												"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + operationId,
+											};
+											send_temp.send_in_noconfrim(params);
+
+											/*let params1 = {
+												"keyword1": {
+													"value": that.products[0].goodsName + "'等",
+													"color": "#173177"
+												},
+												"keyword2": {
+													"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+												},
+												"keyword3": {
+													"value": res.createdAt
+												},
+												"keyword4": {
+													"value": uni.getStorageSync("user").nickName,
+												}
+											}
+											params1.form_Id = fromid
+											params1.id = operationId
+											send_temp.send_in_mini(params1);*/
+
+											//自动打印
+											/*if (uni.getStorageSync("setting").auto_print) {
+												print.autoPrint(operationId);
+											}*/
+
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
+											setTimeout(function() {
+												uni.navigateBack({
+													delta: 2
+												});
+											}, 500)
+										}, 500)
 									}
-								})
-							}
+
+								}
+							})
 						})
 
 					},
@@ -581,43 +484,45 @@
 						console.log("异常处理");
 					});
 			},
-
-
-			//判断此商品是否在此仓库中
-			can_addGoods() {
+			
+			//入库时增加物料数量
+			enterAddGoodNum(products){
 				return new Promise((resolve, reject) => {
-					let products = uni.getStorageSync("products");
-					let warehouse = uni.getStorageSync("warehouse")
-					if (warehouse) {
-						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
-									0].stock.stock_name) {
-								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到调出仓库',
-									content: "是否将它关联到此仓库",
-									showCancel: true,
-									success: res => {
-										console.log(res)
-										if (res.confirm) {
-											resolve(true)
+					for (let i = 0; i < products.length; i++) {
+						let num = 0;
+						const query = Bmob.Query('Matters');
+						query.get(products[i].objectId).then(res => {
+							console.log(products[i])
+					
+							if (products[i].selectd_model) {
+								for (let model of products[i].selected_model) {
+									for (let item of products[i].models) {
+										if (item.id == model.id) {
+											item.reserve = Number(item.reserve) + Number(model.num)
 										}
-									},
-									fail: () => {},
-									complete: () => {
-										resolve(false)
+										delete item.num   // 清除没用的属行
 									}
-								});
+								}
+								num = Number(products[i].reserve) + Number(products[i].num);
+								res.set('models', products[i].models)
 							} else {
-								resolve(false)
+								num = Number(products[i].reserve) + Number(products[i].num);
 							}
-						}
-					} else {
-						resolve(false)
+							res.set('reserve', num)
+							res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+							res.save()
+							
+							if(i == products.length - 1){
+								resolve(true)
+							}
+						}).catch(err => {
+							console.log(err)
+						})
 					}
 				})
-
 			},
 		}
+		
 	}
 </script>
 

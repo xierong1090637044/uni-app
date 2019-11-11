@@ -44,10 +44,11 @@
 								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 									<view class="product_reserve" v-if="product.stocks">
-										<view v-if="product.stocks.stock_name">所存仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
+										<text v-if="product.stocks.stock_name">所存仓库:{{product.stocks.stock_name}}</text>
 									</view>
+									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:{{product.packageContent}}*{{product.packingUnit}}</view>
 									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+									
 									<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
 								</view>
 							</label>
@@ -65,7 +66,7 @@
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background">
 			<view class="showOptions">
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
+				<navigator class="input_item1" hover-class="none" url="/pages/production/matterCategroy/matterCategroy?type=choose">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">类别</view>
 						<view class="right_input"><input placeholder="物料类别" :value="category.class_text" disabled="true"></input></view>
