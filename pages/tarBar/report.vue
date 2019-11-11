@@ -1,21 +1,29 @@
-<template>
+<template>	
 	<view>
-		<!--操作列表-->
-		<view class='o_list'>
-			<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-				<view class='o_left_item'>
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理记录</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view>
 						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
 					</view>
 					<span class='o_text'>{{value.name}}</span>
-				</view>
-				<view>
-					<fa-icon type="angle-right" size="20" color="#999" />
-				</view>
-			</navigator>
+				</navigator>
+			</view>
+		</view>
+		
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">物料管理记录</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in product_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
+				</navigator>
+			</view>
 		</view>
 	</view>
-	
 </template>
 
 <script>
@@ -31,6 +39,17 @@
 		data() {
 			return {
 				now_optionsLists:[],
+				product_optionsLists: [{
+					name: '物料采购',
+					icon: 'file-o',
+					url: '/pages/production/matterList/matterList',
+					color: "#704fbb"
+				},{
+					name: '物料生产单',
+					icon: 'tasks',
+					url: '/pages/production/matterCategroy/matterCategroy',
+					color: "#bba14f"
+				}],
 				optionsLists: [{
 						name: '入库或采购记录',
 						icon: 'file-o',
@@ -123,48 +142,50 @@
 
 <style>
 	/* pages/home/index/index.wxss */
+	.manage_icon {
+		width: 60rpx;
+		height: 60rpx;
+		border-radius: 50%;
+	}
+	
 	.item {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
-
+	
 	.every_item {
 		width: 50%;
 		text-align: center;
 		line-height: 30rpx;
 		font-size: 14rpx;
 	}
-
+	
 	.s_num {
 		font-size: 16rpx;
 		font-weight: bold;
 	}
-
+	
 	.o_list {
 		background: #fff;
-		padding: 0 15rpx 10rpx;
-	}
-
-	.o_item {
-		width: 100%;
-		text-align: center;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 30rpx 0;
-		border-bottom: 1rpx solid#ddd;
+		flex-wrap: wrap;
 	}
-
+	
+	.o_item {
+		width: 25%;
+		text-align: center;
+		padding: 30rpx 0;
+	}
+	
 	.o_left_item {
 		display: flex;
 		align-items: center;
 	}
-
+	
 	.o_text {
 		color: #000;
 		font-weight: bold;
 		font-size: 24rpx;
-		margin-left: 30rpx;
 	}
 </style>
