@@ -286,7 +286,6 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if (shop) query.set("shop", shopId);
 
 						if (that.custom) {
 							let custom = Bmob.Pointer('customs');
@@ -296,6 +295,7 @@
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
 						query.set("status", false); // 操作单详情
+						query.set("matterStatus", false); // 操作单详情
 						query.set("startDay", new Date(that.startDay.replace(/-/g, '/')).getTime());
 						query.set("endDay", new Date(that.endDay.replace(/-/g, '/')).getTime());
 						query.save().then(res => {

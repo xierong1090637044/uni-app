@@ -163,6 +163,10 @@
             "path" : "pages/report/EnteringHistory/productDet/productDet",
             "style" : {}
         }
+        ,{
+            "path" : "pages/report/EnteringHistory/productDet/matterDet/matterDet",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{

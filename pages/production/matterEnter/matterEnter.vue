@@ -22,12 +22,15 @@
 
 						<view v-if="item.selectd_model">
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
-								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>入库量：
+								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+								<text v-if="type=='production'">数量：</text>
+								<text v-else>采购量：</text>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							采购量：
+							<text v-if="type=='production'">数量：</text>
+							<text v-else>采购量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
 
@@ -46,6 +49,7 @@
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
+	import common from '@/utils/common.js';
 	import unicard from '@/components/uni-card/uni-card.vue'
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
@@ -66,6 +70,8 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
+				type: '', //操作类型
+				id: '', //物料单的id
 			}
 		},
 
@@ -74,8 +80,10 @@
 			that = this
 			uni.removeStorageSync("is_option")
 			uid = uni.getStorageSync("uid")
+			that.type = options.type
+			that.id = options.id
 
-			if (options.id) {
+			if (options.id && options.type != 'production') {
 				uni.showLoading({
 					title: "加载中..."
 				})
@@ -179,8 +187,72 @@
 
 			//头部确定点击
 			confrim_this() {
-				uni.navigateTo({
-					url: "/pages/production/matterEnter/enterDetail/enterDetail"
+				if (that.type == "production") {
+					that.confrimMatter()
+				} else {
+					uni.navigateTo({
+						url: "/pages/production/matterEnter/enterDetail/enterDetail"
+					})
+				}
+
+			},
+
+			confrimMatter() {
+				let detailObj = [];
+				let real_num = 0;
+
+				for (let i = 0; i < this.products.length; i++) {
+					let num = Number(this.products[i].reserve) - this.products[i].num;
+					real_num += this.products[i].num;
+					//单据
+					let detailBills = {}
+					let goodsId = {}
+
+					detailBills.goodsName = this.products[i].goodsName
+					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
+					detailBills.retailPrice = this.products[i].retailPrice
+					detailBills.total_money = this.products[i].total_money
+					goodsId.costPrice = this.products[i].costPrice
+					goodsId.retailPrice = this.products[i].retailPrice
+					goodsId.objectId = this.products[i].objectId
+					goodsId.reserve = num
+					if (this.products[i].selectd_model) {
+						goodsId.selected_model = this.products[i].selected_model
+						goodsId.models = this.products[i].models
+					}
+					detailBills.goodsId = goodsId
+					detailBills.num = this.products[i].num
+					detailBills.type = 6
+
+					detailObj.push(detailBills)
+				}
+
+				const query = Bmob.Query('order_opreations');
+				query.get(that.id).then(res => {
+					console.log(res)
+					res.add('mattersId', detailObj)
+					res.save()
+					uni.showToast({
+						title: '物料添加成功',
+						icon: 'success',
+						duration: 1000,
+						complete: function() {
+							//common.enterAddGoodNum(that.products) //添加物料数量
+							that.button_disabled = false;
+							uni.setStorageSync("is_option", true);
+							uni.removeStorageSync("_warehouse")
+							uni.removeStorageSync("out_warehouse")
+							uni.removeStorageSync("category")
+							uni.removeStorageSync("warehouse")
+							setTimeout(function() {
+								uni.navigateBack({
+									delta: 2
+								});
+							}, 500)
+							
+						}
+					})
+
 				})
 			},
 

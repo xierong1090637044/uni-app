@@ -150,15 +150,9 @@
 			this.handle_data();
 
 			if (option.type == "entering") {
-				this.url = "../matterEnter/matterEnter"
-			} else if (option.type == "delivery") {
-				this.url = "../goods_out/goods_out"
-			} else if (option.type == "returing") {
-				this.url = "../good_return/good_return"
-			} else if (option.type == "counting") {
-				this.url = "../good_count/good_count"
-			} else if (option.type == "allocation") {
-				this.url = "../good_allocation/good_allocation"
+				this.url = "../matterEnter/matterEnter?type=entering"
+			} else if (option.type == "production") {
+				this.url = "../matterEnter/matterEnter?type=production&id="+option.id
 			}
 
 			this.type = option.type

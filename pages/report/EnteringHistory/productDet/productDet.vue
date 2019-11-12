@@ -12,8 +12,7 @@
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
 								<view>产品：{{item.goodsName}}
-									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
-									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
+									<text>（成本价：￥{{item.goodsId.costPrice}}）</text>
 								</view>
 							</view>
 							<view v-if="item.goodsId.selected_model">
@@ -24,17 +23,16 @@
 							</view>
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
-								<view v-else>
+								<view>
 									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0（X{{item.num}}）</text>
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</text>
 								</view>
 							</view>
 						</view>
 					</view>
-					<view class='pro_allmoney'>总数：￥{{detail.real_num }}</view>
+					<view class='pro_allmoney'>生产总数：￥{{detail.real_num }}</view>
 				</view>
-				
+
 				<view>
 					<view class="kaidanmx">
 						<view style="padding: 10rpx 30rpx;">记录明细</view>
@@ -52,6 +50,22 @@
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">计划完成</view>
 							<view>{{detail.endDay}}</view>
+						</view>
+						<navigator class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;" hover-class="none" :url="'matterDet/matterDet?id='+detail.objectId">
+							<view style="display: flex;">
+								<view class="left_content">物料信息</view>
+								<view v-if="detail.mattersId && detail.mattersId.length > 0">{{detail.mattersId.length}}</view>
+								<view v-else style="color: #FF3300;">未添加</view>
+							</view>
+							<fa-icon type="angle-right" size="20" color="#bba14f" />
+						</navigator>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view style="display: flex;">
+								<view class="left_content">是否领料</view>
+								<view v-if="detail.matterStatus">已领料</view>
+								<view v-else style="color: #FF3300;">未领料</view>
+							</view>
+							<fa-icon type="angle-right" size="20" color="#bba14f" />
 						</view>
 					</view>
 				</view>
@@ -106,8 +120,8 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
-				identity:uni.getStorageSync("identity"),
-				othercurrent:'',
+				identity: uni.getStorageSync("identity"),
+				othercurrent: '',
 				bills: [],
 				loading: true,
 				products: null,
@@ -118,7 +132,7 @@
 			console.log(options)
 			that = this;
 			id = options.id;
-			if(that.user.rights && that.user.rights.othercurrent){
+			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
 			that.getdetail(id);
@@ -138,8 +152,8 @@
 				query.include("opreater", "custom", "producer", "stock");
 				query.get(id).then(res => {
 					console.log(res);
-					if(res.startDay)  res.startDay = common.js_date_time(res.startDay)
-					if(res.endDay)  res.endDay = common.js_date_time(res.endDay)
+					if (res.startDay) res.startDay = common.js_date_time(res.startDay)
+					if (res.endDay) res.endDay = common.js_date_time(res.endDay)
 					that.detail = res;
 					that.products = res.detail;
 					that.bills = res.bills;
@@ -239,6 +253,13 @@
 		align-items: center;
 		background: #FFFFFF;
 		padding: 15rpx 30rpx;
+	}
+	.display_flex_bet{
+		display: flex;
+		align-items: center;
+		background: #FFFFFF;
+		padding: 15rpx 30rpx;
+		justify-content: space-between;
 	}
 
 	.left_content {
