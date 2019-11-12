@@ -60,7 +60,7 @@
 							<fa-icon type="angle-right" size="20" color="#bba14f" />
 						</navigator>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view style="display: flex;">
+							<view style="display: flex;" @click="confrimMatter">
 								<view class="left_content">是否领料</view>
 								<view v-if="detail.matterStatus">已领料</view>
 								<view v-else style="color: #FF3300;">未领料</view>
@@ -126,6 +126,10 @@
 				loading: true,
 				products: null,
 				detail: null,
+				matters: [] ,//确认的物料
+				all_money:0,
+				really_total_money:0,
+				real_money:0,
 			}
 		},
 		onLoad(options) {
@@ -135,9 +139,179 @@
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
+
+		},
+
+		onShow() {
 			that.getdetail(id);
 		},
+
 		methods: {
+
+			//确认领料
+			confrimMatter() {
+				uni.showModal({
+					title: '是否确认领料',
+					content: '领料后不可修改',
+					success: function(res) {
+						if (res.confirm) {
+							if(that.detail.matterStatus){
+								uni.showToast({
+									title:"已经领过物料！"
+								})
+							}else{
+								let billsObj = new Array();
+								let detailObj = [];
+								let uid = uni.getStorageSync('uid');
+								let total_num = 0;
+								for (let i = 0; i < that.matters.length; i++) {
+									let num = Number(that.matters[i].reserve) - that.matters[i].num;
+									total_num +=that.matters[i].num;
+									//单据
+									let detailBills = {}
+									let tempBills = Bmob.Query('Bills');
+								
+									let pointer = Bmob.Pointer('_User')
+									let user = pointer.set(uid)
+									let pointer1 = Bmob.Pointer('Matters')
+									let tempGoods_id = pointer1.set(that.matters[i].objectId);
+								
+									let masterId = uni.getStorageSync("masterId");
+									let pointer2 = Bmob.Pointer('_User')
+									let poiID2 = pointer2.set(masterId);
+								
+									tempBills.set('goodsName', that.matters[i].goodsName);
+									tempBills.set('retailPrice', (that.matters[i].modify_retailPrice).toString());
+									tempBills.set('num', Number(that.matters[i].num));
+									tempBills.set('total_money', that.matters[i].total_money);
+									tempBills.set('really_total_money', that.matters[i].really_total_money);
+									tempBills.set('mattersId', tempGoods_id);
+									tempBills.set('userId', user);
+									tempBills.set("opreater", poiID2);
+									tempBills.set('type', 6);
+								
+									let goodsId = {}
+									detailBills.goodsName = that.matters[i].goodsName
+									detailBills.modify_retailPrice = (that.matters[i].modify_retailPrice).toString()
+									detailBills.retailPrice = that.matters[i].retailPrice
+									detailBills.total_money = that.matters[i].total_money
+									goodsId.costPrice = that.matters[i].costPrice
+									goodsId.retailPrice = that.matters[i].retailPrice
+									goodsId.objectId = that.matters[i].objectId
+									goodsId.reserve = num
+									if (that.matters[i].selectd_model) {
+										goodsId.selected_model = that.matters[i].selected_model
+										goodsId.models = that.matters[i].models
+									}
+									detailBills.goodsId = goodsId
+									detailBills.num = that.matters[i].num
+									detailBills.type = 6
+								
+									billsObj.push(tempBills)
+									detailObj.push(detailBills)
+								
+								}
+								
+								//插入单据
+								Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
+									//console.log("批量新增单据成功", res);
+									let bills = []
+									for (let i = 0; i < res.length; i++) {
+										bills.push(res[i].success.objectId)
+									}
+								
+									let pointer = Bmob.Pointer('_User')
+									let poiID = pointer.set(uid);
+								
+									let masterId = uni.getStorageSync("masterId");
+									let pointer1 = Bmob.Pointer('_User')
+									let poiID1 = pointer1.set(masterId);
+								
+									let query = Bmob.Query('order_opreations');
+									//query.set("relations", relID);
+									query.set("detail", detailObj);
+									query.set("real_num", total_num);
+									query.set("type", 6);
+									query.set("bills", bills);
+									query.set("opreater", poiID1);
+									query.set("master", poiID);
+									query.set('goodsName', that.matters[0].goodsName);
+								
+									query.set("all_money", that.all_money);
+									query.save().then(res => {
+										let operationId = res.objectId
+										//console.log("添加操作历史记录成功", res);
+										uni.hideLoading();
+										const query = Bmob.Query('order_opreations');
+										query.set('id', id) //需要修改的objectId
+										query.set('matterStatus', true)
+										query.save().then(res => {
+											uni.showToast({
+												title: '领料成功',
+												icon: 'success',
+												duration: 1000,
+												complete: function() {
+													//common.enterAddGoodNum(that.matters) //添加物料数量
+													that.outRedGoodNum(that.matters).then(result => { //添加物料数量
+														common.log(uni.getStorageSync("user").nickName + "确认领了'" + that.matters[0].goodsName + "'等" +
+															that.matters
+															.length + "物料", 6, operationId);
+														uni.setStorageSync("is_option", true);
+														uni.removeStorageSync("_warehouse")
+														uni.removeStorageSync("out_warehouse")
+														uni.removeStorageSync("category")
+														uni.removeStorageSync("warehouse")
+														
+														that.getdetail(id);
+													})
+												}
+											})
+										}).catch(err => {
+											console.log(err)
+										})
+								
+									})
+								
+								})
+							}
+							
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+				
+			},
+
+			//出库时减少产品数量
+			outRedGoodNum(products) {
+				return new Promise((resolve, reject) => {
+					for (let i = 0; i < products.length; i++) {
+						let num = 0;
+						const query = Bmob.Query('Matters');
+						query.get(products[i].objectId).then(res => {
+							//console.log(res)
+
+							num = Number(products[i].reserve) - Number(products[i].num);
+
+							res.set('reserve', num)
+							res.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
+							res.save()
+
+							if (products[i].warning_num >= num) {
+								common.log(products[i].goodsName + "在生产时领了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+									products[i].objectId);
+							}
+
+							if (i == products.length - 1) {
+								resolve(true)
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+					}
+				})
+			},
 
 			//预览图片
 			priview(url) {
@@ -157,6 +331,17 @@
 					that.detail = res;
 					that.products = res.detail;
 					that.bills = res.bills;
+					if (res.mattersId && res.mattersId.length > 0) {
+						that.matters = res.mattersId
+						
+						for (let i = 0; i < this.matters.length; i++) {
+							this.all_money = Number((this.matters[i].total_money + this.all_money).toFixed(2))
+							this.really_total_money = Number((this.matters[i].really_total_money + this.really_total_money).toFixed(2))
+							this.total_num += Number(this.matters[i].num)
+						}
+						this.real_money = Number(this.all_money.toFixed(2))
+					}
+
 					that.loading = false;
 				}).catch(err => {
 					console.log(err)
@@ -254,7 +439,8 @@
 		background: #FFFFFF;
 		padding: 15rpx 30rpx;
 	}
-	.display_flex_bet{
+
+	.display_flex_bet {
 		display: flex;
 		align-items: center;
 		background: #FFFFFF;

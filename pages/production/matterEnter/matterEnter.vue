@@ -196,41 +196,13 @@
 				}
 
 			},
-
+			
+			//选择物料模式情况下
 			confrimMatter() {
-				let detailObj = [];
-				let real_num = 0;
-
-				for (let i = 0; i < this.products.length; i++) {
-					let num = Number(this.products[i].reserve) - this.products[i].num;
-					real_num += this.products[i].num;
-					//单据
-					let detailBills = {}
-					let goodsId = {}
-
-					detailBills.goodsName = this.products[i].goodsName
-					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
-					detailBills.retailPrice = this.products[i].retailPrice
-					detailBills.total_money = this.products[i].total_money
-					goodsId.costPrice = this.products[i].costPrice
-					goodsId.retailPrice = this.products[i].retailPrice
-					goodsId.objectId = this.products[i].objectId
-					goodsId.reserve = num
-					if (this.products[i].selectd_model) {
-						goodsId.selected_model = this.products[i].selected_model
-						goodsId.models = this.products[i].models
-					}
-					detailBills.goodsId = goodsId
-					detailBills.num = this.products[i].num
-					detailBills.type = 6
-
-					detailObj.push(detailBills)
-				}
-
 				const query = Bmob.Query('order_opreations');
 				query.get(that.id).then(res => {
 					console.log(res)
-					res.add('mattersId', detailObj)
+					res.add('mattersId', this.products)
 					res.save()
 					uni.showToast({
 						title: '物料添加成功',
