@@ -123,7 +123,7 @@
 					{
 						name: '生产任务',
 						icon: '/static/all_count.png',
-						url: '/pages/production/index/index'
+						url: '/pages/common/goods-select/goods-select?type=prodution'
 					},
 					{
 						name: '使用手册',

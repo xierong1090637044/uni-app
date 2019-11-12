@@ -38,6 +38,7 @@
 										<fa-icon v-if='item.type == -2' type="random" size="20" color="#4e72b8" />
 										<fa-icon v-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
 										<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
+										<fa-icon v-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
 									</view>
 									<view style='margin-left:20rpx'>
 										<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
@@ -66,7 +67,7 @@
 								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
 								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-								<view v-else-if='item.type == 4' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#704fbb;color: #704fbb;">物料采购</view>
+								<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
 							</view>
 						</view>
 
@@ -364,9 +365,16 @@
 
 			//点击得到详情
 			get_detail: function(id) {
-				wx.navigateTo({
-					url: 'detail/detail?id=' + id,
-				})
+				if(opeart_type == 5){
+					wx.navigateTo({
+						url: 'productDet/productDet?id=' + id,
+					})
+				}else{
+					wx.navigateTo({
+						url: 'detail/detail?id=' + id,
+					})
+				}
+				
 			},
 		}
 	}

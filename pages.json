@@ -151,16 +151,23 @@
             "path" : "pages/report/matterRecord/detail/detail",
             "style" : {}
         }
+        ,{
+            "path" : "pages/common/good_production/good_production",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/common/good_production/detail/detail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/report/EnteringHistory/productDet/productDet",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{
 			"root": "pages/production",
 			"pages": [{
-				"path": "index/index",
-				"style": {
-					"navigationBarTitleText": "物料管理"
-				}
-			}, {
 				"path": "matterList/matterList",
 				"style": {
 					"navigationBarTitleText": "物料"

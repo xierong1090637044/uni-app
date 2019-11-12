@@ -161,6 +161,8 @@
 				this.url = "../good_count/good_count"
 			} else if (option.type == "allocation") {
 				this.url = "../good_allocation/good_allocation"
+			} else if (option.type == "prodution") {
+				this.url = "../good_production/good_production"
 			}
 
 			this.type = option.type
@@ -210,32 +212,6 @@
 				that.models_good = ''
 			},
 
-			//一键归零点击
-			reserveTo() {
-				uni.showModal({
-					title: '提示（暂时只支持500条）',
-					content: '是否将所有库存都归0，归0后不可恢复',
-					success: function(res) {
-						if (res.confirm) {
-							const query = Bmob.Query('Goods');
-							query.equalTo("userId", "==", uid);
-							query.equalTo("status", "!=", -1);
-							query.limit(500);
-							query.find().then(todos => {
-								todos.set('reserve', 0);
-								todos.saveAll().then(res => {
-									// 成功批量修改
-									console.log(res, 'ok')
-								}).catch(err => {
-									console.log(err)
-								});
-							})
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
-			},
 			
 			//分页点击
 			change_page(e) {

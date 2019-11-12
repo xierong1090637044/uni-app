@@ -47,7 +47,7 @@
 				},{
 					name: '物料生产单',
 					icon: 'tasks',
-					url: '/pages/production/matterCategroy/matterCategroy',
+					url: '/pages/report/EnteringHistory/EnteringHistory?type=5',
 					color: "#bba14f"
 				}],
 				optionsLists: [{

@@ -191,6 +191,7 @@
 				for (let i = 0; i < this.products.length; i++) {
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+					this.total_num += Number(this.products[i].num)
 				}
 				this.really_total_money = this.really_total_money * that.discount / 100
 				this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100
@@ -199,6 +200,7 @@
 				for (let i = 0; i < this.products.length; i++) {
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+					this.total_num += Number(this.products[i].num)
 				}
 				this.real_money = Number(this.all_money.toFixed(2))
 			}

@@ -312,7 +312,7 @@
 					}
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
-					detailBills.type = 1
+					detailBills.type = 4
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
@@ -398,7 +398,7 @@
 
 												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
 													that.products
-													.length + "物料", 1, operationId);
+													.length + "物料", 4, operationId);
 
 												//自动打印
 												/*if (uni.getStorageSync("setting").auto_print) {
@@ -422,7 +422,7 @@
 									} else {
 										setTimeout(() => {
 											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-												.length + "物料", 1, operationId);
+												.length + "物料", 4, operationId);
 
 											let params = {
 												"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
