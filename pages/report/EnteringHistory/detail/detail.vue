@@ -61,12 +61,12 @@
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
 								<view>产品：{{item.goodsName}}
-									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'"></text>
+									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
 									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
 								</view>
 							</view>
 							<view v-if="item.goodsId.selected_model">
-								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet">
+								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
 									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
 									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
 								</view>

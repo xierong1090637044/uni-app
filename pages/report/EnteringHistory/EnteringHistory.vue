@@ -55,9 +55,6 @@
 										<text>出库</text>
 									</view>
 								</view>
-								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
-								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
-								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
 								<view v-if='item.type == 1'>
 									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 										<text>采购</text>
@@ -66,6 +63,10 @@
 										<text>入库</text>
 									</view>
 								</view>
+								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
+								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
+								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
+								<view v-else-if='item.type == 4' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#704fbb;color: #704fbb;">物料采购</view>
 							</view>
 						</view>
 

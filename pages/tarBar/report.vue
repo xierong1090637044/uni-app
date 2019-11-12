@@ -42,7 +42,7 @@
 				product_optionsLists: [{
 					name: '物料采购',
 					icon: 'file-o',
-					url: '/pages/production/matterList/matterList',
+					url: '/pages/report/matterRecord/matterRecord?type=4',
 					color: "#704fbb"
 				},{
 					name: '物料生产单',

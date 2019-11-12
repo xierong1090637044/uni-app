@@ -143,7 +143,15 @@
 				"navigationBarTitleText": "物流详情"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/report/matterRecord/matterRecord",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/report/matterRecord/detail/detail",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",
