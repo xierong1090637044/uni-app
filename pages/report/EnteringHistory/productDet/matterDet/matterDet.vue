@@ -17,6 +17,8 @@
 
 		<navigator hover-class="none" :url="'/pages/production/matterSelect/matterSelect?type=production&id='+operationId"
 		 class="addButton">添加物料</navigator>
+		 
+		 <view class="addButton" v-if="detail && detail.length> 0" style="color:#FF3300;border: 1rpx solid#FF3300;" @click="setStorage">去修改</view>
 	</view>
 </template>
 
@@ -27,7 +29,8 @@
 		data() {
 			return {
 				operationId: '',
-				detail: []
+				detail: [],
+				matterStatus:false,
 			}
 		},
 		onLoad(options) {
@@ -39,12 +42,26 @@
 		},
 
 		methods: {
+			//修改模式下设置缓存
+			setStorage(){
+				if(that.matterStatus == true){
+					uni.showToast({
+						title:"已经领过物料,不可修改！"
+					})
+				}else{
+					uni.setStorageSync("products",that.detail)
+					uni.navigateTo({
+						url:'/pages/production/matterEnter/matterEnter?type=productionEdit&id='+that.operationId
+					})
+				}
+			},
+			
 			getDetail(id) {
 				const query = Bmob.Query('order_opreations');
 				query.select("mattersId");
 				query.get(id).then(res => {
 					console.log('物料单详情', res)
-
+					that.matterStatus = res.matterStatus
 					that.detail = res.mattersId
 				}).catch(err => {
 					console.log(err)

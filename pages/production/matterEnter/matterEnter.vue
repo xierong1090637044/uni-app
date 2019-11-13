@@ -23,15 +23,24 @@
 						<view v-if="item.selectd_model">
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
-								<text v-if="type=='production'">数量：</text>
-								<text v-else>采购量：</text>
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
+								<view v-if="type=='production'">
+									数量：<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
+								</view>
+								<view v-else>
+									采购量：<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
+								</view>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							<text v-if="type=='production'">数量：</text>
-							<text v-else>采购量：</text>
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
+							<view v-if="type=='production'">
+								数量：<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)"/>
+							</view>
+							<view v-else-if="type=='productionEdit'">
+								数量：<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value="Number(item.num)"/>
+							</view>
+							<view v-else>
+								采购量：<uninumberbox :min="1" @change="handleNumChange($event, index)" />
+							</view>
 						</view>
 
 						<view class="bottom_del">
@@ -83,7 +92,7 @@
 			that.type = options.type
 			that.id = options.id
 
-			if (options.id && options.type != 'production') {
+			if (options.id && options.type != 'production'&& options.type != 'productionEdit') {
 				uni.showLoading({
 					title: "加载中..."
 				})
@@ -189,6 +198,34 @@
 			confrim_this() {
 				if (that.type == "production") {
 					that.confrimMatter()
+				}else if(that.type == "productionEdit"){
+					const query = Bmob.Query('order_opreations');
+					query.get(that.id).then(res => {
+						console.log(res)
+						res.set('mattersId', this.products)
+						res.save()
+						uni.showToast({
+							title: '物料修改成功',
+							icon: 'success',
+							duration: 1000,
+							complete: function() {
+								//common.enterAddGoodNum(that.products) //添加物料数量
+								that.button_disabled = false;
+								uni.setStorageSync("is_option", true);
+								uni.removeStorageSync("_warehouse")
+								uni.removeStorageSync("out_warehouse")
+								uni.removeStorageSync("category")
+								uni.removeStorageSync("warehouse")
+								setTimeout(function() {
+									uni.navigateBack({
+										delta: 2
+									});
+								}, 500)
+								
+							}
+						})
+					
+					})
 				} else {
 					uni.navigateTo({
 						url: "/pages/production/matterEnter/enterDetail/enterDetail"

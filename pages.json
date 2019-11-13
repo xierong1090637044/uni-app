@@ -167,6 +167,14 @@
             "path" : "pages/report/EnteringHistory/productDet/matterDet/matterDet",
             "style" : {}
         }
+        ,{
+            "path" : "pages/report/EnteringHistory/productDet/productEnter/productEnter",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{
