@@ -2,14 +2,14 @@
 	<view class="page">
 		<form @submit="formSubmit">
 
-			<scroll-view style="height: calc(100vh - 148rpx);" scroll-y>
+			<scroll-view style="height: calc(100vh - 108rpx);" scroll-y>
 				<view class="frist">
-					<view class="notice_text">产品图<text style="font-size: 20rpx;color: #333;"></text></view>
+					<view class="notice_text">产品图</view>
 
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image" @click="upload_image">
 							<image :src="goodsIcon" v-if="goodsIcon" style="width: 180rpx;height: 180rpx;"></image>
-							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else style="height: 180rpx;line-height: 180rpx;"></fa-icon>
+							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else></fa-icon>
 						</view>
 						<input name="goodsIcon" v-show="false" :value="goodsIcon" />
 
@@ -17,67 +17,67 @@
 
 				</view>
 
+
 				<view class="frist">
 					<view class="notice_text">基本信息</view>
 					<view class="input_item">
 						<view class="left_item">名称<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
-						<view class="right_input1"><input placeholder="产品名称" name="goodsName" :value="goodsName"></input></view>
+						<view class="right_input"><input placeholder="产品名称" name="goodsName" :value="goodsName"></input></view>
 					</view>
 
-					<navigator class="input_item2" hover-class="none" url="/pages/manage/category/category?type=choose">
-						<view style="display: flex;align-items: center;">
+					<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
+						<view style="display: flex;align-items: center;width: 100%;">
 							<view class="left_item">类别</view>
-							<view class="right_input1"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
+							<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
 						</view>
 
 						<view>
 							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
 					</navigator>
-					
-					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-					<view class="input_item" v-else>
+
+					<view class="input_item">
 						<view class="left_item">进价</view>
-						<view class="right_input1"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
+						<view class="right_input"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
 					</view>
 
 					<view class="input_item">
 						<view class="left_item">售价</view>
-						<view class="right_input1"><input placeholder="产品售价" name="retailPrice" type="digit" :value="retailPrice"></input></view>
+						<view class="right_input"><input placeholder="产品售价" name="retailPrice" type="digit" :value="retailPrice"></input></view>
 					</view>
 					<view class="input_item">
 						<view class="left_item">包装含量</view>
-						<view class="right_input1"><input placeholder="包装含量" name="packageContent" :value="packageContent"></input></view>
+						<view class="right_input"><input placeholder="包装含量" name="packageContent" :value="packageContent"></input></view>
 					</view>
 					<view class="input_item">
 						<view class="left_item">包装单位</view>
-						<view class="right_input1"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
+						<view class="right_input"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
 					</view>
 				</view>
 
 				<!--更多产品信息-->
-				<uni-collapse :accordion="true" style="margin-top: 30rpx;">
+				<uni-collapse :accordion="true">
 					<uni-collapse-item title="更多信息" style="color: #FE104C;font-size: 32rpx;font-weight: bold;">
 						<view class="frist" style="margin-top: 0;">
 							<view class="input_item">
 								<view class="left_item">有效期</view>
-								<picker mode="date" @change="bindDateChange">
+								<picker mode="date" @change="bindDateChange" style="width: 100%;">
 									<view class="right_input"><input placeholder="有效期" name="nousetime" disabled="true" v-model="nousetime"></input></view>
 								</picker>
 							</view>
 							<view class="input_item">
 								<view class="left_item">生产厂家</view>
-								<view class="right_input1"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
+								<view class="right_input"><input placeholder="生产厂家" name="producer" :value="producer"></input></view>
 							</view>
 							<view class="input_item">
 								<view class="left_item">货号</view>
-								<view class="right_input1"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
+								<view class="right_input"><input placeholder="货号" name="regNumber" :value="regNumber"></input></view>
 							</view>
-							<view class="input_item2">
+							<view class="input_item1">
 
-								<view style="display: flex;align-items: center;">
+								<view style="display: flex;align-items: center;width: 100%;">
 									<view class="left_item">条码</view>
-									<view class="right_input1"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
+									<view class="right_input"><input :value="productCode" placeholder="条码" name="productCode"></input></view>
 								</view>
 
 								<view>
@@ -86,15 +86,15 @@
 							</view>
 							<view class="input_item">
 								<view class="left_item">货架位置</view>
-								<view class="right_input1"><input placeholder="货架位置" name="position" :value="position"></input></view>
-							</view>
-							<view style="border-bottom: 1rpx solid#f6f5ec;display: flex;">
-								<view class="left_item">产品简介</view>
-								<view class="right_input1"><textarea placeholder="产品简介" name="product_info" :value="product_info" auto-height="true"></textarea></view>
+								<view class="right_input"><input placeholder="货架位置" name="position" :value="position"></input></view>
 							</view>
 							<view class="input_item">
-								<view class="left_item">是否半成品</view>
-								<view class="right_input1">
+								<view class="left_item">产品简介</view>
+								<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
+							</view>
+							<view class="input_item">
+								<view class="left_item">半成品</view>
+								<view class="right_input">
 									<switch :checked="product_state" name="product_state" />
 								</view>
 							</view>
@@ -200,12 +200,12 @@
 				that.product_state = now_product.product_state //产品是否是半成品
 				that.nousetime = (now_product.nousetime) ? common.js_date_time(now_product.nousetime) : ''
 
-				if (now_product.goodsClass) {
+				if (now_product.goodsClass&&now_product.goodsClass.objectId) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
 				}
 
-				if (now_product.second_class) {
+				if (now_product.second_class&&now_product.second_class.objectId) {
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
 				}
@@ -219,13 +219,19 @@
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
 
-				let pointer2 = Bmob.Pointer('class_user')
-				p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
+				if (that.category.type == 2) {
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
 
-				let pointer3 = Bmob.Pointer('second_class')
-				p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+					let pointer3 = Bmob.Pointer('second_class')
+					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
 
-				console.log(that.category.parent.objectId, that.category.objectId)
+					console.log(that.category.parent.objectId, that.category.objectId)
+				} else {
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
+				}
+
 			}
 		},
 
@@ -318,10 +324,13 @@
 
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
-					query.set("second_class", p_second_class_id)
-					query.set("goodsClass", p_class_user_id)
+					if (uni.getStorageSync("category").type == 1) {
+						query.set("goodsClass", p_class_user_id)
+					} else if (uni.getStorageSync("category").type == 2) {
+						query.set("goodsClass", p_class_user_id)
+						query.set("second_class", p_second_class_id)
+					}
 				}
-
 				query.set("userId", userid)
 				query.set("id", good.good_id)
 				query.save().then(res => {
@@ -382,14 +391,6 @@
 		background-color: transparent;
 	}
 
-	.uni-input-placeholder {
-		font-size: 12px;
-	}
-
-	input {
-		font-size: 12px;
-	}
-
 	/*定义滑块 内阴影+圆角*/
 	::-webkit-scrollbar-thumb {
 		border-radius: 10px;
@@ -412,8 +413,16 @@
 	.input_item {
 		display: flex;
 		align-items: center;
-		line-height: 80rpx;
 		height: 80rpx;
+		line-height: 80rpx;
+		border-bottom: 1rpx solid#f6f5ec;
+	}
+
+	.input_item1 {
+		display: flex;
+		align-items: center;
+		height: 80rpx;
+		line-height: 80rpx;
 		border-bottom: 1rpx solid#f6f5ec;
 	}
 
@@ -431,16 +440,15 @@
 		width: 150rpx;
 	}
 
-	.right_input1 {
-		width: 100%;
-		font-size: 12px;
+	.right_input {
+		margin-left: 20rpx;
 	}
 
 	.submit_button {
 		width: 50%;
 		background: #426ab3;
 		border-radius: 40rpx;
-		margin: 30rpx;
+		margin: 10rpx 30rpx;
 		height: 88rpx;
 		line-height: 88rpx;
 		color: #fff;
@@ -468,7 +476,7 @@
 		width: 50%;
 		background: #999;
 		border-radius: 40rpx;
-		margin: 30rpx;
+		margin: 10rpx 30rpx;
 		height: 88rpx;
 		line-height: 88rpx;
 		color: #fff;

@@ -146,8 +146,8 @@
 						if (item.type == 1) {
 							bill.type = 1
 							bill.goodsId = item.goodsId
-							bill._sumNum1 = item._sumNum
-							bill._sumTotal_money1 = item._sumTotal_money
+							bill._sumNum1 = item._sumNum.toFixed(1)
+							bill._sumTotal_money1 = item._sumTotal_money.toFixed(1)
 							bill._sumNum2 = 0
 							bill._sumTotal_money2 = 0
 						} else if (item.type == -1) {
@@ -155,8 +155,8 @@
 							bill.goodsId = item.goodsId
 							bill._sumNum1 = 0
 							bill._sumTotal_money1 = 0
-							bill._sumNum2 = item._sumNum
-							bill._sumTotal_money2 = item._sumTotal_money
+							bill._sumNum2 = item._sumNum.toFixed(1)
+							bill._sumTotal_money2 = item._sumTotal_money.toFixed(1)
 						}
 						bills.push(bill)
 					}

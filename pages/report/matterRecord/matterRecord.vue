@@ -65,14 +65,14 @@
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background" @tap.stop.native="showOptions = false">
 			<view class="showOptions">
-				<view class="input_item1">
+				<view class="input_item1" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">物料名称</view>
 						<view class="right_input"><input placeholder="物料名称" v-model="goodsName" @click.stop></input></view>
 					</view>
 				</view>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/staff/staff?type=choose">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/staff/staff?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">操作者</view>
 						<view class="right_input"><input placeholder="操作者" :value="staff.username" disabled="true"></input></view>
@@ -83,7 +83,7 @@
 					</view>
 				</navigator>
 				
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input"><input placeholder="选择仓库" :value="stock.stock_name" disabled="true"></input></view>
@@ -94,7 +94,7 @@
 					</view>
 				</navigator>
 
-				<view class="input_item1">
+				<view class="input_item1" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view>
 						<picker mode="date" :value="option_now_day" @change.stop="bindDateChange1" :end="max_day" @click.stop>
 							<view style="display: flex;align-items: center;">
