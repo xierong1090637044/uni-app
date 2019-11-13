@@ -21,6 +21,7 @@ export default {
 			query.set("number", params.number)
 			query.set("wx_openid", params.wx_openid)
 			query.set("auto_print", params.auto_print)
+			query.set("production", params.production)
 			query.set("parent", poiID)
 			//query.set("beizhu", "Bmob")
 			query.save().then(res => {
@@ -46,8 +47,14 @@ export default {
 			const query = Bmob.Query("setting");
 			query.equalTo("parent", "==", uid);
 			query.find().then(res => {
-				//console.log(res)
-				uni.setStorageSync("setting", res[0])
+				console.log(res)
+				if(res[0] && res[0].show_float){
+					uni.setStorageSync("setting", res[0])
+				}else{
+					res[0] = {}
+					res[0].show_float = 2
+					uni.setStorageSync("setting", res[0])
+				}
 				resolve(res)
 			});
 		})
