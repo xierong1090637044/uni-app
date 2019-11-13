@@ -60,7 +60,7 @@
 									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 										<text>采购</text>
 									</view>
-									<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;">
+									<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
 										<text>生产入库</text>
 									</view>
 									<view v-else class='order_get'>

@@ -14,6 +14,18 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.8 公测版</text>
+						<text class="desc-time">2019.11.13</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>增加物料管理模块以及生产模块</text>
+						<text>商品关联类别bug修复</text>
+						<text>筛选样式优化，产品信息修改样式优化</text>
+					</view>
+				</view>
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.7 公测版</text>
 						<text class="desc-time">2019.11.09</text>
 					</view>
@@ -174,7 +186,7 @@
 	export default {
 		data() {
 			return {
-				version: "1.0.6",
+				version: "1.0.8",
 				year: new Date().getFullYear()
 			}
 		},

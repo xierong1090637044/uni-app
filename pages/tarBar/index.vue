@@ -121,11 +121,6 @@
 						url: '/pages/common/goods-select/goods-select?type=counting'
 					},
 					{
-						name: '生产任务',
-						icon: '/static/all_count.png',
-						url: '/pages/common/goods-select/goods-select?type=prodution'
-					},
-					{
 						name: '使用手册',
 						icon: '/static/userInfo.png',
 						url: '/pages/mine/manual/manual'

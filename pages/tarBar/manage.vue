@@ -13,8 +13,8 @@
 			</view>
 		</view>
 
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
-			<view style="font-size: 30rpx;color: #333;font-weight: bold;">物料管理模块</view>
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;" v-if="setting && setting.production !=false">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">物料管理模块<text style="font-size: 20rpx;color: #999999;">（在“我的设置”可以关闭此模块）</text></view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in product_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view>
@@ -43,23 +43,31 @@
 		},
 		data() {
 			return {
+				setting: uni.getStorageSync("setting"),
 				now_optionsLists: [],
 				product_optionsLists: [{
-					name: '物料管理',
-					icon: 'cubes',
-					url: '/pages/production/matterList/matterList',
-					color: "#704fbb"
-				},{
-					name: '物料类别管理',
-					icon: 'database',
-					url: '/pages/production/matterCategroy/matterCategroy',
-					color: "#bba14f"
-				},{
-					name: '物料采购',
-					icon: 'money',
-					url: '/pages/production/matterSelect/matterSelect?type=entering',
-					color: "#4fbbab"
-				}],
+						name: '生产任务',
+						icon: 'sitemap',
+						url: '/pages/common/goods-select/goods-select?type=prodution',
+						color: "#2ca879"
+					},
+					{
+						name: '物料管理',
+						icon: 'cubes',
+						url: '/pages/production/matterList/matterList',
+						color: "#704fbb"
+					}, {
+						name: '物料类别管理',
+						icon: 'database',
+						url: '/pages/production/matterCategroy/matterCategroy',
+						color: "#bba14f"
+					}, {
+						name: '物料采购',
+						icon: 'money',
+						url: '/pages/production/matterSelect/matterSelect?type=entering',
+						color: "#4fbbab"
+					}
+				],
 				optionsLists: [{
 						name: '产品管理',
 						icon: 'envelope-open-o',
@@ -109,6 +117,7 @@
 			that = this;
 		},
 		onShow() {
+			that.setting = uni.getStorageSync("setting")
 			uni.getStorage({
 				key: 'identity',
 				success: function(res) {

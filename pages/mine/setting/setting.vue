@@ -28,6 +28,13 @@
 				<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan"/>
 			</view>
 		</view>
+		
+		<view style="margin-top: 30rpx;">
+			<view class="display_flex_bet item">
+				<view>物料管理</view>
+				<switch @change="showProduction" :checked="params.production"/>
+			</view>
+		</view>
 
 		<view style="margin-top: 30rpx;" v-if="identity == 1">
 			<view class="display_flex_bet item" style="padding: 20rpx;">
@@ -54,10 +61,11 @@
 					show_float: '',
 					USER: '',
 					UKEY: '',
-					number: '',
+					number: 0,
 					wx_openid:'',
 					wechat_info: false,
 					auto_print:false,//自动打印
+					production:true
 				},
 			}
 		},
@@ -72,7 +80,7 @@
 					that.params.show_float = res[0].show_float?res[0].show_float:''
 					that.params.USER = res[0].USER?res[0].USER:''
 					that.params.UKEY = res[0].UKEY?res[0].UKEY:''
-					that.params.number = res[0].show_float?res[0].number:''
+					that.params.number = res[0].show_float?res[0].number:0
 					if (res[0].wx_openid) {
 						that.params.wechat_info = true
 					} else {
@@ -84,11 +92,25 @@
 					} else {
 						that.params.auto_print = false
 					}
+					
+					if (res[0].production == true) {
+						that.params.production = true
+					} else if(res[0].production == false){
+						that.params.production = false
+					}else{
+						that.params.production = true
+					}
 				}
 			})
 		},
 		methods: {
 			modify_setting() {
+				mine.modify_setting(that.params)
+			},
+			
+			//修改是否显示物料管理
+			showProduction(e){
+				that.params.production = e.detail.value
 				mine.modify_setting(that.params)
 			},
 			

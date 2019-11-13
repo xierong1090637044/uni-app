@@ -230,20 +230,11 @@
 				} else {
 					uni.showModal({
 						title: '提示',
-						content: '非会员最多上传30件物料',
-						confirmText: "充值会员",
+						content: '暂未全部开放，敬请期待',
+						confirmText: "确认",
 						success: function(res) {
 							if (res.confirm) {
-								if (identity == 1) {
-									uni.navigateTo({
-										url: "/pages/mine/vip/vip"
-									})
-								} else {
-									uni.showToast({
-										title: "员工不能充值",
-										icon: "none"
-									})
-								}
+								console.log('用户点击确定');
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
