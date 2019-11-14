@@ -44,23 +44,23 @@
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import send_temp from '@/utils/send_temp.js';
-	import print from'@/utils/print.js';
+	import print from '@/utils/print.js';
 	import _goods from '@/utils/goods.js';
-	
+
 	let uid;
 	let that;
 
 	export default {
 		data() {
 			return {
-				products:[],
+				products: [],
 				stock: '', //调出仓库
 				out_stock: '', //调入仓库
 				button_disabled: false,
 				beizhu_text: "",
 				out_products: [], //调入的商品
-				all_money:0,
-				real_money:0,
+				all_money: 0,
+				real_money: 0,
 			}
 		},
 		onLoad() {
@@ -94,41 +94,44 @@
 							if (res == true) {
 								resolve(true)
 							} else {
+								//console.log(res)
+								let product = res
 								uni.showModal({
-									title: "'" + res + "'" + '没有关联到调出仓库',
+									title: "'" + product.goodsName + "'" + '没有关联到调出仓库',
 									content: "是否将它关联到此仓库",
 									showCancel: true,
 									success: res => {
 										console.log(res)
-										if (res.confirm) {//确定点击
+										if (res.confirm) { //确定点击
 											let products = uni.getStorageSync("products");
 											let warehouse = uni.getStorageSync("out_warehouse")
-											for (let item of products) {
-												item.reserve = item.num
-												_goods.upload_good_withNoCan(item, warehouse[0].stock).then(res => {
-													console.log(res)
-													if (res[0]) {
-														uni.showToast({
-															title: '添加成功',
-															icon: 'none'
-														})
-													} else {
-														uni.showToast({
-															title: res[1],
-															icon: 'none'
-														})
-													}
-												})
-											}
+											product.reserve = product.num
+											_goods.upload_good_withNoCan(product, warehouse[0].stock).then(res => {
+												console.log(res)
+												if (res[0]) {
+													uni.showToast({
+														title: '添加成功',
+														icon: 'none'
+													})
+												} else {
+													uni.showToast({
+														title: res[1],
+														icon: 'none'
+													})
+												}
+											})
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("warehouse");
 											uni.removeStorageSync("_warehouse")
 											uni.removeStorageSync("out_warehouse")
 											uni.removeStorageSync("category")
-											uni.navigateBack({
-												delta: 2
-											});
+											setTimeout(function(){
+												uni.navigateBack({
+													delta: 2
+												});
+											},500)
+											
 										}
 									},
 									fail: () => {},
@@ -155,7 +158,7 @@
 							console.log(res)
 							if (res.length == 0) {
 								//console.log(that.products[i].goodsName)
-								resolve(that.products[i].goodsName)
+								resolve(that.products[i])
 							} else {
 								that.out_products = that.out_products.concat(res)
 								resolve(true)
@@ -314,9 +317,9 @@
 											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
 										};
 										send_temp.send_temp(params);*/
-										
+
 										//自动打印
-										if(uni.getStorageSync("setting").auto_print){
+										if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);
 										}
 										uni.navigateBack({

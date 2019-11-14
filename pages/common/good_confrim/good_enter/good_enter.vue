@@ -459,36 +459,37 @@
 											}, 500)
 
 											that.can_addGoods().then(res => {
-												if (res) {
+												console.log(res)
+												if (res[0] == true) {
 													let products = uni.getStorageSync("products");
 													let warehouse = uni.getStorageSync("warehouse")
-													for (let item of products) {
-														item.reserve = item.num
-														_goods.upload_good_withNoCan(item, warehouse[0].stock).then(res => {
-															console.log(res)
-															if (res[0]) {
-																uni.showToast({
-																	title: '添加成功',
-																	icon: 'none'
-																})
-															} else {
-																uni.showToast({
-																	title: res[1],
-																	icon: 'none'
-																})
-															}
-														})
-													}
+													res[1].reserve = res[1].num
+													_goods.upload_good_withNoCan(res[1], warehouse[0].stock).then(res => {
+														console.log(res)
+														if (res[0]) {
+															uni.showToast({
+																title: '添加成功',
+																icon: 'none'
+															})
+														} else {
+															uni.showToast({
+																title: res[1],
+																icon: 'none'
+															})
+														}
+													})
+													
 													that.button_disabled = false;
 													uni.setStorageSync("is_option", true);
 													uni.removeStorageSync("warehouse");
 													uni.removeStorageSync("_warehouse")
 													uni.removeStorageSync("out_warehouse")
 													uni.removeStorageSync("category")
-													uni.navigateBack({
-														delta: 2
-													});
-
+													setTimeout(function() {
+														uni.navigateBack({
+															delta: 2
+														});
+													}, 500)
 												} else {
 													that.button_disabled = false;
 													uni.setStorageSync("is_option", true);
@@ -626,17 +627,20 @@
 									success: res => {
 										console.log(res)
 										if (res.confirm) {
-											resolve(true)
+											resolve([true, item])
 										} else {
-											resolve(false)
+											resolve([false])
 										}
 									},
 									fail: () => {},
 								});
+								return;
+							} else {
+								resolve([false])
 							}
 						}
 					} else {
-						resolve(false)
+						resolve([false])
 					}
 				})
 

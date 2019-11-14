@@ -18,7 +18,7 @@ export default {
 			query.set("show_float", Number(params.show_float))
 			query.set("USER", params.USER)
 			query.set("UKEY", params.UKEY)
-			query.set("number", params.number)
+			query.set("number", ''+params.number)
 			query.set("wx_openid", params.wx_openid)
 			query.set("auto_print", params.auto_print)
 			query.set("production", params.production)
@@ -48,7 +48,7 @@ export default {
 			query.equalTo("parent", "==", uid);
 			query.find().then(res => {
 				console.log(res)
-				if(res[0] && res[0].show_float){
+				if(res[0]){
 					uni.setStorageSync("setting", res[0])
 				}else{
 					res[0] = {}

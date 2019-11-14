@@ -294,6 +294,7 @@
 					let products = uni.getStorageSync("products");
 					let warehouse = uni.getStorageSync("warehouse")
 					if (warehouse) {
+						let count = 0
 						for (let item of products) {
 							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
 									0].stock.stock_name) {
@@ -304,17 +305,21 @@
 									success: res => {
 										console.log(res)
 										if (res.confirm) {
-											resolve(true)
+											resolve([true, item])
 										} else {
-											resolve(false)
+											resolve([false])
 										}
 									},
 									fail: () => {},
 								});
+
+								return
+							} else {
+								resolve([false])
 							}
 						}
 					} else {
-						resolve(false)
+						resolve([false])
 					}
 				})
 
@@ -324,35 +329,36 @@
 				//console.log(e)
 				that.can_addGoods().then(res => { //判断产品是否存在在仓库中
 					//console.log(res)
-					if (res) {
+					if (res[0] == true) {
 						let products = uni.getStorageSync("products");
 						let warehouse = uni.getStorageSync("warehouse")
-						for (let item of products) {
-							item.reserve = item.num
-							_goods.upload_good_withNoCan(item, warehouse[0].stock).then(res => {
-								console.log(res)
-								if (res[0]) {
-									uni.showToast({
-										title: '添加成功',
-										icon: 'none'
-									})
-								} else {
-									uni.showToast({
-										title: res[1],
-										icon: 'none'
-									})
-								}
-							})
-						}
+						res[1].reserve = res[1].num
+						_goods.upload_good_withNoCan(res[1], warehouse[0].stock).then(res => {
+							console.log(res)
+							if (res[0]) {
+								uni.showToast({
+									title: '添加成功',
+									icon: 'none'
+								})
+							} else {
+								uni.showToast({
+									title: res[1],
+									icon: 'none'
+								})
+							}
+						})
 						that.button_disabled = false;
 						uni.setStorageSync("is_option", true);
 						uni.removeStorageSync("warehouse");
 						uni.removeStorageSync("_warehouse")
 						uni.removeStorageSync("out_warehouse")
 						uni.removeStorageSync("category")
-						uni.navigateBack({
-							delta: 2
-						});
+						setTimeout(function() {
+							uni.navigateBack({
+								delta: 2
+							});
+						}, 500)
+
 					} else {
 						let identity = uni.getStorageSync("identity") // 身份识别标志
 						this.button_disabled = true;

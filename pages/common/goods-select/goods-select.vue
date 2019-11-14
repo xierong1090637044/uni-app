@@ -175,11 +175,15 @@
 			if (uni.getStorageSync("category")) {
 				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
+			}else{
+				that.category = ''
 			}
 
 			if (uni.getStorageSync("warehouse")) {
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
+			}else{
+				that.stock = ""
 			}
 
 			//操作完成后刷新数据
