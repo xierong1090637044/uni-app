@@ -130,12 +130,12 @@
 		}, {
 			"path": "pages/common/good_allocation/good_allocation",
 			"style": {
-				"navigationBarTitleText": "库存盘点"
+				"navigationBarTitleText": "库存调拨"
 			}
 		}, {
 			"path": "pages/common/good_allocation/allocation_detail/allocation_detail",
 			"style": {
-				"navigationBarTitleText": "盘点详情"
+				"navigationBarTitleText": "调拨详情"
 			}
 		}, {
 			"path": "pages/report/EnteringHistory/expressDet/expressDet",

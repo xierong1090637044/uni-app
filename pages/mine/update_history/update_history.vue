@@ -19,9 +19,12 @@
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
+						<text>新增产品详情分享以及操作记录分享</text>
 						<text>增加物料管理模块以及生产模块</text>
 						<text>商品关联类别bug修复</text>
 						<text>筛选样式优化，产品信息修改样式优化</text>
+						<text>精度问题bug修复</text>
+						<text>出库、调拨可以关联到仓库</text>
 					</view>
 				</view>
 				<view class="describe">

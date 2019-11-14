@@ -23,18 +23,23 @@
 				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
 				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" @blur="modify_setting" :disabled="inputCan" />
 			</view>
-			<view class="display_flex_bet item">
-				<view>自动打印</view>
-				<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan"/>
-			</view>
 		</view>
 		
 		<view style="margin-top: 30rpx;">
-			<view class="display_flex_bet item">
-				<view>物料管理</view>
-				<switch @change="showProduction" :checked="params.production"/>
+			<view>
+				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+					<view>自动打印</view>
+					<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan" />
+				</view>
+			</view>
+			<view>
+				<view class="display_flex_bet item" style="padding: 20rpx;">
+					<view>物料管理</view>
+					<switch @change="showProduction" :checked="params.production" />
+				</view>
 			</view>
 		</view>
+		
 
 		<view style="margin-top: 30rpx;" v-if="identity == 1">
 			<view class="display_flex_bet item" style="padding: 20rpx;">
@@ -62,10 +67,10 @@
 					USER: '',
 					UKEY: '',
 					number: 0,
-					wx_openid:'',
+					wx_openid: '',
 					wechat_info: false,
-					auto_print:false,//自动打印
-					production:true
+					auto_print: false, //自动打印
+					production: true
 				},
 			}
 		},
@@ -75,29 +80,29 @@
 
 			that.identity = uni.getStorageSync("identity");
 			mine.query_setting().then(res => {
-				
-				if(res[0]){
-					that.params.show_float = res[0].show_float?res[0].show_float:''
-					that.params.USER = res[0].USER?res[0].USER:''
-					that.params.UKEY = res[0].UKEY?res[0].UKEY:''
-					that.params.number = res[0].show_float?res[0].number:0
+
+				if (res[0]) {
+					that.params.show_float = res[0].show_float ? res[0].show_float : ''
+					that.params.USER = res[0].USER ? res[0].USER : ''
+					that.params.UKEY = res[0].UKEY ? res[0].UKEY : ''
+					that.params.number = res[0].show_float ? res[0].number : 0
 					if (res[0].wx_openid) {
 						that.params.wechat_info = true
 					} else {
 						that.params.wechat_info = false
 					}
-					
+
 					if (res[0].auto_print) {
 						that.params.auto_print = true
 					} else {
 						that.params.auto_print = false
 					}
-					
+
 					if (res[0].production == true) {
 						that.params.production = true
-					} else if(res[0].production == false){
+					} else if (res[0].production == false) {
 						that.params.production = false
-					}else{
+					} else {
 						that.params.production = true
 					}
 				}
@@ -107,15 +112,15 @@
 			modify_setting() {
 				mine.modify_setting(that.params)
 			},
-			
+
 			//修改是否显示物料管理
-			showProduction(e){
+			showProduction(e) {
 				that.params.production = e.detail.value
 				mine.modify_setting(that.params)
 			},
-			
+
 			//修改是否自动打印
-			auto_print(e){
+			auto_print(e) {
 				that.params.auto_print = e.detail.value
 				mine.modify_setting(that.params)
 			},

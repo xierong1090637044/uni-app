@@ -45,6 +45,7 @@
 	import common from '@/utils/common.js';
 	import send_temp from '@/utils/send_temp.js';
 	import print from'@/utils/print.js';
+	import _goods from '@/utils/goods.js';
 	
 	let uid;
 	let that;
@@ -94,15 +95,40 @@
 								resolve(true)
 							} else {
 								uni.showModal({
-									title: "提示",
-									content: "'" + res + "'" + '没有关联到调出仓库',
+									title: "'" + res + "'" + '没有关联到调出仓库',
+									content: "是否将它关联到此仓库",
 									showCancel: true,
 									success: res => {
 										console.log(res)
-										if (res.confirm) {
+										if (res.confirm) {//确定点击
+											let products = uni.getStorageSync("products");
+											let warehouse = uni.getStorageSync("out_warehouse")
+											for (let item of products) {
+												item.reserve = item.num
+												_goods.upload_good_withNoCan(item, warehouse[0].stock).then(res => {
+													console.log(res)
+													if (res[0]) {
+														uni.showToast({
+															title: '添加成功',
+															icon: 'none'
+														})
+													} else {
+														uni.showToast({
+															title: res[1],
+															icon: 'none'
+														})
+													}
+												})
+											}
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("warehouse");
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
 											uni.navigateBack({
-												delta: 1
-											})
+												delta: 2
+											});
 										}
 									},
 									fail: () => {},

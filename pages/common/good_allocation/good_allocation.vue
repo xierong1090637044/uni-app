@@ -16,7 +16,7 @@
 						</view>
 						<view class='margin-t-5'>
 							调出库存：
-							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="item.reserve" />
+							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="Number(item.reserve)" />
 						</view>
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">

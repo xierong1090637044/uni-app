@@ -138,6 +138,9 @@
 			uni.removeStorageSync("now_model")
 
 			console.log(options)
+			// #ifdef H5
+			this.$wechat.share_pyq();
+			// #endif
 
 			if (options.id) {
 				that.getDetail_byId(options.id,options.type)
@@ -145,7 +148,18 @@
 				that.getDetail_noId()
 			}
 
-
+		},
+		
+		//分享
+		onShareAppMessage: function(res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log(res.target)
+			}
+			return {
+				title: '库存表-'+product.goodsName+'的详情',
+				path: '/pages/manage/good_det/good_det?id='+product.objectId+'&type="false"'
+			}
 		},
 
 		methods: {
