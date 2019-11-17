@@ -34,10 +34,10 @@
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+						<!--<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 							<view style="width: 140rpx;">选择仓库</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
-						</navigator>
+						</navigator>-->
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
 							<view style="width: 140rpx;">选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
@@ -281,14 +281,13 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				const pointer = Bmob.Pointer('stocks');
-				let stockId = pointer.set(that.stock ? that.stock.objectId : '');
+				
 
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
-
+					
 					//单据
 					let detailBills = {}
 					let tempBills = Bmob.Query('Bills');
@@ -313,7 +312,7 @@
 					tempBills.set('type', 1);
 					tempBills.set('extra_type', extraType);
 					(shop) ? tempBills.set("shop", shopId): '';
-					tempBills.set("stock", stockId);
+					
 					if (identity == 1) {
 						tempBills.set("status", true); // 操作单详情
 					} else if (identity == 2) {
@@ -321,6 +320,13 @@
 					}
 
 					let goodsId = {}
+					if(this.products[i].stocks && this.products[i].stocks.objectId){
+						const pointer = Bmob.Pointer('stocks');
+						let stockId = pointer.set(this.products[i].stocks.objectId);
+						tempBills.set("stock", stockId);
+						detailBills.stock = this.products[i].stocks.stock_name
+					}
+					
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
@@ -335,6 +341,7 @@
 					}
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
+					
 					detailBills.type = 1
 
 					billsObj.push(tempBills)
@@ -367,7 +374,7 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						query.set("stock", stockId);
+						//query.set("stock", stockId);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
@@ -456,52 +463,19 @@
 												if (uni.getStorageSync("setting").auto_print) {
 													print.autoPrint(operationId);
 												}
-											}, 500)
 
-											that.can_addGoods().then(res => {
-												console.log(res)
-												if (res[0] == true) {
-													let products = uni.getStorageSync("products");
-													let warehouse = uni.getStorageSync("warehouse")
-													res[1].reserve = res[1].num
-													_goods.upload_good_withNoCan(res[1], warehouse[0].stock).then(res => {
-														console.log(res)
-														if (res[0]) {
-															uni.showToast({
-																title: '添加成功',
-																icon: 'none'
-															})
-														} else {
-															uni.showToast({
-																title: res[1],
-																icon: 'none'
-															})
-														}
-													})
-													
-													that.button_disabled = false;
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("warehouse");
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													setTimeout(function() {
-														uni.navigateBack({
-															delta: 2
-														});
-													}, 500)
-												} else {
-													that.button_disabled = false;
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("warehouse");
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
+												that.button_disabled = false;
+												uni.setStorageSync("is_option", true);
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+												setTimeout(function() {
 													uni.navigateBack({
 														delta: 2
 													});
-												}
-											})
+												}, 500)
+											}, 500)
 										})
 
 									}

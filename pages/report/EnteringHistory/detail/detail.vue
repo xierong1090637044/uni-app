@@ -79,6 +79,13 @@
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</text>
 								</view>
 							</view>
+							<view v-if="item.type == -1">
+								<view v-if="item.stock" style="font-size: 24rpx;color:#2ca879;">出库仓库:{{item.stock}}</view>
+							</view>
+							<view v-else-if="item.type == 1">
+								<view v-if="item.stock" style="font-size: 24rpx;color:#2ca879;">存放仓库:{{item.stock}}</view>
+							</view>
+							
 
 							<!--<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
 							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>-->

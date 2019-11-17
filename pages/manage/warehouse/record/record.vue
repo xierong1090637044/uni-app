@@ -220,7 +220,7 @@
 					get_money: 0,
 				}
 				that.seleted_tab = that.types[index].type
-				that.extra_type = that.tabBars[index].extra_type
+				that.extra_type = that.types[index].extra_type
 				
 				that.showOptions = false;
 				that.getdetail()
@@ -311,7 +311,7 @@
 <style>
 	.page {
 		overflow: hidden;
-		height: calc(100vh - 256rpx);
+		height: calc(100vh - 288rpx);
 		font-size: 28rpx;
 		color: #3D3D3D;
 		background: #fafafa;
