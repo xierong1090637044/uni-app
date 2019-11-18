@@ -231,7 +231,7 @@
 			//确定点击
 			goto_add() {
 				uni.showActionSheet({
-					itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
+					itemList: ['产品添加', '多规格产品添加'],
 					//itemList: ['单产品上传', '多仓库产品上传'],
 					success: function(res) {
 						let user = uni.getStorageSync("user")
@@ -241,11 +241,7 @@
 								uni.navigateTo({
 									url: "../good_add/good_add"
 								})
-							} else if (res.tapIndex == 1) {
-								uni.navigateTo({
-									url: "../goods_add/goods_add"
-								})
-							} else if (res.tapIndex == 2) {
+							}else if (res.tapIndex == 1) {
 								uni.navigateTo({
 									url: "../goods_add_MoreG/goods_add_MoreG"
 								})
@@ -327,9 +323,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				if (that.stock) {} else {
-					query.equalTo("accessory", "!=", true);
-				}
+				query.equalTo("order", "!=", 1);
 				if(that.category.type == 1){
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				}else{

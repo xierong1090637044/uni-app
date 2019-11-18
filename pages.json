@@ -142,37 +142,32 @@
 			"style": {
 				"navigationBarTitleText": "物流详情"
 			}
-		}
-	    ,{
-            "path" : "pages/report/matterRecord/matterRecord",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/matterRecord/detail/detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/common/good_production/good_production",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/common/good_production/detail/detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/productDet",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/matterDet/matterDet",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/productEnter/productEnter",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+		}, {
+			"path": "pages/report/matterRecord/matterRecord",
+			"style": {}
+		}, {
+			"path": "pages/report/matterRecord/detail/detail",
+			"style": {}
+		}, {
+			"path": "pages/common/good_production/good_production",
+			"style": {}
+		}, {
+			"path": "pages/common/good_production/detail/detail",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/productDet",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/matterDet/matterDet",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/productEnter/productEnter",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+			"style": {}
+		}    ,{
+            "path" : "pages/manage/good_add/stockAdd/stockAdd",
             "style" : {}
         }
     ],
@@ -450,13 +445,10 @@
 				}, {
 					"path": "goods_add_MoreG/G_More/G_More",
 					"style": {}
-				}
-
-				, {
+				}, {
 					"path": "good_det/bad_history/bad_history",
 					"style": {}
-				}
-			]
+				}]
 		}
 	],
 

@@ -44,24 +44,6 @@
 							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
 						</view>
 					</view>
-					<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.warning_num ?item.warning_num:0}}</text></view>
-					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+item.good_id">
-						<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.bad_num ?item.bad_num:0}}</text></view>
-						<fa-icon type="angle-right" size="20" color="#999" />
-					</navigator>
-					<view>条码: <text class="second_right_text">{{item.productCode}}</text></view>
-
-					<view class="display_flex">
-						<view class="opion_item" @click="show_qrcode(item)">生成二维码</view>
-						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+item.good_id" class="opion_item">客户统计</navigator>
-						<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id+'&goodsName='+product.goodsName" class="opion_item">此产品的操作记录</navigator>
-					</view>
-					<view class="display_flex">
-						<view class="opion_item" @click='print_info(item)'>打印</view>
-						<view class="opion_item" @click='modify(item)'>编辑</view>
-						<view class="opion_item" @click='add_badnum(item)'>记录货损</view>
-						<view class="opion_item" @click='delete_good(item.good_id,item.accessory,index)'>删除</view>
-					</view>
 				</view>
 
 			</view>
@@ -175,6 +157,7 @@
 					query.equalTo("productCode", "==", id)
 				}
 				query.equalTo("userId", "==", uid);
+				query.equalTo("order", "!=", 0);
 				query.find().then(res => {
 					console.log(res)
 					let product = res[0];
@@ -183,6 +166,7 @@
 					uni.setStorageSync("now_product",product)
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
+					query.equalTo("order", "!=", 0);
 					query.include("stocks","goodsClass","second_class");
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
@@ -229,6 +213,7 @@
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
+				query.equalTo("order", "!=", 0);
 				query.include("stocks","goodsClass","second_class");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
@@ -285,6 +270,7 @@
 					query.set("beizhu_text", that.badnum.desc);
 					query.set("operater", poiID);
 					query.set("goods", poiID1);
+					query.equalTo("order", "!=", 0);
 					query.save().then(res => {
 
 						const query = Bmob.Query('Goods');
