@@ -77,10 +77,10 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="type=='allocation'">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
-						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
+						<view class="right_input"><input placeholder="调出仓库" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
 
 					<view>
@@ -315,6 +315,9 @@
 						if (this.stock) {
 							this.confrim_next()
 						} else {
+							all_products = []
+							products = []
+							this.get_productList()
 							uni.showToast({
 								title: "请在筛选中选择调拨的仓库",
 								icon: "none"
@@ -361,9 +364,12 @@
 				const query = Bmob.Query("Goods");
 				query.include("stocks");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "!=", 1);
+				if(that.stock.objectId){
+					query.equalTo("stocks", "==", that.stock.objectId);
+				}else{
+					query.equalTo("order", "!=", 1);
+				}
 				if (that.category.type == 1) {
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				} else {

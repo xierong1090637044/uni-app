@@ -8,7 +8,7 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;">可调数量：{{item.reserve}}</view>
+						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 
 						<view class='margin-t-5 display_flex'>
 							调出仓库：
@@ -87,13 +87,13 @@
 					uni.hideLoading()
 				})
 			} else {
-				let products = []
+				/*let products = []
 				for(let item of uni.getStorageSync("products")){
 					if(item.stocks && item.stocks.stock_name){
 						products.push(item)
 					}
-				}
-				this.products = products
+				}*/
+				this.products = uni.getStorageSync("products")
 			}
 
 		},

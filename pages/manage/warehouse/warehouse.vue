@@ -174,7 +174,11 @@
 
 			//前去添加仓库
 			goto_add() {
-				let user = uni.getStorageSync("user")
+				uni.navigateTo({
+					url: "add/add"
+				})
+				
+				/*let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
 				if(user.is_vip || that.stocks.length <2){
 					uni.navigateTo({
@@ -202,7 +206,7 @@
 					        }
 					    }
 					})
-				}
+				}*/
 			},
 
 			//输入内容筛选
