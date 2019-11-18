@@ -34,10 +34,10 @@
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
-						<!--<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 							<view style="width: 140rpx;">选择仓库</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
-						</navigator>-->
+						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
 							<view style="width: 140rpx;">选择门店</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
@@ -281,13 +281,13 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
+
 
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
-					
+
 					//单据
 					let detailBills = {}
 					let tempBills = Bmob.Query('Bills');
@@ -312,7 +312,7 @@
 					tempBills.set('type', 1);
 					tempBills.set('extra_type', extraType);
 					(shop) ? tempBills.set("shop", shopId): '';
-					
+
 					if (identity == 1) {
 						tempBills.set("status", true); // 操作单详情
 					} else if (identity == 2) {
@@ -320,13 +320,21 @@
 					}
 
 					let goodsId = {}
-					if(this.products[i].stocks && this.products[i].stocks.objectId){
+
+					if (that.stock && that.stock.objectId) {
 						const pointer = Bmob.Pointer('stocks');
-						let stockId = pointer.set(this.products[i].stocks.objectId);
+						let stockId = pointer.set(that.stock.objectId);
 						tempBills.set("stock", stockId);
-						detailBills.stock = this.products[i].stocks.stock_name
+						detailBills.stock = that.stock.stock_name
+					} else {
+						if (this.products[i].stocks && this.products[i].stocks.objectId) {
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(this.products[i].stocks.objectId);
+							tempBills.set("stock", stockId);
+							detailBills.stock = this.products[i].stocks.stock_name
+						}
 					}
-					
+
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
@@ -341,7 +349,7 @@
 					}
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
-					
+
 					detailBills.type = 1
 
 					billsObj.push(tempBills)
@@ -374,7 +382,11 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						//query.set("stock", stockId);
+						if (that.stock && that.stock.objectId) {
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(that.stock.objectId);
+							query.set("stock", stockId);
+						}
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
@@ -491,7 +503,8 @@
 											common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 												setTimeout(() => {
 
-													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName +
+														"'等" +
 														that.products
 														.length + "商品", 1, operationId);
 
@@ -516,12 +529,14 @@
 											})
 										} else {
 											setTimeout(() => {
-												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
+												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+													that
 													.products
 													.length + "商品", 1, operationId);
 
 												let params = {
-													"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
+													"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+														that
 														.products
 														.length + "商品",
 													"data1": operationId,
@@ -592,8 +607,8 @@
 					let warehouse = uni.getStorageSync("warehouse")
 					if (warehouse) {
 						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
-									0].stock.stock_name) {
+							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name !=
+								warehouse[0].stock.stock_name) {
 								uni.showModal({
 									title: "'" + item.goodsName + "'" + '没有关联到调出仓库',
 									content: "是否将它关联到此仓库",
