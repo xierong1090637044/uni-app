@@ -142,6 +142,9 @@ module.exports = {
 							if (res.length == 0) {
 								this.upload_good_withNoCan(products[i], stock, Number(products[i].num),"out").then(res => {
 									console.log(res)
+									if (i == products.length - 1) {
+										resolve(true)
+									}
 								})
 							} else {
 								const query = Bmob.Query('Goods');
@@ -149,6 +152,9 @@ module.exports = {
 								query.set('reserve', res[0].reserve - Number(products[i].num))
 								query.save().then(res => {
 									console.log(res)
+									if (i == products.length - 1) {
+										resolve(true)
+									}
 								}).catch(err => {
 									console.log(err)
 								})

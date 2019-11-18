@@ -203,6 +203,7 @@
 					}else{
 						query.equalTo("second_class", "==", that.category.objectId);
 					}
+					query.equalTo("order","==",0);
 					query.select("goodsName,reserve");
 					query.limit(500)
 					query.find().then(res => {

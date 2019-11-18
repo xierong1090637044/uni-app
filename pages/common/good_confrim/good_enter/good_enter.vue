@@ -35,11 +35,11 @@
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
-							<view style="width: 140rpx;">选择仓库</text></view>
+							<view style="width: 140rpx;">选择仓库<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
 						</navigator>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;">
-							<view style="width: 140rpx;">选择门店</text></view>
+							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput"><input placeholder="选择门店" disabled="true" :value="shop_name" /></view>
 						</navigator>
 
@@ -281,7 +281,15 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-
+				
+				if(uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined){
+					uni.showToast({
+						icon:"none",
+						title: "请选择仓库"
+					});
+					this.button_disabled = false;
+					return;
+				}
 
 				let billsObj = new Array();
 				let detailObj = [];

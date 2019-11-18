@@ -195,27 +195,19 @@
 					query.find().then(res => {
 
 						for (let item of res) {
-							let stocks_o = {}
-							if (item.stocks) {
+							if(item.order == 1){
+								let stocks_o = {}
 								stocks_o.stock_name = item.stocks.stock_name
 								stocks_o.stock_objectid = item.stocks.objectId
-							} else {
-								stocks_o.stock_name = ''
-								stocks_o.stock_objectid = ''
+								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
+								stocks_o.good_id = item.objectId
+								item.stocks = stocks_o
+								all_reserve += item.reserve
+								stocks.push(item.stocks)
 							}
-							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
-							stocks_o.models = (item.models) ? item.models : ''
-							stocks_o.warning_num = item.warning_num
-							stocks_o.bad_num = (item.bad_num) ? item.bad_num : 0
-							stocks_o.good_id = item.objectId
-							stocks_o.accessory = (item.accessory) ? item.accessory : ''
-							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId + "-" + false
-							item.stocks = stocks_o
-							all_reserve += item.reserve
-							stocks.push(item.stocks)
 						}
-
-						this.product = product;
+						
+						this.product = res[0];
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
@@ -238,34 +230,23 @@
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "!=", 0);
 				query.include("stocks", "goodsClass", "second_class");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
-
 					for (let item of res) {
-						let stocks_o = {}
-						if (item.stocks) {
+						if(item.order == 1){
+							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.stock_objectid = item.stocks.objectId
-						} else {
-							stocks_o.stock_name = ''
-							stocks_o.stock_objectid = ''
+							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
+							stocks_o.good_id = item.objectId
+							item.stocks = stocks_o
+							all_reserve += item.reserve
+							stocks.push(item.stocks)
 						}
-
-						stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
-						stocks_o.models = item.models
-						stocks_o.warning_num = item.warning_num
-						stocks_o.bad_num = (item.bad_num) ? item.bad_num : 0
-						stocks_o.good_id = item.objectId
-						stocks_o.accessory = (item.accessory) ? item.accessory : ''
-						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId + "-" + false
-						item.stocks = stocks_o
-						all_reserve += item.reserve
-						stocks.push(item.stocks)
 					}
 
-					this.product = uni.getStorageSync("now_product");
+					this.product = res[0];
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
@@ -283,10 +264,10 @@
 					const poiID = pointer.set(uni.getStorageSync("masterId"));
 
 					const pointer1 = Bmob.Pointer('Goods');
-					const poiID1 = pointer1.set(that.selected_item.good_id);
+					const poiID1 = pointer1.set(that.selected_item.objectId);
 
-					const product_id = that.selected_item.good_id;
-					const last_bad_num = Number(that.selected_item.bad_num);
+					const product_id = that.selected_item.objectId;
+					const last_bad_num = Number(that.selected_item.bad_num ? that.selected_item.bad_num : 0);
 
 					const now_bad_num = last_bad_num + Number(that.badnum.num);
 
@@ -300,7 +281,7 @@
 
 						const query = Bmob.Query('Goods');
 						query.set('id', product_id) //需要修改的objectId
-						query.set('bad_num', now_bad_num)
+						query.set('bad_num', Number(now_bad_num))
 						query.save().then(res => {
 							that.bad_numshow = false
 							uni.showToast({
@@ -326,7 +307,7 @@
 			//生成二维码
 			show_qrcode(item) {
 				that.is_show = true,
-				that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+					that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
 			},
 
 			//分库存的switch点击
@@ -381,36 +362,6 @@
 
 			},
 
-			//fab列目点击
-			trigger(e) {
-				this.content[e.index].active = !e.item.active;
-				if (e.index == 0) {
-					uni.setStorageSync("now_product", this.product)
-					uni.navigateTo({
-						url: '../good_add/good_add'
-					});
-				} else {
-					that.delete()
-				}
-			},
-
-			//点击显示二维码的操作
-			showcode_option() {
-				uni.showActionSheet({
-					itemList: ['二维码', '条形码'],
-					success: function(res) {
-						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-						if (res.tapIndex == 0) {
-							that.is_show = true
-						} else {
-							that.bar_code_show = true
-						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
-			},
 			//二维码路径
 			qrR(res) {
 				this.src = res
