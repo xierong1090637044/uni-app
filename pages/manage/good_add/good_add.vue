@@ -70,6 +70,10 @@
 						<view class="left_item">预警库存</view>
 						<view class="right_input1"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 					</view>
+					<view class="input_item">
+						<view class="left_item">合理值</view>
+						<view class="right_input1"><input placeholder="合理值" name="max_num" type="digit" :value="max_num"></input></view>
+					</view>
 				</view>
 
 				<!--更多产品信息-->
@@ -162,6 +166,7 @@
 				packageContent: '', //包装含量
 				packingUnit: '', //包装单位
 				warning_num: '', //预警库存
+				max_num:'',//合理值
 				producer: '', //生产厂家
 				regNumber: '', //货号
 				position: '', //位置
@@ -364,6 +369,7 @@
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
 				query.set("warning_num", Number(good.warning_num))
+				query.set("max_num",Number(good.max_num))
 				//query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 
 				query.set("product_state", good.product_state) //改产品是否是半成品

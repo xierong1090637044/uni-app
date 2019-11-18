@@ -12,19 +12,6 @@
 				</navigator>
 			</view>
 		</view>
-
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;" v-if="setting && setting.production !=false">
-			<view style="font-size: 30rpx;color: #333;font-weight: bold;">物料管理模块<text style="font-size: 20rpx;color: #999999;">（在“我的设置”可以关闭此模块）</text></view>
-			<view class='o_list'>
-				<navigator v-for="(value,index) in product_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-					<view>
-						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
-					</view>
-					<span class='o_text'>{{value.name}}</span>
-				</navigator>
-			</view>
-		</view>
-
 	</view>
 
 

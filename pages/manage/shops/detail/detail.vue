@@ -88,7 +88,7 @@
 
 			//得到员工列表
 			getstaff_list: function() {
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Pointer('_User');
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
 				query.equalTo("shop", "==", that.shop.objectId);

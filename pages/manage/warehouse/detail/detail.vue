@@ -149,15 +149,17 @@
 			get_detail() {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
+				query.equalTo("order", "==", 1);
 				query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
 				query.order("-reserve");
+				query.include("header");
 				query.find().then(res => {
 					console.log(res)
 					that.Goods = res;
 					let reserve_num = 0;
 					let reserve_money = 0;
 					for (let item of res) {
-						reserve_money += Number(item.costPrice) * Number(item.reserve)
+						reserve_money += Number(item.header.costPrice) * Number(item.reserve)
 						reserve_num += Number(item.reserve)
 					}
 			

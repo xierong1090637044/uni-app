@@ -5,7 +5,7 @@
 			<view class="display_flex_bet frist border_bottom" @click="goto_edit()">
 				<view class="display_flex">
 					<view>员工姓名</view>
-					<view style="margin-left: 30rpx;">{{staff.username}}</view>
+					<view style="margin-left: 30rpx;">{{staff.nickName}}</view>
 				</view>
 				<fa-icon type="angle-right" size="20" color="#999" />
 			</view>
@@ -114,7 +114,7 @@
 			//删除数据
 			delete_data(id) {
 				console.log(id)
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Pointer('_User');
 				query.destroy(id).then(res => {
 					const query = Bmob.Query('staffs');
 					query.get(id).then(res => {

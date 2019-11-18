@@ -57,7 +57,7 @@
 				} else {
 					
 					uni.showLoading({title:"登录中..."})
-					const query = Bmob.Query("staffs");
+					const query = Bmob.Pointer('_User');
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
 					query.equalTo("password", "==", that.password);
 					query.include("masterId");

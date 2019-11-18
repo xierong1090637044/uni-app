@@ -44,7 +44,7 @@ export default {
 		const pointer = Bmob.Pointer('_User');
 		let poiID = pointer.set(userid);
 
-		const pointer1 = Bmob.Pointer('staffs');
+		const pointer1 = Bmob.Pointer('_User');
 		let chargeId = pointer1.set(params.charge);
 
 		//const pointer2 = Bmob.Pointer('shops');
@@ -101,7 +101,7 @@ export default {
 	get_chargeList(disabled, search_text) {
 		let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
 		return new Promise((resolve, reject) => {
-			const query = Bmob.Query("staffs");
+			const query = Bmob.Pointer('_User'));
 			query.order("-createdAt");
 			query.equalTo("masterId", "==", userid);
 			query.equalTo("disabled", "==", disabled);

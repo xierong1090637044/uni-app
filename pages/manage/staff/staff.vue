@@ -23,7 +23,7 @@
 							<view class="display_flex">
 								<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
 								<view>
-									<view class='staff_name'>{{staff.username}}</view>
+									<view class='staff_name'>{{staff.nickName}}</view>
 									<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
 								</view>
 
@@ -35,13 +35,7 @@
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(staff)">
 								<text style="color: #d93a49;">选择</text>
 							</view>
-
-							<!--<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
-								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(staff)"></fa-icon>
-							</view>-->
 						</view>
-						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
 
 					</view>
 
@@ -174,7 +168,7 @@
 
 			//得到员工列表
 			getstaff_list: function() {
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Query("_User");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
 				query.equalTo("disabled", "==", that.disabled);

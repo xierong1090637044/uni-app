@@ -9,6 +9,7 @@ export default {
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
 			query.equalTo("status", "!=", -1);
+			query.equalTo("order", "!=", 1);
 			query.count().then(res => {
 				resolve(res)
 				console.log(`共有${res}条记录`)
@@ -123,6 +124,7 @@ export default {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
+				query.equalTo("order", "==", 0);
 				query.select("reserve", "costPrice", "stocktype");
 				query.limit(1000);
 				query.find().then(res => {

@@ -225,7 +225,7 @@
 				});
 				that.modify_desc = "修改"
 				that.shop_name =(staff.shop)?staff.shop.name:''
-				that.staff_name = staff.username
+				that.staff_name = staff.nickName
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
 				that.staff_password = staff.password
@@ -335,8 +335,8 @@
 					const pointer = Bmob.Pointer('_User');
 					let poiID = pointer.set(userid);
 
-					const query = Bmob.Query('staffs');
-					query.set("username", that.staff_name);
+					const query = Bmob.Query('_User');
+					query.set("username", that.staff_phone);
 					query.set("nickName", that.staff_name);
 					query.set("password", that.staff_password);
 					query.set("mobilePhoneNumber", that.staff_phone);
@@ -360,7 +360,7 @@
 					})
 				} else {
 
-					const query = Bmob.Query("staffs");
+					const query = Bmob.Query("_User");
 					query.equalTo("masterId", "==", uid);
 					query.equalTo("mobilePhoneNumber", "==", that.staff_phone);
 					query.find().then(res => {
@@ -372,8 +372,8 @@
 							const pointer = Bmob.Pointer('_User');
 							let poiID = pointer.set(userid);
 
-							const query = Bmob.Query('staffs');
-							query.set("username", that.staff_name);
+							const query = Bmob.Query('_User');
+							query.set("username", that.staff_phone);
 							if(shop) query.set("shop",shopId);
 							query.set("stocks", that.select_stocks);
 							query.set("nickName", that.staff_name);
