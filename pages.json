@@ -166,11 +166,8 @@
 		}, {
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
-		}    ,{
-            "path" : "pages/manage/good_add/stockAdd/stockAdd",
-            "style" : {}
-        }
-    ],
+		}
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -268,6 +265,12 @@
 					"path": "productCount/productCount",
 					"style": {
 						"navigationBarTitleText": "产品统计"
+					}
+				},
+				{
+					"path": "good_add/stockAdd/stockAdd",
+					"style": {
+						"navigationBarTitleText": "产品添加"
 					}
 				},
 				{
@@ -448,7 +451,8 @@
 				}, {
 					"path": "good_det/bad_history/bad_history",
 					"style": {}
-				}]
+				}
+			]
 		}
 	],
 
