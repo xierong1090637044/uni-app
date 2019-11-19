@@ -58,7 +58,11 @@ module.exports = {
 							}
 
 						})
-
+						
+						if (products[i].max_num>=0 && products[i].max_num <= num) {
+							this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过合理值" + products[i].max_num, -2,
+								products[i].objectId);
+						}
 
 					}).catch(err => {
 						console.log(err)
@@ -114,7 +118,7 @@ module.exports = {
 					const query = Bmob.Query('Goods');
 					query.get(products[i].objectId).then(res => {
 						console.log(products[i])
-				
+
 						if (products[i].selectd_model) {
 							for (let model of products[i].selected_model) {
 								for (let item of products[i].models) {
@@ -132,7 +136,7 @@ module.exports = {
 						res.set('reserve', num)
 						res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 						res.save()
-				
+
 						const query = Bmob.Query("Goods");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("goodsName", "==", products[i].goodsName);
@@ -140,7 +144,7 @@ module.exports = {
 						query.find().then(res => {
 							console.log("仓库里的产品", res)
 							if (res.length == 0) {
-								this.upload_good_withNoCan(products[i], stock, Number(products[i].num),"out").then(res => {
+								this.upload_good_withNoCan(products[i], stock, Number(products[i].num), "out").then(res => {
 									console.log(res)
 									if (i == products.length - 1) {
 										resolve(true)
@@ -159,15 +163,18 @@ module.exports = {
 									console.log(err)
 								})
 							}
-				
+
 						})
-				
-				
+						if (products[i].warning_num >= num) {
+							this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+								products[i].objectId);
+						}
+
 					}).catch(err => {
 						console.log(err)
 					})
 				}
-				
+
 			} else {
 				for (let i = 0; i < products.length; i++) {
 					let num = 0;
@@ -214,7 +221,7 @@ module.exports = {
 	},
 
 	//上传二级商品
-	upload_good_withNoCan(good, stock, reserve,type) {
+	upload_good_withNoCan(good, stock, reserve, type) {
 		return new Promise((resolve, reject) => {
 			let uid = uni.getStorageSync("uid");
 			const pointer = Bmob.Pointer('_User')
@@ -227,12 +234,12 @@ module.exports = {
 
 			const query = Bmob.Query('Goods');
 			query.set("goodsName", good.goodsName)
-			if(type == "out"){
+			if (type == "out") {
 				query.set("reserve", 0 - Number(reserve))
-			}else{
+			} else {
 				query.set("reserve", Number(reserve))
 			}
-			
+
 			query.set("stocks", p_stock_id)
 			query.set("userId", userid)
 			query.set("header", p_good_id)

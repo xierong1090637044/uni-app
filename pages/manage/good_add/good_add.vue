@@ -166,7 +166,7 @@
 				packageContent: '', //包装含量
 				packingUnit: '', //包装单位
 				warning_num: '', //预警库存
-				max_num:'',//合理值
+				max_num: '', //合理值
 				producer: '', //生产厂家
 				regNumber: '', //货号
 				position: '', //位置
@@ -189,21 +189,64 @@
 			uni.removeStorageSync("category")
 			uni.removeStorageSync("is_add");
 
-			const query = Bmob.Query("stocks");
-			query.order("-num");
-			query.equalTo("parent", "==", uid);
-			query.equalTo("disabled", "!=", true);
-			query.find().then(res => {
-				for (let item of res) {
-					item.reserve = 0
-				}
-				uni.setStorageSync("warehouse", res)
-			});
+			if (uni.getStorageSync("now_product")) {
+				uni.setNavigationBarTitle({
+					title: "编辑产品"
+				})
 
+				let now_product = uni.getStorageSync("now_product")
+
+				that.text_desc = "修改"
+				that.goodsName = now_product.goodsName
+				that.costPrice = now_product.costPrice //进价
+				that.retailPrice = now_product.retailPrice //售价
+				that.packageContent = now_product.packageContent //包装含量
+				that.packingUnit = now_product.packingUnit //包装单位
+				that.warning_num = now_product.warning_num //预警库存
+				that.producer = now_product.producer //生产厂家
+				that.regNumber = now_product.regNumber //货号
+				that.position = now_product.position //位置
+				that.product_info = now_product.product_info //产品简介
+				that.productCode = now_product.productCode //产品条码
+				that.category = now_product.second_class ? now_product.second_class : '' //分类
+				that.reserve = now_product.reserve
+				that.goodsIcon = now_product.goodsIcon ? now_product.goodsIcon : '' //产品图片
+				that.product_state = now_product.product_state //产品是否是半成品
+				that.nousetime = (now_product.nousetime) ? common.js_date_time(now_product.nousetime) : ''
+				that.max_num = now_product.max_num
+
+				if (now_product.goodsClass && now_product.goodsClass.objectId) {
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
+				}
+
+				if (now_product.second_class && now_product.second_class.objectId) {
+					let pointer3 = Bmob.Pointer('second_class')
+					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+				}
+
+				if (now_product.stocks && now_product.stocks.length > 0) {
+					uni.setStorageSync("warehouse", now_product.stocks)
+				}
+			} else {
+				const query = Bmob.Query("stocks");
+				query.order("-num");
+				query.equalTo("parent", "==", uid);
+				query.equalTo("disabled", "!=", true);
+				query.find().then(res => {
+					for (let item of res) {
+						item.reserve = 0
+					}
+					uni.setStorageSync("warehouse", res)
+				});
+
+			}
 		},
 		onShow() {
 
+
 			if (uni.getStorageSync("warehouse")) {
+				that.reserve = 0
 				let stocksReserve = uni.getStorageSync("warehouse")
 				for (let item of stocksReserve) {
 					that.reserve += Number(item.reserve)
@@ -299,6 +342,7 @@
 					that.upload_good(good)
 				}
 			},
+
 			//上传产品图片
 			upload_image: function() {
 				uni.chooseImage({
@@ -327,25 +371,30 @@
 					title: "上传中..."
 				});
 
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("status", "!=", -1);
-				query.equalTo("goodsName", "==", good.goodsName);
-				query.equalTo("position", "==", good.position);
-				query.equalTo("stocks", "==", that.stocks.objectId);
-				query.find().then(res => {
-					if (res.length >= 1) {
-						uni.showToast({
-							title: "你的库存中已存在此产品",
-							icon: 'none'
-						})
-					} else {
-						that.add_good(good, "add")
-					}
-				});
+				if (uni.getStorageSync("now_product")) {
+					that.edit_good(good)
+				} else {
+					const query = Bmob.Query("Goods");
+					query.equalTo("userId", "==", uid);
+					query.equalTo("status", "!=", -1);
+					query.equalTo("goodsName", "==", good.goodsName);
+					query.equalTo("position", "==", good.position);
+					query.equalTo("stocks", "==", that.stocks.objectId);
+					query.find().then(res => {
+						if (res.length >= 1) {
+							uni.showToast({
+								title: "你的库存中已存在此产品",
+								icon: 'none'
+							})
+						} else {
+							that.add_good(good, "add")
+						}
+					});
+				}
 			},
 
-			add_good(good, type) {
+			edit_good(good) {
+				let now_product = uni.getStorageSync("now_product")
 
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
@@ -369,8 +418,76 @@
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
 				query.set("warning_num", Number(good.warning_num))
-				query.set("max_num",Number(good.max_num))
-				//query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+				query.set("max_num", Number(good.max_num))
+				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+
+				query.set("product_state", good.product_state) //改产品是否是半成品
+				query.set("order", 0)
+				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+					if (that.category.type == 1) {
+						query.set("goodsClass", p_class_user_id)
+					} else {
+						query.set("second_class", p_second_class_id)
+					}
+				}
+
+				query.set("userId", userid)
+				query.set('id', now_product.objectId) //需要修改的objectId
+				query.save().then(res => {
+
+					if (uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0) {
+						let stocksReserve = uni.getStorageSync("warehouse")
+						for (var i = 0; i < stocksReserve.length; i++) {
+							console.log(stocksReserve[i])
+							let item = stocksReserve[i]
+							const query = Bmob.Query('Goods');
+							query.get(item.good_id).then(res => {
+								console.log(res, item)
+								res.set('reserve', Number(item.reserve))
+								res.save()
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+					}
+
+					uni.hideLoading();
+					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + now_product.goodsName + "'", 5, now_product.objectId);
+					uni.showToast({
+						title: "修改成功"
+					})
+					uni.setStorageSync("is_add", true)
+
+				})
+			},
+
+			add_good(good, type) {
+				let now_product = uni.getStorageSync("now_product")
+
+				const pointer = Bmob.Pointer('_User')
+				const userid = pointer.set(uid)
+
+				const query = Bmob.Query('Goods');
+				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
+				query.set("goodsName", good.goodsName)
+				query.set("costPrice", good.costPrice ? good.costPrice : "0")
+				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
+				if (that.nousetime) {
+					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
+					time = new Date(time).getTime()
+					query.set("nousetime", time)
+				}
+				query.set("regNumber", good.regNumber)
+				query.set("reserve", Number(good.reserve))
+				query.set("productCode", good.productCode)
+				query.set("product_info", good.product_info)
+				query.set("producer", good.producer)
+				query.set("packingUnit", good.packingUnit)
+				query.set("packageContent", good.packageContent)
+				query.set("position", good.position)
+				query.set("warning_num", Number(good.warning_num))
+				query.set("max_num", Number(good.max_num))
+				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				query.set("order", 0)
@@ -384,7 +501,7 @@
 
 				query.set("userId", userid)
 				query.save().then(res => {
-					
+
 					let this_result = res
 					if (uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0) {
 						let stocksReserve = uni.getStorageSync("warehouse")
@@ -394,14 +511,14 @@
 						for (var i = 0; i < stocksReserve.length; i++) {
 							const pointer1 = Bmob.Pointer('stocks')
 							const p_stock_id = pointer1.set(stocksReserve[i].objectId) //仓库的id关联
-							
+
 							const pointer2 = Bmob.Pointer('Goods')
 							const p_good_id = pointer2.set(this_result.objectId) //仓库的id关联
-							
+
 							var queryObj = Bmob.Query('Goods');
 							queryObj.set("order", 1)
 							queryObj.set("goodsName", good.goodsName)
-							queryObj.set("header",p_good_id)
+							queryObj.set("header", p_good_id)
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)
 							queryObj.set("reserve", Number(stocksReserve[i].reserve))
@@ -416,22 +533,22 @@
 							uni.showToast({
 								title: "上传成功"
 							})
-							
+
 							uni.setStorageSync("is_add", true)
 						}).catch(err => {
 							console.log(err);
 						});
-					}else{
+					} else {
 						uni.hideLoading();
 						common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, this_result.objectId);
 						uni.showToast({
 							title: "上传成功"
 						})
-						
+
 						uni.setStorageSync("is_add", true)
 					}
 
-					
+
 					//that.handledata()
 				}).catch(err => {
 					console.log(err)

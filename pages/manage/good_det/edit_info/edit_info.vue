@@ -211,11 +211,6 @@
 				}
 			}
 
-			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
-				that.stocks = uni.getStorageSync("warehouse")[0].stock
-				that.stock_name = uni.getStorageSync("warehouse")[0].stock.stock_name
-			}
-
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
 
@@ -336,7 +331,7 @@
 				query.save().then(res => {
 					uni.hideLoading();
 
-					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'", 5, uni.getStorageSync(
+					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + good.goodsName + "'的信息", 5, uni.getStorageSync(
 						"now_product").objectId);
 					uni.navigateBack({
 						delta: 2

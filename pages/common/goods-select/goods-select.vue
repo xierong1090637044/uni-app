@@ -96,7 +96,7 @@
 		</view>
 		
 		<!--一键清零显示-->
-		<view class="gLButton" @click="reserveTo" v-if="type=='counting' && identity == 1">一键归零</view>
+		<!--<view class="gLButton" @click="reserveTo" v-if="type=='counting' && identity == 1">一键归零</view>-->
 	</view>
 
 	</view>

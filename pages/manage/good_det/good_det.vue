@@ -198,7 +198,7 @@
 							if(item.order == 1){
 								let stocks_o = {}
 								stocks_o.stock_name = item.stocks.stock_name
-								stocks_o.stock_objectid = item.stocks.objectId
+								stocks_o.objectId = item.stocks.objectId
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
 								item.stocks = stocks_o
@@ -237,7 +237,7 @@
 						if(item.order == 1){
 							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
-							stocks_o.stock_objectid = item.stocks.objectId
+							stocks_o.objectId = item.stocks.objectId
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
 							item.stocks = stocks_o
@@ -252,6 +252,7 @@
 					this.product.stocks = stocks
 					that.loading = false
 					uni.hideLoading()
+					uni.setStorageSync("now_product",this.product)
 					console.log(this.product)
 				})
 			},
@@ -321,15 +322,12 @@
 			},
 
 			//产品信息修改点击
-			modify(item) {
-				console.log(item)
-				let now_product = uni.getStorageSync("now_product")
-				now_product.objectId = item.good_id
-				now_product.reserve = item.reserve
-				now_product.warning_num = (item.warning_num) ? item.warning_num : 0
-				now_product.bad_num = (item.bad_num) ? item.bad_num : 0
-
-				uni.showActionSheet({
+			modify() {
+				uni.navigateTo({
+					url: '../good_add/good_add'
+				});
+				
+				/*uni.showActionSheet({
 					itemList: ['编辑产品信息', '编辑产品的库存信息'],
 					success: function(res) {
 						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
@@ -337,16 +335,13 @@
 							uni.navigateTo({
 								url: 'edit_info/edit_info'
 							});
-							now_product.ids = that.product.stocks
-							console.log(that.product.stocks)
-							uni.setStorageSync("now_product", now_product)
 						} else {
 							if (item.stock_name) {
 								let warehouse = []
 								let stock = {}
 								let _stock = {}
 								_stock.stock_name = item.stock_name
-								_stock.objectId = item.stock_objectid
+								_stock.objectId = item.objectId
 								stock.stock = _stock
 								warehouse.push(stock)
 								uni.setStorageSync("warehouse", warehouse)
@@ -354,11 +349,9 @@
 							uni.navigateTo({
 								url: 'edit_stock/edit_stock'
 							});
-
-							uni.setStorageSync("now_product", now_product)
 						}
 					},
-				});
+				});*/
 
 			},
 

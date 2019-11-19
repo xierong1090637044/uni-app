@@ -408,7 +408,7 @@
 							if ((that.all_money - Number(that.real_money)) > 0) {
 								let query = Bmob.Query('producers');
 								query.get(that.producer.objectId).then(res => {
-									var debt = (res.debt == null) ? 0 : res.debt;
+									var debt = (res.debt) ?res.debt:0;
 									debt = debt + (that.all_money - Number(that.real_money));
 									//console.log(debt);
 									let query = Bmob.Query('producers');
