@@ -15,16 +15,26 @@
 
 		<view style='padding:15px 30px;margin:5% 0'>
 			<form @submit="formSubmit">
-				<view class='input_view'><input placeholder='请输入账号' class='input_element' name="nickname"></input></view>
-				<view class='input_view'>
-					<view class='input_view'><input placeholder='请输入密码' class='input_element' name="password"></input></view>
+				<view class='input_view'><input placeholder='请输入手机号' class='input_element' name="phone" @input='get_InputPhone'
+					 maxlength="11" type="number"></input></view>
+				<view class='input_view_flex'>
+					<view style='width:60%'><input placeholder='请输入验证码' class='input_element' maxlength='6' name="sms_code"  type="number"></input></view>
+					<view><button plain="true" class='get_smscode' @click='get_smscode' :disabled='code_button_state'>{{code_text}}</button></view>
 				</view>
 
 				<view><button class='login_button' plain="true" form-type="submit" hover-class="bg_button">登陆</button></view>
+				<navigator open-type='navigate' url='../staff_landing/staff_landing'><button class='staff_login_button' plain="true"
+					 hover-class="bg_button">员工登陆</button></navigator>
 			</form>
 		</view>
-
-		<view style="color: #0081FF;font-size: 20rpx;padding: 0 40rpx;position: fixed;bottom: 20rpx;">
+		
+		<!-- 底部信息 -->
+		<navigator class="footer" url="/pages/register/register" open-type="navigate" hover-class="none">
+			<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
+			<view>注册账号</view>
+		</navigator>
+		
+		<view style="color: #0081FF;font-size: 20rpx;margin-top: 10rpx;padding: 0 40rpx;">
 			<fa-icon type="info-circle" size="10" color="#0081FF" style="margin-right: 10rpx;"></fa-icon>
 			登陆说明：登陆之后，您可以使用关于一些进销存的功能（包含进库、出库、入库...）
 		</view>
@@ -48,37 +58,72 @@
 			that = this;
 		},
 		methods: {
+			//手机输入触发
+			get_InputPhone(e) {
+				phone_number = e.detail.value;
+			},
+
+			//获取验证码点击
+			get_smscode: function() {
+				if (phone_number.length < 11) {
+					uni.showToast({
+						title: '请输入正确的手机号',
+						icon: "none"
+					})
+				} else {
+					let params = {
+						mobilePhoneNumber: phone_number, //string
+						template: "积木舟"
+					}
+					Bmob.requestSmsCode(params).then(function(response) {
+							uni.showToast({
+								title: '发送成功'
+							});
+							that.code_button_state = true;
+							that.code_text = 60;
+
+							let code_down = setInterval(function() {
+								that.code_text = that.code_text - 1
+								if (that.code_text == 0) {
+									clearInterval(code_down);
+									that.code_button_state = false;
+									that.code_text = "验证码";
+								}
+							}, 1000);
+
+						})
+						.catch(function(error) {
+							wx.showToast({
+								title: '发送失败',
+								icon: "none"
+							})
+						});
+				}
+			},
 
 			//登陆提交
 			formSubmit(e) {
 				console.log(e)
-				let nickname = e.detail.value.nickname;
-				let password = e.detail.value.password;
+				let phone = Number(e.detail.value.phone);
+				let sms_code = Number(e.detail.value.sms_code);
 
-				if (nickname == "") {
+				if (e.detail.value.phone.length < 11) {
 					uni.showToast({
-						title: '请填写账号',
+						title: '手机格式错误',
 						icon: "none"
 					})
-				} else if (password  == "") {
+				} else if (e.detail.value.sms_code < 6) {
 					uni.showToast({
-						title: '请填写密码',
+						title: '验证码格式错误',
 						icon: "none"
 					})
 				} else {
-					Bmob.User.login(nickname, password).then(res => {
-						if(res.identity == 1){
-							uni.setStorageSync("user", res)
-							uni.setStorageSync("masterId", res.objectId)
-							uni.setStorageSync("identity", 1); //1是老板，2是员工
-							uni.setStorageSync("uid", res.objectId)
-						}else{
-							uni.setStorageSync("user", now_staff)
-							uni.setStorageSync("identity", 2) //1是老板，2是员工
-							uni.setStorageSync("masterId", now_staff.userId.objectId)
-							uni.setStorageSync("uid", now_staff.masterId.objectId)
-						}
-						
+					Bmob.User.signOrLoginByMobilePhone(phone, sms_code).then(res => {
+						console.log(res);
+						uni.setStorageSync("user", res)
+						uni.setStorageSync("masterId", res.objectId)
+						uni.setStorageSync("identity", 1); //1是老板，2是员工
+						uni.setStorageSync("uid", res.objectId)
 						uni.switchTab({
 							url: "/pages/tarBar/index"
 						});
@@ -97,19 +142,19 @@
 </script>
 
 <style>
-	.footer {
+	.footer{
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		font-size: 28upx;
 		margin-top: 180upx;
-		color: rgba(0, 0, 0, 0.7);
+		color: rgba(0,0,0,0.7);
 		text-align: center;
 		height: 40upx;
 		line-height: 40upx;
 	}
-
+	
 	page {
 		background: #fff;
 		text-align: center;

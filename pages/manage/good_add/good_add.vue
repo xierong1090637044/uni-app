@@ -198,8 +198,8 @@
 
 				that.text_desc = "修改"
 				that.goodsName = now_product.goodsName
-				that.costPrice = now_product.costPrice //进价
-				that.retailPrice = now_product.retailPrice //售价
+				that.costPrice = Number(now_product.costPrice) //进价
+				that.retailPrice = Number(now_product.retailPrice) //售价
 				that.packageContent = now_product.packageContent //包装含量
 				that.packingUnit = now_product.packingUnit //包装单位
 				that.warning_num = now_product.warning_num //预警库存
@@ -402,8 +402,8 @@
 				const query = Bmob.Query('Goods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
-				query.set("costPrice", good.costPrice ? good.costPrice : "0")
-				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
+				query.set("costPrice", good.costPrice ? Number(good.costPrice) : 0)
+				query.set("retailPrice", good.retailPrice ? Number(good.retailPrice) : 0)
 				if (that.nousetime) {
 					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 					time = new Date(time).getTime()
@@ -470,8 +470,8 @@
 				const query = Bmob.Query('Goods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
-				query.set("costPrice", good.costPrice ? good.costPrice : "0")
-				query.set("retailPrice", good.retailPrice ? good.retailPrice : "0")
+				query.set("costPrice", good.costPrice ? Number(good.costPrice) : 0)
+				query.set("retailPrice", good.retailPrice ? Number(good.retailPrice) : 0)
 				if (that.nousetime) {
 					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 					time = new Date(time).getTime()
