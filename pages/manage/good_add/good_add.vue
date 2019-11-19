@@ -57,7 +57,7 @@
 
 				<view class="frist" style="margin: 30rpx 0;">
 
-					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" url="stockAdd/stockAdd">
+					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" :url="isMoreModelAdd?'modelAdd/modelAdd':'stockAdd/stockAdd'">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
 								<view class="left_item">初始库存</view>
@@ -180,6 +180,7 @@
 				producttime: "",
 				nousetime: "",
 				product_state: false, //产品是否是半成品
+				isMoreModelAdd:uni.getStorageSync("addMoreModel")
 			}
 		},
 

@@ -167,7 +167,11 @@
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
 		}
-	],
+	    ,{
+            "path" : "pages/manage/good_add/modelAdd/modelAdd",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -471,12 +475,7 @@
 				"pagePath": "pages/tarBar/manage",
 				"iconPath": "static/manage.png",
 				"selectedIconPath": "static/manage.png",
-				"text": "管理"
-			}, {
-				"pagePath": "pages/tarBar/report",
-				"iconPath": "static/report.png",
-				"selectedIconPath": "static/report.png",
-				"text": "记录"
+				"text": "库存"
 			}, {
 				"pagePath": "pages/tarBar/mine",
 				"iconPath": "static/person.png",
