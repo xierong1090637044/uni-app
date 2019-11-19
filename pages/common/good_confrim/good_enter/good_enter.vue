@@ -281,10 +281,10 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
-				if(uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined){
+
+				if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
 					uni.showToast({
-						icon:"none",
+						icon: "none",
 						title: "请选择仓库"
 					});
 					this.button_disabled = false;
@@ -408,7 +408,7 @@
 							if ((that.all_money - Number(that.real_money)) > 0) {
 								let query = Bmob.Query('producers');
 								query.get(that.producer.objectId).then(res => {
-									var debt = (res.debt) ?res.debt:0;
+									var debt = (res.debt) ? res.debt : 0;
 									debt = debt + (that.all_money - Number(that.real_money));
 									//console.log(debt);
 									let query = Bmob.Query('producers');
@@ -490,11 +490,9 @@
 												uni.removeStorageSync("out_warehouse")
 												uni.removeStorageSync("category")
 												uni.removeStorageSync("warehouse")
-												setTimeout(function() {
-													uni.navigateBack({
-														delta: 2
-													});
-												}, 500)
+												uni.navigateBack({
+													delta: 2
+												});
 											}, 500)
 										})
 
