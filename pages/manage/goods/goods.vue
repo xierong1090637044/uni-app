@@ -282,7 +282,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "!=", 1);
+				query.equalTo("order", "==", 0);
 				if(that.category.type == 1){
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				}else{

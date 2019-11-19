@@ -21,7 +21,7 @@
 					<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
 					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 					<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
-					<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
+					
 					<view v-if="product.goodsClass && product.goodsClass.class_text">所属一级分类 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text></view>
 					<view v-if="product.second_class && product.second_class.class_text">所属二级分类 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.second_class.class_text}}</text></view>
 
@@ -30,10 +30,13 @@
 						<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
 						<fa-icon type="angle-right" size="20" color="#999" />
 					</navigator>
+					
+					<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
+					<view>创建时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.createdAt}}</text></view>
+					
 					<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
-
+					
 					<view class="display_flex">
-						<view class="opion_item" @click="show_qrcode(product)">生成二维码</view>
 						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
 						<navigator hover-class="none" :url="'../operations/operations?objectId='+product.objectId+'&goodsName='+product.goodsName"
 						 class="opion_item">此产品的操作记录</navigator>
@@ -68,8 +71,16 @@
 				</view>
 
 			</view>
+			
+			<view>
+				<view style="margin: 0 0 20rpx;">产品二维码</view>
+				<view style="padding: 20rpx;background: #fff;text-align: center;">
+					<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="200" :loadMake="true" :usingComponents="true"
+					 unit="rpx" @result="qrR" />
+				</view>
+			</view>
 
-			<view class="qrimg" v-if="is_show">
+			<!--<view class="qrimg" v-if="is_show">
 				<view style="text-align: right;margin-right: 20rpx;" @click="is_show = false">
 					<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
 				</view>
@@ -82,7 +93,7 @@
 					<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
 					<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
 				</view>
-			</view>
+			</view>-->
 
 			<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
 				<view class="popup_content">
@@ -211,6 +222,7 @@
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
+						that.select_qrcode = (res[0].productCode) ? res[0].productCode : res[0].objectId + "-" + false
 						that.loading = false
 						uni.hideLoading()
 						console.log(this.product)
@@ -250,6 +262,7 @@
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
+					that.select_qrcode = (res[0].productCode) ? res[0].productCode : res[0].objectId + "-" + false
 					that.loading = false
 					uni.hideLoading()
 					uni.setStorageSync("now_product",this.product)
@@ -308,7 +321,7 @@
 			//生成二维码
 			show_qrcode(item) {
 				that.is_show = true,
-					that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+				that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
 			},
 
 			//分库存的switch点击

@@ -5,7 +5,7 @@ export default {
 	get_satffAuth(){
 		return new Promise((resolve, reject) => {
 			let userid = uni.getStorageSync("user").objectId
-			const query = Bmob.Query('staffs');
+			const query = Bmob.Query('_User');
 			query.include("masterId")
 			query.get(userid).then(res => {
 				if(res.masterId.is_vip){

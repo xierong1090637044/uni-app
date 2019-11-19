@@ -8,7 +8,7 @@
 			</view>
 
 			<view class='header_text'>
-				<view>登陆积木舟</view>
+				<view>登陆库存表</view>
 				<view class='iconImage'>
 					<image src='/static/chuan.png' style='width:100%;height:100%'></image>
 				</view>
@@ -55,8 +55,40 @@
 						icon: "none"
 					})
 				} else {
+					Bmob.User.login(that.phone,that.password).then(res => {
+					   console.log(res)
+						 let now_staff = res
+						 const query = Bmob.Query('_User');
+						 query.get(now_staff.masterId.objectId).then(res => {
+						   console.log(res)
+							 let master = res
+							 uni.hideLoading();
+							 if(master.is_vip){
+							 	now_staff.is_vip = true
+							 	now_staff.vip_time = master.vip_time
+							 }else{
+							 	now_staff.is_vip = false
+							 	now_staff.vip_time = 0
+							 }
+							 now_staff.masterId = master
+							 uni.setStorageSync("user", now_staff)
+							 uni.setStorageSync("identity", 2) //1是老板，2是员工
+							 uni.setStorageSync("masterId", master.objectId)
+							 uni.setStorageSync("uid", master.objectId)
+							 						 
+							 uni.switchTab({
+							 	url: "/pages/tarBar/index"
+							 });
+							 
+						 }).catch(err => {
+						   console.log(err)
+						 })
+						 
+					 }).catch(err => {
+					  console.log(err)
+					});
 					
-					uni.showLoading({title:"登录中..."})
+					/*uni.showLoading({title:"登录中..."})
 					const query = Bmob.Pointer('_User');
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
 					query.equalTo("password", "==", that.password);
@@ -146,7 +178,7 @@
 						}
 
 
-					});
+					});*/
 
 				}
 			}
