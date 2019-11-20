@@ -3,6 +3,7 @@
 		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrimThis">
 			<view></view>
 		</uni-nav-bar>
+		
 		<view class="frist1" v-if="stocks.length>0" v-for="(item,index) in stocks" :key="index">
 			<view style="line-height: 70rpx;">
 				<view class="display_flex_bet">
@@ -22,6 +23,8 @@
 				</view>
 			</view>
 		</view>
+		
+		<nocontent  v-if="stocks.length == 0" :type="1"></nocontent>
 	</view>
 </template>
 

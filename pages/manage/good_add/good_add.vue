@@ -27,7 +27,7 @@
 
 					<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose">
 						<view style="display: flex;align-items: center;width: 100%;">
-							<view class="left_item">类别</view>
+							<view class="left_item">类别<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
 							<view class="right_input"><input placeholder="产品类别" name="goodsClass" :value="category.class_text" disabled="true"></input></view>
 						</view>
 
@@ -71,8 +71,8 @@
 						<view class="right_input1"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
 					</view>
 					<view class="input_item">
-						<view class="left_item">合理值</view>
-						<view class="right_input1"><input placeholder="合理值" name="max_num" type="digit" :value="max_num"></input></view>
+						<view class="left_item">最大库存</view>
+						<view class="right_input1"><input placeholder="最大库存" name="max_num" type="digit" :value="max_num"></input></view>
 					</view>
 				</view>
 
@@ -339,6 +339,11 @@
 						title: "请输入产品名称",
 						icon: "none"
 					})
+				}else if(uni.getStorageSync("category") == null || uni.getStorageSync("category") == ""){
+					uni.showToast({
+						title: "请选择产品类别",
+						icon: "none"
+					})
 				} else {
 					that.upload_good(good)
 				}
@@ -428,6 +433,7 @@
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
 					} else {
+						query.set("goodsClass", p_class_user_id)
 						query.set("second_class", p_second_class_id)
 					}
 				}
@@ -496,6 +502,7 @@
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
 					} else {
+						query.set("goodsClass", p_class_user_id)
 						query.set("second_class", p_second_class_id)
 					}
 				}

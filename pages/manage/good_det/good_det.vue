@@ -12,8 +12,8 @@
 				<view class="second_one">
 					<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.goodsName}}</view>
 					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-					<view v-else>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice?product.costPrice:"未填写"}}</text></view>
-					<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice ?product.retailPrice:"未填写"}}</text></view>
+					<view v-else>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice}}</text></view>
+					<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice}}</text></view>
 				</view>
 
 				<view class="second_one">
@@ -22,10 +22,17 @@
 					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 					<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
 					
-					<view v-if="product.goodsClass && product.goodsClass.class_text">所属一级分类 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text></view>
-					<view v-if="product.second_class && product.second_class.class_text">所属二级分类 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.second_class.class_text}}</text></view>
-
-					<view>预警数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
+					<view v-if="product.goodsClass && product.goodsClass.class_text">
+						 所属分类 
+						 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text>
+						 <text style="margin-left: 20rpx;color: #3D3D3D;" v-if="product.second_class && product.second_class.class_text">{{product.second_class.class_text}}</text>
+					</view>
+					
+					<view class="display_flex">
+						<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
+						<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num ?product.max_num:0}}</text></view>
+					</view>
+					
 					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+product.objectId">
 						<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
 						<fa-icon type="angle-right" size="20" color="#999" />
@@ -69,31 +76,16 @@
 						</view>
 					</view>
 				</view>
-
-			</view>
-			
-			<view>
-				<view style="margin: 0 0 20rpx;">产品二维码</view>
-				<view style="padding: 20rpx;background: #fff;text-align: center;">
-					<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="200" :loadMake="true" :usingComponents="true"
-					 unit="rpx" @result="qrR" />
-				</view>
-			</view>
-
-			<!--<view class="qrimg" v-if="is_show">
-				<view style="text-align: right;margin-right: 20rpx;" @click="is_show = false">
-					<fa-icon type="times-circle" size="20" color="#fff"></fa-icon>
-				</view>
-				<view style="margin-top: 20%;" @tap="saveQrcode">
-					<view style="padding: 20rpx;background: #fff;">
-						<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="200" :loadMake="true" :usingComponents="true"
+				
+				<view class="second_one">
+					<view style="margin: 0 0 20rpx;">产品二维码</view>
+					<view style="padding: 20rpx;background: #fff;text-align: center;">
+						<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="100" :loadMake="true" :usingComponents="true"
 						 unit="rpx" @result="qrR" />
 					</view>
-
-					<view style="color: #fff;margin-top: 30rpx;font-size: 32rpx;">产品:{{product.goodsName}}</view>
-					<view style="color: #fff;margin-top: 20rpx;font-size: 24rpx;">(点击二维码可下载)</view>
 				</view>
-			</view>-->
+
+			</view>
 
 			<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
 				<view class="popup_content">
@@ -115,8 +107,6 @@
 	import common from "@/utils/common.js"
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
-	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
-	import uniFab from '@/components/uni-fab/uni-fab.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
 	let that;
@@ -125,9 +115,7 @@
 		components: {
 			uniPopup,
 			faIcon,
-			tkiQrcode,
-			tkiBarcode,
-			uniFab
+			tkiQrcode
 		},
 		data() {
 			return {
@@ -194,17 +182,16 @@
 				query.equalTo("order", "!=", 1);
 				query.find().then(res => {
 					console.log(res)
+					this.product = res[0];
 					let product = res[0];
 					let all_reserve = 0;
 
 					uni.setStorageSync("now_product", product)
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
-					query.equalTo("order", "!=", 0);
 					query.include("stocks", "goodsClass", "second_class");
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
-
 						for (let item of res) {
 							if(item.order == 1){
 								let stocks_o = {}
@@ -218,7 +205,6 @@
 							}
 						}
 						
-						this.product = res[0];
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks

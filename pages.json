@@ -167,11 +167,7 @@
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
 		}
-	    ,{
-            "path" : "pages/manage/good_add/modelAdd/modelAdd",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -261,6 +257,12 @@
 				"style": {
 					"navigationBarTitleText": "预警记录"
 				}
+			}, {
+				"path": "InforCnter/InforCnter",
+				"style": {}
+			},{
+				"path": "InforCnter/Infodetail/Infodetail",
+				"style": {}
 			}]
 		},
 		{
@@ -269,6 +271,12 @@
 					"path": "productCount/productCount",
 					"style": {
 						"navigationBarTitleText": "产品统计"
+					}
+				},
+				{
+					"path": "good_add/modelAdd/modelAdd",
+					"style": {
+						"navigationBarTitleText": "产品添加"
 					}
 				},
 				{

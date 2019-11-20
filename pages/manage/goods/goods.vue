@@ -231,7 +231,10 @@
 
 			//确定点击
 			goto_add() {
-				uni.showActionSheet({
+				uni.navigateTo({
+					url: "../good_add/good_add"
+				})
+				/*uni.showActionSheet({
 				    itemList: ['添加单规格产品', '添加多规格产品'],
 				    success: function (res) {
 							if(res.tapIndex == 1){
@@ -244,7 +247,7 @@
 				    fail: function (res) {
 				        console.log(res.errMsg);
 				    }
-				});
+				});*/
 			},
 
 			//modal重置的确认点击

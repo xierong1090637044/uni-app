@@ -61,6 +61,22 @@
 			that = this;
 		},
 		methods: {
+			//添加默认仓库
+			addMoRenStock(uid) {
+				const pointer = Bmob.Pointer('_User');
+				let poiID = pointer.set(uid);
+				
+				const query = Bmob.Query('stocks');
+				query.set("stock_name", "默认仓库");
+				query.set("disabled", false);
+				query.set("parent", poiID);
+				query.save().then(res => {
+					//console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
+
+			},
 
 			//微信登录获取用户信息
 			get_userInfo(res) {
@@ -74,7 +90,7 @@
 					wx.Bmob.User.decryption(res).then(res => {
 						console.log(res)
 						let phone = res.phoneNumber
-						let timestamp=new Date().getTime();
+						let timestamp = new Date().getTime();
 						let params = {
 							username: String(phone),
 							password: String(phone),
@@ -97,13 +113,14 @@
 									uni.switchTab({
 										url: "/pages/tarBar/index"
 									});
+									that.addMoRenStock(res.objectId)
 								}).catch(err => {
 									console.log(err)
 								});
 						}).catch(err => {
 							console.log(err)
 							uni.showToast({
-								icon:"none",
+								icon: "none",
 								title: "该手机号已注册"
 							})
 						});
@@ -182,7 +199,7 @@
 						icon: "none"
 					})
 				} else {
-					let timestamp=new Date().getTime();
+					let timestamp = new Date().getTime();
 					let params = {
 						username: String(phone),
 						password: String(phone),
@@ -205,15 +222,16 @@
 								uni.switchTab({
 									url: "/pages/tarBar/index"
 								});
+								that.addMoRenStock(res.objectId)
 							}).catch(err => {
 								console.log(err)
 							});
 					}).catch(err => {
 						uni.showToast({
-							icon: "none",
-							title: "该手机号已注册"
-						}),
-						console.log(err)
+								icon: "none",
+								title: "该手机号已注册"
+							}),
+							console.log(err)
 					});
 				}
 
