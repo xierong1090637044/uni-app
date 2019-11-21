@@ -167,7 +167,11 @@
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
 		}
-	],
+	    ,{
+            "path" : "pages/common/good_confrim/goodPurchase/goodPurchase",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",

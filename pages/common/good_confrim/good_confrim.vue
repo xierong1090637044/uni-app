@@ -30,7 +30,8 @@
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							入库量：
+							<text v-if="value == 1">采购量：</text>
+							<text v-else-if="value == 2">入库量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
 
@@ -57,6 +58,7 @@
 
 	let uid;
 	let that;
+	let value;
 	export default {
 		components: {
 			unicard,
@@ -67,6 +69,7 @@
 		},
 		data() {
 			return {
+				value:'',
 				products: [],
 				user: uni.getStorageSync("user"),
 			}
@@ -77,7 +80,15 @@
 			that = this
 			uni.removeStorageSync("is_option")
 			uid = uni.getStorageSync("uid")
-
+			value = options.value
+			that.value = options.value
+			
+			if(value == 1){
+				uni.setNavigationBarTitle({
+					title:"产品采购"
+				})
+			}
+			
 			if (options.id) {
 				uni.showLoading({
 					title: "加载中..."
@@ -182,9 +193,16 @@
 
 			//头部确定点击
 			confrim_this() {
-				uni.navigateTo({
-					url: "/pages/common/good_confrim/good_enter/good_enter"
-				})
+				if(value == 1){
+					uni.navigateTo({
+						url: "/pages/common/good_confrim/goodPurchase/goodPurchase"
+					})
+				}else if(value == 2){
+					uni.navigateTo({
+						url: "/pages/common/good_confrim/good_enter/good_enter"
+					})
+				}
+				
 			},
 
 			//数量改变

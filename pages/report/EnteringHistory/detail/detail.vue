@@ -123,15 +123,16 @@
 						</view>
 					</view>
 				</view>
-
+				
+				<!--入库以及采购明细-->
 				<view v-else-if="detail.type == 1">
-					<view class="kaidanmx">
-						<view style="padding: 10rpx 30rpx;">开单明细</view>
-						<view v-if="detail.producer" class="display_flex">
+					<view class="kaidanmx" v-if="detail.extra_type == 1">
+						<view style="padding: 10rpx 30rpx;">采购明细</view>
+						<view v-if="detail.producer" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">供货商姓名</view>
 							<view>{{detail.producer.producer_name}}</view>
 						</view>
-						<view class="display_flex">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">实际付款</view>
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
@@ -139,19 +140,23 @@
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;">
-							<view class="display_flex">
-								<view class="left_content">发送方式</view>
-								<view class="real_color">{{detail.typeDesc}}</view>
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
-							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
-								<view class="real_color">{{detail.expressNum}}</view>
-							</view>
-							<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;"
-							 @click="gotoexpressDet">
-								<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
-								<fa-icon type="angle-right" size="20" color="#0a53c3" />
-							</view>
+						</navigator>
+					</view>
+					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
+						<view style="padding: 10rpx 30rpx;">入库明细</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">仓库</view>
+							<view>{{detail.stock.stock_name}}</view>
+						</view>
+						<view class="display_flex">
+							<view class="left_content">入库时间</view>
+							<view>{{detail.createdTime.iso}}</view>
 						</view>
 					</view>
 				</view>
@@ -199,11 +204,11 @@
 			</scroll-view>
 
 			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未审核</text>
-				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未入库</text>
+				<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text>
 			</view>
 			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已审核</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已入库</text>
 			</view>
 
 			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
@@ -228,6 +233,7 @@
 
 	let that;
 	let id;
+	let uid = uni.getStorageSync("uid");
 	export default {
 		components: {
 			loading,
@@ -242,6 +248,7 @@
 				loading: true,
 				products: null,
 				detail: null,
+				stock: '', //仓库
 			}
 		},
 		onLoad(options) {
@@ -256,6 +263,10 @@
 				that.othercurrent = that.user.rights.othercurrent
 			}
 			that.getdetail(id);
+		},
+		
+		onShow() {
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 
 		//分享
@@ -298,7 +309,7 @@
 				let options = ['打印'];
 				if (that.detail.type == -1 || that.detail.type == 1) {
 					if (that.othercurrent.indexOf("3") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
-						options = ['审核', '撤销', '打印']
+						options = ['采购入库', '撤销', '打印']
 
 						uni.showActionSheet({
 							itemList: options,
@@ -311,16 +322,15 @@
 												icon: "none"
 											})
 										} else {
-											that.confrimOrder()
-										}
-									} else if (that.detail.type == -1) {
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔销售单已审核",
-												icon: "none"
-											})
-										} else {
-											that.confrimOrder()
+											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
+												uni.showToast({
+													icon: "none",
+													title: "请选择仓库"
+												});
+												return;
+											}else{
+												that.confrimOrder()
+											}
 										}
 									}
 									uni.setStorageSync("is_option", true)
@@ -437,13 +447,7 @@
 										that.addOrReduceGoodReserve(item, count);
 										count += 1;
 									}
-								} else if (that.detail.type == -1) {
-									for (let item of that.products) {
-										that.ReduceGoodReserve(item, count);
-										count += 1;
-									}
 								}
-
 							}).catch(err => {
 								console.log(err)
 							})
@@ -452,51 +456,95 @@
 				})
 			},
 
-			//采购单确定审核之后改变产品库存
+			//采购单确定采购入库之后改变产品库存
 			addOrReduceGoodReserve(product, count) {
-				const query1 = Bmob.Query('Goods');
-				query1.get(product.goodsId.objectId).then(res => {
-					//console.log(res)
-					if (product.goodsId.selected_model) {
-						let num = 0;
-						for (let model of product.goodsId.selected_model) {
-							for (let item of res.models) {
-								if (item.id == model.id) {
-									item.reserve = Number(item.reserve) + Number(model.num)
-									//console.log(item.reserve)
-									num += Number(model.num)
-								}
-							}
-						}
-						//console.log(res.models)
-						res.set('models', res.models)
-						res.set('reserve', res.reserve + num);
-					} else {
-						res.set('reserve', res.reserve + product.num);
-					}
-
+				
+				const query = Bmob.Query('Goods');
+				query.get(product.goodsId.objectId).then(res => {
+					console.log("当前主产品",res)
+					res.set('reserve', res.reserve + product.num);
 					res.save().then(res => {
-						if (count == (that.products.length - 1)) {
-							const query = Bmob.Query('Bills');
-							query.containedIn("objectId", that.bills);
-							query.find().then(todos => {
-								todos.set('status', true);
-								todos.saveAll().then(res => {
-									uni.hideLoading();
-									uni.navigateBack({
-										delta: 1
-									})
-									setTimeout(function() {
-										uni.showToast({
-											title: '审核成功'
+						const query = Bmob.Query("Goods");
+						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", product.goodsId.objectId);
+						query.equalTo("stocks", "==", that.stock.objectId);
+						query.find().then(res => {
+							console.log("仓库里的产品", res)
+							if(res.length == 0){
+								common.upload_good_withNoCan(products, that.stock, Number(product.num)).then(res => {
+									console.log(res)
+									if (count == (that.products.length - 1)) {
+										const query = Bmob.Query('Bills');
+										query.containedIn("objectId", that.bills);
+										query.find().then(todos => {
+											todos.set('status', true);
+											todos.saveAll().then(res => {
+												uni.hideLoading();
+												uni.navigateBack({
+													delta: 1
+												})
+												setTimeout(function() {
+													uni.showToast({
+														title: '审核成功'
+													})
+												}, 1000);
+												//console.log(res, 'ok')
+											}).catch(err => {
+												console.log(err)
+											});
 										})
-									}, 1000);
-									//console.log(res, 'ok')
-								}).catch(err => {
-									console.log(err)
-								});
-							})
-						}
+									}
+								})
+							}else{
+								const query1 = Bmob.Query('Goods');
+								query1.get(res[0].objectId).then(res => {
+									//console.log(res)
+									/*if (product.goodsId.selected_model) {
+										let num = 0;
+										for (let model of product.goodsId.selected_model) {
+											for (let item of res.models) {
+												if (item.id == model.id) {
+													item.reserve = Number(item.reserve) + Number(model.num)
+													//console.log(item.reserve)
+													num += Number(model.num)
+												}
+											}
+										}
+										//console.log(res.models)
+										res.set('models', res.models)
+										res.set('reserve', res.reserve + num);
+									} else {
+										res.set('reserve', res.reserve + product.num);
+									}*/
+									
+									res.set('reserve', res.reserve + product.num);
+									res.save().then(res => {
+										if (count == (that.products.length - 1)) {
+											const query = Bmob.Query('Bills');
+											query.containedIn("objectId", that.bills);
+											query.find().then(todos => {
+												todos.set('status', true);
+												todos.saveAll().then(res => {
+													uni.hideLoading();
+													/*uni.navigateBack({
+														delta: 1
+													})*/
+													setTimeout(function() {
+														uni.showToast({
+															title: '审核成功'
+														})
+													}, 1000);
+													//console.log(res, 'ok')
+												}).catch(err => {
+													console.log(err)
+												});
+											})
+										}
+									})
+								})
+							}
+							
+						})
 					})
 				})
 			},

@@ -39,7 +39,7 @@
 		</swiper>
 
 
-		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
+		<!--<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
 			<block>
 				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
 					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"
@@ -53,7 +53,7 @@
 
 				</swiper-item>
 			</block>
-		</swiper>
+		</swiper>-->
 
 		<!--操作列表-->
 		<view class='o_list' style="margin-top: 20rpx;">
@@ -96,12 +96,12 @@
 			return {
 				logsList: [],
 				optionsLists: [{
-						name: '采购或入库',
+						name: '入库',
 						icon: '/static/entering.png',
-						url: '/pages/common/goods-select/goods-select?type=entering'
+						url: '/pages/common/goods-select/goods-select?type=entering&value=2'
 					},
 					{
-						name: '销售或出库',
+						name: '出库',
 						icon: '/static/delivery.png',
 						url: '/pages/common/goods-select/goods-select?type=delivery'
 					},
@@ -110,15 +110,25 @@
 						icon: '/static/allocation.png',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
 					},
-					{
+					/*{
 						name: '退货入库',
 						icon: '/static/return_goods.png',
 						url: '/pages/common/goods-select/goods-select?type=returing'
-					},
+					},*/
 					{
 						name: '库存盘点',
 						icon: '/static/stocking.png',
 						url: '/pages/common/goods-select/goods-select?type=counting'
+					},
+					{
+						name: '采购',
+						icon: '/static/purchase.png',
+						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+					},
+					{
+						name: '销售',
+						icon: '/static/sell.png',
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
 					},
 					{
 						name: '使用手册',
@@ -140,9 +150,9 @@
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			// #endif
-			
+
 			mine.query_setting()
-			
+
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
@@ -151,7 +161,7 @@
 		onShow() {
 			that.gettoday_detail();
 			that.loadallGoods();
-			that.get_logsList();
+			//that.get_logsList();
 		},
 
 		//分享
@@ -180,7 +190,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情','扫码添加产品'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加产品'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -214,14 +224,14 @@
 						})
 					} else if (type == 4) {
 						let user = uni.getStorageSync("user")
-						if(user.is_vip){
+						if (user.is_vip) {
 							uni.navigateTo({
 								url: '/pages/manage/good_add/good_add?id=' + result,
 							})
-						}else{
+						} else {
 							uni.showToast({
-								title:"该功能只限会员使用",
-								icon:"none"
+								title: "该功能只限会员使用",
+								icon: "none"
 							})
 						}
 					}
@@ -252,14 +262,14 @@
 							})
 						} else if (type == 4) {
 							let user = uni.getStorageSync("user")
-							if(user.is_vip){
+							if (user.is_vip) {
 								uni.navigateTo({
 									url: '/pages/manage/good_add/good_add?id=' + result,
 								})
-							}else{
+							} else {
 								uni.showToast({
-									title:"该功能只限会员使用",
-									icon:"none"
+									title: "该功能只限会员使用",
+									icon: "none"
 								})
 							}
 						}
