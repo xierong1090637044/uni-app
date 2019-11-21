@@ -492,7 +492,8 @@
 						query.find().then(res => {
 							console.log("仓库里的产品", res)
 							if(res.length == 0){
-								common.upload_good_withNoCan(products, that.stock, Number(product.num)).then(res => {
+								product.objectId = product.goodsId.objectId
+								common.upload_good_withNoCan(product, that.stock, Number(product.num)).then(res => {
 									console.log(res)
 									if (count == (that.products.length - 1)) {
 										const query = Bmob.Query('Bills');
@@ -584,7 +585,8 @@
 						query.find().then(res => {
 							console.log("仓库里的产品", res)
 							if(res.length == 0){
-								common.upload_good_withNoCan(products, that.stock, 0 - Number(product.num)).then(res => {
+								product.objectId = product.goodsId.objectId
+								common.upload_good_withNoCan(product, that.stock, 0 - Number(product.num)).then(res => {
 									console.log(res)
 									if (count == (that.products.length - 1)) {
 										const query = Bmob.Query('Bills');

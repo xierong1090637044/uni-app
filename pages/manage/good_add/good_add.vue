@@ -219,11 +219,15 @@
 				if (now_product.goodsClass && now_product.goodsClass.objectId) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
+					now_product.goodsClass.type = 2
+					uni.setStorageSync("category",now_product.goodsClass)
 				}
 
 				if (now_product.second_class && now_product.second_class.objectId) {
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+					now_product.second_class.type = 2
+					uni.setStorageSync("category",now_product.second_class)
 				}
 
 				if (now_product.stocks && now_product.stocks.length > 0) {
@@ -451,8 +455,9 @@
 							query.get(item.good_id).then(res => {
 								console.log(res, item)
 								res.set('reserve', Number(item.reserve))
-								res.set("costPrice",  Number(item.costPrice))
-								res.set("retailPrice", Number(item.retailPrice))
+								res.set("retailPrice", Number(good.retailPrice))
+								res.set("costPrice",  Number(good.costPrice))
+								res.set("goodsName", good.goodsName)
 								res.save()
 							}).catch(err => {
 								console.log(err)
@@ -462,10 +467,15 @@
 
 					uni.hideLoading();
 					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + now_product.goodsName + "'", 5, now_product.objectId);
-					uni.showToast({
-						title: "修改成功"
-					})
 					uni.setStorageSync("is_add", true)
+					uni.navigateBack({
+						delta:2
+					})
+					setTimeout(function(){
+						uni.showToast({
+							title: "修改成功",
+						})
+					},1000)
 
 				})
 			},

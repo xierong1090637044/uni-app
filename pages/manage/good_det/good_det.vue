@@ -190,7 +190,7 @@
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.include("stocks", "goodsClass", "second_class");
-					query.equalTo("goodsName", "==", product.goodsName);
+					query.equalTo("header", "==", product.objectId);
 					query.find().then(res => {
 						for (let item of res) {
 							if(item.order == 1){
@@ -208,7 +208,7 @@
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
-						that.select_qrcode = (res[0].productCode) ? res[0].productCode : res[0].objectId + "-" + false
+						that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 						that.loading = false
 						uni.hideLoading()
 						console.log(this.product)
@@ -229,7 +229,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.include("stocks", "goodsClass", "second_class");
-				query.equalTo("goodsName", "==", product.goodsName);
+				query.equalTo("header", "==", product.objectId);
 				query.find().then(res => {
 					for (let item of res) {
 						if(item.order == 1){
@@ -244,11 +244,11 @@
 						}
 					}
 
-					this.product = res[0];
+					this.product = product;
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
-					that.select_qrcode = (res[0].productCode) ? res[0].productCode : res[0].objectId + "-" + false
+					that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 					that.loading = false
 					uni.hideLoading()
 					uni.setStorageSync("now_product",this.product)
