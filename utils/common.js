@@ -249,7 +249,7 @@ module.exports = {
 	},
 
 	//获取时间
-	getDay: function(day, is_full) {
+	getDay: function(day, is_full,now) {
 		var that = this;
 		var today = new Date();
 		var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
@@ -260,7 +260,16 @@ module.exports = {
 		tMonth = that.handleMonth(tMonth + 1);
 		tDate = that.handleMonth(tDate);
 		if (is_full) {
-			return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
+			
+			if(now){
+				let tHour = today.getHours()<10?'0'+today.getHours():today.getHours();
+				let tMintue = today.getMinutes()<10?'0'+today.getMinutes():today.getMinutes();
+				let tSecond = (today.getSeconds()<10)?'0'+today.getSeconds():today.getSeconds();
+				
+				return tYear + "-" + tMonth + "-" + tDate + " "+tHour + ":" + tMintue + ":" + tSecond;
+			}else{
+				return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
+			}
 		} else {
 			return tYear + "-" + tMonth + "-" + tDate;
 		}

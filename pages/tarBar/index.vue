@@ -103,7 +103,7 @@
 					{
 						name: '出库',
 						icon: '/static/delivery.png',
-						url: '/pages/common/goods-select/goods-select?type=delivery'
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=2'
 					},
 					{
 						name: '产品调拨',

@@ -27,7 +27,8 @@
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							出库量：
+							<text v-if="value == 1">销售量：</text>
+							<text v-else-if="value == 2">出库量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' />
 						</view>
 
@@ -54,6 +55,7 @@
 
 	let uid;
 	let that;
+	let value;
 	export default {
 		components: {
 			unicard,
@@ -64,6 +66,7 @@
 		},
 		data() {
 			return {
+				value:'',
 				products: [],
 				user: uni.getStorageSync("user"),
 			}
@@ -74,6 +77,9 @@
 			uni.removeStorageSync("is_option")
 			uid = uni.getStorageSync("uid")
 			that = this
+			value = options.value
+			that.value = options.value
+			
 			if (options.id) {
 				uni.showLoading({
 					title: "加载中..."
@@ -191,10 +197,15 @@
 					}
 				}
 
-				uni.navigateTo({
-					url: "/pages/common/goods_out/out_detail/out_detail"
-				})
-
+				if(value == 1){
+					uni.navigateTo({
+						url: "/pages/common/goods_out/goodSell/goodSell"
+					})
+				}else if(value == 2){
+					uni.navigateTo({
+						url: "/pages/common/goods_out/out_detail/out_detail"
+					})
+				}
 			},
 
 			//多类型产品数量改变  步骤很重要

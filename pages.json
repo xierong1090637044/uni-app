@@ -166,12 +166,14 @@
 		}, {
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
+		}, {
+			"path": "pages/common/good_confrim/goodPurchase/goodPurchase",
+			"style": {}
+		}, {
+			"path": "pages/common/goods_out/goodSell/goodSell",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/common/good_confrim/goodPurchase/goodPurchase",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -264,7 +266,7 @@
 			}, {
 				"path": "InforCnter/InforCnter",
 				"style": {}
-			},{
+			}, {
 				"path": "InforCnter/Infodetail/Infodetail",
 				"style": {}
 			}]
