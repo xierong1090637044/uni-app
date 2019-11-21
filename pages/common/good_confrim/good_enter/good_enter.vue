@@ -395,42 +395,6 @@
 						console.log("异常处理");
 					});
 			},
-
-
-			//判断此商品是否在此仓库中
-			can_addGoods() {
-				return new Promise((resolve, reject) => {
-					let products = uni.getStorageSync("products");
-					let warehouse = uni.getStorageSync("warehouse")
-					if (warehouse) {
-						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name !=
-								warehouse[0].stock.stock_name) {
-								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到调出仓库',
-									content: "是否将它关联到此仓库",
-									showCancel: true,
-									success: res => {
-										console.log(res)
-										if (res.confirm) {
-											resolve([true, item])
-										} else {
-											resolve([false])
-										}
-									},
-									fail: () => {},
-								});
-								return;
-							} else {
-								resolve([false])
-							}
-						}
-					} else {
-						resolve([false])
-					}
-				})
-
-			},
 		}
 	}
 </script>

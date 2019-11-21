@@ -77,10 +77,13 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="type=='allocation'">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="type=='allocation' || 'counting'">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
-						<view class="right_input"><input placeholder="调出仓库" :value="stock.stock_name" disabled="true"></input></view>
+						<view class="right_input">
+							<input placeholder="调出仓库" :value="stock.stock_name" disabled="true" v-if="type=='allocation'"></input>
+							<input placeholder="盘点仓库" :value="stock.stock_name" disabled="true" v-else></input>
+						</view>
 					</view>
 
 					<view>
@@ -311,7 +314,7 @@
 					})
 				} else {
 
-					if (this.type == "allocation") {
+					if (this.type == "allocation" || this.type == "counting") {
 						if (this.stock) {
 							this.confrim_next()
 						} else {
@@ -319,7 +322,7 @@
 							products = []
 							this.get_productList()
 							uni.showToast({
-								title: "请在筛选中选择调拨的仓库",
+								title: this.type == "allocation"?"请在筛选中选择调拨的仓库":"请在筛选中选择盘点的仓库",
 								icon: "none"
 							})
 						}

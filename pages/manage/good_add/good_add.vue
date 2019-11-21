@@ -451,6 +451,8 @@
 							query.get(item.good_id).then(res => {
 								console.log(res, item)
 								res.set('reserve', Number(item.reserve))
+								res.set("costPrice",  Number(item.costPrice))
+								res.set("retailPrice", Number(item.retailPrice))
 								res.save()
 							}).catch(err => {
 								console.log(err)
@@ -526,6 +528,8 @@
 							var queryObj = Bmob.Query('Goods');
 							queryObj.set("order", 1)
 							queryObj.set("goodsName", good.goodsName)
+							queryObj.set("costPrice", good.costPrice)
+							queryObj.set("retailPrice", good.retailPrice)
 							queryObj.set("header", p_good_id)
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)

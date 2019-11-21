@@ -32,34 +32,34 @@
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex">
-								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;"/>
+								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;"/>
+								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">仓库</view>
+							<view style="width: 300rpx;">仓库<text style="font-size: 20rpx;color: #CCCCCC;">（不选代表暂不出库）</text></view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;"/>
+								<input placeholder="选择仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">发货方式</view>
 							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
-								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;"/>
+								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
 							</picker>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="outType.type == 2 || outType.type == 3">
 							<view style="width: 140rpx;">快递单号</view>
 							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
-								<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;"/>
+								<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;" />
 
 								<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
 							</view>
@@ -67,12 +67,14 @@
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="custom.discount">
 							<view style="width: 140rpx;">折扣率</view>
 							<view class="kaidan_rightinput display_flex">
-								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number" @input="getDiscount" />%
+								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
+								 @input="getDiscount" />%
 							</view>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="digit" /></view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
+								 type="digit" /></view>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view style="width: 140rpx;">销售时间</view>
@@ -173,7 +175,7 @@
 				],
 				expressNum: '', //快递单号
 				total_num: 0, //实际的总数量
-				
+
 				nowDay: common.getDay(0, true, true), //时间
 			}
 		},
@@ -223,6 +225,10 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
+			//选择时间
+			bindDateChange(e){
+				that.nowDay = e.detail.value+" 00:00:00"
+			},
 
 			//扫码操作
 			scan_code() {
@@ -307,26 +313,21 @@
 				let identity = uni.getStorageSync("identity") // 身份识别标志
 				this.button_disabled = true;
 				let fromid = e.detail.formId
-				// #ifdef MP-WEIXIN
-				let extraType = Number(e.detail.target.dataset.type) // 判断是销售还是出库
-				// #endif
-				// #ifdef H5 || APP-PLUS
-				let extraType = 2 // 判断是销售还是出库
-				// #endif
+				let extraType = 1 // 判断是销售还是出库
 
 				uni.showLoading({
 					title: "上传中..."
 				});
 				
-				if(uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined){
+				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
 					uni.showToast({
-						icon:"none",
-						title: "请选择仓库"
+						icon: "none",
+						title: "请选择客户"
 					});
 					this.button_disabled = false;
 					return;
 				}
-				
+
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
@@ -358,18 +359,20 @@
 					tempBills.set('type', -1);
 					tempBills.set('extra_type', extraType);
 					tempBills.set('opreater', operater);
-					if (identity == 1) {
-						tempBills.set("status", true); // 操作单详情
-					} else if (identity == 2) {
-						tempBills.set("status", (extraType == 2) ? true : false); // 操作单详情
-					}
-
+					tempBills.set("createdTime", {
+						"__type": "Date",
+						"iso": that.nowDay
+					});
+					
 					let goodsId = {}
-					if (this.products[i].stocks && this.products[i].stocks.objectId) {
+					if (that.stock && that.stock.objectId) {
 						const pointer = Bmob.Pointer('stocks');
-						let stockId = pointer.set(this.products[i].stocks.objectId);
+						let stockId = pointer.set(that.stock.objectId);
+						tempBills.set("status", true); // 操作单详情
 						tempBills.set("stock", stockId);
-						detailBills.stock = this.products[i].stocks.stock_name
+						detailBills.stock = that.stock.stock_name
+					}else{
+						tempBills.set("status", false);
 					}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
@@ -395,8 +398,6 @@
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
-
-
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
@@ -421,7 +422,6 @@
 						query.set("type", -1);
 						query.set('extra_type', extraType);
 						query.set("opreater", poiID1);
-						//query.set("stock", stockId);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
 						if (that.discount) query.set('discount', that.discount);
@@ -429,6 +429,10 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						if (shop) query.set("shop", shopId);
+						query.set("createdTime", {
+							"__type": "Date",
+							"iso": that.nowDay
+						});
 
 						if (that.custom) {
 							let custom = Bmob.Pointer('customs');
@@ -457,19 +461,22 @@
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						if (identity == 1) {
+						if (that.stock) {
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(that.stock.objectId);
 							query.set("status", true); // 操作单详情
-						} else if (identity == 2) {
-							query.set("status", (extraType == 2) ? true : false); // 操作单详情
+							query.set("stock", stockId);
+						} else {
+							query.set("status", false); // 操作单详情
 						}
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
 							uni.hideLoading();
 							uni.removeStorageSync("customs"); //移除这个缓存
-							if (extraType == 2) { // 执行入库操作
+							if (that.stock) { // 执行入库操作
 								uni.showToast({
-									title: '产品出库成功',
+									title: '销售成功',
 									icon: 'success',
 									success: function() {
 										common.outRedGoodNum(that.products).then(result => { //减少产品数量
@@ -482,40 +489,8 @@
 												uni.removeStorageSync("category")
 												uni.removeStorageSync("warehouse")
 
-												common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品", -1, operationId);
-
-												let params = {
-													"data1": operationId,
-													"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-														that.products
-														.length + "商品",
-													"data3": that.stock ? that.stock.stock_name : "未填写",
-													"data4": res.createdAt,
-													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-														operationId,
-												};
-												send_temp.send_temp(params);
-												let params1 = {
-													"keyword1": {
-														"value": that.products[0].goodsName + "'等",
-														"color": "#173177"
-													},
-													"keyword2": {
-														"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													},
-													"keyword3": {
-														"value": res.createdAt
-													},
-													"keyword4": {
-														"value": uni.getStorageSync("user").nickName,
-													}
-												}
-												params1.form_Id = fromid
-												params1.id = operationId
-												send_temp.send_out_mini(params1);
-
+												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+													that.products.length + "商品，并且已经出库", -1, operationId);
 												//自动打印
 												if (uni.getStorageSync("setting").auto_print) {
 													print.autoPrint(operationId);
@@ -529,85 +504,26 @@
 
 									}
 								})
-							} else if (extraType == 1) { // 执行销售操作
+							} else { // 执行销售操作
 
 								uni.showToast({
 									title: '产品销售成功',
 									icon: 'success',
 									success: function() {
-										if (identity == 1) { //在采购的情况如果这个人是老板
-											common.outRedGoodNum(that.products).then(result => { //减少产品数量
-												that.button_disabled = false;
-												uni.setStorageSync("is_option", true);
+										that.button_disabled = false;
+										uni.setStorageSync("is_option", true);
+										setTimeout(() => {
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
 
-												setTimeout(() => {
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
+											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品，暂未出库", -1, res.objectId);
 
-													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-														that.products.length + "商品", -1, operationId);
-
-													uni.navigateBack({
-														delta: 2
-													});
-												}, 500)
-											})
-
-										} else if (identity == 2) {
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											setTimeout(() => {
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-
-												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-													that
-													.products
-													.length + "商品", -1, res.objectId);
-
-												/*let params = {
-													"data1": res.objectId,
-													"data2": uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
-														.length + "商品",
-													"data3": that.stock ? that.stock.stock_name : "未填写",
-													"data4": res.createdAt,
-													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
-												};
-												send_temp.send_temp(params);
-												let params1 = {
-													"keyword1": {
-														"value": that.products[0].goodsName + "'等",
-														"color": "#173177"
-													},
-													"keyword2": {
-														"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													},
-													"keyword3": {
-														"value": res.createdAt
-													},
-													"keyword4": {
-														"value": uni.getStorageSync("user").nickName,
-													}
-												}
-												params1.form_Id = fromid
-												params1.id = res.objectId
-												send_temp.send_out_mini(params1);*/
-
-												//自动打印
-												/*if (uni.getStorageSync("setting").auto_print) {
-													print.autoPrint(operationId);
-												}*/
-
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
-										}
+											uni.navigateBack({
+												delta: 2
+											});
+										}, 500)
 
 
 									},

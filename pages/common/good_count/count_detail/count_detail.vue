@@ -6,6 +6,9 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
 						<view>产品：{{item.goodsName}}</view>
+					</view>
+					<view class='pro_list' style='color:#3D3D3D'>
+						<view>盘点前库存：{{item.reserve}}</view>
 						<view>盘点后库存：{{item.num}}</view>
 					</view>
 					<view v-if="item.selected_model">
@@ -24,10 +27,10 @@
 			<form @submit="formSubmit">
 
 				<view style="margin: 30rpx 0;">
-					<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="background: #fff;padding: 20rpx 10rpx;">
+					<view class="display_flex" style="background: #fff;padding: 10rpx 10rpx;">
 						<view style="width: 140rpx;">选择仓库<text style="color: #f30;">*</text></view>
 						<view class="kaidan_rightinput"><input placeholder="选择仓库" disabled="true" :value="stock.stock_name" /></view>
-					</navigator>
+					</view>
 				</view>
 
 				<view style='margin-top:20px'>
@@ -81,15 +84,6 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
-				if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-					uni.showToast({
-						icon: "none",
-						title: "请选择仓库"
-					});
-					this.button_disabled = false;
-					return;
-				}
 
 				let operation_ids = [];
 				let billsObj = new Array();
@@ -98,192 +92,127 @@
 				let poiID3 = pointer3.set(that.stock.objectId);
 
 				for (let i = 0; i < this.products.length; i++) {
-					
-					const query = Bmob.Query('Goods');
-					query.equalTo("userId", "==", uid);
-					query.equalTo("goodsName", "==", that.products[i].goodsName);
-					query.equalTo("stocks", "==", that.stock.objectId);
-					query.find().then(res => {
-						console.log("仓库里的产品", res)
-						//单据
-						let tempBills = Bmob.Query('Bills');
-						let detailBills = {}
-						
-						let pointer = Bmob.Pointer('_User')
-						let user = pointer.set(uid)
-						let pointer1 = Bmob.Pointer('Goods')
-						let tempGoods_id = pointer1.set(this.products[i].objectId);
-						
-						let masterId = uni.getStorageSync("masterId");
-						let pointer2 = Bmob.Pointer('_User')
-						let poiID2 = pointer2.set(masterId);
-						
-						tempBills.set('goodsName', this.products[i].goodsName);
-						tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-						tempBills.set('num', Number(this.products[i].num));
-						if(res.length == 0){
-							tempBills.set('reserve', 0);
-						}else if(res.length == 1){
-							tempBills.set('reserve',res[0].reserve);
-						}
-						
-						tempBills.set('now_reserve', this.products[i].num.toString());
-						tempBills.set('total_money', this.products[i].total_money);
-						tempBills.set('opreater', poiID2);
-						tempBills.set('goodsId', tempGoods_id);
-						tempBills.set('userId', user);
-						tempBills.set('type', 3);
-						tempBills.set('stock', poiID3);
-						
-						let goodsId = {}
-						if (this.products[i].selectd_model) {
-							goodsId.selected_model = this.products[i].selected_model
-							goodsId.models = this.products[i].models
-							detailBills.goodsId = goodsId
-						}
-						detailBills.goodsName = this.products[i].goodsName
-						if(res.length == 0){
-							detailBills.reserve = 0
-						}else if(res.length == 1){
-							detailBills.reserve = res[0].reserve
-						}
-						detailBills.now_reserve = this.products[i].num.toString()
-						
-						billsObj.push(tempBills)
-						detailObj.push(detailBills)
-						
-						if (res.length == 0) {
-							common.upload_good_withNoCan(that.products[i], that.stock, Number(that.products[i].num)).then(res => {
-								console.log(res)
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("goodsName", "==", that.products[i].goodsName);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									console.log("dasds", res)
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.get(that.products[i].objectId).then(res => {
-										res.set('reserve', now_reserve)
-										res.set('stocktype', (now_reserve > that.products[i].warning_num) ? 1 : 0)
-										res.save()
-									})
-								});
-					
-							})
-						} else if(res.length == 1) {
-							const query = Bmob.Query('Goods');
-							query.get(res[0].objectId).then(res => {
-								//console.log(res)
-								res.set('reserve', Number(that.products[i].num))
-								res.save()
-								
-								const query1 = Bmob.Query("Goods");
-								query.equalTo("userId", "==", uid);
-								query1.equalTo("goodsName", "==", that.products[i].goodsName);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									console.log("dasds", res)
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.get(that.products[i].objectId).then(res => {
-										res.set('reserve', now_reserve)
-										res.set('stocktype', (now_reserve > that.products[i].warning_num) ? 1 : 0)
-										res.save()
-									})
-					
-								});
-					
-							})
-						}
-						
-						if(i == that.products.length -1){
-							//插入单据
-							Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
-									//console.log("批量新增单据成功", res);
-							
-									let pointer = Bmob.Pointer('_User')
-									let poiID = pointer.set(uid);
-							
-									let masterId = uni.getStorageSync("masterId");
-									let pointer1 = Bmob.Pointer('_User')
-									let poiID1 = pointer1.set(masterId);
-							
-									let query = Bmob.Query('order_opreations');
-									query.set("beizhu", e.detail.value.input_beizhu);
-									query.set("detail", detailObj);
-									query.set("type", 3);
-									query.set("opreater", poiID1);
-									query.set("master", poiID);
-									query.set('goodsName', that.products[0].goodsName);
-									query.set('stock', poiID3);
-							
-									query.save().then(res => {
-										let operationId = res.objectId;
-										//console.log("添加操作历史记录成功", res);
-										uni.hideLoading();
-										uni.showToast({
-											title: '产品盘点成功',
-											icon: 'success',
-											success: function() {
-												for (let i = 0; i < that.products.length; i++) {
-													
-							
-													/*query.get(that.products[i].objectId).then(res => {
-														//console.log(res)
-														if (that.products[i].selectd_model) {
-															for (let item of that.products[i].selected_model) {
-																delete item.num // 清除没用的属行
-															}
-															res.set('models', that.products[i].selected_model)
-															num = Number(that.products[i].num);
-														} else {
-															num = Number(that.products[i].num);
-														}
-							
-														res.set('reserve', num)
-														res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
-														res.save()
-													}).catch(err => {
-														console.log(err)
-													})*/
-												}
-							
-												that.button_disabled = false;
-												uni.setStorageSync("is_option", true);
-												setTimeout(() => {
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
-													common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
-														.length + "商品", 3, res.objectId);
-							
-													//自动打印
-													if (uni.getStorageSync("setting").auto_print) {
-														print.autoPrint(operationId);
-													}
-													uni.navigateBack({
-														delta: 2
-													});
-												}, 500)
-											}
-										})
-									})
-							
-							
-								},
-								function(error) {
-									// 批量新增异常处理
-									console.log("异常处理");
-								});
-						}
-					})
+
+					//单据
+					let tempBills = Bmob.Query('Bills');
+					let detailBills = {}
+
+					let pointer = Bmob.Pointer('_User')
+					let user = pointer.set(uid)
+					let pointer1 = Bmob.Pointer('Goods')
+					let tempGoods_id = pointer1.set(this.products[i].objectId);
+
+					let masterId = uni.getStorageSync("masterId");
+					let pointer2 = Bmob.Pointer('_User')
+					let poiID2 = pointer2.set(masterId);
+
+					tempBills.set('goodsName', this.products[i].goodsName);
+					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
+					tempBills.set('num', Number(this.products[i].num));
+					tempBills.set('reserve', this.products[i].reserve);
+
+					tempBills.set('now_reserve', this.products[i].num.toString());
+					tempBills.set('total_money', this.products[i].total_money);
+					tempBills.set('opreater', poiID2);
+					tempBills.set('goodsId', tempGoods_id);
+					tempBills.set('userId', user);
+					tempBills.set('type', 3);
+					tempBills.set('stock', poiID3);
+
+					let goodsId = {}
+					if (this.products[i].selectd_model) {
+						goodsId.selected_model = this.products[i].selected_model
+						goodsId.models = this.products[i].models
+						detailBills.goodsId = goodsId
+					}
+					detailBills.goodsName = this.products[i].goodsName
+					detailBills.reserve = this.products[i].reserve
+					detailBills.now_reserve = this.products[i].num.toString()
+
+					billsObj.push(tempBills)
+					detailObj.push(detailBills)
 				}
-				
+
+				//插入单据
+				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
+						//console.log("批量新增单据成功", res);
+
+						let pointer = Bmob.Pointer('_User')
+						let poiID = pointer.set(uid);
+
+						let masterId = uni.getStorageSync("masterId");
+						let pointer1 = Bmob.Pointer('_User')
+						let poiID1 = pointer1.set(masterId);
+
+						let query = Bmob.Query('order_opreations');
+						query.set("beizhu", e.detail.value.input_beizhu);
+						query.set("detail", detailObj);
+						query.set("type", 3);
+						query.set("opreater", poiID1);
+						query.set("master", poiID);
+						query.set('goodsName', that.products[0].goodsName);
+						query.set('stock', poiID3);
+
+						query.save().then(res => {
+							let operationId = res.objectId;
+							//console.log("添加操作历史记录成功", res);
+							uni.hideLoading();
+							uni.showToast({
+								title: '产品盘点成功',
+								icon: 'success',
+								success: function() {
+									for (let i = 0; i < that.products.length; i++) {
+										query.get(that.products[i].objectId).then(res => {
+											//console.log(res)
+											if (that.products[i].selectd_model) {
+												for (let item of that.products[i].selected_model) {
+													delete item.num // 清除没用的属行
+												}
+												res.set('models', that.products[i].selected_model)
+												num = Number(that.products[i].num);
+											} else {
+												num = Number(that.products[i].num);
+											}
+
+											res.set('reserve', num)
+											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+											res.save()
+										}).catch(err => {
+											console.log(err)
+										})
+									}
+
+									that.button_disabled = false;
+									uni.setStorageSync("is_option", true);
+									setTimeout(() => {
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
+										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that
+											.products
+											.length + "商品", 3, res.objectId);
+
+										//自动打印
+										if (uni.getStorageSync("setting").auto_print) {
+											print.autoPrint(operationId);
+										}
+										uni.navigateBack({
+											delta: 2
+										});
+									}, 500)
+								}
+							})
+						})
+
+
+					},
+					function(error) {
+						// 批量新增异常处理
+						console.log("异常处理");
+					});
 			}
-		}
+		},
 	}
 </script>
 

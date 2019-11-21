@@ -89,25 +89,25 @@
 				</view>
 
 				<view v-if="detail.type == -1">
-					<view class="kaidanmx">
-						<view style="padding: 10rpx 30rpx;">开单明细</view>
-						<view v-if="detail.custom" class="display_flex">
+					<view class="kaidanmx" v-if="detail.extra_type == 1">
+						<view style="padding: 10rpx 30rpx;">销售明细</view>
+						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">客户姓名</view>
 							<view>{{detail.custom.custom_name}}</view>
 						</view>
-						<view v-if="detail.discount" class="display_flex">
+						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">折扣率</view>
 							<view>{{detail.discount}}%</view>
 						</view>
-						<view class="display_flex">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">实际付款</view>
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
-						<view class="display_flex" v-if="detail.debt > 0">
+						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;">
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;">
 							<view class="display_flex">
 								<view class="left_content">发送方式</view>
 								<view class="real_color">{{detail.typeDesc}}</view>
@@ -116,11 +116,18 @@
 								<view class="real_color">{{detail.expressNum}}</view>
 							</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;"
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
 						 @click="gotoexpressDet">
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
+							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 					</view>
 				</view>
 				
@@ -140,7 +147,7 @@
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
 							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
 								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
@@ -212,11 +219,11 @@
 			</view>
 
 			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未审核</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未出库</text>
 				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
 			</view>
 			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已审核</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已出库</text>
 			</view>
 		</view>
 
@@ -309,7 +316,8 @@
 				let options = ['打印'];
 				if (that.detail.type == -1 || that.detail.type == 1) {
 					if (that.othercurrent.indexOf("3") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
-						options = ['采购入库', '撤销', '打印']
+						
+						options =(that.detail.type==-1)? ['销售出库', '撤销', '打印']:['采购入库', '撤销', '打印']
 
 						uni.showActionSheet({
 							itemList: options,
@@ -318,21 +326,29 @@
 									if (that.detail.type == 1) {
 										if (that.detail.status) {
 											uni.showToast({
-												title: "该笔采购单已审核",
+												title: "该笔采购单已入库",
 												icon: "none"
 											})
-										} else {
-											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-												uni.showToast({
-													icon: "none",
-													title: "请选择仓库"
-												});
-												return;
-											}else{
-												that.confrimOrder()
-											}
+										}
+									}else if(that.detail.type == -1){
+										if (that.detail.status) {
+											uni.showToast({
+												title: "该笔销售单已出库",
+												icon: "none"
+											})
 										}
 									}
+									
+									if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
+										uni.showToast({
+											icon: "none",
+											title: "请选择仓库"
+										});
+										return;
+									}else{
+										that.confrimOrder()
+									}
+									
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 1) {
 									that.revoke()
@@ -430,11 +446,11 @@
 			confrimOrder() {
 				wx.showModal({
 					title: '提示',
-					content: '是否审核该笔操作单！',
+					content: '确定进行此操作！',
 					success(res) {
 						if (res.confirm) {
 							uni.showLoading({
-								title: '审核中，请勿退出该页面...'
+								title: '操作中，请勿退出该页面...'
 							})
 							const query = Bmob.Query('order_opreations');
 							query.set('id', id) //需要修改的objectId
@@ -445,6 +461,11 @@
 								if (that.detail.type == 1) {
 									for (let item of that.products) {
 										that.addOrReduceGoodReserve(item, count);
+										count += 1;
+									}
+								}else if(that.detail.type == -1){
+									for (let item of that.products) {
+										that.ReduceGoodReserve(item, count);
 										count += 1;
 									}
 								}
@@ -531,7 +552,7 @@
 													})*/
 													setTimeout(function() {
 														uni.showToast({
-															title: '审核成功'
+															title: '采购入库成功'
 														})
 													}, 1000);
 													//console.log(res, 'ok')
@@ -551,60 +572,92 @@
 
 			//销售单确认审核之后减少库存
 			ReduceGoodReserve(product, count) {
-				const query1 = Bmob.Query('Goods');
-				let now_reserve = 0;
-				query1.get(product.goodsId.objectId).then(res => {
-					//console.log(res)
-					if (product.goodsId.selected_model) {
-						let num = 0;
-						for (let model of product.goodsId.selected_model) {
-							for (let item of res.models) {
-								if (item.id == model.id) {
-									item.reserve = Number(item.reserve) - Number(model.num)
-									//console.log(item.reserve)
-									num += Number(model.num)
-								}
-							}
-						}
-						//console.log(res.models)
-						res.set('models', res.models)
-						res.set('reserve', res.reserve - num);
-						now_reserve = res.reserve - num
-					} else {
-						res.set('reserve', res.reserve - product.num);
-						now_reserve = res.reserve - product.num
-					}
-
-					console.log(product)
-
+				const query = Bmob.Query('Goods');
+				query.get(product.goodsId.objectId).then(res => {
+					console.log("当前主产品",res)
+					res.set('reserve', res.reserve - product.num);
 					res.save().then(res => {
-
-						if (product.warning_num >= now_reserve) {
-							common.log(product.goodsName + "销售了" + product.num + "件，已经低于预警数量" + product.warning_num, -2, product.goodsId
-								.objectId);
-						}
-
-						if (count == (that.products.length - 1)) {
-							const query = Bmob.Query('Bills');
-							query.containedIn("objectId", that.bills);
-							query.find().then(todos => {
-								todos.set('status', true);
-								todos.saveAll().then(res => {
-									uni.hideLoading();
-									uni.navigateBack({
-										delta: 1
-									})
-									setTimeout(function() {
-										uni.showToast({
-											title: '审核成功'
+						const query = Bmob.Query("Goods");
+						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", product.goodsId.objectId);
+						query.equalTo("stocks", "==", that.stock.objectId);
+						query.find().then(res => {
+							console.log("仓库里的产品", res)
+							if(res.length == 0){
+								common.upload_good_withNoCan(products, that.stock, 0 - Number(product.num)).then(res => {
+									console.log(res)
+									if (count == (that.products.length - 1)) {
+										const query = Bmob.Query('Bills');
+										query.containedIn("objectId", that.bills);
+										query.find().then(todos => {
+											todos.set('status', true);
+											todos.saveAll().then(res => {
+												uni.hideLoading();
+												uni.navigateBack({
+													delta: 1
+												})
+												setTimeout(function() {
+													uni.showToast({
+														title: '审核成功'
+													})
+												}, 1000);
+												//console.log(res, 'ok')
+											}).catch(err => {
+												console.log(err)
+											});
 										})
-									}, 1000);
-									//console.log(res, 'ok')
-								}).catch(err => {
-									console.log(err)
-								});
-							})
-						}
+									}
+								})
+							}else{
+								const query1 = Bmob.Query('Goods');
+								query1.get(res[0].objectId).then(res => {
+									//console.log(res)
+									/*if (product.goodsId.selected_model) {
+										let num = 0;
+										for (let model of product.goodsId.selected_model) {
+											for (let item of res.models) {
+												if (item.id == model.id) {
+													item.reserve = Number(item.reserve) + Number(model.num)
+													//console.log(item.reserve)
+													num += Number(model.num)
+												}
+											}
+										}
+										//console.log(res.models)
+										res.set('models', res.models)
+										res.set('reserve', res.reserve + num);
+									} else {
+										res.set('reserve', res.reserve + product.num);
+									}*/
+									
+									res.set('reserve', res.reserve - product.num);
+									res.save().then(res => {
+										if (count == (that.products.length - 1)) {
+											const query = Bmob.Query('Bills');
+											query.containedIn("objectId", that.bills);
+											query.find().then(todos => {
+												todos.set('status', true);
+												todos.saveAll().then(res => {
+													uni.hideLoading();
+													/*uni.navigateBack({
+														delta: 1
+													})*/
+													setTimeout(function() {
+														uni.showToast({
+															title: '销售出库成功'
+														})
+													}, 1000);
+													//console.log(res, 'ok')
+												}).catch(err => {
+													console.log(err)
+												});
+											})
+										}
+									})
+								})
+							}
+							
+						})
 					})
 				})
 			},
