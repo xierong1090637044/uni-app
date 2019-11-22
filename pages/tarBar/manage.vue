@@ -12,7 +12,7 @@
 				</navigator>
 			</view>
 		</view>
-		
+
 		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理记录</view>
 			<view class='o_list'>
@@ -45,18 +45,30 @@
 				setting: uni.getStorageSync("setting"),
 				now_optionsLists: [],
 				second_optionsLists: [],
-				
+
 				secOptionsLists: [{
-						name: '入库或采购记录',
+						name: '入库记录',
 						icon: 'file-o',
-						url: '/pages/report/EnteringHistory/EnteringHistory?type=1',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=2',
 						color: "#2ca879"
 					},
 					{
-						name: '出库或销售记录',
+						name: '出库记录',
 						icon: 'file-o',
-						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=2',
 						color: "#f30"
+					},
+					{
+						name: '采购记录',
+						icon: 'file-o',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=1',
+						color: "#1d953f"
+					},
+					{
+						name: '销售记录',
+						icon: 'file-o',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=1',
+						color: "#bb505d"
 					},
 					{
 						name: '调拨记录',
@@ -64,12 +76,12 @@
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
 						color: "#4e72b8"
 					},
-					{
+					/*{
 						name: '客户退货记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
 						color: "#b3b242"
-					},
+					},*/
 					{
 						name: '盘点记录',
 						icon: 'file-o',
@@ -89,7 +101,7 @@
 						color: "#0c95bc"
 					},
 				],
-				
+
 				optionsLists: [{
 						name: '产品管理',
 						icon: 'envelope-open-o',

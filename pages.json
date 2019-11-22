@@ -173,7 +173,11 @@
 			"path": "pages/common/goods_out/goodSell/goodSell",
 			"style": {}
 		}
-	],
+	    ,{
+            "path" : "pages/report/list/list",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",

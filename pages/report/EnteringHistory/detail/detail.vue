@@ -329,6 +329,16 @@
 												title: "该笔采购单已入库",
 												icon: "none"
 											})
+										}else{
+											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
+												uni.showToast({
+													icon: "none",
+													title: "请选择仓库"
+												});
+												return;
+											}else{
+												that.confrimOrder()
+											}
 										}
 									}else if(that.detail.type == -1){
 										if (that.detail.status) {
@@ -336,19 +346,18 @@
 												title: "该笔销售单已出库",
 												icon: "none"
 											})
+										}else{
+											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
+												uni.showToast({
+													icon: "none",
+													title: "请选择仓库"
+												});
+												return;
+											}else{
+												that.confrimOrder()
+											}
 										}
 									}
-									
-									if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-										uni.showToast({
-											icon: "none",
-											title: "请选择仓库"
-										});
-										return;
-									}else{
-										that.confrimOrder()
-									}
-									
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 1) {
 									that.revoke()
