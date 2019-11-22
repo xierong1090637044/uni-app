@@ -59,7 +59,7 @@ module.exports = {
 					})
 
 					if (products[i].max_num >= 0 && products[i].max_num <= num) {
-						this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过合理值" + products[i].max_num, -2,
+						this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
 							products[i].objectId);
 					}
 
@@ -163,6 +163,8 @@ module.exports = {
 			query.set("stocks", p_stock_id)
 			query.set("userId", userid)
 			query.set("header", p_good_id)
+			query.set("costPrice", Number(good.costPrice))
+			query.set("retailPrice", Number(good.retailPrice))
 			query.set("order", 1)
 			query.save().then(res => {
 				console.log(res)
