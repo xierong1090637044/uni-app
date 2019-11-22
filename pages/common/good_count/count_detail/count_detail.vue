@@ -107,12 +107,12 @@
 					let poiID2 = pointer2.set(masterId);
 
 					tempBills.set('goodsName', this.products[i].goodsName);
-					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
+					tempBills.set('retailPrice', Number(this.products[i].modify_retailPrice));
 					tempBills.set('num', Number(this.products[i].num));
-					tempBills.set('reserve', this.products[i].reserve);
+					tempBills.set('reserve', Number(this.products[i].reserve));
 
-					tempBills.set('now_reserve', this.products[i].num.toString());
-					tempBills.set('total_money', this.products[i].total_money);
+					tempBills.set('now_reserve', Number(this.products[i].num));
+					tempBills.set('total_money', Number(this.products[i].total_money));
 					tempBills.set('opreater', poiID2);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
@@ -135,7 +135,7 @@
 
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
-						//console.log("批量新增单据成功", res);
+						console.log("批量新增单据成功", res);
 
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
@@ -162,6 +162,8 @@
 								icon: 'success',
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
+										let num = 0;
+										const query = Bmob.Query("Goods");
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
 											if (that.products[i].selectd_model) {
@@ -173,34 +175,44 @@
 											} else {
 												num = Number(that.products[i].num);
 											}
-
 											res.set('reserve', num)
-											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
-										}).catch(err => {
-											console.log(err)
+
+											const query1 = Bmob.Query("Goods");
+											query1.equalTo("header", "==", that.products[i].header.objectId);
+											query1.equalTo("order", "==", 1);
+											query1.statTo("sum", "reserve");
+											query1.find().then(res => {
+												console.log("dasds", res)
+												let now_reserve = res[0]._sumReserve
+												const query = Bmob.Query('Goods');
+												query.get(that.products[i].header.objectId).then(res => {
+													res.set('reserve', now_reserve)
+													res.set('stocktype', (now_reserve > that.products[i].warning_num) ? 1 : 0)
+													res.save()
+
+													if (i == (that.products.length - 1)) {
+														that.button_disabled = false;
+														uni.setStorageSync("is_option", true);
+														uni.removeStorageSync("_warehouse")
+														uni.removeStorageSync("out_warehouse")
+														uni.removeStorageSync("category")
+														uni.removeStorageSync("warehouse")
+														common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +"'等" + that.products.length + "商品", 3, operationId);
+
+														//自动打印
+														if (uni.getStorageSync("setting").auto_print) {
+															print.autoPrint(operationId);
+														}
+														uni.navigateBack({
+															delta: 2
+														});
+													}
+												})
+											});
+
 										})
 									}
-
-									that.button_disabled = false;
-									uni.setStorageSync("is_option", true);
-									setTimeout(() => {
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that
-											.products
-											.length + "商品", 3, res.objectId);
-
-										//自动打印
-										if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
-										}
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
 								}
 							})
 						})

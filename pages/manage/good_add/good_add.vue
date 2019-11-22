@@ -510,7 +510,7 @@
 
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				query.set("order", 0)
-				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+				if (uni.getStorageSync("category")) { //存在此缓存证明选择了类别
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
 					} else {
@@ -523,8 +523,9 @@
 				query.save().then(res => {
 
 					let this_result = res
-					if (uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0) {
-						let stocksReserve = uni.getStorageSync("warehouse")
+					let stocksReserve = uni.getStorageSync("warehouse")||[]
+					if (stocksReserve.length > 0) {
+						
 
 						const queryArray = new Array();
 						// 构造含有50个对象的数组
@@ -538,8 +539,8 @@
 							var queryObj = Bmob.Query('Goods');
 							queryObj.set("order", 1)
 							queryObj.set("goodsName", good.goodsName)
-							queryObj.set("costPrice", good.costPrice)
-							queryObj.set("retailPrice", good.retailPrice)
+							queryObj.set("costPrice", Number(good.costPrice))
+							queryObj.set("retailPrice", Number(good.retailPrice))
 							queryObj.set("header", p_good_id)
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)

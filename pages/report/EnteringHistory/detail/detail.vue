@@ -452,8 +452,12 @@
 							uni.showLoading({
 								title: '操作中，请勿退出该页面...'
 							})
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(that.stock.objectId);
+							
 							const query = Bmob.Query('order_opreations');
 							query.set('id', id) //需要修改的objectId
+							query.set("stock", stockId);
 							query.set('status', true)
 							query.save().then(res => {
 								//console.log(res)
@@ -496,10 +500,14 @@
 								common.upload_good_withNoCan(product, that.stock, Number(product.num)).then(res => {
 									console.log(res)
 									if (count == (that.products.length - 1)) {
+										const pointer = Bmob.Pointer('stocks');
+										let stockId = pointer.set(that.stock.objectId);
+										
 										const query = Bmob.Query('Bills');
 										query.containedIn("objectId", that.bills);
 										query.find().then(todos => {
 											todos.set('status', true);
+											todos.set("stock", stockId);
 											todos.saveAll().then(res => {
 												uni.hideLoading();
 												uni.navigateBack({
@@ -541,11 +549,15 @@
 									
 									res.set('reserve', res.reserve + product.num);
 									res.save().then(res => {
+										const pointer = Bmob.Pointer('stocks');
+										let stockId = pointer.set(that.stock.objectId);
+										
 										if (count == (that.products.length - 1)) {
 											const query = Bmob.Query('Bills');
 											query.containedIn("objectId", that.bills);
 											query.find().then(todos => {
 												todos.set('status', true);
+												todos.set("stock", stockId);
 												todos.saveAll().then(res => {
 													uni.hideLoading();
 													/*uni.navigateBack({
@@ -589,10 +601,14 @@
 								common.upload_good_withNoCan(product, that.stock, 0 - Number(product.num)).then(res => {
 									console.log(res)
 									if (count == (that.products.length - 1)) {
+										const pointer = Bmob.Pointer('stocks');
+										let stockId = pointer.set(that.stock.objectId);
+										
 										const query = Bmob.Query('Bills');
 										query.containedIn("objectId", that.bills);
 										query.find().then(todos => {
 											todos.set('status', true);
+											todos.set('stock', stockId);
 											todos.saveAll().then(res => {
 												uni.hideLoading();
 												uni.navigateBack({
@@ -635,10 +651,14 @@
 									res.set('reserve', res.reserve - product.num);
 									res.save().then(res => {
 										if (count == (that.products.length - 1)) {
+											const pointer = Bmob.Pointer('stocks');
+											let stockId = pointer.set(that.stock.objectId);
+											
 											const query = Bmob.Query('Bills');
 											query.containedIn("objectId", that.bills);
 											query.find().then(todos => {
 												todos.set('status', true);
+												todos.set('stock', stockId);
 												todos.saveAll().then(res => {
 													uni.hideLoading();
 													/*uni.navigateBack({

@@ -155,9 +155,9 @@
 									let tempGoods_id = pointer1.set(this.products[i].objectId);
 									
 									tempBills.set('goodsName', this.products[i].goodsName);
-									//tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
+									tempBills.set('retailPrice', Number(this.products[i].modify_retailPrice));
 									tempBills.set('num', Number(this.products[i].num));
-									//tempBills.set('total_money', this.products[i].total_money);
+									tempBills.set('total_money', Number(this.products[i].total_money));
 									tempBills.set('goodsId', tempGoods_id);
 									tempBills.set('userId', user);
 									tempBills.set('type', -2);
