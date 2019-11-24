@@ -175,6 +175,10 @@
             "path" : "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
             "style" : {}
         }
+        ,{
+            "path" : "pages/manage/good_add/stockAdd/stockAdd",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{
