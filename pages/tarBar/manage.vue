@@ -182,7 +182,7 @@
 								manage_rights.push(that.optionsLists[item])
 							}
 							for (let item in recordRights) {
-								record_rights.push(that.optionsLists[item])
+								record_rights.push(that.secOptionsLists[item])
 							}
 							that.now_optionsLists = manage_rights
 							that.second_optionsLists = record_rights
