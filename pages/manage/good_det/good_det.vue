@@ -325,33 +325,6 @@
 				uni.navigateTo({
 					url: '../good_add/good_add'
 				});
-				
-				/*uni.showActionSheet({
-					itemList: ['编辑产品信息', '编辑产品的库存信息'],
-					success: function(res) {
-						console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-						if (res.tapIndex == 0) {
-							uni.navigateTo({
-								url: 'edit_info/edit_info'
-							});
-						} else {
-							if (item.stock_name) {
-								let warehouse = []
-								let stock = {}
-								let _stock = {}
-								_stock.stock_name = item.stock_name
-								_stock.objectId = item.objectId
-								stock.stock = _stock
-								warehouse.push(stock)
-								uni.setStorageSync("warehouse", warehouse)
-							}
-							uni.navigateTo({
-								url: 'edit_stock/edit_stock'
-							});
-						}
-					},
-				});*/
-
 			},
 
 			//二维码路径
@@ -374,6 +347,7 @@
 
 			//删除商品
 			delete_good(objectId) {
+				let uid = uni.getStorageSync("uid")
 				uni.showModal({
 					title: '提示',
 					content: '是否删除该商品',
@@ -381,24 +355,36 @@
 						if (res.confirm) {
 
 							uni.setStorageSync("is_add", true)
-
+							
 							const query = Bmob.Query('Goods');
-							query.set('id', objectId) //需要修改的objectId
-							query.set('status', -1)
-							query.save().then(res => {
-								uni.navigateBack({
-									delta: 1
+							
+							query.destroy(objectId).then(res => {
+								const query = Bmob.Query('Goods');
+								// 单词最多删除50条
+								query.equalTo("header", "==", objectId);
+								query.equalTo("userId", "==", uid);
+								query.find().then(todos => {
+								  todos.destroyAll().then(res => {
+								    // 成功批量修改
+								    console.log(res,'ok')
+										uni.navigateBack({
+											delta: 1
+										})
+										
+										setTimeout(function() {
+											uni.showToast({
+												title: "删除成功"
+											})
+										}, 1000)
+										
+								  }).catch(err => {
+								    console.log(err)
+								  });
 								})
-
-								setTimeout(function() {
-									uni.showToast({
-										title: "删除成功"
-									})
-								}, 1000)
+								
 							}).catch(err => {
-								console.log(err)
+							  console.log(err)
 							})
-
 						}
 					}
 				});

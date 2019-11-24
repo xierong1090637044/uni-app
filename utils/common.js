@@ -31,7 +31,7 @@ module.exports = {
 
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
-					query.equalTo("goodsName", "==", products[i].goodsName);
+					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
 					query.find().then(res => {
 						console.log("仓库里的产品", res)
@@ -102,7 +102,7 @@ module.exports = {
 
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
-					query.equalTo("goodsName", "==", products[i].goodsName);
+					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
 					query.find().then(res => {
 						console.log("仓库里的产品", res)

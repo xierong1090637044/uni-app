@@ -20,9 +20,9 @@
 						</view>
 						<view class='margin-t-5' v-else>
 							盘点后库存：
-							<uninumberbox :min="0" @change="handleNumChange($event, index)"  :value='Number(item.reserve)'/>
+							<uninumberbox :min="0" @change="handleNumChange($event, index)" :value='Number(item.reserve)' />
 						</view>
-						
+
 						<view class="bottom_del">
 							<view class='del' @click="handleDel(index)">
 								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
@@ -66,7 +66,9 @@
 			uni.removeStorageSync("is_option")
 
 			if (options.id) {
-				uni.showLoading({title:"加载中..."})
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
@@ -87,8 +89,8 @@
 						res[0].total_money = 1 * res[0].retailPrice;
 						res[0].really_total_money = 1 * res[0].retailPrice;
 						res[0].modify_retailPrice = res[0].retailPrice;
-						if(res[0].models){
-							for(let model of res[0].models){
+						if (res[0].models) {
+							for (let model of res[0].models) {
 								model.num = model.reserve
 							}
 							res[0].selectd_model = res[0].models
@@ -100,9 +102,9 @@
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
-				for(let item of this.products){
-					if(item.models){
-						for(let model of item.models){
+				for (let item of this.products) {
+					if (item.models) {
+						for (let model of item.models) {
 							model.num = model.reserve
 						}
 						item.selectd_model = item.models
@@ -119,7 +121,9 @@
 			scanGoods() {
 				uni.scanCode({
 					success(res) {
-						uni.showLoading({title:"加载中..."})
+						uni.showLoading({
+							title: "加载中..."
+						})
 						let result = res.result;
 						let array = result.split("-");
 
@@ -132,20 +136,13 @@
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
 							console.log(res)
-							if (res[0].status == -1) {
-								uni.showToast({
-									title: "该产品已删除",
-									icon: "none"
-								})
-							} else {
-								for (let item of res) {
-									item.num = 1;
-									item.total_money = 1 * item.retailPrice;
-									item.really_total_money = 1 * item.retailPrice;
-									item.modify_retailPrice = item.retailPrice;
-								}
-								that.products = that.products.concat(res);
+							for (let item of res) {
+								item.num = 1;
+								item.total_money = 1 * item.retailPrice;
+								item.really_total_money = 1 * item.retailPrice;
+								item.modify_retailPrice = item.retailPrice;
 							}
+							that.products = that.products.concat(res);
 							uni.hideLoading()
 						})
 					},
@@ -172,17 +169,17 @@
 				this.products[index].total_money = $event * Number(this.products[index].modify_retailPrice)
 				uni.setStorageSync("products", this.products)
 			},
-			
+
 			//多类型产品数量改变
 			handleModelNumChange($event, index, key, item) {
-			
+
 				item.reserve = Number($event)
 				this.products[index].selected_model[key] = item
 				let _sumNum = 0;
 				for (let model of this.products[index].selected_model) {
 					_sumNum += model.reserve
 				}
-				
+
 				this.products[index].num = _sumNum
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)

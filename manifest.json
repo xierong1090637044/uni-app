@@ -120,10 +120,10 @@
         }
     },
     "h5" : {
-        "title" : "库存表",
+        "title" : "库存表KCB",
         "domain" : "https://www.jimuzhou.com",
         "router" : {
-            "base" : "/h5/",
+            "base" : "/KCB/",
             "mode" : "history"
         },
         "optimization" : {

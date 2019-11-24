@@ -35,8 +35,6 @@
 							uni.setStorageSync("user",user)
 						}
 					}
-					
-					mine.query_setting()//获取用户设置
 				},
 				fail: function() {
 					uni.reLaunch({

@@ -276,7 +276,14 @@
 					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 				}
 				that.showOptions = false;
+				if (this.type == "allocation" || this.type == "counting") {
+					if (this.stock) {
+						all_products = []
+						products = []
+					}
+				}
 				that.get_productList()
+				
 			},
 
 			//头部的options选择

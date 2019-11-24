@@ -412,7 +412,11 @@
 					content: '数据撤销后不可恢复，请谨慎撤销！',
 					success(res) {
 						if (res.confirm) {
-							uni.showLoading({
+							uni.showToast({
+								title:"等待下次更新",
+								icon:'none'
+							})
+							/*uni.showLoading({
 								title: '撤销中...'
 							})
 							const query = Bmob.Query('order_opreations');
@@ -445,7 +449,7 @@
 								})
 							}).catch(err => {
 								console.log(err)
-							})
+							})*/
 						}
 					}
 				})
@@ -496,6 +500,7 @@
 				const query = Bmob.Query('Goods');
 				query.get(product.goodsId.objectId).then(res => {
 					console.log("当前主产品",res)
+					let headerGood = res;
 					res.set('reserve', res.reserve + product.num);
 					res.save().then(res => {
 						const query = Bmob.Query("Goods");
@@ -506,6 +511,8 @@
 							console.log("仓库里的产品", res)
 							if(res.length == 0){
 								product.objectId = product.goodsId.objectId
+								product.costPrice = headerGood.costPrice
+								product.retailPrice = headerGood.retailPrice
 								common.upload_good_withNoCan(product, that.stock, Number(product.num)).then(res => {
 									console.log(res)
 									if (count == (that.products.length - 1)) {
@@ -519,12 +526,11 @@
 											todos.set("stock", stockId);
 											todos.saveAll().then(res => {
 												uni.hideLoading();
-												uni.navigateBack({
-													delta: 1
-												})
+												
+												that.getdetail(id);
 												setTimeout(function() {
 													uni.showToast({
-														title: '审核成功'
+														title: '采购入库成功'
 													})
 												}, 1000);
 												//console.log(res, 'ok')
@@ -572,6 +578,7 @@
 													/*uni.navigateBack({
 														delta: 1
 													})*/
+													that.getdetail(id);
 													setTimeout(function() {
 														uni.showToast({
 															title: '采购入库成功'
@@ -607,6 +614,8 @@
 							console.log("仓库里的产品", res)
 							if(res.length == 0){
 								product.objectId = product.goodsId.objectId
+								product.costPrice = headerGood.costPrice
+								product.retailPrice = headerGood.retailPrice
 								common.upload_good_withNoCan(product, that.stock, 0 - Number(product.num)).then(res => {
 									console.log(res)
 									if (count == (that.products.length - 1)) {
@@ -620,12 +629,11 @@
 											todos.set('stock', stockId);
 											todos.saveAll().then(res => {
 												uni.hideLoading();
-												uni.navigateBack({
-													delta: 1
-												})
+												
+												that.getdetail(id);
 												setTimeout(function() {
 													uni.showToast({
-														title: '审核成功'
+														title: '销售出库成功'
 													})
 												}, 1000);
 												//console.log(res, 'ok')
@@ -673,6 +681,8 @@
 													/*uni.navigateBack({
 														delta: 1
 													})*/
+													
+													that.getdetail(id);
 													setTimeout(function() {
 														uni.showToast({
 															title: '销售出库成功'

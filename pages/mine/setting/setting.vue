@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class="uni-form-item uni-column">
-			<view class="display_flex item">
+			<!--<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">登陆网址</view>
 				<input class="uni-input" value="http://www.jimuzhou.com/stock/test/" disabled="true" />
-			</view>
+			</view>-->
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
 				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting"
@@ -30,12 +30,6 @@
 				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view>自动打印</view>
 					<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan" />
-				</view>
-			</view>
-			<view>
-				<view class="display_flex_bet item" style="padding: 20rpx;">
-					<view>物料管理</view>
-					<switch @change="showProduction" :checked="params.production" />
 				</view>
 			</view>
 		</view>
