@@ -25,7 +25,7 @@
 								<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
 								<view>
 									<view class='stock_name'>{{stock.stock_name}}</view>
-									<view class='stock_mobile' v-if="stock.charge">负责人：{{stock.charge.nickName}}</view>
+									<view class='stock_mobile' v-if="stock.Ncharge">负责人：{{stock.Ncharge.nickName}}</view>
 									<view class='stock_mobile' v-else>负责人：未填写</view>
 								</view>
 							</view>
@@ -219,7 +219,7 @@
 			getstock_list: function() {
 				const query = Bmob.Query("stocks");
 				query.order("-num");
-				query.include("charge", "shop")
+				query.include("Ncharge", "shop")
 				query.equalTo("parent", "==", uid);
 				query.equalTo("disabled", "!=", !that.disabled);
 				if (search_text) {

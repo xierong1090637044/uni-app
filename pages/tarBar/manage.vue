@@ -64,12 +64,12 @@
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=1',
 						color: "#1d953f"
 					},
-					{
+					/*{
 						name: '销售记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=1',
 						color: "#bb505d"
-					},
+					},*/
 					{
 						name: '调拨记录',
 						icon: 'file-o',
@@ -120,7 +120,7 @@
 						url: '/pages/manage/warehouse/warehouse',
 						color: "#b34742",
 					},
-					{
+					/*{
 						name: '门店管理',
 						icon: 'shopping-cart',
 						url: '/pages/manage/shops/shops',
@@ -131,7 +131,7 @@
 						icon: 'address-card',
 						url: '/pages/manage/custom/custom',
 						color: "#82b342"
-					},
+					},*/
 					{
 						name: '产品类别管理',
 						icon: 'list',

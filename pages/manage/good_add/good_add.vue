@@ -199,8 +199,8 @@
 
 				that.text_desc = "修改"
 				that.goodsName = now_product.goodsName
-				that.costPrice = Number(now_product.costPrice) //进价
-				that.retailPrice = Number(now_product.retailPrice) //售价
+				that.costPrice = now_product.costPrice//进价
+				that.retailPrice = now_product.retailPrice //售价
 				that.packageContent = now_product.packageContent //包装含量
 				that.packingUnit = now_product.packingUnit //包装单位
 				that.warning_num = now_product.warning_num //预警库存
@@ -412,8 +412,8 @@
 				const query = Bmob.Query('Goods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
-				query.set("costPrice", good.costPrice ? Number(good.costPrice) : 0)
-				query.set("retailPrice", good.retailPrice ? Number(good.retailPrice) : 0)
+				query.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
+				query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 				if (that.nousetime) {
 					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 					time = new Date(time).getTime()
@@ -455,8 +455,8 @@
 							query.get(item.good_id).then(res => {
 								console.log(res, item)
 								res.set('reserve', Number(item.reserve))
-								res.set("retailPrice", Number(good.retailPrice))
-								res.set("costPrice",  Number(good.costPrice))
+								res.set("retailPrice", good.retailPrice.toString())
+								res.set("costPrice",  good.costPrice.toString())
 								res.set("goodsName", good.goodsName)
 								res.save()
 							}).catch(err => {
@@ -489,8 +489,8 @@
 				const query = Bmob.Query('Goods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
-				query.set("costPrice", good.costPrice ? Number(good.costPrice) : 0)
-				query.set("retailPrice", good.retailPrice ? Number(good.retailPrice) : 0)
+				query.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
+				query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 				if (that.nousetime) {
 					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 					time = new Date(time).getTime()
@@ -539,8 +539,8 @@
 							var queryObj = Bmob.Query('Goods');
 							queryObj.set("order", 1)
 							queryObj.set("goodsName", good.goodsName)
-							queryObj.set("costPrice", Number(good.costPrice))
-							queryObj.set("retailPrice", Number(good.retailPrice))
+							queryObj.set("costPrice", good.costPrice.toString())
+							queryObj.set("retailPrice", good.retailPrice.toString())
 							queryObj.set("header", p_good_id)
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)

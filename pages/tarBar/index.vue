@@ -125,11 +125,11 @@
 						icon: '/static/purchase.png',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					},
-					{
+					/*{
 						name: '销售',
 						icon: '/static/sell.png',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
-					},
+					},*/
 					{
 						name: '使用手册',
 						icon: '/static/userInfo.png',

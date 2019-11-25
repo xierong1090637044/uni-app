@@ -107,7 +107,7 @@
 				that.warehouse_name = warehouse.stock_name
 				that.warehouse_shop = warehouse.shop
 				that.warehouse_num = warehouse.num
-				that.warehouse_charge = warehouse.charge
+				that.warehouse_charge = warehouse.Ncharge.nickName
 				that.warehouse_beizhu = warehouse.beizhu
 				that.disabled = !warehouse.disabled;
 				uni.setNavigationBarTitle({
@@ -126,8 +126,9 @@
 				shopId = pointer.set(shop.objectId);
 			}
 			
-			that.warehouse_charge = charge.username
-
+			if(charge){
+				that.warehouse_charge = charge.username
+			}
 		},
 		
 		onUnload() {
@@ -190,7 +191,7 @@
 					query.set("num", Number(that.warehouse_num));
 					if(shop) query.set("shop",shopId);
 					//query.set("shop", that.warehouse_shop);
-					query.set("charge", chargeId);
+					query.set("Ncharge", chargeId);
 					query.set("beizhu", that.warehouse_beizhu);
 					query.set("disabled", !that.disabled);
 					query.set("parent", poiID);
@@ -218,7 +219,7 @@
 							query.set("stock_name", that.warehouse_name);
 							query.set("num", Number(that.warehouse_num));
 							if(shop) query.set("shop",shopId);
-							query.set("charge", chargeId);
+							query.set("Ncharge", chargeId);
 							query.set("beizhu", that.warehouse_beizhu);
 							query.set("disabled", !that.disabled);
 							query.set("parent", poiID);

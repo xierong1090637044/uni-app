@@ -38,7 +38,7 @@
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 			</view>
-			<navigator class='display_flex_bet item1' hover-class="none" url="/pages/mine/vip/vip">
+			<!--<navigator class='display_flex_bet item1' hover-class="none" url="/pages/mine/vip/vip">
 				<view>是否已是会员</view>
 				<view class='display_flex right_item' v-if="userInfo.is_vip">
 					<text>是</text>
@@ -54,7 +54,7 @@
 				<view class='display_flex right_item'>
 					<text>{{userInfo.vip_time}}</text>
 				</view>
-			</view>
+			</view>-->
 		</view>
 
 		<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false" :h5Top="true">
