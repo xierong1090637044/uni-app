@@ -35,14 +35,14 @@
 				</view>
 
 				<button class="pay_button" @click="pay_off" :disabled="payStatus">支付</button>
-				
+
 				<view style="margin-top: 40rpx;line-height: 50rpx;">
 					<view style="font-size: 32rpx;">
 						<text>会员的好处</text>
 						<text style="font-size: 20rpx;">（感谢您一如既往的支持）</text>
 						<fa-icon type="info-circle" size="18" color="#12b9fe" style="margin-left: 20rpx;"></fa-icon>
 					</view>
-					
+
 					<view style="color: #999999;font-size: 24rpx;">
 						<view>1.会员可无限制上传产品、员工、仓库、门店</view>
 						<view>2.会员可上传凭证图，门店图、仓库图</view>
@@ -51,7 +51,7 @@
 						<view>5.会员可使用电脑版</view>
 						<view>6.更多特权正在开发中...</view>
 					</view>
-					
+
 				</view>
 			</view>
 		</view>
@@ -66,7 +66,7 @@
 
 		data() {
 			return {
-				payStatus:false,
+				payStatus: false,
 				user: uni.getStorageSync("user"),
 				selected_price: 10,
 			}
@@ -83,69 +83,29 @@
 			},
 
 			pay_off() {
-				if(that.user.is_vip){
-					uni.showToast({
-						title:"您已经是VIP了",
-						icon:"none"
-					})
-				}else{
-					uni.showLoading({title:"充值中..."})
-					that.payStatus = true;
-					that.pay().then(res=>{
-						if(res){
-							const query = Bmob.Query('_User');
-							query.get(that.user.objectId).then(res => {
-							  let timestamp=new Date().getTime();
-							  if(that.selected_price == 10){
-							  	res.set('vip_time',timestamp + 2592000000)
-									that.user.vip_time = timestamp + 2592000000
-							  }else if(that.selected_price == 25){
-							  	res.set('vip_time',timestamp + 2592000000*3)
-									that.user.vip_time = timestamp + 2592000000*3
-							  }else if(that.selected_price == 100){
-							  	res.set('vip_time',timestamp + 2592000000*12)
-									that.user.vip_time = timestamp + 2592000000*12
-							  }
-								res.set('is_vip',true)
-							  res.save()
-								
-								that.user.is_vip = true
-								uni.setStorageSync("user",that.user)
-							}).catch(err => {
-							  console.log(err)
-							})
-							
-						}else{
-							uni.showToast({
-								title:"充值失败",
-								icon:"none"
-							})
-						}
-						that.payStatus = false;
-						uni.hideLoading()
-					})
-					
-				}
-				
+				uni.showToast({
+					title: "暂时请去'库存表小程序充值'，账号通用",
+					icon: "none"
+				})
 			},
-			
-			pay(){
+
+			pay() {
 				return new Promise((resolve, reject) => {
 					let openId = uni.getStorageSync('openid');
 					//传参数金额，名称，描述,openid
 					Bmob.Pay.weApp(that.selected_price, '库存表-会员充值', '库存表-会员充值', openId).then(function(resp) {
 						console.log(resp);
-					
+
 						//服务端返回成功
 						var timeStamp = resp.timestamp,
 							nonceStr = resp.noncestr,
 							packages = resp.package,
 							orderId = resp.out_trade_no, //订单号，如需保存请建表保存。
 							sign = resp.sign;
-					
+
 						//打印订单号
 						console.log(orderId);
-					
+
 						//发起支付
 						wx.requestPayment({
 							'timeStamp': timeStamp,
@@ -155,25 +115,25 @@
 							'paySign': sign,
 							'success': function(res) {
 								//付款成功,这里可以写你的业务代码
-								resolve(true,res)
+								resolve(true, res)
 							},
 							'fail': function(res) {
 								//付款失败
 								console.log('付款失败');
 								console.log(res);
-								resolve(false,res)
+								resolve(false, res)
 							}
 						})
-					
+
 					}, function(err) {
 						console.log('服务端返回失败');
 						console.log(err);
-						resolve(false,err)
+						resolve(false, err)
 					});
 				})
-				
+
 			}
-			
+
 		},
 
 	}

@@ -172,7 +172,7 @@
 				uni.showLoading({
 					title: "加载中..."
 				})
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				if (type == "false") {
 					query.equalTo("objectId", "==", id);
 				} else {
@@ -225,7 +225,7 @@
 				uni.showLoading({
 					title: "加载中..."
 				})
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.include("stocks", "goodsClass", "second_class");
@@ -263,7 +263,7 @@
 					const pointer = Bmob.Pointer('_User');
 					const poiID = pointer.set(uni.getStorageSync("masterId"));
 
-					const pointer1 = Bmob.Pointer('Goods');
+					const pointer1 = Bmob.Pointer('NGoods');
 					const poiID1 = pointer1.set(that.selected_item.objectId);
 
 					const product_id = that.selected_item.objectId;
@@ -279,7 +279,7 @@
 					query.equalTo("order", "!=", 0);
 					query.save().then(res => {
 
-						const query = Bmob.Query('Goods');
+						const query = Bmob.Query('NGoods');
 						query.set('id', product_id) //需要修改的objectId
 						query.set('bad_num', Number(now_bad_num))
 						query.save().then(res => {
@@ -356,10 +356,10 @@
 
 							uni.setStorageSync("is_add", true)
 							
-							const query = Bmob.Query('Goods');
+							const query = Bmob.Query('NGoods');
 							
 							query.destroy(objectId).then(res => {
-								const query = Bmob.Query('Goods');
+								const query = Bmob.Query('NGoods');
 								// 单词最多删除50条
 								query.equalTo("header", "==", objectId);
 								query.equalTo("userId", "==", uid);

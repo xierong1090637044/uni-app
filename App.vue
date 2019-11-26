@@ -4,10 +4,6 @@
 	
 	export default {
 		onLaunch: function() {
-			
-			// #ifdef MP-WEIXIN
-			Bmob.User.auth().then(res => {}).catch(err => {console.log(err)});
-			// #endif
 
 			//console.log('App Launch')
 			uni.getStorage({
@@ -44,7 +40,7 @@
 			});
 		},
 		onShow: function() {
-			//console.log('App Show')
+			console.log('App Show')
 		},
 		onHide: function() {
 			//console.log('App Hide')

@@ -77,12 +77,12 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="type=='allocation' || 'counting'">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="type=='allocation' || type=='counting'">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input">
 							<input placeholder="调出仓库" :value="stock.stock_name" disabled="true" v-if="type=='allocation'"></input>
-							<input placeholder="盘点仓库" :value="stock.stock_name" disabled="true" v-else></input>
+							<input placeholder="盘点仓库" :value="stock.stock_name" disabled="true" v-if="type=='counting'"></input>
 						</view>
 					</view>
 
@@ -371,7 +371,7 @@
 			//查询产品列表
 			get_productList() {
 				that.productList = []
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("NGoods");
 				query.include("stocks");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);

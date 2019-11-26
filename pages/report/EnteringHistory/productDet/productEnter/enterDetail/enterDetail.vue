@@ -251,7 +251,7 @@
 
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
-					let pointer1 = Bmob.Pointer('Goods')
+					let pointer1 = Bmob.Pointer('NGoods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
 
 					let masterId = uni.getStorageSync("masterId");

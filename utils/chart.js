@@ -7,7 +7,7 @@ export default {
 		let uid = uni.getStorageSync("uid")
 		let ringChart = {}
 		return new Promise((resolve, reject) => {
-			const query = Bmob.Query("Goods");
+			const query = Bmob.Query("NGoods");
 			query.equalTo("userId", "==", uid);
 			query.equalTo("status", "!=", -1);
 			

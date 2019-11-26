@@ -216,7 +216,7 @@
 					for (let item of that.detail.detail) {
 						GoodIds.push(item.goodsId.objectId)
 					}
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.containedIn("objectId", GoodIds);
 					query.find().then(res => {
 

@@ -293,7 +293,7 @@
 					title: "上传中..."
 				});
 
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("NGoods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.equalTo("goodsName", "==", good.goodsName);
@@ -320,7 +320,7 @@
 					const pointer1 = Bmob.Pointer('stocks')
 					const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
-					const query = Bmob.Query('Goods');
+					const query = Bmob.Query('NGoods');
 					query.set("goodsIcon", that.goodsIcon)
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice ? good.costPrice : "0")

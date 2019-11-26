@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="现已支持扫码自动识别条码产品信息并进行添加,但是该功能暂时只对会员使用!" />
+		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="此版跟'库存表'除了商品数据不一样外,其他数据通用!" />
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -151,10 +151,30 @@
 			this.$wechat.share_pyq();
 			// #endif
 
-			mine.query_setting()
-
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
+			}
+			
+			if (options.phone) {
+				const query = Bmob.Query("_User");
+				query.equalTo("mobilePhoneNumber","==", options.phone);
+				query.find().then(res => {
+				    console.log(res)
+						uni.setStorageSync("user", res[0])
+						if(res[0].masterId){//2是员工
+							uni.setStorageSync("identity", 2); //1是老板，2是员工
+							uni.setStorageSync("masterId", res[0].objectId)
+							uni.setStorageSync("uid", res[0].masterId.objectId)
+						}else{//1是老板
+							uni.setStorageSync("identity", 1); 
+							uni.setStorageSync("masterId", res[0].objectId)
+							uni.setStorageSync("uid", res[0].objectId)
+						}
+						
+						mine.query_setting()
+				});
+			}else{
+				mine.query_setting()
 			}
 		},
 

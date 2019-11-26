@@ -35,8 +35,8 @@
 		<view style="margin: 40rpx 0 20rpx;">
 			<view style="padding: 0 30rpx 20rpx;">存货统计</view>
 			<view style="background: #FFFFFF;padding: 0 30rpx;">
-				<view v-if="Goods && Goods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
-				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)"
+				<view v-if="NGoods && NGoods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
+				<view v-for="(good,index) in NGoods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)"
 				 v-else>
 					<view>
 						<view>{{good.goodsName}}</view>
@@ -69,7 +69,7 @@
 			return {
 				loading: true,
 				stock: "",
-				Goods: null,
+				NGoods: null,
 				reserve_num: 0,
 				reserve_money: 0,
 			}
@@ -146,13 +146,13 @@
 
 			muchDelete(id) {
 				return new Promise((resolve, reject) => {
-					const query = Bmob.Query('Goods');
+					const query = Bmob.Query('NGoods');
 					query.equalTo("userId", "==", uid);
 					query.equalTo("stocks", "==", id);
 					query.limit(50)
 					query.find().then(todos => {
 						todos.destroyAll().then(res => {
-							const query = Bmob.Query('Goods');
+							const query = Bmob.Query('NGoods');
 							query.equalTo("userId", "==", uid);
 							query.equalTo("stocks", "==", id);
 							query.count().then(res => {
@@ -180,7 +180,7 @@
 			},
 
 			get_detail() {
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("NGoods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("order", "==", 1);
 				query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
@@ -188,7 +188,7 @@
 				query.include("header");
 				query.find().then(res => {
 					console.log(res)
-					that.Goods = res;
+					that.NGoods = res;
 					let reserve_num = 0;
 					let reserve_money = 0;
 					for (let item of res) {

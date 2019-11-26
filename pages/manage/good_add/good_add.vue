@@ -384,7 +384,7 @@
 				if (uni.getStorageSync("now_product")) {
 					that.edit_good(good)
 				} else {
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.equalTo("goodsName", "==", good.goodsName);
@@ -409,7 +409,7 @@
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? Number(good.costPrice) : 0)
@@ -451,7 +451,7 @@
 						for (var i = 0; i < stocksReserve.length; i++) {
 							console.log(stocksReserve[i])
 							let item = stocksReserve[i]
-							const query = Bmob.Query('Goods');
+							const query = Bmob.Query('NGoods');
 							query.get(item.good_id).then(res => {
 								console.log(res, item)
 								res.set('reserve', Number(item.reserve))
@@ -486,7 +486,7 @@
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? Number(good.costPrice) : 0)
@@ -533,10 +533,10 @@
 							const pointer1 = Bmob.Pointer('stocks')
 							const p_stock_id = pointer1.set(stocksReserve[i].objectId) //仓库的id关联
 
-							const pointer2 = Bmob.Pointer('Goods')
+							const pointer2 = Bmob.Pointer('NGoods')
 							const p_good_id = pointer2.set(this_result.objectId) //仓库的id关联
 
-							var queryObj = Bmob.Query('Goods');
+							var queryObj = Bmob.Query('NGoods');
 							queryObj.set("order", 1)
 							queryObj.set("goodsName", good.goodsName)
 							queryObj.set("costPrice", Number(good.costPrice))
@@ -549,7 +549,7 @@
 						}
 
 						// 传入刚刚构造的数组
-						Bmob.Query('Goods').saveAll(queryArray).then(result => {
+						Bmob.Query('NGoods').saveAll(queryArray).then(result => {
 							console.log(result);
 							uni.hideLoading();
 							common.log(uni.getStorageSync("user").nickName + "增加了产品'" + good.goodsName + "'", 5, this_result.objectId);

@@ -76,7 +76,7 @@
 						let result = res.result;
 						let array = result.split("-");
 
-						const query = Bmob.Query('Goods');
+						const query = Bmob.Query('NGoods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
 						} else {

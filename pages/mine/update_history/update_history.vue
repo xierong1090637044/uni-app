@@ -20,7 +20,7 @@
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>库存表KCB版-正式上线</text>
-						<text>对于原库存表的用户，于2019/11/23号注册的，用户信息都是通用的，后来注册用户信息将不再通用</text>
+						<text>对于原库存表的用户，用户信息都是通用的</text>
 						<text>电脑版将于此月底与大家见面</text>
 					</view>
 				</view>

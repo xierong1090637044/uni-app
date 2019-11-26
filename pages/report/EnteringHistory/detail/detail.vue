@@ -497,13 +497,13 @@
 			//采购单确定采购入库之后改变产品库存
 			addOrReduceGoodReserve(product, count) {
 				
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.get(product.goodsId.objectId).then(res => {
 					console.log("当前主产品",res)
 					let headerGood = res;
 					res.set('reserve', res.reserve + product.num);
 					res.save().then(res => {
-						const query = Bmob.Query("Goods");
+						const query = Bmob.Query("NGoods");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("header", "==", product.goodsId.objectId);
 						query.equalTo("stocks", "==", that.stock.objectId);
@@ -541,7 +541,7 @@
 									}
 								})
 							}else{
-								const query1 = Bmob.Query('Goods');
+								const query1 = Bmob.Query('NGoods');
 								query1.get(res[0].objectId).then(res => {
 									//console.log(res)
 									/*if (product.goodsId.selected_model) {
@@ -601,12 +601,12 @@
 
 			//销售单确认审核之后减少库存
 			ReduceGoodReserve(product, count) {
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.get(product.goodsId.objectId).then(res => {
 					console.log("当前主产品",res)
 					res.set('reserve', res.reserve - product.num);
 					res.save().then(res => {
-						const query = Bmob.Query("Goods");
+						const query = Bmob.Query("NGoods");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("header", "==", product.goodsId.objectId);
 						query.equalTo("stocks", "==", that.stock.objectId);
@@ -644,7 +644,7 @@
 									}
 								})
 							}else{
-								const query1 = Bmob.Query('Goods');
+								const query1 = Bmob.Query('NGoods');
 								query1.get(res[0].objectId).then(res => {
 									//console.log(res)
 									/*if (product.goodsId.selected_model) {
@@ -707,7 +707,7 @@
 				let product = that.products[i];
 				let bill = that.bills[i]
 
-				const query1 = Bmob.Query('Goods');
+				const query1 = Bmob.Query('NGoods');
 				query1.set('id', product.goodsId.objectId);
 				if (product.type == 1) {
 					query1.set('reserve', product.goodsId.reserve - product.num);

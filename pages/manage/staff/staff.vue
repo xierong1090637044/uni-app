@@ -171,7 +171,6 @@
 				const query = Bmob.Query("_User");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
-				query.equalTo("disabled", "==", that.disabled);
 				query.include("shop")
 				if (search_text) {
 					query.equalTo("username", "==", {

@@ -195,7 +195,7 @@
 				} else {
 					let goodIs = []
 					let compareGoods = []
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					if(that.category.type == 1){

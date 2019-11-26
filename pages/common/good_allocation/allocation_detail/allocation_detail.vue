@@ -110,7 +110,7 @@
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
-					const query = Bmob.Query('Goods');
+					const query = Bmob.Query('NGoods');
 					query.equalTo("goodsName", "==", that.products[i].goodsName);
 					query.equalTo("userId", "==", uid);
 					query.equalTo("stocks", "==", that.out_stock.objectId);
@@ -131,7 +131,7 @@
 									num = Number(this.products[i].reserve) - Number(this.products[i].num);
 									num1 = Number(this.products[i].num);
 									
-									const query = Bmob.Query('Goods');
+									const query = Bmob.Query('NGoods');
 									query.get(that.products[i].objectId).then(res => {
 										console.log(res)
 									
@@ -151,7 +151,7 @@
 									let user = pointer.set(uid)
 									let pointer2 = Bmob.Pointer('_User')
 									let operater = pointer2.set(uni.getStorageSync("masterId"))
-									let pointer1 = Bmob.Pointer('Goods')
+									let pointer1 = Bmob.Pointer('NGoods')
 									let tempGoods_id = pointer1.set(this.products[i].objectId);
 									
 									tempBills.set('goodsName', this.products[i].goodsName);
@@ -270,7 +270,7 @@
 							num = Number(this.products[i].reserve) - Number(this.products[i].num);
 							num1 = Number(out_products[0].reserve) + Number(this.products[i].num);
 							
-							const query = Bmob.Query('Goods');
+							const query = Bmob.Query('NGoods');
 							query.get(that.products[i].objectId).then(res => {
 								console.log(res)
 							
@@ -290,7 +290,7 @@
 							let user = pointer.set(uid)
 							let pointer2 = Bmob.Pointer('_User')
 							let operater = pointer2.set(uni.getStorageSync("masterId"))
-							let pointer1 = Bmob.Pointer('Goods')
+							let pointer1 = Bmob.Pointer('NGoods')
 							let tempGoods_id = pointer1.set(this.products[i].objectId);
 							
 							tempBills.set('goodsName', this.products[i].goodsName);
