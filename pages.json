@@ -489,6 +489,7 @@
 			}
 		]
 	},
+	"navigateToMiniProgramAppIdList": ["wx6783307185c8385e"],
 	"globalStyle": {
 		// #ifdef H5
 		"navigationStyle": "custom",

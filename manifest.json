@@ -113,6 +113,7 @@
             "minified" : true
         },
         "usingComponents" : true,
+				"navigateToMiniProgramAppIdList": ["wx6783307185c8385e"],
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "你的位置信息将用于库存表小程序获得天气"

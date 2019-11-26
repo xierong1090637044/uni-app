@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="现已支持扫码自动识别条码产品信息并进行添加,但是该功能暂时只对会员使用!" />
+		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="鉴于此版对传统进销存的产品展示不是很友好,于是开发了新版的库存表KCB,两者账号信息互通!" />
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -64,6 +64,13 @@
 				</view>
 				<view class='o_text'>{{value.name}}</view>
 			</navigator>
+
+			<view class='o_item' @click="navigateToKCB">
+				<view style='width:100%'>
+					<image src="/static/newVer.png" class='o_image' />
+				</view>
+				<view class='o_text'>库存表KCB版</view>
+			</view>
 		</view>
 		<view class='scan_code display_flex' @click='scan_code'>
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
@@ -132,6 +139,7 @@
 				total_money: 0,
 				total_products: 0,
 				openid: '',
+				user:uni.getStorageSync("user"),
 			}
 		},
 		onLoad(options) {
@@ -140,9 +148,9 @@
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			// #endif
-			
+
 			mine.query_setting()
-			
+
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
@@ -168,6 +176,17 @@
 
 		methods: {
 
+			//去到KCB
+			navigateToKCB() {
+				uni.navigateToMiniProgram({
+					appId: 'wx6783307185c8385e',
+					path: 'pages/tarBar/index?phone='+that.user.mobilePhoneNumber,
+					success(res) {
+						// 打开成功
+					}
+				})
+			},
+
 			//首页搜索
 			search(e) {
 				console.log(e)
@@ -180,7 +199,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情','扫码添加产品'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加产品'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -214,14 +233,14 @@
 						})
 					} else if (type == 4) {
 						let user = uni.getStorageSync("user")
-						if(user.is_vip){
+						if (user.is_vip) {
 							uni.navigateTo({
 								url: '/pages/manage/good_add/good_add?id=' + result,
 							})
-						}else{
+						} else {
 							uni.showToast({
-								title:"该功能只限会员使用",
-								icon:"none"
+								title: "该功能只限会员使用",
+								icon: "none"
 							})
 						}
 					}
@@ -252,14 +271,14 @@
 							})
 						} else if (type == 4) {
 							let user = uni.getStorageSync("user")
-							if(user.is_vip){
+							if (user.is_vip) {
 								uni.navigateTo({
 									url: '/pages/manage/good_add/good_add?id=' + result,
 								})
-							}else{
+							} else {
 								uni.showToast({
-									title:"该功能只限会员使用",
-									icon:"none"
+									title: "该功能只限会员使用",
+									icon: "none"
 								})
 							}
 						}

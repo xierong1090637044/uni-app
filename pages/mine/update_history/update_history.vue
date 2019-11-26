@@ -14,6 +14,17 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.0.9 公测版</text>
+						<text class="desc-time">2019.11.26</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>新增库存表KCB版</text>
+						<text>两个除了商品信息外，其他信息互通</text>
+					</view>
+				</view>
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.8 公测版</text>
 						<text class="desc-time">2019.11.17</text>
 					</view>
