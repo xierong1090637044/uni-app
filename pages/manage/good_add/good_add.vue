@@ -480,9 +480,7 @@
 				})
 			},
 
-			add_good(good, type) {
-				let now_product = uni.getStorageSync("now_product")
-
+			add_good(good) {
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 

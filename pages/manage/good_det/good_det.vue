@@ -21,30 +21,30 @@
 					<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
 					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 					<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
-					
+
 					<view v-if="product.goodsClass && product.goodsClass.class_text">
-						 所属分类 
-						 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text>
-						 <text style="color: #3D3D3D;" v-if="product.second_class && product.second_class.class_text">
-							 <text style="color: #2ca879;">-></text>{{product.second_class.class_text}}
-						 </text>
+						所属分类
+						<text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text>
+						<text style="color: #3D3D3D;" v-if="product.second_class && product.second_class.class_text">
+							<text style="color: #2ca879;">-></text>{{product.second_class.class_text}}
+						</text>
 					</view>
-					
+
 					<view class="display_flex">
 						<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
 						<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num ?product.max_num:0}}</text></view>
 					</view>
-					
+
 					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+product.objectId">
 						<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
 						<fa-icon type="angle-right" size="20" color="#999" />
 					</navigator>
-					
+
 					<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
 					<view>创建时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.createdAt}}</text></view>
-					
+
 					<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
-					
+
 					<view class="display_flex">
 						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
 						<navigator hover-class="none" :url="'../operations/operations?objectId='+product.objectId+'&goodsName='+product.goodsName"
@@ -78,7 +78,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view class="second_one">
 					<view style="margin: 0 0 20rpx;">产品二维码</view>
 					<view style="padding: 20rpx;background: #fff;text-align: center;">
@@ -195,7 +195,7 @@
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
 						for (let item of res) {
-							if(item.order == 1){
+							if (item.order == 1) {
 								let stocks_o = {}
 								stocks_o.stock_name = item.stocks.stock_name
 								stocks_o.objectId = item.stocks.objectId
@@ -206,7 +206,7 @@
 								stocks.push(item.stocks)
 							}
 						}
-						
+
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
@@ -234,7 +234,7 @@
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
 					for (let item of res) {
-						if(item.order != 0){
+						if (item.order != 0) {
 							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.objectId = item.stocks.objectId
@@ -249,13 +249,78 @@
 					this.product = product;
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
+					this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
 					that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 					that.loading = false
 					uni.hideLoading()
-					uni.setStorageSync("now_product",this.product)
+
+					if (product.order == 0) {
+						uni.setStorageSync("now_product", this.product)
+					}else{
+						this.addProduct(this.product).then(res=>{
+							this.product.objectId = res.objectId
+							this.product.order = 0
+							uni.setStorageSync("now_product", this.product)
+						})
+					}
 					console.log(this.product)
 				})
+			},
+
+			//添加产品
+			addProduct(good) {
+				return new Promise((resolve, reject) => {
+					const pointer = Bmob.Pointer('_User')
+					const userid = pointer.set(uid)
+
+					const query = Bmob.Query('Goods');
+					query.set("goodsIcon", good.goodsIcon)
+					query.set("goodsName", good.goodsName)
+					query.set("costPrice", good.costPrice ? good.costPrice.toString() : "0")
+					query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : "0")
+					if (good.nousetime) {
+						let time = good.nousetime.replace(new RegExp('-', 'g'), "/")
+						time = new Date(time).getTime()
+						query.set("nousetime", time)
+					}
+					query.set("regNumber", good.regNumber)
+					query.set("reserve", Number(good.reserve))
+					query.set("productCode", good.productCode)
+					query.set("product_info", good.product_info)
+					query.set("producer", good.producer)
+					query.set("packingUnit", good.packingUnit)
+					query.set("packageContent", good.packageContent)
+					query.set("position", good.position?good.position:'')
+					query.set("warning_num", Number(good.warning_num)?Number(good.warning_num):0)
+					query.set("max_num", Number(good.max_num)?Number(good.max_num):0)
+					query.set("stocktype", (Number(good.warning_num) >= Number(good.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+
+					query.set("product_state", good.product_state?good.product_state:false) //改产品是否是半成品
+					query.set("order", 0)
+					if (good.goodsClass && good.goodsClass.objectId) {
+						let pointer2 = Bmob.Pointer('class_user')
+						let p_class_user_id = pointer2.set(good.goodsClass.objectId) //一级分类id关联
+
+						query.set("goodsClass", p_class_user_id)
+					} else if (good.second_class && good.second_class.objectId) {
+						let pointer2 = Bmob.Pointer('class_user')
+						let p_class_user_id = pointer2.set(good.goodsClass.objectId) //一级分类id关联
+
+						let pointer3 = Bmob.Pointer('second_class')
+						let p_second_class_id = pointer3.set(good.second_class.objectId) //仓库的id关联
+
+						query.set("goodsClass", p_class_user_id)
+						query.set("second_class", p_second_class_id)
+					}
+
+					query.set("userId", userid)
+					query.save().then(res => {
+						console.log(res)
+						resolve(res)
+					})
+				})
+
 			},
 
 			//确认货损
@@ -309,7 +374,7 @@
 			//生成二维码
 			show_qrcode(item) {
 				that.is_show = true,
-				that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+					that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
 			},
 
 			//分库存的switch点击
@@ -357,35 +422,35 @@
 						if (res.confirm) {
 
 							uni.setStorageSync("is_add", true)
-							
+
 							const query = Bmob.Query('Goods');
-							
+
 							query.destroy(objectId).then(res => {
 								const query = Bmob.Query('Goods');
 								// 单词最多删除50条
 								query.equalTo("header", "==", objectId);
 								query.equalTo("userId", "==", uid);
 								query.find().then(todos => {
-								  todos.destroyAll().then(res => {
-								    // 成功批量修改
-								    console.log(res,'ok')
+									todos.destroyAll().then(res => {
+										// 成功批量修改
+										console.log(res, 'ok')
 										uni.navigateBack({
 											delta: 1
 										})
-										
+
 										setTimeout(function() {
 											uni.showToast({
 												title: "删除成功"
 											})
 										}, 1000)
-										
-								  }).catch(err => {
-								    console.log(err)
-								  });
+
+									}).catch(err => {
+										console.log(err)
+									});
 								})
-								
+
 							}).catch(err => {
-							  console.log(err)
+								console.log(err)
 							})
 						}
 					}
