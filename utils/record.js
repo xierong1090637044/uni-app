@@ -6,7 +6,7 @@ export default {
 		let uid = uni.getStorageSync("uid")
 
 		return new Promise((resolve, reject) => {
-			const query = Bmob.Query("Goods");
+			const query = Bmob.Query("NGoods");
 			query.equalTo("userId", "==", uid);
 			query.equalTo("status", "!=", -1);
 			query.equalTo("order", "!=", 1);
@@ -121,7 +121,7 @@ export default {
 			let params = {}
 			this.querycount().then(count => {
 				params.total_products = count
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("NGoods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.equalTo("order", "==", 0);
