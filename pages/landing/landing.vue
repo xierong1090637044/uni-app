@@ -67,16 +67,17 @@
 					})
 				} else {
 					Bmob.User.login(nickname, password).then(res => {
+						console.log(res.identity)
 						if(res.identity == 1){
 							uni.setStorageSync("user", res)
 							uni.setStorageSync("masterId", res.objectId)
 							uni.setStorageSync("identity", 1); //1是老板，2是员工
 							uni.setStorageSync("uid", res.objectId)
-						}else{
-							uni.setStorageSync("user", now_staff)
+						}else if(res.identity == 2){
+							uni.setStorageSync("user", res)
 							uni.setStorageSync("identity", 2) //1是老板，2是员工
-							uni.setStorageSync("masterId", now_staff.userId.objectId)
-							uni.setStorageSync("uid", now_staff.masterId.objectId)
+							uni.setStorageSync("masterId", res.objectId)
+							uni.setStorageSync("uid", res.masterId.objectId)
 						}
 						
 						uni.switchTab({
