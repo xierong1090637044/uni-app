@@ -79,7 +79,7 @@
 				const query = Bmob.Query("InfoCenter");
 				query.order("-createdAt");
 				const query1 = query.equalTo("toUser", '==',uid);
-				const query2 = query.equalTo("fromUser", '==',"I75puc2O");//这是系统消息
+				const query2 = query.equalTo("fromUser", '==',"My5CIpNi");//这是系统消息
 				
 				query.or(query1, query2);
 				query.find().then(res => {
