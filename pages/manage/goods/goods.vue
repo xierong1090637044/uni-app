@@ -8,7 +8,8 @@
 			 @click-right="goto_add" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm"  @blur="input_confirm" :value="search_text"/>
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm" @blur="input_confirm"
+					 :value="search_text" />
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -36,8 +37,8 @@
 						<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product)">
 							<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name">{{product.goodsName}}</view>
 							<view class="product_reserve display_flex_bet" style="width: 90%;">
-								  <view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-									<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
+								<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+								<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 							</view>
 							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
 							<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
@@ -81,7 +82,7 @@
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
-				
+
 				<view class="input_item1" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view class="display_flex">
 						<view>预警产品</view>
@@ -89,7 +90,7 @@
 							<switch :checked="stock_checked" @change="change_stocktatus" />
 						</view>
 					</view>
-					
+
 					<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
 						<view>失效产品</view>
 						<view @click.stop="">
@@ -97,7 +98,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 
 				<view class="option_bottom">
 					<view class="selection" @click="option_reset">重置</view>
@@ -143,7 +144,7 @@
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
 				stock_checked: false,
-				search_text:''
+				search_text: ''
 			}
 		},
 
@@ -153,8 +154,8 @@
 			uni.removeStorageSync("warehouse");
 
 			uid = uni.getStorageSync('uid');
-			
-			if(option.search_text){
+
+			if (option.search_text) {
 				that.search_text = option.search_text
 				search_text = option.search_text
 			}
@@ -193,7 +194,7 @@
 			//支持预览图片
 			priviewImg(imgurl) {
 				uni.previewImage({
-					current:imgurl,
+					current: imgurl,
 					urls: [imgurl],
 				});
 			},
@@ -231,7 +232,7 @@
 			//确定点击
 			goto_add() {
 				uni.showActionSheet({
-					itemList: ['单产品上传', '多仓库产品上传', '多规格产品上传'],
+					itemList: ['单产品上传', '多规格产品上传'],
 					//itemList: ['单产品上传', '多仓库产品上传'],
 					success: function(res) {
 						let user = uni.getStorageSync("user")
@@ -243,7 +244,7 @@
 								})
 							} else if (res.tapIndex == 1) {
 								uni.navigateTo({
-									url: "../goods_add/goods_add"
+									url: "../goods_add_MoreG/goods_add_MoreG"
 								})
 							} else if (res.tapIndex == 2) {
 								uni.navigateTo({
@@ -316,9 +317,16 @@
 			goDetail(value) {
 				console.log(value)
 				uni.setStorageSync("now_product", value);
-				uni.navigateTo({
-					url: "../good_det/good_det"
-				})
+				if(value.order == 0){
+					uni.navigateTo({
+						url: "../good_det/Ngood_det"
+					})
+				}else{
+					uni.navigateTo({
+						url: "../good_det/good_det"
+					})
+				}
+				
 			},
 
 			//查询产品列表
@@ -327,12 +335,10 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				if (that.stock) {} else {
-					query.equalTo("accessory", "!=", true);
-				}
-				if(that.category.type == 1){
+				query.equalTo("order", "!=", 1);
+				if (that.category.type == 1) {
 					query.equalTo("goodsClass", "==", that.category.objectId);
-				}else{
+				} else {
 					query.equalTo("second_class", "==", that.category.objectId);
 				}
 				const query1 = query.equalTo("goodsName", "==", {
@@ -356,8 +362,9 @@
 				query.include("goodsClass", "stocks", "second_class");
 				query.find().then(res => {
 					//console.log(res)
-					for(let item of res){
-						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
+					for (let item of res) {
+						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
+							0)
 					}
 					this.productList = res;
 					this.loading = false;

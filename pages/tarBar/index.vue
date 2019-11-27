@@ -103,29 +103,39 @@
 			return {
 				logsList: [],
 				optionsLists: [{
-						name: '采购或入库',
+						name: '入库',
 						icon: '/static/entering.png',
-						url: '/pages/common/goods-select/goods-select?type=entering'
+						url: '/pages/common/goods-select/goods-select?type=entering&value=2'
 					},
 					{
-						name: '销售或出库',
+						name: '出库',
 						icon: '/static/delivery.png',
-						url: '/pages/common/goods-select/goods-select?type=delivery'
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=2'
 					},
 					{
 						name: '产品调拨',
 						icon: '/static/allocation.png',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
 					},
-					{
+					/*{
 						name: '退货入库',
 						icon: '/static/return_goods.png',
 						url: '/pages/common/goods-select/goods-select?type=returing'
-					},
+					},*/
 					{
 						name: '库存盘点',
 						icon: '/static/stocking.png',
 						url: '/pages/common/goods-select/goods-select?type=counting'
+					},
+					{
+						name: '采购',
+						icon: '/static/purchase.png',
+						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+					},
+					{
+						name: '销售',
+						icon: '/static/sell.png',
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
 					},
 					{
 						name: '使用手册',

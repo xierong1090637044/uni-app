@@ -142,40 +142,32 @@
 			"style": {
 				"navigationBarTitleText": "物流详情"
 			}
+		}, {
+			"path": "pages/report/matterRecord/matterRecord",
+			"style": {}
+		}, {
+			"path": "pages/report/matterRecord/detail/detail",
+			"style": {}
+		}, {
+			"path": "pages/common/good_production/good_production",
+			"style": {}
+		}, {
+			"path": "pages/common/good_production/detail/detail",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/productDet",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/matterDet/matterDet",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/productEnter/productEnter",
+			"style": {}
+		}, {
+			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/report/matterRecord/matterRecord",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/matterRecord/detail/detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/common/good_production/good_production",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/common/good_production/detail/detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/productDet",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/matterDet/matterDet",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/productEnter/productEnter",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -276,6 +268,12 @@
 					}
 				},
 				{
+					"path": "good_add/stockAdd/stockAdd",
+					"style": {
+						"navigationBarTitleText": "添加产品"
+					}
+				},
+				{
 					"path": "shops/detail/detail",
 					"style": {
 						"navigationBarTitleText": "门店详情"
@@ -342,6 +340,12 @@
 
 				{
 					"path": "good_det/good_det",
+					"style": {
+						"navigationBarTitleText": "产品详情"
+					}
+				},
+				{
+					"path": "good_det/Ngood_det",
 					"style": {
 						"navigationBarTitleText": "产品详情"
 					}
@@ -476,11 +480,6 @@
 				"iconPath": "static/manage.png",
 				"selectedIconPath": "static/manage.png",
 				"text": "管理"
-			}, {
-				"pagePath": "pages/tarBar/report",
-				"iconPath": "static/report.png",
-				"selectedIconPath": "static/report.png",
-				"text": "记录"
 			}, {
 				"pagePath": "pages/tarBar/mine",
 				"iconPath": "static/person.png",
