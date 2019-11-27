@@ -123,7 +123,7 @@
 				uni.showLoading({
 					title: "加载中..."
 				})
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("createdAt", ">=", that.starttime + " 00:00:00");
 				query.equalTo("createdAt", "<=", that.endtime + " 23:59:59");

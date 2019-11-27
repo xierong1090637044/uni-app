@@ -107,7 +107,7 @@
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 
 					//单据
-					let tempBills = Bmob.Query('Bills');
+					let tempBills = Bmob.Query('NBills');
 					let detailBills = {}
 
 					let pointer = Bmob.Pointer('_User')
@@ -147,10 +147,10 @@
 					detailObj.push(detailBills)
 				}
 				//插入单据
-				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
+				Bmob.Query('NBills').saveAll(billsObj).then(function(res) {
 						//console.log("批量新增单据成功", res);
 
-						/*let relation = Bmob.Relation('Bills'); // 需要关联的表
+						/*let relation = Bmob.Relation('NBills'); // 需要关联的表
 						let relID = relation.add(operation_ids);*/
 
 						let pointer = Bmob.Pointer('_User')

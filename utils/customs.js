@@ -31,7 +31,7 @@ export default {
 			
 				let custom = res
 				for(let item of custom){
-					const query = Bmob.Query("Bills");
+					const query = Bmob.Query("NBills");
 					query.equalTo("type", '==', -1);
 					query.equalTo("custom", '==', item.objectId);
 					query.find().then(res => {

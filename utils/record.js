@@ -45,7 +45,7 @@ export default {
 						}
 					}
 					
-					const query = Bmob.Query("Bills");
+					const query = Bmob.Query("NBills");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("createdAt", ">=", start_date);
 					query.equalTo("createdAt", "<=", end_date);

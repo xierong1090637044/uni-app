@@ -381,7 +381,7 @@
 							})
 							const query = Bmob.Query('order_opreations');
 							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('Bills');
+								const query = Bmob.Query('NBills');
 								query.containedIn("objectId", that.bills);
 								query.find().then(todos => {
 
@@ -476,7 +476,7 @@
 
 					res.save().then(res => {
 						if (count == (that.products.length - 1)) {
-							const query = Bmob.Query('Bills');
+							const query = Bmob.Query('NBills');
 							query.containedIn("objectId", that.bills);
 							query.find().then(todos => {
 								todos.set('status', true);
@@ -535,7 +535,7 @@
 						}
 						
 						if (count == (that.products.length - 1)) {
-							const query = Bmob.Query('Bills');
+							const query = Bmob.Query('NBills');
 							query.containedIn("objectId", that.bills);
 							query.find().then(todos => {
 								todos.set('status', true);
