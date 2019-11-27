@@ -8,7 +8,7 @@
 			</view>
 
 			<view class='header_text'>
-				<view>登陆库存表</view>
+				<view>登陆高明燃气库存管理</view>
 				<view class='iconImage'>
 					<image src='/static/chuan.png' style='width:100%;height:100%'></image>
 				</view>

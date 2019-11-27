@@ -133,7 +133,7 @@
 				return new Promise((resolve, reject) => {
 					let openId = uni.getStorageSync('openid');
 					//传参数金额，名称，描述,openid
-					Bmob.Pay.weApp(that.selected_price, '库存表-会员充值', '库存表-会员充值', openId).then(function(resp) {
+					Bmob.Pay.weApp(that.selected_price, '高明燃气库存管理-会员充值', '高明燃气库存管理-会员充值', openId).then(function(resp) {
 						console.log(resp);
 					
 						//服务端返回成功

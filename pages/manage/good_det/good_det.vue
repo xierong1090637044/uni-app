@@ -44,7 +44,6 @@
 					<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
 					
 					<view class="display_flex">
-						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
 						<navigator hover-class="none" :url="'../operations/operations?objectId='+product.objectId+'&goodsName='+product.goodsName"
 						 class="opion_item">此产品的操作记录</navigator>
 					</view>
@@ -159,7 +158,7 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表-' + product.goodsName + '的详情',
+				title: '高明燃气库存管理-' + product.goodsName + '的详情',
 				path: '/pages/manage/good_det/good_det?id=' + product.objectId + '&type="false"'
 			}
 		},

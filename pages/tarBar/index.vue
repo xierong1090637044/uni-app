@@ -171,7 +171,7 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表，欢迎您的加入',
+				title: '高明燃气库存管理，欢迎您的加入',
 				path: '/pages/tarBar/index'
 			}
 		},

@@ -283,7 +283,7 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表-操作单详情',
+				title: '高明燃气库存管理-操作单详情',
 				path: '/pages/report/EnteringHistory/detail/detail?id=' + id
 			}
 		},

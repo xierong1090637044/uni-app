@@ -3,7 +3,7 @@
 		<view class="content">
 			<view class="version">
 				<view class="version-title">
-					<text class="title-name">库存表KCB版</text>
+					<text class="title-name">高明燃气库存管理</text>
 					<text class="version-text">{{version}}</text>
 					<text class="version-text">公测版</text>
 				</view>
@@ -15,13 +15,11 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.0.0 公测版</text>
-						<text class="desc-time">2019.11.24</text>
+						<text class="desc-time">2019.11.27</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
-						<text>库存表KCB版-正式上线</text>
-						<text>对于原库存表的用户，于2019/11/23号注册的，用户信息都是通用的，后来注册用户信息将不再通用</text>
-						<text>电脑版将于此月底与大家见面</text>
+						<text>测试使用</text>
 					</view>
 				</view>
 				

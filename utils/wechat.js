@@ -80,7 +80,7 @@ export default {
 		this.initJssdk(function() {
 			jweixin.ready(function() {
 				 jweixin.updateTimelineShareData({ 
-				        title: '库存表-Simple and efficient', // 分享标题
+				        title: '高明燃气库存管理-Simple and efficient', // 分享标题
 				        link: 'https://www.jimuzhou.com/api/getUser.php', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 				        imgUrl: 'https://bmob-cdn-23134.bmobcloud.com/2019/09/14/19716d4640cbb9ef8085676de06d5604.png', // 分享图标
 				        success: function () {

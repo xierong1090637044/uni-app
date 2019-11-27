@@ -127,7 +127,7 @@
 					if (uni.getStorageSync("openid")) {
 						uni.showModal({
 							title: '提示',
-							content: '请关注服务号"库存表"进行关联',
+							content: '请关注服务号"高明燃气库存管理"进行关联',
 							confirmText: "关闭",
 							success: function(res) {
 								if (res.confirm) {} else if (res.cancel) {
@@ -138,7 +138,7 @@
 					} else {
 						uni.showModal({
 							title: '提示',
-							content: '请关注服务号"库存表"进行关联',
+							content: '请关注服务号"高明燃气库存管理"进行关联',
 							confirmText: "关闭",
 							success: function(res) {
 								if (res.confirm) {} else if (res.cancel) {

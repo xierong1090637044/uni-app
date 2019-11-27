@@ -1,5 +1,5 @@
 {
-    "name" : "库存表KCB",
+    "name" : "高明燃气库存管理KCB",
     "appid" : "__UNI__3F9221C",
     "description" : "dsadasdasd",
     "versionName" : "1.0.1",
@@ -115,12 +115,12 @@
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
-                "desc" : "你的位置信息将用于库存表小程序获得天气"
+                "desc" : "你的位置信息将用于高明燃气库存管理小程序获得天气"
             }
         }
     },
     "h5" : {
-        "title" : "库存表KCB",
+        "title" : "高明燃气库存管理KCB",
         "domain" : "https://www.jimuzhou.com",
         "router" : {
             "base" : "/KCB/",
