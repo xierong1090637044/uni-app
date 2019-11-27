@@ -94,12 +94,12 @@
 				for (let i = 0; i < this.products.length; i++) {
 
 					//单据
-					let tempBills = Bmob.Query('Bills');
+					let tempBills = Bmob.Query('NBills');
 					let detailBills = {}
 
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
-					let pointer1 = Bmob.Pointer('Goods')
+					let pointer1 = Bmob.Pointer('NGoods')
 					let tempGoods_id = pointer1.set(this.products[i].header.objectId);
 
 					let masterId = uni.getStorageSync("masterId");
@@ -134,7 +134,7 @@
 				}
 
 				//插入单据
-				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
+				Bmob.Query('NBills').saveAll(billsObj).then(function(res) {
 						console.log("批量新增单据成功", res);
 
 						let pointer = Bmob.Pointer('_User')
@@ -163,7 +163,7 @@
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
 										let num = 0;
-										const query = Bmob.Query("Goods");
+										const query = Bmob.Query("NGoods");
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
 											if (that.products[i].selectd_model) {
@@ -178,14 +178,14 @@
 											res.set('reserve', num)
 											res.save()
 
-											const query1 = Bmob.Query("Goods");
+											const query1 = Bmob.Query("NGoods");
 											query1.equalTo("header", "==", that.products[i].header.objectId);
 											query1.equalTo("order", "==", 1);
 											query1.statTo("sum", "reserve");
 											query1.find().then(res => {
 												console.log("dasds", res)
 												let now_reserve = res[0]._sumReserve
-												const query = Bmob.Query('Goods');
+												const query = Bmob.Query('NGoods');
 												query.get(that.products[i].header.objectId).then(res => {
 													res.set('reserve', now_reserve)
 													res.set('stocktype', (now_reserve > that.products[i].warning_num) ? 1 : 0)

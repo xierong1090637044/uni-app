@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="现已支持扫码自动识别条码产品信息并进行添加,但是该功能暂时只对会员使用!" />
+		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="正式测试使用!" />
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -293,7 +293,7 @@
 				let get_reserve_num = 0;
 				let out_reserve_num = 0;
 
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("createdAt", ">=", common.getDay(0, true));
 				query.equalTo("createdAt", "<=", common.getDay(1, true));

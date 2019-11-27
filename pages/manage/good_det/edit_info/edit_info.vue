@@ -299,7 +299,7 @@
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.set("goodsIcon", that.goodsIcon)
 				query.set("goodsName", good.goodsName)
 				query.set("costPrice", good.costPrice ? good.costPrice : "0")

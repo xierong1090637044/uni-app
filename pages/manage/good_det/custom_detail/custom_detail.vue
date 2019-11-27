@@ -73,7 +73,7 @@
 			},
 			
 			get_detail(custom_id){
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("type", '==', -1);
 				query.equalTo("goodsId", '==',goodsId);
 				

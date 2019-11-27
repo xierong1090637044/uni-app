@@ -123,7 +123,7 @@
 				uni.showLoading({
 					title: "加载中..."
 				})
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("createdAt", ">=", that.starttime + " 00:00:00");
 				query.equalTo("createdAt", "<=", that.endtime + " 23:59:59");
@@ -195,7 +195,7 @@
 				} else {
 					let goodIs = []
 					let compareGoods = []
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					if(that.category.type == 1){

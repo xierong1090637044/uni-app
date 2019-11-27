@@ -371,7 +371,7 @@
 			//查询产品列表
 			get_productList() {
 				that.productList = []
-				const query = Bmob.Query("Goods");
+				const query = Bmob.Query("NGoods");
 				query.include("stocks");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);

@@ -63,7 +63,7 @@
 
 			if (options.id) {
 				uni.showLoading({title:"加载中..."})
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
 				} else {
@@ -107,7 +107,7 @@
 						let result = res.result;
 						let array = result.split("-");
 
-						const query = Bmob.Query('Goods');
+						const query = Bmob.Query('NGoods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
 						} else {

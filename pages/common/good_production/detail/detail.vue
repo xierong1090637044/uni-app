@@ -210,14 +210,14 @@
 					let num = Number(this.products[i].reserve) - this.products[i].num;
 
 					//单据
-					let tempBills = Bmob.Query('Bills');
+					let tempBills = Bmob.Query('NBills');
 					let detailBills = {}
 
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer2 = Bmob.Pointer('_User')
 					let operater = pointer2.set(uni.getStorageSync("masterId"))
-					let pointer1 = Bmob.Pointer('Goods')
+					let pointer1 = Bmob.Pointer('NGoods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
 
 					if (uni.getStorageSync("custom")) {
@@ -258,7 +258,7 @@
 					detailObj.push(detailBills)
 				}
 				//插入单据
-				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
+				Bmob.Query('NBills').saveAll(billsObj).then(function(res) {
 						//console.log("批量新增单据成功", res);
 						let bills = []
 						for (let i = 0; i < res.length; i++) {

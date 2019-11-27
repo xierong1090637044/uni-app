@@ -171,7 +171,7 @@
 				uni.showLoading({
 					title: "加载中..."
 				})
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", that.seleted_tab);
 				if(that.extra_type){
@@ -188,7 +188,7 @@
 					uni.hideLoading();
 
 					if (that.seleted_tab != 3) {
-						const query = Bmob.Query("Bills");
+						const query = Bmob.Query("NBills");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("status", "!=", false);
 						query.equalTo("type", "==", that.seleted_tab);

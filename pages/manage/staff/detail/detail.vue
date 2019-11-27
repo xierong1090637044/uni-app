@@ -59,7 +59,7 @@
 		data() {
 			return {
 				staff: "",
-				Goods: null,
+				NGoods: null,
 				reserve_num: 0,
 				reserve_money: 0,
 			}

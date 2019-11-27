@@ -266,7 +266,7 @@
 				if (uni.getStorageSync("now_product")) {
 					that.add_good(good, "edit")
 				} else {
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("goodsName", "==", good.goodsName);
 					query.find().then(res => {
@@ -292,7 +292,7 @@
 				const pointer1 = Bmob.Pointer('stocks')
 				const p_stock_id = pointer1.set(stock_id) //仓库的id关联
 
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.set("stocks", p_stock_id)
 				query.set("reserve", Number(good.reserve))
 				if(uni.getStorageSync("now_model")) query.set("models", uni.getStorageSync("now_model"))

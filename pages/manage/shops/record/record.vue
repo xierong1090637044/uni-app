@@ -277,7 +277,7 @@
 			},
 
 			getdetail() {
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", that.seleted_tab);
 				query.equalTo("shop", "==", shopId);

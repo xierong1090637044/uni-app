@@ -219,7 +219,7 @@
 
 			//得到该客户的统计数据
 			get_header_data(id) {
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", -1);
 				query.equalTo("custom", '==', id);

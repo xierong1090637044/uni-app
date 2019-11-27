@@ -7,7 +7,7 @@ module.exports = {
 			let uid = uni.getStorageSync("uid")
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.get(products[i].objectId).then(res => {
 					console.log(products[i])
 
@@ -29,7 +29,7 @@ module.exports = {
 					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 					res.save()
 
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
@@ -43,7 +43,7 @@ module.exports = {
 								}
 							})
 						} else {
-							const query = Bmob.Query('Goods');
+							const query = Bmob.Query('NGoods');
 							query.set('id', res[0].objectId) //需要修改的objectId
 							query.set('reserve', res[0].reserve + Number(products[i].num))
 							query.save().then(res => {
@@ -78,7 +78,7 @@ module.exports = {
 			let uid = uni.getStorageSync("uid")
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
-				const query = Bmob.Query('Goods');
+				const query = Bmob.Query('NGoods');
 				query.get(products[i].objectId).then(res => {
 					console.log(products[i])
 
@@ -100,7 +100,7 @@ module.exports = {
 					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 					res.save()
 
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
@@ -114,7 +114,7 @@ module.exports = {
 								}
 							})
 						} else {
-							const query = Bmob.Query('Goods');
+							const query = Bmob.Query('NGoods');
 							query.set('id', res[0].objectId) //需要修改的objectId
 							query.set('reserve', res[0].reserve - Number(products[i].num))
 							query.save().then(res => {
@@ -149,10 +149,10 @@ module.exports = {
 
 			const pointer1 = Bmob.Pointer('stocks')
 			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
-			const pointer2 = Bmob.Pointer('Goods')
+			const pointer2 = Bmob.Pointer('NGoods')
 			const p_good_id = pointer2.set(good.objectId) //仓库的id关联
 
-			const query = Bmob.Query('Goods');
+			const query = Bmob.Query('NGoods');
 			query.set("goodsName", good.goodsName)
 			if (type == "out") {
 				query.set("reserve", 0 - Number(reserve))
@@ -236,7 +236,7 @@ module.exports = {
 	get_allCost() {
 		let userid = uni.getStorageSync("uid")
 		console.log(userid)
-		const query = Bmob.Query("Goods");
+		const query = Bmob.Query("NGoods");
 		query.equalTo("userId", "==", userid);
 		query.find().then(res => {
 			console.log(res)
