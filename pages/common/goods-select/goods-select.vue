@@ -152,9 +152,9 @@
 			this.handle_data();
 
 			if (option.type == "entering") {
-				this.url = "../good_confrim/good_confrim"
+				this.url = "../good_confrim/good_confrim?value="+option.value
 			} else if (option.type == "delivery") {
-				this.url = "../goods_out/goods_out"
+				this.url = "../goods_out/goods_out?value="+option.value
 			} else if (option.type == "returing") {
 				this.url = "../good_return/good_return"
 			} else if (option.type == "counting") {
