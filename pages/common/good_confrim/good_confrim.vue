@@ -7,12 +7,12 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;" v-if="item.stocks">
-							<text v-if="item.stocks.stock_name">所存仓库:{{item.stocks.stock_name}}</text>
+						<view class="display_flex_bet">
+							<view v-if="item.stocks">
+								<text v-if="item.stocks.stock_name">入库仓库:{{item.stocks.stock_name}}</text>
+							</view>
+							<view>库存：{{item.reserve}}</view>
 						</view>
-						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view v-else>期初进货价：{{item.costPrice}}(元)</view>
 
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'" class='input_withlabel'>
 							<view>实际进货价(可修改)：</view>
@@ -20,7 +20,11 @@
 						</view>
 						<view class='input_withlabel' v-else>
 							<view>实际进货价(可修改)：</view>
-							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+							<view class="display_flex">
+								<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' />
+								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'"></text>
+								<text v-else style="margin-left: 20rpx;color: #f30;">{{item.costPrice}}(元)</text>
+							</view>
 						</view>
 
 						<view v-if="item.selectd_model">
@@ -30,7 +34,8 @@
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							入库量：
+							<text v-if="value == 1">采购量：</text>
+							<text v-else-if="value == 2">入库量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
 
@@ -68,7 +73,7 @@
 		},
 		data() {
 			return {
-				value:'',
+				value: '',
 				products: [],
 				user: uni.getStorageSync("user"),
 			}
@@ -81,10 +86,10 @@
 			uid = uni.getStorageSync("uid")
 			value = options.value
 			that.value = options.value
-			
-			if(value == 1){
+
+			if (value == 1) {
 				uni.setNavigationBarTitle({
-					title:"产品采购"
+					title: "产品采购"
 				})
 			}
 
@@ -192,11 +197,11 @@
 
 			//头部确定点击
 			confrim_this() {
-				if(value == 1){
+				if (value == 1) {
 					uni.navigateTo({
 						url: "/pages/common/good_confrim/goodPurchase/goodPurchase"
 					})
-				}else if(value == 2){
+				} else if (value == 2) {
 					uni.navigateTo({
 						url: "/pages/common/good_confrim/good_enter/good_enter"
 					})

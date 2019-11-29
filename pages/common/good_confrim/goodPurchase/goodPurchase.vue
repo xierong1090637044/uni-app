@@ -15,6 +15,11 @@
 							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
 					</view>
+					<view class='pro_list' style='color:#3D3D3D'>
+						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
+						<view v-else>入库仓库：未填写</view>
+						<view>入库数量：X{{item.num}}</view>
+					</view>
 					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 						<view>实际进货价：￥0（X{{item.num}}）</view>
 						<view>合计：￥0</view>
@@ -23,7 +28,6 @@
 						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
 					</view>
-					<view v-if="item.stocks && item.stocks.stock_name" style="font-size: 24rpx;color:#2ca879;">存放仓库:{{item.stocks.stock_name}}</view>
 
 				</view>
 			</view>
@@ -31,7 +35,7 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;">采购明细</view>
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">采购明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
