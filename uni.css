@@ -32,6 +32,7 @@ uni-page {
 
 .kaidan_rightinput {
 	margin-left: 10rpx;
+	text-align: right;
 }
 
 .good_option_view {

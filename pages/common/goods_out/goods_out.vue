@@ -54,6 +54,7 @@
 
 	let uid;
 	let that;
+	let value;
 	export default {
 		components: {
 			unicard,
@@ -66,6 +67,7 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
+				value:''
 			}
 		},
 
@@ -74,6 +76,8 @@
 			uni.removeStorageSync("is_option")
 			uid = uni.getStorageSync("uid")
 			that = this
+			value = options.value
+			that.value = options.value
 			if (options.id) {
 				uni.showLoading({
 					title: "加载中..."
@@ -191,9 +195,15 @@
 					}
 				}
 
-				uni.navigateTo({
-					url: "/pages/common/goods_out/out_detail/out_detail"
-				})
+				if(value == 1){
+					uni.navigateTo({
+						url: "/pages/common/goods_out/goodSell/goodSell"
+					})
+				}else if(value == 2){
+					uni.navigateTo({
+						url: "/pages/common/goods_out/out_detail/out_detail"
+					})
+				}
 
 			},
 

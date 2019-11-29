@@ -28,19 +28,68 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">选择门店</view>
+							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
+								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 300rpx;">仓库<text style="font-size: 20rpx;color: #CCCCCC;">（不选代表暂不出库）</text></view>
+							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
+								<input placeholder="选择仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">入库时间</view>
-							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
+							<view style="width: 140rpx;">发货方式</view>
+							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
+								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
+							</picker>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="outType.type == 2 || outType.type == 3">
+							<view style="width: 140rpx;">快递单号</view>
+							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
+								<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;" />
+
+								<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
+							</view>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="custom.discount">
+							<view style="width: 140rpx;">折扣率</view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
+								 @input="getDiscount" />%
+							</view>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
+								 type="digit" /></view>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">销售时间</view>
+							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
-									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
+									<view style="margin-right: 20rpx;">{{nowDay}}</view>
 									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 								</view>
 							</picker>
 						</view>
-						<view>
-							<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
-						</view>
+
 					</view>
+				</view>
+
+				<view style='margin-top:20px'>
+					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></input>
 				</view>
 
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
@@ -66,15 +115,7 @@
 						<text>合计：￥{{real_money}}</text>
 					</view>
 					<view class="display_flex">
-						<!-- #ifdef MP-WEIXIN -->
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
-						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">出库</button>
-						<!-- #endif -->
-						<!-- #ifdef  APP-PLUS || H5 -->
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">出库</button>
-						<!-- #endif -->
-
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
 					</view>
 
 				</view>
@@ -111,9 +152,30 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
+				custom: null, //制造商
+				outType: '', //发货方式
+				discount: '', //会员率
+				pickerTypes: [{
+						desc: "自提",
+						type: 1
+					},
+					{
+						desc: "快递",
+						type: 2
+					},
+					{
+						desc: "物流",
+						type: 3
+					},
+					{
+						desc: "送货上门",
+						type: 4
+					},
+				],
+				expressNum: '', //快递单号
 				total_num: 0, //实际的总数量
 
-				nowDay: common.getDay(0, true, true), //入库时间
+				nowDay: common.getDay(0, true, true), //时间
 			}
 		},
 		onLoad() {
@@ -129,8 +191,59 @@
 			this.really_total_money = 0
 			this.all_money = 0
 			this.real_money = 0
+
+			that.custom = uni.getStorageSync("custom")
+			shop = uni.getStorageSync("shop");
+
+			if (shop) {
+				that.shop_name = shop.name
+
+				const pointer = Bmob.Pointer('shops');
+				shopId = pointer.set(shop.objectId);
+			}
+
+			if (that.custom.discount) {
+				that.discount = that.custom.discount
+				for (let i = 0; i < this.products.length; i++) {
+					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+					this.total_num += Number(this.products[i].num)
+				}
+				this.really_total_money = this.really_total_money * that.discount / 100
+				this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100
+				this.all_money = this.all_money * that.discount / 100
+			} else {
+				for (let i = 0; i < this.products.length; i++) {
+					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+					this.total_num += Number(this.products[i].num)
+				}
+				this.real_money = Number(this.all_money.toFixed(2))
+			}
+
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
+
+			//扫码操作
+			scan_code() {
+				// #ifdef H5
+				this.$wechat.scanQRCode().then(res => {
+					that.expressNum = res.result
+				})
+				// #endif
+
+				// #ifdef MP-WEIXIN || APP-PLUS
+				uni.scanCode({
+					onlyFromCamera: true,
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						that.expressNum = res.result
+					}
+				});
+				// #endif
+			},
 
 			//移除此张照片
 			removeImg(index) {
@@ -165,6 +278,27 @@
 						title: "您还不是会员，无法使用",
 						icon: 'none'
 					})
+				}
+			},
+
+			//修改会员率
+			getDiscount(e) {
+				let discount = Number(e.detail.value)
+				if (discount >= 100) {
+					that.discount = 100
+				} else {
+					that.discount = discount
+					that.real_money = Number(this.all_money.toFixed(2)) * discount / 100
+				}
+			},
+
+			//选择物流方式
+			select_outType(e) {
+				//console.log(e)
+				that.outType = that.pickerTypes[e.detail.value]
+
+				if (that.outType.type != 2 || that.outType.type != 3) {
+					that.expressNum = ''
 				}
 			},
 
@@ -211,7 +345,8 @@
 					//console.log(res)
 					let identity = uni.getStorageSync("identity") // 身份识别标志
 					this.button_disabled = true;
-					let extraType = 2 // 判断是销售还是出库
+					let fromid = e.detail.formId
+					let extraType = 1 // 判断是销售还是出库
 
 					uni.showLoading({
 						title: "上传中..."
@@ -278,8 +413,15 @@
 						detailBills.num = this.products[i].num
 						detailBills.warning_num = this.products[i].warning_num
 
+						if (shop) {
+							tempBills.set("shop", shopId);
+							common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
+						}
+
 						billsObj.push(tempBills)
 						detailObj.push(detailBills)
+
+
 					}
 					//插入单据
 					Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
@@ -307,10 +449,37 @@
 							//query.set("stock", stockId);
 							query.set("master", poiID);
 							query.set("real_num", that.total_num);
+							if (that.discount) query.set('discount', that.discount);
 							query.set('goodsName', that.products[0].goodsName);
 							query.set('real_money', Number(that.real_money));
 							query.set('debt', that.all_money - Number(that.real_money));
+							if (shop) query.set("shop", shopId);
 
+							if (that.custom) {
+								let custom = Bmob.Pointer('customs');
+								let customID = custom.set(that.custom.objectId);
+								query.set("custom", customID);
+
+								//如果客户有欠款
+								if ((that.all_money - Number(that.real_money)) > 0) {
+									let query = Bmob.Query('customs');
+									query.get(that.custom.objectId).then(res => {
+										var debt = (res.debt == null) ? 0 : res.debt;
+										debt = debt + (that.all_money - Number(that.real_money));
+										console.log(debt);
+										let query = Bmob.Query('customs');
+										query.get(that.custom.objectId).then(res => {
+											res.set('debt', debt)
+											res.save()
+										})
+									})
+								}
+							}
+
+							if (that.outType) {
+								query.set("typeDesc", that.outType.desc);
+								query.set("expressNum", that.expressNum);
+							}
 							query.set("all_money", that.all_money);
 							query.set("Images", that.Images);
 							query.set("status", true); // 操作单详情
@@ -323,77 +492,39 @@
 								let operationId = res.objectId;
 								uni.hideLoading();
 								uni.removeStorageSync("customs"); //移除这个缓存
-								uni.showToast({
-									title: '产品出库成功',
-									icon: 'success',
-									success: function() {
-										common.outRedGoodNum(that.products).then(result => { //减少产品数量
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
+								if (extraType == 1) { // 执行销售操作
 
-											setTimeout(() => {
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
+									uni.showToast({
+										title: '产品销售成功',
+										icon: 'success',
+										success: function() {
+											common.outRedGoodNum(that.products).then(result => { //减少产品数量
+												that.button_disabled = false;
+												uni.setStorageSync("is_option", true);
 
-												common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品", -1, operationId);
+												setTimeout(() => {
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
+													uni.removeStorageSync("warehouse")
 
-												let params = {
-													"data1": operationId,
-													"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-														that.products
-														.length + "商品",
-													"data3": that.stock ? that.stock.stock_name : "未填写",
-													"data4": res.createdAt,
-													"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-														operationId,
-												};
-												send_temp.send_temp(params);
-												let params1 = {
-													"keyword1": {
-														"value": that.products[0].goodsName + "'等",
-														"color": "#173177"
-													},
-													"keyword2": {
-														"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-													},
-													"keyword3": {
-														"value": res.createdAt
-													},
-													"keyword4": {
-														"value": uni.getStorageSync("user").nickName,
-													}
-												}
-												params1.form_Id = fromid
-												params1.id = operationId
-												send_temp.send_out_mini(params1);
+													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+														that.products.length + "商品", -1, operationId);
 
-												//自动打印
-												if (uni.getStorageSync("setting").auto_print) {
-													print.autoPrint(operationId);
-												}
-
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
-										})
-
-									}
-								})
-
+													uni.navigateBack({
+														delta: 2
+													});
+												}, 500)
+											})
+										},
+									})
+								}
 							})
-
-
 						},
 						function(error) {
 							// 批量新增异常处理
 							console.log("异常处理");
 						});
-
 				})
 			}
 		}
@@ -439,7 +570,7 @@
 	.beizhu_style {
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		padding: 10rpx 0;
+		padding: 20rpx;
 		font-size: 32rpx;
 		max-height: 100rpx;
 	}
