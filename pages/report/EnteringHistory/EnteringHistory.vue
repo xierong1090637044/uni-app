@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click" :left-text="operaterTypeDesc" @click-left="select_operatertype"></uni-nav-bar>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"></uni-nav-bar>
 
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('all')">
@@ -106,7 +106,7 @@
 					</view>
 				</navigator>
 				
-				<!--<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input"><input placeholder="选择仓库" :value="stock.stock_name" disabled="true"></input></view>
@@ -115,7 +115,7 @@
 					<view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
-				</navigator>-->
+				</navigator>
 
 				<view class="input_item1" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view>
@@ -157,6 +157,7 @@
 	let uid;
 	let that;
 	let opeart_type;
+	let extra_type;
 	let page_size = 30;
 	let page_num = 1;
 
@@ -192,25 +193,26 @@
 			uni.removeStorageSync("charge");
 			uni.removeStorageSync("is_option");
 			opeart_type = Number(options.type);
+			extra_type = Number(options.extra_type);
 			uid = uni.getStorageSync("uid");
 
 			if (opeart_type == 1) {
 				that.operaterTypeDesc = "操作类型", 
 				uni.setNavigationBarTitle({
-					title: "入库详情"
+					title: (extra_type==2)?"入库记录":"采购记录"
 				})
 			} else if (opeart_type == -1) {
 				that.operaterTypeDesc = "操作类型",
 				uni.setNavigationBarTitle({
-					title: "出库详情"
+					title:(extra_type==2)?"出库记录":"销售记录"
 				})
 			} else if (opeart_type == 2) {
 				uni.setNavigationBarTitle({
-					title: "退货详情"
+					title: "退货记录"
 				})
 			} else if (opeart_type == 3) {
 				uni.setNavigationBarTitle({
-					title: "盘点详情"
+					title: "盘点记录"
 				})
 			}
 			
@@ -350,11 +352,7 @@
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
-				if(that.operaterTypeDesc == "采购" ||that.operaterTypeDesc == "销售"){
-					query.equalTo("extra_type", "==", 1);
-				}else if(that.operaterTypeDesc == "入库"||that.operaterTypeDesc == "出库"){
-					query.equalTo("extra_type", "==", 2);
-				}
+				if(opeart_type == 1 ||opeart_type == -1) query.equalTo("extra_type", "==", extra_type);
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
 				query.include("opreater","stock");

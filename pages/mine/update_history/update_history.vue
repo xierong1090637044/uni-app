@@ -14,6 +14,21 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.1.0 公测版</text>
+						<text class="desc-time">2019.11.30</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>产品添加优化升级</text>
+						<text>出库、入库、销售、采购、盘点、调拨操作优化</text>
+						<text>操作记录详情优化</text>
+						<text>新增消息中心</text>
+						<text>暂时移除物料管理模块</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.0.9 公测版</text>
 						<text class="desc-time">2019.11.26</text>
 					</view>
@@ -193,7 +208,6 @@
 		</view>
 		<view class="footer">
 			<text>Copyright @ {{year}} 谢荣 All Rights Reserved</text>
-			<text>wx:xierong1090637044</text>
 		</view>
 	</view>
 </template>

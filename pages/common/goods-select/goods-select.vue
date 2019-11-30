@@ -31,8 +31,8 @@
 					<checkbox-group @change="radioChange">
 						<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
 							<view>
-								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" :id="''+index" class="round blue"
-								 :checked="product.checked" />
+								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" :id="''+index"
+								 class="round blue" :checked="product.checked" />
 							</view>
 
 							<label class="uni-product" :for="''+index">
@@ -48,7 +48,7 @@
 									</view>
 									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:{{product.packageContent}}*{{product.packingUnit}}</view>
 									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-									
+
 									<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
 								</view>
 							</label>
@@ -94,7 +94,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!--一键清零显示-->
 		<view class="gLButton" @click="reserveTo" v-if="type=='counting' && identity == 1">一键归零</view>
 	</view>
@@ -129,7 +129,7 @@
 		},
 		data() {
 			return {
-				identity:uni.getStorageSync("identity"),
+				identity: uni.getStorageSync("identity"),
 				selectd_model: '',
 				models_good: '',
 				models_good_key: '',
@@ -152,9 +152,9 @@
 			this.handle_data();
 
 			if (option.type == "entering") {
-				this.url = "../good_confrim/good_confrim?value="+option.value
+				this.url = "../good_confrim/good_confrim?value=" + option.value
 			} else if (option.type == "delivery") {
-				this.url = "../goods_out/goods_out?value="+option.value
+				this.url = "../goods_out/goods_out?value=" + option.value
 			} else if (option.type == "returing") {
 				this.url = "../good_return/good_return"
 			} else if (option.type == "counting") {
@@ -175,14 +175,14 @@
 			if (uni.getStorageSync("category")) {
 				that.showOptions = true;
 				that.category = uni.getStorageSync("category")
-			}else{
+			} else {
 				that.category = ''
 			}
 
 			if (uni.getStorageSync("warehouse")) {
 				that.showOptions = true;
 				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
-			}else{
+			} else {
 				that.stock = ""
 			}
 
@@ -216,7 +216,7 @@
 				that.models_good = ''
 			},
 
-			
+
 			//分页点击
 			change_page(e) {
 				page_num = e.current
@@ -388,7 +388,8 @@
 								if (product.objectId == (typeof item == 'object' ? item.objectId : JSON.parse(item).objectId)) {
 									product.checked = true
 									product.key = key
-									product.reserve = product.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
+									product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
+										0)
 									key += 1
 								}
 							}
@@ -396,7 +397,8 @@
 					} else {
 						for (let product of res) {
 							product.key = key
-							product.reserve = product.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
+							product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
+								0)
 							key += 1
 						}
 					}

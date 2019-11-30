@@ -16,7 +16,7 @@
 					let user = res.data
 					let identity = uni.getStorageSync("identity")
 					let now_time = new Date().getTime()
-					console.log(user)
+					console.log(user.vip_time,now_time)
 					if (user.vip_time <= now_time) {
 						if(identity == 1){
 							const query = Bmob.Query('_User');

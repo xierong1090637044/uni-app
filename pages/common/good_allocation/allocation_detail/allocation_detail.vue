@@ -1,38 +1,57 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>产品：{{item.goodsName}}</view>
-					<view class='pro_list' style='color:#3D3D3D'>调出仓库：{{stock.stock_name}}</view>
-					<view class='pro_list'>
-						<view>可调库存：{{item.reserve}}</view>
-						<view>调出库存：{{item.num}}</view>
+					<view class='pro_list' style='color:#3D3D3D'>
+						<view>产品：{{item.goodsName}}</view>
+						<view>库存：{{item.reserve}}</view>
 					</view>
-				</view>
-			</view>
-
-			<view style="margin: 30rpx 0;">
-				<view style="margin:0 0 10rpx 10rpx;">开单明细</view>
-				<view class="kaidan_detail" style="line-height: 70rpx;">
-
-					<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose">
-						<view>选择调入仓库</text></view>
-						<view class="kaidan_rightinput"><input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name" /></view>
-					</navigator>
+					<view class='pro_list' style='color:#3D3D3D'>
+						<view>调出仓库：{{item.stocks.stock_name}}</view>
+						<view>
+							<view>调出库存：{{item.num}}</view>
+						</view>
+					</view>
 				</view>
 			</view>
 
 			<form @submit="formSubmit">
 
-				<view style='margin-top:20px'>
-					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+				<view style="margin: 30rpx 0;">
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">调拨明细</view>
+					<view class="kaidan_detail" style="line-height: 70rpx;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose"
+						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>调入仓库</text></view>
+							<view class="kaidan_rightinput"><input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name" /></view>
+						</navigator>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">调拨时间</view>
+							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
+								<view style="display: flex;align-items: center;">
+									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
+									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+								</view>
+							</picker>
+						</view>
+
+						<view>
+							<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
+						</view>
+
+					</view>
 				</view>
 
-				<view style="padding: 0 30rpx;margin-top: 60rpx;">
-					<button class='confrim_button' :disabled='button_disabled' form-type="submit">确认调拨</button>
+				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
+					<view>总数：{{total_num}}</view>
+					<view class="display_flex">
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit">调拨</button>
+					</view>
+
 				</view>
+
 			</form>
 
 		</view>
@@ -61,6 +80,9 @@
 				out_products: [], //调入的商品
 				all_money: 0,
 				real_money: 0,
+				total_num: 0, //实际的总数量
+
+				nowDay: common.getDay(0, true, true), //入库时间
 			}
 		},
 		onLoad() {
@@ -70,14 +92,49 @@
 			this.products = uni.getStorageSync("products");
 			for (let i = 0; i < this.products.length; i++) {
 				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+				this.total_num += Number(this.products[i].num)
 			}
 			this.real_money = Number(this.all_money.toFixed(2))
 		},
 		onShow() {
-			that.stock = uni.getStorageSync("warehouse")[0].stock
+			//that.stock = uni.getStorageSync("warehouse")[0].stock
 			that.out_stock = uni.getStorageSync("out_warehouse") ? uni.getStorageSync("out_warehouse")[0].stock : ''
 		},
 		methods: {
+
+			upload_good_withNoCan(good, stock) {
+				return new Promise((resolve, reject) => {
+					let uid = uni.getStorageSync("uid");
+					const pointer = Bmob.Pointer('_User')
+					const userid = pointer.set(uid)
+
+					let reserve = good.reserve
+
+					const pointer1 = Bmob.Pointer('stocks')
+					const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
+
+					const pointer2 = Bmob.Pointer('Goods')
+					const p_good_id = pointer2.set(good.header.objectId) //仓库的id关联
+
+					const query = Bmob.Query('Goods');
+					query.set("goodsName", good.goodsName)
+					query.set("costPrice", good.costPrice)
+					query.set("retailPrice", good.retailPrice)
+					query.set("reserve", Number(good.reserve))
+					query.set("stocks", p_stock_id)
+					query.set("header", p_good_id)
+					query.set("order", 1)
+					query.set("userId", userid)
+					query.save().then(res => {
+						console.log(res)
+						resolve([true, res])
+					}).catch(err => {
+						console.log(err)
+					})
+
+				})
+
+			},
 
 			//校验
 			check() {
@@ -90,83 +147,53 @@
 
 						resolve(false)
 					} else {
-						that.check_goods().then(res => {
-							if (res == true) {
-								resolve(true)
-							} else {
-								//console.log(res)
-								let product = res
-								uni.showModal({
-									title: "'" + product.goodsName + "'" + '没有关联到调出仓库',
-									content: "是否将它关联到此仓库",
-									showCancel: true,
-									success: res => {
+						for (let i = 0; i < that.products.length; i++) {
+
+							const query = Bmob.Query('Goods');
+							query.equalTo("goodsName", "==", that.products[i].goodsName);
+							query.equalTo("userId", "==", uid);
+							query.equalTo("stocks", "==", that.out_stock.objectId);
+							query.find().then(res => {
+								console.log(res)
+
+								if (res.length == 0) {
+									//console.log(that.products[i].goodsName)
+
+									let product = that.products[i]
+									let products = uni.getStorageSync("products");
+									let warehouse = uni.getStorageSync("out_warehouse")
+									product.reserve = product.num
+									that.upload_good_withNoCan(product, warehouse[0].stock).then(res => {
 										console.log(res)
-										if (res.confirm) { //确定点击
-											let products = uni.getStorageSync("products");
-											let warehouse = uni.getStorageSync("out_warehouse")
-											product.reserve = product.num
-											_goods.upload_good_withNoCan(product, warehouse[0].stock).then(res => {
-												console.log(res)
-												if (res[0]) {
-													uni.showToast({
-														title: '添加成功',
-														icon: 'none'
-													})
-												} else {
-													uni.showToast({
-														title: res[1],
-														icon: 'none'
-													})
-												}
-											})
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											uni.removeStorageSync("warehouse");
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											setTimeout(function(){
-												uni.navigateBack({
-													delta: 2
-												});
-											},500)
-											
+										if (i == that.products.length - 1) {
+											for (let i = 0; i < that.products.length; i++) {
+
+												const query = Bmob.Query('Goods');
+												query.equalTo("goodsName", "==", that.products[i].goodsName);
+												query.equalTo("userId", "==", uid);
+												query.equalTo("stocks", "==", that.out_stock.objectId);
+												query.find().then(res => {
+													that.out_products = that.out_products.concat(res)
+													if (i == that.products.length - 1) {
+														resolve(true)
+													}
+												})
+											}
 										}
-									},
-									fail: () => {},
-									complete: () => {
-										resolve(false)
+									})
+
+
+								} else {
+									console.log(that.products)
+									that.out_products = that.out_products.concat(res)
+									if (i == that.products.length - 1) {
+										resolve(true)
 									}
-								});
-							}
-						})
-
+								}
+							})
+						}
 					}
 				})
-			},
-
-			//校验产品是否关联
-			check_goods() {
-				return new Promise((resolve, reject) => {
-					for (let i = 0; i < that.products.length; i++) {
-						const query = Bmob.Query('Goods');
-						query.equalTo("goodsName", "==", that.products[i].goodsName);
-						query.equalTo("userId", "==", uid);
-						query.equalTo("stocks", "==", that.out_stock.objectId);
-						query.find().then(res => {
-							console.log(res)
-							if (res.length == 0) {
-								//console.log(that.products[i].goodsName)
-								resolve(that.products[i])
-							} else {
-								that.out_products = that.out_products.concat(res)
-								resolve(true)
-							}
-						})
-					}
-				})
-
 			},
 
 			formSubmit: function(e) {
@@ -191,12 +218,12 @@
 				});
 
 				const pointer = Bmob.Pointer('stocks');
-				let stockId = pointer.set(that.stock.objectId);
 				let out_stockId = pointer.set(that.out_stock.objectId);
 
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let stockIds = []
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - Number(this.products[i].num);
 					let num1 = Number(this.out_products[i].reserve) + Number(this.products[i].num);
@@ -220,10 +247,20 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', -2);
 					tempBills.set('opreater', operater);
-					tempBills.set("stock", stockId);
 					tempBills.set("out_stock", out_stockId);
+					tempBills.set("createdTime", {
+						"__type": "Date",
+						"iso": that.nowDay
+					}); // 操作单详情
 
 					let goodsId = {}
+					if (this.products[i].stocks && this.products[i].stocks.objectId) {
+						const pointer = Bmob.Pointer('stocks');
+						let stockId = pointer.set(this.products[i].stocks.objectId);
+						tempBills.set("stock", stockId);
+						detailBills.stock = this.products[i].stocks.stock_name
+						stockIds.push(this.products[i].stocks.objectId)
+					}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.stock = that.stock.stock_name
 					detailBills.out_stock = that.out_stock.stock_name
@@ -262,10 +299,14 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("type", -2);
 						query.set("opreater", poiID1);
-						query.set("stock", stockId);
 						query.set("out_stock", out_stockId);
 						query.set("master", poiID);
+						query.set("stockIds", stockIds);
 						query.set('goodsName', that.products[0].goodsName);
+						query.set("createdTime", {
+							"__type": "Date",
+							"iso": that.nowDay
+						}); // 操作单详情
 
 						query.save().then(res => {
 							let operationId = res.objectId;
@@ -279,10 +320,11 @@
 									for (let i = 0; i < that.products.length; i++) {
 										let num = Number(that.products[i].reserve) - Number(that.products[i].num);
 										let num1 = Number(that.out_products[i].reserve) + Number(that.products[i].num);
+
+										console.log(Number(that.products[i].num))
 										const query = Bmob.Query('Goods');
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
-
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
@@ -295,6 +337,8 @@
 											console.log(err)
 										})
 									}
+
+
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
 									//uni.removeStorageSync("warehouse");
@@ -322,9 +366,9 @@
 										if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);
 										}
-										uni.navigateBack({
+										/*uni.navigateBack({
 											delta: 2
-										});
+										});*/
 									}, 500)
 								}
 							})
@@ -349,6 +393,15 @@
 		overflow: scroll;
 	}
 
+	.bottomEle {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: calc(100% - 30rpx);
+		background: #FAFAFA;
+		padding: 20rpx 0rpx 20rpx 30rpx;
+	}
+
 	.pro_list {
 		display: flex;
 		justify-content: space-between;
@@ -371,8 +424,7 @@
 	.beizhu_style {
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		padding: 20rpx;
-		font-size: 32rpx;
+		padding: 10rpx 0;
 		max-height: 100rpx;
 	}
 

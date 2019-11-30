@@ -173,7 +173,7 @@
 			"path": "pages/common/goods_out/goodSell/goodSell",
 			"style": {}
 		}
-	],
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -218,6 +218,11 @@
 					"navigationBarTitleText": "操作手册"
 				}
 			}, {
+				"path": "InforCnter/InforCnter",
+				"style": {
+					"navigationBarTitleText": "消息中心"
+				}
+			},{
 				"path": "manual/detail/detail",
 				"style": {
 					"navigationBarTitleText": "详情"

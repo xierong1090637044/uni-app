@@ -199,8 +199,8 @@
 
 				that.text_desc = "修改"
 				that.goodsName = now_product.goodsName
-				that.costPrice = now_product.costPrice //进价
-				that.retailPrice = now_product.retailPrice //售价
+				that.costPrice = Number(now_product.costPrice) //进价
+				that.retailPrice = Number(now_product.retailPrice) //售价
 				that.packageContent = now_product.packageContent //包装含量
 				that.packingUnit = now_product.packingUnit //包装单位
 				that.warning_num = now_product.warning_num //预警库存
@@ -389,7 +389,6 @@
 					query.equalTo("status", "!=", -1);
 					query.equalTo("goodsName", "==", good.goodsName);
 					query.equalTo("position", "==", good.position);
-					query.equalTo("stocks", "==", that.stocks.objectId);
 					query.find().then(res => {
 						if (res.length >= 1) {
 							uni.showToast({
@@ -412,8 +411,8 @@
 				const query = Bmob.Query('Goods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
-				query.set("costPrice", good.costPrice ? good.costPrice.toString() : "0")
-				query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : "0")
+				query.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
+				query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 				if (that.nousetime) {
 					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 					time = new Date(time).getTime()
@@ -454,9 +453,10 @@
 							const query = Bmob.Query('Goods');
 							query.get(item.good_id).then(res => {
 								console.log(res, item)
+								res.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 								res.set('reserve', Number(item.reserve))
-								res.set("retailPrice", good.retailPrice.toString())
-								res.set("costPrice", good.costPrice.toString())
+								res.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
+								res.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 								res.set("goodsName", good.goodsName)
 								res.save()
 							}).catch(err => {
@@ -480,15 +480,18 @@
 				})
 			},
 
-			add_good(good) {
+			add_good(good, type) {
+				let now_product = uni.getStorageSync("now_product")
+				let stocksReserve = uni.getStorageSync("warehouse")||[]
+
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
 				const query = Bmob.Query('Goods');
 				query.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 				query.set("goodsName", good.goodsName)
-				query.set("costPrice", good.costPrice ? good.costPrice.toString() : "0")
-				query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : "0")
+				query.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
+				query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 				if (that.nousetime) {
 					let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
 					time = new Date(time).getTime()
@@ -507,7 +510,9 @@
 				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 
 				query.set("product_state", good.product_state) //改产品是否是半成品
-				query.set("order", 0)
+				if(stocksReserve.length > 0){
+					query.set("order", 0)
+				}
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了类别
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
@@ -521,7 +526,7 @@
 				query.save().then(res => {
 
 					let this_result = res
-					let stocksReserve = uni.getStorageSync("warehouse")||[]
+					
 					if (stocksReserve.length > 0) {
 						
 
@@ -534,42 +539,16 @@
 							const pointer2 = Bmob.Pointer('Goods')
 							const p_good_id = pointer2.set(this_result.objectId) //仓库的id关联
 
-							var queryObj = Bmob.Query('Goods');		
-							
+							var queryObj = Bmob.Query('Goods');
+							queryObj.set("order", 1)
 							queryObj.set("goodsIcon", that.goodsIcon ? that.goodsIcon : '')
 							queryObj.set("goodsName", good.goodsName)
-							queryObj.set("costPrice", good.costPrice ? good.costPrice.toString() : "0")
-							queryObj.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : "0")
-							if (that.nousetime) {
-								let time = that.nousetime.replace(new RegExp('-', 'g'), "/")
-								time = new Date(time).getTime()
-								queryObj.set("nousetime", time)
-							}
-							queryObj.set("regNumber", good.regNumber)
-							queryObj.set("reserve", Number(good.reserve))
-							queryObj.set("productCode", good.productCode)
-							queryObj.set("product_info", good.product_info)
-							queryObj.set("producer", good.producer)
-							queryObj.set("packingUnit", good.packingUnit)
-							queryObj.set("packageContent", good.packageContent)
-							queryObj.set("position", good.position)
-							queryObj.set("warning_num", Number(good.warning_num))
-							queryObj.set("max_num", Number(good.max_num))
-							queryObj.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+							queryObj.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
+							queryObj.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 							queryObj.set("header", p_good_id)
-							queryObj.set("product_state", good.product_state) //改产品是否是半成品
-							queryObj.set("order", 1)
-							queryObj.set("stocks", p_stock_id)
-							if (uni.getStorageSync("category")) { //存在此缓存证明选择了类别
-								if (that.category.type == 1) {
-									queryObj.set("goodsClass", p_class_user_id)
-								} else {
-									queryObj.set("goodsClass", p_class_user_id)
-									queryObj.set("second_class", p_second_class_id)
-								}
-							}
-							
 							queryObj.set("userId", userid)
+							queryObj.set("stocks", p_stock_id)
+							queryObj.set("reserve", Number(stocksReserve[i].reserve))
 							queryArray.push(queryObj);
 						}
 

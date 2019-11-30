@@ -38,16 +38,21 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
+				<navigator class="li " hover-class="none" url="/pages/mine/InforCnter/InforCnter">
+					<fa-icon type="instagram" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text display_flex">消息中心<view class="weidu" v-if="noticeState"></view></view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</navigator>
 				<navigator class="li " hover-class="none" url="/pages/mine/vip/vip">
 					<fa-icon type="vimeo" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">会员中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
+				<!--<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
+				</navigator>-->
 				<navigator class="li noborder" hover-class="none" url="/pages/mine/setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
@@ -87,14 +92,15 @@
 	</view>
 </template>
 <script>
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import Bmob from "hydrogen-js-sdk";
 	let that;
+	let uid = uni.getStorageSync("uid")
 	export default {
 		components: {
-			faIcon
 		},
 		data() {
 			return {
+				noticeState:false,
 				user: null,
 			};
 		},
@@ -103,6 +109,7 @@
 		},
 		onShow() {
 			that.user = uni.getStorageSync("user");
+			that.getNoticeList()
 		},
 		methods: {
 			willCome(){
@@ -110,7 +117,24 @@
 					title:"敬请期待",
 					icon:"none"
 				})
-			}
+			},
+			
+			//得到消息列表
+			getNoticeList(){
+				const query = Bmob.Query("InfoCenter");
+				query.order("-createdAt");
+				const query1 = query.equalTo("toUser", '==',uid);
+				const query2 = query.equalTo("toUser", '==',"I75puc2O");//这是系统消息
+				
+				query.or(query1, query2);
+				query.find().then(res => {
+					for(let item of res){
+						if(item.status == false){
+							that.noticeState = true
+						}
+					}
+				});
+			},
 		}
 	}
 </script>

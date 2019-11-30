@@ -8,11 +8,9 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;">可调数量：{{item.reserve}}</view>
-
-						<view class='margin-t-5 display_flex'>
-							调出仓库：
-							<view>{{stock.stock_name}}</view>
+						<view class='margin-t-5 display_flex_bet'>
+							<view>调出仓库：{{item.stocks.stock_name}}</view>
+							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
 						<view class='margin-t-5'>
 							调出库存：
@@ -52,7 +50,6 @@
 		data() {
 			return {
 				products: null,
-				stock: uni.getStorageSync("warehouse")[0].stock
 			}
 		},
 

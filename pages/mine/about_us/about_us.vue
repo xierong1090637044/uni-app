@@ -8,7 +8,6 @@
 		<view style="margin-top: 30rpx;color:#333;">长按图片,识别关注我们哦！</view>
 		<view class="copyright">
 			<view><text>Copyright © 谢荣 All Rights Reserved</text></view>
-			<text>联系方式:微信&QQ➭1090637044</text>
 		</view>
 
 

@@ -72,20 +72,25 @@
 								</view>
 							</view>
 							<view class='pro_list'>
+								<view v-if="item.type == -1">
+									<view v-if="item.stock">出库仓库:{{item.stock}}</view>
+									<view v-else>出库仓库:未填写</view>
+								</view>
+								<view v-else-if="item.type == 1">
+									<view v-if="item.stock">存放仓库:{{item.stock}}</view>
+									<view v-else>存放仓库:未填写</view>
+								</view>
+								
+								<view>数量：X{{item.num}}</view>
+							</view>
+							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
 								<view v-else>
-									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0（X{{item.num}}）</text>
-									<text v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</text>
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
+									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
 								</view>
 							</view>
-							<view v-if="item.type == -1">
-								<view v-if="item.stock" style="font-size: 24rpx;color:#2ca879;">出库仓库:{{item.stock}}</view>
-							</view>
-							<view v-else-if="item.type == 1">
-								<view v-if="item.stock" style="font-size: 24rpx;color:#2ca879;">存放仓库:{{item.stock}}</view>
-							</view>
-							
 
 							<!--<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
 							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>-->
@@ -96,25 +101,25 @@
 				</view>
 
 				<view v-if="detail.type == -1">
-					<view class="kaidanmx">
-						<view style="padding: 10rpx 30rpx;">开单明细</view>
-						<view v-if="detail.custom" class="display_flex">
+					<view class="kaidanmx" v-if="detail.extra_type == 1">
+						<view style="padding: 10rpx 30rpx;">销售明细</view>
+						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">客户姓名</view>
 							<view>{{detail.custom.custom_name}}</view>
 						</view>
-						<view v-if="detail.discount" class="display_flex">
+						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">折扣率</view>
 							<view>{{detail.discount}}%</view>
 						</view>
-						<view class="display_flex">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">实际付款</view>
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
-						<view class="display_flex" v-if="detail.debt > 0">
+						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;">
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;">
 							<view class="display_flex">
 								<view class="left_content">发送方式</view>
 								<view class="real_color">{{detail.typeDesc}}</view>
@@ -123,22 +128,30 @@
 								<view class="real_color">{{detail.expressNum}}</view>
 							</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;"
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
 						 @click="gotoexpressDet">
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
+							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 					</view>
 				</view>
 
+				<!--入库以及采购明细-->
 				<view v-else-if="detail.type == 1">
-					<view class="kaidanmx">
-						<view style="padding: 10rpx 30rpx;">开单明细</view>
-						<view v-if="detail.producer" class="display_flex">
+					<view class="kaidanmx" v-if="detail.extra_type == 1">
+						<view style="padding: 10rpx 30rpx;">采购明细</view>
+						<view v-if="detail.producer" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">供货商姓名</view>
 							<view>{{detail.producer.producer_name}}</view>
 						</view>
-						<view class="display_flex">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">实际付款</view>
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
@@ -146,19 +159,16 @@
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;">
-							<view class="display_flex">
-								<view class="left_content">发送方式</view>
-								<view class="real_color">{{detail.typeDesc}}</view>
-							</view>
-							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
-								<view class="real_color">{{detail.expressNum}}</view>
-							</view>
-							<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;"
-							 @click="gotoexpressDet">
-								<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
-								<fa-icon type="angle-right" size="20" color="#0a53c3" />
-							</view>
+						<view class="display_flex">
+							<view class="left_content">采购时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
+					</view>
+					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
+						<view style="padding: 10rpx 30rpx;">入库明细</view>
+						<view class="display_flex">
+							<view class="left_content">入库时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 					</view>
 				</view>
@@ -185,7 +195,6 @@
 						<view class='common_style'>（操作者）</view>
 					</view>
 					<view style='padding:20rpx 0 0'>
-						<view v-if="detail.type != -2 && detail.stock&&detail.stock.stock_name">选择的仓库：{{detail.stock.stock_name}}</view>
 						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>
@@ -206,19 +215,19 @@
 			</scroll-view>
 
 			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未审核</text>
-				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未入库</text>
+				<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text>
 			</view>
 			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已审核</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已入库</text>
 			</view>
 
 			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未审核</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未出库</text>
 				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
 			</view>
 			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已审核</text>
+				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已出库</text>
 			</view>
 		</view>
 
@@ -302,65 +311,21 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = ['打印'];
-				if (that.detail.type == -1 || that.detail.type == 1) {
-					if (that.othercurrent.indexOf("3") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
-						options = ['审核', '撤销', '打印']
-
-						uni.showActionSheet({
-							itemList: options,
-							success: function(res) {
-								if (res.tapIndex == 0) {
-									if (that.detail.type == 1) {
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔采购单已审核",
-												icon: "none"
-											})
-										} else {
-											that.confrimOrder()
-										}
-									} else if (that.detail.type == -1) {
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔销售单已审核",
-												icon: "none"
-											})
-										} else {
-											that.confrimOrder()
-										}
-									}
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {
-									that.revoke()
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 2) {
-									print.print_operations(that.detail, that.products)
-								}
-							},
-							fail: function(res) {
-								console.log(res.errMsg);
-							}
-						});
-
-					} else {
-						options = ['撤销', '打印']
-						uni.showActionSheet({
-							itemList: options,
-							success: function(res) {
-								if (res.tapIndex == 0) {
-									that.revoke()
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {
-									print.print_operations(that.detail, that.products)
-								}
-							},
-							fail: function(res) {
-								console.log(res.errMsg);
-							}
-						});
+				let options = ['撤销', '打印']
+				uni.showActionSheet({
+					itemList: options,
+					success: function(res) {
+						if (res.tapIndex == 0) {
+							that.revoke()
+							uni.setStorageSync("is_option", true)
+						} else if (res.tapIndex == 1) {
+							print.print_operations(that.detail, that.products)
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
 					}
-				}
+				});
 			},
 
 			getdetail: function(id) {
