@@ -9,7 +9,12 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
+						<view class="display_flex_bet">
+							<view style="margin-bottom: 10rpx;" v-if="item.stocks">
+								<text v-if="item.stocks.stock_name">盘点仓库:{{item.stocks.stock_name}}</text>
+							</view>
+							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
+						</view>
 						<view v-if="item.selectd_model">
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">

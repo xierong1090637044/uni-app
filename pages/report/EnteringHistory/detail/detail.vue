@@ -11,6 +11,7 @@
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
 								<view>产品：{{item.goodsName}}</view>
+								<view v-if="item.stock">盘点仓库：{{item.stock}}</view>
 							</view>
 							<view class='pro_list'>
 								<view>盘点前库存：{{item.reserve}}</view>

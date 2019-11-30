@@ -1,11 +1,12 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
 						<view>产品：{{item.goodsName}}</view>
+						<view v-if="item.stocks">盘点仓库：{{item.stocks.stock_name}}</view>
 					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">
@@ -22,12 +23,30 @@
 
 			<form @submit="formSubmit">
 
-				<view style='margin-top:20px'>
-					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+				<view style="margin: 30rpx 0;">
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">盘点明细</view>
+					<view class="kaidan_detail" style="line-height: 70rpx;">
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">盘点时间</view>
+							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
+								<view style="display: flex;align-items: center;">
+									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
+									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+								</view>
+							</picker>
+						</view>
+						<view>
+							<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></textarea>
+						</view>
+					</view>
 				</view>
 
-				<view style="padding: 0 30rpx;margin-top: 60rpx;">
-					<button class='confrim_button' :disabled='button_disabled' form-type="submit">确认盘点</button>
+				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
+					<view>总数：{{total_num}}</view>
+					<view class="display_flex">
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit">盘点</button>
+					</view>
+				
 				</view>
 			</form>
 
@@ -52,7 +71,10 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
+				total_num:0,
 				producer: null, //制造商
+				
+				nowDay: common.getDay(0, true, true), //入库时间
 			}
 		},
 		onLoad() {
@@ -60,6 +82,9 @@
 			uid = uni.getStorageSync("uid");
 
 			this.products = uni.getStorageSync("products");
+			for (let i = 0; i < this.products.length; i++) {
+				this.total_num += Number(this.products[i].num)
+			}
 		},
 		methods: {
 
@@ -73,7 +98,7 @@
 				let operation_ids = [];
 				let billsObj = new Array();
 				let detailObj = [];
-
+				let stockIds = []
 				for (let i = 0; i < this.products.length; i++) {
 
 
@@ -100,11 +125,17 @@
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', 3);
+					tempBills.set("createdTime", {
+						"__type": "Date",
+						"iso": that.nowDay
+					}); // 操作单详情
 					if(that.products[i].stocks && that.products[i].stocks.objectId){
 						let pointer3 = Bmob.Pointer('stocks')
 						let poiID3 = pointer3.set(that.products[i].stocks.objectId);
 						
 						tempBills.set('stock', poiID3);
+						stockIds.push(this.products[i].stocks.objectId)
+						detailBills.stock = that.products[i].stocks.stock_name
 					}
 
 					let goodsId = {}
@@ -138,13 +169,11 @@
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
-						if(that.products[0].stocks && that.products[0].stocks.objectId){
-							let pointer3 = Bmob.Pointer('stocks')
-							let poiID3 = pointer3.set(that.products[0].stocks.objectId);
-							
-							query.set('stock', poiID3);
-						}
-
+						query.set("stockIds", stockIds);
+						query.set("createdTime", {
+							"__type": "Date",
+							"iso": that.nowDay
+						}); // 操作单详情
 						query.save().then(res => {
 							let operationId = res.objectId;
 							//console.log("添加操作历史记录成功", res);
@@ -171,6 +200,24 @@
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
+											
+											if(that.products[i].header){
+												const query1 = Bmob.Query("Goods");
+												query1.equalTo("header", "==", that.products[i].header.objectId);
+												query1.equalTo("order", "==", 1);
+												query1.statTo("sum", "reserve");
+												query1.find().then(res => {
+													console.log("dasds", res)
+													let now_reserve = res[0]._sumReserve
+													const query = Bmob.Query('Goods');
+													query.get(that.products[i].header.objectId).then(res => {
+														res.set('reserve', now_reserve)
+														res.set('stocktype', (now_reserve > that.products[i].warning_num) ? 1 : 0)
+														res.save()
+													})
+												})
+											}
+											
 										}).catch(err => {
 											console.log(err)
 										})
@@ -216,6 +263,15 @@
 		height: 100vh;
 		overflow: scroll;
 	}
+	
+	.bottomEle {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: calc(100% - 30rpx);
+		background: #FAFAFA;
+		padding: 20rpx 0rpx 20rpx 30rpx;
+	}
 
 	.pro_list {
 		display: flex;
@@ -239,8 +295,7 @@
 	.beizhu_style {
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		padding: 20rpx;
-		font-size: 32rpx;
+		padding: 10rpx 0;
 		max-height: 100rpx;
 	}
 
