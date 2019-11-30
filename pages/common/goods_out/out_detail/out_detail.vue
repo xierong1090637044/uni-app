@@ -1,24 +1,34 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
 						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
 						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
+					
+					<view  class='pro_list' style='color:#3D3D3D'>
+						<view>出库仓库：
+						  <text v-if="item.stocks && item.stocks.stock_name">{{item.stocks.stock_name}}</text>
+							<text v-else>未填写</text>
+						</view>
+						<view>数量：X{{item.num}}</view>
+					</view>
+					
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
 							<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
 							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
 					</view>
+					
 					<view class='pro_list'>
-						<view>实际零售价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+						<view>实际零售价：￥{{item.modify_retailPrice}}</view>
 						<view>合计：￥{{item.total_money}}</view>
 					</view>
-					<view v-if="item.stocks && item.stocks.stock_name" style="font-size: 24rpx;color:#2ca879;">出库仓库:{{item.stocks.stock_name}}</view>
+					
 
 				</view>
 			</view>
@@ -26,10 +36,10 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;">开单明细（用于记录是否有无欠款）</view>
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">出库明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">入库时间</view>
+							<view style="width: 140rpx;">出库时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
 								<view style="display: flex;align-items: center;">
 									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
@@ -199,11 +209,11 @@
 
 			formSubmit: function(e) {
 				//console.log(e)
-				that.can_addGoods().then(res => { //判断产品是否存在在仓库中
 					//console.log(res)
 					let identity = uni.getStorageSync("identity") // 身份识别标志
 					this.button_disabled = true;
 					let extraType = 2 // 判断是销售还是出库
+					let fromid = e.detail.formId
 
 					uni.showLoading({
 						title: "上传中..."
@@ -386,7 +396,6 @@
 							console.log("异常处理");
 						});
 
-				})
 			}
 		}
 	}

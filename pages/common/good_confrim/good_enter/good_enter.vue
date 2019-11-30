@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
@@ -9,16 +9,16 @@
 						<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
 						<view v-else>期初进货价：￥{{item.costPrice}}</view>
 					</view>
+					<view class='pro_list' style='color:#3D3D3D'>
+						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
+						<view v-else>入库仓库：未填写</view>
+						<view>入库数量：X{{item.num}}</view>
+					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
 							<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
 							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
-					</view>
-					<view class='pro_list' style='color:#3D3D3D'>
-						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
-						<view v-else>入库仓库：未填写</view>
-						<view>入库数量：X{{item.num}}</view>
 					</view>
 					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 						<view>实际进货价：￥0</view>

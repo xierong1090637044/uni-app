@@ -16,10 +16,12 @@
 							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
 						
-						<view>建议零售价格：{{item.retailPrice}}(元)</view>
-						<view class='input_withlabel'>
-							<view>实际价格(可修改)：</view>
-							<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+						<view class="display_flex_bet" v-if="value == 1">
+							<view class='input_withlabel'>
+								<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
+								<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+							</view>
+							<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>
 						</view>
 
 						<view v-if="item.selectd_model">
@@ -31,7 +33,8 @@
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							出库量：
+							<text v-if="value == 1">销售量：</text>
+							<text v-else-if="value == 2">出库量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' />
 						</view>
 

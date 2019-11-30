@@ -39,7 +39,7 @@
 		</swiper>
 
 
-		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
+		<!--<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
 			<block>
 				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
 					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"
@@ -53,7 +53,7 @@
 
 				</swiper-item>
 			</block>
-		</swiper>
+		</swiper>-->
 
 		<!--操作列表-->
 		<view class='o_list' style="margin-top: 20rpx;">
@@ -65,12 +65,12 @@
 				<view class='o_text'>{{value.name}}</view>
 			</navigator>
 
-			<view class='o_item' @click="navigateToKCB">
+			<!--<view class='o_item' @click="navigateToKCB">
 				<view style='width:100%'>
 					<image src="/static/newVer.png" class='o_image' />
 				</view>
 				<view class='o_text'>库存表KCB版</view>
-			</view>
+			</view>-->
 		</view>
 		<view class='scan_code display_flex' @click='scan_code'>
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
@@ -169,7 +169,7 @@
 		onShow() {
 			that.gettoday_detail();
 			that.loadallGoods();
-			that.get_logsList();
+			//that.get_logsList();
 		},
 
 		//分享
