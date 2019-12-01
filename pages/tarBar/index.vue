@@ -252,19 +252,19 @@
 
 					if (type == 0) {
 						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
 						})
 					} else if (type == 1) {
 						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
 						})
 					} else if (type == 2) {
 						uni.navigateTo({
-							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
 						})
 					} else if (type == 3) {
 						uni.navigateTo({
-							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
 						})
 					} else if (type == 4) {
 						let user = uni.getStorageSync("user")
@@ -290,19 +290,19 @@
 
 						if (type == 0) {
 							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1],
+								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 1) {
 							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1],
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 2) {
 							uni.navigateTo({
-								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 3) {
 							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 4) {
 							let user = uni.getStorageSync("user")

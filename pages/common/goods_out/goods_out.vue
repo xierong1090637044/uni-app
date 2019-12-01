@@ -10,8 +10,11 @@
 					<view>
 						
 						<view class="display_flex_bet">
-							<view style="margin-bottom: 10rpx;" v-if="item.stocks">
-								<text v-if="item.stocks.stock_name">所存仓库:{{item.stocks.stock_name}}</text>
+							<view style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
+								<text>所存仓库:{{item.stocks.stock_name}}</text>
+							</view>
+							<view style="margin-bottom: 10rpx;" v-else>
+								<text>所存仓库：未填写</text>
 							</view>
 							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
@@ -293,6 +296,7 @@
 
 	.bottom_del {
 		text-align: right;
+		margin-top: 10rpx;
 	}
 
 	.del {
