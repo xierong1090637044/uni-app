@@ -26,32 +26,36 @@ module.exports = {
 					res.set('reserve', num)
 					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 					res.save()
-					
-					if(products[i].header){
-						const query1 = Bmob.Query("Goods");
-						query1.equalTo("header", "==", products[i].header.objectId);
-						query1.equalTo("order", "==", 1);
-						query1.statTo("sum", "reserve");
-						query1.find().then(res => {
-							console.log("dasds", res)
-							let now_reserve = res[0]._sumReserve
-							const query = Bmob.Query('Goods');
-							query.get(products[i].header.objectId).then(res => {
-								res.set('reserve', now_reserve)
-								res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
-								res.save()
-								
-								if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
-									this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
-										products[i].objectId);
-								}
-								
-								if (i == products.length - 1) {
-									resolve(true)
-								}
+
+					if (products[i].header) {
+						setTimeout(function() {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", products[i].header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.get(products[i].header.objectId).then(res => {
+									res.set('reserve', now_reserve)
+									res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
+									res.save()
+
+									if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
+										this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num,
+											-2,
+											products[i].objectId);
+									}
+
+
+								})
 							})
-						})
-					}else{
+						}, 1000)
+						if (i == products.length - 1) {
+							resolve(true)
+						}
+					} else {
 						if (products[i].max_num >= 0 && products[i].max_num <= num) {
 							this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
 								products[i].objectId);
@@ -60,7 +64,7 @@ module.exports = {
 							resolve(true)
 						}
 					}
-					
+
 				}).catch(err => {
 					console.log(err)
 				})
@@ -100,31 +104,34 @@ module.exports = {
 
 					this.record_staffOut(Number(products[i].num))
 
-					if(products[i].header){
-						const query1 = Bmob.Query("Goods");
-						query1.equalTo("header", "==", products[i].header.objectId);
-						query1.equalTo("order", "==", 1);
-						query1.statTo("sum", "reserve");
-						query1.find().then(res => {
-							console.log("dasds", res)
-							let now_reserve = res[0]._sumReserve
-							const query = Bmob.Query('Goods');
-							query.get(products[i].header.objectId).then(res => {
-								res.set('reserve', now_reserve)
-								res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
-								res.save()
-								
-								if (products[i].warning_num >= now_reserve) {
-									this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
-										products[i].objectId);
-								}
-								
-								if (i == products.length - 1) {
-									resolve(true)
-								}
+					if (products[i].header) {
+						setTimeout(function() {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", products[i].header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.get(products[i].header.objectId).then(res => {
+									res.set('reserve', now_reserve)
+									res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
+									res.save()
+							
+									if (products[i].warning_num >= now_reserve) {
+										this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+											products[i].objectId);
+									}
+							
+									
+								})
 							})
-						})
-					}else{
+						}, 1000)
+						if (i == products.length - 1) {
+							resolve(true)
+						}
+					} else {
 						if (products[i].warning_num >= num) {
 							this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 								products[i].objectId);

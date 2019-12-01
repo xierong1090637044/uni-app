@@ -254,6 +254,11 @@
 				});
 				// #endif
 			},
+			
+			//选择时间
+			bindDateChange(e){
+				that.nowDay = e.detail.value+" 00:00:00"
+			},
 
 			//移除此张照片
 			removeImg(index) {

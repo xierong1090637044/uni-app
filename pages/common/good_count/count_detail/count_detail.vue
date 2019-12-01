@@ -87,6 +87,10 @@
 			}
 		},
 		methods: {
+			//选择时间
+			bindDateChange(e){
+				that.nowDay = e.detail.value+" 00:00:00"
+			},
 
 			formSubmit: function(e) {
 				console.log(e)

@@ -71,8 +71,8 @@
 					<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
 
 					<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
-					<view v-if="item.models" style="color: #3D3D3D;">
-						<view v-for="(model,index) in item.models" :key="index" class="display_flex_bet">
+					<view v-if="item.now_model" style="color: #3D3D3D;">
+						<view v-for="(model,index) in item.now_model" :key="index" class="display_flex_bet">
 							<view style="font-size: 24rpx;">{{model.custom1.value}}{{model.custom2.value}}{{model.custom3.value}}{{model.custom4.value}}</view>
 							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
 						</view>
@@ -201,7 +201,7 @@
 								stocks_o.objectId = item.stocks.objectId
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
-								stocks_o.models = item.models
+								stocks_o.now_model = item.models
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
@@ -241,7 +241,7 @@
 							stocks_o.objectId = item.stocks.objectId
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
-							stocks_o.models = item.models
+							stocks_o.now_model = item.models
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)

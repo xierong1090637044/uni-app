@@ -38,9 +38,18 @@
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' />
 						</view>
 
-						<view class="bottom_del">
+						<view class="bottom_del display_flex_bet">
+							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
+							<navigator class='del'  style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'" v-else>
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
 							<view class='del' @click="handleDel(index)">
-								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+								<fa-icon type="close" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">删除</text>
 							</view>
 						</view>
 					</view>
@@ -292,8 +301,9 @@
 		background: #aa2116;
 		color: #fff;
 		justify-content: flex-end;
-		padding: 4rpx 12rpx;
+		padding: 4rpx 20rpx;
 		border-radius: 8rpx;
+		font-size: 20rpx;
 	}
 
 	.input_label {

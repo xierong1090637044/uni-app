@@ -40,7 +40,7 @@
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">入库时间</view>
-							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
+							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
 									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
 									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -416,7 +416,6 @@
 	.beizhu_style {
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		font-size: 26rpx;
 		max-height: 100rpx;
 		padding: 10rpx 0;
 	}

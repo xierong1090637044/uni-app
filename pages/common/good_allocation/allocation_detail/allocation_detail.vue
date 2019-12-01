@@ -101,6 +101,10 @@
 			that.out_stock = uni.getStorageSync("out_warehouse") ? uni.getStorageSync("out_warehouse")[0].stock : ''
 		},
 		methods: {
+			//选择时间
+			bindDateChange(e){
+				that.nowDay = e.detail.value+" 00:00:00"
+			},
 
 			upload_good_withNoCan(good, stock) {
 				return new Promise((resolve, reject) => {

@@ -168,10 +168,14 @@
 			"style": {}
 		}, {
 			"path": "pages/common/good_confrim/goodPurchase/goodPurchase",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "采购详情"
+			}
 		}, {
 			"path": "pages/common/goods_out/goodSell/goodSell",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "销售详情"
+			}
 		}
     ],
 

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<loading v-if="loading"></loading>
-		
+
 		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
 		<view style="padding: 0 30rpx;background: #fff;">
 			<view class="display_flex_bet frist border_bottom" hover-class="none" @click="edit(stock)">
@@ -11,14 +11,14 @@
 				</view>
 				<fa-icon type="angle-right" size="20" color="#999" />
 			</view>
-			
+
 			<view class="display_flex_bet frist border_bottom">
 				<view class="display_flex_bet" style="width: 100%;">
 					<view>库存数量</view>
 					<view>{{reserve_num}}</view>
 				</view>
 			</view>
-			
+
 			<view class="display_flex_bet frist border_bottom">
 				<view class="display_flex_bet" style="width: 100%;">
 					<view>库存金额</view>
@@ -30,13 +30,14 @@
 			<text class="left_desc">相关的操作记录</text>
 			<fa-icon type="angle-right" size="20" color="#999" />
 		</navigator>
-		
+
 		<!---存货统计-->
 		<view style="margin: 40rpx 0 20rpx;">
 			<view style="padding: 0 30rpx 20rpx;">存货统计</view>
 			<view style="background: #FFFFFF;padding: 0 30rpx;">
 				<view v-if="Goods && Goods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
-				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)" v-else>
+				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)"
+				 v-else>
 					<view>
 						<view>{{good.goodsName}}</view>
 						<view v-if="good.reserve == 0">0%</view>
@@ -56,7 +57,7 @@
 	import Bmob from "hydrogen-js-sdk";
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
-	
+
 	let that;
 	let uid;
 	export default {
@@ -66,14 +67,14 @@
 		},
 		data() {
 			return {
-				loading:true,
-				stock:"",
-				Goods:null,
-				reserve_num:0,
-				reserve_money:0,
+				loading: true,
+				stock: "",
+				Goods: null,
+				reserve_num: 0,
+				reserve_money: 0,
 			}
 		},
-		
+
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
@@ -81,9 +82,9 @@
 			that.get_detail()
 		},
 		methods: {
-			show_options(){
+			show_options() {
 				uni.showActionSheet({
-					itemList: ["编辑","删除"],
+					itemList: ["编辑", "删除"],
 					success: function(res) {
 						if (res.tapIndex == 0) {
 							that.edit(that.stock)
@@ -96,7 +97,7 @@
 					}
 				});
 			},
-			
+
 			//编辑操作
 			edit(item) {
 				uni.setStorageSync("warehouse", item);
@@ -106,7 +107,7 @@
 					url: "../add/add"
 				})
 			},
-			
+
 			//删除操作
 			delete_this(id) {
 				uni.showModal({
@@ -120,32 +121,58 @@
 					}
 				});
 			},
-			
+
 			//删除数据
 			delete_data(id) {
 				console.log(id)
 				const query = Bmob.Query("stocks");
 				query.destroy(id).then(res => {
 					console.log(res)
+
 					uni.showToast({
 						title: "删除成功",
 						icon: "none"
 					})
 					uni.navigateBack({
-						delta:1
+						delta: 1
 					})
+					/*const query = Bmob.Query('Goods');
+					// 单词最多删除50条
+					query.limit(50)
+					query.equalTo("stocks", "==", id);
+					query.count().then(res => {
+						console.log(`共有${res}条记录`)
+						for (var i = 0; i < Math.ceil(res / 50); i++) {
+							query.find().then(todos => {
+								todos.destroyAll().then(res => {
+									// 成功批量修改
+									console.log(res, 'ok')
+									uni.showToast({
+										title: "删除成功",
+										icon: "none"
+									})
+									uni.navigateBack({
+										delta: 1
+									})
+								}).catch(err => {
+									console.log(err)
+								});
+							})
+						}
+					});*/
+
 				}).catch(err => {
 					console.log(err)
 				})
 			},
-			
-			goto_detail(good){
-				uni.setStorageSync("now_product",good);
+
+			goto_detail(good) {
+				uni.setStorageSync("now_product", good);
 				uni.navigateTo({
-					url:"/pages/manage/good_det/good_det"
+					url: "/pages/manage/good_det/good_det"
 				})
 			},
-			
+
 			get_detail() {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
@@ -160,34 +187,35 @@
 						reserve_money += Number(item.costPrice) * Number(item.reserve)
 						reserve_num += Number(item.reserve)
 					}
-			
+
 					that.reserve_money = reserve_money
 					that.reserve_num = reserve_num
 					that.loading = false
 				});
 			},
-			
-			
+
+
 		}
 	}
 </script>
 
 <style lang="scss">
-.frist{
-	padding: 20rpx 0;
-}
-.border_bottom{
-	border-bottom: 1rpx solid#f6f5ec;
-}
+	.frist {
+		padding: 20rpx 0;
+	}
 
-.list_item {
+	.border_bottom {
+		border-bottom: 1rpx solid#f6f5ec;
+	}
+
+	.list_item {
 		padding: 20rpx 30rpx;
 		background: #FFFFFF;
 		border-bottom: 1rpx solid#F7F7F7;
 		margin: 0 0 20rpx;
 	}
 
-.second{
-	line-height: 44rpx;
-}
+	.second {
+		line-height: 44rpx;
+	}
 </style>

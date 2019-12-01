@@ -159,6 +159,10 @@
 			that.producer = uni.getStorageSync("producer")
 		},
 		methods: {
+			//选择时间
+			bindDateChange(e){
+				that.nowDay = e.detail.value+" 00:00:00"
+			},
 
 			//移除此张照片
 			removeImg(index) {
@@ -522,7 +526,6 @@
 	.beizhu_style {
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		font-size: 26rpx;
 		max-height: 100rpx;
 		padding: 10rpx 0;
 	}

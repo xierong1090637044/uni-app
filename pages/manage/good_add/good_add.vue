@@ -56,16 +56,16 @@
 					<view class="input_item">
 						<view class="left_item">多规格</view>
 						<view class="right_input">
-							<switch :checked="productMoreG" name="productMoreG" v-model="productMoreG" @change="changeState"/>
+							<switch :checked="productMoreG" name="productMoreG" v-model="productMoreG" @change="changeState" />
 						</view>
 					</view>
-					
+
 					<navigator class="input_item1" hover-class="none" url="/pages/manage/goods_add_MoreG/G_More/G_More" v-if="productMoreG">
 						<view style="display: flex;align-items: center;width: 100%;">
-							<view class="left_item">规格设置<te</view>
-							<view class="right_input"><input placeholder="请设置多规格" name="goodsClass" disabled="true"></input></view>
+							<view class="left_item">规格设置<te</view> <view class="right_input"><input placeholder="请设置多规格" name="goodsClass"
+									 disabled="true"></input></view>
 						</view>
-					
+
 						<view>
 							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
@@ -130,7 +130,7 @@
 								<view class="left_item">产品简介</view>
 								<view class="right_input"><input placeholder="产品简介" name="product_info" :value="product_info"></input></view>
 							</view>
-							
+
 						</view>
 					</uni-collapse-item>
 				</uni-collapse>
@@ -192,7 +192,7 @@
 				producttime: "",
 				nousetime: "",
 				productMoreG: false, //产品是否是多规格
-				isMoreModelAdd:uni.getStorageSync("addMoreModel")
+				isMoreModelAdd: uni.getStorageSync("addMoreModel")
 			}
 		},
 
@@ -227,24 +227,24 @@
 				that.product_state = now_product.product_state //产品是否是半成品
 				that.nousetime = (now_product.nousetime) ? common.js_date_time(now_product.nousetime) : ''
 				that.max_num = now_product.max_num
-				if(now_product.models){
+				if (now_product.models) {
 					that.productMoreG = true
-					
-					uni.setStorageSync("now_model",now_product.models)
+
+					uni.setStorageSync("now_model", now_product.models)
 				}
 
 				if (now_product.goodsClass && now_product.goodsClass.objectId) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
 					now_product.goodsClass.type = 2
-					uni.setStorageSync("category",now_product.goodsClass)
+					uni.setStorageSync("category", now_product.goodsClass)
 				}
 
 				if (now_product.second_class && now_product.second_class.objectId) {
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
 					now_product.second_class.type = 2
-					uni.setStorageSync("category",now_product.second_class)
+					uni.setStorageSync("category", now_product.second_class)
 				}
 
 				if (now_product.stocks && now_product.stocks.length > 0) {
@@ -273,6 +273,20 @@
 				for (let item of stocksReserve) {
 					that.reserve += Number(item.reserve)
 				}
+
+				if (uni.getStorageSync("now_model") && that.productMoreG) {
+					for (let item of stocksReserve) {
+						if (item.now_model) {} else {
+							let now_model = uni.getStorageSync("now_model")
+							for (let model of now_model) {
+								model.reserve = 0
+							}
+							item.now_model = now_model
+						}
+					}
+					uni.setStorageSync("warehouse",stocksReserve)
+				}
+
 			}
 
 			if (uni.getStorageSync("category")) {
@@ -302,8 +316,8 @@
 		},
 
 		methods: {
-			
-			changeState(e){
+
+			changeState(e) {
 				that.productMoreG = e.detail.value
 			},
 
@@ -365,21 +379,21 @@
 						icon: "none"
 					})
 					return
-				}else if(uni.getStorageSync("category") == null || uni.getStorageSync("category") == ""){
+				} else if (uni.getStorageSync("category") == null || uni.getStorageSync("category") == "") {
 					uni.showToast({
 						title: "请选择产品类别",
 						icon: "none"
 					})
 					return
-				} else if(that.productMoreG){
-					if(uni.getStorageSync("now_model") == null){
+				} else if (that.productMoreG) {
+					if (uni.getStorageSync("now_model") == null || uni.getStorageSync("now_model") == "") {
 						uni.showToast({
-							title: "请填写多规格产品",
+							title: "请填写多规格",
 							icon: "none"
 						})
-						
+
 						return
-					}else{
+					} else {
 						that.upload_good(good)
 					}
 				} else {
@@ -438,7 +452,8 @@
 
 			edit_good(good) {
 				let now_product = uni.getStorageSync("now_product")
-
+				let stocksReserve = uni.getStorageSync("warehouse")
+				
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
@@ -464,8 +479,11 @@
 				query.set("max_num", Number(good.max_num))
 				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 
-				query.set("product_state", good.product_state) //改产品是否是半成品
-				query.set("order", 0)
+				///query.set("product_state", good.product_state) //改产品是否是半成品
+				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
+				if (stocksReserve.length > 0) {
+					query.set("order", 0)
+				}
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
@@ -494,6 +512,7 @@
 								res.set("goodsName", good.goodsName)
 								res.set("warning_num", Number(good.warning_num))
 								res.set("max_num", Number(good.max_num))
+								that.productMoreG ? res.set("models", item.now_model) : ''
 								res.save()
 							}).catch(err => {
 								console.log(err)
@@ -505,20 +524,20 @@
 					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + now_product.goodsName + "'", 5, now_product.objectId);
 					uni.setStorageSync("is_add", true)
 					uni.navigateBack({
-						delta:2
+						delta: 2
 					})
-					setTimeout(function(){
+					setTimeout(function() {
 						uni.showToast({
 							title: "修改成功",
 						})
-					},1000)
+					}, 1000)
 
 				})
 			},
 
 			add_good(good, type) {
 				let now_product = uni.getStorageSync("now_product")
-				let stocksReserve = uni.getStorageSync("warehouse")||[]
+				let stocksReserve = uni.getStorageSync("warehouse") || []
 
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
@@ -546,8 +565,8 @@
 				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 
 				//query.set("product_state", good.product_state) //改产品是否是半成品
-				that.productMoreG ?query.set("models", uni.getStorageSync("now_model")):''
-				if(stocksReserve.length > 0){
+				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
+				if (stocksReserve.length > 0) {
 					query.set("order", 0)
 				}
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了类别
@@ -563,9 +582,9 @@
 				query.save().then(res => {
 
 					let this_result = res
-					
+
 					if (stocksReserve.length > 0) {
-						
+
 
 						const queryArray = new Array();
 						// 构造含有50个对象的数组
@@ -588,7 +607,7 @@
 							queryObj.set("reserve", Number(stocksReserve[i].reserve))
 							queryObj.set("warning_num", Number(good.warning_num))
 							queryObj.set("max_num", Number(good.max_num))
-							that.productMoreG ?queryObj.set("models", stocksReserve[i].now_model):''
+							that.productMoreG ? queryObj.set("models", stocksReserve[i].now_model) : ''
 							queryArray.push(queryObj);
 						}
 

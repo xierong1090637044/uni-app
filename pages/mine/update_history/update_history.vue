@@ -24,6 +24,8 @@
 						<text>操作记录详情优化</text>
 						<text>新增消息中心</text>
 						<text>员工列表优化</text>
+						<text>产品添加以及多规格产品添加优化</text>
+						<text>新增预警产品筛选</text>
 						<text>暂时移除物料管理模块</text>
 					</view>
 				</view>
