@@ -1,12 +1,12 @@
 <template>
 	<view class="page">
 
-		<view class="frist" v-for="(item,index) in model" :key="index" style="margin-bottom: 30rpx;">
+		<view class="frist" v-for="(item,key) in model" :key="key" style="margin-bottom: 30rpx;">
 			<view class="input_item">
 				<view class="left_item">颜色</view>
 				<view class="right_input1 display_flex_bet" style="width: calc(100% - 200rpx);">
 					<input placeholder="请输入颜色名"  v-model="item.custom1.value"></input>
-					<fa-icon type="minus-square-o" size="20" color="#2ca879" v-if="index >= 1" @click="reduce_this(index)"></fa-icon>
+					<fa-icon type="minus-square-o" size="20" color="#2ca879" v-if="key >= 1" @click="reduce_this(key)"></fa-icon>
 				</view>
 				
 			</view>
@@ -22,13 +22,13 @@
 				<view class="left_item"><input placeholder="自定义规格名2" v-model="item.custom4.name" /></view>
 				<view class="right_input1"><input placeholder="请输入自定义规格2的值"  v-model="item.custom4.value"></input></view>
 			</view>
-			<view class="input_item">
+			<view class="input_item" v-if="index">
 				<view class="left_item">库存</view>
 				<view class="right_input1"><input placeholder="请输入库存数量"  v-model="item.reserve" type="number"></input></view>
 			</view>
 		</view>
 		<view class="input_item2 frist1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose_more"
-		 style="margin: 30rpx 0;justify-content: center;" @click="push_model">
+		 style="margin: 30rpx 0;justify-content: center;" @click="push_model" v-if="index == ''||index == null">
 			<view style="display: flex;align-items: center;">
 				<view class="left_item" style="color: #2ca879;">增加规格</view>
 				<fa-icon type="plus" size="20" color="#2ca879"></fa-icon>
@@ -53,17 +53,32 @@
 					custom3:{"name":"",value:""},
 					custom4:{"name":"",value:""},
 					reserve:0,
-				}]
+				}],
+				index:'',
+				stocks:uni.getStorageSync("warehouse")
 			}
 		},
-		onLoad(){
+		onLoad(options){
 			that = this;
+			console.log(options)
+			that.index = options.index
 		},
 		
 		onShow() {
-			if(uni.getStorageSync("now_model")){
-				let now_model = uni.getStorageSync("now_model")
-				that.model = now_model
+			if(that.index){
+				that.stock = uni.getStorageSync("warehouse")
+				let now_model = that.stocks[that.index].now_model||that.stocks[that.index].models
+				if(now_model){
+					that.model = now_model
+				}else{
+					that.model = uni.getStorageSync("now_model")
+				}
+			}else{
+				if(uni.getStorageSync("now_model")){
+					let now_model = uni.getStorageSync("now_model")
+					that.model = now_model
+				}
+				
 			}
 		},
 		
@@ -88,7 +103,18 @@
 			},
 			
 			confrim_this(){
-				uni.setStorageSync("now_model",that.model)
+				if(that.index){
+					let reserve = 0;
+					that.stocks[that.index].now_model = that.model
+					for(let item of that.model){
+						reserve += Number(item.reserve)
+					}
+					that.stocks[that.index].reserve = reserve
+					uni.setStorageSync("warehouse",that.stocks)
+				}else{
+					uni.setStorageSync("now_model",that.model)
+				}
+				
 				uni.navigateBack({
 					delta:1
 				})

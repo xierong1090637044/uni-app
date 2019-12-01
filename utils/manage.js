@@ -56,7 +56,7 @@ export default {
 				query.set("stock_name", params.name);
 				query.set("num", params.number ? params.number : 0);
 				//query.set("shop",shopId);
-				query.set("charge", chargeId);
+				query.set("Ncharge", chargeId);
 				query.set("beizhu", params.beizhu);
 				query.set("disabled", !params.disabled);
 				query.set("parent", poiID);
@@ -78,7 +78,7 @@ export default {
 						query.set("stock_name", params.name);
 						query.set("num", params.number ? params.number : 0);
 						//query.set("shop",shopId);
-						query.set("charge", chargeId);
+						query.set("Ncharge", chargeId);
 						query.set("beizhu", params.beizhu);
 						query.set("disabled", !params.disabled);
 						query.set("parent", poiID);

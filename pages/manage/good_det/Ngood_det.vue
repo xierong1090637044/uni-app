@@ -30,7 +30,7 @@
 						</text>
 					</view>
 
-					<view class="display_flex">
+					<view class="display_flex_bet">
 						<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
 						<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num ?product.max_num:0}}</text></view>
 					</view>
@@ -201,6 +201,7 @@
 								stocks_o.objectId = item.stocks.objectId
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
+								stocks_o.models = item.models
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
@@ -240,6 +241,7 @@
 							stocks_o.objectId = item.stocks.objectId
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
+							stocks_o.models = item.models
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)

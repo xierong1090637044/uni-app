@@ -103,7 +103,7 @@
 			
 
 			if (warehouse) {
-				that.Images = warehouse.Image
+				that.Images = warehouse.Image || []
 				that.warehouse_name = warehouse.stock_name
 				that.warehouse_shop = warehouse.shop
 				that.warehouse_num = warehouse.num
@@ -190,8 +190,8 @@
 					query.set("num", Number(that.warehouse_num));
 					if(shop) query.set("shop",shopId);
 					//query.set("shop", that.warehouse_shop);
-					query.set("charge", chargeId);
-					query.set("beizhu", that.warehouse_beizhu);
+					query.set("Ncharge", chargeId);
+					query.set("beizhu", that.warehouse_beizhu||'');
 					query.set("disabled", !that.disabled);
 					query.set("parent", poiID);
 					query.set("id", warehouse.objectId);
@@ -218,7 +218,7 @@
 							query.set("stock_name", that.warehouse_name);
 							query.set("num", Number(that.warehouse_num));
 							if(shop) query.set("shop",shopId);
-							query.set("charge", chargeId);
+							query.set("Ncharge", chargeId);
 							query.set("beizhu", that.warehouse_beizhu);
 							query.set("disabled", !that.disabled);
 							query.set("parent", poiID);

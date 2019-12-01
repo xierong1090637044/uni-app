@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="鉴于此版对传统进销存的产品展示不是很友好,于是开发了新版的库存表KCB,两者账号信息互通!" />
+		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" :text="noticeText" v-if="noticeText"/>
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -99,6 +99,7 @@
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';
+	import notice from '@/utils/notice.js';
 	import Bmob from "hydrogen-js-sdk";
 	let that;
 	let uid;
@@ -111,6 +112,9 @@
 		},
 		data() {
 			return {
+				user: uni.getStorageSync("user"),
+				othercurrent: '',
+				noticeText:'',//首页消息提示内容
 				logsList: [],
 				optionsLists: [{
 						name: '入库',
@@ -176,6 +180,15 @@
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
+			
+			if (that.user.rights && that.user.rights.othercurrent) {
+				that.othercurrent = that.user.rights.othercurrent
+			}
+			
+			notice.getNoticeList(1).then(res=>{
+				that.noticeText = res[0].content
+				console.log(res)
+			})
 		},
 
 		onShow() {
@@ -353,8 +366,14 @@
 					
 					console.log(purchaseNum,sellNum)
 					
-					that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
-					that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
+					if(that.user.rights&&that.user.rights.othercurrent[0] != '0'){
+						that.purchaseNum =0
+						that.sellNum = 0
+					}else{
+						that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
+						that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
+					}
+					
 					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 				})
