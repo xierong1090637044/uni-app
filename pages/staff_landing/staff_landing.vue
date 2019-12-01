@@ -8,7 +8,7 @@
 			</view>
 
 			<view class='header_text'>
-				<view>登陆积木舟</view>
+				<view>登陆库存表</view>
 				<view class='iconImage'>
 					<image src='/static/chuan.png' style='width:100%;height:100%'></image>
 				</view>
@@ -55,9 +55,36 @@
 						icon: "none"
 					})
 				} else {
-					
 					uni.showLoading({title:"登录中..."})
-					const query = Bmob.Query("_User");
+					
+					Bmob.User.login(that.phone, that.password).then(res => {
+						console.log(res)
+						let now_staff = res
+						let master = res.masterId
+						uni.hideLoading();
+						if (master.is_vip) {
+							now_staff.is_vip = true
+							now_staff.vip_time = master.vip_time
+						} else {
+							now_staff.is_vip = false
+							now_staff.vip_time = 0
+						}
+						
+						uni.setStorageSync("user", now_staff)
+						uni.setStorageSync("identity", 2) //1是老板，2是员工
+						uni.setStorageSync("masterId", res.objectId)
+						uni.setStorageSync("uid", master.objectId)
+
+						uni.switchTab({
+							url: "/pages/tarBar/index"
+						});
+
+					}).catch(err => {
+						console.log(err)
+					});
+
+					/*uni.showLoading({title:"登录中..."})
+					const query = Bmob.Pointer('_User');
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
 					query.equalTo("password", "==", that.password);
 					query.include("masterId");
@@ -103,7 +130,7 @@
 								const pointer = Bmob.Pointer('_User')
 								const poiID = pointer.set(user_info.objectId);
 
-								const query = Bmob.Query("_User");
+								const query = Bmob.Query('staffs');
 								query.set('id', now_staff.objectId) //需要修改的objectId
 								query.set('userId', poiID)
 								query.save().then(res => {
@@ -146,7 +173,7 @@
 						}
 
 
-					});
+					});*/
 
 				}
 			}

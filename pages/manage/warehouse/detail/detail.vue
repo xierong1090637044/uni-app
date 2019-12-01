@@ -168,9 +168,15 @@
 
 			goto_detail(good) {
 				uni.setStorageSync("now_product", good);
-				uni.navigateTo({
-					url: "/pages/manage/good_det/good_det"
-				})
+				if(good.order == 1){
+					uni.navigateTo({
+						url: "/pages/manage/good_det/Ngood_det"
+					})
+				}else{
+					uni.navigateTo({
+						url: "/pages/manage/good_det/good_det"
+					})
+				}
 			},
 
 			get_detail() {

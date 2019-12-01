@@ -366,13 +366,9 @@
 					
 					console.log(purchaseNum,sellNum)
 					
-					if(that.user.rights&&that.user.rights.othercurrent[0] != '0'){
-						that.purchaseNum =0
-						that.sellNum = 0
-					}else{
-						that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
-						that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
-					}
+
+					that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
+					that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
 					
 					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
@@ -382,7 +378,12 @@
 			//得到总库存数和总金额
 			loadallGoods: function() {
 				record.loadallGoods().then(res => {
-					that.total_money = res.total_money
+					if(that.user.rights&&that.user.rights.othercurrent[0] != '0'){
+						that.total_money = 0
+					}else{
+						that.total_money = res.total_money
+					}
+					
 					that.total_reserve = res.total_reserve
 					that.total_products = res.total_products
 				})

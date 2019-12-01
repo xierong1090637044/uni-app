@@ -336,7 +336,7 @@
 					let poiID = pointer.set(userid);
 
 					const query = Bmob.Query("_User");
-					query.set("username", that.staff_name);
+					query.set("username", that.staff_phone);
 					query.set("nickName", that.staff_name);
 					query.set("password", that.staff_password);
 					query.set("mobilePhoneNumber", that.staff_phone);
@@ -373,7 +373,7 @@
 							let poiID = pointer.set(userid);
 
 							const query = Bmob.Query("_User");
-							query.set("username", that.staff_name);
+							query.set("username", that.staff_phone);
 							if(shop) query.set("shop",shopId);
 							query.set("stocks", that.select_stocks);
 							query.set("nickName", that.staff_name);

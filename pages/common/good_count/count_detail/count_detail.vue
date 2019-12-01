@@ -46,7 +46,7 @@
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit">盘点</button>
 					</view>
-				
+
 				</view>
 			</form>
 
@@ -58,8 +58,8 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
-	import print from'@/utils/print.js';
-	
+	import print from '@/utils/print.js';
+
 	let uid;
 	let that;
 
@@ -71,9 +71,9 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
-				total_num:0,
+				total_num: 0,
 				producer: null, //制造商
-				
+
 				nowDay: common.getDay(0, true, true), //入库时间
 			}
 		},
@@ -88,8 +88,8 @@
 		},
 		methods: {
 			//选择时间
-			bindDateChange(e){
-				that.nowDay = e.detail.value+" 00:00:00"
+			bindDateChange(e) {
+				that.nowDay = e.detail.value + " 00:00:00"
 			},
 
 			formSubmit: function(e) {
@@ -113,8 +113,8 @@
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].header?this.products[i].header.objectId:this.products[i].objectId);
-					
+					let tempGoods_id = pointer1.set(this.products[i].header ? this.products[i].header.objectId : this.products[i].objectId);
+
 					let masterId = uni.getStorageSync("masterId");
 					let pointer2 = Bmob.Pointer('_User')
 					let poiID2 = pointer2.set(masterId);
@@ -133,17 +133,17 @@
 						"__type": "Date",
 						"iso": that.nowDay
 					}); // 操作单详情
-					if(that.products[i].stocks && that.products[i].stocks.objectId){
+					if (that.products[i].stocks && that.products[i].stocks.objectId) {
 						let pointer3 = Bmob.Pointer('stocks')
 						let poiID3 = pointer3.set(that.products[i].stocks.objectId);
-						
+
 						tempBills.set('stock', poiID3);
 						stockIds.push(this.products[i].stocks.objectId)
 						detailBills.stock = that.products[i].stocks.stock_name
 					}
 
 					let goodsId = {}
-					if(this.products[i].selectd_model){
+					if (this.products[i].selectd_model) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 						detailBills.goodsId = goodsId
@@ -192,20 +192,20 @@
 										query.get(that.products[i].objectId).then(res => {
 											//console.log(res)
 											if (that.products[i].selectd_model) {
-												for(let item of that.products[i].selected_model){
-													delete item.num   // 清除没用的属行
+												for (let item of that.products[i].selected_model) {
+													delete item.num // 清除没用的属行
 												}
 												res.set('models', that.products[i].selected_model)
 												num = Number(that.products[i].num);
-											}else{
+											} else {
 												num = Number(that.products[i].num);
 											}
-											
+
 											res.set('reserve', num)
 											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
-											
-											if(that.products[i].header){
+
+											if (that.products[i].header) {
 												const query1 = Bmob.Query("Goods");
 												query1.equalTo("header", "==", that.products[i].header.objectId);
 												query1.equalTo("order", "==", 1);
@@ -221,7 +221,7 @@
 													})
 												})
 											}
-											
+
 										}).catch(err => {
 											console.log(err)
 										})
@@ -236,14 +236,14 @@
 										uni.removeStorageSync("warehouse")
 										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 3, res.objectId);
-											
-											//自动打印
-											if(uni.getStorageSync("setting").auto_print){
-												print.autoPrint(operationId);
-											}
-										/*uni.navigateBack({
+
+										//自动打印
+										if (uni.getStorageSync("setting").auto_print) {
+											print.autoPrint(operationId);
+										}
+										uni.navigateBack({
 											delta: 2
-										});*/
+										});
 									}, 500)
 								}
 							})
@@ -267,7 +267,7 @@
 		height: 100vh;
 		overflow: scroll;
 	}
-	
+
 	.bottomEle {
 		position: fixed;
 		bottom: 0;

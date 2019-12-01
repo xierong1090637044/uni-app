@@ -2,62 +2,56 @@ import Bmob from "hydrogen-js-sdk";
 module.exports = {
 	//入库时增加产品数量
 	enterAddGoodNum(products) {
+		let that = this;
 		return new Promise((resolve, reject) => {
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				query.get(products[i].objectId).then(res => {
-					console.log(products[i])
-
-					if (products[i].selectd_model) {
-						for (let model of products[i].selected_model) {
-							for (let item of products[i].models) {
-								if (item.id == model.id) {
-									item.reserve = Number(item.reserve) + Number(model.num)
-								}
-								delete item.num // 清除没用的属行
+				if (products[i].selectd_model) {
+					for (let model of products[i].selected_model) {
+						for (let item of products[i].models) {
+							if (item.id == model.id) {
+								item.reserve = Number(item.reserve) + Number(model.num)
 							}
+							delete item.num // 清除没用的属行
 						}
-						num = Number(products[i].reserve) + Number(products[i].num);
-						res.set('models', products[i].models)
-					} else {
-						num = Number(products[i].reserve) + Number(products[i].num);
 					}
-					res.set('reserve', num)
-					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
-					res.save()
-
+					num = Number(products[i].reserve) + Number(products[i].num);
+					query.set('models', products[i].models)
+				} else {
+					num = Number(products[i].reserve) + Number(products[i].num);
+				}
+				query.set('reserve', num)
+				query.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+				query.set('id', products[i].objectId) //需要修改的objectId
+				query.save().then(res => {
+					console.log(products[i])
 					if (products[i].header) {
-						setTimeout(function() {
-							const query1 = Bmob.Query("Goods");
-							query1.equalTo("header", "==", products[i].header.objectId);
-							query1.equalTo("order", "==", 1);
-							query1.statTo("sum", "reserve");
-							query1.find().then(res => {
-								console.log("dasds", res)
-								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
-								query.get(products[i].header.objectId).then(res => {
-									res.set('reserve', now_reserve)
-									res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
-									res.save()
-
-									if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
-										this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num,
-											-2,
-											products[i].objectId);
-									}
-
-
-								})
+						const query1 = Bmob.Query("Goods");
+						query1.equalTo("header", "==", products[i].header.objectId);
+						query1.equalTo("order", "==", 1);
+						query1.statTo("sum", "reserve");
+						query1.find().then(res => {
+							console.log("dasds", res)
+							let now_reserve = res[0]._sumReserve
+							const query = Bmob.Query('Goods');
+							query.set('reserve', now_reserve)
+							query.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
+							query.set('id', products[i].header.objectId)
+							query.save().then(res => {
+								if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
+									that.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num,
+										-2,
+										products[i].objectId);
+								}
+								if (i == products.length - 1) {
+									resolve(true)
+								}
 							})
-						}, 1000)
-						if (i == products.length - 1) {
-							resolve(true)
-						}
+						})
 					} else {
 						if (products[i].max_num >= 0 && products[i].max_num <= num) {
-							this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
+							that.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
 								products[i].objectId);
 						}
 						if (i == products.length - 1) {
@@ -75,65 +69,61 @@ module.exports = {
 
 	//出库时减少产品数量
 	outRedGoodNum(products) {
+		let that = this;
 		return new Promise((resolve, reject) => {
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				query.get(products[i].objectId).then(res => {
+				if (products[i].selectd_model) {
+					for (let model of products[i].selected_model) {
+						for (let item of products[i].models) {
+							num += Number(item.reserve)
+							if (item.id == model.id) {
+								item.reserve = Number(item.reserve) - Number(model.num)
+							}
+							delete item.num // 清除没用的属行
+						}
+					}
+					num = Number(products[i].reserve) - Number(products[i].num);
+					query.set('models', products[i].models)
+				} else {
+					num = Number(products[i].reserve) - Number(products[i].num);
+				}
+				
+				query.set('reserve', num)
+				query.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
+				query.set('id', products[i].objectId) //需要修改的objectId
+				query.save().then(res => {
 					//console.log(res)
 
-					if (products[i].selectd_model) {
-						for (let model of products[i].selected_model) {
-							for (let item of products[i].models) {
-								num += Number(item.reserve)
-								if (item.id == model.id) {
-									item.reserve = Number(item.reserve) - Number(model.num)
-								}
-								delete item.num // 清除没用的属行
-							}
-						}
-						num = Number(products[i].reserve) - Number(products[i].num);
-						res.set('models', products[i].models)
-					} else {
-						num = Number(products[i].reserve) - Number(products[i].num);
-					}
-
-					res.set('reserve', num)
-					res.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
-					res.save()
-
-					this.record_staffOut(Number(products[i].num))
+					that.record_staffOut(Number(products[i].num))
 
 					if (products[i].header) {
-						setTimeout(function() {
-							const query1 = Bmob.Query("Goods");
-							query1.equalTo("header", "==", products[i].header.objectId);
-							query1.equalTo("order", "==", 1);
-							query1.statTo("sum", "reserve");
-							query1.find().then(res => {
-								console.log("dasds", res)
-								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
-								query.get(products[i].header.objectId).then(res => {
-									res.set('reserve', now_reserve)
-									res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
-									res.save()
-							
-									if (products[i].warning_num >= now_reserve) {
-										this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
-											products[i].objectId);
-									}
-							
-									
-								})
+						const query1 = Bmob.Query("Goods");
+						query1.equalTo("header", "==", products[i].header.objectId);
+						query1.equalTo("order", "==", 1);
+						query1.statTo("sum", "reserve");
+						query1.find().then(res => {
+							console.log("dasds", res)
+							let now_reserve = res[0]._sumReserve
+							const query = Bmob.Query('Goods');
+							query.set('reserve', now_reserve)
+							query.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
+							query.set('id', products[i].header.objectId)
+							query.save().then(res => {
+								if (products[i].warning_num >= now_reserve) {
+									that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+										products[i].objectId);
+								}
+								if (i == products.length - 1) {
+									resolve(true)
+								}
 							})
-						}, 1000)
-						if (i == products.length - 1) {
-							resolve(true)
-						}
+						})
+
 					} else {
 						if (products[i].warning_num >= num) {
-							this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+							that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 								products[i].objectId);
 						}
 						if (i == products.length - 1) {

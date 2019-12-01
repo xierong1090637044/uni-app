@@ -187,7 +187,7 @@
 					const query = Bmob.Query('stocks');
 					query.set("Image", that.Images);
 					query.set("stock_name", that.warehouse_name);
-					query.set("num", Number(that.warehouse_num));
+					query.set("num", Number(that.warehouse_num?that.warehouse_num:0));
 					if(shop) query.set("shop",shopId);
 					//query.set("shop", that.warehouse_shop);
 					query.set("Ncharge", chargeId);

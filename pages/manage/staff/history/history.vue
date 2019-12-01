@@ -25,9 +25,9 @@
 			</view>
 
 			<scroll-view class='page' scroll-y="true">
-				<view class='list-item' v-if="seleted_tab == 1">
+		
 					<navigator v-for="(item,index) in list" :key="index" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.objectId">
-						<view class='item'>
+						<view class='item' v-if="item.type == 1">
 							<view style='display:flex;width:calc(100% - 120rpx);'>
 								<view style='line-height:80rpx'>
 									<fa-icon type="sign-in" size="20" color="#2ca879" />
@@ -50,12 +50,29 @@
 							<view class='order_get' v-if="extra_type ==2">入库</view>
 							<view class='order_get' v-else-if="extra_type ==1">采购</view>
 						</view>
-					</navigator>
-				</view>
-
-				<view class='list-item' v-if="seleted_tab == -1">
-					<navigator v-for="(item,index) in list" :key="index" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.objectId">
-						<view class='item'>
+						
+						<!--<view class='item' v-else-if="type == -1">
+							<view style='display:flex;width:calc(100% - 120rpx);'>
+								<view style='line-height:80rpx'>
+									<fa-icon type="sign-out" size="20" color="#b3b242" />
+								</view>
+								<view style='margin-left:20rpx'>
+									<view v-if="item.opreater">
+										<view v-if="item.opreater.nickName">
+											<text style='color:#999'>操作者：</text>
+											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
+										</view>
+									</view>
+									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+									<view><text style='color:#999'>退货数量：</text>{{item.num}}</view>
+									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
+									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
+								</view>
+							</view>
+							<view class='order_returning'>退货</view>
+						</view>-->
+						
+						<view class='item' v-else-if="item.type == -1">
 							<view style='display:flex;width:calc(100% - 120rpx);'>
 								<view style='line-height:80rpx'>
 									<fa-icon type="sign-out" size="20" color="#f30" />
@@ -78,33 +95,7 @@
 							<view class='order_out' v-if="extra_type ==2">出库</view>
 							<view class='order_out' v-else-if="extra_type ==1">销售</view>
 						</view>
-					</navigator>
-				</view>
-
-				<view class='list-item' v-if="seleted_tab == 2">
-					<navigator v-for="(item,index) in list" :key="index" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.objectId">
-						<view class='item'>
-							<view style='display:flex;width:calc(100% - 120rpx);'>
-								<view style='line-height:80rpx'>
-									<fa-icon type="sign-out" size="20" color="#b3b242" />
-								</view>
-								<view style='margin-left:20rpx'>
-									<view v-if="item.opreater">
-										<view v-if="item.opreater.nickName">
-											<text style='color:#999'>操作者：</text>
-											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
-										</view>
-									</view>
-									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-									<view><text style='color:#999'>退货数量：</text>{{item.num}}</view>
-									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
-									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
-								</view>
-							</view>
-							<view class='order_returning'>退货</view>
-						</view>
-					</navigator>
-				</view>
+					</navigator>		
 
 			</scroll-view>
 		</view>
@@ -188,9 +179,9 @@
 				end_day: common.getDay(1, false),
 				max_day: common.getDay(0, false),
 
-				seleted_tab: -1, //1采购  -1销售  2退货
-				selected_text: "销售",
-				extra_type: 1,
+				seleted_tab: '', //1采购  -1销售  2退货
+				selected_text: "操作类型",
+				extra_type: '',
 				types: [{
 					name: '入库',
 					type: 1,
@@ -303,8 +294,9 @@
 			getdetail() {
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
-				query.equalTo("type", '==', that.seleted_tab);
-				if (that.extra_type) {
+				
+				if (that.seleted_tab) {
+					query.equalTo("type", '==', that.seleted_tab);
 					query.equalTo("extra_type", "==", that.extra_type);
 				}
 				query.equalTo("status", "!=", false);

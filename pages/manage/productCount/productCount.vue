@@ -198,12 +198,14 @@
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
+					query.equalTo("order", "!=", 1);
 					if(that.category.type == 1){
 						query.equalTo("goodsClass", "==", that.category.objectId);
 					}else{
 						query.equalTo("second_class", "==", that.category.objectId);
 					}
 					query.select("goodsName,reserve");
+					
 					query.limit(500)
 					query.find().then(res => {
 						//console.log(res)
