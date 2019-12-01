@@ -335,7 +335,7 @@
 					const pointer = Bmob.Pointer('_User');
 					let poiID = pointer.set(userid);
 
-					const query = Bmob.Query('staffs');
+					const query = Bmob.Query("_User");
 					query.set("username", that.staff_name);
 					query.set("nickName", that.staff_name);
 					query.set("password", that.staff_password);
@@ -360,7 +360,7 @@
 					})
 				} else {
 
-					const query = Bmob.Query("staffs");
+					const query = Bmob.Query("_User");
 					query.equalTo("masterId", "==", uid);
 					query.equalTo("mobilePhoneNumber", "==", that.staff_phone);
 					query.find().then(res => {
@@ -372,7 +372,7 @@
 							const pointer = Bmob.Pointer('_User');
 							let poiID = pointer.set(userid);
 
-							const query = Bmob.Query('staffs');
+							const query = Bmob.Query("_User");
 							query.set("username", that.staff_name);
 							if(shop) query.set("shop",shopId);
 							query.set("stocks", that.select_stocks);
@@ -393,14 +393,15 @@
 								
 								that.select_stocks = []
 							}).catch(err => {
-								console.log(err)
-
+								if(err.code == 209){
+									uni.showToast({
+										title: "已存在此账号",
+										icon: "none"
+									})
+								}
 							})
 						} else {
-							uni.showToast({
-								title: "已存在此账号",
-								icon: "none"
-							})
+							
 						}
 
 					});

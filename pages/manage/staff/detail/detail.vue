@@ -114,9 +114,9 @@
 			//删除数据
 			delete_data(id) {
 				console.log(id)
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Query("_User");
 				query.destroy(id).then(res => {
-					const query = Bmob.Query('staffs');
+					const query = Bmob.Query("_User");
 					query.get(id).then(res => {
 						if (res.userId) {
 							const query = Bmob.Query("_User");

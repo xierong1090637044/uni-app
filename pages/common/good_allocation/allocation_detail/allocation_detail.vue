@@ -120,7 +120,7 @@
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice)
 					query.set("retailPrice", good.retailPrice)
-					query.set("reserve", Number(good.reserve))
+					query.set("reserve", 0)
 					query.set("stocks", p_stock_id)
 					query.set("header", p_good_id)
 					query.set("order", 1)
@@ -162,7 +162,6 @@
 									let product = that.products[i]
 									let products = uni.getStorageSync("products");
 									let warehouse = uni.getStorageSync("out_warehouse")
-									product.reserve = product.num
 									that.upload_good_withNoCan(product, warehouse[0].stock).then(res => {
 										console.log(res)
 										if (i == that.products.length - 1) {
@@ -262,7 +261,6 @@
 						stockIds.push(this.products[i].stocks.objectId)
 					}
 					detailBills.goodsName = this.products[i].goodsName
-					detailBills.stock = that.stock.stock_name
 					detailBills.out_stock = that.out_stock.stock_name
 					detailBills.reserve = this.products[i].reserve
 					detailBills.out_reserve = this.out_products[i].reserve
@@ -349,7 +347,7 @@
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
 										common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that
-											.products.length + "商品", -2, res.objectId);
+											.products.length + "商品", -3, res.objectId);
 
 										/*let params = {
 											"data1": res.objectId,
@@ -366,9 +364,9 @@
 										if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);
 										}
-										/*uni.navigateBack({
+										uni.navigateBack({
 											delta: 2
-										});*/
+										});
 									}, 500)
 								}
 							})

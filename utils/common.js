@@ -41,12 +41,21 @@ module.exports = {
 								res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
 								res.save()
 								
+								if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
+									this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
+										products[i].objectId);
+								}
+								
 								if (i == products.length - 1) {
 									resolve(true)
 								}
 							})
 						})
 					}else{
+						if (products[i].max_num >= 0 && products[i].max_num <= num) {
+							this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
+								products[i].objectId);
+						}
 						if (i == products.length - 1) {
 							resolve(true)
 						}
@@ -89,10 +98,6 @@ module.exports = {
 					res.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
 					res.save()
 
-					if (products[i].warning_num >= num) {
-						this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
-							products[i].objectId);
-					}
 					this.record_staffOut(Number(products[i].num))
 
 					if(products[i].header){
@@ -109,12 +114,21 @@ module.exports = {
 								res.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
 								res.save()
 								
+								if (products[i].warning_num >= now_reserve) {
+									this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+										products[i].objectId);
+								}
+								
 								if (i == products.length - 1) {
 									resolve(true)
 								}
 							})
 						})
 					}else{
+						if (products[i].warning_num >= num) {
+							this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+								products[i].objectId);
+						}
 						if (i == products.length - 1) {
 							resolve(true)
 						}
@@ -170,7 +184,7 @@ module.exports = {
 	record_staffOut(have_out) {
 		console.log(have_out, uni.getStorageSync("user").have_out)
 		if (uni.getStorageSync("identity") == 1) {} else {
-			const query = Bmob.Query('staffs');
+			const query = Bmob.Query("_User");
 			query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
 			query.set('have_out', Number(have_out) + uni.getStorageSync("user").have_out)
 			query.save().then(res => {

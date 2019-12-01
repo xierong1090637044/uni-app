@@ -57,7 +57,7 @@
 				} else {
 					
 					uni.showLoading({title:"登录中..."})
-					const query = Bmob.Query("staffs");
+					const query = Bmob.Query("_User");
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
 					query.equalTo("password", "==", that.password);
 					query.include("masterId");
@@ -103,7 +103,7 @@
 								const pointer = Bmob.Pointer('_User')
 								const poiID = pointer.set(user_info.objectId);
 
-								const query = Bmob.Query('staffs');
+								const query = Bmob.Query("_User");
 								query.set('id', now_staff.objectId) //需要修改的objectId
 								query.set('userId', poiID)
 								query.save().then(res => {

@@ -16,37 +16,37 @@
 		</view>
 		<scroll-view class="content" scroll-y>
 			<view v-for="(detail,index) in details" :key="index" class="detail_item">
-				<view v-if="seleted_tab === 1">
+				<view v-if="detail.type === 1">
 					<view class="display_flex_bet">
 						<view>
-							<text v-if="extra_type ==2">入库数量：</text>
-							<text v-else-if="extra_type ==1">采购数量：</text>
+							<text v-if="detail.extra_type ==2">入库数量：</text>
+							<text v-else-if="detail.extra_type ==1">采购数量：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.num}}</text>
 						</view>
 						<view>
-							<text v-if="extra_type ==2">入库单价：</text>
-							<text v-else-if="extra_type ==1">采购单价：</text>
+							<text v-if="detail.extra_type ==2">入库单价：</text>
+							<text v-else-if="detail.extra_type ==1">采购单价：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
 				</view>
 
-				<view v-if="seleted_tab === -1">
+				<view v-if="detail.type === -1">
 					<view class="display_flex_bet">
 						<view>
-							<text v-if="extra_type ==2">出库数量：</text>
-							<text v-else-if="extra_type ==1">销售数量：</text>
+							<text v-if="detail.extra_type ==2">出库数量：</text>
+							<text v-else-if="detail.extra_type ==1">销售数量：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.num}}</text>
 						</view>
 						<view>
-							<text v-if="extra_type ==2">出库单价：</text>
-							<text v-else-if="extra_type ==1">销售单价：</text>
+							<text v-if="detail.extra_type ==2">出库单价：</text>
+							<text v-else-if="detail.extra_type ==1">销售单价：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
 				</view>
 
-				<view v-if="seleted_tab === 2">
+				<view v-if="detail.type === 2">
 					<view class="display_flex_bet">
 						<view>
 							<text>退货数量：</text>
@@ -59,7 +59,7 @@
 					</view>
 				</view>
 
-				<view v-if="seleted_tab === 3" class="display_flex_bet">
+				<view v-if="detail.type === 3" class="display_flex_bet">
 					<view>
 						<text>盘点前库存：</text>
 						<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.reserve}}</text>
@@ -74,7 +74,7 @@
 			</view>
 		</scroll-view>
 
-		<view class="display_flex_bet bottomEle" v-if="seleted_tab !=3">
+		<view class="display_flex_bet bottomEle" v-if="seleted_tab && seleted_tab !=3">
 			<view>{{goodsName}}</view>
 			<view>
 				<view>总数:<text style="color: #f30;">{{total_num}}</text></view>
@@ -104,9 +104,9 @@
 				total_money: 0, //所有操作的总金额
 				year: '',
 				month: '',
-				seleted_tab: 1,
+				seleted_tab: '',
 				details: null,
-				extra_type:2,
+				extra_type:'',
 				tabBars: [{
 					name: '入库',
 					type: 1,
@@ -173,8 +173,8 @@
 				})
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("type", "==", that.seleted_tab);
-				if(that.extra_type){
+				if(that.type){
+					query.equalTo("type", "==", that.seleted_tab);
 					query.equalTo("extra_type", "==", that.extra_type);
 				}
 				query.equalTo("status", "!=", false);

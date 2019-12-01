@@ -384,7 +384,7 @@
 					let pointer2 = Bmob.Pointer('_User')
 					let operater = pointer2.set(uni.getStorageSync("masterId"))
 					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].objectId);
+					let tempGoods_id = pointer1.set(this.products[i].header?this.products[i].header.objectId:this.products[i].objectId);
 
 					if (uni.getStorageSync("custom")) {
 						let pointer3 = Bmob.Pointer('customs')

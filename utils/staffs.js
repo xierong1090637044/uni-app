@@ -5,7 +5,7 @@ export default {
 	get_satffAuth(){
 		return new Promise((resolve, reject) => {
 			let userid = uni.getStorageSync("user").objectId
-			const query = Bmob.Query('staffs');
+			const query = Bmob.Query("_User");
 			query.include("masterId")
 			query.get(userid).then(res => {
 				if(res.masterId.is_vip){
@@ -28,7 +28,7 @@ export default {
 	get_stafflist(disabled,search_text) {
 		return new Promise((resolve, reject) => {
 			let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
-			const query = Bmob.Query("staffs");
+			const query = Bmob.Query("_User");
 			query.order("num");
 			query.equalTo("masterId", "==", userid);
 			query.equalTo("disabled", "==",disabled);
@@ -40,7 +40,7 @@ export default {
 			
 			}
 			query.find().then(res => {
-				localStorage.setItem("staffs",JSON.stringify(res))
+				localStorage.setItem("_User",JSON.stringify(res))
 				resolve(res)
 			});
 		})
@@ -63,7 +63,7 @@ export default {
 				const pointer = Bmob.Pointer('_User');
 				let poiID = pointer.set(userid);
 				
-				const query = Bmob.Query('staffs');
+				const query = Bmob.Query("_User");
 				query.set("username", params.name);
 				query.set("nickName", params.name);
 				query.set("password", params.password);
@@ -84,14 +84,14 @@ export default {
 				})
 			} else {
 				
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Query("_User");
 				query.equalTo("masterId", "==", userid);
 				query.equalTo("mobilePhoneNumber", "==", params.mobilePhoneNumber);
 				query.find().then(res => {
 					console.log(res)
 					if (res.length == 0) {
 				
-						const query = Bmob.Query('staffs');
+						const query = Bmob.Query("_User");
 						query.set("username", params.name);
 						query.set("shop",shopId);
 						query.set("nickName", params.name);
@@ -124,7 +124,7 @@ export default {
 	//删除门店
 	delete_staff(id) {
 		return new Promise((resolve, reject) => {
-			const query = Bmob.Query("staffs");
+			const query = Bmob.Query("_User");
 			query.destroy(id).then(res => {
 				resolve(res)
 			}).catch(err => {

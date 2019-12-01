@@ -125,7 +125,7 @@
 			//删除数据
 			delete_data(id) {
 				console.log(id)
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Query("_User");
 				query.destroy(id).then(res => {
 					console.log(res)
 					uni.showToast({
@@ -156,7 +156,7 @@
 
 			//得到员工列表
 			getstaff_list: function() {
-				const query = Bmob.Query("staffs");
+				const query = Bmob.Query("_User");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
 				query.equalTo("shop", "==", shopId);

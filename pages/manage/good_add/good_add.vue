@@ -458,6 +458,8 @@
 								res.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
 								res.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 								res.set("goodsName", good.goodsName)
+								res.set("warning_num", Number(good.warning_num))
+								res.set("max_num", Number(good.max_num))
 								res.save()
 							}).catch(err => {
 								console.log(err)
@@ -549,6 +551,8 @@
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)
 							queryObj.set("reserve", Number(stocksReserve[i].reserve))
+							queryObj.set("warning_num", Number(good.warning_num))
+							queryObj.set("max_num", Number(good.max_num))
 							queryArray.push(queryObj);
 						}
 

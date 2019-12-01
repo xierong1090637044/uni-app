@@ -73,6 +73,23 @@
 				
 				<view class="display_flex_bet list_item">
 					<view class="display_flex second_item">
+						<image src="/static/reserve_in.png" class="icon_img"></image>
+						<view>
+							<view class="text_notice">此时间段采购数</view>
+							<view class="reserve_text">{{purchaseNum}}</view>
+						</view>
+					</view>
+					<view class="display_flex second_item">
+						<image src="/static/reserve_out.png" class="icon_img"></image>
+						<view>
+							<view class="text_notice">此时间段销售数</view>
+							<view class="reserve_text">{{sellNum}}</view>
+						</view>
+					</view>
+				</view>
+				
+				<view class="display_flex_bet list_item">
+					<view class="display_flex second_item">
 						<view>
 							<view class="text_notice">入库实际总额</view>
 							<view class="reserve_text">{{get_reserve_num}}</view>
@@ -161,6 +178,8 @@
 				out_reserve_get_num: 0,
 				should_get_money:0,
 				real_get_money:0,
+				sellNum:0,
+				purchaseNum:0,
 			}
 		},
 		onLoad() {
@@ -209,6 +228,8 @@
 					that.out_reserve_get_num = res.out_reserve_get_num
 					that.should_get_money = res.should_get_money
 					that.real_get_money = res.real_get_money
+					that.purchaseNum = res.purchaseNum
+					that.sellNum = res.sellNum
 				});
 			},
 

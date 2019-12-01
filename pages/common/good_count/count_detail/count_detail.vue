@@ -109,7 +109,7 @@
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].objectId);
+					let tempGoods_id = pointer1.set(this.products[i].header?this.products[i].header.objectId:this.products[i].objectId);
 					
 					let masterId = uni.getStorageSync("masterId");
 					let pointer2 = Bmob.Pointer('_User')
@@ -118,7 +118,7 @@
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
 					tempBills.set('num', Number(this.products[i].num));
-					tempBills.set('reserve', this.products[i].reserve);
+					tempBills.set('reserve', Number(this.products[i].reserve));
 					tempBills.set('now_reserve', this.products[i].num.toString());
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('opreater', poiID2);
@@ -237,9 +237,9 @@
 											if(uni.getStorageSync("setting").auto_print){
 												print.autoPrint(operationId);
 											}
-										uni.navigateBack({
+										/*uni.navigateBack({
 											delta: 2
-										});
+										});*/
 									}, 500)
 								}
 							})

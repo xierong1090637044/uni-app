@@ -23,6 +23,7 @@
 						<text>出库、入库、销售、采购、盘点、调拨操作优化</text>
 						<text>操作记录详情优化</text>
 						<text>新增消息中心</text>
+						<text>员工列表优化</text>
 						<text>暂时移除物料管理模块</text>
 					</view>
 				</view>

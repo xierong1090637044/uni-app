@@ -17,6 +17,16 @@
 						<view>今日出库</view>
 					</view>
 				</swiper-item>
+				<swiper-item class="item">
+					<view class='every_item'>
+						<view class='s_num'>{{purchaseNum}}</view>
+						<view>今日采购</view>
+					</view>
+					<view class='every_item'>
+						<view class='s_num'>{{sellNum}}</view>
+						<view>今日销售</view>
+					</view>
+				</swiper-item>
 
 				<swiper-item class="item">
 					<view class='every_item'>
@@ -145,6 +155,8 @@
 				],
 				get_reserve: 0,
 				out_reserve: 0,
+				sellNum:0,
+				purchaseNum:0,
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
@@ -311,6 +323,8 @@
 				let out_reserve_real_money = 0;
 				let get_reserve_num = 0;
 				let out_reserve_num = 0;
+				let purchaseNum = 0; // 当日的采购数量
+				let sellNum = 0;//当日的销售数量
 
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
@@ -324,13 +338,23 @@
 							get_reserve = get_reserve + res[i].num;
 							get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
 							get_reserve_num = get_reserve_num + res[i].total_money;
+							if(res[i].extra_type ==1){
+								purchaseNum +=res[i].num;
+							}
 						} else if (res[i].type == -1) {
 							out_reserve = out_reserve + res[i].num;
 							out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
 							out_reserve_num = out_reserve_num + res[i].total_money;
+							if(res[i].extra_type ==1){
+								sellNum +=res[i].num;
+							}
 						}
 					}
-
+					
+					console.log(purchaseNum,sellNum)
+					
+					that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
+					that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
 					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 				})
