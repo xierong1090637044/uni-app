@@ -8,7 +8,11 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
+						<view class='margin-t-5 display_flex_bet'>
+							<view v-if="item.stocks && item.stocks.stock_name">存放仓库：{{item.stocks.stock_name}}</view>
+							<view v-else>存放仓库：未填写</view>
+							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
+						</view>
 						<view>建议零售价格：{{item.retailPrice}}(元)</view>
 						<view class='margin-t-5'>
 							退货量：

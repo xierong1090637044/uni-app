@@ -76,12 +76,12 @@
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
 						color: "#4e72b8"
 					},
-					/*{
+					{
 						name: '客户退货记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
 						color: "#b3b242"
-					},*/
+					},
 					{
 						name: '盘点记录',
 						icon: 'file-o',

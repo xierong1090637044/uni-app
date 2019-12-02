@@ -101,10 +101,6 @@
 			that.out_stock = uni.getStorageSync("out_warehouse") ? uni.getStorageSync("out_warehouse")[0].stock : ''
 		},
 		methods: {
-			//选择时间
-			bindDateChange(e){
-				that.nowDay = e.detail.value+" 00:00:00"
-			},
 
 			upload_good_withNoCan(good, stock) {
 				return new Promise((resolve, reject) => {
@@ -118,13 +114,13 @@
 					const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
 
 					const pointer2 = Bmob.Pointer('Goods')
-					const p_good_id = pointer2.set(good.header.objectId) //仓库的id关联
+					const p_good_id = pointer2.set(good.header ? good.header.objectId : good.objectId) //仓库的id关联
 
 					const query = Bmob.Query('Goods');
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice)
 					query.set("retailPrice", good.retailPrice)
-					query.set("reserve", 0)
+					query.set("reserve", Number(good.reserve))
 					query.set("stocks", p_stock_id)
 					query.set("header", p_good_id)
 					query.set("order", 1)
@@ -166,6 +162,7 @@
 									let product = that.products[i]
 									let products = uni.getStorageSync("products");
 									let warehouse = uni.getStorageSync("out_warehouse")
+									product.reserve = product.num
 									that.upload_good_withNoCan(product, warehouse[0].stock).then(res => {
 										console.log(res)
 										if (i == that.products.length - 1) {
@@ -176,7 +173,19 @@
 												query.equalTo("userId", "==", uid);
 												query.equalTo("stocks", "==", that.out_stock.objectId);
 												query.find().then(res => {
-													that.out_products = that.out_products.concat(res)
+													if(that.out_products.length == 0){
+														res[0].shouldNum =  Number(that.products[i].num)
+														that.out_products = that.out_products.concat(res)
+													}else{
+														for (let item of that.out_products) {
+															item.shouldNum =  Number(that.products[i].num)
+															if (res[0].goodsName == item.goodsName){
+																item.shouldNum = item.shouldNum + Number(that.products[i].num);
+															}else{
+																that.out_products = that.out_products.concat(res)
+															}
+														}
+													}
 													if (i == that.products.length - 1) {
 														resolve(true)
 													}
@@ -184,12 +193,24 @@
 											}
 										}
 									})
-
-
 								} else {
-									console.log(that.products)
-									that.out_products = that.out_products.concat(res)
+									if(that.out_products.length == 0){
+										res[0].shouldNum =  Number(that.products[i].num)
+										that.out_products = that.out_products.concat(res)
+									}else{
+										for (let item of that.out_products) {
+											item.shouldNum =  Number(that.products[i].num)
+											if (res[0].goodsName == item.goodsName){
+												item.shouldNum = item.shouldNum + Number(that.products[i].num);
+											}else{
+												that.out_products = that.out_products.concat(res)
+											}
+										}
+									}
+									
+									
 									if (i == that.products.length - 1) {
+										console.log("dsadas", that.out_products)
 										resolve(true)
 									}
 								}
@@ -229,7 +250,7 @@
 				let stockIds = []
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - Number(this.products[i].num);
-					let num1 = Number(this.out_products[i].reserve) + Number(this.products[i].num);
+					//let num1 = Number(this.out_products[i].reserve) + Number(this.products[i].num);
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
@@ -265,13 +286,14 @@
 						stockIds.push(this.products[i].stocks.objectId)
 					}
 					detailBills.goodsName = this.products[i].goodsName
+					detailBills.stock = that.stock.stock_name
 					detailBills.out_stock = that.out_stock.stock_name
 					detailBills.reserve = this.products[i].reserve
-					detailBills.out_reserve = this.out_products[i].reserve
+					//detailBills.out_reserve = this.out_products[i].reserve
 					goodsId.objectId = this.products[i].objectId
-					goodsId.out_objectId = this.out_products[i].objectId
+					//goodsId.out_objectId = this.out_products[i].objectId
 					goodsId.reserve = num
-					goodsId.out_reserve = num1
+					//goodsId.out_reserve = num1
 					detailBills.goodsId = goodsId
 					detailBills.num = Number(this.products[i].num)
 					detailBills.type = -2
@@ -321,20 +343,50 @@
 								success: function() {
 									for (let i = 0; i < that.products.length; i++) {
 										let num = Number(that.products[i].reserve) - Number(that.products[i].num);
-										let num1 = Number(that.out_products[i].reserve) + Number(that.products[i].num);
 
 										console.log(Number(that.products[i].num))
 										const query = Bmob.Query('Goods');
-										query.get(that.products[i].objectId).then(res => {
+										query.set('reserve', num)
+										query.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+										query.set('id', that.products[i].objectId)
+										query.save().then(res => {
 											//console.log(res)
-											res.set('reserve', num)
-											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
-											res.save()
-											query.get(that.out_products[i].objectId).then(res => {
-												res.set('reserve', num1)
-												res.set('stocktype', (num1 > that.out_products[i].warning_num) ? 1 : 0)
-												res.save()
-											})
+											
+											if(i == that.products.length - 1){
+												for (let j = 0; j < that.out_products.length; j++) {
+													const query = Bmob.Query('Goods');
+													query.get(that.out_products[j].objectId).then(res => {
+													  console.log(res)
+													  const query = Bmob.Query("Goods");
+													  query.set('reserve', res.reserve + Number(that.out_products[j].shouldNum))
+													  query.set('id', that.out_products[j].objectId)
+													  query.save().then(res => {
+													  	const query1 = Bmob.Query("Goods");
+													  	query1.equalTo("goodsName", "==", that.out_products[j].goodsName);
+													  	query1.equalTo("order", "==", 1);
+													  	query1.statTo("sum", "reserve");
+													  	query1.find().then(res => {
+													  		console.log("dasds", res)
+													  		let now_reserve = res[0]._sumReserve
+													  		const query = Bmob.Query('Goods');
+													  		query.set('reserve', now_reserve)
+													  		query.set('stocktype', (now_reserve > that.out_products[j].warning_num) ? 1 : 0)
+													  		query.set('id', that.out_products[j].header ? that.out_products[j].header.objectId : that.out_products[j].objectId)
+													  		query.save().then(res => {
+													  
+													  		})
+													  	})
+													  
+													  })
+													}).catch(err => {
+													  console.log(err)
+													})
+													
+													
+												}
+											}
+
+
 										}).catch(err => {
 											console.log(err)
 										})
@@ -351,7 +403,7 @@
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
 										common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that
-											.products.length + "商品", -3, res.objectId);
+											.products.length + "商品", -2, res.objectId);
 
 										/*let params = {
 											"data1": res.objectId,
@@ -431,9 +483,11 @@
 	}
 
 	.confrim_button {
-		background: #aa2116;
+		background: #644fbb;
 		color: #fff;
 		font-weight: bold;
 		font-size: 32rpx;
+		border-radius: unset;
+		padding: 0 50rpx;
 	}
 </style>

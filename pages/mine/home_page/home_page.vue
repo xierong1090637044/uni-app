@@ -32,6 +32,14 @@
 
 		<view style='margin-top:20rpx' class='frist'>
 			<view class='display_flex_bet item1'>
+				<view>账号密码登录</view>
+				<navigator class='display_flex right_item' hover-class="none" url="setAccount/setAccount">
+					<text v-if="userInfo.pwd">{{userInfo.pwd}}</text>
+					<text v-else>未设置</text>
+					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
+				</navigator>
+			</view>
+			<view class='display_flex_bet item1'>
 				<view>手机号</view>
 				<view class='display_flex right_item'>
 					<text>{{userInfo.mobilePhoneNumber}}</text>
