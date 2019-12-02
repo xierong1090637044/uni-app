@@ -161,8 +161,6 @@
 </script>
 
 <style>
-	@import url("./css/icon.css");
-	
 	.main-list{
 		display: flex;
 		flex-direction: row;

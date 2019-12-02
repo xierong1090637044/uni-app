@@ -77,16 +77,14 @@
 							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
 						</view>
 					</view>
-				</view>
-
-				<view class="second_one">
-					<view style="margin: 0 0 20rpx;">产品二维码</view>
-					<view style="padding: 20rpx;background: #fff;text-align: center;">
-						<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="100" :loadMake="true" :usingComponents="true"
-						 unit="rpx" @result="qrR" />
+					<view>
+						<view style="margin: 0 0 20rpx;">产品二维码</view>
+						<view style="padding: 20rpx;background: #fff;text-align: center;">
+							<tki-qrcode cid="qrcode" ref="qrcode" :val="item.objectId" :size="100" :loadMake="true" :usingComponents="true"
+							 unit="rpx" @result="qrR" />
+						</view>
 					</view>
 				</view>
-
 			</view>
 
 			<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
