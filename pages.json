@@ -177,11 +177,7 @@
 				"navigationBarTitleText": "销售详情"
 			}
 		}
-        ,{
-            "path" : "pages/mine/home_page/setAccount/setAccount",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -220,63 +216,71 @@
 			}]
 		}, {
 			"root": "pages/mine",
-			"pages": [{
-				"path": "manual/manual",
-				"style": {
-					"navigationBarTitleText": "操作手册"
+			"pages": [
+				{
+					"path": "home_page/setAccount/setAccount",
+					"style": {
+						"navigationBarTitleText": "设置账号密码"
+					}
+				},
+				{
+					"path": "manual/manual",
+					"style": {
+						"navigationBarTitleText": "操作手册"
+					}
+				}, {
+					"path": "InforCnter/InforCnter",
+					"style": {
+						"navigationBarTitleText": "消息中心"
+					}
+				}, {
+					"path": "manual/detail/detail",
+					"style": {
+						"navigationBarTitleText": "详情"
+					}
+				}, {
+					"path": "update_history/update_history",
+					"style": {
+						"navigationBarTitleText": "更新历史"
+					}
+				}, {
+					"path": "uploadFile/uploadFile",
+					"style": {
+						"navigationBarTitleText": "批量操作"
+					}
+				}, {
+					"path": "vip/vip",
+					"style": {
+						"navigationBarTitleText": "会员",
+						"navigationBarBackgroundColor": "#1297fe"
+					}
+				}, {
+					"path": "logs/logs",
+					"style": {
+						"navigationBarTitleText": "操作记录"
+					}
+				}, {
+					"path": "setting/setting",
+					"style": {
+						"navigationBarTitleText": "我的设置"
+					}
+				}, {
+					"path": "about_us/about_us",
+					"style": {
+						"navigationBarTitleText": "关于我们"
+					}
+				}, {
+					"path": "home_page/home_page",
+					"style": {
+						"navigationBarTitleText": "账号信息"
+					}
+				}, {
+					"path": "warning_log/warning_log",
+					"style": {
+						"navigationBarTitleText": "预警记录"
+					}
 				}
-			}, {
-				"path": "InforCnter/InforCnter",
-				"style": {
-					"navigationBarTitleText": "消息中心"
-				}
-			},{
-				"path": "manual/detail/detail",
-				"style": {
-					"navigationBarTitleText": "详情"
-				}
-			}, {
-				"path": "update_history/update_history",
-				"style": {
-					"navigationBarTitleText": "更新历史"
-				}
-			}, {
-				"path": "uploadFile/uploadFile",
-				"style": {
-					"navigationBarTitleText": "批量操作"
-				}
-			}, {
-				"path": "vip/vip",
-				"style": {
-					"navigationBarTitleText": "会员",
-					"navigationBarBackgroundColor": "#1297fe"
-				}
-			}, {
-				"path": "logs/logs",
-				"style": {
-					"navigationBarTitleText": "操作记录"
-				}
-			}, {
-				"path": "setting/setting",
-				"style": {
-					"navigationBarTitleText": "我的设置"
-				}
-			}, {
-				"path": "about_us/about_us",
-				"style": {
-					"navigationBarTitleText": "关于我们"
-				}
-			}, {
-				"path": "home_page/home_page",
-				"style": {
-					"navigationBarTitleText": "账号信息"
-				}
-			}, {
-				"path": "warning_log/warning_log",
-				"style": {
-					"navigationBarTitleText": "预警记录"
-				}
-			}]
+			]
 		},
 		{
 			"root": "pages/manage",
