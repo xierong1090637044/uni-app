@@ -107,9 +107,6 @@
 					let uid = uni.getStorageSync("uid");
 					const pointer = Bmob.Pointer('_User')
 					const userid = pointer.set(uid)
-
-					let reserve = good.reserve
-
 					const pointer1 = Bmob.Pointer('stocks')
 					const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
 
@@ -120,7 +117,7 @@
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice)
 					query.set("retailPrice", good.retailPrice)
-					query.set("reserve", Number(good.reserve))
+					query.set("reserve", 0)
 					query.set("stocks", p_stock_id)
 					query.set("header", p_good_id)
 					query.set("order", 1)
@@ -162,7 +159,6 @@
 									let product = that.products[i]
 									let products = uni.getStorageSync("products");
 									let warehouse = uni.getStorageSync("out_warehouse")
-									product.reserve = product.num
 									that.upload_good_withNoCan(product, warehouse[0].stock).then(res => {
 										console.log(res)
 										if (i == that.products.length - 1) {
@@ -284,9 +280,11 @@
 						tempBills.set("stock", stockId);
 						detailBills.stock = this.products[i].stocks.stock_name
 						stockIds.push(this.products[i].stocks.objectId)
+					}else{
+						detailBills.stock = "未填写"
 					}
 					detailBills.goodsName = this.products[i].goodsName
-					detailBills.stock = that.stock.stock_name
+					//detailBills.stock = this.products[i].stock_name
 					detailBills.out_stock = that.out_stock.stock_name
 					detailBills.reserve = this.products[i].reserve
 					//detailBills.out_reserve = this.out_products[i].reserve
@@ -344,7 +342,7 @@
 									for (let i = 0; i < that.products.length; i++) {
 										let num = Number(that.products[i].reserve) - Number(that.products[i].num);
 
-										console.log(Number(that.products[i].num))
+										console.log(Number(that.products[i].num),num)
 										const query = Bmob.Query('Goods');
 										query.set('reserve', num)
 										query.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)

@@ -25,77 +25,79 @@
 			</view>
 
 			<scroll-view class='page' scroll-y="true">
-		
-					<navigator v-for="(item,index) in list" :key="index" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.objectId">
-						<view class='item' v-if="item.type == 1">
-							<view style='display:flex;width:calc(100% - 120rpx);'>
-								<view style='line-height:80rpx'>
-									<fa-icon type="sign-in" size="20" color="#2ca879" />
-								</view>
-								<view style='margin-left:20rpx'>
-									<view v-if="item.opreater">
-										<view v-if="item.opreater.nickName">
-											<text style='color:#999'>操作者：</text>
-											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
-										</view>
-									</view>
-									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-									<view>
-										<text v-if="extra_type ==2">入库数量：</text>
-										<text v-else-if="extra_type ==1">采购数量：</text>{{item.num}}</view>
-									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
-									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
-								</view>
+
+				<navigator v-for="(item,index) in list" :key="index" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.objectId">
+					<view class='item' v-if="item.type == 1">
+						<view style='display:flex;width:calc(100% - 120rpx);'>
+							<view style='line-height:80rpx'>
+								<fa-icon type="sign-in" size="20" color="#2ca879" />
 							</view>
-							<view class='order_get' v-if="extra_type ==2">入库</view>
-							<view class='order_get' v-else-if="extra_type ==1">采购</view>
+							<view style='margin-left:20rpx'>
+								<view v-if="item.opreater">
+									<view v-if="item.opreater.nickName">
+										<text style='color:#999'>操作者：</text>
+										<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
+									</view>
+								</view>
+								<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+								<view>
+									<text v-if="item.extra_type ==2">入库数量：</text>
+									<text v-else-if="item.extra_type == 1">采购数量：</text>{{item.num}}
+								</view>
+								<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
+								<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
+							</view>
 						</view>
-						
-						<!--<view class='item' v-else-if="type == -1">
-							<view style='display:flex;width:calc(100% - 120rpx);'>
-								<view style='line-height:80rpx'>
-									<fa-icon type="sign-out" size="20" color="#b3b242" />
-								</view>
-								<view style='margin-left:20rpx'>
-									<view v-if="item.opreater">
-										<view v-if="item.opreater.nickName">
-											<text style='color:#999'>操作者：</text>
-											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
-										</view>
-									</view>
-									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-									<view><text style='color:#999'>退货数量：</text>{{item.num}}</view>
-									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
-									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
-								</view>
+						<view class='order_get' v-if="item.extra_type ==2">入库</view>
+						<view class='order_get' v-else-if="item.extra_type ==1">采购</view>
+					</view>
+
+					<view class='item' v-else-if="item.type == 2">
+						<view style='display:flex;width:calc(100% - 120rpx);'>
+							<view style='line-height:80rpx'>
+								<fa-icon type="sign-out" size="20" color="#b3b242" />
 							</view>
-							<view class='order_returning'>退货</view>
-						</view>-->
-						
-						<view class='item' v-else-if="item.type == -1">
-							<view style='display:flex;width:calc(100% - 120rpx);'>
-								<view style='line-height:80rpx'>
-									<fa-icon type="sign-out" size="20" color="#f30" />
-								</view>
-								<view style='margin-left:20rpx'>
-									<view v-if="item.opreater">
-										<view v-if="item.opreater.nickName">
-											<text style='color:#999'>操作者：</text>
-											<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
-										</view>
+							<view style='margin-left:20rpx'>
+								<view v-if="item.opreater">
+									<view v-if="item.opreater.nickName">
+										<text style='color:#999'>操作者：</text>
+										<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
 									</view>
-									<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-									<view>
-										<text v-if="extra_type ==2">出库数量：</text>
-										<text v-else-if="extra_type ==1">销售数量：</text>{{item.num}}</view>
-									<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
-									<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 								</view>
+								<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+								<view><text style='color:#999'>退货数量：</text>{{item.num}}</view>
+								<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
+								<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 							</view>
-							<view class='order_out' v-if="extra_type ==2">出库</view>
-							<view class='order_out' v-else-if="extra_type ==1">销售</view>
 						</view>
-					</navigator>		
+						<view class='order_returning'>退货</view>
+					</view>
+
+					<view class='item' v-else-if="item.type == -1">
+						<view style='display:flex;width:calc(100% - 120rpx);'>
+							<view style='line-height:80rpx'>
+								<fa-icon type="sign-out" size="20" color="#f30" />
+							</view>
+							<view style='margin-left:20rpx'>
+								<view v-if="item.opreater">
+									<view v-if="item.opreater.nickName">
+										<text style='color:#999'>操作者：</text>
+										<text v-if="item.opreater.nickName">{{item.opreater.nickName}}</text>
+									</view>
+								</view>
+								<view><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+								<view>
+									<text v-if="item.extra_type ==2">出库数量：</text>
+									<text v-else-if="item.extra_type ==1">销售数量：</text>{{item.num}}
+								</view>
+								<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
+								<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
+							</view>
+						</view>
+						<view class='order_out' v-if="item.extra_type ==2">出库</view>
+						<view class='order_out' v-else-if="item.extra_type ==1">销售</view>
+					</view>
+				</navigator>
 
 			</scroll-view>
 		</view>
@@ -294,7 +296,7 @@
 			getdetail() {
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
-				
+
 				if (that.seleted_tab) {
 					query.equalTo("type", '==', that.seleted_tab);
 					query.equalTo("extra_type", "==", that.extra_type);

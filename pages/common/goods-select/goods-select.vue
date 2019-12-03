@@ -206,6 +206,7 @@
 			//数据重置
 			search_text = '';
 			page_size = 30;
+			page_num = 1;
 			search_count = 1;
 			all_products = [];
 			products = [];

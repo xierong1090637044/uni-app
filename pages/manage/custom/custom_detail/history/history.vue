@@ -230,10 +230,10 @@
 					//console.log(res)
 
 					for (let item of res) {
-						//console.log(item)
+						console.log(item)
 						that.header.total += item.num
-						that.header.total_money += Number(item.goodsId.costPrice) * item.num
-							that.header.get_money += item.total_money - Number(item.goodsId.costPrice) * item.num
+						that.header.total_money += item.total_money
+						that.header.get_money += item.total_money - item.really_total_money
 					}
 
 				});

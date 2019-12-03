@@ -257,8 +257,8 @@
 
 					if (product.order == 0) {
 						uni.setStorageSync("now_product", this.product)
-					}else{
-						this.addProduct(this.product).then(res=>{
+					} else {
+						this.addProduct(this.product).then(res => {
 							this.product.objectId = res.objectId
 							this.product.order = 0
 							uni.setStorageSync("now_product", this.product)
@@ -291,12 +291,12 @@
 					query.set("producer", good.producer)
 					query.set("packingUnit", good.packingUnit)
 					query.set("packageContent", good.packageContent)
-					query.set("position", good.position?good.position:'')
-					query.set("warning_num", Number(good.warning_num)?Number(good.warning_num):0)
-					query.set("max_num", Number(good.max_num)?Number(good.max_num):0)
+					query.set("position", good.position ? good.position : '')
+					query.set("warning_num", Number(good.warning_num) ? Number(good.warning_num) : 0)
+					query.set("max_num", Number(good.max_num) ? Number(good.max_num) : 0)
 					query.set("stocktype", (Number(good.warning_num) >= Number(good.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 
-					query.set("product_state", good.product_state?good.product_state:false) //改产品是否是半成品
+					query.set("product_state", good.product_state ? good.product_state : false) //改产品是否是半成品
 					query.set("order", 0)
 					if (good.goodsClass && good.goodsClass.objectId) {
 						let pointer2 = Bmob.Pointer('class_user')

@@ -25,7 +25,8 @@
 							<view class="display_flex_bet">
 								<view>数量：{{c.num}}</view>
 							</view>
-							<view>操作者：{{c.operater.nickName}}</view>
+							<view v-if="c.operater">操作者：{{c.operater.nickName}}</view>
+							<view v-else-if="c.opreater">操作者：{{c.opreater.nickName}}</view>
 							<view>{{c.createdAt}}</view>
 					</view>
 				</view>
@@ -78,7 +79,7 @@
 				query.equalTo("goodsId", '==',goodsId);
 				
 				query.equalTo("custom", '==', custom_id);
-				query.include("operater","goodsId");
+				query.include("operater","goodsId","opreater");
 				query.find().then(res => {
 					console.log(res)
 					this.subCategoryList = res

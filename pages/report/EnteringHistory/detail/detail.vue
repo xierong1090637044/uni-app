@@ -50,7 +50,7 @@
 							</view>
 							<view class='pro_list'>
 								<view>调入仓库：{{item.out_stock}}</view>
-								<view>调拨后库存：{{item.out_reserve + item.num}}</view>
+								<!--<view>调拨后库存：{{item.out_reserve + item.num}}</view>-->
 							</view>
 						</view>
 					</view>
@@ -134,6 +134,10 @@
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
+						<view class="display_flex">
+							<view class="left_content" v-if="detail.createdTime">销售时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
 							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
@@ -141,6 +145,43 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+					</view>
+					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
+						<view style="padding: 10rpx 30rpx;">出库明细</view>
+						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">客户姓名</view>
+							<view>{{detail.custom.custom_name}}</view>
+						</view>
+						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">折扣率</view>
+							<view>{{detail.discount}}%</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">实际付款</view>
+							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
+						</view>
+						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">欠款</view>
+							<view class="real_color">{{detail.debt}}</view>
+						</view>
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;">
+							<view class="display_flex">
+								<view class="left_content">发送方式</view>
+								<view class="real_color">{{detail.typeDesc}}</view>
+							</view>
+							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
+								<view class="real_color">{{detail.expressNum}}</view>
+							</view>
+						</view>
+						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
+						 @click="gotoexpressDet">
+							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
+							<fa-icon type="angle-right" size="20" color="#0a53c3" />
+						</view>
+						<view class="display_flex" v-if="detail.createdTime">
+							<view class="left_content">出库时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
 					</view>
 				</view>
 
@@ -161,13 +202,13 @@
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
 						<view class="display_flex">
-							<view class="left_content">采购时间</view>
+							<view class="left_content" v-if="detail.createdTime">采购时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
 						<view style="padding: 10rpx 30rpx;">入库明细</view>
-						<view class="display_flex">
+						<view class="display_flex" v-if="detail.createdTime">
 							<view class="left_content">入库时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
@@ -215,7 +256,7 @@
 				</view>
 			</scroll-view>
 
-			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
+			<!--<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未入库</text>
 				<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text>
 			</view>
@@ -229,7 +270,7 @@
 			</view>
 			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已出库</text>
-			</view>
+			</view>-->
 		</view>
 
 	</view>
@@ -312,7 +353,13 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = ['撤销', '打印']
+				let options =[]
+				
+				if(that.detail.type == 1 || that.detail.type == -1){
+					options = ['撤销', '打印']
+				}else{
+					options = ['打印']
+				}
 				uni.showActionSheet({
 					itemList: options,
 					success: function(res) {
