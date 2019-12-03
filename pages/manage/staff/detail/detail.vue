@@ -5,7 +5,7 @@
 			<view class="display_flex_bet frist border_bottom" @click="goto_edit()">
 				<view class="display_flex">
 					<view>员工姓名</view>
-					<view style="margin-left: 30rpx;">{{staff.username}}</view>
+					<view style="margin-left: 30rpx;">{{staff.nickName}}</view>
 				</view>
 				<fa-icon type="angle-right" size="20" color="#999" />
 			</view>

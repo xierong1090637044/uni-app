@@ -23,7 +23,7 @@
 							<view class="display_flex">
 								<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
 								<view>
-									<view class='staff_name'>{{staff.username}}</view>
+									<view class='staff_name'>{{staff.nickName}}</view>
 									<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
 								</view>
 
