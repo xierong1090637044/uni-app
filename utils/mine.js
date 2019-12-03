@@ -22,6 +22,7 @@ export default {
 			query.set("wx_openid", params.wx_openid)
 			query.set("auto_print", params.auto_print)
 			query.set("production", params.production)
+			query.set("negativeOut", params.negativeOut)
 			query.set("parent", poiID)
 			//query.set("beizhu", "Bmob")
 			query.save().then(res => {

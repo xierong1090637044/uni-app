@@ -24,7 +24,7 @@
 
 				<view><button class='login_button' plain="true" form-type="submit" hover-class="bg_button">登陆</button></view>
 				<navigator open-type='navigate' url='../staff_landing/staff_landing'><button class='staff_login_button' plain="true"
-					 hover-class="bg_button">员工登陆</button></navigator>
+					 hover-class="bg_button">账号密码登陆</button></navigator>
 			</form>
 		</view>
 

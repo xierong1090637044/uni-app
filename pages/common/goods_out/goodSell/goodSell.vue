@@ -94,7 +94,7 @@
 							</picker>
 						</view>
 						<view>
-							<textarea placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></textarea>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></input>
 						</view>
 
 					</view>

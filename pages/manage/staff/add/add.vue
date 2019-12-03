@@ -209,6 +209,23 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
+			const query = Bmob.Query("stocks");
+			query.order("-num");
+			query.include("charge", "shop","Ncharge")
+			query.equalTo("parent", "==", uid);
+			query.equalTo("disabled", "!=", true);
+			query.find().then(res => {
+				let stocks = res;
+				let _warehouse = []
+				for (let item of stocks) {
+					let warehouse = {}
+					warehouse.name = item.stock_name
+					warehouse.objectId = item.objectId
+					_warehouse.push(warehouse)
+				}
+				uni.setStorageSync("_warehouse", _warehouse)
+			})
 		},
 
 		onShow() {
@@ -346,6 +363,7 @@
 					query.set("masterId", poiID);
 					query.set("disabled", !that.disabled);
 					query.set("stocks", that.select_stocks);
+					query.set("identity", 2);
 					if(shop) query.set("shop",shopId);
 					query.set("id", staff.objectId);
 					query.save().then(res => {

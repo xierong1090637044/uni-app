@@ -33,6 +33,12 @@
 				</view>
 			</view>
 			<view>
+				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+					<view>负出库</view>
+					<switch @change="negativeOut" :checked="params.negativeOut" :disabled="inputCan" />
+				</view>
+			</view>
+			<view>
 				<view class="display_flex_bet item" style="padding: 20rpx;">
 					<view>物料管理</view>
 					<switch @change="showProduction" :checked="params.production" />
@@ -70,6 +76,7 @@
 					wx_openid: '',
 					wechat_info: false,
 					auto_print: false, //自动打印
+					negativeOut:false,//负出库
 					production: true
 				},
 			}
@@ -97,6 +104,12 @@
 					} else {
 						that.params.auto_print = false
 					}
+					
+					if (res[0].negativeOut) {
+						that.params.negativeOut = true
+					} else {
+						that.params.negativeOut = false
+					}
 
 					if (res[0].production == true) {
 						that.params.production = true
@@ -122,6 +135,11 @@
 			//修改是否自动打印
 			auto_print(e) {
 				that.params.auto_print = e.detail.value
+				mine.modify_setting(that.params)
+			},
+			
+			negativeOut(e){
+				that.params.negativeOut = e.detail.value
 				mine.modify_setting(that.params)
 			},
 

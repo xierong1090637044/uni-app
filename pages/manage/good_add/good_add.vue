@@ -261,7 +261,10 @@
 					}
 					uni.setStorageSync("warehouse", res)
 				});
-
+			}
+			
+			if(options.id){
+				that.scan_by_id(options.id)
 			}
 		},
 		onShow() {
@@ -344,8 +347,8 @@
 						console.log(good)
 
 						that.goodsName = good.goodsName,
-							that.producer = good.manuName,
-							that.goodsIcon = good.img //产品图片
+						that.producer = good.manuName,
+						that.goodsIcon = good.img //产品图片
 						that.product_info = good.note //产品简介
 
 						that.productCode = id

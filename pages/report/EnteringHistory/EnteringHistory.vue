@@ -342,7 +342,7 @@
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
-				if(that.stock) query.equalTo("stock", "==", that.stock.objectId);
+				if(that.stock) query.equalTo("stockIds", "==", { "$regex": "" + that.stock.objectId + ".*" });
 				if (that.checked_option != 'all') {
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');

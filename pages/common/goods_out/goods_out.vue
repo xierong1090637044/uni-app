@@ -31,14 +31,16 @@
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>出库量：
-									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='1' :max="Number(model.reserve)" />
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='1' v-if="negativeOut"/>
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='1' :max="Number(model.reserve)" v-else/>
 								</view>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
 							<text v-if="value == 1">销售量：</text>
 							<text v-else-if="value == 2">出库量：</text>
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' />
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='1'  v-if="negativeOut"/>
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else/>
 						</view>
 
 						<view class="bottom_del display_flex_bet">
@@ -86,7 +88,8 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
-				value:''
+				value:'',
+				negativeOut:false
 			}
 		},
 
@@ -145,6 +148,13 @@
 					}
 				}
 				this.products = this.products
+			}
+			
+			
+			if(uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut){
+				that.negativeOut = uni.getStorageSync("setting").negativeOut
+				
+				console.log(uni.getStorageSync("setting").negativeOut)
 			}
 		},
 

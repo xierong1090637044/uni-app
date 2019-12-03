@@ -89,7 +89,20 @@
 						if (res.tapIndex == 0) {
 							that.edit(that.stock)
 						} else if (res.tapIndex == 1) {
-							that.delete_this(that.stock.objectId)
+							const query = Bmob.Query("stocks");
+							query.equalTo("parent", "==", uid);
+							query.equalTo("disabled", "!=", true);
+							query.find().then(res => {
+								if(res.length >1){
+									that.delete_this(that.stock.objectId)
+								}else{
+									uni.showToast({
+										title:"最少保留一个仓库",
+										icon:"none"
+									})
+								}
+							})
+							
 						}
 					},
 					fail: function(res) {

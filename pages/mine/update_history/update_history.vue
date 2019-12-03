@@ -27,6 +27,8 @@
 						<text>产品添加以及多规格产品添加优化</text>
 						<text>新增预警产品筛选</text>
 						<text>暂时移除物料管理模块</text>
+						<text>可以设置负出库</text>
+						<text>支持账号密码登录</text>
 					</view>
 				</view>
 				
@@ -219,7 +221,7 @@
 	export default {
 		data() {
 			return {
-				version: "1.0.8",
+				version: "1.1.0",
 				year: new Date().getFullYear()
 			}
 		},

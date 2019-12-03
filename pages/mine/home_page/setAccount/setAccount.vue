@@ -1,6 +1,6 @@
 <template>
 	<view class="register">
-	
+
 		<view class="content">
 			<!-- 头部logo -->
 			<view class="header">
@@ -8,131 +8,89 @@
 			</view>
 			<!-- 主体 -->
 			<view class="main">
-				<wInput
-						v-model="phoneData"
-						type="text"
-						maxlength="11"
-						placeholder="设置登陆账号"
-					></wInput>
-					<wInput
-						v-model="passData"
-						type="password"
-						maxlength="11"
-						placeholder="设置登录密码"
-						isShowPass
-					></wInput>
-					
-				</view>
-				
-				<wButton 
-					text="确认"
-					:rotate="isRotate" 
-					@click.native="startReg()"
-				></wButton>
-		
+				<wInput v-model="phoneData" type="text" maxlength="11" placeholder="设置登陆账号"></wInput>
+				<wInput v-model="passData" type="password" maxlength="11" placeholder="设置登录密码" isShowPass></wInput>
+			</view>
+
+			<wButton text="确认" :rotate="isRotate" @click.native="startReg()"></wButton>
+
 		</view>
 	</view>
 </template>
 
 <script>
-	var _this;
+	let that;
+	import Bmob from "hydrogen-js-sdk";
 	import wInput from '../../../../components/watch-login/watch-input.vue' //input
 	import wButton from '../../../../components/watch-login/watch-button.vue' //button
-	
+
 	export default {
 		data() {
 			return {
 				//logo图片 base64
-				phoneData:'', // 用户/电话
-				passData:'', //密码
-				verCode:"", //验证码
-				showAgree:true, //协议是否选择
+				phoneData: '', // 用户/电话
+				passData: '', //密码
 				isRotate: false, //是否加载旋转
+				user: uni.getStorageSync("user")
 			}
 		},
-		components:{
+		components: {
 			wInput,
 			wButton,
 		},
 		mounted() {
-			_this= this;
+			that = this;
+			
+			that.phoneData = that.user.username
+			that.passData = that.user.pwd?that.user.pwd:''
 		},
 		methods: {
-			isShowAgree(){
-				//是否选择协议
-				_this.showAgree = !_this.showAgree;
-			},
-			getVerCode(){
-				//获取验证码
-				if (_this.phoneData.length != 11) {
-				     uni.showToast({
-				        icon: 'none',
-						position: 'bottom',
-				        title: '手机号不正确'
-				    });
-				    return false;
-				}
-				console.log("获取验证码")
-				this.$refs.runCode.$emit('runCode'); //触发倒计时（一般用于请求成功验证码后调用）
-				uni.showToast({
-				    icon: 'none',
-					position: 'bottom',
-				    title: '模拟倒计时触发'
-				});
-				
-				setTimeout(function(){
-					_this.$refs.runCode.$emit('runCode',0); //假装模拟下需要 终止倒计时
-					uni.showToast({
-					    icon: 'none',
-						position: 'bottom',
-					    title: '模拟倒计时终止'
-					});
-				},3000)
-			},
-		    startReg() {
+			startReg() {
 				//注册
-				if(this.isRotate){
+				if (that.isRotate) {
 					//判断是否加载中，避免重复点击请求
 					return false;
 				}
-				if (this.showAgree == false) {
-				    uni.showToast({
-				        icon: 'none',
+				if (that.phoneData.length < 8) {
+					uni.showToast({
+						icon: 'none',
 						position: 'bottom',
-				        title: '请先同意《协议》'
-				    });
-				    return false;
+						title: '账号不能少于8位'
+					});
+					return false;
 				}
-				if (this.phoneData.length !=11) {
-				    uni.showToast({
-				        icon: 'none',
+				
+				if (that.passData.length < 6) {
+					uni.showToast({
+						icon: 'none',
 						position: 'bottom',
-				        title: '手机号不正确'
-				    });
-				    return false;
+						title: '密码不能少于6位'
+					});
+					return false;
 				}
-		        if (this.passData.length < 6) {
-		            uni.showToast({
-		                icon: 'none',
-						position: 'bottom',
-		                title: '密码不正确'
-		            });
-		            return false;
-		        }
-				if (this.verCode.length != 4) {
-				    uni.showToast({
-				        icon: 'none',
-						position: 'bottom',
-				        title: '验证码不正确'
-				    });
-				    return false;
-				}
-				console.log("注册成功")
-				_this.isRotate=true
-				setTimeout(function(){
-					_this.isRotate=false
-				},3000)
-		    }
+				that.isRotate = true
+
+				const query = Bmob.Query('_User');
+				query.set('username', that.phoneData)
+				query.set('password', that.passData)
+				query.set('pwd', that.passData)
+				query.set('id', that.user.objectId) //需要修改的objectId
+				query.save().then(res => {
+					that.user.pwd = that.passData
+					uni.showToast({
+						title:"设置成功",
+						icon:'none'
+					})
+					that.isRotate = false
+				}).catch(err => {
+					uni.showToast({
+						title:"该账号已存在",
+						icon:'none'
+					})
+					that.isRotate = false
+					console.log(err)
+				})
+			}
 		}
 	}
 </script>
@@ -141,31 +99,32 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		justify-content:center;
+		justify-content: center;
 		/* margin-top: 128upx; */
 	}
-	
-	uni-view{
+
+	uni-view {
 		line-height: 100% !important;
 	}
-	
+
 	/* 头部 logo */
 	.header {
-		width:161upx;
-		height:161upx;
-		box-shadow:0upx 0upx 60upx 0upx rgba(0,0,0,0.1);
-		border-radius:50%;
+		width: 161upx;
+		height: 161upx;
+		box-shadow: 0upx 0upx 60upx 0upx rgba(0, 0, 0, 0.1);
+		border-radius: 50%;
 		margin-top: 128upx;
 		margin-bottom: 72upx;
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.header image{
-		width:161upx;
-		height:161upx;
-		border-radius:50%;
+
+	.header image {
+		width: 161upx;
+		height: 161upx;
+		border-radius: 50%;
 	}
-	
+
 	/* 主体 */
 	.main {
 		display: flex;
@@ -173,15 +132,16 @@
 		padding-left: 70upx;
 		padding-right: 70upx;
 	}
+
 	.tips {
 		color: #999999;
 		font-size: 28upx;
 		margin-top: 64upx;
 		margin-left: 48upx;
 	}
-	
+
 	/* 其他登录方式 */
-	.other_login{
+	.other_login {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -189,36 +149,41 @@
 		margin-top: 256upx;
 		text-align: center;
 	}
-	.login_icon{
+
+	.login_icon {
 		border: none;
 		font-size: 64upx;
 		margin: 0 64upx 0 64upx;
-		color: rgba(0,0,0,0.7)
+		color: rgba(0, 0, 0, 0.7)
 	}
-	.wechat_color{
+
+	.wechat_color {
 		color: #83DC42;
 	}
-	.weibo_color{
+
+	.weibo_color {
 		color: #F9221D;
 	}
-	.github_color{
+
+	.github_color {
 		color: #24292E;
 	}
-	
+
 	/* 底部 */
-	.footer{
+	.footer {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		font-size: 28upx;
 		margin-top: 64upx;
-		color: rgba(0,0,0,0.7);
+		color: rgba(0, 0, 0, 0.7);
 		text-align: center;
 		height: 40upx;
 		line-height: 40upx;
 	}
-	.footer text{
+
+	.footer text {
 		font-size: 24upx;
 		margin-left: 15upx;
 		margin-right: 15upx;
