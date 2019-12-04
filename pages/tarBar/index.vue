@@ -270,7 +270,7 @@
 						let user = uni.getStorageSync("user")
 						if (user.is_vip) {
 							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
+								url: '/pages/manage/good_add/good_add?id=' + result+'&type=more',
 							})
 						} else {
 							uni.showToast({
@@ -308,7 +308,7 @@
 							let user = uni.getStorageSync("user")
 							if (user.is_vip) {
 								uni.navigateTo({
-									url: '/pages/manage/good_add/good_add?id=' + result,
+									url: '/pages/manage/good_add/good_add?id=' + result+'&type=more',
 								})
 							} else {
 								uni.showToast({

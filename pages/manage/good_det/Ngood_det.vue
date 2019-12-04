@@ -517,7 +517,7 @@
 			//产品信息修改点击
 			modify() {
 				uni.navigateTo({
-					url: '../good_add/good_add'
+					url: '../good_add/good_add?type=more'
 				});
 			},
 

@@ -120,7 +120,7 @@
 		{
 			"path": "pages/staff_landing/staff_landing",
 			"style": {
-				"navigationBarTitleText": "员工登陆"
+				"navigationBarTitleText": "账号密码登陆"
 			}
 		}, {
 			"path": "pages/register/user_protocol/user_protocol",

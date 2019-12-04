@@ -246,8 +246,22 @@
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
 				if (user.is_vip || that.productList.length < 30) {
-					uni.navigateTo({
-						url: "../good_add/good_add"
+					wx.showActionSheet({
+					  itemList: ['多仓库添加', '单仓库添加'],
+					  success (res) {
+							if(res.tapIndex == 0){
+								uni.navigateTo({
+									url: "../good_add/good_add?type=more"
+								})
+							}else if(res.tapIndex == 1){
+								uni.navigateTo({
+									url: "../good_add/good_add?type=single"
+								})
+							}
+					  },
+					  fail (res) {
+					    console.log(res.errMsg)
+					  }
 					})
 				} else {
 					uni.showModal({

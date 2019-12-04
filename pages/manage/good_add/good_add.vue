@@ -72,8 +72,36 @@
 					</navigator>
 				</view>
 
-				<view class="frist" style="margin: 30rpx 0;">
+				<view class="frist" style="margin: 30rpx 0;" v-if="addType == 'more'">
+					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" :url="'stockAdd/stockAdd?type='+productMoreG">
+						<view class="display_flex">
+							<view class="input_item" style="width: 100%;">
+								<view class="left_item">初始库存</view>
+								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" disabled="true" />
+							</view>
+						</view>
+						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</navigator>
+					<view class="input_item">
+						<view class="left_item">预警库存</view>
+						<view class="right_input1"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
+					</view>
+					<view class="input_item">
+						<view class="left_item">最大库存</view>
+						<view class="right_input1"><input placeholder="最大库存" name="max_num" type="digit" :value="max_num"></input></view>
+					</view>
+				</view>
 
+				<view class="frist" style="margin: 30rpx 0;" v-else>
+					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
+						<view class="display_flex">
+							<view class="input_item" style="width: 100%;">
+								<view class="left_item">存放仓库</view>
+								<input placeholder="初始库存" name="reserve" :value="stock_name" disabled="true" />
+							</view>
+						</view>
+						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</navigator>
 					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" :url="'stockAdd/stockAdd?type='+productMoreG">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
@@ -192,7 +220,8 @@
 				producttime: "",
 				nousetime: "",
 				productMoreG: false, //产品是否是多规格
-				isMoreModelAdd: uni.getStorageSync("addMoreModel")
+				isMoreModelAdd: uni.getStorageSync("addMoreModel"),
+				addType: '', //添加类型
 			}
 		},
 
@@ -251,28 +280,47 @@
 					uni.setStorageSync("warehouse", now_product.stocks)
 				}
 			} else {
-				const query = Bmob.Query("stocks");
-				query.order("-num");
-				query.equalTo("parent", "==", uid);
-				query.equalTo("disabled", "!=", true);
-				query.find().then(res => {
-					for (let item of res) {
-						item.reserve = 0
-					}
-					uni.setStorageSync("warehouse", res)
-				});
+				if (options.type == 'more') {
+					const query = Bmob.Query("stocks");
+					query.order("-num");
+					query.equalTo("parent", "==", uid);
+					query.equalTo("disabled", "!=", true);
+					query.find().then(res => {
+						for (let item of res) {
+							item.reserve = 0
+						}
+						uni.setStorageSync("warehouse", res)
+					});
+				}
+
 			}
-			
-			if(options.id){
+
+			if (options.id) {
 				that.scan_by_id(options.id)
+			}
+
+			if (options.type) {
+				that.addType = options.type
 			}
 		},
 		onShow() {
 
-
+			let stocksReserve
 			if (uni.getStorageSync("warehouse")) {
 				that.reserve = 0
-				let stocksReserve = uni.getStorageSync("warehouse")
+				if (that.addType == 'single') {
+					let newStock = []
+					let stockItem = uni.getStorageSync("warehouse")[0].stock?uni.getStorageSync("warehouse")[0].stock:uni.getStorageSync("warehouse")[0]
+					stockItem.reserve = stockItem.reserve?stockItem.reserve:0
+					newStock.push(stockItem)
+					uni.setStorageSync("warehouse", newStock)
+
+					stocksReserve = uni.getStorageSync("warehouse")
+					that.stock_name = uni.getStorageSync("warehouse")[0].stock_name
+				} else {
+					stocksReserve = uni.getStorageSync("warehouse")
+				}
+
 				for (let item of stocksReserve) {
 					that.reserve += Number(item.reserve)
 				}
@@ -287,7 +335,7 @@
 							item.now_model = now_model
 						}
 					}
-					uni.setStorageSync("warehouse",stocksReserve)
+					uni.setStorageSync("warehouse", stocksReserve)
 				}
 
 			}
@@ -347,8 +395,8 @@
 						console.log(good)
 
 						that.goodsName = good.goodsName,
-						that.producer = good.manuName,
-						that.goodsIcon = good.img //产品图片
+							that.producer = good.manuName,
+							that.goodsIcon = good.img //产品图片
 						that.product_info = good.note //产品简介
 
 						that.productCode = id
@@ -456,7 +504,7 @@
 			edit_good(good) {
 				let now_product = uni.getStorageSync("now_product")
 				let stocksReserve = uni.getStorageSync("warehouse")
-				
+
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set(uid)
 
