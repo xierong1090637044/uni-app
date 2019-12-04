@@ -185,10 +185,18 @@
 		},
 
 		onUnload() {
+			console.log("sdsada")
 			common.handleData()
 			//数据重置
 			search_text = '';
-			page_size = 50;
+			page_size = 30;
+			that.category = "", //选择的类别
+			that.stock = "", //选择的仓库
+			that.checked = false, //选择的是否失效
+			that.stock_checked = false,
+			that.search_text = '',
+			that.page_num = 1,
+			page_num = 1,
 
 			uni.removeStorageSync("is_add");
 		},

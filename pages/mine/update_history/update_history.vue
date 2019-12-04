@@ -14,6 +14,20 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.1.1 公测版</text>
+						<text class="desc-time">2019.12.04</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>员工权限以及显示bug修复</text>
+						<text>产品调拨bug修复</text>
+						<text>产品添加可以移除不想要的仓库</text>
+						<text>产品详情支持关联到新的仓库</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.1.0 公测版</text>
 						<text class="desc-time">2019.11.30</text>
 					</view>

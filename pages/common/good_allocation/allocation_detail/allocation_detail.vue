@@ -117,6 +117,7 @@
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice)
 					query.set("retailPrice", good.retailPrice)
+					if(good.models)query.set("models", good.models)
 					query.set("reserve", 0)
 					query.set("stocks", p_stock_id)
 					query.set("header", p_good_id)

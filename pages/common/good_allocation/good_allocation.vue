@@ -94,13 +94,7 @@
 					uni.hideLoading()
 				})
 			} else {
-				let products = []
-				for(let item of uni.getStorageSync("products")){
-					if(item.stocks && item.stocks.stock_name){
-						products.push(item)
-					}
-				}
-				this.products = products
+				this.products = uni.getStorageSync("products")
 			}
 
 		},

@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="modify_desc" @click-right="start_add">		</uni-nav-bar>
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="modify_desc" @click-right="start_add">
+		</uni-nav-bar>
 		<view>
 			<view class="display_flex item">
 				<text style="margin-right: 20rpx;">姓名</text>
@@ -23,7 +24,7 @@
 					<text style="margin-right: 20rpx;">门店</text>
 					<input placeholder="请选择门店" v-model="shop_name" style="width: calc(100% - 200rpx)" />
 				</view>
-			
+
 				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 			</navigator>
 			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../warehouse/warehouse?type=choose" v-if="current.indexOf('2') != -1">
@@ -45,22 +46,22 @@
 						<checkbox-group @change="checkboxChange">
 							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">
 								<view class="display_flex">
-									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
+									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
-								
+
 								<view v-if="index == 2" style="padding-left: 80rpx;">
 									<checkbox-group @change="checkstockChange" v-if="current.indexOf('2') != -1">
 										<view class="display_flex rights_item" v-for="(item,index) in stocks" :key="index">
-											<checkbox :value="item.objectId" :checked="item.checked" style="transform:scale(0.9)" class="round blue"/>
+											<checkbox :value="item.objectId" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 											<text style="margin-left: 20rpx;">{{item.name}}</text>
 										</view>
 									</checkbox-group>
 								</view>
 							</view>
-							
+
 						</checkbox-group>
-						
+
 					</view>
 				</uni-collapse-item>
 			</uni-collapse>
@@ -71,7 +72,7 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_record">
 								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="''+index">
-									<checkbox :value="''+index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
+									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -85,7 +86,7 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_other">
 								<view class="display_flex rights_item" v-for="(item,index) in others" :key="''+index">
-									<checkbox :value="''+index" :checked="item.checked"  style="transform:scale(0.9)" class="round blue"/>
+									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -108,7 +109,7 @@
 
 	let that;
 	let shopId;
-	let shop;//门店
+	let shop; //门店
 	let staff;
 	let uid;
 	let rights = {};
@@ -121,15 +122,15 @@
 		},
 		data() {
 			return {
-				select_stocks:[],//选中的仓库
-				stocks:uni.getStorageSync("_warehouse"),//管理的仓库
-				modify_desc:"添加",
+				select_stocks: [], //选中的仓库
+				stocks: uni.getStorageSync("_warehouse"), //管理的仓库
+				modify_desc: "添加",
 				disabled: true, //是否启用
-				shop_name:'',
+				shop_name: '',
 				staff_name: '',
 				staff_address: '',
 				staff_phone: '',
-				staff_password:'',
+				staff_password: '',
 				manage: [{
 						id: 1,
 						name: '产品管理'
@@ -169,50 +170,58 @@
 					},
 					{
 						id: 3,
-						name: '调拨记录'
+						name: '采购记录'
 					},
 					{
 						id: 4,
-						name: '客户退货记录'
+						name: '销售记录'
 					},
 					{
 						id: 5,
-						name: '盘点记录'
+						name: '调拨记录'
 					},
 					{
 						id: 6,
-						name: '经营状况'
+						name: '客户退货记录'
 					},
 					{
 						id: 7,
+						name: '盘点记录'
+					},
+					{
+						id: 8,
+						name: '经营状况'
+					},
+					{
+						id: 9,
 						name: '报表查看'
 					},
 				],
-				others:[{
+				others: [{
 					id: 1,
 					name: '进价隐藏'
-				},{
+				}, {
 					id: 2,
 					name: '销售'
-				},{
+				}, {
 					id: 3,
 					name: '采购'
-				},{
+				}, {
 					id: 4,
 					name: '审核'
 				}],
 				current: [],
 				recodecurrent: [],
-				othercurrent:[],
+				othercurrent: [],
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
+
 			const query = Bmob.Query("stocks");
 			query.order("-num");
-			query.include("charge", "shop","Ncharge")
+			query.include("charge", "shop", "Ncharge")
 			query.equalTo("parent", "==", uid);
 			query.equalTo("disabled", "!=", true);
 			query.find().then(res => {
@@ -231,58 +240,55 @@
 		onShow() {
 			staff = uni.getStorageSync("staff");
 			shop = uni.getStorageSync("shop");
-			
-			if(uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0){
+
+			if (uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0) {
 				that.stock = uni.getStorageSync("warehouse")[0].stock;
 			}
-			
+
 			if (staff) {
 				uni.setNavigationBarTitle({
-					title:"修改员工信息"
+					title: "修改员工信息"
 				});
 				that.modify_desc = "修改"
-				that.shop_name =(staff.shop)?staff.shop.name:''
-				that.staff_name = staff.username
+				that.shop_name = (staff.shop) ? staff.shop.name : ''
+				that.staff_name = staff.nickName
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
 				that.staff_password = staff.password
 				that.current = []
 				that.recodecurrent = []
 				that.othercurrent = []
-				
-				if(staff.rights.current){
-					for(let i of staff.rights.current)
-					{
+
+				if (staff.rights.current) {
+					for (let i of staff.rights.current) {
 						//console.log(i)
 						that.manage[i].checked = true;
 						that.current.push(i)
 					}
 				}
-				
-				if(staff.rights.recodecurrent){
-					for(let i of staff.rights.recodecurrent)
-					{
+
+				if (staff.rights.recodecurrent) {
+					for (let i of staff.rights.recodecurrent) {
 						that.recode[i].checked = true;
 						that.recodecurrent.push(i)
 					}
 				}
-				
-				if(staff.rights.othercurrent){
-					for(let i of staff.rights.othercurrent)
-					{
+
+				if (staff.rights.othercurrent) {
+					for (let i of staff.rights.othercurrent) {
 						that.others[i].checked = true;
 						that.othercurrent.push(i)
 					}
 				}
-				
+
 				rights.current = that.current
 				rights.recodecurrent = that.recodecurrent
 				rights.othercurrent = that.othercurrent
 			}
-			
-			if(shop){
+
+			if (shop) {
 				that.shop_name = shop.name
-				
+
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(shop.objectId);
 			}
@@ -290,14 +296,14 @@
 		},
 
 		methods: {
-			
+
 			//仓库多选器
-			checkstockChange(e){
+			checkstockChange(e) {
 				that.select_stocks = e.detail.value
 			},
-			
+
 			//启用的switech
-			switchChange(e){
+			switchChange(e) {
 				that.disabled = e.detail.value;
 			},
 
@@ -312,14 +318,14 @@
 				that.recodecurrent = e.detail.value
 				rights.recodecurrent = e.detail.value;
 			},
-			
+
 			//其他权限
 			checkboxChange_other(e) {
 				that.othercurrent = e.detail.value
 				rights.othercurrent = e.detail.value;
 			},
-			
-			start_add(){
+
+			start_add() {
 				if (this.staff_name == null) {
 					uni.showToast({
 						title: "请输入姓名",
@@ -330,7 +336,12 @@
 						title: "账号不能少于11位",
 						icon: "none"
 					})
-				}else if(this.staff_password.length <6){
+				} else if (this.staff_password == '' || this.staff_password == null || this.staff_password == undefined) {
+					uni.showToast({
+						title: "请输入密码",
+						icon: "none"
+					})
+				} else if (this.staff_password.length < 6) {
 					uni.showToast({
 						title: "密码不能少于6位",
 						icon: "none"
@@ -364,7 +375,7 @@
 					query.set("disabled", !that.disabled);
 					query.set("stocks", that.select_stocks);
 					query.set("identity", 2);
-					if(shop) query.set("shop",shopId);
+					if (shop) query.set("shop", shopId);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
 						console.log(res)
@@ -392,7 +403,7 @@
 
 							const query = Bmob.Query("_User");
 							query.set("username", that.staff_phone);
-							if(shop) query.set("shop",shopId);
+							if (shop) query.set("shop", shopId);
 							query.set("stocks", that.select_stocks);
 							query.set("nickName", that.staff_name);
 							query.set("password", that.staff_password);
@@ -408,10 +419,10 @@
 								uni.showToast({
 									title: "添加成功"
 								})
-								
+
 								that.select_stocks = []
 							}).catch(err => {
-								if(err.code == 209){
+								if (err.code == 209) {
 									uni.showToast({
 										title: "已存在此账号",
 										icon: "none"
@@ -419,7 +430,7 @@
 								}
 							})
 						} else {
-							
+
 						}
 
 					});

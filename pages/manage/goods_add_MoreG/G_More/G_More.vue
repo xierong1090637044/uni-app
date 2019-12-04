@@ -1,6 +1,5 @@
 <template>
-	<view class="page">
-
+	<scroll-view class="page" scroll-y="true">
 		<view class="frist" v-for="(item,key) in model" :key="key" style="margin-bottom: 30rpx;">
 			<view class="input_item">
 				<view class="left_item">颜色</view>
@@ -36,7 +35,7 @@
 		</view>
 		
 		<button class='confrim_button' @click='confrim_this'>确定</button>
-	</view>
+	</scroll-view>
 </template>
 
 <script>
