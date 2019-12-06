@@ -188,24 +188,18 @@
 					query.find().then(res => {
 				
 						for (let item of res) {
-							let stocks_o = {}
-							if (item.stocks) {
+							if (item.order != 0) {
+								let stocks_o = {}
 								stocks_o.stock_name = item.stocks.stock_name
-								stocks_o.stock_objectid = item.stocks.objectId
-							} else {
-								stocks_o.stock_name = ''
-								stocks_o.stock_objectid = ''
+								stocks_o.objectId = item.stocks.objectId
+								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
+								stocks_o.good_id = item.objectId
+								stocks_o.now_model = item.models
+								stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
+								item.stocks = stocks_o
+								all_reserve += item.reserve
+								stocks.push(item.stocks)
 							}
-							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
-							stocks_o.models = (item.models) ? item.models : ''
-							stocks_o.warning_num = item.warning_num
-							stocks_o.bad_num = (item.bad_num)?item.bad_num:0
-							stocks_o.good_id = item.objectId
-							stocks_o.accessory = (item.accessory) ? item.accessory : ''
-							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId+"-"+false
-							item.stocks = stocks_o
-							all_reserve += item.reserve
-							stocks.push(item.stocks)
 						}
 				
 						this.product = product;

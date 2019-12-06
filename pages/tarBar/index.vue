@@ -264,7 +264,7 @@
 						})
 					} else if (type == 3) {
 						uni.navigateTo({
-							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
 						})
 					} else if (type == 4) {
 						let user = uni.getStorageSync("user")
@@ -302,7 +302,7 @@
 							})
 						} else if (type == 3) {
 							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 4) {
 							let user = uni.getStorageSync("user")

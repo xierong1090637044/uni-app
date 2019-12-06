@@ -84,7 +84,7 @@
 					<view>
 						<view style="margin: 0 0 20rpx;">产品二维码</view>
 						<view style="padding: 20rpx;background: #fff;text-align: center;">
-							<tki-qrcode cid="qrcode" ref="qrcode" :val="item.objectId" :size="100" :loadMake="true" :usingComponents="true"
+							<tki-qrcode cid="qrcode" ref="qrcode" :val="item.qrcode" :size="100" :loadMake="true" :usingComponents="true"
 							 unit="rpx" @result="qrR" />
 						</view>
 					</view>
@@ -306,7 +306,7 @@
 					query.equalTo("productCode", "==", id)
 				}
 				query.equalTo("userId", "==", uid);
-				query.equalTo("order", "!=", 1);
+				///query.equalTo("order", "!=", 1);
 				query.find().then(res => {
 					console.log(res)
 					this.product = res[0];
@@ -320,21 +320,24 @@
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
 						for (let item of res) {
-							if (item.order == 1) {
+							if (item.order != 0) {
 								let stocks_o = {}
 								stocks_o.stock_name = item.stocks.stock_name
 								stocks_o.objectId = item.stocks.objectId
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
 								stocks_o.now_model = item.models
+								stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
 							}
 						}
 
+						this.product = product;
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
+						this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
 						that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 						that.loading = false
@@ -367,6 +370,7 @@
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
 							stocks_o.now_model = item.models
+							stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
@@ -381,73 +385,9 @@
 					that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 					that.loading = false
 					uni.hideLoading()
-
-					if (product.order == 0) {
-						uni.setStorageSync("now_product", this.product)
-					} else {
-						this.addProduct(this.product).then(res => {
-							this.product.objectId = res.objectId
-							this.product.order = 0
-							uni.setStorageSync("now_product", this.product)
-						})
-					}
+					uni.setStorageSync("now_product", this.product)
 					console.log(this.product)
 				})
-			},
-
-			//添加产品
-			addProduct(good) {
-				return new Promise((resolve, reject) => {
-					const pointer = Bmob.Pointer('_User')
-					const userid = pointer.set(uid)
-
-					const query = Bmob.Query('Goods');
-					query.set("goodsIcon", good.goodsIcon)
-					query.set("goodsName", good.goodsName)
-					query.set("costPrice", good.costPrice ? good.costPrice.toString() : "0")
-					query.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : "0")
-					if (good.nousetime) {
-						let time = good.nousetime.replace(new RegExp('-', 'g'), "/")
-						time = new Date(time).getTime()
-						query.set("nousetime", time)
-					}
-					query.set("regNumber", good.regNumber)
-					query.set("reserve", Number(good.reserve))
-					query.set("productCode", good.productCode)
-					query.set("product_info", good.product_info)
-					query.set("producer", good.producer)
-					query.set("packingUnit", good.packingUnit)
-					query.set("packageContent", good.packageContent)
-					query.set("position", good.position ? good.position : '')
-					query.set("warning_num", Number(good.warning_num) ? Number(good.warning_num) : 0)
-					query.set("max_num", Number(good.max_num) ? Number(good.max_num) : 0)
-					query.set("stocktype", (Number(good.warning_num) >= Number(good.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-
-					query.set("product_state", good.product_state ? good.product_state : false) //改产品是否是半成品
-					query.set("order", 0)
-					if (good.goodsClass && good.goodsClass.objectId) {
-						let pointer2 = Bmob.Pointer('class_user')
-						let p_class_user_id = pointer2.set(good.goodsClass.objectId) //一级分类id关联
-
-						query.set("goodsClass", p_class_user_id)
-					} else if (good.second_class && good.second_class.objectId) {
-						let pointer2 = Bmob.Pointer('class_user')
-						let p_class_user_id = pointer2.set(good.goodsClass.objectId) //一级分类id关联
-
-						let pointer3 = Bmob.Pointer('second_class')
-						let p_second_class_id = pointer3.set(good.second_class.objectId) //仓库的id关联
-
-						query.set("goodsClass", p_class_user_id)
-						query.set("second_class", p_second_class_id)
-					}
-
-					query.set("userId", userid)
-					query.save().then(res => {
-						console.log(res)
-						resolve(res)
-					})
-				})
-
 			},
 
 			//确认货损

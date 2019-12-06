@@ -18,7 +18,7 @@
 				<form bindsubmit="formSubmit">
 					<view class='input_view'><input placeholder='请输入账号' class='input_element' maxlength='11' v-model="phone" type="text"></input></view>
 					<view class='input_view_flex'>
-						<view style='width:100%'><input placeholder='请输入密码' class='input_element' name="password" v-model="password" type="number"></input></view>
+						<view style='width:100%'><input placeholder='请输入密码' class='input_element' name="password" v-model="password" type="text"></input></view>
 					</view>
 
 					<view><button class='login_button' plain="true" hover-class="bg_button" @click="staff_login">登陆</button></view>
