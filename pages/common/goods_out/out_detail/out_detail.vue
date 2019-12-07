@@ -47,7 +47,8 @@
 								</view>
 							</picker>
 						</view>
-						<view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 					</view>
@@ -74,6 +75,7 @@
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
 					<view>
 						<text>合计：￥{{real_money}}</text>
+						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">出库</button>
@@ -414,6 +416,7 @@
 	}
 
 	.bottomEle {
+		font-weight: bold;
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -442,6 +445,7 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
 		padding: 10rpx 0;

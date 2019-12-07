@@ -96,13 +96,13 @@
 					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
-								<view class="left_item">存放仓库</view>
-								<input placeholder="初始库存" name="reserve" :value="stock_name" disabled="true" />
+								<view class="left_item">存放仓库<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
+								<input placeholder="请选择存放仓库" name="reserve" :value="stock_name" disabled="true" />
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</navigator>
-					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" :url="'stockAdd/stockAdd?type='+productMoreG">
+					<view style="line-height: 70rpx;" class="input_item2" @click="gotoNext">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
 								<view class="left_item">初始库存</view>
@@ -110,7 +110,7 @@
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-					</navigator>
+					</view>
 					<view class="input_item">
 						<view class="left_item">预警库存</view>
 						<view class="right_input1"><input placeholder="预警库存" name="warning_num" type="digit" :value="warning_num"></input></view>
@@ -310,8 +310,9 @@
 				that.reserve = 0
 				if (that.addType == 'single') {
 					let newStock = []
-					let stockItem = uni.getStorageSync("warehouse")[0].stock?uni.getStorageSync("warehouse")[0].stock:uni.getStorageSync("warehouse")[0]
-					stockItem.reserve = stockItem.reserve?stockItem.reserve:0
+					let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync(
+						"warehouse")[0]
+					stockItem.reserve = stockItem.reserve ? stockItem.reserve : 0
 					newStock.push(stockItem)
 					uni.setStorageSync("warehouse", newStock)
 
@@ -367,6 +368,19 @@
 		},
 
 		methods: {
+
+			gotoNext() {
+				if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
+					uni.showToast({
+						title: "请先选择仓库",
+						icon: 'none'
+					})
+				} else {
+					uni.navigateTo({
+						url: 'stockAdd/stockAdd?type=' + that.productMoreG
+					})
+				}
+			},
 
 			changeState(e) {
 				that.productMoreG = e.detail.value
@@ -447,6 +461,12 @@
 					} else {
 						that.upload_good(good)
 					}
+				} else if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
+					uni.showToast({
+						title: "请选择存放仓库",
+						icon: "none"
+					})
+					return
 				} else {
 					that.upload_good(good)
 				}

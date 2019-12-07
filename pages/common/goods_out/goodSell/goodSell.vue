@@ -79,11 +79,7 @@
 								 @input="getDiscount" />%
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
-								 type="digit" /></view>
-						</view>
+						
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">销售时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
@@ -93,8 +89,14 @@
 								</view>
 							</picker>
 						</view>
-						<view>
-							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></input>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
+								 type="digit" /></view>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 
 					</view>
@@ -123,6 +125,7 @@
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
 					<view>
 						<text>合计：￥{{real_money}}</text>
+						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
@@ -560,6 +563,7 @@
 	}
 
 	.bottomEle {
+		font-weight: bold;
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -588,6 +592,7 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
 		padding: 10rpx 0;

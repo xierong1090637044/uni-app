@@ -60,7 +60,8 @@
 								</view>
 							</picker>
 						</view>
-						<view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 
@@ -90,9 +91,11 @@
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
 					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 						<text>合计：￥0</text>
+						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view v-else>
 						<text>合计：￥{{real_money}}</text>
+						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购</button>
@@ -502,6 +505,7 @@
 		width: calc(100% - 30rpx);
 		background: #FAFAFA;
 		padding: 20rpx 0rpx 20rpx 30rpx;
+		font-weight: bold;
 	}
 
 	.pro_list {
@@ -524,6 +528,7 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
 		max-height: 100rpx;

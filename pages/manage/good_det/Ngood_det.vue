@@ -81,12 +81,14 @@
 							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
 						</view>
 					</view>
-					<view>
-						<view style="margin: 0 0 20rpx;">产品二维码</view>
-						<view style="padding: 20rpx;background: #fff;text-align: center;">
-							<tki-qrcode cid="qrcode" ref="qrcode" :val="item.qrcode" :size="100" :loadMake="true" :usingComponents="true"
-							 unit="rpx" @result="qrR" />
-						</view>
+					
+				</view>
+				
+				<view class="second_one">
+					<view style="margin: 0 0 20rpx;">产品二维码</view>
+					<view style="padding: 20rpx;background: #fff;text-align: center;">
+						<tki-qrcode cid="qrcode" ref="qrcode" :val="select_qrcode" :size="100" :loadMake="true" :usingComponents="true"
+						 unit="rpx" @result="qrR" />
 					</view>
 				</view>
 			</view>
@@ -235,23 +237,6 @@
 					query.save().then(res => {
 						console.log(res)
 						resolve([true, res])
-						
-						/*const query1 = Bmob.Query("Goods");
-						query1.equalTo("header", "==", that.product.objectId);
-						query1.equalTo("order", "==", 1);
-						query1.statTo("sum", "reserve");
-						query1.find().then(res => {
-							console.log("dasds", res)
-							let now_reserve = res[0]._sumReserve
-							const query = Bmob.Query('Goods');
-							query.set('reserve', now_reserve)
-							query.set('stocktype', (now_reserve > that.product.warning_num) ? 1 : 0)
-							query.set('id', that.product.objectId)
-							query.save().then(res => {
-								resolve([true, res])
-							})
-						})*/
-						
 					}).catch(err => {
 						console.log(err)
 					})

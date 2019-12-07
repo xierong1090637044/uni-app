@@ -35,7 +35,8 @@
 								</view>
 							</picker>
 						</view>
-						<view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 					</view>
@@ -275,6 +276,7 @@
 		width: calc(100% - 30rpx);
 		background: #FAFAFA;
 		padding: 20rpx 0rpx 20rpx 30rpx;
+		font-weight: bold;
 	}
 
 	.pro_list {
@@ -297,6 +299,7 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
 		padding: 10rpx 0;
@@ -306,6 +309,7 @@
 	.confrim_button {
 		background: #aa2116;
 		color: #fff;
+		border-radius: unset;
 		font-weight: bold;
 		font-size: 32rpx;
 	}

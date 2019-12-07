@@ -9,7 +9,8 @@
 						<view>库存：{{item.reserve}}</view>
 					</view>
 					<view class='pro_list' style='color:#3D3D3D'>
-						<view>调出仓库：{{item.stocks.stock_name}}</view>
+						<view v-if="item.stocks && item.stocks.stock_name">调出仓库：{{item.stocks.stock_name}}</view>
+						<view v-else>调出仓库：未填写</view>
 						<view>
 							<view>调出库存：{{item.num}}</view>
 						</view>
@@ -25,7 +26,10 @@
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose"
 						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view>调入仓库</text></view>
-							<view class="kaidan_rightinput"><input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name" /></view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name"  style="margin-right: 20rpx;"/>
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
 						</navigator>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">调拨时间</view>
@@ -37,7 +41,8 @@
 							</picker>
 						</view>
 
-						<view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 
@@ -447,6 +452,7 @@
 	}
 
 	.bottomEle {
+		font-weight: bold;
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -475,6 +481,7 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
 		padding: 10rpx 0;
