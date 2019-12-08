@@ -211,6 +211,7 @@
 			this.really_total_money = 0
 			this.all_money = 0
 			this.real_money = 0
+			this.total_num = 0
 
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
