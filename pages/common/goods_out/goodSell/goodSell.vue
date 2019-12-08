@@ -95,7 +95,7 @@
 								 type="digit" /></view>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>是否入库</view>
+							<view>是否出库</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
 								<switch :checked="canOpretion" @change="changeStatus"/>
 							</view>
