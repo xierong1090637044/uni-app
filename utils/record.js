@@ -123,34 +123,44 @@ export default {
 		let uid = uni.getStorageSync("uid")
 
 		return new Promise((resolve, reject) => {
-			var total_reserve = 0;
-			var total_money = 0;
+			let total_reserve = 0;
+			let total_money = 0;
 			let length = 0;
 			let warn_num = 0;
-
+			let key = 0;//计数器
 			let params = {}
 			this.querycount().then(count => {
 				params.total_products = count
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("status", "!=", -1);
-				query.equalTo("order","!=",1);
-				query.select("reserve", "costPrice", "stocktype");
-				query.limit(1000);
-				query.find().then(res => {
-					for (let item of res) {
-						if (item.stocktype == 0) {
-							warn_num += 1;
+				for (var i = 0; i < Math.ceil(count/1000); i++) {
+					console.log(i)
+					const query = Bmob.Query("Goods");
+					query.equalTo("userId", "==", uid);
+					query.equalTo("status", "!=", -1);
+					query.equalTo("order","!=",1);
+					query.select("reserve", "costPrice", "stocktype");
+					query.limit(1000);
+					query.skip(1000 * i);
+					query.find().then(res => {
+						for (let item of res) {
+							if (item.stocktype == 0) {
+								warn_num += 1;
+							}
+							total_reserve += item.reserve;
+							total_money += item.reserve * item.costPrice;	
 						}
-						total_reserve += item.reserve;
-						total_money += item.reserve * item.costPrice;
-						params.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
+						
+						key +=1
+						
+						if(key == Math.ceil(count/1000)){
+							params.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
 							params.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-
+												
 							params.warn_num = warn_num
-						resolve(params)
-					}
-				});
+							resolve(params)
+						}
+					});
+				}
+				
 			})
 
 		})
