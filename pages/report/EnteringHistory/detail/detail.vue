@@ -81,7 +81,7 @@
 									<view v-if="item.stock">存放仓库:{{item.stock}}</view>
 									<view v-else>存放仓库:未填写</view>
 								</view>
-								
+
 								<view>数量：X{{item.num}}</view>
 							</view>
 							<view class='pro_list'>
@@ -138,13 +138,7 @@
 							<view class="left_content" v-if="detail.createdTime">销售时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
+						
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
 						<view style="padding: 10rpx 30rpx;">出库明细</view>
@@ -256,7 +250,7 @@
 				</view>
 			</scroll-view>
 
-			<!--<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
+			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未入库</text>
 				<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text>
 			</view>
@@ -270,7 +264,7 @@
 			</view>
 			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
 				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已出库</text>
-			</view>-->
+			</view>
 		</view>
 
 	</view>
@@ -353,11 +347,18 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options =[]
-				
-				if(that.detail.type == 1 || that.detail.type == -1){
-					options = ['撤销', '打印']
-				}else{
+				let options = []
+
+				if (that.detail.type == 1 || that.detail.type == -1) {
+					if (that.detail.type == 1 && that.detail.extra_type == 1) {
+						options = ['撤销', '打印', "采购入库"]
+					} else if (that.detail.type == -1 && that.detail.extra_type == 1) {
+						options = ['撤销', '打印', '销售出库']
+					} else {
+						options = ['撤销', '打印']
+					}
+
+				} else {
 					options = ['打印']
 				}
 				uni.showActionSheet({
@@ -368,6 +369,8 @@
 							uni.setStorageSync("is_option", true)
 						} else if (res.tapIndex == 1) {
 							print.print_operations(that.detail, that.products)
+						} else if (res.tapIndex == 2) {
+							that.confrimOrder()
 						}
 					},
 					fail: function(res) {
@@ -446,6 +449,17 @@
 							uni.showLoading({
 								title: '审核中，请勿退出该页面...'
 							})
+							
+							if(that.detail.status){
+								uni.showToast({
+									title:"已经审核过了...",
+									icon:'none'
+								})
+								uni.hideLoading()
+								
+								return false
+							}
+							
 							const query = Bmob.Query('order_opreations');
 							query.set('id', id) //需要修改的objectId
 							query.set('status', true)
@@ -476,7 +490,8 @@
 			addOrReduceGoodReserve(product, count) {
 				const query1 = Bmob.Query('Goods');
 				query1.get(product.goodsId.objectId).then(res => {
-					//console.log(res)
+					console.log(res)
+					let thisGood = res;
 					if (product.goodsId.selected_model) {
 						let num = 0;
 						for (let model of product.goodsId.selected_model) {
@@ -496,27 +511,66 @@
 					}
 
 					res.save().then(res => {
-						if (count == (that.products.length - 1)) {
-							const query = Bmob.Query('Bills');
-							query.containedIn("objectId", that.bills);
-							query.find().then(todos => {
-								todos.set('status', true);
-								todos.saveAll().then(res => {
-									uni.hideLoading();
-									uni.navigateBack({
-										delta: 1
-									})
-									setTimeout(function() {
-										uni.showToast({
-											title: '审核成功'
+						if (thisGood.header) {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", thisGood.header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.set('reserve', now_reserve)
+								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
+								query.set('id', thisGood.header.objectId)
+								query.save().then(res => {
+									if (count == (that.products.length - 1)) {
+										const query = Bmob.Query('Bills');
+										query.containedIn("objectId", that.bills);
+										query.find().then(todos => {
+											todos.set('status', true);
+											todos.saveAll().then(res => {
+												uni.hideLoading();
+												uni.navigateBack({
+													delta: 1
+												})
+												setTimeout(function() {
+													uni.showToast({
+														title: '审核成功'
+													})
+												}, 1000);
+												//console.log(res, 'ok')
+											}).catch(err => {
+												console.log(err)
+											});
 										})
-									}, 1000);
-									//console.log(res, 'ok')
-								}).catch(err => {
-									console.log(err)
-								});
+									}
+								})
 							})
+						}else{
+							if (count == (that.products.length - 1)) {
+								const query = Bmob.Query('Bills');
+								query.containedIn("objectId", that.bills);
+								query.find().then(todos => {
+									todos.set('status', true);
+									todos.saveAll().then(res => {
+										uni.hideLoading();
+										uni.navigateBack({
+											delta: 1
+										})
+										setTimeout(function() {
+											uni.showToast({
+												title: '审核成功'
+											})
+										}, 1000);
+										//console.log(res, 'ok')
+									}).catch(err => {
+										console.log(err)
+									});
+								})
+							}
 						}
+						
 					})
 				})
 			},
@@ -526,7 +580,8 @@
 				const query1 = Bmob.Query('Goods');
 				let now_reserve = 0;
 				query1.get(product.goodsId.objectId).then(res => {
-					//console.log(res)
+					console.log(res)
+					let thisGood = res;
 					if (product.goodsId.selected_model) {
 						let num = 0;
 						for (let model of product.goodsId.selected_model) {
@@ -548,34 +603,75 @@
 					}
 
 					console.log(product)
-
 					res.save().then(res => {
+						if (thisGood.header) {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", thisGood.header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.set('reserve', now_reserve)
+								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
+								query.set('id', thisGood.header.objectId)
+								query.save().then(res => {
+									if (product.warning_num >= now_reserve) {
+										common.log(product.goodsName + "销售了" + product.num + "件，已经低于预警数量" + product.warning_num, -2, product.goodsId
+											.objectId);
+									}
 
-						if (product.warning_num >= now_reserve) {
-							common.log(product.goodsName + "销售了" + product.num + "件，已经低于预警数量" + product.warning_num, -2, product.goodsId
-								.objectId);
-						}
-
-						if (count == (that.products.length - 1)) {
-							const query = Bmob.Query('Bills');
-							query.containedIn("objectId", that.bills);
-							query.find().then(todos => {
-								todos.set('status', true);
-								todos.saveAll().then(res => {
-									uni.hideLoading();
-									uni.navigateBack({
-										delta: 1
-									})
-									setTimeout(function() {
-										uni.showToast({
-											title: '审核成功'
+									if (count == (that.products.length - 1)) {
+										const query = Bmob.Query('Bills');
+										query.containedIn("objectId", that.bills);
+										query.find().then(todos => {
+											todos.set('status', true);
+											todos.saveAll().then(res => {
+												uni.hideLoading();
+												uni.navigateBack({
+													delta: 1
+												})
+												setTimeout(function() {
+													uni.showToast({
+														title: '审核成功'
+													})
+												}, 1000);
+												//console.log(res, 'ok')
+											}).catch(err => {
+												console.log(err)
+											});
 										})
-									}, 1000);
-									//console.log(res, 'ok')
-								}).catch(err => {
-									console.log(err)
-								});
+									}
+								})
 							})
+						} else {
+							if (product.warning_num >= now_reserve) {
+								common.log(product.goodsName + "销售了" + product.num + "件，已经低于预警数量" + product.warning_num, -2, product.goodsId
+									.objectId);
+							}
+
+							if (count == (that.products.length - 1)) {
+								const query = Bmob.Query('Bills');
+								query.containedIn("objectId", that.bills);
+								query.find().then(todos => {
+									todos.set('status', true);
+									todos.saveAll().then(res => {
+										uni.hideLoading();
+										uni.navigateBack({
+											delta: 1
+										})
+										setTimeout(function() {
+											uni.showToast({
+												title: '审核成功'
+											})
+										}, 1000);
+										//console.log(res, 'ok')
+									}).catch(err => {
+										console.log(err)
+									});
+								})
+							}
 						}
 					})
 				})
@@ -586,25 +682,63 @@
 				let bill = that.bills[i]
 
 				const query1 = Bmob.Query('Goods');
-				query1.set('id', product.goodsId.objectId);
-				if (product.type == 1) {
-					query1.set('reserve', product.goodsId.reserve - product.num);
-				} else if (product.type == -1) {
-					query1.set('reserve', product.goodsId.reserve + product.num);
-				}
-				query1.save().then(res => {
-					if (i == (that.products.length - 1)) {
-						uni.hideLoading();
-						uni.navigateBack({
-							delta: 1
-						})
-						setTimeout(function() {
-							uni.showToast({
-								title: '撤销成功'
-							})
-						}, 1000);
+				query1.get(product.goodsId.objectId).then(res => {
+					console.log(res)
+					let thisGood = res;
+					query1.set('id', product.goodsId.objectId);
+					if (product.type == 1) {
+						query1.set('reserve', res.reserve - product.num);
+					} else if (product.type == -1) {
+						query1.set('reserve', res.reserve + product.num);
 					}
+					query1.save().then(res => {
+						if (thisGood.header) {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", thisGood.header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.set('reserve', now_reserve)
+								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
+								query.set('id', thisGood.header.objectId)
+								query.save().then(res => {
+									if (i == (that.products.length - 1)) {
+										uni.hideLoading();
+										uni.navigateBack({
+											delta: 1
+										})
+										setTimeout(function() {
+											uni.showToast({
+												title: '撤销成功'
+											})
+										}, 1000);
+									}
+								})
+							})
+						}else{
+							if (i == (that.products.length - 1)) {
+								uni.hideLoading();
+								uni.navigateBack({
+									delta: 1
+								})
+								setTimeout(function() {
+									uni.showToast({
+										title: '撤销成功'
+									})
+								}, 1000);
+							}
+						}
+						
+						
+					})
+
+				}).catch(err => {
+					console.log(err)
 				})
+
 			}
 
 		}

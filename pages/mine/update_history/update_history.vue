@@ -15,7 +15,7 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.1.1 公测版</text>
-						<text class="desc-time">2019.12.04</text>
+						<text class="desc-time">2019.12.08</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
@@ -23,6 +23,12 @@
 						<text>产品调拨bug修复</text>
 						<text>产品添加可以移除不想要的仓库</text>
 						<text>产品详情支持关联到新的仓库</text>
+						<text>页面样式修复</text>
+						<text>增加销售后出库，采购后入库操作</text>
+						<text>操作撤销bug修复</text>
+						<text>产品添加操作优化</text>
+						<text>员工权限修正</text>
+						<text>经营状况bug修复</text>
 					</view>
 				</view>
 				

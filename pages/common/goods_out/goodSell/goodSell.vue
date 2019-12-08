@@ -94,6 +94,12 @@
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
 								 type="digit" /></view>
 						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>是否入库</view>
+							<view class="kaidan_rightinput" style="text-align: right;">
+								<switch :checked="canOpretion" @change="changeStatus"/>
+							</view>
+						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
@@ -189,6 +195,7 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
+				canOpretion:true,
 			}
 		},
 		onLoad() {
@@ -237,6 +244,11 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
+			
+			//是否立即入库
+			changeStatus(e){
+				that.canOpretion = e.detail.value
+			},
 
 			//扫码操作
 			scan_code() {
@@ -409,7 +421,7 @@
 					tempBills.set('type', -1);
 					tempBills.set('extra_type', extraType);
 					tempBills.set('opreater', operater);
-					tempBills.set("status", true); // 操作单详情
+					tempBills.set("status", that.canOpretion); // 操作单详情
 					tempBills.set("createdTime", {
 						"__type": "Date",
 						"iso": that.nowDay
@@ -508,7 +520,7 @@
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", true); // 操作单详情
+						query.set("status", that.canOpretion); // 操作单详情
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -523,24 +535,39 @@
 								title: '产品销售成功',
 								icon: 'success',
 								success: function() {
-									common.outRedGoodNum(that.products).then(result => { //减少产品数量
-										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);
-
-										setTimeout(() => {
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.removeStorageSync("warehouse")
-
-											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-												that.products.length + "商品", -1, operationId);
-
-											uni.navigateBack({
-												delta: 2
-											});
-										}, 500)
-									})
+									if(that.canOpretion){
+										common.outRedGoodNum(that.products).then(result => { //减少产品数量
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+										
+											setTimeout(() => {
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+										
+												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+													that.products.length + "商品", -1, operationId);
+										
+												uni.navigateBack({
+													delta: 2
+												});
+											}, 500)
+										})
+									}else{
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
+																				
+										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+											that.products.length + "商品", -1, operationId);
+																				
+										uni.navigateBack({
+											delta: 2
+										});
+									}
+									
 								},
 							})
 						})

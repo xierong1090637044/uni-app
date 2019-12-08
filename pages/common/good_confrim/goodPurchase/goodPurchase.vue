@@ -60,6 +60,12 @@
 								</view>
 							</picker>
 						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>是否入库</view>
+							<view class="kaidan_rightinput" style="text-align: right;">
+								<switch :checked="canOpretion" @change="changeStatus"/>
+							</view>
+						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
@@ -140,6 +146,7 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
+				canOpretion:true,
 			}
 		},
 		onLoad() {
@@ -163,8 +170,13 @@
 		},
 		methods: {
 			//选择时间
-			bindDateChange(e){
-				that.nowDay = e.detail.value+" 00:00:00"
+			bindDateChange(e) {
+				that.nowDay = e.detail.value + " 00:00:00"
+			},
+			
+			//是否立即入库
+			changeStatus(e){
+				that.canOpretion = e.detail.value
 			},
 
 			//移除此张照片
@@ -206,6 +218,8 @@
 			//表单提交
 			formSubmit: function(e) {
 				let identity = uni.getStorageSync("identity") // 身份识别标志
+				
+				console.log(that.canOpretion)
 
 				//console.log(e)
 				this.button_disabled = true;
@@ -237,7 +251,7 @@
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].header?this.products[i].header.objectId:this.products[i].objectId);
+					let tempGoods_id = pointer1.set(this.products[i].header ? this.products[i].header.objectId : this.products[i].objectId);
 
 					let masterId = uni.getStorageSync("masterId");
 					let pointer2 = Bmob.Pointer('_User')
@@ -253,7 +267,7 @@
 					tempBills.set("opreater", poiID2);
 					tempBills.set('type', 1);
 					tempBills.set('extra_type', extraType);
-					tempBills.set("status", true); // 操作单详情
+					tempBills.set("status", that.canOpretion); // 操作单详情
 					tempBills.set("createdTime", {
 						"__type": "Date",
 						"iso": that.nowDay
@@ -346,7 +360,7 @@
 
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", true); // 操作单详情
+						query.set("status", that.canOpretion); // 操作单详情
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
@@ -356,20 +370,33 @@
 								icon: 'success',
 								duration: 1000,
 								complete: function() {
-									//common.enterAddGoodNum(that.products) //添加产品数量
-									//if (identity == 1) {
-									common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+									
+									if(that.canOpretion){
+										common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+											setTimeout(() => {
+										
+												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+													that.products
+													.length + "商品", 1, operationId);
+										
+												that.button_disabled = false;
+												uni.setStorageSync("is_option", true);
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+												uni.navigateBack({
+													delta: 2
+												});
+											}, 500)
+										
+										})
+									}else{
 										setTimeout(() => {
-
+																				
 											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-												that.products
-												.length + "商品", 1, operationId);
-
-											//自动打印
-											/*if (uni.getStorageSync("setting").auto_print) {
-												print.autoPrint(operationId);
-											}*/
-
+												that.products.length + "商品，还未入库", 11, operationId);
+																				
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("_warehouse")
@@ -380,65 +407,23 @@
 												delta: 2
 											});
 										}, 500)
-
-									})
-									/*} else {
-										setTimeout(() => {
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
+										
+										let params = {
+											"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
 												.products
-												.length + "商品", 1, operationId);
-
-											let params = {
-												"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
-													.products
-													.length + "商品",
-												"data1": operationId,
-												"data2": uni.getStorageSync("user").nickName,
-												"data3": "未审核",
-												"data4": res.createdAt,
-												"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-												"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-													operationId,
-											};
-											send_temp.send_in_noconfrim(params);
-
-											/*let params1 = {
-												"keyword1": {
-													"value": that.products[0].goodsName + "'等",
-													"color": "#173177"
-												},
-												"keyword2": {
-													"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-												},
-												"keyword3": {
-													"value": res.createdAt
-												},
-												"keyword4": {
-													"value": uni.getStorageSync("user").nickName,
-												}
-											}
-											params1.form_Id = fromid
-											params1.id = operationId
-											send_temp.send_in_mini(params1);*/
-
-									//自动打印
-									/*if (uni.getStorageSync("setting").auto_print) {
-										print.autoPrint(operationId);
-									}*/
-
-									/*that.button_disabled = false;
-												uni.setStorageSync("is_option", true);
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-												setTimeout(function() {
-													uni.navigateBack({
-														delta: 2
-													});
-												}, 500)
-											}, 500)
-										}*/
+												.length + "商品",
+											"data1": operationId,
+											"data2": uni.getStorageSync("user").nickName,
+											"data3": "未审核",
+											"data4": res.createdAt,
+											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
+												operationId,
+										};
+										send_temp.send_in_noconfrim(params);
+									}
+									
+									
 
 								}
 							})

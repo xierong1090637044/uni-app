@@ -124,16 +124,15 @@
 			that = this;
 			uid = uni.getStorageSync("uid");
 			this.products = uni.getStorageSync("products");
-
-			if (that.user.rights && that.user.rights.othercurrent) {
-				that.othercurrent = that.user.rights.othercurrent
+			
+			for (let i = 0; i < this.products.length; i++) {
+				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+				this.total_num += Number(this.products[i].num)
 			}
+			this.real_money = Number(this.all_money.toFixed(2))
 		},
-		onShow() {
-			this.really_total_money = 0
-			this.all_money = 0
-			this.real_money = 0
-		},
+
 		methods: {
 			//选择时间
 			bindDateChange(e){

@@ -323,9 +323,9 @@
 				if (this.type == "entering") {
 					for (let item of all_products) {
 						all_products[index] = (typeof item == 'object') ? item : JSON.parse(item)
-						all_products[index].num = 1;
-						all_products[index].total_money = 1 * all_products[index].costPrice;
-						all_products[index].really_total_money = 1 * all_products[index].costPrice;
+						all_products[index].num = 0;
+						all_products[index].total_money = 0 * all_products[index].costPrice;
+						all_products[index].really_total_money = 0 * all_products[index].costPrice;
 						all_products[index].modify_retailPrice = all_products[index].costPrice;
 						index += 1;
 					}

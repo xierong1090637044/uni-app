@@ -30,9 +30,11 @@
 						<view v-if="item.selectd_model">
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
-									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>出库量：
-									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='1' v-if="negativeOut"/>
-									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='1' :max="Number(model.reserve)" v-else/>
+									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+									<text v-if="value == 1">销售量：</text>
+									<text v-else-if="value == 2">出库量：</text>
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' v-if="negativeOut"/>
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' :max="Number(model.reserve)" v-else/>
 								</view>
 							</view>
 						</view>
@@ -139,7 +141,7 @@
 					if (item.models) {
 						let count = 0
 						for (let model of item.models) {
-							model.num = 1;
+							model.num = 0;
 							count +=1;
 						}
 						item.num = count;
@@ -240,9 +242,14 @@
 			handleModelNumChange($event, index, key, item) {
 				item.num = Number($event)
 				this.products[index].selected_model[key] = item
+				
+				console.log(this.products[index].selected_model)
 				let _sumNum = 0;
 				for (let model of this.products[index].selected_model) {
-					_sumNum += model.num
+					if(model.num > 0){
+						_sumNum += model.num
+					}
+					
 				}
 				//console.log(this.products[index].selected_model)
 

@@ -254,7 +254,7 @@
 				that.staff_name = staff.nickName
 				that.staff_address = staff.address
 				that.staff_phone = staff.mobilePhoneNumber
-				that.staff_password = staff.password
+				that.staff_password = staff.pwd || ""
 				that.current = []
 				that.recodecurrent = []
 				that.othercurrent = []
@@ -367,6 +367,7 @@
 					query.set("username", that.staff_phone);
 					query.set("nickName", that.staff_name);
 					query.set("password", that.staff_password);
+					query.set("pwd", that.staff_password);
 					query.set("mobilePhoneNumber", that.staff_phone);
 					query.set("rights", rights);
 					query.set("address", (that.staff_address == null) ? '' : that.staff_address);
@@ -407,6 +408,7 @@
 							query.set("stocks", that.select_stocks);
 							query.set("nickName", that.staff_name);
 							query.set("password", that.staff_password);
+							query.set("pwd", that.staff_password);
 							query.set("mobilePhoneNumber", that.staff_phone);
 							query.set("rights", rights);
 							query.set("address", (that.staff_address == null) ? '' : that.staff_address);

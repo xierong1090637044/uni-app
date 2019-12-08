@@ -178,10 +178,10 @@
 							}
 							let manage_rights = []
 							let record_rights = []
-							for (let item in rights) {
+							for (let item of rights) {
 								manage_rights.push(that.optionsLists[item])
 							}
-							for (let item in recordRights) {
+							for (let item of recordRights) {
 								record_rights.push(that.secOptionsLists[item])
 							}
 							that.now_optionsLists = manage_rights
