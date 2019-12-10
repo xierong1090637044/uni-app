@@ -219,8 +219,10 @@
 			formSubmit: function(e) {
 				let identity = uni.getStorageSync("identity") // 身份识别标志
 				
-				console.log(that.canOpretion)
-
+				//console.log(that.canOpretion)
+				if(this.button_disabled){
+					return
+				}
 				//console.log(e)
 				this.button_disabled = true;
 				let fromid = e.detail.formId

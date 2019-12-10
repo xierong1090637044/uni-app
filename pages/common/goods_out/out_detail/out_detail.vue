@@ -213,8 +213,13 @@
 			},
 
 			formSubmit: function(e) {
-				//console.log(e)
+				  //console.log(e)
 					//console.log(res)
+					
+					if(this.button_disabled){
+						return
+					}
+					
 					let identity = uni.getStorageSync("identity") // 身份识别标志
 					this.button_disabled = true;
 					let extraType = 2 // 判断是销售还是出库
@@ -335,9 +340,7 @@
 									icon: 'success',
 									success: function() {
 										common.outRedGoodNum(that.products).then(result => { //减少产品数量
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-
+											
 											setTimeout(() => {
 												uni.removeStorageSync("_warehouse")
 												uni.removeStorageSync("out_warehouse")
@@ -382,7 +385,8 @@
 												if (uni.getStorageSync("setting").auto_print) {
 													print.autoPrint(operationId);
 												}
-
+												that.button_disabled = false;
+												uni.setStorageSync("is_option", true);
 												uni.navigateBack({
 													delta: 2
 												});

@@ -687,9 +687,42 @@
 					let thisGood = res;
 					query1.set('id', product.goodsId.objectId);
 					if (product.type == 1) {
-						query1.set('reserve', res.reserve - product.num);
+						if (product.goodsId.selected_model) {
+							let num = 0;
+							for (let model of product.goodsId.selected_model) {
+								for (let item of res.models) {
+									if (item.id == model.id) {
+										item.reserve = Number(item.reserve) - Number(model.num)
+										//console.log(item.reserve)
+										num += Number(model.num)
+									}
+								}
+							}
+							//console.log(res.models)
+							query1.set('models', res.models)
+							query1.set('reserve', res.reserve - num);
+						}else{
+							query1.set('reserve', res.reserve - product.num);
+						}
 					} else if (product.type == -1) {
-						query1.set('reserve', res.reserve + product.num);
+						if (product.goodsId.selected_model) {
+							let num = 0;
+							for (let model of product.goodsId.selected_model) {
+								for (let item of res.models) {
+									if (item.id == model.id) {
+										item.reserve = Number(item.reserve) + Number(model.num)
+										//console.log(item.reserve)
+										num += Number(model.num)
+									}
+								}
+							}
+							//console.log(res.models)
+							query1.set('models', res.models)
+							query1.set('reserve', res.reserve + num);
+						}else{
+							query1.set('reserve', res.reserve + product.num);
+						}
+						
 					}
 					query1.save().then(res => {
 						if (thisGood.header) {

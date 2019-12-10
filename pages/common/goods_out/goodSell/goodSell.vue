@@ -372,7 +372,10 @@
 
 			formSubmit: function(e) {
 				//console.log(e)
-
+				
+				if(this.button_disabled){
+					return
+				}
 				let identity = uni.getStorageSync("identity") // 身份识别标志
 				this.button_disabled = true;
 				let fromid = e.detail.formId
@@ -537,10 +540,7 @@
 								icon: 'success',
 								success: function() {
 									if(that.canOpretion){
-										common.outRedGoodNum(that.products).then(result => { //减少产品数量
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-										
+										common.outRedGoodNum(that.products).then(result => { //减少产品数量		
 											setTimeout(() => {
 												uni.removeStorageSync("_warehouse")
 												uni.removeStorageSync("out_warehouse")
@@ -549,7 +549,9 @@
 										
 												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
 													that.products.length + "商品", -1, operationId);
-										
+													
+												that.button_disabled = false;
+												uni.setStorageSync("is_option", true);
 												uni.navigateBack({
 													delta: 2
 												});
@@ -563,7 +565,9 @@
 																				
 										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
 											that.products.length + "商品", -1, operationId);
-																				
+										
+										that.button_disabled = false;
+										uni.setStorageSync("is_option", true);							
 										uni.navigateBack({
 											delta: 2
 										});

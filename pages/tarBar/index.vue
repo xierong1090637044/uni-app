@@ -174,26 +174,37 @@
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			// #endif
-
-			mine.query_setting()
-
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
-			
-			if (that.user.rights && that.user.rights.othercurrent) {
-				that.othercurrent = that.user.rights.othercurrent
-			}
-			
-			notice.getNoticeList(1).then(res=>{
-				that.noticeText = res[0].content
-				console.log(res)
-			})
 		},
 
 		onShow() {
-			that.gettoday_detail();
-			that.loadallGoods();
+			if(uni.getStorageSync("user")){
+				that.gettoday_detail();
+				that.loadallGoods();
+				mine.query_setting();
+				if (that.user.rights && that.user.rights.othercurrent) {
+					that.othercurrent = that.user.rights.othercurrent
+				}
+				
+				notice.getNoticeList(1).then(res=>{
+					that.noticeText = res[0].content
+					console.log(res)
+				})
+			}else{
+				setTimeout(function(){
+					uni.showToast({
+						title:"请先登录",
+						icon:"none"
+					})
+				},1000)
+				
+				uni.reLaunch({
+					url:"/pages/landing/landing"
+				})
+			}
+			
 			//that.get_logsList();
 		},
 

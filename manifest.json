@@ -85,13 +85,13 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "static/lanuch.png",
-                    "xhdpi" : "static/lanuch.png",
-                    "xxhdpi" : "static/lanuch.png"
+                    "hdpi" : "static/newVer.png",
+                    "xhdpi" : "static/newVer.png",
+                    "xxhdpi" : "static/newVer.png"
                 },
                 "ios" : {
                     "iphone" : {
-                        "portrait-896h@3x" : "static/lanuch.png",
+                        "portrait-896h@3x" : "static/newVer.png",
                         "retina35" : "static/lanuch.png",
                         "retina40l" : "static/lanuch.png",
                         "retina40" : "static/lanuch.png"
@@ -113,7 +113,7 @@
             "minified" : true
         },
         "usingComponents" : true,
-				"navigateToMiniProgramAppIdList": ["wx6783307185c8385e"],
+        "navigateToMiniProgramAppIdList" : [ "wx6783307185c8385e" ],
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "你的位置信息将用于库存表小程序获得天气"

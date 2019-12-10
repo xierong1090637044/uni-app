@@ -14,6 +14,18 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.1.2 公测版</text>
+						<text class="desc-time">2019.12.10</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>优化按钮点击，防止多次点击</text>
+						<text>支持多规格产品操作的撤销</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.1.1 公测版</text>
 						<text class="desc-time">2019.12.08</text>
 					</view>
@@ -241,7 +253,7 @@
 	export default {
 		data() {
 			return {
-				version: "1.1.0",
+				version: "1.1.2",
 				year: new Date().getFullYear()
 			}
 		},

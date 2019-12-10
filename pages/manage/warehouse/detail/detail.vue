@@ -81,6 +81,19 @@
 			that.stock = uni.getStorageSync("stock")
 			that.get_detail()
 		},
+		
+		//分享
+		/*onShareAppMessage: function(res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log(res.target)
+			}
+			return {
+				title: '库存表-' + that.stock.stock_name + '的详情',
+				path: '/pages/manage/good_det/good_det?id=' + that.product.objectId + '&type="false"'
+			}
+		},*/
+		
 		methods: {
 			show_options() {
 				uni.showActionSheet({

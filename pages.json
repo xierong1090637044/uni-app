@@ -216,8 +216,7 @@
 			}]
 		}, {
 			"root": "pages/mine",
-			"pages": [
-				{
+			"pages": [{
 					"path": "home_page/setAccount/setAccount",
 					"style": {
 						"navigationBarTitleText": "设置账号密码"
@@ -288,6 +287,12 @@
 					"path": "productCount/productCount",
 					"style": {
 						"navigationBarTitleText": "产品统计"
+					}
+				},
+				{
+					"path": "good_add/moreModel/moreModel",
+					"style": {
+						"navigationBarTitleText": "多规格设置"
 					}
 				},
 				{

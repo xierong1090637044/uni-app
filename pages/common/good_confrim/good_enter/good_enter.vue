@@ -191,7 +191,11 @@
 			//表单提交
 			formSubmit: function(e) {
 				let identity = uni.getStorageSync("identity") // 身份识别标志
-
+				
+				if(this.button_disabled){
+					return
+				}
+				
 				//console.log(e)
 				this.button_disabled = true;
 				let fromid = e.detail.formId

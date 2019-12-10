@@ -60,7 +60,7 @@
 						</view>
 					</view>
 
-					<navigator class="input_item1" hover-class="none" url="/pages/manage/goods_add_MoreG/G_More/G_More" v-if="productMoreG">
+					<!--<navigator class="input_item1" hover-class="none" url="/pages/manage/goods_add_MoreG/G_More/G_More" v-if="productMoreG">
 						<view style="display: flex;align-items: center;width: 100%;">
 							<view class="left_item">规格设置<te</view> <view class="right_input"><input placeholder="请设置多规格" name="goodsClass"
 									 disabled="true"></input></view>
@@ -69,7 +69,7 @@
 						<view>
 							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 						</view>
-					</navigator>
+					</navigator>-->
 				</view>
 
 				<view class="frist" style="margin: 30rpx 0;" v-if="addType == 'more'">
@@ -96,20 +96,28 @@
 					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
-								<view class="left_item">存放仓库<text style="color: #aa2116;margin-left: 4rpx;">*</text></view>
+								<view class="left_item">存放仓库</view>
 								<input placeholder="请选择存放仓库" name="reserve" :value="stock_name" disabled="true" />
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</navigator>
-					<view style="line-height: 70rpx;" class="input_item2" @click="gotoNext">
+					<view style="line-height: 70rpx;" class="input_item2" @click="gotoNext" v-if="stock_name || productMoreG">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
 								<view class="left_item">初始库存</view>
-								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" disabled="true" />
+								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" disabled="true"  />
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</view>
+					<view style="line-height: 70rpx;" class="input_item2" v-else>
+						<view class="display_flex">
+							<view class="input_item" style="width: 100%;">
+								<view class="left_item">初始库存</view>
+								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" />
+							</view>
+						</view>
 					</view>
 					<view class="input_item">
 						<view class="left_item">预警库存</view>
@@ -338,7 +346,14 @@
 					}
 					uni.setStorageSync("warehouse", stocksReserve)
 				}
-
+			}else{
+				that.reserve = 0
+				if(that.productMoreG && uni.getStorageSync("now_model")){
+					for (let item of uni.getStorageSync("now_model")) {
+						that.reserve += Number(item.reserve)
+					}
+				}
+				
 			}
 
 			if (uni.getStorageSync("category")) {
@@ -370,16 +385,29 @@
 		methods: {
 
 			gotoNext() {
-				if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
-					uni.showToast({
-						title: "请先选择仓库",
-						icon: 'none'
-					})
-				} else {
-					uni.navigateTo({
-						url: 'stockAdd/stockAdd?type=' + that.productMoreG
-					})
+				if(that.productMoreG){
+					if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
+						uni.navigateTo({
+							url: 'moreModel/moreModel'
+						})
+					} else {
+						uni.navigateTo({
+							url: 'stockAdd/stockAdd?type=' + that.productMoreG
+						})
+					}
+				}else{
+					if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
+						uni.showToast({
+							title: "请先选择仓库",
+							icon: 'none'
+						})
+					} else {
+						uni.navigateTo({
+							url: 'stockAdd/stockAdd?type=' + that.productMoreG
+						})
+					}
 				}
+				
 			},
 
 			changeState(e) {
@@ -461,13 +489,7 @@
 					} else {
 						that.upload_good(good)
 					}
-				} else if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
-					uni.showToast({
-						title: "请选择存放仓库",
-						icon: "none"
-					})
-					return
-				} else {
+				}  else {
 					that.upload_good(good)
 				}
 			},
@@ -552,9 +574,7 @@
 
 				///query.set("product_state", good.product_state) //改产品是否是半成品
 				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
-				if (stocksReserve.length > 0) {
-					query.set("order", 0)
-				}
+				if (stocksReserve.length > 0) { query.set("order", 0) }
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)

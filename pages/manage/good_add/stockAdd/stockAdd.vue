@@ -9,7 +9,7 @@
 				<view class="display_flex_bet">
 					
 					<!---多规格的情况-->
-					<navigator class="input_item display_flex_bet" style="width: 100%;" v-if="productMoreG == 'true'" hover-class="none" :url="'../../goods_add_MoreG/G_More/G_More?index='+index">
+					<navigator class="input_item display_flex_bet" style="width: 100%;" v-if="productMoreG == 'true'" hover-class="none" :url="'../moreModel/moreModel?index='+index">
 						<view class="display_flex">
 							<view class="left_item">初始库存</view>
 							<input placeholder="初始库存" type="digit" name="reserve" :value="''+item.reserve" disabled="true" />

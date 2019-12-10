@@ -87,6 +87,12 @@
 
 					}).catch(err => {
 						console.log(err)
+						if(err.code == 101){
+							uni.showToast({
+								title:"账号密码不正确",
+								icon:'none'
+							})
+						}
 					});
 
 					/*uni.showLoading({title:"登录中..."})
