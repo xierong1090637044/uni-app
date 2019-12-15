@@ -23,13 +23,22 @@
     "pages/register/user_protocol/user_protocol",
     "pages/common/good_allocation/good_allocation",
     "pages/common/good_allocation/allocation_detail/allocation_detail",
-    "pages/report/EnteringHistory/expressDet/expressDet"
+    "pages/report/EnteringHistory/expressDet/expressDet",
+    "pages/report/matterRecord/matterRecord",
+    "pages/report/matterRecord/detail/detail",
+    "pages/common/good_production/good_production",
+    "pages/common/good_production/detail/detail",
+    "pages/report/EnteringHistory/productDet/productDet",
+    "pages/report/EnteringHistory/productDet/matterDet/matterDet",
+    "pages/report/EnteringHistory/productDet/productEnter/productEnter",
+    "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+    "pages/common/good_confrim/goodPurchase/goodPurchase",
+    "pages/common/goods_out/goodSell/goodSell"
   ],
   "subPackages": [
     {
       "root": "pages/production",
       "pages": [
-        "index/index",
         "matterList/matterList",
         "matterAdd/matterAdd",
         "matterCategroy/matterCategroy",
@@ -43,7 +52,9 @@
     {
       "root": "pages/mine",
       "pages": [
+        "home_page/setAccount/setAccount",
         "manual/manual",
+        "InforCnter/InforCnter",
         "manual/detail/detail",
         "update_history/update_history",
         "uploadFile/uploadFile",
@@ -59,6 +70,8 @@
       "root": "pages/manage",
       "pages": [
         "productCount/productCount",
+        "good_add/moreModel/moreModel",
+        "good_add/stockAdd/stockAdd",
         "shops/detail/detail",
         "operations/operations",
         "shops/record/record",
@@ -70,6 +83,7 @@
         "custom/producer_detail/producer_detail",
         "custom/custom_detail/custom_detail",
         "good_det/good_det",
+        "good_det/Ngood_det",
         "warehouse/detail/detail",
         "staff/staff",
         "shops/shops",
@@ -120,12 +134,6 @@
         "text": "管理"
       },
       {
-        "pagePath": "pages/tarBar/report",
-        "iconPath": "static/report.png",
-        "selectedIconPath": "static/report.png",
-        "text": "记录"
-      },
-      {
         "pagePath": "pages/tarBar/mine",
         "iconPath": "static/person.png",
         "selectedIconPath": "static/person.png",
@@ -133,6 +141,9 @@
       }
     ]
   },
+  "navigateToMiniProgramAppIdList": [
+    "wx6783307185c8385e"
+  ],
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于库存表小程序获得天气"

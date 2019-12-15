@@ -282,6 +282,15 @@
 			]
 		},
 		{
+			"root": "pages/shop",
+			"pages": [{
+				"path": "index/index",
+				"style": {
+					"navigationBarTitleText": "商品列表"
+				}
+			}]
+		},
+		{
 			"root": "pages/manage",
 			"pages": [{
 					"path": "productCount/productCount",

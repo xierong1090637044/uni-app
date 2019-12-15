@@ -5,14 +5,21 @@
 	height: 100vh;
 	overflow: scroll;
 }
+.bottomEle {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: calc(100% - 30rpx);
+	background: #FAFAFA;
+	padding: 20rpx 0rpx 20rpx 30rpx;
+	font-weight: bold;
+}
 .pro_list {
 	display: -webkit-box;
 	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
-	    -ms-flex-pack: justify;
 	        justify-content: space-between;
 }
 .pro_listitem {
@@ -28,15 +35,16 @@
 	color: #f30
 }
 .beizhu_style {
+	text-align: right;
 	width: calc(100% - 40rpx);
 	background-color: #fff;
-	padding: 20rpx;
-	font-size: 32rpx;
+	padding: 10rpx 0;
 	max-height: 100rpx;
 }
 .confrim_button {
 	background: #aa2116;
 	color: #fff;
+	border-radius: unset;
 	font-weight: bold;
 	font-size: 32rpx;
 }

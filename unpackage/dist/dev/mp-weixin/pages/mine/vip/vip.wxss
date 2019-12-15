@@ -56,8 +56,7 @@
 .pay_button {
 	line-height: 90rpx;
 	border-radius: 40rpx;
-	background: -webkit-gradient(linear, left top, right top, from(#12d8fe), to(#12b9fe));
-	background: -o-linear-gradient(left, #12d8fe, #12b9fe);
+	background: -webkit-linear-gradient(left, #12d8fe, #12b9fe);
 	background: linear-gradient(to right, #12d8fe, #12b9fe);
 	/* 标准的语法 */
 	text-align: center;

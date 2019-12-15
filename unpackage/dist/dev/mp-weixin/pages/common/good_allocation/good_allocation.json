@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "库存盘点",
+  "navigationBarTitleText": "库存调拨",
   "usingComponents": {
     "unicard": "/components/uni-card/uni-card",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",

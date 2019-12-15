@@ -12,15 +12,14 @@
 	width: calc(100% - 30rpx);
 	background: #FAFAFA;
 	padding: 20rpx 0rpx 20rpx 30rpx;
+	font-weight: bold;
 }
 .pro_list {
 	display: -webkit-box;
 	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
-	    -ms-flex-pack: justify;
 	        justify-content: space-between;
 }
 .pro_listitem {
@@ -38,9 +37,9 @@
 .beizhu_style {
 	width: calc(100% - 40rpx);
 	background-color: #fff;
-	padding: 20rpx;
-	font-size: 32rpx;
 	max-height: 100rpx;
+	padding: 10rpx 0;
+	text-align: right;
 }
 .confrim_button {
 	background: #1651aa;
