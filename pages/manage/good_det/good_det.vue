@@ -54,7 +54,8 @@
 					<view class="display_flex">
 						<view class="opion_item" @click="show_qrcode(item)">生成二维码</view>
 						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+item.good_id" class="opion_item">客户统计</navigator>
-						<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id+'&goodsName='+product.goodsName" class="opion_item">此产品的操作记录</navigator>
+						<navigator hover-class="none" :url="'../operations/operations?objectId='+item.good_id+'&goodsName='+product.goodsName"
+						 class="opion_item">此产品的操作记录</navigator>
 					</view>
 					<view class="display_flex">
 						<view class="opion_item" @click='print_info(item)'>打印</view>
@@ -143,13 +144,13 @@
 			// #endif
 
 			if (options.id) {
-				that.getDetail_byId(options.id,options.type)
+				that.getDetail_byId(options.id, options.type)
 			} else {
 				that.getDetail_noId()
 			}
 
 		},
-		
+
 		//分享
 		onShareAppMessage: function(res) {
 			if (res.from === 'button') {
@@ -157,17 +158,19 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表-'+product.goodsName+'的详情',
-				path: '/pages/manage/good_det/good_det?id='+product.objectId+'&type="false"'
+				title: '库存表-' + product.goodsName + '的详情',
+				path: '/pages/manage/good_det/good_det?id=' + product.objectId + '&type="false"'
 			}
 		},
 
 		methods: {
-			
+
 			//得到产品详情 有id
-			getDetail_byId(id,type){
+			getDetail_byId(id, type) {
 				let stocks = [];
-				uni.showLoading({title:"加载中..."})
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query('Goods');
 				if (type == "false") {
 					query.equalTo("objectId", "==", id);
@@ -179,31 +182,37 @@
 					console.log(res)
 					let product = res[0];
 					let all_reserve = 0;
-					
-					uni.setStorageSync("now_product",product)
+
+					uni.setStorageSync("now_product", product)
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
-					query.include("stocks","goodsClass","second_class");
+					query.include("stocks", "goodsClass", "second_class");
 					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
-				
+
 						for (let item of res) {
-							if (item.order != 0) {
-								let stocks_o = {}
+							let stocks_o = {}
+							if (item.stocks) {
 								stocks_o.stock_name = item.stocks.stock_name
-								stocks_o.objectId = item.stocks.objectId
-								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
-								stocks_o.good_id = item.objectId
-								stocks_o.now_model = item.models
-								stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
-								item.stocks = stocks_o
-								all_reserve += item.reserve
-								stocks.push(item.stocks)
+								stocks_o.stock_objectid = item.stocks.objectId
+							} else {
+								stocks_o.stock_name = ''
+								stocks_o.stock_objectid = ''
 							}
+							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
+							stocks_o.models = item.models
+							stocks_o.warning_num = item.warning_num
+							stocks_o.bad_num = (item.bad_num) ? item.bad_num : 0
+							stocks_o.good_id = item.objectId
+							stocks_o.accessory = (item.accessory) ? item.accessory : ''
+							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+							item.stocks = stocks_o
+							all_reserve += item.reserve
+							stocks.push(item.stocks)
 						}
-				
+
 						this.product = product;
-						if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
+						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
 						that.loading = false
@@ -212,21 +221,23 @@
 					})
 				})
 			},
-			
+
 			//得到产品详情没有id
-			getDetail_noId(){
+			getDetail_noId() {
 				let stocks = [];
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
-				
-				uni.showLoading({title:"加载中..."})
+
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query('Goods');
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
-				query.include("stocks","goodsClass","second_class");
+				query.include("stocks", "goodsClass", "second_class");
 				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
-				
+
 					for (let item of res) {
 						let stocks_o = {}
 						if (item.stocks) {
@@ -236,26 +247,25 @@
 							stocks_o.stock_name = ''
 							stocks_o.stock_objectid = ''
 						}
-				
+
 						stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 						stocks_o.models = item.models
 						stocks_o.warning_num = item.warning_num
-						stocks_o.bad_num = (item.bad_num)?item.bad_num:0
+						stocks_o.bad_num = (item.bad_num) ? item.bad_num : 0
 						stocks_o.good_id = item.objectId
 						stocks_o.accessory = (item.accessory) ? item.accessory : ''
-						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId+"-"+false
+						stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId + "-" + false
 						item.stocks = stocks_o
 						all_reserve += item.reserve
 						stocks.push(item.stocks)
 					}
-				
+
 					this.product = uni.getStorageSync("now_product");
-					if(this.product.nousetime)  this.product.nousetime = common.js_date_time(this.product.nousetime)
+					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
 					that.loading = false
 					uni.hideLoading()
-					console.log(this.product)
 				})
 			},
 
@@ -265,15 +275,15 @@
 				if (that.badnum.num) {
 					const pointer = Bmob.Pointer('_User');
 					const poiID = pointer.set(uni.getStorageSync("masterId"));
-					
+
 					const pointer1 = Bmob.Pointer('Goods');
 					const poiID1 = pointer1.set(that.selected_item.good_id);
-					
+
 					const product_id = that.selected_item.good_id;
 					const last_bad_num = Number(that.selected_item.bad_num);
-					
+
 					const now_bad_num = last_bad_num + Number(that.badnum.num);
-					
+
 					const query = Bmob.Query('bad_goods');
 					query.set("bad_num", that.badnum.num);
 					query.set("beizhu_text", that.badnum.desc);
@@ -419,8 +429,8 @@
 					content: '是否删除该商品',
 					success: function(res) {
 						if (res.confirm) {
-							
-							uni.setStorageSync("is_add",true)
+
+							uni.setStorageSync("is_add", true)
 
 							const query = Bmob.Query('Goods');
 							query.set('id', objectId) //需要修改的objectId
@@ -429,7 +439,7 @@
 
 								if (accessory) {
 									uni.navigateBack({
-										delta:1
+										delta: 1
 									})
 
 									setTimeout(function() {
@@ -446,7 +456,7 @@
 											res.set('accessory', false)
 											res.save()
 											uni.navigateBack({
-												delta:1
+												delta: 1
 											})
 
 											setTimeout(function() {
@@ -459,7 +469,7 @@
 										})
 									} else {
 										uni.navigateBack({
-											delta:1
+											delta: 1
 										})
 
 										setTimeout(function() {

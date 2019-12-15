@@ -83,7 +83,9 @@
 			uni.removeStorageSync("is_option")
 
 			if (options.id) {
-				uni.showLoading({title:"加载中..."})
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
@@ -92,28 +94,54 @@
 				}
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
+				query.include("stocks");
 				query.find().then(res => {
 					console.log(res)
-					if (res[0].status == -1) {
-						uni.showToast({
-							title: "该产品已删除",
-							icon: "none"
-						})
-					} else {
-						res[0].num = 1;
-						res[0].total_money = 1 * res[0].retailPrice;
-						res[0].really_total_money = 1 * res[0].retailPrice;
-						res[0].modify_retailPrice = res[0].retailPrice;
-						if(res[0].models){
-							for(let model of res[0].models){
-								model.num = model.reserve
+				
+					if(res[0].order == 0){
+						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", res[0].objectId);
+						query.include("stocks");
+						query.find().then(res => {
+							for (let item of res) {
+								item.num = 1;
+								item.total_money = 1 * item.retailPrice;
+								item.really_total_money = 1 * item.retailPrice;
+								item.modify_retailPrice = item.retailPrice;
+								if (item.models) {
+									let count = 0
+									for (let model of item.models) {
+										model.num = 0
+										count += 1
+									}
+									item.num = count
+									item.selectd_model = item.models
+									item.selected_model = item.models
+								}
 							}
-							res[0].selectd_model = res[0].models
-							res[0].selected_model = res[0].models
+							this.products = res;
+							wx.hideLoading()
+						})
+					}else{
+						for (let item of res) {
+							item.num = 1;
+							item.total_money = 1 * item.retailPrice;
+							item.really_total_money = 1 * item.retailPrice;
+							item.modify_retailPrice = item.retailPrice;
+							if (item.models) {
+								let count = 0
+								for (let model of item.models) {
+									model.num = 0
+									count += 1
+								}
+								item.num = count
+								item.selectd_model = item.models
+								item.selected_model = item.models
+							}
 						}
 						this.products = res;
+						wx.hideLoading()
 					}
-					uni.hideLoading()
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
@@ -136,10 +164,12 @@
 			scanGoods() {
 				uni.scanCode({
 					success(res) {
-						uni.showLoading({title:"加载中..."})
+						uni.showLoading({
+							title: "加载中..."
+						})
 						let result = res.result;
 						let array = result.split("-");
-
+				
 						const query = Bmob.Query('Goods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
@@ -147,23 +177,52 @@
 							query.equalTo("productCode", "==", array[0])
 						}
 						query.equalTo("userId", "==", uid);
+						query.include("stocks");
 						query.find().then(res => {
-							console.log(res)
-							if (res[0].status == -1) {
-								uni.showToast({
-									title: "该产品已删除",
-									icon: "none"
+							if(res[0].order == 0){
+								query.equalTo("userId", "==", uid);
+								query.equalTo("header", "==", res[0].objectId);
+								query.include("stocks");
+								query.find().then(res => {
+									for (let item of res) {
+										item.num = 1;
+										item.total_money = 1 * item.retailPrice;
+										item.really_total_money = 1 * item.retailPrice;
+										item.modify_retailPrice = item.retailPrice;
+										if (item.models) {
+											let count = 0
+											for (let model of item.models) {
+												model.num = 0
+												count += 1
+											}
+											item.num = count
+											item.selectd_model = item.models
+											item.selected_model = item.models
+										}
+									}
+									that.products = res;
+									wx.hideLoading()
 								})
-							} else {
+							}else{
 								for (let item of res) {
 									item.num = 1;
 									item.total_money = 1 * item.retailPrice;
 									item.really_total_money = 1 * item.retailPrice;
 									item.modify_retailPrice = item.retailPrice;
+									if (item.models) {
+										let count = 0
+										for (let model of item.models) {
+											model.num = 0
+											count += 1
+										}
+										item.num = count
+										item.selectd_model = item.models
+										item.selected_model = item.models
+									}
 								}
-								that.products = that.products.concat(res);
+								that.products = res;
+								wx.hideLoading()
 							}
-							uni.hideLoading()
 						})
 					},
 					fail(res) {

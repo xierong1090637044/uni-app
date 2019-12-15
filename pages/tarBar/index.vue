@@ -152,6 +152,11 @@
 						url: '/pages/common/goods-select/goods-select?type=returing'
 					},
 					{
+						name: '产品添加',
+						icon: '/static/stock.png',
+						url: '/pages/manage/good_add/good_add?type=single'
+					},
+					{
 						name: '使用手册',
 						icon: '/static/userInfo.png',
 						url: '/pages/mine/manual/manual'
@@ -245,7 +250,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加产品'],
+					itemList: ['扫码出库','扫码销售','扫码入库','扫码采购', '扫码盘点', '查看详情'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -259,7 +264,9 @@
 			scan: function(type) {
 				// #ifdef H5
 				this.$wechat.scanQRCode().then(res => {
-					let array = res.split("-");
+					let result = res.result;
+					let array = result.split("-");
+					let productType = array[2]
 
 					if (type == 0) {
 						uni.navigateTo({
@@ -267,17 +274,31 @@
 						})
 					} else if (type == 1) {
 						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=1",
 						})
 					} else if (type == 2) {
 						uni.navigateTo({
-							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
 						})
 					} else if (type == 3) {
 						uni.navigateTo({
-							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=1",
 						})
 					} else if (type == 4) {
+						uni.navigateTo({
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
+						})
+					}else if (type == 5) {
+						if(productType == "new"){
+							uni.navigateTo({
+								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
+							})
+						}else if(productType == "old"){
+							uni.navigateTo({
+								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+							})
+						}
+					} else if (type == 6) {
 						let user = uni.getStorageSync("user")
 						if (user.is_vip) {
 							uni.navigateTo({
@@ -289,33 +310,48 @@
 								icon: "none"
 							})
 						}
-					}
+					} 
 				})
 				// #endif
 
 				// #ifdef MP-WEIXIN
 				uni.scanCode({
 					success(res) {
-						var result = res.result;
-						var array = result.split("-");
-
+						let result = res.result;
+						let array = result.split("-");
+						let productType = array[2]
+						
 						if (type == 0) {
 							uni.navigateTo({
 								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 1) {
 							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=1",
 							})
 						} else if (type == 2) {
 							uni.navigateTo({
-								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
 							})
 						} else if (type == 3) {
 							uni.navigateTo({
-								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=1",
 							})
 						} else if (type == 4) {
+							uni.navigateTo({
+								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							})
+						}else if (type == 5) {
+							if(productType == "new"){
+								uni.navigateTo({
+									url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
+								})
+							}else if(productType == "old"){
+								uni.navigateTo({
+									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+								})
+							}
+						} else if (type == 6) {
 							let user = uni.getStorageSync("user")
 							if (user.is_vip) {
 								uni.navigateTo({
@@ -430,20 +466,6 @@
 		background: #426ab3;
 	}
 
-	.scan_code {
-		position: fixed;
-		width: calc(100% - 60rpx);
-		left: 30rpx;
-		right: 30rpx;
-		bottom: 10%;
-		background: linear-gradient(to right, #426ab3, #118fff);
-		line-height: 80rpx;
-		text-align: center;
-		border-radius: 4px;
-		color: #fff;
-		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2)
-	}
-
 	.icon-scan {
 		margin-right: 20rpx;
 	}
@@ -479,8 +501,8 @@
 	}
 
 	.o_image {
-		width: 80rpx;
-		height: 80rpx;
+		width: 60rpx;
+		height: 60rpx;
 		border-radius: 50%;
 		border: 3px solid#e2e2e2;
 		padding: 6rpx 6rpx 0;
@@ -504,7 +526,7 @@
 		width: calc(100% - 60rpx);
 		left: 30rpx;
 		right: 30rpx;
-		bottom: 10%;
+		bottom: 200rpx;
 		background: linear-gradient(to right, #426ab3, #118fff);
 		line-height: 80rpx;
 		text-align: center;

@@ -15,12 +15,13 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.1.2 公测版</text>
-						<text class="desc-time">2019.12.10</text>
+						<text class="desc-time">2019.12.14</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>优化按钮点击，防止多次点击</text>
 						<text>支持多规格产品操作的撤销</text>
+						<text>支持手机扫码操作</text>
 					</view>
 				</view>
 				

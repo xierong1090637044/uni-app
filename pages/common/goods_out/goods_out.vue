@@ -102,7 +102,7 @@
 			that = this
 			value = options.value
 			that.value = options.value
-			if (options.id) {
+			if (options.id) { // 扫码进入的情况
 				uni.showLoading({
 					title: "加载中..."
 				})
@@ -114,26 +114,53 @@
 				}
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
+				query.include("stocks");
 				query.find().then(res => {
-					//console.log(res)
-					for (let item of res) {
-						item.num = 1;
-						item.total_money = 1 * item.retailPrice;
-						item.really_total_money = 1 * item.retailPrice;
-						item.modify_retailPrice = item.retailPrice;
-						if (item.models) {
-							let count = 0
-							for (let model of item.models) {
-								model.num = 0
-								count += 1
+					console.log(res)
+					if(res[0].order == 0){
+						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", res[0].objectId);
+						query.include("stocks");
+						query.find().then(res => {
+							for (let item of res) {
+								item.num = 1;
+								item.total_money = 1 * item.retailPrice;
+								item.really_total_money = 1 * item.retailPrice;
+								item.modify_retailPrice = item.retailPrice;
+								if (item.models) {
+									let count = 0
+									for (let model of item.models) {
+										model.num = 0
+										count += 1
+									}
+									item.num = count
+									item.selectd_model = item.models
+									item.selected_model = item.models
+								}
 							}
-							item.num = count
-							item.selectd_model = item.models
-							item.selected_model = item.models
+							this.products = res;
+							wx.hideLoading()
+						})
+					}else{
+						for (let item of res) {
+							item.num = 1;
+							item.total_money = 1 * item.retailPrice;
+							item.really_total_money = 1 * item.retailPrice;
+							item.modify_retailPrice = item.retailPrice;
+							if (item.models) {
+								let count = 0
+								for (let model of item.models) {
+									model.num = 0
+									count += 1
+								}
+								item.num = count
+								item.selectd_model = item.models
+								item.selected_model = item.models
+							}
 						}
+						this.products = res;
+						wx.hideLoading()
 					}
-					this.products = res;
-					wx.hideLoading()
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
@@ -179,27 +206,53 @@
 						}
 						query.equalTo("status", "!=", -1);
 						query.equalTo("userId", "==", uid);
+						query.include("stocks");
 						query.find().then(res => {
-							//console.log(res)
-							for (let item of res) {
-								item.num = 1;
-								item.total_money = 1 * item.retailPrice;
-								item.really_total_money = 1 * item.retailPrice;
-								item.modify_retailPrice = item.retailPrice;
-								if (item.models) {
-									let count = 0
-									for (let model of item.models) {
-										model.num = 0
-										count += 1
+							console.log(res)
+							if(res[0].order == 0){
+								query.equalTo("userId", "==", uid);
+								query.equalTo("header", "==", res[0].objectId);
+								query.include("stocks");
+								query.find().then(res => {
+									for (let item of res) {
+										item.num = 1;
+										item.total_money = 1 * item.retailPrice;
+										item.really_total_money = 1 * item.retailPrice;
+										item.modify_retailPrice = item.retailPrice;
+										if (item.models) {
+											let count = 0
+											for (let model of item.models) {
+												model.num = 0
+												count += 1
+											}
+											item.num = count
+											item.selectd_model = item.models
+											item.selected_model = item.models
+										}
 									}
-									item.num = count
-									item.selectd_model = item.models
-									item.selected_model = item.models
+									that.products = that.products.concat(res);
+									wx.hideLoading()
+								})
+							}else{
+								for (let item of res) {
+									item.num = 1;
+									item.total_money = 1 * item.retailPrice;
+									item.really_total_money = 1 * item.retailPrice;
+									item.modify_retailPrice = item.retailPrice;
+									if (item.models) {
+										let count = 0
+										for (let model of item.models) {
+											model.num = 0
+											count += 1
+										}
+										item.num = count
+										item.selectd_model = item.models
+										item.selected_model = item.models
+									}
 								}
+								that.products = that.products.concat(res);
+								wx.hideLoading()
 							}
-							
-							that.products = that.products.concat(res);
-							uni.hideLoading()
 
 						})
 					},

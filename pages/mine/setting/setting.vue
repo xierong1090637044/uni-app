@@ -3,7 +3,7 @@
 		<view class="uni-form-item uni-column">
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">登陆网址</view>
-				<input class="uni-input" value="http://www.jimuzhou.com/stock/test/" disabled="true" />
+				<input class="uni-input" value="https://www.shoujixungeng.com" disabled="true" />
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
