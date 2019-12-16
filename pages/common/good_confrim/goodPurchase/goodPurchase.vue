@@ -45,12 +45,14 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-else>
-							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
-								 style="color: #d71345;" type="digit" /></view>
-						</view>
+						
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">选择门店</view>
+							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
+								<input placeholder="选择门店" disabled="true" :value="shop?shop.name:''" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">采购时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
@@ -60,17 +62,22 @@
 								</view>
 							</picker>
 						</view>
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-else>
+							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
+							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
+								 style="color: #d71345;" type="digit" /></view>
+						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">备注</view>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view>是否入库</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
 								<switch :checked="canOpretion" @change="changeStatus"/>
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
-							<view style="width: 140rpx;">备注</view>
-							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
-						</view>
-
 					</view>
 				</view>
 
@@ -147,6 +154,7 @@
 
 				nowDay: common.getDay(0, true, true), //时间
 				canOpretion:true,
+				shop:'',//门店
 			}
 		},
 		onLoad() {
@@ -167,6 +175,13 @@
 
 		onShow() {
 			that.producer = uni.getStorageSync("producer")
+			
+			if (uni.getStorageSync("shop")) {
+				that.shop = uni.getStorageSync("shop")
+			
+				const pointer = Bmob.Pointer('shops');
+				shopId = pointer.set(that.shop.objectId);
+			}
 		},
 		methods: {
 			//选择时间
@@ -334,6 +349,8 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
+						if (that.shop) query.set("shop", shopId);
+						
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -436,42 +453,6 @@
 						// 批量新增异常处理
 						console.log("异常处理");
 					});
-			},
-
-
-			//判断此商品是否在此仓库中
-			can_addGoods() {
-				return new Promise((resolve, reject) => {
-					let products = uni.getStorageSync("products");
-					let warehouse = uni.getStorageSync("warehouse")
-					if (warehouse) {
-						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
-									0].stock.stock_name) {
-								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到调出仓库',
-									content: "是否将它关联到此仓库",
-									showCancel: true,
-									success: res => {
-										console.log(res)
-										if (res.confirm) {
-											resolve([true, item])
-										} else {
-											resolve([false])
-										}
-									},
-									fail: () => {},
-								});
-								return;
-							} else {
-								resolve([false])
-							}
-						}
-					} else {
-						resolve([false])
-					}
-				})
-
 			},
 		}
 	}

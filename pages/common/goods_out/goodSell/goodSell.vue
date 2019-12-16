@@ -55,10 +55,8 @@
 							<picker class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<view class="display_flex">
 									<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
-
 									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 								</view>
-
 							</picker>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="outType.type == 2 || outType.type == 3">
@@ -95,16 +93,16 @@
 								 type="digit" /></view>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">备注</view>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view>是否出库</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
 								<switch :checked="canOpretion" @change="changeStatus"/>
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
-							<view style="width: 140rpx;">备注</view>
-							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
-						</view>
-
+						
 					</view>
 				</view>
 
@@ -331,43 +329,6 @@
 				if (that.outType.type != 2 || that.outType.type != 3) {
 					that.expressNum = ''
 				}
-			},
-
-			//判断此商品是否在此仓库中
-			can_addGoods() {
-				return new Promise((resolve, reject) => {
-					let products = uni.getStorageSync("products");
-					let warehouse = uni.getStorageSync("warehouse")
-					if (warehouse) {
-						let count = 0
-						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
-									0].stock.stock_name) {
-								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到此仓库',
-									content: "是否将它关联到此仓库",
-									showCancel: true,
-									success: res => {
-										console.log(res)
-										if (res.confirm) {
-											resolve([true, item])
-										} else {
-											resolve([false])
-										}
-									},
-									fail: () => {},
-								});
-
-								return
-							} else {
-								resolve([false])
-							}
-						}
-					} else {
-						resolve([false])
-					}
-				})
-
 			},
 
 			formSubmit: function(e) {

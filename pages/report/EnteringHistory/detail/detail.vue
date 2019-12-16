@@ -138,7 +138,19 @@
 							<view class="left_content" v-if="detail.createdTime">销售时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
-						
+						<view v-if="detail.shop" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">门店</view>
+							<view>{{detail.shop.name}}</view>
+						</view>
+						<view class="display_flex" v-if="detail.createdTime"  style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">出库时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex">
+							<view class="left_content">出库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
+							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						</view>
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
 						<view style="padding: 10rpx 30rpx;">出库明细</view>
@@ -172,10 +184,7 @@
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
-						<view class="display_flex" v-if="detail.createdTime">
-							<view class="left_content">出库时间</view>
-							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
-						</view>
+						
 					</view>
 				</view>
 
@@ -195,9 +204,18 @@
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
-						<view class="display_flex">
+						<view v-if="detail.shop" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">门店</view>
+							<view>{{detail.shop.name}}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content" v-if="detail.createdTime">采购时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex">
+							<view class="left_content">入库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已入库</view>
+							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
 						</view>
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
@@ -250,21 +268,6 @@
 				</view>
 			</scroll-view>
 
-			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未入库</text>
-				<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text>
-			</view>
-			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已入库</text>
-			</view>
-
-			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未出库</text>
-				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
-			</view>
-			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已出库</text>
-			</view>
 		</view>
 
 	</view>
@@ -381,7 +384,7 @@
 
 			getdetail: function(id) {
 				const query = Bmob.Query('order_opreations');
-				query.include("opreater", "custom", "producer", "stock");
+				query.include("opreater", "custom", "producer", "stock","shop");
 				query.get(id).then(res => {
 					console.log(res);
 					that.detail = res;

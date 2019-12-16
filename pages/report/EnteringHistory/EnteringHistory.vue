@@ -31,7 +31,7 @@
 					<scroll-view class='page' scroll-y="true" v-if="list.length > 0">
 						<view class='list-item'>
 							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
-								<view style='display:flex;width:calc(100% - 120rpx);'>
+								<view style='display:flex;width:100%;'>
 									<view style='line-height:80rpx'>
 										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
 										<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
@@ -40,37 +40,45 @@
 										<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
 										<fa-icon v-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
 									</view>
-									<view style='margin-left:20rpx'>
-										<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
+									<view style='margin-left:20rpx;width: 100%;'>
+										<view class="display_flex_bet">
+											<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
+											<view v-if='item.type == -1'>
+												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+													<text>销售</text>
+												</view>
+												<view v-else class='order_get'>
+													<text>出库</text>
+												</view>
+											</view>
+											<view v-if='item.type == 1'>
+												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+													<text>采购</text>
+												</view>
+												<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
+													<text>生产入库</text>
+												</view>
+												<view v-else class='order_get'>
+													<text>入库</text>
+												</view>
+											</view>
+											<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
+											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
+											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
+											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
+										</view>
+										
 										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>仓库：</text>{{item.stock.stock_name}}</view>
-										<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+										<view class="display_flex_bet">
+											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+											<view style="color: #999;">X{{item.real_num}}</view>
+										</view>
+										
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 									</view>
 								</view>
-								<view v-if='item.type == -1'>
-									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-										<text>销售</text>
-									</view>
-									<view v-else class='order_get'>
-										<text>出库</text>
-									</view>
-								</view>
-								<view v-if='item.type == 1'>
-									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-										<text>采购</text>
-									</view>
-									<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
-										<text>生产入库</text>
-									</view>
-									<view v-else class='order_get'>
-										<text>入库</text>
-									</view>
-								</view>
-								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
-								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
-								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-								<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
+								
 							</view>
 						</view>
 
