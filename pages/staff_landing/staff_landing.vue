@@ -55,11 +55,13 @@
 						icon: "none"
 					})
 				} else {
-					uni.showLoading({title:"登录中..."})
-					
+					uni.showLoading({
+						title: "登录中..."
+					})
+
 					Bmob.User.login(that.phone, that.password).then(res => {
 						console.log(res)
-						if(res.masterId || res.identity == 2){
+						if ((res.masterId && res.masterId.objectId) || res.identity == 2) {
 							let now_staff = res
 							let master = res.masterId
 							uni.hideLoading();
@@ -70,12 +72,12 @@
 								now_staff.is_vip = false
 								now_staff.vip_time = 0
 							}
-							
+
 							uni.setStorageSync("user", now_staff)
 							uni.setStorageSync("identity", 2) //1是老板，2是员工
 							uni.setStorageSync("masterId", res.objectId)
 							uni.setStorageSync("uid", master.objectId)
-						}else{
+						} else {
 							uni.setStorageSync("user", res)
 							uni.setStorageSync("masterId", res.objectId)
 							uni.setStorageSync("identity", 1); //1是老板，2是员工
@@ -87,10 +89,10 @@
 
 					}).catch(err => {
 						console.log(err)
-						if(err.code == 101){
+						if (err.code == 101) {
 							uni.showToast({
-								title:"账号密码不正确",
-								icon:'none'
+								title: "账号密码不正确",
+								icon: 'none'
 							})
 						}
 					});

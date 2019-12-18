@@ -522,11 +522,8 @@
 	}
 
 	.scan_code {
-		position: fixed;
+		margin: 60rpx 30rpx 0;
 		width: calc(100% - 60rpx);
-		left: 30rpx;
-		right: 30rpx;
-		bottom: 200rpx;
 		background: linear-gradient(to right, #426ab3, #118fff);
 		line-height: 80rpx;
 		text-align: center;

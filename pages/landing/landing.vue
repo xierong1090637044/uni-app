@@ -128,20 +128,46 @@
 						query.equalTo("mobilePhoneNumber", "==", phone);
 						query.find().then(res => {
 							console.log(res)
-							uni.setStorageSync("user", res[0])
-							uni.setStorageSync("masterId", res[0].objectId)
-							uni.setStorageSync("identity", 1); //1是老板，2是员工
-							uni.setStorageSync("uid", res[0].objectId)
-							uni.switchTab({
-								url: "/pages/tarBar/index"
-							});
-
-							Bmob.User.login(res[0].username, res[0].username).then(res => {
-								console.log(res)
-							}).catch(err => {
-								console.log(err)
-							});
-
+							if ((res[0].masterId && res[0].masterId.objectId) || res[0].identity == 2) {
+								let now_staff = res[0]
+								let master = res[0].masterId
+								uni.hideLoading();
+								if (master.is_vip) {
+									now_staff.is_vip = true
+									now_staff.vip_time = master.vip_time
+								} else {
+									now_staff.is_vip = false
+									now_staff.vip_time = 0
+								}
+							
+								uni.setStorageSync("user", now_staff)
+								uni.setStorageSync("identity", 2) //1是老板，2是员工
+								uni.setStorageSync("masterId", res[0].objectId)
+								uni.setStorageSync("uid", master[0].objectId)
+							}else{
+								uni.setStorageSync("user", res[0])
+								uni.setStorageSync("masterId", res[0].objectId)
+								uni.setStorageSync("identity", 1); //1是老板，2是员工
+								uni.setStorageSync("uid", res[0].objectId)
+								uni.switchTab({
+									url: "/pages/tarBar/index"
+								});
+								
+								if(res[0].pwd){
+									Bmob.User.login(res[0].username, res[0].pwd).then(res => {
+										console.log(res)
+									}).catch(err => {
+										console.log(err)
+									});
+								}else{
+									Bmob.User.login(res[0].username, res[0].username).then(res => {
+										console.log(res)
+									}).catch(err => {
+										console.log(err)
+									});
+								}
+							}
+							
 						});
 
 					}).catch(function(error) {

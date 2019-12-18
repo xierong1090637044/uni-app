@@ -317,7 +317,7 @@
 							console.log(bill)
 							item.num += Number(bill.num)
 							that.header.total += bill.num
-							that.header.total_money += Number(bill.goodsId.costPrice) * bill.num
+							that.header.total_money += Number(bill.goodsId.retailPrice) * bill.num
 							that.header.get_money += bill.total_money - Number(bill.goodsId.costPrice) * bill.num
 						}
 					}

@@ -88,6 +88,11 @@
 						title:"您已经是VIP了",
 						icon:"none"
 					})
+				}else if(uni.getStorageSync("identity") == "2" || uni.getStorageSync("identity") == 2){
+					uni.showToast({
+						title:"员工不能充值",
+						icon:"none"
+					})
 				}else{
 					uni.showLoading({title:"充值中..."})
 					that.payStatus = true;

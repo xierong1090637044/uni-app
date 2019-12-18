@@ -134,8 +134,8 @@
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
-						<view class="display_flex">
-							<view class="left_content" v-if="detail.createdTime">销售时间</view>
+						<view class="display_flex"  v-if="detail.createdTime">
+							<view class="left_content">销售时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 						<view v-if="detail.shop" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
@@ -208,8 +208,8 @@
 							<view class="left_content">门店</view>
 							<view>{{detail.shop.name}}</view>
 						</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content" v-if="detail.createdTime">采购时间</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.createdTime">
+							<view class="left_content">采购时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 						<view class="display_flex">

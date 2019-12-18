@@ -176,11 +176,12 @@
 			"style": {
 				"navigationBarTitleText": "销售详情"
 			}
+		},  {
+			"path": "pages/report/staffChart/staffChart",
+			"style": {
+				"navigationBarTitleText": "员工业绩"
+			}
 		}
-	    ,{
-            "path" : "pages/shop/goods/goods",
-            "style" : {}
-        }
     ],
 
 	"subPackages": [{
@@ -292,7 +293,13 @@
 				"style": {
 					"navigationBarTitleText": "商品列表"
 				}
-			}]
+			},{
+				"path": "goods/goods",
+				"style": {
+					"navigationBarTitleText": "商品列表"
+				}
+			}
+			]
 		},
 		{
 			"root": "pages/manage",

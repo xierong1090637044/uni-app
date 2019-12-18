@@ -100,6 +100,12 @@
 						url: '/pages/report/chart/chart',
 						color: "#0c95bc"
 					},
+					{
+						name: '销售业绩',
+						icon: 'area-chart',
+						url: '/pages/report/staffChart/staffChart',
+						color: "#4f77bb"
+					},
 				],
 
 				optionsLists: [{

@@ -57,13 +57,36 @@
 				Goods: null,
 				reserve_num: 0,
 				reserve_money: 0,
+				
+				sellRecord:{}
 			}
 		},
 
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
 			that.staff = uni.getStorageSync("staff")
+			
+			console.log(options)
+			if(options.start_date && options.end_date){
+				const query = Bmob.Query("order_opreations");
+				query.equalTo("master", "==", uid);
+				query.equalTo("opreater", "==", that.staff.objectId);
+				query.equalTo("type", "==", -1);
+				query.equalTo("status", "==", true);
+				query.equalTo("extra_type", "==", 1);
+				query.equalTo("createdAt", ">=", options.start_date);
+				query.equalTo("createdAt", "<=", options.end_date);
+				query.find().then(res => {
+					that.sellRecord.sellNum = res.length
+					that.sellRecord.sellPrice = 0
+					for(let record of res){
+						that.sellRecord.sellPrice += record.all_money
+					}
+					
+					console.log(that.sellRecord)
+				})
+			}
 		},
 		methods: {
 

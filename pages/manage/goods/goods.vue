@@ -148,7 +148,8 @@
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
 				stock_checked: false,
-				search_text: ''
+				search_text: '',
+				user:uni.getStorageSync("user")
 			}
 		},
 
@@ -182,6 +183,18 @@
 				that.get_productList();
 			}
 
+		},
+		
+		//分享
+		onShareAppMessage: function(res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log(res.target)
+			}
+			return {
+				title: that.user.nickName+'的商品列表',
+				path: '/pages/shop/index/index?userId='+uid+"&nickName="+that.user.nickName
+			}
 		},
 
 		onUnload() {

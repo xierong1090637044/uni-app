@@ -167,8 +167,10 @@
 				products: null,
 				button_disabled: false,
 				beizhu_text: "",
+				really_total_money:0,
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
+				allCostPrice:0,//成本总额
 				custom: null, //制造商
 				outType: '', //发货方式
 				discount: '', //会员率
@@ -210,6 +212,7 @@
 			this.all_money = 0
 			this.real_money = 0
 			this.total_num = 0
+			that.allCostPrice = 0
 
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
@@ -227,6 +230,7 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 					this.total_num += Number(this.products[i].num)
+					that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
 				}
 				this.really_total_money = this.really_total_money * that.discount / 100
 				this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100
@@ -236,6 +240,7 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 					this.total_num += Number(this.products[i].num)
+					that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
 				}
 				this.real_money = Number(this.all_money.toFixed(2))
 			}
@@ -383,7 +388,9 @@
 					tempBills.set('really_total_money', this.products[i].really_total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
+					tempBills.set('allCostPrice', Number(that.products[i].num)*Number(that.products[i].costPrice));
 					tempBills.set('type', -1);
+					tempBills.set('count', 1);
 					tempBills.set('extra_type', extraType);
 					tempBills.set('opreater', operater);
 					tempBills.set("status", that.canOpretion); // 操作单详情
@@ -452,6 +459,8 @@
 						//query.set("stock", stockId);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
+						query.set("allCostPrice", that.allCostPrice);
+						query.set("profit", that.all_money - that.allCostPrice);
 						if (that.discount) query.set('discount', that.discount);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));

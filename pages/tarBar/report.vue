@@ -93,6 +93,12 @@
 						url: '/pages/report/chart/chart',
 						color: "#0c95bc"
 					},
+					{
+						name: '员工业绩',
+						icon: 'area-chart',
+						url: '/pages/report/chart/chart',
+						color: "#0c95bc"
+					},
 				]
 			}
 		},
