@@ -173,9 +173,11 @@
 				})
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
-				if(that.type){
+				if(that.seleted_tab){
+					if(that.seleted_tab == 1 || that.seleted_tab == -1){
+						query.equalTo("extra_type", "==", that.extra_type);
+					}
 					query.equalTo("type", "==", that.seleted_tab);
-					query.equalTo("extra_type", "==", that.extra_type);
 				}
 				query.equalTo("status", "!=", false);
 				query.equalTo("goodsId", "==", goodsId);

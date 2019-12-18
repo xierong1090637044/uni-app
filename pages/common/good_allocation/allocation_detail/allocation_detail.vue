@@ -201,18 +201,17 @@
 										that.out_products = that.out_products.concat(res)
 									}else{
 										for (let item of that.out_products) {
-											item.shouldNum =  Number(that.products[i].num)
 											if (res[0].goodsName == item.goodsName){
-												item.shouldNum = item.shouldNum + Number(that.products[i].num);
+												res[0].shouldNum = item.shouldNum + Number(that.products[i].num);
+												that.out_products = that.out_products.concat(res)
 											}else{
+												res[0].shouldNum =  Number(that.products[i].num)
 												that.out_products = that.out_products.concat(res)
 											}
 										}
 									}
 									
-									
 									if (i == that.products.length - 1) {
-										console.log("dsadas", that.out_products)
 										resolve(true)
 									}
 								}
@@ -360,9 +359,9 @@
 												for (let j = 0; j < that.out_products.length; j++) {
 													const query = Bmob.Query('Goods');
 													query.get(that.out_products[j].objectId).then(res => {
-													  console.log(res)
+													  console.log(res,that.out_products[j])
 													  const query = Bmob.Query("Goods");
-													  query.set('reserve', res.reserve + Number(that.out_products[j].shouldNum))
+													  query.set('reserve', Number(res.reserve) + Number(that.out_products[j].shouldNum))
 													  query.set('id', that.out_products[j].objectId)
 													  query.save().then(res => {
 													  	const query1 = Bmob.Query("Goods");
@@ -373,7 +372,7 @@
 													  		console.log("dasds", res)
 													  		let now_reserve = res[0]._sumReserve
 													  		const query = Bmob.Query('Goods');
-													  		query.set('reserve', now_reserve)
+													  		query.set('reserve', Number(now_reserve))
 													  		query.set('stocktype', (now_reserve > that.out_products[j].warning_num) ? 1 : 0)
 													  		query.set('id', that.out_products[j].header ? that.out_products[j].header.objectId : that.out_products[j].objectId)
 													  		query.save().then(res => {

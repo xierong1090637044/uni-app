@@ -15,7 +15,7 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.1.2 公测版</text>
-						<text class="desc-time">2019.12.14</text>
+						<text class="desc-time">2019.12.18</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
@@ -24,6 +24,8 @@
 						<text>支持手机扫码操作</text>
 						<text>禁止员工充值</text>
 						<text>增加商品列表分享页面，分享给客户选购产品（具体操作见操作手册）</text>
+						<text>批量调拨bug修复</text>
+						<text>新增销售业绩页面</text>
 					</view>
 				</view>
 				
