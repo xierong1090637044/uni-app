@@ -128,6 +128,8 @@
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.find().then(res => {
 					console.log(res)
+					let opreaterList = res
+					let count= 0 
 					for(let item of res){
 						query.equalTo("master", "==", uid);
 						query.equalTo("opreater", "==", item.opreater.objectId);
@@ -143,10 +145,14 @@
 								item.sellPrice += record.all_money
 							}
 							
+							if(count == opreaterList.length -1){
+								that.opreaterList = opreaterList
+							}
 							console.log(res)
+							count +=1
 						})
 					}
-					that.opreaterList = res
+					
 					that.getheaderData()
 				});
 			},
