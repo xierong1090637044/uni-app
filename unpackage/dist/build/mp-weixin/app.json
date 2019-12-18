@@ -33,7 +33,8 @@
     "pages/report/EnteringHistory/productDet/productEnter/productEnter",
     "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
     "pages/common/good_confrim/goodPurchase/goodPurchase",
-    "pages/common/goods_out/goodSell/goodSell"
+    "pages/common/goods_out/goodSell/goodSell",
+    "pages/report/staffChart/staffChart"
   ],
   "subPackages": [
     {
@@ -64,6 +65,13 @@
         "about_us/about_us",
         "home_page/home_page",
         "warning_log/warning_log"
+      ]
+    },
+    {
+      "root": "pages/shop",
+      "pages": [
+        "index/index",
+        "goods/goods"
       ]
     },
     {

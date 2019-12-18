@@ -57,11 +57,8 @@
 	font-size: 23rpx;
 }
 .scan_code {
-	position: fixed;
+	margin: 60rpx 30rpx 0;
 	width: calc(100% - 60rpx);
-	left: 30rpx;
-	right: 30rpx;
-	bottom: 200rpx;
 	background: -webkit-linear-gradient(left, #426ab3, #118fff);
 	background: linear-gradient(to right, #426ab3, #118fff);
 	line-height: 80rpx;
