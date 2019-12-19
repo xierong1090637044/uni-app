@@ -77,11 +77,6 @@
 		margin-right: 20rpx;
 	}
 
-	.kaidan_detail {
-		background: #fff;
-		padding: 10rpx;
-	}
-
 	.kaidan_rightinput {
 		margin-left: 10rpx;
 	}

@@ -76,12 +76,12 @@
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
 						color: "#4e72b8"
 					},
-					/*{
+					{
 						name: '客户退货记录',
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
 						color: "#b3b242"
-					},*/
+					},
 					{
 						name: '盘点记录',
 						icon: 'file-o',
@@ -99,6 +99,12 @@
 						icon: 'pie-chart',
 						url: '/pages/report/chart/chart',
 						color: "#0c95bc"
+					},
+					{
+						name: '销售业绩',
+						icon: 'area-chart',
+						url: '/pages/report/staffChart/staffChart',
+						color: "#4f77bb"
 					},
 				],
 
@@ -178,10 +184,10 @@
 							}
 							let manage_rights = []
 							let record_rights = []
-							for (let item in rights) {
+							for (let item of rights) {
 								manage_rights.push(that.optionsLists[item])
 							}
-							for (let item in recordRights) {
+							for (let item of recordRights) {
 								record_rights.push(that.secOptionsLists[item])
 							}
 							that.now_optionsLists = manage_rights

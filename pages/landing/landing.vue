@@ -18,22 +18,22 @@
 				<view class='input_view'><input placeholder='请输入手机号' class='input_element' name="phone" @input='get_InputPhone'
 					 maxlength="11" type="number"></input></view>
 				<view class='input_view_flex'>
-					<view style='width:60%'><input placeholder='请输入验证码' class='input_element' maxlength='6' name="sms_code"  type="number"></input></view>
+					<view style='width:60%'><input placeholder='请输入验证码' class='input_element' maxlength='6' name="sms_code" type="number"></input></view>
 					<view><button plain="true" class='get_smscode' @click='get_smscode' :disabled='code_button_state'>{{code_text}}</button></view>
 				</view>
 
 				<view><button class='login_button' plain="true" form-type="submit" hover-class="bg_button">登陆</button></view>
 				<navigator open-type='navigate' url='../staff_landing/staff_landing'><button class='staff_login_button' plain="true"
-					 hover-class="bg_button">员工登陆</button></navigator>
+					 hover-class="bg_button">账号密码登陆</button></navigator>
 			</form>
 		</view>
-		
+
 		<!-- 底部信息 -->
 		<navigator class="footer" url="/pages/register/register" open-type="navigate" hover-class="none">
 			<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
 			<view>注册账号</view>
 		</navigator>
-		
+
 		<view style="color: #0081FF;font-size: 20rpx;margin-top: 10rpx;padding: 0 40rpx;">
 			<fa-icon type="info-circle" size="10" color="#0081FF" style="margin-right: 10rpx;"></fa-icon>
 			登陆说明：登陆之后，您可以使用关于一些进销存的功能（包含进库、出库、入库...）
@@ -104,8 +104,8 @@
 			//登陆提交
 			formSubmit(e) {
 				console.log(e)
-				let phone = Number(e.detail.value.phone);
-				let sms_code = Number(e.detail.value.sms_code);
+				let phone =e.detail.value.phone;
+				let sms_code = e.detail.value.sms_code;
 
 				if (e.detail.value.phone.length < 11) {
 					uni.showToast({
@@ -118,16 +118,59 @@
 						icon: "none"
 					})
 				} else {
-					Bmob.User.signOrLoginByMobilePhone(phone, sms_code).then(res => {
-						console.log(res);
-						uni.setStorageSync("user", res)
-						uni.setStorageSync("masterId", res.objectId)
-						uni.setStorageSync("identity", 1); //1是老板，2是员工
-						uni.setStorageSync("uid", res.objectId)
-						uni.switchTab({
-							url: "/pages/tarBar/index"
+					let smsCode = sms_code
+					let data = {
+					  mobilePhoneNumber: phone
+					}
+					Bmob.verifySmsCode(smsCode ,data).then(function(response) {
+						console.log(response);
+						const query = Bmob.Query("_User");
+						query.equalTo("mobilePhoneNumber", "==", phone);
+						query.find().then(res => {
+							console.log(res)
+							if ((res[0].masterId && res[0].masterId.objectId) || res[0].identity == 2) {
+								let now_staff = res[0]
+								let master = res[0].masterId
+								uni.hideLoading();
+								if (master.is_vip) {
+									now_staff.is_vip = true
+									now_staff.vip_time = master.vip_time
+								} else {
+									now_staff.is_vip = false
+									now_staff.vip_time = 0
+								}
+							
+								uni.setStorageSync("user", now_staff)
+								uni.setStorageSync("identity", 2) //1是老板，2是员工
+								uni.setStorageSync("masterId", res[0].objectId)
+								uni.setStorageSync("uid", master[0].objectId)
+							}else{
+								uni.setStorageSync("user", res[0])
+								uni.setStorageSync("masterId", res[0].objectId)
+								uni.setStorageSync("identity", 1); //1是老板，2是员工
+								uni.setStorageSync("uid", res[0].objectId)
+								uni.switchTab({
+									url: "/pages/tarBar/index"
+								});
+								
+								if(res[0].pwd){
+									Bmob.User.login(res[0].username, res[0].pwd).then(res => {
+										console.log(res)
+									}).catch(err => {
+										console.log(err)
+									});
+								}else{
+									Bmob.User.login(res[0].username, res[0].username).then(res => {
+										console.log(res)
+									}).catch(err => {
+										console.log(err)
+									});
+								}
+							}
+							
 						});
-					}).catch(err => {
+
+					}).catch(function(error) {
 						uni.showToast({
 							title: '验证码或手机号错误',
 							icon: "none"
@@ -142,19 +185,19 @@
 </script>
 
 <style>
-	.footer{
+	.footer {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		font-size: 28upx;
 		margin-top: 180upx;
-		color: rgba(0,0,0,0.7);
+		color: rgba(0, 0, 0, 0.7);
 		text-align: center;
 		height: 40upx;
 		line-height: 40upx;
 	}
-	
+
 	page {
 		background: #fff;
 		text-align: center;

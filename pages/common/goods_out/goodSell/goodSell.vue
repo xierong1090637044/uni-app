@@ -36,17 +36,17 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="custom.discount">
+							<view style="width: 140rpx;">折扣率</view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
+								 @input="getDiscount" />%
+							</view>
+						</view>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
 								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 300rpx;">仓库<text style="font-size: 20rpx;color: #CCCCCC;">（不选代表暂不出库）</text></view>
-							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -64,19 +64,7 @@
 								<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="custom.discount">
-							<view style="width: 140rpx;">折扣率</view>
-							<view class="kaidan_rightinput display_flex">
-								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
-								 @input="getDiscount" />%
-							</view>
-						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
-								 type="digit" /></view>
-						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view style="width: 140rpx;">销售时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -85,11 +73,17 @@
 								</view>
 							</picker>
 						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
+								 type="digit" /></view>
+						</view>
+						
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+						</view>
 					</view>
-				</view>
-
-				<view style='margin-top:20px'>
-					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu" fixed="true"></input>
 				</view>
 
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
@@ -153,6 +147,8 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
+				allCostPrice:0,//成本总额
+				really_total_money:0,
 				custom: null, //制造商
 				outType: '', //发货方式
 				discount: '', //会员率
@@ -192,6 +188,8 @@
 			this.really_total_money = 0
 			this.all_money = 0
 			this.real_money = 0
+			this.total_num = 0
+			that.allCostPrice = 0
 
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
@@ -209,6 +207,7 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 					this.total_num += Number(this.products[i].num)
+					that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
 				}
 				this.really_total_money = this.really_total_money * that.discount / 100
 				this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100
@@ -218,6 +217,7 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 					this.total_num += Number(this.products[i].num)
+					that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
 				}
 				this.real_money = Number(this.all_money.toFixed(2))
 			}
@@ -354,6 +354,7 @@
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', Number(this.products[i].total_money));
 					tempBills.set('really_total_money', Number(this.products[i].really_total_money));
+					tempBills.set('allCostPrice', Number(that.products[i].num)*Number(that.products[i].costPrice));
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
 					tempBills.set('type', -1);
@@ -424,6 +425,8 @@
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
+						query.set("allCostPrice", that.allCostPrice);
+						query.set("profit", that.all_money - that.allCostPrice);
 						if (that.discount) query.set('discount', that.discount);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
@@ -582,10 +585,9 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		padding: 20rpx;
-		font-size: 32rpx;
 		max-height: 100rpx;
 	}
 

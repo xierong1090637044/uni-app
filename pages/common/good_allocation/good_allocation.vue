@@ -8,19 +8,27 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-
-						<view class='margin-t-5 display_flex'>
-							调出仓库：
-							<view>{{stock.stock_name}}</view>
+						<view class='margin-t-5 display_flex_bet'>
+							<view v-if="item.stocks && item.stocks.stock_name">调出仓库：{{item.stocks.stock_name}}</view>
+							<view v-else>调出仓库：未填写</view>
+							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
 						<view class='margin-t-5'>
 							调出库存：
 							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="Number(item.reserve)" />
 						</view>
-						<view class="bottom_del">
+						<view class="bottom_del display_flex_bet">
+							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
+							<navigator class='del'  style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'" v-else>
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
 							<view class='del' @click="handleDel(index)">
-								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+								<fa-icon type="close" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">删除</text>
 							</view>
 						</view>
 					</view>
@@ -52,7 +60,6 @@
 		data() {
 			return {
 				products: null,
-				stock: uni.getStorageSync("warehouse")[0].stock
 			}
 		},
 
@@ -63,7 +70,7 @@
 
 			if (options.id) {
 				uni.showLoading({title:"加载中..."})
-				const query = Bmob.Query('NGoods');
+				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
 				} else {
@@ -87,12 +94,6 @@
 					uni.hideLoading()
 				})
 			} else {
-				/*let products = []
-				for(let item of uni.getStorageSync("products")){
-					if(item.stocks && item.stocks.stock_name){
-						products.push(item)
-					}
-				}*/
 				this.products = uni.getStorageSync("products")
 			}
 
@@ -107,7 +108,7 @@
 						let result = res.result;
 						let array = result.split("-");
 
-						const query = Bmob.Query('NGoods');
+						const query = Bmob.Query('Goods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
 						} else {
@@ -214,8 +215,9 @@
 		background: #aa2116;
 		color: #fff;
 		justify-content: flex-end;
-		padding: 4rpx 12rpx;
+		padding: 4rpx 20rpx;
 		border-radius: 8rpx;
+		font-size: 20rpx;
 	}
 
 	.input_label {

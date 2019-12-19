@@ -83,6 +83,7 @@
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';
 	import Bmob from "hydrogen-js-sdk";
+	import notice from '@/utils/notice.js';
 	let that;
 	let uid;
 
@@ -142,6 +143,7 @@
 				total_money: 0,
 				total_products: 0,
 				openid: '',
+				user: uni.getStorageSync("user"),
 			}
 		},
 		onLoad(options) {
@@ -181,6 +183,31 @@
 		onShow() {
 			that.gettoday_detail();
 			that.loadallGoods();
+			
+			if(uni.getStorageSync("user")){
+				that.gettoday_detail();
+				that.loadallGoods();
+				mine.query_setting();
+				if (that.user.rights && that.user.rights.othercurrent) {
+					that.othercurrent = that.user.rights.othercurrent
+				}
+				
+				notice.getNoticeList(1).then(res=>{
+					that.noticeText = res[0].content
+					console.log(res)
+				})
+			}else{
+				setTimeout(function(){
+					uni.showToast({
+						title:"请先登录",
+						icon:"none"
+					})
+				},1000)
+				
+				uni.reLaunch({
+					url:"/pages/landing/landing"
+				})
+			}
 			//that.get_logsList();
 		},
 

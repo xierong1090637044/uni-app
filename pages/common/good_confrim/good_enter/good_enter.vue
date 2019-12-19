@@ -40,7 +40,7 @@
 							</view>
 						</navigator>
 
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">入库时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -49,11 +49,11 @@
 								</view>
 							</picker>
 						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">备注</view>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+						</view>
 					</view>
-				</view>
-
-				<view style='margin-top:20px'>
-					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 				</view>
 
 				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
@@ -436,10 +436,9 @@
 	}
 
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		padding: 20rpx;
-		font-size: 32rpx;
 		max-height: 100rpx;
 	}
 

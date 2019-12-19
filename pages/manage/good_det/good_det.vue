@@ -21,28 +21,30 @@
 					<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
 					<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 					<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
-					
+
 					<view v-if="product.goodsClass && product.goodsClass.class_text">
-						 所属分类 
-						 <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text>
-						 <text style="margin-left: 20rpx;color: #3D3D3D;" v-if="product.second_class && product.second_class.class_text">{{product.second_class.class_text}}</text>
+						所属分类
+						<text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text>
+						<text style="color: #3D3D3D;" v-if="product.second_class && product.second_class.class_text">
+							<text style="color: #2ca879;">-></text>{{product.second_class.class_text}}
+						</text>
 					</view>
-					
-					<view class="display_flex">
+
+					<view class="display_flex_bet">
 						<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
 						<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num ?product.max_num:0}}</text></view>
 					</view>
-					
+
 					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+product.objectId">
 						<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
 						<fa-icon type="angle-right" size="20" color="#999" />
 					</navigator>
-					
+
 					<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
 					<view>创建时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.createdAt}}</text></view>
-					
+
 					<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
-					
+
 					<view class="display_flex">
 						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
 						<navigator hover-class="none" :url="'../operations/operations?objectId='+product.objectId+'&goodsName='+product.goodsName"
@@ -52,7 +54,8 @@
 						<view class="opion_item" @click='print_info(product)'>打印</view>
 						<view class="opion_item" @click='modify(product)'>编辑</view>
 						<view class="opion_item" @click='add_badnum(product)'>记录货损</view>
-						<view class="opion_item" @click='delete_good(product.objectId)'>删除</view>
+						<view class="opion_item" @click='delete_good(product.objectId)'>全部删除</view>
+						<navigator class="opion_item" url="/pages/manage/warehouse/warehouse?type=choose" hover-class="none">关联新的仓库</navigator>
 					</view>
 
 				</view>
@@ -66,15 +69,19 @@
 				</view>
 
 				<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
-					<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+					<view class="display_flex_bet">
+						<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+						<view class="opion_item" @click='delete_singlegood(item.good_id)'>删除</view>
+					</view>
 
 					<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
-					<view v-if="item.models" style="color: #3D3D3D;">
-						<view v-for="(model,index) in item.models" :key="index" class="display_flex_bet">
+					<view v-if="item.now_model" style="color: #3D3D3D;">
+						<view v-for="(model,index) in item.now_model" :key="index" class="display_flex_bet">
 							<view style="font-size: 24rpx;">{{model.custom1.value}}{{model.custom2.value}}{{model.custom3.value}}{{model.custom4.value}}</view>
 							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
 						</view>
 					</view>
+					
 				</view>
 				
 				<view class="second_one">
@@ -84,7 +91,6 @@
 						 unit="rpx" @result="qrR" />
 					</view>
 				</view>
-
 			</view>
 
 			<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
@@ -138,7 +144,8 @@
 			that = this;
 			uid = uni.getStorageSync("uid");
 			uni.removeStorageSync("now_model")
-
+			uni.removeStorageSync("warehouse")
+			
 			console.log(options)
 			// #ifdef H5
 			this.$wechat.share_pyq();
@@ -149,7 +156,47 @@
 			} else {
 				that.getDetail_noId()
 			}
+		},
 
+		onShow() {
+			if (uni.getStorageSync("warehouse")) {
+				let thisStock = uni.getStorageSync("warehouse")
+				uni.showModal({
+					title: '提示',
+					content: '是否将该产品添加到' + thisStock[0].stock.stock_name + "这个仓库",
+					success: function(res) {
+						if (res.confirm) {
+							const query = Bmob.Query("NGoods");
+							query.equalTo("userId", "==", uid);
+							query.equalTo("header", "==", that.product.objectId);
+							query.equalTo("stocks", "==", thisStock[0].stock.objectId);
+							query.find().then(res => {
+								console.log(res)
+								if (res.length == 0) {
+									that.upload_good_withNoCan(that.product,thisStock[0].stock).then(res=>{
+										if(res[0]){
+											uni.removeStorageSync("warehouse")
+											uni.showToast({
+												title: "关联成功",
+												icon: 'none'
+											})
+											that.getDetail_noId()
+										}
+									})
+								} else {
+									uni.showToast({
+										title: "该仓库已有此产品",
+										icon: 'none'
+									})
+								}
+							});
+
+						} else if (res.cancel) {
+							uni.removeStorageSync("warehouse")
+						}
+					},
+				})
+			}
 		},
 
 		//分享
@@ -159,12 +206,77 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表-' + product.goodsName + '的详情',
-				path: '/pages/manage/good_det/good_det?id=' + product.objectId + '&type="false"'
+				title: '库存表-' + that.product.goodsName + '的详情',
+				path: '/pages/manage/good_det/good_det?id=' + that.product.objectId + '&type="false"'
 			}
 		},
 
 		methods: {
+
+			upload_good_withNoCan(good, stock) {
+				return new Promise((resolve, reject) => {
+					let uid = uni.getStorageSync("uid");
+					const pointer = Bmob.Pointer('_User')
+					const userid = pointer.set(uid)
+					const pointer1 = Bmob.Pointer('stocks')
+					const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
+
+					const pointer2 = Bmob.Pointer('NGoods')
+					const p_good_id = pointer2.set(good.objectId) //仓库的id关联
+
+					const query = Bmob.Query('NGoods');
+					query.set("goodsName", good.goodsName)
+					query.set("costPrice", good.costPrice)
+					query.set("retailPrice", good.retailPrice)
+					if (good.models) query.set("models", good.models)
+					query.set("reserve", 0)
+					query.set("stocks", p_stock_id)
+					query.set("header", p_good_id)
+					query.set("order", 1)
+					query.set("userId", userid)
+					query.save().then(res => {
+						console.log(res)
+						resolve([true, res])
+					}).catch(err => {
+						console.log(err)
+					})
+
+				})
+			},
+
+			//删除商品
+			delete_singlegood(objectId) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除该商品',
+					success: function(res) {
+						if (res.confirm) {
+							const query = Bmob.Query('NGoods');
+							query.destroy(objectId).then(res => {
+								console.log(res)
+								const query1 = Bmob.Query("NGoods");
+								query1.equalTo("header", "==", that.product.objectId);
+								query1.equalTo("order", "==", 1);
+								query1.statTo("sum", "reserve");
+								query1.find().then(res => {
+									console.log("dasds", res)
+									let now_reserve = res[0]._sumReserve
+									const query = Bmob.Query('NGoods');
+									query.set('reserve', now_reserve)
+									query.set('stocktype', (now_reserve > that.product.warning_num) ? 1 : 0)
+									query.set('id', that.product.objectId)
+									query.save().then(res => {
+										that.getDetail_noId()
+									})
+								})
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+					}
+				});
+
+			},
 
 			//得到产品详情 有id
 			getDetail_byId(id, type) {
@@ -179,7 +291,7 @@
 					query.equalTo("productCode", "==", id)
 				}
 				query.equalTo("userId", "==", uid);
-				query.equalTo("order", "!=", 1);
+				///query.equalTo("order", "!=", 1);
 				query.find().then(res => {
 					console.log(res)
 					this.product = res[0];
@@ -190,23 +302,27 @@
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.include("stocks", "goodsClass", "second_class");
-					query.equalTo("header", "==", product.objectId);
+					query.equalTo("goodsName", "==", product.goodsName);
 					query.find().then(res => {
 						for (let item of res) {
-							if(item.order == 1){
+							if (item.order != 0) {
 								let stocks_o = {}
 								stocks_o.stock_name = item.stocks.stock_name
 								stocks_o.objectId = item.stocks.objectId
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
+								stocks_o.now_model = item.models
+								stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
 							}
 						}
-						
+
+						this.product = product;
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
+						this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
 						that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 						that.loading = false
@@ -229,15 +345,17 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.include("stocks", "goodsClass", "second_class");
-				query.equalTo("header", "==", product.objectId);
+				query.equalTo("goodsName", "==", product.goodsName);
 				query.find().then(res => {
 					for (let item of res) {
-						if(item.order == 1){
+						if (item.order != 0) {
 							let stocks_o = {}
 							stocks_o.stock_name = item.stocks.stock_name
 							stocks_o.objectId = item.stocks.objectId
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
+							stocks_o.now_model = item.models
+							stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
@@ -247,11 +365,12 @@
 					this.product = product;
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
+					this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
 					that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
 					that.loading = false
 					uni.hideLoading()
-					uni.setStorageSync("now_product",this.product)
+					uni.setStorageSync("now_product", this.product)
 					console.log(this.product)
 				})
 			},
@@ -307,7 +426,7 @@
 			//生成二维码
 			show_qrcode(item) {
 				that.is_show = true,
-				that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+					that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
 			},
 
 			//分库存的switch点击
@@ -323,7 +442,7 @@
 			//产品信息修改点击
 			modify() {
 				uni.navigateTo({
-					url: '../good_add/good_add'
+					url: '../good_add/good_add?type=more'
 				});
 			},
 
@@ -355,35 +474,35 @@
 						if (res.confirm) {
 
 							uni.setStorageSync("is_add", true)
-							
+
 							const query = Bmob.Query('NGoods');
-							
+
 							query.destroy(objectId).then(res => {
 								const query = Bmob.Query('NGoods');
 								// 单词最多删除50条
 								query.equalTo("header", "==", objectId);
 								query.equalTo("userId", "==", uid);
 								query.find().then(todos => {
-								  todos.destroyAll().then(res => {
-								    // 成功批量修改
-								    console.log(res,'ok')
+									todos.destroyAll().then(res => {
+										// 成功批量修改
+										console.log(res, 'ok')
 										uni.navigateBack({
 											delta: 1
 										})
-										
+
 										setTimeout(function() {
 											uni.showToast({
 												title: "删除成功"
 											})
 										}, 1000)
-										
-								  }).catch(err => {
-								    console.log(err)
-								  });
+
+									}).catch(err => {
+										console.log(err)
+									});
 								})
-								
+
 							}).catch(err => {
-							  console.log(err)
+								console.log(err)
 							})
 						}
 					}

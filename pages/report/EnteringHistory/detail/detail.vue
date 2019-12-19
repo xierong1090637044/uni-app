@@ -121,10 +121,15 @@
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
+						<view class="display_flex">
+							<view class="left_content">出库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
+							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -147,10 +152,15 @@
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
 						</view>
+						<view class="display_flex">
+							<view class="left_content">入库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已入库</view>
+							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 140rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -210,21 +220,6 @@
 				</view>
 			</scroll-view>
 
-			<view class="operater_status" v-if="detail.type==1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单未入库</text>
-				<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text>
-			</view>
-			<view class="operater_status" v-else-if="detail.type==1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔采购单已入库</text>
-			</view>
-
-			<view class="operater_status" v-if="detail.type==-1&&detail.extra_type == 1&&detail.status== false">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单未出库</text>
-				<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text>
-			</view>
-			<view class="operater_status" v-else-if="detail.type==-1&&detail.extra_type == 1&&detail.status" style="background: #2ca879;">
-				<text style="font-size: 30rpx;font-weight: bold;">该笔销售单已出库</text>
-			</view>
 		</view>
 
 	</view>

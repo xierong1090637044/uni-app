@@ -13,26 +13,45 @@
 				</view>
 			</view>
 
-			<view style="margin: 30rpx 0;">
-				<view style="margin:0 0 10rpx 10rpx;">开单明细</view>
-				<view class="kaidan_detail" style="line-height: 70rpx;">
-
-					<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose">
-						<view>选择调入仓库</text></view>
-						<view class="kaidan_rightinput"><input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name" /></view>
-					</navigator>
-				</view>
-			</view>
-
 			<form @submit="formSubmit">
-
-				<view style='margin-top:20px'>
-					<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+			
+				<view style="margin: 30rpx 0;">
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">调拨明细</view>
+					<view class="kaidan_detail" style="line-height: 70rpx;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose"
+						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>调入仓库</text></view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name"  style="margin-right: 20rpx;text-align: right;"/>
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">调拨时间</view>
+							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange2" @click.stop>
+								<view style="display: flex;align-items: center;">
+									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
+									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+								</view>
+							</picker>
+						</view>
+			
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="width: 140rpx;">备注</view>
+							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
+						</view>
+			
+					</view>
 				</view>
-
-				<view style="padding: 0 30rpx;margin-top: 60rpx;">
-					<button class='confrim_button' :disabled='button_disabled' form-type="submit">确认调拨</button>
+			
+				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
+					<view>总数：{{total_num}}</view>
+					<view class="display_flex">
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit">调拨</button>
+					</view>
+			
 				</view>
+			
 			</form>
 
 		</view>
@@ -61,6 +80,9 @@
 				out_products: [], //调入的商品
 				all_money: 0,
 				real_money: 0,
+				total_num: 0, //实际的总数量
+				
+				nowDay: common.getDay(0, true, true), //入库时间
 			}
 		},
 		onLoad() {
@@ -70,6 +92,7 @@
 			this.products = uni.getStorageSync("products");
 			for (let i = 0; i < this.products.length; i++) {
 				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+				this.total_num += Number(this.products[i].num)
 			}
 			this.real_money = Number(this.all_money.toFixed(2))
 		},
@@ -421,18 +444,28 @@
 		height: 100vh;
 		overflow: scroll;
 	}
-
+	
+	.bottomEle {
+		font-weight: bold;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: calc(100% - 30rpx);
+		background: #FAFAFA;
+		padding: 20rpx 0rpx 20rpx 30rpx;
+	}
+	
 	.pro_list {
 		display: flex;
 		justify-content: space-between;
 	}
-
+	
 	.pro_listitem {
 		background-color: #fff;
 		padding: 10rpx 20rpx;
 		border-bottom: 1rpx solid#ddd;
 	}
-
+	
 	.pro_allmoney {
 		background-color: #fff;
 		padding: 10rpx 20rpx;
@@ -440,19 +473,21 @@
 		font-size: 32rpx;
 		color: #f30
 	}
-
+	
 	.beizhu_style {
+		text-align: right;
 		width: calc(100% - 40rpx);
 		background-color: #fff;
-		padding: 20rpx;
-		font-size: 32rpx;
+		padding: 10rpx 0;
 		max-height: 100rpx;
 	}
-
+	
 	.confrim_button {
-		background: #aa2116;
+		background: #644fbb;
 		color: #fff;
 		font-weight: bold;
 		font-size: 32rpx;
+		border-radius: unset;
+		padding: 0 50rpx;
 	}
 </style>

@@ -16,9 +16,9 @@
 
 			<view style='padding:30rpx 60rpx;margin:5% 0'>
 				<form bindsubmit="formSubmit">
-					<view class='input_view'><input placeholder='请输入手机号' class='input_element' maxlength='11' v-model="phone" type="number"></input></view>
+					<view class='input_view'><input placeholder='请输入账号' class='input_element' maxlength='11' v-model="phone" type="text"></input></view>
 					<view class='input_view_flex'>
-						<view style='width:100%'><input placeholder='请输入密码' class='input_element' name="password" v-model="password" type="number"></input></view>
+						<view style='width:100%'><input placeholder='请输入密码' class='input_element' name="password" v-model="password" type="text"></input></view>
 					</view>
 
 					<view><button class='login_button' plain="true" hover-class="bg_button" @click="staff_login">登陆</button></view>
@@ -55,39 +55,48 @@
 						icon: "none"
 					})
 				} else {
-					Bmob.User.login(that.phone,that.password).then(res => {
-					   console.log(res)
-						 let now_staff = res
-						 const query = Bmob.Query('_User');
-						 query.get(now_staff.masterId.objectId).then(res => {
-						   console.log(res)
-							 let master = res
-							 uni.hideLoading();
-							 if(master.is_vip){
-							 	now_staff.is_vip = true
-							 	now_staff.vip_time = master.vip_time
-							 }else{
-							 	now_staff.is_vip = false
-							 	now_staff.vip_time = 0
-							 }
-							 now_staff.masterId = master
-							 uni.setStorageSync("user", now_staff)
-							 uni.setStorageSync("identity", 2) //1是老板，2是员工
-							 uni.setStorageSync("masterId", master.objectId)
-							 uni.setStorageSync("uid", master.objectId)
-							 						 
-							 uni.switchTab({
-							 	url: "/pages/tarBar/index"
-							 });
-							 
-						 }).catch(err => {
-						   console.log(err)
-						 })
-						 
-					 }).catch(err => {
-					  console.log(err)
+					uni.showLoading({
+						title: "登录中..."
+					})
+
+					Bmob.User.login(that.phone, that.password).then(res => {
+						console.log(res)
+						if ((res.masterId && res.masterId.objectId) || res.identity == 2) {
+							let now_staff = res
+							let master = res.masterId
+							uni.hideLoading();
+							if (master.is_vip) {
+								now_staff.is_vip = true
+								now_staff.vip_time = master.vip_time
+							} else {
+								now_staff.is_vip = false
+								now_staff.vip_time = 0
+							}
+
+							uni.setStorageSync("user", now_staff)
+							uni.setStorageSync("identity", 2) //1是老板，2是员工
+							uni.setStorageSync("masterId", res.objectId)
+							uni.setStorageSync("uid", master.objectId)
+						} else {
+							uni.setStorageSync("user", res)
+							uni.setStorageSync("masterId", res.objectId)
+							uni.setStorageSync("identity", 1); //1是老板，2是员工
+							uni.setStorageSync("uid", res.objectId)
+						}
+						uni.switchTab({
+							url: "/pages/tarBar/index"
+						});
+
+					}).catch(err => {
+						console.log(err)
+						if (err.code == 101) {
+							uni.showToast({
+								title: "账号密码不正确",
+								icon: 'none'
+							})
+						}
 					});
-					
+
 					/*uni.showLoading({title:"登录中..."})
 					const query = Bmob.Pointer('_User');
 					query.equalTo("mobilePhoneNumber", "==", that.phone);
