@@ -46,7 +46,7 @@
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 			</view>
-			<navigator class='display_flex_bet item1' hover-class="none" url="/pages/mine/vip/vip">
+			<navigator class='display_flex_bet item1' hover-class="none" url="/pages/mine/vip/vip" v-if="vipShow">
 				<view>是否已是会员</view>
 				<view class='display_flex right_item' v-if="userInfo.is_vip">
 					<text>是</text>
@@ -96,11 +96,19 @@
 				userInfo: '',
 				modal_show: false,
 				identity: uni.getStorageSync("identity"),
-				sexs: ["男", "女"]
+				sexs: ["男", "女"],
+				vipShow:false,
 			}
 		},
 		onLoad() {
 			that = this
+			const query = Bmob.Query('wc_setting');
+			query.get('FtIO888D').then(res => {
+			  //console.log(res)
+				that.vipShow = res.isShow
+			}).catch(err => {
+			  console.log(err)
+			})
 		},
 
 		onShow() {

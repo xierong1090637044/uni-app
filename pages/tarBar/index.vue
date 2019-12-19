@@ -75,12 +75,12 @@
 				<view class='o_text'>{{value.name}}</view>
 			</navigator>
 
-			<!--<view class='o_item' @click="navigateToKCB">
+			<view class='o_item' @click="navigateToKCB">
 				<view style='width:100%'>
 					<image src="/static/newVer.png" class='o_image' />
 				</view>
 				<view class='o_text'>库存表KCB版</view>
-			</view>-->
+			</view>
 		</view>
 		<view class='scan_code display_flex' @click='scan_code'>
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
@@ -126,11 +126,11 @@
 						icon: '/static/delivery.png',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=2'
 					},
-					{
+					/*{
 						name: '产品调拨',
 						icon: '/static/allocation.png',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
-					},
+					},*/
 					{
 						name: '库存盘点',
 						icon: '/static/stocking.png',

@@ -43,7 +43,7 @@
 					<view class="text display_flex">消息中心<view class="weidu" v-if="noticeState"></view></view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="/pages/mine/vip/vip">
+				<navigator class="li " hover-class="none" url="/pages/mine/vip/vip" v-if="vipShow">
 					<fa-icon type="vimeo" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">会员中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
@@ -102,6 +102,7 @@
 			return {
 				noticeState:false,
 				user: null,
+				vipShow:false,
 			};
 		},
 		onLoad() {
@@ -133,6 +134,14 @@
 							that.noticeState = true
 						}
 					}
+					const query = Bmob.Query('wc_setting');
+					query.get('FtIO888D').then(res => {
+					  //console.log(res)
+						that.vipShow = res.isShow
+					}).catch(err => {
+					  console.log(err)
+					})
+					
 				});
 			},
 		}
