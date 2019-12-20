@@ -159,7 +159,7 @@
 			} else if (option.type == "delivery") {
 				this.url = "../goods_out/goods_out?value="+option.value
 			} else if (option.type == "returing") {
-				this.url = "../good_return/good_return"
+				this.url = "../good_return/good_return?value="+option.value
 			} else if (option.type == "counting") {
 				this.url = "../good_count/good_count"
 			} else if (option.type == "allocation") {

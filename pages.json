@@ -101,11 +101,6 @@
 				"navigationBarTitleText": "产品出库"
 			}
 		}, {
-			"path": "pages/common/good_return/good_return",
-			"style": {
-				"navigationBarTitleText": "产品退货"
-			}
-		}, {
 			"path": "pages/common/good_count/good_count",
 			"style": {
 				"navigationBarTitleText": "产品盘点"
@@ -172,9 +167,22 @@
 		}, {
 			"path": "pages/common/goods_out/goodSell/goodSell",
 			"style": {}
+		}, {
+			"path": "pages/report/list/list",
+			"style": {}
+		} ,{
+			"path": "pages/common/good_return/good_return",
+			"style": {
+				"navigationBarTitleText": "销售退货"
+			}
+		},  {
+			"path": "pages/common/good_return/purchaseReturn/purchaseReturn",
+			"style": {
+				"navigationBarTitleText": "采购退货"
+			}
 		}
 	    ,{
-            "path" : "pages/report/list/list",
+            "path" : "pages/report/EnteringHistory/returnDetail/returnDetail",
             "style" : {}
         }
     ],

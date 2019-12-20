@@ -81,6 +81,11 @@
 						icon: 'file-o',
 						url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
 						color: "#b3b242"
+					},{
+						name: '采购退货记录',
+						icon: 'file-o',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=4',
+						color: "#b04fbb"
 					},
 					{
 						name: '盘点记录',

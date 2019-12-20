@@ -18,20 +18,20 @@
 						<view>实际零售价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.total_money}}</view>
 					</view>
-					
+
 				</view>
 			</view>
 
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">销售退货明细</view>
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">采购退货明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
-							<view class="kaidan_rightinput display_flex">
-								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
+							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
+								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -82,7 +82,7 @@
 						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售退货</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购退货</button>
 					</view>
 
 				</view>
@@ -119,8 +119,8 @@
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
-				allCostPrice:0,//成本总额
-				really_total_money:0,
+				allCostPrice: 0, //成本总额
+				really_total_money: 0,
 				custom: null, //制造商
 				outType: '', //发货方式
 				discount: '', //会员率
@@ -163,7 +163,7 @@
 			this.total_num = 0
 			that.allCostPrice = 0
 
-			that.custom = uni.getStorageSync("custom")
+			that.producer = uni.getStorageSync("producer")
 			shop = uni.getStorageSync("shop");
 
 			if (shop) {
@@ -177,7 +177,7 @@
 				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 				this.total_num += Number(this.products[i].num)
-				that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
+				that.allCostPrice = that.allCostPrice + (Number(that.products[i].num) * Number(that.products[i].costPrice))
 			}
 			this.real_money = Number(this.all_money.toFixed(2))
 
@@ -185,8 +185,8 @@
 		},
 		methods: {
 			//选择时间
-			bindDateChange(e){
-				that.nowDay = e.detail.value+" 00:00:00"
+			bindDateChange(e) {
+				that.nowDay = e.detail.value + " 00:00:00"
 			},
 
 			//移除此张照片
@@ -235,11 +235,11 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
-				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
+
+				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
 					uni.showToast({
 						icon: "none",
-						title: "请选择客户"
+						title: "请选择供应商"
 					});
 					this.button_disabled = false;
 					return;
@@ -261,37 +261,28 @@
 					let pointer1 = Bmob.Pointer('NGoods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
 
-					if (uni.getStorageSync("custom")) {
-						let pointer3 = Bmob.Pointer('customs')
-						let custom = pointer3.set(uni.getStorageSync("custom").objectId)
-						tempBills.set('custom', custom);
+					if (uni.getStorageSync("producer")) {
+						let pointer3 = Bmob.Pointer('producers')
+						let producer = pointer3.set(uni.getStorageSync("producer").objectId)
+						tempBills.set('producer', producer);
 					}
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', Number(this.products[i].modify_retailPrice));
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', Number(this.products[i].total_money));
 					tempBills.set('really_total_money', Number(this.products[i].really_total_money));
-					tempBills.set('allCostPrice', Number(that.products[i].num)*Number(that.products[i].costPrice));
+					tempBills.set('allCostPrice', Number(that.products[i].num) * Number(that.products[i].costPrice));
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
-					tempBills.set('type', 2);
-					
+					tempBills.set('type', 4);
+
 					tempBills.set('opreater', operater);
 					tempBills.set("createdTime", {
 						"__type": "Date",
 						"iso": that.nowDay
 					});
-					
+
 					let goodsId = {}
-					/*if (that.stock && that.stock.objectId) {
-						const pointer = Bmob.Pointer('stocks');
-						let stockId = pointer.set(that.stock.objectId);
-						tempBills.set("status", true); // 操作单详情
-						tempBills.set("stock", stockId);
-						detailBills.stock = that.stock.stock_name
-					}else{
-						tempBills.set("status", false);
-					}*/
 					tempBills.set("status", false);
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
@@ -306,7 +297,7 @@
 						goodsId.models = this.products[i].models
 					}
 					detailBills.goodsId = goodsId
-					detailBills.type = 2
+					detailBills.type = 4
 					detailBills.num = this.products[i].num
 					detailBills.warning_num = this.products[i].warning_num
 
@@ -332,23 +323,22 @@
 						let masterId = uni.getStorageSync("masterId");
 						let pointer1 = Bmob.Pointer('_User')
 						let poiID1 = pointer1.set(masterId);
-						
-						let custom = Bmob.Pointer('customs');
-						let customID = custom.set(that.custom.objectId);
+
+						let producer = Bmob.Pointer('producers');
+						let producerID = producer.set(that.producer.objectId);
 
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
 						query.set("detail", detailObj);
 						query.set("bills", bills);
 						query.set("beizhu", e.detail.value.input_beizhu);
-						query.set("type", 2);
+						query.set("type", 4);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
 						query.set("allCostPrice", that.allCostPrice);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
-						query.set('debt', that.all_money - Number(that.real_money));
 						if (shop) query.set("shop", shopId);
 						query.set("createdTime", {
 							"__type": "Date",
@@ -357,7 +347,7 @@
 
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("custom", customID);
+						query.set("producer", producerID);
 						/*if (that.stock) {
 							const pointer = Bmob.Pointer('stocks');
 							let stockId = pointer.set(that.stock.objectId);
@@ -366,7 +356,7 @@
 						} else {
 							query.set("status", false); // 操作单详情
 						}*/
-						
+
 						query.set("status", false); // 操作单详情
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
@@ -375,7 +365,7 @@
 							uni.removeStorageSync("customs"); //移除这个缓存
 							if (that.stock) { // 执行入库操作
 								uni.showToast({
-									title: '销售退货成功',
+									title: '采购退货成功',
 									icon: 'success',
 									success: function() {
 										common.enterAddGoodNum(that.products).then(result => { //减少产品数量
@@ -389,7 +379,7 @@
 												uni.removeStorageSync("warehouse")
 
 												common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品的销售退货", 2, operationId);
+													that.products.length + "商品的采购退货", 4, operationId);
 												//自动打印
 												if (uni.getStorageSync("setting").auto_print) {
 													print.autoPrint(operationId);
@@ -406,7 +396,7 @@
 							} else { // 执行销售操作
 
 								uni.showToast({
-									title: '销售退货成功',
+									title: '采购退货成功',
 									icon: 'success',
 									success: function() {
 										that.button_disabled = false;
@@ -418,7 +408,7 @@
 											uni.removeStorageSync("warehouse")
 
 											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-												that.products.length + "商品的销售退货", 2, operationId);
+												that.products.length + "商品的采购退货", 4, operationId);
 
 											uni.navigateBack({
 												delta: 2

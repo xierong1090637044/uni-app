@@ -111,16 +111,12 @@
 						icon: '/static/allocation.png',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
 					},
-					/*{
-						name: '退货入库',
-						icon: '/static/return_goods.png',
-						url: '/pages/common/goods-select/goods-select?type=returing'
-					},*/
 					{
 						name: '库存盘点',
 						icon: '/static/stocking.png',
 						url: '/pages/common/goods-select/goods-select?type=counting'
 					},
+					
 					{
 						name: '采购',
 						icon: '/static/purchase.png',
@@ -131,6 +127,16 @@
 						icon: '/static/sell.png',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
 					},
+					{
+						name: '采购退货',
+						icon: '/static/return_goods.png',
+						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
+					},
+					{
+						name: '销售退货',
+						icon: '/static/return_goodsIn.png',
+						url: '/pages/common/goods-select/goods-select?type=returing&value=2'
+					},					
 					{
 						name: '使用手册',
 						icon: '/static/userInfo.png',

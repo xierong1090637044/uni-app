@@ -6,181 +6,27 @@
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
 			<scroll-view scroll-y="true" :style="{height:(detail.extra_type == 1&&detail.status== false?'calc(100vh - 170rpx)':'calc(100vh - 80rpx)')}">
 				<view style='line-height:70rpx;padding: 0 20rpx;'>操作产品</view>
-				<view v-if="detail.type == 3">
-					<view>
-						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-							<view class='pro_list' style='color:#000'>
-								<view>产品：{{item.goodsName}}</view>
-							</view>
-							<view class='pro_list'>
-								<view>盘点前库存：{{item.reserve}}</view>
-								<view>盘点后库存：{{item.now_reserve}}</view>
-							</view>
-						</view>
-					</view>
-				</view>
 
-				<view v-else-if="detail.type == 2">
+				<view>
 					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list_item' style='color:#000'>
-								<view>产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
+								<view>产品：{{item.goodsName}}</view>
 							</view>
 							<view class='pro_list'>
 								<view>退货数量：X{{item.num}}</view>
-								<view style="text-align: right;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
+								<view style="text-align: right;" v-if="detail.type == 2">建议零售价：￥{{item.goodsId.retailPrice}}</view>
+								<view style="text-align: right;" v-else-if="detail.type == 4">成本价：￥{{item.goodsId.costPrice}}</view>
 							</view>
 							<!--<view style="text-align: right;">总价：￥{{item.total_money}}</view>-->
 						</view>
 					</view>
 					<view class='pro_allmoney'>总计：￥{{detail.all_money}}</view>
 				</view>
-
-				<view v-else-if="detail.type == -2">
-					<view>
-						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-							<view class='pro_list' style='color:#000;border-bottom: 1rpx solid#EEEEEE;padding:0 0 10rpx;'>
-								<view>产品：{{item.goodsName}}</view>
-								<view>调拨数量：{{item.num}}</view>
-							</view>
-							<view class='pro_list' style="padding: 10rpx 0;">
-								<view>调出仓库：{{item.stock}}</view>
-								<view>调拨后库存：{{item.reserve - item.num}}</view>
-							</view>
-							<view class='pro_list'>
-								<view>调入仓库：{{item.out_stock}}</view>
-								<view>调拨后库存：{{item.out_reserve + item.num}}</view>
-							</view>
-						</view>
-					</view>
-					<view class='pro_allmoney' v-if="detail.type != -2">总计：￥{{detail.all_money}}</view>
-				</view>
-
-				<view v-else>
-					<view>
-						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-							<view class='pro_list_item' style='color:#000'>
-								<view>产品：{{item.goodsName}}
-									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
-									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
-								</view>
-							</view>
-							<view v-if="item.goodsId.selected_model">
-								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
-									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
-									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
-								</view>
-							</view>
-							<view class='pro_list'>
-								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
-								<view v-else>
-									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0（X{{item.num}}）</text>
-									<text v-else>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</text>
-								</view>
-							</view>
-
-							<!--<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
-							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>-->
-						</view>
-					</view>
-					<view class='pro_allmoney' v-if="user.rights&&user.rights.othercurrent[0] != '0'">总计：￥0</view>
-					<view class='pro_allmoney' v-else>总计：￥{{detail.all_money }}</view>
-				</view>
-
-				<view v-if="detail.type == -1">
-					<view class="kaidanmx" v-if="detail.extra_type == 1">
-						<view style="padding: 10rpx 30rpx;">销售明细</view>
-						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">客户姓名</view>
-							<view>{{detail.custom.custom_name}}</view>
-						</view>
-						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">折扣率</view>
-							<view>{{detail.discount}}%</view>
-						</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">实际付款</view>
-							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
-						</view>
-						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">欠款</view>
-							<view class="real_color">{{detail.debt}}</view>
-						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;">
-							<view class="display_flex">
-								<view class="left_content">发送方式</view>
-								<view class="real_color">{{detail.typeDesc}}</view>
-							</view>
-							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
-								<view class="real_color">{{detail.expressNum}}</view>
-							</view>
-						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
-						 @click="gotoexpressDet">
-							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
-							<fa-icon type="angle-right" size="20" color="#0a53c3" />
-						</view>
-						<view class="display_flex">
-							<view class="left_content">出库情况</view>
-							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
-							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
-						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-					</view>
-				</view>
-				
-				<!--入库以及采购明细-->
-				<view v-else-if="detail.type == 1">
-					<view class="kaidanmx" v-if="detail.extra_type == 1">
-						<view style="padding: 10rpx 30rpx;">采购明细</view>
-						<view v-if="detail.producer" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">供货商姓名</view>
-							<view>{{detail.producer.producer_name}}</view>
-						</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">实际付款</view>
-							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
-						</view>
-						<view class="display_flex" v-if="detail.debt > 0">
-							<view class="left_content">欠款</view>
-							<view class="real_color">{{detail.debt}}</view>
-						</view>
-						<view class="display_flex">
-							<view class="left_content">入库情况</view>
-							<view v-if="detail.status" style="color: #2ca879;">已入库</view>
-							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
-						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-					</view>
-					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
-						<view style="padding: 10rpx 30rpx;">入库明细</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">仓库</view>
-							<view>{{detail.stock.stock_name}}</view>
-						</view>
-						<view class="display_flex">
-							<view class="left_content">入库时间</view>
-							<view>{{detail.createdTime.iso}}</view>
-						</view>
-					</view>
-				</view>
 				
 				<!---退货明细-->
-				<view v-else-if="detail.type == 2">
-					<view class="kaidanmx">
+				<view>
+					<view class="kaidanmx" v-if="detail.type == 2">
 						<view style="padding: 10rpx 30rpx;">销售退货明细</view>
 						<view v-if="detail.custom" class="display_flex">
 							<view class="left_content">客户姓名</view>
@@ -198,6 +44,29 @@
 							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
 								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+					</view>
+					
+					<view class="kaidanmx" v-else-if="detail.type == 4">
+						<view style="padding: 10rpx 30rpx;">采购退货明细</view>
+						<view v-if="detail.producer" class="display_flex">
+							<view class="left_content">供货商姓名</view>
+							<view>{{detail.producer.producer_name}}</view>
+						</view>
+						<view v-else class="display_flex">
+							<view class="left_content">未记录供货商</view>
+						</view>
+						<view class="display_flex">
+							<view class="left_content">出库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
+							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						</view>
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
+							<view style="width: 150rpx;" class="left_content">出库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
+								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -232,7 +101,6 @@
 					</view>
 				</view>
 			</scroll-view>
-
 		</view>
 
 	</view>
@@ -291,7 +159,7 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表-操作单详情',
+				title: '库存表-销售退货单详情',
 				path: '/pages/report/EnteringHistory/detail/detail?id=' + id
 			}
 		},
@@ -321,82 +189,58 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = ['打印'];
-				if (that.detail.type == -1 || that.detail.type == 1) {
-					if (that.othercurrent.indexOf("3") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
-						
-						options =(that.detail.type==-1)? ['销售出库', '撤销', '打印']:['采购入库', '撤销', '打印']
-
-						uni.showActionSheet({
-							itemList: options,
-							success: function(res) {
-								if (res.tapIndex == 0) {
-									if (that.detail.type == 1) {
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔采购单已入库",
-												icon: "none"
-											})
-										}else{
-											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-												uni.showToast({
-													icon: "none",
-													title: "请选择仓库"
-												});
-												return;
-											}else{
-												that.confrimOrder()
-											}
-										}
-									}else if(that.detail.type == -1){
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔销售单已出库",
-												icon: "none"
-											})
-										}else{
-											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-												uni.showToast({
-													icon: "none",
-													title: "请选择仓库"
-												});
-												return;
-											}else{
-												that.confrimOrder()
-											}
-										}
+				let options = ['退货入库', '撤销', '打印'];
+				uni.showActionSheet({
+					itemList: options,
+					success: function(res) {
+						if (res.tapIndex == 0) {
+							if (that.detail.type == 2) {
+								if (that.detail.status) {
+									uni.showToast({
+										title: "该笔销售退货单已入库",
+										icon: "none"
+									})
+								}else{
+									if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
+										uni.showToast({
+											icon: "none",
+											title: "请选择仓库"
+										});
+										return;
+									}else{
+										that.confrimOrder()
 									}
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {
-									that.revoke()
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 2) {
-									print.print_operations(that.detail, that.products)
 								}
-							},
-							fail: function(res) {
-								console.log(res.errMsg);
-							}
-						});
-
-					} else {
-						options = ['撤销', '打印']
-						uni.showActionSheet({
-							itemList: options,
-							success: function(res) {
-								if (res.tapIndex == 0) {
-									that.revoke()
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {
-									print.print_operations(that.detail, that.products)
+							}else if(that.detail.type == 4){
+								if (that.detail.status) {
+									uni.showToast({
+										title: "该笔采购退货单已出库",
+										icon: "none"
+									})
+								}else{
+									if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
+										uni.showToast({
+											icon: "none",
+											title: "请选择仓库"
+										});
+										return;
+									}else{
+										that.confrimOrder()
+									}
 								}
-							},
-							fail: function(res) {
-								console.log(res.errMsg);
 							}
-						});
+							uni.setStorageSync("is_option", true)
+						} else if (res.tapIndex == 1) {
+							that.revoke()
+							uni.setStorageSync("is_option", true)
+						} else if (res.tapIndex == 2) {
+							print.print_operations(that.detail, that.products)
+						}
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
 					}
-				}
+				});
 			},
 
 			getdetail: function(id) {
@@ -424,40 +268,6 @@
 								title:"等待下次更新",
 								icon:'none'
 							})
-							/*uni.showLoading({
-								title: '撤销中...'
-							})
-							const query = Bmob.Query('order_opreations');
-							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('NBills');
-								query.containedIn("objectId", that.bills);
-								query.find().then(todos => {
-
-									todos.destroyAll().then(res => {
-										// 成功批量修改
-										if (that.detail.status) {
-											for (var i = 0; i < that.products.length; i++) {
-												that.delete_bill(i);
-											}
-										} else {
-											uni.hideLoading();
-											uni.navigateBack({
-												delta: 1
-											})
-											setTimeout(function() {
-												uni.showToast({
-													title: '撤销成功'
-												})
-											}, 1000);
-										}
-
-									}).catch(err => {
-										console.log(err)
-									});
-								})
-							}).catch(err => {
-								console.log(err)
-							})*/
 						}
 					}
 				})
@@ -483,12 +293,12 @@
 							query.save().then(res => {
 								//console.log(res)
 								let count = 0
-								if (that.detail.type == 1) {
+								if (that.detail.type == 2) {
 									for (let item of that.products) {
 										that.addOrReduceGoodReserve(item, count);
 										count += 1;
 									}
-								}else if(that.detail.type == -1){
+								}else if(that.detail.type == 4){
 									for (let item of that.products) {
 										that.ReduceGoodReserve(item, count);
 										count += 1;
@@ -502,7 +312,7 @@
 				})
 			},
 
-			//采购单确定采购入库之后改变产品库存
+			//销售退货单确定退货后改变产品库存
 			addOrReduceGoodReserve(product, count) {
 				
 				const query = Bmob.Query('NGoods');
@@ -538,7 +348,7 @@
 												that.getdetail(id);
 												setTimeout(function() {
 													uni.showToast({
-														title: '采购入库成功'
+														title: '入库成功'
 													})
 												}, 1000);
 												//console.log(res, 'ok')
@@ -589,7 +399,7 @@
 													that.getdetail(id);
 													setTimeout(function() {
 														uni.showToast({
-															title: '采购入库成功'
+															title: '退货入库成功'
 														})
 													}, 1000);
 													//console.log(res, 'ok')
@@ -641,7 +451,7 @@
 												that.getdetail(id);
 												setTimeout(function() {
 													uni.showToast({
-														title: '销售出库成功'
+														title: '采购退货出库成功'
 													})
 												}, 1000);
 												//console.log(res, 'ok')
@@ -693,7 +503,7 @@
 													that.getdetail(id);
 													setTimeout(function() {
 														uni.showToast({
-															title: '销售出库成功'
+															title: '采购退货出库成功'
 														})
 													}, 1000);
 													//console.log(res, 'ok')
