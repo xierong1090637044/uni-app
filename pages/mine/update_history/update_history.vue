@@ -15,7 +15,7 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.1.2 公测版</text>
-						<text class="desc-time">2019.12.18</text>
+						<text class="desc-time">2019.12.20</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
@@ -26,6 +26,9 @@
 						<text>增加商品列表分享页面，分享给客户选购产品（具体操作见操作手册）</text>
 						<text>批量调拨bug修复</text>
 						<text>新增销售业绩页面</text>
+						<text>新增畅销产品分析页面</text>
+						<text>新增销售采购图表</text>
+						<text>操作记录增加商品单位</text>
 					</view>
 				</view>
 				

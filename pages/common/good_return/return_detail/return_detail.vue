@@ -149,6 +149,7 @@
 			this.really_total_money = 0
 			this.all_money = 0
 			this.real_money = 0
+			this.total_num = 0
 
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
@@ -296,6 +297,7 @@
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
 					detailBills.total_money = this.products[i].total_money
+					detailBills.packingUnit = this.products[i].packingUnit
 					goodsId.costPrice = this.products[i].costPrice
 					goodsId.retailPrice = this.products[i].retailPrice
 					goodsId.objectId = this.products[i].objectId

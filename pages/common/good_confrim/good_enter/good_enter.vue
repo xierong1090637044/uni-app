@@ -252,6 +252,7 @@
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
 					detailBills.total_money = this.products[i].total_money
+					detailBills.packingUnit = this.products[i].packingUnit
 					goodsId.costPrice = this.products[i].costPrice
 					goodsId.retailPrice = this.products[i].retailPrice
 					goodsId.objectId = this.products[i].objectId
@@ -262,7 +263,6 @@
 					}
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
-
 					detailBills.type = 1
 
 					billsObj.push(tempBills)

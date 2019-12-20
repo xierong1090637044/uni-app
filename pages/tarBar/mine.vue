@@ -48,11 +48,11 @@
 					<view class="text">会员中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<!--<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
+				<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>-->
+				</navigator>
 				<navigator class="li noborder" hover-class="none" url="/pages/mine/setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
@@ -137,7 +137,11 @@
 					const query = Bmob.Query('wc_setting');
 					query.get('FtIO888D').then(res => {
 					  //console.log(res)
-						that.vipShow = res.isShow
+						if(that.user.objectId == "aXcyRBaf"){
+							that.vipShow = false
+						}else{
+							that.vipShow = res.isShow
+						}
 					}).catch(err => {
 					  console.log(err)
 					})

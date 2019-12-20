@@ -98,14 +98,20 @@
 				identity: uni.getStorageSync("identity"),
 				sexs: ["男", "女"],
 				vipShow:false,
+				user:''
 			}
 		},
 		onLoad() {
-			that = this
+			that = this;
+			that.user = uni.getStorageSync("user");
 			const query = Bmob.Query('wc_setting');
 			query.get('FtIO888D').then(res => {
 			  //console.log(res)
-				that.vipShow = res.isShow
+				if(that.user.objectId == "aXcyRBaf"){
+					that.vipShow = false
+				}else{
+					that.vipShow = res.isShow
+				}
 			}).catch(err => {
 			  console.log(err)
 			})

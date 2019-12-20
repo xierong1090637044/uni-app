@@ -301,6 +301,18 @@
 			}
 			]
 		},
+		/*分析模块*/
+		{
+			"root": "pages/analysis",
+			"pages": [{
+				"path": "goodSell/goodSell",
+				"style": {
+					"navigationBarTitleText": "畅销产品分析"
+				}
+			}
+			]
+		},
+		
 		{
 			"root": "pages/manage",
 			"pages": [{

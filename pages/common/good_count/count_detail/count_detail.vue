@@ -152,6 +152,7 @@
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.reserve = this.products[i].reserve
 					detailBills.now_reserve = this.products[i].num.toString()
+					detailBills.packingUnit = this.products[i].packingUnit
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)

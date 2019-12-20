@@ -289,6 +289,7 @@
 						detailBills.type = -1
 						detailBills.num = this.products[i].num
 						detailBills.warning_num = this.products[i].warning_num
+						detailBills.packingUnit = this.products[i].packingUnit
 
 						billsObj.push(tempBills)
 						detailObj.push(detailBills)

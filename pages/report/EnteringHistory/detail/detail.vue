@@ -28,7 +28,7 @@
 								<view>产品：{{item.goodsName}}（成本价：￥{{item.goodsId.costPrice}}）</view>
 							</view>
 							<view class='pro_list'>
-								<view>退货数量：X{{item.num}}</view>
+								<view>退货数量：X{{item.num}} {{item.packingUnit}}</view>
 								<view style="text-align: right;">建议零售价：￥{{item.goodsId.retailPrice}}</view>
 							</view>
 							<!--<view style="text-align: right;">总价：￥{{item.total_money}}</view>-->
@@ -42,7 +42,7 @@
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000;border-bottom: 1rpx solid#EEEEEE;padding:0 0 10rpx;'>
 								<view>产品：{{item.goodsName}}</view>
-								<view>调拨数量：{{item.num}}</view>
+								<view>调拨数量：{{item.num}} {{item.packingUnit}}</view>
 							</view>
 							<view class='pro_list' style="padding: 10rpx 0;">
 								<view>调出仓库：{{item.stock}}</view>
@@ -82,7 +82,7 @@
 									<view v-else>存放仓库:未填写</view>
 								</view>
 
-								<view>数量：X{{item.num}}</view>
+								<view>数量：X{{item.num}} {{item.packingUnit}}</view>
 							</view>
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
@@ -388,6 +388,13 @@
 				query.get(id).then(res => {
 					console.log(res);
 					that.detail = res;
+					for(let item of res.detail){
+						if(item.packingUnit && item.packingUnit !='undefined'){
+							item.packingUnit = item.packingUnit
+						}else{
+							item.packingUnit = ''
+						}
+					}
 					that.products = res.detail;
 					that.bills = res.bills;
 					that.loading = false;
