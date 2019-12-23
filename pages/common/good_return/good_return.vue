@@ -197,11 +197,11 @@
 			confrim_this() {
 				let products = uni.getStorageSync('products')
 				if(that.value == 1){
-					uni.navigateTo({
+					uni.redirectTo({
 						url: "/pages/common/good_return/purchaseReturn/purchaseReturn"
 					})
 				}else if(that.value == 2){
-					uni.navigateTo({
+					uni.redirectTo({
 						url: "/pages/common/good_return/return_detail/return_detail"
 					})
 				}

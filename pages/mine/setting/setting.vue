@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class="uni-form-item uni-column">
-			<!--<view class="display_flex item">
+			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">登陆网址</view>
-				<input class="uni-input" value="http://www.jimuzhou.com/stock/test/" disabled="true" />
-			</view>-->
+				<input class="uni-input" value="http://www.shoujixungeng.com/KCB" disabled="true" />
+			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
 				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting"

@@ -275,11 +275,11 @@
 				}
 
 				if(value == 1){
-					uni.navigateTo({
+					uni.redirectTo({
 						url: "/pages/common/goods_out/goodSell/goodSell"
 					})
 				}else if(value == 2){
-					uni.navigateTo({
+					uni.redirectTo({
 						url: "/pages/common/goods_out/out_detail/out_detail"
 					})
 				}

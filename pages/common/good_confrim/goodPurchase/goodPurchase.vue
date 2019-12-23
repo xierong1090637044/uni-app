@@ -381,10 +381,10 @@
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
+										uni.redirectTo({
+											url: '/pages/report/EnteringHistory/detail/detail?id=' + operationId,
+										})
+									}, 1000)
 
 								}
 							})

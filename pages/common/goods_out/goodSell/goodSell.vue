@@ -481,6 +481,7 @@
 								uni.showToast({
 									title: '销售成功',
 									icon: 'success',
+									duration:1000,
 									success: function() {
 										common.outRedGoodNum(that.products).then(result => { //减少产品数量
 											that.button_disabled = false;
@@ -499,10 +500,10 @@
 													print.autoPrint(operationId);
 												}
 
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
+												uni.redirectTo({
+													url: '/pages/report/EnteringHistory/detail/detail?id=' + operationId,
+												})
+											}, 1000)
 										})
 
 									}
@@ -512,6 +513,7 @@
 								uni.showToast({
 									title: '产品销售成功',
 									icon: 'success',
+									duration:1000,
 									success: function() {
 										that.button_disabled = false;
 										uni.setStorageSync("is_option", true);
@@ -523,10 +525,10 @@
 
 											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品，暂未出库", -1, res.objectId);
 
-											uni.navigateBack({
-												delta: 2
-											});
-										}, 500)
+											uni.redirectTo({
+												url: '/pages/report/EnteringHistory/detail/detail?id=' + operationId,
+											})
+										}, 1000)
 
 
 									},

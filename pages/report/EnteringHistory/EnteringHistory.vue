@@ -382,22 +382,22 @@
 				query.find().then(res => {
 					//console.log(res)
 					this.list = res;
-					wx.hideLoading()
+					uni.hideLoading()
 				});
 			},
 
 			//点击得到详情
 			get_detail: function(id) {
 				if(opeart_type == 5){
-					wx.navigateTo({
+					uni.navigateTo({
 						url: 'productDet/productDet?id=' + id,
 					})
-				}else if(extra_type = 4){ //退货详情
-					wx.navigateTo({
+				}else if(extra_type == 4){ //退货详情
+					uni.navigateTo({
 						url: 'returnDetail/returnDetail?id=' + id,
 					})
 				}else{
-					wx.navigateTo({
+					uni.navigateTo({
 						url: 'detail/detail?id=' + id,
 					})
 				}
