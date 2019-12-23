@@ -21,11 +21,12 @@
 					<view class='content'>
 						<view class="display_flex_bet" @click="goto_detail(stock)">
 							<view class="display_flex">
-								<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])" mode="aspectFit"></image>
+								<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])"
+								 mode="aspectFit"></image>
 								<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
 								<view>
 									<view class='stock_name'>{{stock.stock_name}}</view>
-									<view class='stock_mobile' v-if="stock.charge">负责人：{{stock.charge.nickName}}</view>
+									<view class='stock_mobile' v-if="stock.Ncharge">负责人：{{stock.Ncharge.nickName}}</view>
 									<view class='stock_mobile' v-else>负责人：未填写</view>
 								</view>
 							</view>
@@ -105,9 +106,9 @@
 		},
 		methods: {
 			//预览图片
-			priviewImg(url){
+			priviewImg(url) {
 				uni.previewImage({
-					current:url,
+					current: url,
 					urls: [url],
 				});
 			},
@@ -174,39 +175,35 @@
 
 			//前去添加仓库
 			goto_add() {
-				uni.navigateTo({
-					url: "add/add"
-				})
-				
-				/*let user = uni.getStorageSync("user")
+				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				if(user.is_vip || that.stocks.length <2){
+				if (user.is_vip || that.stocks.length < 2) {
 					uni.navigateTo({
 						url: "add/add"
 					})
-				}else{
+				} else {
 					uni.showModal({
-					    title: '提示',
-					    content: '非会员最多上传2个仓库',
-							confirmText:"充值会员",
-					    success: function (res) {
-					        if (res.confirm) {
-					            if(identity == 1){
-					            	uni.navigateTo({
-					            		url:"/pages/mine/vip/vip"
-					            	})
-					            }else{
-					            	uni.showToast({
-					            		title:"员工不能充值",
-					            		icon:"none"
-					            	})
-					            }
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
+						title: '提示',
+						content: '非会员最多上传2个仓库',
+						confirmText: "充值会员",
+						success: function(res) {
+							if (res.confirm) {
+								if (identity == 1) {
+									uni.navigateTo({
+										url: "/pages/mine/vip/vip"
+									})
+								} else {
+									uni.showToast({
+										title: "员工不能充值",
+										icon: "none"
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
 					})
-				}*/
+				}
 			},
 
 			//输入内容筛选
@@ -219,7 +216,7 @@
 			getstock_list: function() {
 				const query = Bmob.Query("stocks");
 				query.order("-num");
-				query.include("charge", "shop")
+				query.include("Ncharge", "shop")
 				query.equalTo("parent", "==", uid);
 				query.equalTo("disabled", "!=", !that.disabled);
 				if (search_text) {
@@ -232,7 +229,7 @@
 					//console.log(res)
 					that.loading = false;
 					let stocks = res;
-					
+
 					let _warehouse = []
 					for (let item of stocks) {
 						let warehouse = {}

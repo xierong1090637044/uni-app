@@ -274,7 +274,8 @@
 					tempBills.set('allCostPrice', Number(that.products[i].num)*Number(that.products[i].costPrice));
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
-					tempBills.set('type', 2);
+					tempBills.set('type', 1);
+					tempBills.set('extra_type', 4); //4代表退货
 					
 					tempBills.set('opreater', operater);
 					tempBills.set("createdTime", {
@@ -306,7 +307,8 @@
 						goodsId.models = this.products[i].models
 					}
 					detailBills.goodsId = goodsId
-					detailBills.type = 2
+					detailBills.type = 1
+					detailBills.extra_type = 4
 					detailBills.num = this.products[i].num
 					detailBills.warning_num = this.products[i].warning_num
 
@@ -341,7 +343,8 @@
 						query.set("detail", detailObj);
 						query.set("bills", bills);
 						query.set("beizhu", e.detail.value.input_beizhu);
-						query.set("type", 2);
+						query.set("type", 1);
+						query.set('extra_type', 4); //2代表退货
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);

@@ -15,8 +15,8 @@
 							</view>
 							<view class='pro_list'>
 								<view>退货数量：X{{item.num}}</view>
-								<view style="text-align: right;" v-if="detail.type == 2">建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view style="text-align: right;" v-else-if="detail.type == 4">成本价：￥{{item.goodsId.costPrice}}</view>
+								<view style="text-align: right;" v-if="detail.type == 1">建议零售价：￥{{item.goodsId.retailPrice}}</view>
+								<view style="text-align: right;" v-else-if="detail.type == -1">成本价：￥{{item.goodsId.costPrice}}</view>
 							</view>
 							<!--<view style="text-align: right;">总价：￥{{item.total_money}}</view>-->
 						</view>
@@ -26,7 +26,7 @@
 				
 				<!---退货明细-->
 				<view>
-					<view class="kaidanmx" v-if="detail.type == 2">
+					<view class="kaidanmx" v-if="detail.type == 1">
 						<view style="padding: 10rpx 30rpx;">销售退货明细</view>
 						<view v-if="detail.custom" class="display_flex">
 							<view class="left_content">客户姓名</view>
@@ -49,7 +49,7 @@
 						</navigator>
 					</view>
 					
-					<view class="kaidanmx" v-else-if="detail.type == 4">
+					<view class="kaidanmx" v-else-if="detail.type == -1">
 						<view style="padding: 10rpx 30rpx;">采购退货明细</view>
 						<view v-if="detail.producer" class="display_flex">
 							<view class="left_content">供货商姓名</view>
@@ -194,7 +194,7 @@
 					itemList: options,
 					success: function(res) {
 						if (res.tapIndex == 0) {
-							if (that.detail.type == 2) {
+							if (that.detail.type == 1) {
 								if (that.detail.status) {
 									uni.showToast({
 										title: "该笔销售退货单已入库",
@@ -211,7 +211,7 @@
 										that.confrimOrder()
 									}
 								}
-							}else if(that.detail.type == 4){
+							}else if(that.detail.type == -1){
 								if (that.detail.status) {
 									uni.showToast({
 										title: "该笔采购退货单已出库",
@@ -293,12 +293,12 @@
 							query.save().then(res => {
 								//console.log(res)
 								let count = 0
-								if (that.detail.type == 2) {
+								if (that.detail.type == 1) {
 									for (let item of that.products) {
 										that.addOrReduceGoodReserve(item, count);
 										count += 1;
 									}
-								}else if(that.detail.type == 4){
+								}else if(that.detail.type == -1){
 									for (let item of that.products) {
 										that.ReduceGoodReserve(item, count);
 										count += 1;

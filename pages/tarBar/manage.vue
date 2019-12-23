@@ -14,9 +14,22 @@
 		</view>
 
 		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
-			<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理记录</view>
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">管理记录模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in second_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
+				</navigator>
+			</view>
+		</view>
+
+
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view>
 						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
 					</view>
@@ -45,6 +58,7 @@
 				setting: uni.getStorageSync("setting"),
 				now_optionsLists: [],
 				second_optionsLists: [],
+				analysisModule: [],
 
 				secOptionsLists: [{
 						name: '入库记录',
@@ -77,14 +91,14 @@
 						color: "#4e72b8"
 					},
 					{
-						name: '客户退货记录',
+						name: '销售退货记录',
 						icon: 'file-o',
-						url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=4',
 						color: "#b3b242"
 					},{
 						name: '采购退货记录',
 						icon: 'file-o',
-						url: '/pages/report/EnteringHistory/EnteringHistory?type=4',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=4',
 						color: "#b04fbb"
 					},
 					{
@@ -155,7 +169,15 @@
 						url: '/pages/manage/productCount/productCount',
 						color: "#65c294"
 					},
-				]
+				],
+
+
+				analysisLists: [{
+					name: '畅销产品',
+					icon: 'gg',
+					url: '/pages/analysis/goodSell/goodSell',
+					color: "#a84fbb"
+				}, ]
 			}
 		},
 		onLoad() {
@@ -202,6 +224,7 @@
 					} else if (res.data == "1") {
 						that.now_optionsLists = that.optionsLists;
 						that.second_optionsLists = that.secOptionsLists
+						that.analysisModule = that.analysisLists
 					}
 				},
 			})

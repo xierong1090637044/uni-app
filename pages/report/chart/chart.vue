@@ -21,10 +21,10 @@
 			</view>
 		</view>
 		
-		
-		<achart :now_day="now_day" v-if="chartValue == 0"></achart>
-		<bchart :now_day="now_day" v-if="chartValue == 1 || chartValue == 2" :type="chartValue"></bchart>
-		<cchart v-if="chartValue == 3"></cchart>
+		<dchart :now_day="now_day" v-if="chartValue == 0"></dchart>
+		<achart :now_day="now_day" v-if="chartValue == 1"></achart>
+		<bchart :now_day="now_day" v-if="chartValue == 2 || chartValue == 3" :type="chartValue"></bchart>
+		<cchart v-if="chartValue == 4"></cchart>
 	</view>
 </template>
 
@@ -33,19 +33,21 @@
 	import achart from '@/components/charts/AChart.vue'
 	import bchart from '@/components/charts/BChart.vue'
 	import cchart from '@/components/charts/CChart.vue'
+	import dchart from '@/components/charts/DChart.vue'
 	
 	let that;
 	export default {
 		components: {
 			achart,
 			bchart,
-			cchart
+			cchart,
+			dchart
 		},
 		
 		data() {
 			return {
 				now_day: common.getDay(0),
-				chartTypes:["出入库统计","入库统计","出库统计","产品占比图"],
+				chartTypes:["采购销售统计","出入库统计","入库统计","出库统计","产品占比图"],
 				chartValue:0,
 			}
 		},

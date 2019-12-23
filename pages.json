@@ -185,6 +185,10 @@
             "path" : "pages/report/EnteringHistory/returnDetail/returnDetail",
             "style" : {}
         }
+        ,{
+            "path" : "pages/report/staffChart/staffChart",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{
@@ -222,14 +226,27 @@
 				"path": "matterEnter/enterDetail/enterDetail",
 				"style": {}
 			}]
-		}, {
+		}, 
+		/*分析模块*/
+		{
+			"root": "pages/analysis",
+			"pages": [{
+				"path": "goodSell/goodSell",
+				"style": {
+					"navigationBarTitleText": "畅销产品分析"
+				}
+			}
+			]
+		},
+		{
 			"root": "pages/mine",
 			"pages": [{
 				"path": "manual/manual",
 				"style": {
 					"navigationBarTitleText": "操作手册"
 				}
-			}, {
+			}, 
+			{
 				"path": "manual/detail/detail",
 				"style": {
 					"navigationBarTitleText": "详情"

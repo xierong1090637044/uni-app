@@ -53,6 +53,9 @@
 									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 										<text>销售</text>
 									</view>
+									<view v-else-if="item.extra_type == 4" class='order_returning' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':'color:#b04fbb;border: 1rpx solid#b04fbb;'">
+										<text>采购退货</text>
+									</view>
 									<view v-else class='order_get'>
 										<text>出库</text>
 									</view>
@@ -64,22 +67,15 @@
 									<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
 										<text>生产入库</text>
 									</view>
+									<view v-else-if="item.extra_type == 4" class='order_returning' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':'color:#b3b242;border: 1rpx solid#b3b242;'">
+										<text>销售退货</text>
+									</view>
 									<view v-else class='order_get'>
 										<text>入库</text>
 									</view>
 								</view>
 								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
-								<view v-else-if='item.type == 2'>
-									<view class='order_returning' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-										<text>销售退货</text>
-									</view>									
-								</view>
 								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-								<view v-else-if='item.type == 4'>
-									<view class='order_returning' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':'color:#b04fbb;border: 1rpx solid#b04fbb;'">
-										<text>采购退货</text>
-									</view>
-								</view>
 								<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
 							</view>
 						</view>
@@ -207,18 +203,29 @@
 			uid = uni.getStorageSync("uid");
 
 			if (opeart_type == 1) {
-				that.operaterTypeDesc = "操作类型", 
+				that.operaterTypeDesc = "操作类型"
+				let extra_desc = ""
+				if(extra_type == 2){
+					extra_desc = '入库记录'
+				}else if(extra_type == 1){
+					extra_desc = '采购记录'
+				}else if(extra_type == 4){
+					extra_desc = '销售退货记录'
+				}
 				uni.setNavigationBarTitle({
-					title: (extra_type==2)?"入库记录":"采购记录"
+					title: extra_desc
 				})
 			} else if (opeart_type == -1) {
-				that.operaterTypeDesc = "操作类型",
+				that.operaterTypeDesc = "操作类型"
+				if(extra_type == 2){
+					extra_desc = '出库记录'
+				}else if(extra_type == 1){
+					extra_desc = '销售记录'
+				}else if(extra_type == 4){
+					extra_desc = '采购退货记录'
+				}
 				uni.setNavigationBarTitle({
-					title:(extra_type==2)?"出库记录":"销售记录"
-				})
-			} else if (opeart_type == 2) {
-				uni.setNavigationBarTitle({
-					title: "退货记录"
+					title:extra_desc
 				})
 			} else if (opeart_type == 3) {
 				uni.setNavigationBarTitle({
@@ -230,16 +237,16 @@
 		},
 
 		onShow() {
-			if (uni.getStorageSync("charge")) {
-				that.staff = uni.getStorageSync("charge")
-			}
-			
-			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
-				that.stock = uni.getStorageSync("warehouse")[0].stock
-			}
-			
 			if(uni.getStorageSync("is_option")){
 				that.get_list()
+			}else{
+				if (uni.getStorageSync("charge")) {
+					that.staff = uni.getStorageSync("charge")
+				}
+				
+				if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+					that.stock = uni.getStorageSync("warehouse")[0].stock
+				}
 			}
 		},
 
@@ -362,7 +369,11 @@
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
-				if(opeart_type == 1 ||opeart_type == -1) query.equalTo("extra_type", "==", extra_type);
+				if(opeart_type == 1 ||opeart_type == -1){
+					if(extra_type != 2){
+						query.equalTo("extra_type", "==", extra_type);
+					}
+				} 
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
 				query.include("opreater","stock");
@@ -380,7 +391,7 @@
 					wx.navigateTo({
 						url: 'productDet/productDet?id=' + id,
 					})
-				}else if(opeart_type == 2 || opeart_type == 4){
+				}else if(extra_type = 4){ //退货详情
 					wx.navigateTo({
 						url: 'returnDetail/returnDetail?id=' + id,
 					})
