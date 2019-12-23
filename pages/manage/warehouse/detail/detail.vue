@@ -75,11 +75,24 @@
 			}
 		},
 
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			that.stock = uni.getStorageSync("stock")
-			that.get_detail()
+			
+			if(options.id){
+				const query = Bmob.Query('stocks');
+				query.get(options.id).then(res => {
+				  //console.log(res)
+					that.stock = res
+					that.get_detail()
+				}).catch(err => {
+				  console.log(err)
+				})
+			}else{
+				that.stock = uni.getStorageSync("stock")
+				that.get_detail()
+			}
+			
 		},
 		methods: {
 			show_options() {

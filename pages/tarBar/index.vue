@@ -190,7 +190,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情', '扫码添加产品'],
+					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -222,18 +222,6 @@
 						uni.navigateTo({
 							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 						})
-					} else if (type == 4) {
-						let user = uni.getStorageSync("user")
-						if (user.is_vip) {
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result,
-							})
-						} else {
-							uni.showToast({
-								title: "该功能只限会员使用",
-								icon: "none"
-							})
-						}
 					}
 				})
 				// #endif
@@ -257,21 +245,16 @@
 								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 							})
 						} else if (type == 3) {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (type == 4) {
-							let user = uni.getStorageSync("user")
-							if (user.is_vip) {
+							if(array[1] == 'stock'){
 								uni.navigateTo({
-									url: '/pages/manage/good_add/good_add?id=' + result,
+									url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
 								})
-							} else {
-								uni.showToast({
-									title: "该功能只限会员使用",
-									icon: "none"
+							}else{
+								uni.navigateTo({
+									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 								})
 							}
+							
 						}
 					},
 					fail(res) {
