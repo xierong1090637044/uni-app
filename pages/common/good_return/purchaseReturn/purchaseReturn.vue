@@ -121,7 +121,7 @@
 				all_money: 0, //总价
 				allCostPrice: 0, //成本总额
 				really_total_money: 0,
-				custom: null, //制造商
+				producer: null, //制造商
 				outType: '', //发货方式
 				discount: '', //会员率
 				pickerTypes: [{

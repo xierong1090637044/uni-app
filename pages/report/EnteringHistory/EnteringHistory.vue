@@ -217,6 +217,7 @@
 				})
 			} else if (opeart_type == -1) {
 				that.operaterTypeDesc = "操作类型"
+				let extra_desc = ""
 				if(extra_type == 2){
 					extra_desc = '出库记录'
 				}else if(extra_type == 1){
