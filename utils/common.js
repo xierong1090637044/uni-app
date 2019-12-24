@@ -136,6 +136,42 @@ module.exports = {
 			}
 		})
 	},
+	
+	//上传二级商品
+	upload_good_withNoCan(good, stock, reserve, type) {
+		return new Promise((resolve, reject) => {
+			let uid = uni.getStorageSync("uid");
+			const pointer = Bmob.Pointer('_User')
+			const userid = pointer.set(uid)
+	
+			const pointer1 = Bmob.Pointer('stocks')
+			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
+			const pointer2 = Bmob.Pointer('Goods')
+			const p_good_id = pointer2.set(good.objectId) //仓库的id关联
+	
+			const query = Bmob.Query('Goods');
+			query.set("goodsName", good.goodsName)
+			if (type == "out") {
+				query.set("reserve", 0 - Number(reserve))
+			} else {
+				query.set("reserve", Number(reserve))
+			}
+	
+			query.set("stocks", p_stock_id)
+			query.set("userId", userid)
+			query.set("header", p_good_id)
+			query.set("costPrice", ''+good.costPrice)
+			query.set("retailPrice", ''+good.retailPrice)
+			query.set("order", 1)
+			query.save().then(res => {
+				console.log(res)
+				resolve([true, res])
+			}).catch(err => {
+				console.log(err)
+			})
+	
+		})
+	},
 
 	//清除缓存
 	handleData() {

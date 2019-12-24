@@ -126,11 +126,11 @@
 						icon: '/static/delivery.png',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=2'
 					},
-					/*{
+					{
 						name: '产品调拨',
 						icon: '/static/allocation.png',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
-					},*/
+					},
 					{
 						name: '库存盘点',
 						icon: '/static/stocking.png',

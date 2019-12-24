@@ -314,7 +314,21 @@
 						icon: "none"
 					})
 				} else {
-					this.confrim_next()
+					if (this.type == "allocation") {
+						if (this.stock) {
+							this.confrim_next()
+						} else {
+							all_products = []
+							products = []
+							this.get_productList()
+							uni.showToast({
+								title: this.type == "allocation"?"请在筛选中选择调拨的仓库":"请在筛选中选择盘点的仓库",
+								icon: "none"
+							})
+						}
+					} else {
+						this.confrim_next()
+					}
 				}
 			},
 

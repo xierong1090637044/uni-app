@@ -77,6 +77,15 @@
 		},
 		
 		methods: {
+			bindDate_startChange(e){
+				that.start_date = e.detail.value+' 00:00:00';
+				that.getdetail()
+			},
+			
+			bindDate_endChange(e){
+				that.end_date = e.detail.value+' 00:00:00';
+				that.getdetail()
+			},
 			
 			getdetail(){
 				const query = Bmob.Query("Bills");
