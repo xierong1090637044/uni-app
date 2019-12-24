@@ -26,7 +26,7 @@
 		</view>
 		
 		
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -171,6 +171,17 @@
 						name: '畅销产品',
 						icon: 'gg',
 						url: '/pages/analysis/goodSell/goodSell',
+						color: "#a84fbb"
+					},{
+						name: '客户销售',
+						icon: 'id-card-o',
+						url: '/pages/analysis/customSell/customSell',
+						color: "#a84fbb"
+					},
+					{
+						name: '供货商采购',
+						icon: 'address-book',
+						url: '/pages/analysis/producerSell/producerSell',
 						color: "#a84fbb"
 					},
 				]

@@ -45,7 +45,7 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						
+
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
@@ -75,7 +75,7 @@
 						<view class="display_flex_bet" style="padding: 10rpx 0;">
 							<view>是否入库</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
-								<switch :checked="canOpretion" @change="changeStatus"/>
+								<switch :checked="canOpretion" @change="changeStatus" />
 							</view>
 						</view>
 					</view>
@@ -153,8 +153,8 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
-				canOpretion:true,
-				shop:'',//门店
+				canOpretion: true,
+				shop: '', //门店
 			}
 		},
 		onLoad() {
@@ -175,10 +175,10 @@
 
 		onShow() {
 			that.producer = uni.getStorageSync("producer")
-			
+
 			if (uni.getStorageSync("shop")) {
 				that.shop = uni.getStorageSync("shop")
-			
+
 				const pointer = Bmob.Pointer('shops');
 				shopId = pointer.set(that.shop.objectId);
 			}
@@ -188,9 +188,9 @@
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
 			},
-			
+
 			//是否立即入库
-			changeStatus(e){
+			changeStatus(e) {
 				that.canOpretion = e.detail.value
 			},
 
@@ -233,9 +233,9 @@
 			//表单提交
 			formSubmit: function(e) {
 				let identity = uni.getStorageSync("identity") // 身份识别标志
-				
+
 				//console.log(that.canOpretion)
-				if(this.button_disabled){
+				if (this.button_disabled) {
 					return
 				}
 				//console.log(e)
@@ -289,6 +289,11 @@
 						"__type": "Date",
 						"iso": that.nowDay
 					}); // 操作单详情
+					if (that.producer) {
+						let producer = Bmob.Pointer('producers');
+						let producerID = producer.set(that.producer.objectId);
+						tempBills.set("producer", producerID);
+					}
 
 					let goodsId = {}
 					if (this.products[i].stocks && this.products[i].stocks.objectId) {
@@ -350,7 +355,7 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						if (that.shop) query.set("shop", shopId);
-						
+
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -389,15 +394,15 @@
 								icon: 'success',
 								duration: 1000,
 								complete: function() {
-									
-									if(that.canOpretion){
+
+									if (that.canOpretion) {
 										common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 											setTimeout(() => {
-										
+
 												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
 													that.products
 													.length + "商品", 1, operationId);
-										
+
 												that.button_disabled = false;
 												uni.setStorageSync("is_option", true);
 												uni.removeStorageSync("_warehouse")
@@ -408,14 +413,14 @@
 													delta: 2
 												});
 											}, 500)
-										
+
 										})
-									}else{
+									} else {
 										setTimeout(() => {
-																				
+
 											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
 												that.products.length + "商品，还未入库", 11, operationId);
-																				
+
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("_warehouse")
@@ -426,7 +431,7 @@
 												delta: 2
 											});
 										}, 500)
-										
+
 										let params = {
 											"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
 												.products
@@ -441,8 +446,8 @@
 										};
 										send_temp.send_in_noconfrim(params);
 									}
-									
-									
+
+
 
 								}
 							})

@@ -25,12 +25,12 @@
 			<view v-if="goodSellList.length > 0">
 				<view class="uni-product" v-for="(product,index) in goodSellList" :key="index">
 					<view>
-						<image v-if="product.goodsId.goodsIcon" class="product_image" :src="product.goodsId.goodsIcon" mode="widthFix" @click="priviewImg(product.goodsId.goodsIcon)"></image>
-						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
+						<image v-if="product.producer.avatar" class="product_image" :src="product.producer.avatar" mode="widthFix" @click="priviewImg(product.producer.avatar)"></image>
+						<image src="/static/customDef.png" class="product_image" v-else mode="widthFix"></image>
 					</view>
 		
-					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.goodsId)">
-						<view :style="{ 'color': product.goodsId.stocktype==0 ? '#f30' : ''} " class="product_name">{{product.goodsId.goodsName}}</view>
+					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.producer.objectId)">
+						<view class="product_name">{{product.producer.producer_name}}</view>
 						<view class="product_reserve display_flex_bet" style="width: 90%;">
 							<view style="font-size: 24rpx;">销售数量:<text class="text_notice">{{product._sumNum}}</text></view>
 							<view style="font-size: 24rpx;">销售笔数:<text class="text_notice">{{product._count}}</text></view>
@@ -58,12 +58,12 @@
 	export default {
 		data() {
 			return {
-				goodSellList:[],
-				
 				start_date: common.getDay(0, true),
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
+				
+				goodSellList:[],
 			}
 		},
 		
@@ -78,29 +78,56 @@
 		
 		methods: {
 			
+			bindDate_startChange(e){
+				console.log(e)
+				that.start_date = e.detail.value+' 00:00:00';
+				that.getdetail()
+			},
+			
+			bindDate_endChange(e){
+				console.log(e)
+				that.end_date = e.detail.value+' 00:00:00';
+				that.getdetail()
+			},
+			
 			getdetail(){
+				uni.showLoading({title:'加载中...'})
+				
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("type", "==", -1);
+				query.equalTo("type", "==", 1);
 				query.equalTo("extra_type", "==", 1);
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.order("-num");
-				query.include("goodsId");
+				query.include("producer");
 				query.statTo("sum", "num,total_money");
-				query.statTo("groupby", "goodsId,goodsName");
+				query.statTo("groupby", "producer");
 				query.statTo("order", "-_sumNum");
 				query.statTo("groupcount", "true");
 				query.find().then(res => {
+					
 					let newArrar = []
 					for(let item of res){
-						 if(item.goodsId && item.goodsId.objectId){
+						 if(item.producer && item.producer.objectId){
 							 newArrar.push(item)
 						 }
 					}
-					console.log(newArrar.sort(function(a,b){return b._sumNum - a._sumNum}))
+					//console.log(newArrar.sort(function(a,b){return b._sumNum - a._sumNum}))
 					that.goodSellList = newArrar.sort(function(a,b){return b._sumNum - a._sumNum})
+					
+					uni.hideLoading()
 				});
+			},
+			
+			//头部的options选择
+			selectd(type) {
+				if(type == "stocktype"){
+					that.stock_checked = true;
+				}else{
+					that.stock_checked = false;
+				}
+				that.checked_option = type;
 			},
 			
 			//支持预览图片
@@ -113,16 +140,9 @@
 			
 			//点击去到详情
 			goDetail(value) {
-				uni.setStorageSync("now_product", value);
-				if (value.order == 0) {
-					uni.navigateTo({
-						url: "/pages/manage/good_det/Ngood_det"
-					})
-				} else {
-					uni.navigateTo({
-						url: "/pages/manage/good_det/good_det"
-					})
-				}
+				uni.navigateTo({
+					url: "/pages/manage/custom/producer_detail/producer_detail?id="+value
+				})
 			},
 			
 		}
@@ -138,6 +158,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 20rpx 30rpx;
+		margin-bottom: 20rpx;
 		border-bottom: 1rpx solid#F7F7F7;
 	
 		.section {

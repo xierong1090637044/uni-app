@@ -103,12 +103,15 @@
 							  let timestamp=new Date().getTime();
 							  if(that.selected_price == 10){
 							  	res.set('vip_time',timestamp + 2592000000)
+									res.set('vip_shouldtime',timestamp + 2592000000)
 									that.user.vip_time = timestamp + 2592000000
 							  }else if(that.selected_price == 25){
 							  	res.set('vip_time',timestamp + 2592000000*3)
+									res.set('vip_shouldtime',timestamp + 2592000000*3)
 									that.user.vip_time = timestamp + 2592000000*3
 							  }else if(that.selected_price == 100){
 							  	res.set('vip_time',timestamp + 2592000000*12*2)
+									res.set('vip_shouldtime',timestamp + 2592000000*12*2)
 									that.user.vip_time = timestamp + 2592000000*12*2
 							  }
 								res.set('is_vip',true)

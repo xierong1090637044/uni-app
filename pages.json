@@ -176,13 +176,13 @@
 			"style": {
 				"navigationBarTitleText": "销售详情"
 			}
-		},  {
+		}, {
 			"path": "pages/report/staffChart/staffChart",
 			"style": {
 				"navigationBarTitleText": "员工业绩"
 			}
 		}
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -293,26 +293,36 @@
 				"style": {
 					"navigationBarTitleText": "商品列表"
 				}
-			},{
+			}, {
 				"path": "goods/goods",
 				"style": {
 					"navigationBarTitleText": "商品列表"
 				}
-			}
-			]
+			}]
 		},
 		/*分析模块*/
 		{
 			"root": "pages/analysis",
 			"pages": [{
-				"path": "goodSell/goodSell",
-				"style": {
-					"navigationBarTitleText": "畅销产品分析"
+					"path": "goodSell/goodSell",
+					"style": {
+						"navigationBarTitleText": "畅销产品分析"
+					}
+				}, {
+					"path": "customSell/customSell",
+					"style": {
+						"navigationBarTitleText": "客户销售排行分析"
+					}
+				},
+				{
+					"path": "producerSell/producerSell",
+					"style": {
+						"navigationBarTitleText": "供货商采购排行分析"
+					}
 				}
-			}
 			]
 		},
-		
+
 		{
 			"root": "pages/manage",
 			"pages": [{
