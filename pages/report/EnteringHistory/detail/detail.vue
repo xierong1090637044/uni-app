@@ -124,12 +124,12 @@
 						<view class="display_flex">
 							<view class="left_content">出库情况</view>
 							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
-							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行出库）</text></view>
 						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: 150rpx;" class="left_content">出库仓库<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
+								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>

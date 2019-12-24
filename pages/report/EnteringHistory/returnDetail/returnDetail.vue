@@ -189,7 +189,12 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = ['退货入库', '撤销', '打印'];
+				let options;
+				if(that.detail.type == 1){
+					options = ['销售退货', '撤销', '打印'];
+				}else if(that.detail.type == -1){
+					options = ['采购退货', '撤销', '打印'];
+				}
 				uni.showActionSheet({
 					itemList: options,
 					success: function(res) {
@@ -348,7 +353,7 @@
 												that.getdetail(id);
 												setTimeout(function() {
 													uni.showToast({
-														title: '入库成功'
+														title: '退货入库成功'
 													})
 												}, 1000);
 												//console.log(res, 'ok')

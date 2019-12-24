@@ -22,7 +22,7 @@
 									<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
 								</view>
 								<view v-else>
-									<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
+									<input :placeholder="''+item.costPrice" @input='getrealprice($event, index)' class='input_label' type='digit'/>
 								</view>
 							</view>
 							<view></view>
