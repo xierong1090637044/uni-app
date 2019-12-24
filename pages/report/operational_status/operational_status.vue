@@ -199,7 +199,7 @@
 			
 			//截止时间改变
 			bindDate_endChange(e){
-				that.start_date = e.detail.value+" 00:00:00"
+				that.end_date = e.detail.value+" 00:00:00"
 				that.gettoday_detail()
 			},
 			

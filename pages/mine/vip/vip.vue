@@ -108,8 +108,8 @@
 							  	res.set('vip_time',timestamp + 2592000000*3)
 									that.user.vip_time = timestamp + 2592000000*3
 							  }else if(that.selected_price == 100){
-							  	res.set('vip_time',timestamp + 2592000000*12)
-									that.user.vip_time = timestamp + 2592000000*12
+							  	res.set('vip_time',timestamp + 2592000000*12*2)
+									that.user.vip_time = timestamp + 2592000000*12*2
 							  }
 								res.set('is_vip',true)
 							  res.save()
