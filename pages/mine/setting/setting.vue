@@ -3,7 +3,7 @@
 		<view class="uni-form-item uni-column">
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">登陆网址</view>
-				<input class="uni-input" value="http://www.shoujixungeng.com/KCB" disabled="true" />
+				<input class="uni-input" value="https://www.shoujixungeng.com" disabled="true" />
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
@@ -30,6 +30,18 @@
 				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view>自动打印</view>
 					<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan" />
+				</view>
+			</view>
+			<view>
+				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+					<view>负出库</view>
+					<switch @change="negativeOut" :checked="params.negativeOut" :disabled="inputCan" />
+				</view>
+			</view>
+			<view>
+				<view class="display_flex_bet item" style="padding: 20rpx;">
+					<view>物料管理</view>
+					<switch @change="showProduction" :checked="params.production" />
 				</view>
 			</view>
 		</view>
@@ -64,6 +76,7 @@
 					wx_openid: '',
 					wechat_info: false,
 					auto_print: false, //自动打印
+					negativeOut:false,//负出库
 					production: true
 				},
 			}
@@ -79,7 +92,7 @@
 					that.params.show_float = res[0].show_float ? res[0].show_float : ''
 					that.params.USER = res[0].USER ? res[0].USER : ''
 					that.params.UKEY = res[0].UKEY ? res[0].UKEY : ''
-					that.params.number = res[0].show_float ? res[0].number : 0
+					that.params.number = res[0].number ? res[0].number : 0
 					if (res[0].wx_openid) {
 						that.params.wechat_info = true
 					} else {
@@ -90,6 +103,12 @@
 						that.params.auto_print = true
 					} else {
 						that.params.auto_print = false
+					}
+					
+					if (res[0].negativeOut) {
+						that.params.negativeOut = true
+					} else {
+						that.params.negativeOut = false
 					}
 
 					if (res[0].production == true) {
@@ -116,6 +135,11 @@
 			//修改是否自动打印
 			auto_print(e) {
 				that.params.auto_print = e.detail.value
+				mine.modify_setting(that.params)
+			},
+			
+			negativeOut(e){
+				that.params.negativeOut = e.detail.value
 				mine.modify_setting(that.params)
 			},
 

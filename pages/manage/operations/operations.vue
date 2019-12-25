@@ -21,11 +21,13 @@
 						<view>
 							<text v-if="extra_type ==2">入库数量：</text>
 							<text v-else-if="extra_type ==1">采购数量：</text>
+							<text v-else-if="extra_type ==4">销售退货数量：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.num}}</text>
 						</view>
 						<view>
 							<text v-if="extra_type ==2">入库单价：</text>
 							<text v-else-if="extra_type ==1">采购单价：</text>
+							<text v-else-if="extra_type ==4">退货单价：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
@@ -36,11 +38,13 @@
 						<view>
 							<text v-if="extra_type ==2">出库数量：</text>
 							<text v-else-if="extra_type ==1">销售数量：</text>
+							<text v-else-if="extra_type ==4">采购退货数量：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.num}}</text>
 						</view>
 						<view>
 							<text v-if="extra_type ==2">出库单价：</text>
 							<text v-else-if="extra_type ==1">销售单价：</text>
+							<text v-else-if="extra_type ==4">退货单价：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
@@ -128,10 +132,14 @@
 					type: 3,
 					extra_type:'',
 				}, {
-					name: '退货',
-					type: 2,
-					extra_type:'',
-				}, ]
+					name: '销售退货',
+					type: 1,
+					extra_type:4,
+				},{
+					name: '采购退货',
+					type: -1,
+					extra_type:4,
+				} ]
 			}
 		},
 		onLoad(options) {

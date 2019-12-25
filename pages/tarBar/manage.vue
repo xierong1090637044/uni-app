@@ -173,11 +173,23 @@
 
 
 				analysisLists: [{
-					name: '畅销产品',
-					icon: 'gg',
-					url: '/pages/analysis/goodSell/goodSell',
-					color: "#a84fbb"
-				}, ]
+						name: '畅销产品',
+						icon: 'gg',
+						url: '/pages/analysis/goodSell/goodSell',
+						color: "#a84fbb"
+					},{
+						name: '客户销售',
+						icon: 'id-card-o',
+						url: '/pages/analysis/customSell/customSell',
+						color: "#a84fbb"
+					},
+					{
+						name: '供货商采购',
+						icon: 'address-book',
+						url: '/pages/analysis/producerSell/producerSell',
+						color: "#a84fbb"
+					},
+				]
 			}
 		},
 		onLoad() {

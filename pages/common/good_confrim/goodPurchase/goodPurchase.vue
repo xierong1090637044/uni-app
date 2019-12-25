@@ -261,6 +261,11 @@
 						"__type": "Date",
 						"iso": that.nowDay
 					}); // 操作单详情
+					if (that.producer) {
+						let producer = Bmob.Pointer('producers');
+						let producerID = producer.set(that.producer.objectId);
+						tempBills.set("producer", producerID);
+					}
 
 					let goodsId = {}
 

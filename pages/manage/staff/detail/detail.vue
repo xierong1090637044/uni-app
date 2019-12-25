@@ -15,14 +15,6 @@
 				<view style="color: #999;">{{staff.mobilePhoneNumber}}</view>
 			</view>
 
-			<view class="display_flex_bet frist border_bottom">
-				<view class="display_flex_bet" style="width: 100%;">
-					<view>是否成功激活</view>
-					<view v-if="staff.userId" style="color: #999;">已登录成功并激活</view>
-					<view v-else style="color: #999;">请让他登录激活</view>
-				</view>
-			</view>
-
 			<view class="display_flex_bet frist">
 				<view class="display_flex_bet" style="width: 100%;">
 					<view>创建时间</view>
@@ -32,14 +24,10 @@
 		</view>
 
 		<!---相关的操作记录-->
-		<navigator v-if="staff.userId" class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'../history/history?id='+staff.userId.objectId">
+		<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'../history/history?id='+staff.objectId">
 			<text class="left_desc">相关的操作记录</text>
 			<fa-icon type="angle-right" size="20" color="#999" />
 		</navigator>
-		<view v-else class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none">
-			<text class="left_desc">未激活，未产生操作记录</text>
-			<fa-icon type="angle-right" size="20" color="#999" />
-		</view>
 
 	</view>
 </template>

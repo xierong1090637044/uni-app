@@ -115,7 +115,7 @@
 		{
 			"path": "pages/staff_landing/staff_landing",
 			"style": {
-				"navigationBarTitleText": "员工登陆"
+				"navigationBarTitleText": "账号密码登录"
 			}
 		}, {
 			"path": "pages/register/user_protocol/user_protocol",
@@ -231,11 +231,22 @@
 		{
 			"root": "pages/analysis",
 			"pages": [{
-				"path": "goodSell/goodSell",
-				"style": {
-					"navigationBarTitleText": "畅销产品分析"
+					"path": "goodSell/goodSell",
+					"style": {
+						"navigationBarTitleText": "畅销产品分析"
+					}
+				}, {
+					"path": "customSell/customSell",
+					"style": {
+						"navigationBarTitleText": "客户销售排行分析"
+					}
+				},
+				{
+					"path": "producerSell/producerSell",
+					"style": {
+						"navigationBarTitleText": "供货商采购排行分析"
+					}
 				}
-			}
 			]
 		},
 		{

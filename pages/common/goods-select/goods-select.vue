@@ -181,13 +181,15 @@
 			}else{
 				that.category = ''
 			}
-
-			/*if (uni.getStorageSync("warehouse")) {
-				that.showOptions = true;
-				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
-			}else{
-				that.stock = ""
-			}*/
+			
+			if(that.type == 'allocation' || that.type == 'counting'){
+				if (uni.getStorageSync("warehouse")) {
+					that.showOptions = true;
+					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
+				}else{
+					that.stock = ""
+				}
+			}
 
 			//操作完成后刷新数据
 			if (uni.getStorageSync("is_option")) {
@@ -200,6 +202,10 @@
 				this.productList = []
 				that.get_productList();
 			}
+		},
+		
+		onHide() {
+			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
 
 		onUnload() {

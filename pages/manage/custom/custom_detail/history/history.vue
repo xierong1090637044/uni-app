@@ -28,7 +28,7 @@
 			<scroll-view class='page' scroll-y="true">
 				<view class='list-item'>
 					<view v-for="(item,index) in list" :key="index">
-						<view class='item' @click='get_detail(item.objectId)'>
+						<navigator class='item' hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.objectId">
 							<view style='display:flex;width:calc(100% - 120rpx);'>
 								<view style='line-height:80rpx'>
 									<fa-icon type="sign-out" size="20" color="#f30" />
@@ -41,7 +41,7 @@
 								</view>
 							</view>
 							<view class='order_out'>销售</view>
-						</view>
+						</navigator>
 						<uni-collapse :accordion="true">
 							<uni-collapse-item title="明细">
 								<view v-for="(item,index) in item.relations" :key="index" class='pro_listitem'>

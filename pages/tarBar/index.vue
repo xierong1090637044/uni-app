@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" text="此版跟'库存表'除了商品数据不一样外,其他数据通用!" />
+		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" :text="noticeText" v-if="noticeText"/>
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -106,6 +106,9 @@
 		},
 		data() {
 			return {
+				user: uni.getStorageSync("user"),
+				othercurrent: '',
+				noticeText:'',//首页消息提示内容
 				logsList: [],
 				optionsLists: [{
 						name: '入库',

@@ -9,7 +9,7 @@
 			uni.getStorage({
 				key: 'user',
 				success: function(res) {
-					let user = res.data
+					/*let user = res.data
 					let identity = uni.getStorageSync("identity")
 					let now_time = new Date().getTime()
 					console.log(user)
@@ -30,7 +30,7 @@
 							user.vip_time = 0
 							uni.setStorageSync("user",user)
 						}
-					}
+					}*/
 				},
 				fail: function() {
 					uni.reLaunch({

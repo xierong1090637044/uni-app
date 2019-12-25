@@ -120,7 +120,7 @@
 
 					<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 				</view>
-				<view class="input_item1">
+				<view class="input_item">
 					<view>
 						<picker mode="date" :value="now_day" @change.stop="bindDateChange1" :end="max_day" @click.stop>
 							<view style="display: flex;align-items: center;">
@@ -350,7 +350,7 @@
 		align-items: center;
 		justify-content: space-between;
 		line-height: 80rpx;
-		padding: 0 30rpx;
+		padding:0rpx 30rpx 20rpx;
 	}
 
 	.pro_list {
