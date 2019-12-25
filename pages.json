@@ -274,6 +274,35 @@
 				"style": {}
 			}]
 		},
+
+		/*分析模块*/
+		{
+			"root": "pages/analysis",
+			"pages": [{
+					"path": "goodSell/goodSell",
+					"style": {
+						"navigationBarTitleText": "出库产品排行分析"
+					}
+				}, {
+					"path": "customSell/customSell",
+					"style": {
+						"navigationBarTitleText": "客户销售排行分析"
+					}
+				},
+				{
+					"path": "producerSell/producerSell",
+					"style": {
+						"navigationBarTitleText": "供货商采购排行分析"
+					}
+				}, {
+					"path": "goodIn/goodIn",
+					"style": {
+						"navigationBarTitleText": "入库产品排行分析"
+					}
+				}
+			]
+		},
+
 		{
 			"root": "pages/manage",
 			"pages": [{

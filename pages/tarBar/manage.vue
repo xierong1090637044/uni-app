@@ -24,10 +24,20 @@
 				</navigator>
 			</view>
 		</view>
+
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;" v-if="analysisModule.length>0">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
+				</navigator>
+			</view>
+		</view>
+
 	</view>
-
-
-
 </template>
 
 <script>
@@ -45,6 +55,7 @@
 				setting: uni.getStorageSync("setting"),
 				now_optionsLists: [],
 				second_optionsLists: [],
+				analysisModule: [],
 
 				secOptionsLists: [{
 						name: '入库记录',
@@ -144,6 +155,20 @@
 						url: '/pages/manage/productCount/productCount',
 						color: "#65c294"
 					},
+				],
+
+				analysisLists: [{
+						name: '出库产品',
+						icon: 'outdent',
+						url: '/pages/analysis/goodSell/goodSell',
+						color: "#a84fbb"
+					},
+					{
+						name: '入库产品',
+						icon: 'sign-in',
+						url: '/pages/analysis/goodIn/goodIn',
+						color: "#a84fbb"
+					},
 				]
 			}
 		},
@@ -191,6 +216,7 @@
 					} else if (res.data == "1") {
 						that.now_optionsLists = that.optionsLists;
 						that.second_optionsLists = that.secOptionsLists
+						that.analysisModule = that.analysisLists
 					}
 				},
 			})
