@@ -31,14 +31,14 @@
 				<input placeholder="请输入排序(数值越小,排列越靠前)" v-model="warehouse_num" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
 
-			<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
+			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
 				<view class="display_flex">
 					<text style="margin-right: 20rpx;">门店</text>
 					<input placeholder="请选择门店" v-model="warehouse_shop" style="width: calc(100% - 200rpx)" />
 				</view>
 
 				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-			</navigator>
+			</navigator>-->
 			<navigator class="display_flex_bet item" style="margin-bottom:60rpx"  hover-class="none" url="../../staff/staff?type=choose">
 				<view class="display_flex" >
 					<text style="margin-right: 6rpx;">负责人</text><text style="color: #d93a49;margin-right: 20rpx;">*</text>
@@ -113,22 +113,25 @@
 				uni.setNavigationBarTitle({
 					title: '修改仓库信息'
 				});
+				
+				console.log(that.warehouse_charge)
 			}else{
 				uni.setNavigationBarTitle({
 					title: '新增仓库'
 				});
-			}
-			
-			if(shop){
-				that.warehouse_shop = shop.name
 				
-				const pointer = Bmob.Pointer('shops');
-				shopId = pointer.set(shop.objectId);
+				if(charge){
+					that.warehouse_charge = charge.nickName
+				}
+				
+				/*if(shop){
+					that.warehouse_shop = shop.name
+					
+					const pointer = Bmob.Pointer('shops');
+					shopId = pointer.set(shop.objectId);
+				}*/
 			}
 			
-			if(charge){
-				that.warehouse_charge = charge.nickName
-			}
 		},
 		
 		onUnload() {
