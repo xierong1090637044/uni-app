@@ -12,8 +12,7 @@ page {
 	line-height: 120rpx;
 	width: 120rpx;
 	border-radius: 50%;
-	-webkit-box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
-	        box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
+	box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
 }
 .text_notice {
 	margin-left: 6rpx;
@@ -54,17 +53,14 @@ page {
 .uni-product {
 	display: -webkit-box;
 	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
 	padding: 10rpx 0;
 	border-bottom: 1px solid#ddd;
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
-	    -ms-flex-pack: justify;
 	        justify-content: space-between;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
-	    -ms-flex-align: center;
 	        align-items: center;
 	width: 100%;
 	margin-left: 20rpx;
@@ -91,20 +87,16 @@ page {
 .city {
 	display: -webkit-box;
 	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-orient: horizontal;
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: row;
-	    -ms-flex-direction: row;
 	        flex-direction: row;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
-	    -ms-flex-align: center;
 	        align-items: center;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
-	    -ms-flex-pack: center;
 	        justify-content: center;
 	width: 100%;
 	margin-left: 8px;
@@ -114,14 +106,12 @@ page {
 	width: 92%;
 	display: -webkit-box;
 	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
 	background-color: #e7e7e7;
 	height: 30px;
 	border-radius: 15px;
 	padding: 0 4%;
 	-webkit-flex-wrap: nowrap;
-	    -ms-flex-wrap: nowrap;
 	        flex-wrap: nowrap;
 	margin: 8rpx 0;
 	line-height: 30px;

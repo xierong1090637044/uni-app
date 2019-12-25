@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "物料管理",
-  "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "uni-notice-bar": "/components/uni-notice-bar/uni-notice-bar",
-    "uni-search-bar": "/components/uni-search-bar/uni-search-bar"
-  }
-}

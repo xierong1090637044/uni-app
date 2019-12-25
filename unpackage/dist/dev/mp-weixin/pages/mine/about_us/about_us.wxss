@@ -28,12 +28,10 @@
 page {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
           flex-direction: column;
   text-align: center;
 }
@@ -50,7 +48,6 @@ image {
   width: 70%;
   border-radius: 2px;
   margin: 0 auto;
-  -webkit-box-shadow: 0px 3px 20px #333;
   box-shadow: 0px 3px 20px #333;
 }
 .copyright {

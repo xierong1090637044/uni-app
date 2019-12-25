@@ -153,7 +153,6 @@
   display: list-item;
   -webkit-box-align: baseline;
   -webkit-align-items: baseline;
-      -ms-flex-align: baseline;
           align-items: baseline;
   text-align: match-parent;
 }
@@ -161,7 +160,6 @@
   display: list-item;
   -webkit-box-align: baseline;
   -webkit-align-items: baseline;
-      -ms-flex-align: baseline;
           align-items: baseline;
   text-align: match-parent;
 }
@@ -189,19 +187,16 @@
 .wxParse .thead, .wxParse .tfoot, .wxParse .tr {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
           flex-direction: row;
 }
 .wxParse .tr {
   width:100%;
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   border-right: 2rpx solid #e0e0e0;
   border-bottom: 2rpx solid #e0e0e0;
@@ -210,13 +205,11 @@
 .wxParse .td {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   width: 1276rpx;
   overflow: auto;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
-      -ms-flex: 1;
           flex: 1;
   padding: 11rpx;
   border-left: 2rpx solid #e0e0e0;

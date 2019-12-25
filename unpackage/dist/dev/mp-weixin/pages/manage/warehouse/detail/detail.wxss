@@ -34,7 +34,6 @@
   padding: 20rpx 30rpx;
   background: #FFFFFF;
   border-bottom: 1rpx solid #F7F7F7;
-  margin: 0 0 20rpx;
 }
 .second {
   line-height: 44rpx;
