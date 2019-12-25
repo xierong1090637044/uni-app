@@ -1,7 +1,7 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" :text="noticeText" v-if="noticeText"/>
+		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" :text="noticeText" v-if="noticeText" />
 		<view class="fristSearchView">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
 		</view>
@@ -114,7 +114,7 @@
 			return {
 				user: uni.getStorageSync("user"),
 				othercurrent: '',
-				noticeText:'',//首页消息提示内容
+				noticeText: '', //首页消息提示内容
 				logsList: [],
 				optionsLists: [{
 						name: '入库',
@@ -164,13 +164,13 @@
 				],
 				get_reserve: 0,
 				out_reserve: 0,
-				sellNum:0,
-				purchaseNum:0,
+				sellNum: 0,
+				purchaseNum: 0,
 				total_reserve: 0,
 				total_money: 0,
 				total_products: 0,
 				openid: '',
-				user:uni.getStorageSync("user"),
+				user: uni.getStorageSync("user"),
 			}
 		},
 		onLoad(options) {
@@ -178,38 +178,63 @@
 			uid = uni.getStorageSync('uid');
 			// #ifdef H5
 			this.$wechat.share_pyq();
-			// #endif
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
+			// #endif
+
+			if (that.user) {
+				let user = that.user
+				let identity = uni.getStorageSync("identity")
+				let now_time = new Date().getTime()
+				if (user.vip_time <= now_time) {
+					if (identity == 1) {
+						const query = Bmob.Query('_User');
+						query.get(user.objectId).then(res => {
+							res.set('is_vip', false)
+							res.set('vip_time', 0)
+							res.save()
+
+							user.is_vip = false
+							user.vip_time = 0
+							uni.setStorageSync("user", user)
+						}).catch(err => {})
+					} else {
+						user.is_vip = false
+						user.vip_time = 0
+						uni.setStorageSync("user", user)
+					}
+				}
+			}
+
 		},
 
 		onShow() {
-			if(uni.getStorageSync("user")){
+			if (uni.getStorageSync("user")) {
 				that.gettoday_detail();
 				that.loadallGoods();
 				mine.query_setting();
 				if (that.user.rights && that.user.rights.othercurrent) {
 					that.othercurrent = that.user.rights.othercurrent
 				}
-				
-				notice.getNoticeList(1).then(res=>{
+
+				notice.getNoticeList(1).then(res => {
 					that.noticeText = res[0].content
 					console.log(res)
 				})
-			}else{
-				setTimeout(function(){
+			} else {
+				setTimeout(function() {
 					uni.showToast({
-						title:"请先登录",
-						icon:"none"
+						title: "请先登录",
+						icon: "none"
 					})
-				},1000)
-				
+				}, 1000)
+
 				uni.reLaunch({
-					url:"/pages/landing/landing"
+					url: "/pages/landing/landing"
 				})
 			}
-			
+
 			//that.get_logsList();
 		},
 
@@ -231,7 +256,7 @@
 			navigateToKCB() {
 				uni.navigateToMiniProgram({
 					appId: 'wx6783307185c8385e',
-					path: 'pages/tarBar/index?phone='+that.user.mobilePhoneNumber,
+					path: 'pages/tarBar/index?phone=' + that.user.mobilePhoneNumber,
 					success(res) {
 						// 打开成功
 					}
@@ -250,7 +275,7 @@
 			//点击扫描产品条形码
 			scan_code: function() {
 				uni.showActionSheet({
-					itemList: ['扫码出库','扫码销售','扫码入库','扫码采购', '扫码盘点', '查看详情'],
+					itemList: ['扫码出库', '扫码销售', '扫码入库', '扫码采购', '扫码盘点', '查看详情'],
 					success(res) {
 						that.scan(res.tapIndex);
 					},
@@ -270,30 +295,30 @@
 
 					if (type == 0) {
 						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
 					} else if (type == 1) {
 						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=1",
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
 						})
 					} else if (type == 2) {
 						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
 					} else if (type == 3) {
 						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=1",
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
 						})
 					} else if (type == 4) {
 						uni.navigateTo({
-							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}else if (type == 5) {
-						if(productType == "new"){
+					} else if (type == 5) {
+						if (productType == "new") {
 							uni.navigateTo({
 								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
 							})
-						}else if(productType == "old"){
+						} else if (productType == "old") {
 							uni.navigateTo({
 								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 							})
@@ -302,7 +327,7 @@
 						let user = uni.getStorageSync("user")
 						if (user.is_vip) {
 							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result+'&type=more',
+								url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
 							})
 						} else {
 							uni.showToast({
@@ -310,7 +335,7 @@
 								icon: "none"
 							})
 						}
-					} 
+					}
 				})
 				// #endif
 
@@ -320,33 +345,33 @@
 						let result = res.result;
 						let array = result.split("-");
 						let productType = array[2]
-						
+
 						if (type == 0) {
 							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
 							})
 						} else if (type == 1) {
 							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=1",
+								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
 							})
 						} else if (type == 2) {
 							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
 							})
 						} else if (type == 3) {
 							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=1",
+								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
 							})
 						} else if (type == 4) {
 							uni.navigateTo({
-								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1]+"&value=2",
+								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
 							})
-						}else if (type == 5) {
-							if(productType == "new"){
+						} else if (type == 5) {
+							if (productType == "new") {
 								uni.navigateTo({
 									url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
 								})
-							}else if(productType == "old"){
+							} else if (productType == "old") {
 								uni.navigateTo({
 									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 								})
@@ -355,7 +380,7 @@
 							let user = uni.getStorageSync("user")
 							if (user.is_vip) {
 								uni.navigateTo({
-									url: '/pages/manage/good_add/good_add?id=' + result+'&type=more',
+									url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
 								})
 							} else {
 								uni.showToast({
@@ -384,7 +409,7 @@
 				let get_reserve_num = 0;
 				let out_reserve_num = 0;
 				let purchaseNum = 0; // 当日的采购数量
-				let sellNum = 0;//当日的销售数量
+				let sellNum = 0; //当日的销售数量
 
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
@@ -398,25 +423,25 @@
 							get_reserve = get_reserve + res[i].num;
 							get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
 							get_reserve_num = get_reserve_num + res[i].total_money;
-							if(res[i].extra_type ==1){
-								purchaseNum +=res[i].num;
+							if (res[i].extra_type == 1) {
+								purchaseNum += res[i].num;
 							}
 						} else if (res[i].type == -1) {
 							out_reserve = out_reserve + res[i].num;
 							out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
 							out_reserve_num = out_reserve_num + res[i].total_money;
-							if(res[i].extra_type ==1){
-								sellNum +=res[i].num;
+							if (res[i].extra_type == 1) {
+								sellNum += res[i].num;
 							}
 						}
 					}
-					
-					console.log(purchaseNum,sellNum)
-					
+
+					console.log(purchaseNum, sellNum)
+
 
 					that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
 					that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
-					
+
 					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
 				})
@@ -425,12 +450,12 @@
 			//得到总库存数和总金额
 			loadallGoods: function() {
 				record.loadallGoods().then(res => {
-					if(that.user.rights&&that.user.rights.othercurrent[0] != '0'){
+					if (that.user.rights && that.user.rights.othercurrent[0] != '0') {
 						that.total_money = 0
-					}else{
+					} else {
 						that.total_money = res.total_money
 					}
-					
+
 					that.total_reserve = res.total_reserve
 					that.total_products = res.total_products
 				})

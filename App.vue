@@ -13,30 +13,6 @@
 			uni.getStorage({
 				key: 'user',
 				success: function(res) {
-					let user = res.data
-					let identity = uni.getStorageSync("identity")
-					let now_time = new Date().getTime()
-					console.log(user.vip_time,now_time)
-					if (user.vip_time <= now_time) {
-						if(identity == 1){
-							const query = Bmob.Query('_User');
-							query.get(user.objectId).then(res => {
-								res.set('is_vip', false)
-								res.set('vip_time', 0)
-								res.save()
-								
-								user.is_vip = false
-								user.vip_time = 0
-								uni.setStorageSync("user",user)
-							}).catch(err => {})
-						}else{
-							user.is_vip = false
-							user.vip_time = 0
-							uni.setStorageSync("user",user)
-						}
-					}
-					
-					//mine.query_setting()//获取用户设置
 				},
 				fail: function() {
 					uni.reLaunch({

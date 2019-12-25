@@ -289,6 +289,7 @@
 				}
 			} else {
 				if (options.type == 'more') {
+					that.addType = options.type
 					const query = Bmob.Query("stocks");
 					query.order("-num");
 					query.equalTo("parent", "==", uid);
@@ -299,16 +300,29 @@
 						}
 						uni.setStorageSync("warehouse", res)
 					});
+				}else if(options.type == 'single'){
+					that.addType = options.type
+					const query = Bmob.Query("stocks");
+					query.order("-num");
+					query.equalTo("parent", "==", uid);
+					query.equalTo("disabled", "!=", true);
+					query.find().then(res => {
+						if(res.length > 0){
+							let warehouse = []
+							let warehouseItem ={}
+							warehouseItem.reserve = 0
+							warehouseItem.stock = res[0]
+							warehouseItem.warning_num = 0
+							warehouse.push(warehouseItem)
+							uni.setStorageSync("warehouse", warehouse)
+							that.stock_name = res[0].stock_name
+						}
+					});
 				}
-
 			}
 
 			if (options.id) {
 				that.scan_by_id(options.id)
-			}
-
-			if (options.type) {
-				that.addType = options.type
 			}
 		},
 		onShow() {
@@ -318,8 +332,7 @@
 				that.reserve = 0
 				if (that.addType == 'single') {
 					let newStock = []
-					let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync(
-						"warehouse")[0]
+					let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync("warehouse")[0]
 					stockItem.reserve = stockItem.reserve ? stockItem.reserve : 0
 					newStock.push(stockItem)
 					uni.setStorageSync("warehouse", newStock)
