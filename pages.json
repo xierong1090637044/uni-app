@@ -172,12 +172,11 @@
 		}, {
 			"path": "pages/common/goods_out/goodSell/goodSell",
 			"style": {}
+		}, {
+			"path": "pages/report/list/list",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/report/list/list",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -281,6 +280,12 @@
 					"path": "productCount/productCount",
 					"style": {
 						"navigationBarTitleText": "产品统计"
+					}
+				},
+				{
+					"path": "stockGoods/stockGoods",
+					"style": {
+						"navigationBarTitleText": "仓库存货"
 					}
 				},
 				{
@@ -493,7 +498,7 @@
 				"pagePath": "pages/tarBar/manage",
 				"iconPath": "static/manage.png",
 				"selectedIconPath": "static/manage.png",
-				"text": "库存"
+				"text": "管理"
 			}, {
 				"pagePath": "pages/tarBar/mine",
 				"iconPath": "static/person.png",

@@ -110,11 +110,6 @@
 						icon: '/static/allocation.png',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
 					},
-					/*{
-						name: '退货入库',
-						icon: '/static/return_goods.png',
-						url: '/pages/common/goods-select/goods-select?type=returing'
-					},*/
 					{
 						name: '库存盘点',
 						icon: '/static/stocking.png',
@@ -125,11 +120,6 @@
 						icon: '/static/purchase.png',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					},
-					/*{
-						name: '销售',
-						icon: '/static/sell.png',
-						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
-					},*/
 					{
 						name: '使用手册',
 						icon: '/static/userInfo.png',
@@ -245,16 +235,30 @@
 								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1],
 							})
 						} else if (type == 3) {
-							if(array[1] == 'stock'){
-								uni.navigateTo({
-									url: '/pages/manage/warehouse/detail/detail?id=' + array[0] + "&type=" + array[1],
+							uni.showLoading({
+								title:"跳转中..."
+							})
+							if (array[1] == 'stock') {
+								const query = Bmob.Query('stocks');
+								query.get(array[0]).then(res => {
+									let warehouse = []
+									let warehouseItem = {}
+									warehouseItem.stock = res
+									warehouse.push(warehouseItem)
+									uni.setStorageSync("warehouse",warehouse)
+									uni.hideLoading()
+									uni.navigateTo({
+										url: '/pages/manage/stockGoods/stockGoods?stockId=' + array[0] + "&type=" + array[1],
+									})
+								}).catch(err => {
+									console.log(err)
 								})
-							}else{
+							} else {
 								uni.navigateTo({
 									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 								})
 							}
-							
+
 						}
 					},
 					fail(res) {

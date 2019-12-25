@@ -63,7 +63,7 @@ export default {
 				const pointer = Bmob.Pointer('_User');
 				let poiID = pointer.set(userid);
 				
-				const query = Bmob.Query('staffs');
+				const query = Bmob.Query('_User');
 				query.set("username", params.name);
 				query.set("nickName", params.name);
 				query.set("password", params.password);
@@ -91,7 +91,7 @@ export default {
 					console.log(res)
 					if (res.length == 0) {
 				
-						const query = Bmob.Query('staffs');
+						const query = Bmob.Query('_User');
 						query.set("username", params.name);
 						query.set("shop",shopId);
 						query.set("nickName", params.name);

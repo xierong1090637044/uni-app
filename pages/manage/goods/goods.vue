@@ -24,6 +24,10 @@
 					<text :class="(checked_option == 'reserve')?'option_selected':''">库存</text>
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
+				<view class="good_option" @click="selectd('stocktype')">
+					<text :class="(checked_option == 'stocktype')?'option_selected':''">预警产品</text>
+					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'stocktype'"></fa-icon>
+				</view>
 			</view>
 			<scroll-view class="uni-product-list" scroll-y>
 				<view v-if="productList.length > 0">
@@ -40,6 +44,7 @@
 									<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 							</view>
 							<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+							<view class="product_reserve" v-if="product.stocks">存放仓库:<text class="text_notice">{{product.stocks.stock_name}}</text></view>
 							<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
 						</view>
 
@@ -234,20 +239,6 @@
 				uni.navigateTo({
 					url: "../good_add/good_add"
 				})
-				/*uni.showActionSheet({
-				    itemList: ['添加单规格产品', '添加多规格产品'],
-				    success: function (res) {
-							if(res.tapIndex == 1){
-								uni.setStorageSync("addMoreModel",true)
-							}
-							uni.navigateTo({
-								url: "../good_add/good_add"
-							})
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});*/
 			},
 
 			//modal重置的确认点击
@@ -297,7 +288,11 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "==", 0);
+				if(that.stock){
+					query.equalTo("order", "==", 1);
+				}else{
+					query.equalTo("order", "==", 0);
+				}
 				if(that.category.type == 1){
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				}else{

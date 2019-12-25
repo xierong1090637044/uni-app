@@ -30,6 +30,13 @@
 			<text class="left_desc">相关的操作记录</text>
 			<fa-icon type="angle-right" size="20" color="#999" />
 		</navigator>
+		<view style="background: #FFFFFF;margin: 0 0 20rpx;">
+			<view style="padding: 20rpx 30rpx;">仓库二维码</view>
+			<view style="padding: 20rpx;background: #fff;text-align: center;">
+				<tki-qrcode cid="qrcode" ref="qrcode" :val="codeVal" :size="100" :loadMake="true" :usingComponents="true"
+				 unit="rpx" @result="qrR" />
+			</view>
+		</view>
 
 		<!---存货统计-->
 		<view style="margin: 40rpx 0 20rpx;">
@@ -57,12 +64,14 @@
 	import Bmob from "hydrogen-js-sdk";
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
+	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 
 	let that;
 	let uid;
 	export default {
 		components: {
 			faIcon,
+			tkiQrcode,
 			loading
 		},
 		data() {
@@ -72,6 +81,7 @@
 				NGoods: null,
 				reserve_num: 0,
 				reserve_money: 0,
+				codeVal:''
 			}
 		},
 
@@ -84,12 +94,14 @@
 				query.get(options.id).then(res => {
 				  //console.log(res)
 					that.stock = res
+					that.codeVal = res.objectId+'-stock'
 					that.get_detail()
 				}).catch(err => {
 				  console.log(err)
 				})
 			}else{
 				that.stock = uni.getStorageSync("stock")
+				that.codeVal = that.stock.objectId+'-stock'
 				that.get_detail()
 			}
 			
@@ -224,6 +236,17 @@
 					that.loading = false
 				});
 			},
+			
+			
+			//二维码路径
+			qrR(res) {
+				this.src = res
+			},
+			
+			//点击条形码保存
+			saveQrcode() {
+				this.$refs.qrcode._saveCode()
+			},
 
 
 		}
@@ -243,7 +266,6 @@
 		padding: 20rpx 30rpx;
 		background: #FFFFFF;
 		border-bottom: 1rpx solid#F7F7F7;
-		margin: 0 0 20rpx;
 	}
 
 	.second {

@@ -107,7 +107,7 @@
 				that.warehouse_name = warehouse.stock_name
 				that.warehouse_shop = warehouse.shop
 				that.warehouse_num = warehouse.num
-				that.warehouse_charge = warehouse.Ncharge.nickName
+				that.warehouse_charge = warehouse.Ncharge?warehouse.Ncharge.nickName:''
 				that.warehouse_beizhu = warehouse.beizhu
 				that.disabled = !warehouse.disabled;
 				uni.setNavigationBarTitle({
@@ -127,7 +127,7 @@
 			}
 			
 			if(charge){
-				that.warehouse_charge = charge.username
+				that.warehouse_charge = charge.nickName
 			}
 		},
 		

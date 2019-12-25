@@ -220,7 +220,7 @@ module.exports = {
 	record_staffOut(have_out) {
 		console.log(have_out, uni.getStorageSync("user").have_out)
 		if (uni.getStorageSync("identity") == 1) {} else {
-			const query = Bmob.Query('staffs');
+			const query = Bmob.Query('_User');
 			query.set('id', uni.getStorageSync("user").objectId) //需要修改的objectId
 			query.set('have_out', Number(have_out) + uni.getStorageSync("user").have_out)
 			query.save().then(res => {
