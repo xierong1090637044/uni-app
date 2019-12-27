@@ -176,10 +176,6 @@
 			"path": "pages/report/list/list",
 			"style": {}
 		}
-	    ,{
-            "path" : "pages/analysis/classAll/classAll",
-            "style" : {}
-        }
     ],
 
 	"subPackages": [{
@@ -303,7 +299,12 @@
 					"style": {
 						"navigationBarTitleText": "入库产品排行分析"
 					}
-				}
+				},{
+            "path" : "classAll/classAll",
+            "style" : {
+							"navigationBarTitleText": "类别汇总分析"
+						}
+        }
 			]
 		},
 
