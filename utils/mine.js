@@ -1,5 +1,22 @@
 import Bmob from "hydrogen-js-sdk";
+let uid = uni.getStorageSync("uid");
+
 export default {
+	
+	//获取用户的信息
+	getMineInfo(){
+		console.log("ssss")
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query('_User');
+			query.get(uid).then(res => {
+			  console.log(res)
+				resolve(res)
+			}).catch(err => {
+			  console.log(err)
+			})
+		})
+		
+	},
 
 	//修改配置信息
 	modify_setting(params) {

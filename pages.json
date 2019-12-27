@@ -182,7 +182,7 @@
 				"navigationBarTitleText": "员工业绩"
 			}
 		}
-	],
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -318,6 +318,27 @@
 					"path": "producerSell/producerSell",
 					"style": {
 						"navigationBarTitleText": "供货商采购排行分析"
+					}
+				},{
+					"path": "classAll/classAll",
+					"style": {
+						"navigationBarTitleText": "类别汇总分析"
+					}
+				}
+			]
+		},
+		/*财务模块*/
+		{
+			"root": "pages/finance",
+			"pages": [{
+					"path": "account/account",
+					"style": {
+						"navigationBarTitleText": "我的账户"
+					}
+				},{
+					"path": "add/add",
+					"style": {
+						"navigationBarTitleText": "账户添加"
 					}
 				}
 			]

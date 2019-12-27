@@ -75,12 +75,12 @@
 				<view class='o_text'>{{value.name}}</view>
 			</navigator>
 
-			<view class='o_item' @click="navigateToKCB">
+			<!--<view class='o_item' @click="navigateToKCB">
 				<view style='width:100%'>
 					<image src="/static/newVer.png" class='o_image' />
 				</view>
 				<view class='o_text'>库存表KCB版</view>
-			</view>
+			</view>-->
 		</view>
 		<view class='scan_code display_flex' @click='scan_code'>
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
@@ -220,7 +220,25 @@
 
 				notice.getNoticeList(1).then(res => {
 					that.noticeText = res[0].content
+					//console.log(res)
+				})
+				
+				console.log("sdasda")
+
+				mine.getMineInfo().then(res => {
 					console.log(res)
+					if (res.disabled) {
+						setTimeout(function() {
+							uni.showToast({
+								title: "该账户已禁用",
+								icon: "none"
+							})
+						}, 1000)
+
+						uni.reLaunch({
+							url: "/pages/landing/landing"
+						})
+					}
 				})
 			} else {
 				setTimeout(function() {
