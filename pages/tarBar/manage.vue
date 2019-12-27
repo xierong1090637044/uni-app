@@ -168,7 +168,12 @@
 						icon: 'sign-in',
 						url: '/pages/analysis/goodIn/goodIn',
 						color: "#a84fbb"
-					},
+					}, {
+						name: '类别汇总',
+						icon: 'list',
+						url: '/pages/analysis/classAll/classAll',
+						color: "#a84fbb"
+					}
 				]
 			}
 		},
@@ -186,13 +191,6 @@
 						staffs.get_satffAuth().then(res => {
 							console.log(res)
 							let now_staff = uni.getStorageSync("user")
-							if (res.masterId.is_vip) {
-								now_staff.is_vip = true
-								now_staff.vip_time = now_staff.masterId.vip_time
-							} else {
-								now_staff.is_vip = false
-								now_staff.vip_time = 0
-							}
 
 							if (res) {
 								rights = res.rights.current;

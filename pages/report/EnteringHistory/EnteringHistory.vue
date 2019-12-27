@@ -69,7 +69,7 @@
 								</view>
 								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
 								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
-								<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
+								<view v-else-if='item.type == 3' class='order_counting' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">盘点</view>
 								<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
 							</view>
 						</view>
@@ -215,8 +215,6 @@
 					title: "盘点记录"
 				})
 			}
-			
-			that.get_list()
 		},
 
 		onShow() {
@@ -228,9 +226,7 @@
 				that.stock = uni.getStorageSync("warehouse")[0].stock
 			}
 			
-			if(uni.getStorageSync("is_option")){
-				that.get_list()
-			}
+			that.get_list()
 		},
 
 		onUnload() {

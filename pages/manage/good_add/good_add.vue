@@ -455,8 +455,8 @@
 							query.get(item.good_id).then(res => {
 								console.log(res, item)
 								res.set('reserve', Number(item.reserve))
-								res.set("retailPrice", good.retailPrice.toString())
-								res.set("costPrice",  good.costPrice.toString())
+								res.set("retailPrice", Number(good.retailPrice))
+								res.set("costPrice",  Number(good.costPrice))
 								res.set("goodsName", good.goodsName)
 								res.save()
 							}).catch(err => {

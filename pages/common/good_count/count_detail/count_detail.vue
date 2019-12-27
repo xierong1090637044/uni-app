@@ -118,6 +118,7 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', 3);
 					tempBills.set('stock', poiID3);
+					tempBills.set('status', false);
 
 					let goodsId = {}
 					if (this.products[i].selectd_model) {
@@ -136,6 +137,10 @@
 				//插入单据
 				Bmob.Query('NBills').saveAll(billsObj).then(function(res) {
 						console.log("批量新增单据成功", res);
+						let bills = []
+						for (let i = 0; i < res.length; i++) {
+							bills.push(res[i].success.objectId)
+						}
 
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
@@ -152,7 +157,9 @@
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('stock', poiID3);
-
+						query.set("bills", bills);
+						query.set('status', false);
+						query.set('opreatioGoods', that.products);
 						query.save().then(res => {
 							let operationId = res.objectId;
 							//console.log("添加操作历史记录成功", res);
@@ -165,8 +172,21 @@
 										let num = 0;
 										const query = Bmob.Query("NGoods");
 										query.get(that.products[i].objectId).then(res => {
+											
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
+											common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +"'等" + that.products.length + "商品，还未审核", 3, operationId);
+											
+											uni.navigateBack({
+												delta: 2
+											});
+											
 											//console.log(res)
-											if (that.products[i].selectd_model) {
+											/*if (that.products[i].selectd_model) {
 												for (let item of that.products[i].selected_model) {
 													delete item.num // 清除没用的属行
 												}
@@ -209,7 +229,7 @@
 														});
 													}
 												})
-											});
+											});*/
 
 										})
 									}

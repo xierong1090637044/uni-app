@@ -176,7 +176,11 @@
 			"path": "pages/report/list/list",
 			"style": {}
 		}
-	],
+	    ,{
+            "path" : "pages/analysis/classAll/classAll",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",

@@ -38,11 +38,11 @@
 		</view>
 		<view class="list-content">
 			<view class="list">
-				<navigator class="li " hover-class="none" url="/pages/mine/InforCnter/InforCnter">
+				<!--<navigator class="li " hover-class="none" url="/pages/mine/InforCnter/InforCnter">
 					<fa-icon type="instagram" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text display_flex">消息中心<view class="weidu" v-if="noticeState"></view></view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
+				</navigator>-->
 				<!--<navigator class="li " hover-class="none" url="/pages/mine/vip/vip">
 					<fa-icon type="vimeo" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">会员中心</view>
