@@ -12,9 +12,21 @@
 				</navigator>
 			</view>
 		</view>
+		
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;">
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">财务模块</view>
+			<view class='o_list'>
+				<navigator v-for="(value,index) in financeModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view>
+						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
+					</view>
+					<span class='o_text'>{{value.name}}</span>
+				</navigator>
+			</view>
+		</view>
 
 		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
-			<view style="font-size: 30rpx;color: #333;font-weight: bold;">管理记录模块</view>
+			<view style="font-size: 30rpx;color: #333;font-weight: bold;">记录模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in second_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view>
@@ -38,17 +50,7 @@
 			</view>
 		</view>
 		
-		<!--<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;">
-			<view style="font-size: 30rpx;color: #333;font-weight: bold;">财务模块</view>
-			<view class='o_list'>
-				<navigator v-for="(value,index) in financeModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-					<view>
-						<fa-icon :type="value.icon" size="20" :color="value.color"></fa-icon>
-					</view>
-					<span class='o_text'>{{value.name}}</span>
-				</navigator>
-			</view>
-		</view>-->
+		
 	</scroll-view>
 
 </template>
@@ -194,6 +196,16 @@
 			name: '我的账户',
 			icon: 'gg',
 			url: '/pages/finance/account/account',
+			color: "#2ca879"
+		},{
+			name: '收入类别',
+			icon: 'list',
+			url: '/pages/finance/inClass/inClass',
+			color: "#2ca879"
+		},{
+			name: '支出类别',
+			icon: 'outdent',
+			url: '/pages/finance/outClass/outClass',
 			color: "#2ca879"
 		}
 	];

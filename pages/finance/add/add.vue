@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="start_add">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="operationDesc" @click-right="start_add">
 			<view></view>
 		
 		</uni-nav-bar>
@@ -15,41 +15,21 @@
 				<input placeholder="请输入账号" v-model="number" style="width: calc(100% - 200rpx)" />
 			</view>
 			
-			<view class="display_flex_bet item" style="border-bottom: 1rpx solid#F7F7F7;">
+			<view class="display_flex_bet item" style="border-bottom: 1rpx solid#F7F7F7;" >
 				<view style="width: 200rpx;"><text style="margin-right: 6rpx;">账户类型</text></view>
-				<input placeholder="请选择账户类型" v-model="type" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<picker style="width: calc(100% - 200rpx)" :range="typeArray" @change="selectType">
+					<input placeholder="请选择账户类型" disabled="true" v-model="type"/>
+				</picker>
 			</view>
 			
 			<view class="display_flex_bet item" style="border-bottom: 1rpx solid#F7F7F7;">
 				<view style="width: 200rpx;"><text style="margin-right: 6rpx;">初始金额</text></view>
-				<input placeholder="请输入初始金额" v-model="startMoney" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<input placeholder="请输入初始金额" v-model="money" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
-
-			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
-				<view class="display_flex">
-					<text style="margin-right: 20rpx;">门店</text>
-					<input placeholder="请选择门店" v-model="warehouse_shop" style="width: calc(100% - 200rpx)" />
-				</view>
-
-				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-			</navigator>-
-			<navigator class="display_flex_bet item" style="margin-bottom:60rpx"  hover-class="none" url="../../staff/staff?type=choose">
-				<view class="display_flex" >
-					<text style="margin-right: 6rpx;">负责人</text><text style="color: #d93a49;margin-right: 20rpx;">*</text>
-					<input placeholder="请选择负责人" v-model="warehouse_charge" style="width: calc(100% - 200rpx)" disabled="true"/>
-				</view>
-
-				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-			</navigator>-->
 
 			<view class="display_flex_bet item"  style="border-bottom: 1rpx solid#F7F7F7;">
 				<view style="width: 200rpx;"><text style="margin-right: 20rpx;">备注</text></view>
 				<input placeholder="请输入备注" v-model="beizhu" style="width: calc(100% - 200rpx)" />
-			</view>
-
-			<view class="display_flex_bet item" style="margin-bottom:60rpx">
-				<view style="width: 200rpx;"><text style="margin-right: 20rpx;">启用</text></view>
-				<switch :checked="disabled" @change="switchChange" />
 			</view>
 
 		</view>
@@ -63,10 +43,7 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let that;
-	let warehouse;//仓库
-	let charge;//负责人
-	let shop;//门店
-	let shopId;
+	let account;
 	let uid;
 	export default {
 		components: {
@@ -75,14 +52,15 @@
 		},
 		data() {
 			return {
+				operationDesc:"添加",
 				user:uni.getStorageSync("user"),
-				Images:[],//上传凭证图
 				name: '', //名称
-				number: '', //门店
-				type: 0, //排序
-				startMoney:0,
+				number: '', //账号
+				type: '', //账户类型
+				money:0,
 				beizhu: '', //备注
 				disabled: true, //是否启用
+				typeArray:['支付宝',"微信",'银行卡','其他'],
 			}
 		},
 		onLoad(options) {
@@ -91,74 +69,43 @@
 		},
 
 		onShow() {
-			warehouse = uni.getStorageSync("warehouse");
-			charge = uni.getStorageSync("charge");
-			shop = uni.getStorageSync("shop");
-			
+			account = uni.getStorageSync("account");
 
-			if (warehouse) {
-				that.Images = warehouse.Image || []
-				that.warehouse_name = warehouse.stock_name
-				that.warehouse_shop = warehouse.shop
-				that.warehouse_num = warehouse.num
-				that.warehouse_charge = warehouse.charge
-				that.warehouse_beizhu = warehouse.beizhu
-				that.disabled = !warehouse.disabled;
+			if (account) {
 				uni.setNavigationBarTitle({
 					title: '修改结算账户'
 				});
+				
+				that.operationDesc = "修改"
+				that.name = account.name
+				that.number = account.number || ''
+				that.money = account.money || 0
+				that.type = account.type || ''
+				that.beizhu = account.beizhu || ''
 			}else{
 				uni.setNavigationBarTitle({
 					title: '新增结算账户'
 				});
 			}
-			
-			if(shop){
-				that.warehouse_shop = shop.name
-				
-				const pointer = Bmob.Pointer('shops');
-				shopId = pointer.set(shop.objectId);
-			}
-			
-			that.warehouse_charge = charge.username
 
 		},
 		
 		onUnload() {
-			uni.removeStorageSync('warehouse')
-			uni.removeStorageSync('shop')
-			uni.removeStorageSync('charge')
+			uni.removeStorageSync('account')
 		},
 
 		methods: {
-			//移除此张照片
-			removeImg(index){
-				that.Images.splice(index,1)
-				that.Images = that.Images
-			},
 			
-			//上传凭证图
-			upload_image(){
-				upload.upload_image(1).then(res=>{
-					console.log(res)
-					that.Images = res
-				})
-			},
-			
-			//启用的switech
-			switchChange(e){
-				that.disabled = e.detail.value;
+			//选择账户类型
+			selectType(e){
+				console.log(e)
+				that.type = that.typeArray[e.detail.value]
 			},
 			
 			start_add(){
-				if (this.warehouse_name == '') {
+				if (this.name == '') {
 					uni.showToast({
-						title: "请输入仓库名字",
-						icon: "none"
-					})
-				} else if (this.warehouse_charge == ''||this.warehouse_charge == null) {
-					uni.showToast({
-						title: "请选择仓库负责人",
+						title: "请输入账户名称",
 						icon: "none"
 					})
 				} else {
@@ -174,21 +121,18 @@
 				
 				const pointer = Bmob.Pointer('_User');
 				let poiID = pointer.set(uid);
-				const pointer1 = Bmob.Pointer("_User");
-				let chargeId = pointer1.set(charge.objectId);
 				
-				if (warehouse) {//修改操作
-					const query = Bmob.Query('stocks');
-					query.set("Image", that.Images);
-					query.set("stock_name", that.warehouse_name);
-					query.set("num", Number(that.warehouse_num?that.warehouse_num:0));
-					if(shop) query.set("shop",shopId);
+				if (account) {//修改操作
+					const query = Bmob.Query('accounts');
+					query.set("name", that.name);
+					query.set("number", that.number);
+					//if(shop) query.set("shop",shopId);
 					//query.set("shop", that.warehouse_shop);
-					query.set("Ncharge", chargeId);
-					query.set("beizhu", that.warehouse_beizhu||'');
-					query.set("disabled", !that.disabled);
+					query.set("beizhu", that.beizhu||'');
+					query.set("type",that.type);
+					query.set("money",Number(that.money));
 					query.set("parent", poiID);
-					query.set("id", warehouse.objectId);
+					query.set("id", account.objectId);
 					query.save().then(res => {
 						uni.hideLoading();
 						console.log(res)
@@ -201,20 +145,19 @@
 					})
 				} else {
 
-					const query = Bmob.Query("stocks");
+					const query = Bmob.Query("accounts");
 					query.equalTo("parent", "==", uid);
-					query.equalTo("stock_name", "==", that.warehouse_name);
+					query.equalTo("name", "==", that.name);
 					query.find().then(res => {
 						console.log(res)
 						if (res.length == 0) {
-							const query = Bmob.Query('stocks');
-							query.set("Image", that.Images);
-							query.set("stock_name", that.warehouse_name);
-							query.set("num", Number(that.warehouse_num));
-							if(shop) query.set("shop",shopId);
-							query.set("Ncharge", chargeId);
-							query.set("beizhu", that.warehouse_beizhu);
-							query.set("disabled", !that.disabled);
+							const query = Bmob.Query('accounts');
+							query.set("name", that.name);
+							query.set("number", that.number);
+							query.set("beizhu", that.beizhu||'');
+							query.set("money",Number(that.money));
+							query.set("type",that.type);
+							//query.set("disabled", !that.disabled);
 							query.set("parent", poiID);
 							query.save().then(res => {
 								console.log(res)
@@ -223,19 +166,18 @@
 									title: "添加成功"
 								})
 								
-								that.warehouse_name = '' //名称
-								that.warehouse_shop = '' //门店
-								that.warehouse_num = 0 //排序
-								that.warehouse_charge = '' //负责人
-								that.warehouse_beizhu = '' //备注
-								that.disabled = true //是否启用
+								that.name = '' //名称
+								that.number = '' //排序
+								that.beizhu = '' //备注
+								that.type = ''
+								that.money = '' //初始金额
 							}).catch(err => {
 								console.log(err)
 
 							})
 						} else {
 							uni.showToast({
-								title: "已存在此仓库",
+								title: "已存在此账户",
 								icon: "none"
 							})
 						}

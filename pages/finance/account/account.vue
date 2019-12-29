@@ -4,21 +4,21 @@
 		<loading v-if="loading"></loading>
 
 		<view wx:else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add"></uni-nav-bar>
+			<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add"></uni-nav-bar>
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
 			 enable-back-to-top="true" v-if="accounts && accounts.length > 0">
-				<view v-for="(stock,index) in accounts" :key="index">
+				<view v-for="(account,index) in accounts" :key="index">
 					<view class='content'>
-						<view class="display_flex_bet" @click="goto_detail(stock)">
+						<view class="display_flex_bet" @click="goto_detail(account)">
 							<view class="display_flex">
-								<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])" mode="aspectFit"></image>
-								<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
+								<image v-if="account.type =='支付宝' " src="/static/alipay.png" class="account_avatar" @click.stop="priviewImg(account.Image[0])" mode="aspectFit"></image>
+								<image v-else-if="account.type =='微信' " src="/static/wechat.png" class="account_avatar" @click.stop="priviewImg(account.Image[0])" mode="aspectFit"></image>
+								<image v-else-if="account.type =='银行卡' " src="/static/bankcard.png" class="account_avatar" @click.stop="priviewImg(account.Image[0])" mode="aspectFit"></image>
+								<image v-else src="/static/otherway.png" class="account_avatar" @click.stop="priviewImg(account.Image[0])" mode="aspectFit"></image>
 								<view>
-									<view class='stock_name'>{{stock.stock_name}}</view>
-									<view class='stock_mobile' v-if="stock.charge &&stock.charge.nickName">负责人：{{stock.charge.nickName}}</view>
-									<view class='stock_mobile' v-else-if="stock.Ncharge &&stock.Ncharge.nickName">负责人：{{stock.Ncharge.nickName}}</view>
-									<view class='stock_mobile' v-else>负责人：未填写</view>
+									<view class='account_name'>{{account.name}}</view>
+									<view class='account_money'>余额：{{account.money}}</view>
 								</view>
 							</view>
 
@@ -26,7 +26,7 @@
 						</view>
 						
 						<view class="right_item">
-							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(stock)">
+							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(account)">
 								<text style="color: #d93a49;">选择</text>
 							</view>
 						</view>
@@ -83,81 +83,15 @@
 			}*/
 		},
 		onShow() {
-			that.getstock_list()
+			that.getAccounts()
+			uni.removeStorageSync("account")
 		},
 		onUnload() {
 			search_text = ""
 		},
 		methods: {
-			//预览图片
-			priviewImg(url){
-				uni.previewImage({
-					current:url,
-					urls: [url],
-				});
-			},
 
-			//tab点击
-			onClickItem(index) {
-				if (this.current !== index) {
-					this.current = index
-
-					if (index == 0) {
-						that.disabled = false,
-							that.getstock_list()
-					} else if (index == 1) {
-						that.disabled = true,
-							that.getstock_list()
-					}
-				}
-			},
-
-			//点击仓库去到详情
-			goto_detail(stock) {
-				uni.setStorageSync("stock", stock)
-				uni.navigateTo({
-					url: "detail/detail"
-				})
-			},
-
-			//选择此仓库
-			select_this(item) {
-				let warehouse;
-				if (that.type == "choose_more") {
-					warehouse = uni.getStorageSync("warehouse") || [];
-				} else {
-					warehouse = []
-				}
-
-				let _accounts = {};
-
-				_accounts.stock = item;
-				_accounts.reserve = 0;
-				_accounts.warning_num = 0;
-
-				if (JSON.stringify(warehouse).indexOf(JSON.stringify(_accounts)) == -1) {
-					warehouse.push(_accounts);
-					if (that.type == "out_choose") {
-						uni.setStorageSync("out_warehouse", warehouse)
-						uni.navigateBack({
-							delta: 1
-						})
-					} else {
-						uni.setStorageSync("warehouse", warehouse)
-						uni.navigateBack({
-							delta: 1
-						})
-					}
-				} else {
-					uni.showToast({
-						title: "已选择此仓库",
-						icon: "none"
-					})
-				}
-
-			},
-
-			//前去添加仓库
+			//前去添加账户
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
@@ -165,47 +99,26 @@
 				uni.navigateTo({
 					url: "../add/add"
 				})
-				
-				/*if(user.is_vip || that.accounts.length <2){
-					uni.navigateTo({
-						url: "add/add"
-					})
-				}else{
-					uni.showModal({
-					    title: '提示',
-					    content: '非会员最多上传2个仓库',
-							confirmText:"充值会员",
-					    success: function (res) {
-					        if (res.confirm) {
-					            if(identity == 1){
-					            	uni.navigateTo({
-					            		url:"/pages/mine/vip/vip"
-					            	})
-					            }else{
-					            	uni.showToast({
-					            		title:"员工不能充值",
-					            		icon:"none"
-					            	})
-					            }
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
-					})
-				}*/
+			},
+			
+			//去到账户详情
+			goto_detail(account){
+				uni.setStorageSync("account",account);
+				uni.navigateTo({
+					url: "../detail/detail"
+				})
 			},
 
 			//输入内容筛选
 			input_confirm(e) {
 				search_text = e.detail.value
-				that.getstock_list();
+				that.getAccounts();
 			},
 
 			//得到账户列表
-			getstock_list: function() {
+			getAccounts: function() {
 				const query = Bmob.Query("accounts");
-				query.order("-num");
-				query.include("charge", "shop","Ncharge")
+				query.order("-money");
 				query.equalTo("parent", "==", uid);
 				query.equalTo("disabled", "!=", !that.disabled);
 				if (search_text) {
@@ -219,7 +132,6 @@
 					that.loading = false;
 					let accounts = res;
 					that.accounts = accounts
-					
 				});
 			},
 
@@ -238,14 +150,14 @@
 		padding: 20rpx 0;
 	}
 
-	.stock_name {
+	.account_name {
 		font-weight: bold;
 		font-size: 30rpx;
 		color: #3D3D3D;
 		margin-bottom: 4rpx;
 	}
 
-	.stock_mobile {
+	.account_money {
 		color: #999;
 	}
 
@@ -255,7 +167,7 @@
 		padding-bottom: 10rpx;
 	}
 
-	.stock_avatar {
+	.account_avatar {
 		width: 82rpx;
 		height: 70rpx;
 		margin-right: 20rpx;
