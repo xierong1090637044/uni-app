@@ -77,10 +77,10 @@
 			uid = uni.getStorageSync('uid');
 
 			console.log(options)
-			/*if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more") {
+			if (options.type == "choose") {
 				that.is_choose = true
 				that.type = options.type
-			}*/
+			}
 		},
 		onShow() {
 			that.getAccounts()
@@ -90,6 +90,14 @@
 			search_text = ""
 		},
 		methods: {
+			
+			//选择此账号
+			select_this(account) {
+				uni.setStorageSync("account", account)
+				uni.navigateBack({
+					delta: 1
+				})
+			},
 
 			//前去添加账户
 			goto_add() {

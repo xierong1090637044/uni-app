@@ -98,22 +98,25 @@
 				current: 0,
 				people: null, //获得人员数组
 				is_producer: false,
-				is_custom:false
+				is_custom:false,
+				type:'',//选择类型
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
 			
-			if (options.type == "producer") {
+			if (options.type == "producer" || options.type == "producerFinance") {
 				that.is_producer = true,
 				that.current = 1,
 				that.load_data("producers")
-			}else if(options.type == "custom"){
+			}else if(options.type == "custom" || options.type == "customFinance"){
 				that.is_custom = true,
 				that.current = 0,
 				that.load_data("customs")
 			}
+			
+			that.type = options.type
 		},
 
 		onShow() {
@@ -133,6 +136,26 @@
 			
 			//选择此供货商
 			select_this(type,producer) {
+				if(that.type == "producerFinance"){
+					if(producer.debt == 0 || producer.debt == ''){
+						uni.showToast({
+							icon:"none",
+							title:"没有欠款"
+						})
+						
+						return
+					}
+				}else if(that.type == "customFinance"){
+					if(producer.debt == 0 || producer.debt == ''){
+						uni.showToast({
+							icon:"none",
+							title:"没有欠款"
+						})
+						
+						return
+					}
+				}
+				
 				uni.setStorageSync(type, producer)
 				uni.navigateBack({
 					delta: 1

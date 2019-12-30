@@ -182,7 +182,7 @@
 				"navigationBarTitleText": "员工业绩"
 			}
 		}
-	],
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -357,6 +357,18 @@
 					"style": {
 						"navigationBarTitleText": "支出类别"
 					}
+				},
+				{
+					"path": "InRecord/InRecord",
+					"style": {
+						"navigationBarTitleText": "新增收款"
+					}
+				},
+				{
+				    "path" : "outRecord/outRecord",
+				    "style" : {
+							"navigationBarTitleText": "新增付款"
+						}
 				}
 			]
 		},

@@ -50,7 +50,7 @@
 				</view>
 			</uni-popup>
 			
-			<view class="getmoney_button" @click="modal_show = true">收款</view>
+			<navigator class="getmoney_button" hover-class="none" url="/pages/finance/InRecord/InRecord">收款</navigator>
 		</view>
 		
 
