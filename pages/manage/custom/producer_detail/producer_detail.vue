@@ -49,7 +49,8 @@
 				</view>
 			</uni-popup>
 			
-			<view class="getmoney_button" @click="modal_show = true">还款</view>
+			<view class="getmoney_button" @click="gotopay">还款</view>
+			
 		</view>
 		
 
@@ -99,6 +100,13 @@
 			})
 		},
 		methods: {
+			
+			gotopay(){
+				uni.setStorageSync("producer",that.producer)
+				uni.redirectTo({
+					url: '/pages/finance/outRecord/outRecord'
+				});
+			},
 			
 			show_options(){
 				uni.showActionSheet({

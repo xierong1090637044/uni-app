@@ -22,6 +22,7 @@
 					</view>
 					<span class='o_text'>{{value.name}}</span>
 				</navigator>
+				
 			</view>
 		</view>
 
@@ -193,6 +194,16 @@
 	];
 	
 	let financeLists= [{
+			name: '应收款',
+			icon: 'clock-o',
+			url: '/pages/finance/customIn/customIn',
+			color: "#2ca879"
+		},{
+			name: '应付款',
+			icon: 'calendar ',
+			url: '/pages/finance/producerOut/producerOut',
+			color: "#2ca879"
+		},{
 			name: '我的账户',
 			icon: 'gg',
 			url: '/pages/finance/account/account',

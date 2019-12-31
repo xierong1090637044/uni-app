@@ -369,7 +369,18 @@
 				    "style" : {
 							"navigationBarTitleText": "新增付款"
 						}
-				}
+				},{
+            "path" : "customIn/customIn",
+            "style" : {
+							"navigationBarTitleText": "客户应收列表"
+						}
+        }
+        ,{
+            "path" : "producerOut/producerOut",
+            "style" : {
+							"navigationBarTitleText": "供货商应付列表"
+						}
+        }
 			]
 		},
 

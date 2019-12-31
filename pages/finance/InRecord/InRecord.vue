@@ -10,7 +10,7 @@
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=customFinance" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
-								<input placeholder="选择供货商" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
+								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -77,7 +77,7 @@
 						<text>本次实收：￥{{real_money || 0}}</text>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#426ab3 ;">确认收款</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#426ab3 ;">生成收款单</button>
 					</view>
 
 				</view>
@@ -98,6 +98,7 @@
 	export default {
 		data() {
 			return {
+				custom:{},
 				user: uni.getStorageSync("user"),
 				identity: uni.getStorageSync("identity"),
 				Images: [], //上传凭证图
@@ -111,8 +112,6 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			uni.removeStorageSync("account");
-			uni.removeStorageSync("custom")
 		},
 
 		onShow() {
@@ -213,6 +212,7 @@
 								"__type": "Date",
 								"iso": that.nowDay
 							}); // 操作单详情
+							query.set("type", "InRecord");
 							query.set("Images", that.Images);
 							query.save().then(res => {
 								this.button_disabled = false;
@@ -221,10 +221,18 @@
 									uni.setStorageSync("custom",res)
 									that.custom = res
 									common.log(uni.getStorageSync("user").nickName + "操作'" + that.custom.custom_name + "'客户还款￥" +that.real_money + "元", 6, res.objectId);
-									uni.showToast({
-										icon: "none",
-										title: '收款成功',
+									
+									uni.navigateBack({
+										delta:1
 									})
+									
+									setTimeout(function(){
+										uni.showToast({
+											icon: "none",
+											title: '收款成功',
+										})
+									},1000)
+									
 								})
 								
 							}).catch(err => {

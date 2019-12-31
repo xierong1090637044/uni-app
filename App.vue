@@ -33,6 +33,7 @@
 <style lang="scss">
 	/*每个页面公共css */
 	@import 'uni.css';
+	@import "iconfont.css";
 	/* #ifdef MP-WEIXIN */
 	@import "colorui/main.css";
 	@import "colorui/icon.css";

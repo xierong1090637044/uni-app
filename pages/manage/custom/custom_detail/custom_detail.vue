@@ -50,7 +50,7 @@
 				</view>
 			</uni-popup>
 			
-			<navigator class="getmoney_button" hover-class="none" url="/pages/finance/InRecord/InRecord">收款</navigator>
+			<view class="getmoney_button" @click="gotopay">收款</view>
 		</view>
 		
 
@@ -96,6 +96,13 @@
 			})
 		},
 		methods: {
+			gotopay(){
+				uni.setStorageSync("custom",that.custom)
+				uni.redirectTo({
+					url: '/pages/finance/InRecord/InRecord'
+				});
+			},
+			
 			show_options(){
 				uni.showActionSheet({
 					itemList: ["编辑", "删除"],
