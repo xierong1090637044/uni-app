@@ -111,9 +111,9 @@ export default {
 	//得到还款列表
 	get_moneyList(id){
 		return new Promise((resolve, reject) => {
-			const query = Bmob.Query("debt_history");
+			const query = Bmob.Query("financeRecord");
 			query.equalTo("producer","==", id);
-			query.include("operater");
+			query.include("operater","account");
 			query.find().then(res => {
 			    console.log(res)
 					resolve(res)

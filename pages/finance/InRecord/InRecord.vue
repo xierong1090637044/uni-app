@@ -32,7 +32,7 @@
 
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view>本次实收<text style="font-size: 20rpx;color: #f30;">*</text></view>
-							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
+							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际收款金额" v-model="real_money"
 								 style="color: #d71345;" type="digit" /></view>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
@@ -98,7 +98,7 @@
 	export default {
 		data() {
 			return {
-				custom:{},
+				custom: {},
 				user: uni.getStorageSync("user"),
 				identity: uni.getStorageSync("identity"),
 				Images: [], //上传凭证图
@@ -112,6 +112,7 @@
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
+			uni.removeStorageSync("producer")
 		},
 
 		onShow() {
@@ -194,53 +195,66 @@
 							icon: "none",
 							title: '收款金额过大',
 						})
+						this.button_disabled = false;
 					} else {
 						res.set('debt', res.debt - Number(that.real_money));
 						res.save().then(res => {
-							let custom = Bmob.Pointer('customs');
-							let customID = custom.set(that.custom.objectId);
-							let account = Bmob.Pointer('accounts');
-							let accountID = account.set(that.account.objectId);
+							const query = Bmob.Query('accounts');
+							query.get(that.account.objectId).then(res => {
+								res.set('money', res.money + Number(that.real_money));
+								res.save().then(res => {
+									let custom = Bmob.Pointer('customs');
+									let customID = custom.set(that.custom.objectId);
+									let account = Bmob.Pointer('accounts');
+									let accountID = account.set(that.account.objectId);
+									
+									let pointer = Bmob.Pointer('_User')
+									let poiID = pointer.set(uid);
+									let masterId = uni.getStorageSync("masterId");
+									let pointer1 = Bmob.Pointer('_User')
+									let poiID1 = pointer1.set(masterId);
 
-							const query = Bmob.Query('financeRecord');
-							query.set("account", accountID)
-							query.set("custom", customID)
-							query.set("real_money", Number(that.real_money))
-							query.set("beizhu", that.beizhu_text)
-							query.set("debt", that.custom.debt || 0)
-							query.set("createdTime", {
-								"__type": "Date",
-								"iso": that.nowDay
-							}); // 操作单详情
-							query.set("type", "InRecord");
-							query.set("Images", that.Images);
-							query.save().then(res => {
-								this.button_disabled = false;
-								
-								customs.custom_detail(that.custom.objectId).then(res => {
-									uni.setStorageSync("custom",res)
-									that.custom = res
-									common.log(uni.getStorageSync("user").nickName + "操作'" + that.custom.custom_name + "'客户还款￥" +that.real_money + "元", 6, res.objectId);
-									
-									uni.navigateBack({
-										delta:1
-									})
-									
-									setTimeout(function(){
-										uni.showToast({
-											icon: "none",
-											title: '收款成功',
+									const query = Bmob.Query('financeRecord');
+									query.set("account", accountID)
+									query.set("custom", customID)
+									query.set("master", poiID);
+									query.set("operater", poiID1)
+									query.set("real_money", Number(that.real_money))
+									query.set("beizhu", that.beizhu_text)
+									query.set("debt", that.custom.debt || 0)
+									query.set("createdTime", {
+										"__type": "Date",
+										"iso": that.nowDay
+									}); // 操作单详情
+									query.set("type", "inRecord");
+									query.set("Images", that.Images);
+									query.save().then(res => {
+										this.button_disabled = false;
+
+										customs.custom_detail(that.custom.objectId).then(res => {
+											that.custom = res
+											common.log(uni.getStorageSync("user").nickName + "操作'" + that.custom.custom_name + "'客户还款￥" +
+												that.real_money +
+												"元", 6, res.objectId);
+
+											uni.navigateBack({
+												delta: 1
+											})
+
+											setTimeout(function() {
+												uni.showToast({
+													icon: "none",
+													title: '收款成功',
+												})
+											}, 1000)
 										})
-									},1000)
-									
+									}).catch(err => {
+										console.log(err)
+									})
 								})
-								
-							}).catch(err => {
-								console.log(err)
 							})
 						});
 					}
-
 				}).catch(err => {
 					console.log(err)
 				})

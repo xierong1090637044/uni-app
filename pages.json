@@ -365,20 +365,29 @@
 					}
 				},
 				{
-				    "path" : "outRecord/outRecord",
-				    "style" : {
-							"navigationBarTitleText": "新增付款"
-						}
+					"path": "outRecord/outRecord",
+					"style": {
+						"navigationBarTitleText": "新增付款"
+					}
+				}, {
+					"path": "customIn/customIn",
+					"style": {
+						"navigationBarTitleText": "客户应收列表"
+					}
+				}, {
+					"path": "producerOut/producerOut",
+					"style": {
+						"navigationBarTitleText": "供货商应付列表"
+					}
+				}, {
+					"path": "recordDetail/recordDetail",
+					"style": {
+						"navigationBarTitleText": "详情"
+					}
 				},{
-            "path" : "customIn/customIn",
+            "path" : "history/history",
             "style" : {
-							"navigationBarTitleText": "客户应收列表"
-						}
-        }
-        ,{
-            "path" : "producerOut/producerOut",
-            "style" : {
-							"navigationBarTitleText": "供货商应付列表"
+							"navigationBarTitleText": "账户资金流水记录"
 						}
         }
 			]

@@ -25,7 +25,7 @@
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">付款账户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择收款账户" disabled="true" :value="account?account.name:''" style="text-align: right;margin-right: 20rpx;" />
+								<input placeholder="选择付款账户" disabled="true" :value="account?account.name:''" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -98,7 +98,7 @@
 	export default {
 		data() {
 			return {
-				producer:{},
+				producer: {},
 				user: uni.getStorageSync("user"),
 				identity: uni.getStorageSync("identity"),
 				Images: [], //上传凭证图
@@ -174,7 +174,7 @@
 				} else if (uni.getStorageSync("account") == "" || uni.getStorageSync("account") == undefined) {
 					uni.showToast({
 						icon: "none",
-						title: "请选择收款账户"
+						title: "请选择付款账户"
 					});
 					this.button_disabled = false;
 					return;
@@ -194,48 +194,65 @@
 							icon: "none",
 							title: '付款金额过大',
 						})
+						this.button_disabled = false;
 					} else {
 						res.set('debt', res.debt - Number(that.real_money));
 						res.save().then(res => {
-							let producer = Bmob.Pointer('producers');
-							let producerID = producer.set(that.producer.objectId);
-							let account = Bmob.Pointer('accounts');
-							let accountID = account.set(that.account.objectId);
+							const query = Bmob.Query('accounts');
+							query.get(that.account.objectId).then(res => {
+								res.set('money', res.money + Number(that.real_money));
+								res.save().then(res => {
+									let producer = Bmob.Pointer('producers');
+									let producerID = producer.set(that.producer.objectId);
+									let account = Bmob.Pointer('accounts');
+									let accountID = account.set(that.account.objectId);
+									let pointer = Bmob.Pointer('_User')
+									let poiID = pointer.set(uid);
+									let masterId = uni.getStorageSync("masterId");
+									let pointer1 = Bmob.Pointer('_User')
+									let poiID1 = pointer1.set(masterId);
 
-							const query = Bmob.Query('financeRecord');
-							query.set("account", accountID)
-							query.set("producer", producerID)
-							query.set("real_money", Number(that.real_money))
-							query.set("beizhu", that.beizhu_text)
-							query.set("debt", that.producer.debt || 0)
-							query.set("createdTime", {
-								"__type": "Date",
-								"iso": that.nowDay
-							}); // 操作单详情
-							query.set("Images", that.Images);
-							query.save().then(res => {
-								this.button_disabled = false;
-								
-								producers.producer_detail(that.producer.objectId).then(res => {
-									uni.setStorageSync("producer",res)
-									that.producer = res
-									common.log(uni.getStorageSync("user").nickName + "操作'" + that.producer.producer_name + "'供货商付款￥" +that.real_money + "元", 6, res.objectId);
-									
-									uni.navigateBack({
-										delta:1
-									})
-									
-									setTimeout(function(){
-										uni.showToast({
-											icon: "none",
-											title: '付款成功',
+									const query = Bmob.Query('financeRecord');
+									query.set("account", accountID)
+									query.set("producer", producerID)
+									query.set("master", poiID);
+									query.set("operater", poiID1)
+									query.set("real_money", Number(that.real_money))
+									query.set("beizhu", that.beizhu_text)
+									query.set("debt", that.producer.debt || 0)
+									query.set("createdTime", {
+										"__type": "Date",
+										"iso": that.nowDay
+									}); // 操作单详情
+									query.set("type", "outRecord");
+									query.set("Images", that.Images);
+									query.save().then(res => {
+										this.button_disabled = false;
+
+										producers.producer_detail(that.producer.objectId).then(res => {
+											uni.removeStorageSync("account")
+											that.producer = res
+											common.log(uni.getStorageSync("user").nickName + "操作'" + that.producer.producer_name +
+												"'供货商付款￥" + that.real_money + "元", 6, res.objectId);
+
+											uni.navigateBack({
+												delta: 1
+											})
+
+											setTimeout(function() {
+												uni.showToast({
+													icon: "none",
+													title: '付款成功',
+												})
+											}, 1000)
 										})
-									},1000)
+
+									}).catch(err => {
+										console.log(err)
+									})
 								})
-								
-							}).catch(err => {
-								console.log(err)
 							})
+
 						});
 					}
 

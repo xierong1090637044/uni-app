@@ -33,6 +33,10 @@
 				<text class="left_desc">交易历史</text>
 				<fa-icon type="angle-right" size="20" color="#999" />
 			</navigator>
+			<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none"  :url="'debt_history/debt_history?id='+producer.objectId+'&name='+producer.producer_name+'&type=producer'">
+				<text class="left_desc">付款流水</text>
+				<fa-icon type="angle-right" size="20" color="#999" />
+			</navigator>
 			
 			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false">
 				<view style="width: 500rpx;">

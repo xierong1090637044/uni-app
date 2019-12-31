@@ -2,7 +2,7 @@
 	<view>
 		<loading v-if="loading"></loading>
 		<view v-else>
-			<!--<view class="frist">供货商名字： <text>{{name}}</text></view>-->
+			<!--*筛选器*-->
 			<view class='select'>
 				<view class="section" style="border-right: 1rpx solid#DDDDDD;">
 					<picker @change="bindDate_startChange" mode="date" :end="start_date_desc">
@@ -12,7 +12,7 @@
 						</view>
 					</picker>
 				</view>
-
+			
 				<view class="section">
 					<picker @change="bindDate_endChange" mode="date" :end="end_date_desc">
 						<view class="picker">
@@ -23,22 +23,25 @@
 				</view>
 			</view>
 
-			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);"
-			 scroll-y>
+			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);" scroll-y>
 				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/recordDetail/recordDetail?id='+item.objectId">
-					<view class="display_flex_bet">
-						<view>还款账户：<text>{{item.account.name}}</text></view>
+					<view class="display_flex_bet" v-if="item.custom">
+						<view>客户：<text>{{item.custom.custom_name}}</text></view>
+						<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
+					</view>
+					<view class="display_flex_bet" v-if="item.producer">
+						<view>供货商：<text>{{item.producer.producer_name}}</text></view>
 						<view><text style="color: #f30;">-{{item.real_money}}</text></view>
 					</view>
-					<view v-if="item.operater.nickName"> 操作人：{{item.operater.nickName}}</view>
+					<view v-if="item.operater"> 操作人：{{item.operater.nickName}}</view>
 					<view style="color: #999999;">{{item.createdAt}}</view>
 				</navigator>
 			</scroll-view>
 			
 			<view style="position: fixed;bottom: 0;width: 100%;background: #fff;padding:20rpx 30rpx;border-top: 1rpx solid#F4F4F4;" class="display_flex">
-				<view style="margin-right: 60rpx;">支出：<text style="color: #f30;font-weight: bold;">￥{{outMoney}}</text></view>
+				<view style="margin-right: 60rpx;">收入：<text style="color: #2ca879;font-weight: bold;">￥{{inMoney}}</text></view>
+				<view>支出：<text style="color: #f30;font-weight: bold;">￥{{outMoney}}</text></view>
 			</view>
-			
 		</view>
 
 	</view>
@@ -47,11 +50,11 @@
 <script>
 	import common from '@/utils/common.js';
 	import Bmob from "hydrogen-js-sdk";
-	import producers from '@/utils/producers.js';
+	import customs from '@/utils/customs.js';
 	import loading from "@/components/Loading/index.vue"
 
 	let that;
-	let producerId;
+	let accountId;
 	export default {
 		components: {
 			loading
@@ -62,11 +65,10 @@
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
-				inMoney: 0,
-				outMoney: 0,
-
+				
+				inMoney:0,
+				outMoney:0,
 				debt_list: [],
-				name: '',
 				loading: true,
 			}
 		},
@@ -85,18 +87,20 @@
 
 			getList() {
 				const query = Bmob.Query("financeRecord");
-				query.equalTo("producer", "==", producerId);
-				query.include("operater", "account");
+				query.equalTo("account", "==", accountId);
+				query.equalTo("createdAt", ">=", that.start_date);
+				query.equalTo("createdAt", "<=", that.end_date);
+				query.include("operater", "account", "custom", "producer");
 				query.find().then(res => {
 					that.loading = false
 					that.debt_list = res
-
-					for (let item of res) {
-						if (item.type == "inRecord") {
-							that.inMoney += item.real_money
-						} else if (item.type == "outRecord") {
-							that.outMoney += item.real_money
-						}
+					
+					for(let item of res){
+						 if(item.type =="inRecord"){
+							 that.inMoney +=item.real_money
+						 }else if(item.type =="outRecord"){
+							 that.outMoney +=item.real_money
+						 }
 					}
 				});
 			}
@@ -104,10 +108,9 @@
 		onLoad(options) {
 			//console.log(options)
 			that = this;
-			that.name = options.name
 			that.start_date_desc = that.start_date.split(" ")[0];
 			that.end_date_desc = that.end_date.split(" ")[0];
-			producerId = options.id;
+			accountId = options.id
 			
 			that.getList()
 		},

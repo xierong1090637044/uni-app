@@ -18,7 +18,7 @@
 								<image v-else src="/static/otherway.png" class="account_avatar" @click.stop="priviewImg(account.Image[0])" mode="aspectFit"></image>
 								<view>
 									<view class='account_name'>{{account.name}}</view>
-									<view class='account_money'>余额：{{account.money}}</view>
+									<view class='account_money'>余额：<text style="color: #f30;">￥{{account.money}}</text></view>
 								</view>
 							</view>
 
@@ -93,6 +93,17 @@
 			
 			//选择此账号
 			select_this(account) {
+				let producer = uni.getStorageSync("producer")
+				
+				if(producer.debt > account.money){
+					uni.showToast({
+						icon:'none',
+						title:'余额不足'
+					})
+					
+					return
+				}
+				
 				uni.setStorageSync("account", account)
 				uni.navigateBack({
 					delta: 1
