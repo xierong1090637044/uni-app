@@ -17,7 +17,7 @@
 				<view class='o_list'>
 					<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
 						<view class='o_text'>{{value.name}}</view>
 					</navigator>
@@ -29,7 +29,7 @@
 				<view class='o_list'>
 					<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #afbb4f;">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
 						<view class='o_text'>{{value.name}}</view>
 						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
@@ -42,7 +42,7 @@
 				<view class='o_list'>
 					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #ad4fbb;">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
 						<view class='o_text'>{{value.name}}</view>
 						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
@@ -55,7 +55,7 @@
 				<view class='o_list'>
 					<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #bb4f77;">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
 						<view class='o_text'>{{value.name}}</view>
 					</navigator>
