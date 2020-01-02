@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "报表",
-  "usingComponents": {
-    "achart": "/components/charts/AChart",
-    "bchart": "/components/charts/BChart",
-    "cchart": "/components/charts/CChart"
-  }
-}

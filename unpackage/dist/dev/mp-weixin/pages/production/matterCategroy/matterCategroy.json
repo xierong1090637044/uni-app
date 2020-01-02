@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "物料类别",
-  "usingComponents": {
-    "loading": "/components/Loading/index",
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "uni-popup": "/components/uni-popup/uni-popup"
-  }
-}

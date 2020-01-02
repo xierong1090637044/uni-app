@@ -3,6 +3,7 @@
   "usingComponents": {
     "achart": "/components/charts/AChart",
     "bchart": "/components/charts/BChart",
-    "cchart": "/components/charts/CChart"
+    "cchart": "/components/charts/CChart",
+    "dchart": "/components/charts/DChart"
   }
 }
