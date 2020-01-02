@@ -61,8 +61,7 @@
 	}
 
 	.kaidan_detail {
-		background: #fff;
-		padding:0 10rpx;
+		
 	}
 
 	.kaidan_rightinput {

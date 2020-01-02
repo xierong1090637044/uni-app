@@ -33,7 +33,7 @@
 						<view>供货商：<text>{{item.producer.producer_name}}</text></view>
 						<view><text style="color: #f30;">-{{item.real_money}}</text></view>
 					</view>
-					<view v-if="item.operater"> 操作人：{{item.operater.nickName}}</view>
+					<view v-if="item.opreater"> 操作人：{{item.opreater.nickName}}</view>
 					<view style="color: #999999;">{{item.createdAt}}</view>
 				</navigator>
 			</scroll-view>
@@ -86,19 +86,19 @@
 			},
 
 			getList() {
-				const query = Bmob.Query("financeRecord");
+				const query = Bmob.Query("order_opreations");
 				query.equalTo("account", "==", accountId);
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
-				query.include("operater", "account", "custom", "producer");
+				query.include("opreater", "account", "custom", "producer");
 				query.find().then(res => {
 					that.loading = false
 					that.debt_list = res
 					
 					for(let item of res){
-						 if(item.type =="inRecord"){
+						 if(item.type ==-1){
 							 that.inMoney +=item.real_money
-						 }else if(item.type =="outRecord"){
+						 }else if(item.type ==1){
 							 that.outMoney +=item.real_money
 						 }
 					}

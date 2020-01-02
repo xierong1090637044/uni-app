@@ -182,6 +182,18 @@
 				"navigationBarTitleText": "员工业绩"
 			}
 		}
+        ,{
+            "path" : "pages/common/goods_out/gooSellNew/gooSellNew",
+            "style" : {
+							"navigationBarTitleText": "销售"
+						}
+        }
+        ,{
+            "path" : "pages/report/EnteringHistory/SellDetail/SellDetail",
+            "style" : {
+							"navigationBarTitleText": "销售详情"
+						}
+        }
     ],
 
 	"subPackages": [{
@@ -620,6 +632,11 @@
 				"iconPath": "static/manage.png",
 				"selectedIconPath": "static/manage.png",
 				"text": "管理"
+			}, {
+				"pagePath": "pages/tarBar/report",
+				"iconPath": "static/report.png",
+				"selectedIconPath": "static/report.png",
+				"text": "看板"
 			}, {
 				"pagePath": "pages/tarBar/mine",
 				"iconPath": "static/person.png",

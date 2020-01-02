@@ -147,6 +147,7 @@
 				stock: "", //选择的仓库
 				type: '', //操作类型
 				is_selected: false, //是否筛选
+				value:'',//操作类型值
 			}
 		},
 
@@ -168,7 +169,8 @@
 				this.url = "../good_production/good_production"
 			}
 
-			this.type = option.type
+			that.type = option.type
+			that.value = option.value
 
 			uid = uni.getStorageSync('uid');
 			that.get_productList();
@@ -368,7 +370,11 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "!=", 0);
+				if(that.value == 3 || that.value == '3'){
+					query.equalTo("order", "!=", 1);
+				}else{
+					query.equalTo("order", "!=", 0);
+				}
 				if (that.category.type == 1) {
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				} else {

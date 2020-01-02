@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;">
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;" v-if="identity == 1">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">财务模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in financeModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -39,7 +39,7 @@
 		</view>
 		
 		
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;">
+		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;" v-if="identity == 1">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -227,6 +227,7 @@
 		},
 		data() {
 			return {
+				identity:uni.getStorageSync("identity"),
 				setting: uni.getStorageSync("setting"),
 				now_optionsLists: [],
 				second_optionsLists: [],

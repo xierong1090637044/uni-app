@@ -212,7 +212,7 @@
 									let pointer1 = Bmob.Pointer('_User')
 									let poiID1 = pointer1.set(masterId);
 
-									const query = Bmob.Query('financeRecord');
+									const query = Bmob.Query('order_opreations');
 									query.set("account", accountID)
 									query.set("producer", producerID)
 									query.set("master", poiID);
@@ -224,7 +224,8 @@
 										"__type": "Date",
 										"iso": that.nowDay
 									}); // 操作单详情
-									query.set("type", "outRecord");
+									query.set("type", 1);
+									query.set("extra_type", 5);
 									query.set("Images", that.Images);
 									query.save().then(res => {
 										this.button_disabled = false;

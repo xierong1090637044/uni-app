@@ -1,91 +1,78 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" :text="noticeText" v-if="noticeText" />
-		<view class="fristSearchView">
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" />
+		<view class="fristSearchView display_flex_bet">
+			<view></view>
+			<view>
+				<i class="iconfont icon-chazhao" style="color: #fff;font-size: 36rpx;"></i>
+				<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code'></i>
+			</view>
+			<!--<uni-search-bar :radius="100" @confirm="search" color="#fff" />-->
 		</view>
-		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
-			<block>
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{get_reserve}}</view>
-						<view>今日入库</view>
-					</view>
-					<view class='every_item'>
-						<view class='s_num'>{{out_reserve}}</view>
-						<view>今日出库</view>
-					</view>
-				</swiper-item>
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{purchaseNum}}</view>
-						<view>今日采购</view>
-					</view>
-					<view class='every_item'>
-						<view class='s_num'>{{sellNum}}</view>
-						<view>今日销售</view>
-					</view>
-				</swiper-item>
 
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{total_reserve}}</view>
-						<view>库存总量</view>
-					</view>
-					<view class='every_item'>
-						<view class='s_num'>{{total_money}}</view>
-						<view>库存成本</view>
-					</view>
-				</swiper-item>
+		<scroll-view scroll-y="true" style="max-height:100vh;">
 
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{total_products}}</view>
-						<view>库存种类</view>
-					</view>
-				</swiper-item>
-			</block>
-		</swiper>
-
-
-		<!--<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
-			<block>
-				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
-					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"
-					 :url="item.link">
-						<view style="line-height: 5vh;width: 90%;">
-							<view style="font-weight: bold;" class="text_overflow">{{item.log}}</view>
-							<view style="font-size: 24rpx;color: #999;">{{item.createdAt}}</view>
+			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
+				<view class='o_list'>
+					<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem">
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
 						</view>
-						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+						<view class='o_text'>{{value.name}}</view>
 					</navigator>
-
-				</swiper-item>
-			</block>
-		</swiper>-->
-
-		<!--操作列表-->
-		<view class='o_list' style="margin-top: 20rpx;">
-
-			<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-				<view style='width:100%'>
-					<image :src="(value.icon)" class='o_image' />
 				</view>
-				<view class='o_text'>{{value.name}}</view>
-			</navigator>
+			</view>
 
+			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">销售</view>
+				<view class='o_list'>
+					<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #afbb4f;">
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+						</view>
+						<view class='o_text'>{{value.name}}</view>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>
+			
+			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">采购</view>
+				<view class='o_list'>
+					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #ad4fbb;">
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+						</view>
+						<view class='o_text'>{{value.name}}</view>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>
+			
+			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">其他</view>
+				<view class='o_list'>
+					<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #bb4f77;">
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;"></i>
+						</view>
+						<view class='o_text'>{{value.name}}</view>
+					</navigator>
+				</view>
+			</view>
+			
 			<!--<view class='o_item' @click="navigateToKCB">
 				<view style='width:100%'>
 					<image src="/static/newVer.png" class='o_image' />
 				</view>
 				<view class='o_text'>库存表KCB版</view>
 			</view>-->
-		</view>
-		<view class='scan_code display_flex' @click='scan_code'>
+			<!--<view class='scan_code display_flex' @click='scan_code'>
 			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
 			<text>扫描产品条形码</text>
-		</view>
+		</view>-->
+		</scroll-view>
 
 
 	</view>
@@ -116,49 +103,79 @@
 				othercurrent: '',
 				noticeText: '', //首页消息提示内容
 				logsList: [],
-				optionsLists: [{
+				stockLists: [{
 						name: '入库',
-						icon: '/static/entering.png',
+						icon: 'icon-ruku',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=2'
 					},
 					{
 						name: '出库',
-						icon: '/static/delivery.png',
+						icon: 'icon-chuku',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=2'
 					},
 					{
 						name: '产品调拨',
-						icon: '/static/allocation.png',
+						icon: 'icon-icon-transfer',
 						url: '/pages/common/goods-select/goods-select?type=allocation'
 					},
 					{
 						name: '库存盘点',
-						icon: '/static/stocking.png',
+						icon: 'icon-pandian',
 						url: '/pages/common/goods-select/goods-select?type=counting'
-					},
-					{
-						name: '采购',
-						icon: '/static/purchase.png',
-						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
-					},
-					{
-						name: '销售',
-						icon: '/static/sell.png',
+					}
+				],
+				sellLists: [{
+						name: '销售(旧)',
+						notice: '即将移除',
+						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
-					},
+					}, {
+						name: '销售(新)',
+						notice: '无需审核',
+						icon: 'icon-navicon-xsckd',
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
+					},/*{
+						name: '销售订单',
+						notice: '审核后出库',
+						icon: 'icon-xiaoshoudingdan',
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
+					},*/
 					{
-						name: '退货入库',
-						icon: '/static/return_goods.png',
+						name: '销售退货',
+						notice: '审核后入库',
+						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=returing'
 					},
-					{
+				],
+				purchaseLists: [{
+					name: '采购(旧)',
+					notice: '无需审核',
+					icon: 'icon-caigoushenqing',
+					url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+				}, {
+					name: '采购(新)',
+					notice: '无需审核',
+					icon: 'icon-caigoushenqing',
+					url: '/pages/common/goods-select/goods-select?type=entering&value=3'
+				},/*{
+					name: '采购订单',
+					notice: '审核后入库',
+					icon: 'icon-navicon-cgdd',
+					url: '/pages/common/goods-select/goods-select?type=entering&value=3'
+				},*/{
+					name: '采购退货',
+					notice: '审核后出库',
+					icon: 'icon-icon5',
+					url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+				}],
+				optionsLists: [{
 						name: '产品添加',
-						icon: '/static/stock.png',
+						icon: 'icon-wodechanpin',
 						url: '/pages/manage/good_add/good_add?type=single'
 					},
 					{
 						name: '使用手册',
-						icon: '/static/userInfo.png',
+						icon: 'icon-tishishuoming',
 						url: '/pages/mine/manual/manual'
 					},
 				],
@@ -211,20 +228,11 @@
 
 		onShow() {
 			if (uni.getStorageSync("user")) {
-				that.gettoday_detail();
-				that.loadallGoods();
 				mine.query_setting();
 				if (that.user.rights && that.user.rights.othercurrent) {
 					that.othercurrent = that.user.rights.othercurrent
 				}
-
-				notice.getNoticeList(1).then(res => {
-					that.noticeText = res[0].content
-					//console.log(res)
-				})
 				
-				console.log("sdasda")
-
 				mine.getMineInfo().then(res => {
 					console.log(res)
 					if (res.disabled) {
@@ -418,86 +426,6 @@
 				// #endif
 
 			},
-			//得到今日概况
-			gettoday_detail: function() {
-				let get_reserve = 0;
-				let out_reserve = 0;
-				let get_reserve_real_money = 0;
-				let out_reserve_real_money = 0;
-				let get_reserve_num = 0;
-				let out_reserve_num = 0;
-				let purchaseNum = 0; // 当日的采购数量
-				let sellNum = 0; //当日的销售数量
-
-				const query = Bmob.Query("Bills");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("createdAt", ">=", common.getDay(0, true));
-				query.equalTo("createdAt", "<=", common.getDay(1, true));
-				query.equalTo("status", "!=", false);
-				query.include("goodsId");
-				query.find().then(res => {
-					for (var i = 0; i < res.length; i++) {
-						if (res[i].type == 1) {
-							get_reserve = get_reserve + res[i].num;
-							get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
-							get_reserve_num = get_reserve_num + res[i].total_money;
-							if (res[i].extra_type == 1) {
-								purchaseNum += res[i].num;
-							}
-						} else if (res[i].type == -1) {
-							out_reserve = out_reserve + res[i].num;
-							out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
-							out_reserve_num = out_reserve_num + res[i].total_money;
-							if (res[i].extra_type == 1) {
-								sellNum += res[i].num;
-							}
-						}
-					}
-
-					console.log(purchaseNum, sellNum)
-
-
-					that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
-					that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
-
-					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
-					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
-				})
-			},
-
-			//得到总库存数和总金额
-			loadallGoods: function() {
-				record.loadallGoods().then(res => {
-					if (that.user.rights && that.user.rights.othercurrent[0] != '0') {
-						that.total_money = 0
-					} else {
-						that.total_money = res.total_money
-					}
-
-					that.total_reserve = res.total_reserve
-					that.total_products = res.total_products
-				})
-			},
-
-			//得到日志列表
-			get_logsList() {
-				const query = Bmob.Query("logs");
-				query.equalTo("parent", "==", uid);
-				query.equalTo("type", "!=", -2);
-				query.order("-createdAt")
-				query.limit(20);
-				query.find().then(res => {
-					//console.log(res)
-					for (let item of res) {
-						if (item.type == 5) {
-							item.link = '/pages/manage/good_det/good_det?id=' + item.detail_id + '&type=false'
-						} else if (item.type == -1 || item.type == 1 || item.type == 2 || item.type == 3) {
-							item.link = '/pages/report/EnteringHistory/detail/detail?id=' + item.detail_id
-						}
-					}
-					that.logsList = res
-				});
-			},
 
 		}
 	}
@@ -540,7 +468,9 @@
 
 	.o_list {
 		background: #fff;
-		padding: 15px 15px 0;
+	}
+	.o_headerItem{
+		width:80rpx;height: 80rpx;border-radius: 50%;background: #2ca879;line-height: 80rpx;margin: 0 auto;text-align: center;
 	}
 
 	.o_image {
@@ -562,6 +492,7 @@
 		color: #000;
 		font-weight: bold;
 		font-size: 23rpx;
+		margin-top: 6rpx;
 	}
 
 	.scan_code {

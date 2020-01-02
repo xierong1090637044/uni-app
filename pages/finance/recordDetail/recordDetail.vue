@@ -70,7 +70,7 @@
 		onLoad(options) {
 			that = this;
 			const query = Bmob.Query('financeRecord');
-			query.include("operater","account","custom","producer");
+			query.include("opreater","account","custom","producer");
 			query.get(options.id).then(res => {
 			  console.log(res)
 				that.detail = res;

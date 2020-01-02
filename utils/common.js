@@ -137,6 +137,147 @@ module.exports = {
 		})
 	},
 	
+	
+	//入库时增加产品数量
+	enterAddGoodNumNew(products) {
+		return new Promise((resolve, reject) => {
+			let stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+			let uid = uni.getStorageSync("uid")
+			for (let i = 0; i < products.length; i++) {
+				let num = 0;
+				const query = Bmob.Query('NGoods');
+				query.get(products[i].objectId).then(res => {
+					console.log(products[i])
+	
+					if (products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
+							for (let item of products[i].models) {
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) + Number(model.num)
+								}
+								delete item.num // 清除没用的属行
+							}
+						}
+						num = Number(products[i].reserve) + Number(products[i].num);
+						res.set('models', products[i].models)
+					} else {
+						num = Number(products[i].reserve) + Number(products[i].num);
+					}
+					res.set('reserve', num)
+					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+					res.save()
+	
+					const query = Bmob.Query("NGoods");
+					query.equalTo("userId", "==", uid);
+					query.equalTo("header", "==", products[i].objectId);
+					query.equalTo("stocks", "==", stock.objectId);
+					query.find().then(res => {
+						console.log("仓库里的产品", res)
+						if (res.length == 0) {
+							this.upload_good_withNoCan(products[i], stock, Number(products[i].num)).then(res => {
+								console.log(res)
+								if (i == products.length - 1) {
+									resolve(true)
+								}
+							})
+						} else {
+							const query = Bmob.Query('NGoods');
+							query.set('id', res[0].objectId) //需要修改的objectId
+							query.set('reserve', res[0].reserve + Number(products[i].num))
+							query.save().then(res => {
+								console.log(res)
+								if (i == products.length - 1) {
+									resolve(true)
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+	
+					})
+	
+					if (products[i].max_num >= 0 && products[i].max_num <= num) {
+						this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
+							products[i].objectId);
+					}
+	
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		})
+	},
+	
+	
+	//出库时减少产品数量
+	outRedGoodNumNew(products) {
+		return new Promise((resolve, reject) => {
+			let stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+			let uid = uni.getStorageSync("uid")
+			for (let i = 0; i < products.length; i++) {
+				let num = 0;
+				const query = Bmob.Query('NGoods');
+				query.get(products[i].objectId).then(res => {
+					console.log(products[i])
+	
+					if (products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
+							for (let item of products[i].models) {
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) - Number(model.num)
+								}
+								delete item.num // 清除没用的属行
+							}
+						}
+						num = Number(products[i].reserve) - Number(products[i].num);
+						res.set('models', products[i].models)
+					} else {
+						num = Number(products[i].reserve) - Number(products[i].num);
+					}
+					res.set('reserve', num)
+					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+					res.save()
+	
+					const query = Bmob.Query("NGoods");
+					query.equalTo("userId", "==", uid);
+					query.equalTo("header", "==", products[i].objectId);
+					query.equalTo("stocks", "==", stock.objectId);
+					query.find().then(res => {
+						console.log("仓库里的产品", res)
+						if (res.length == 0) {
+							this.upload_good_withNoCan(products[i], stock, Number(products[i].num), "out").then(res => {
+								console.log(res)
+								if (i == products.length - 1) {
+									resolve(true)
+								}
+							})
+						} else {
+							const query = Bmob.Query('NGoods');
+							query.set('id', res[0].objectId) //需要修改的objectId
+							query.set('reserve', res[0].reserve - Number(products[i].num))
+							query.save().then(res => {
+								console.log(res)
+								if (i == products.length - 1) {
+									resolve(true)
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+	
+					})
+					if (products[i].warning_num >= num) {
+						this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
+							products[i].objectId);
+					}
+	
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		})
+	},
+	
 	//上传二级商品
 	upload_good_withNoCan(good, stock, reserve, type) {
 		return new Promise((resolve, reject) => {

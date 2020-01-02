@@ -84,17 +84,18 @@
 			},
 
 			getList() {
-				const query = Bmob.Query("financeRecord");
+				const query = Bmob.Query("order_opreations");
 				query.equalTo("producer", "==", producerId);
-				query.include("operater", "account");
+				query.equalTo("type","==", 1);
+				query.include("opreater", "account");
 				query.find().then(res => {
 					that.loading = false
 					that.debt_list = res
 
 					for (let item of res) {
-						if (item.type == "inRecord") {
+						if (item.type == -1) {
 							that.inMoney += item.real_money
-						} else if (item.type == "outRecord") {
+						} else if (item.type == 1) {
 							that.outMoney += item.real_money
 						}
 					}
