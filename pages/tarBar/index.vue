@@ -3,7 +3,7 @@
 	<view>
 		<view class="fristSearchView display_flex_bet">
 			<view></view>
-			<view>
+			<view class="display_flex">
 				<i class="iconfont icon-chazhao" style="color: #fff;font-size: 36rpx;"></i>
 				<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code'></i>
 			</view>
