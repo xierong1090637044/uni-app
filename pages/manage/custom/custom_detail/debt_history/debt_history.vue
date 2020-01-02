@@ -87,6 +87,7 @@
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("custom", "==", customId);
 				query.equalTo("type","==", -1);
+				query.equalTo("account","!=", null);
 				query.include("opreater", "account");
 				query.find().then(res => {
 					that.loading = false

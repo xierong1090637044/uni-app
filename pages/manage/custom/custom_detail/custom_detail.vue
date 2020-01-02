@@ -39,21 +39,6 @@
 				<fa-icon type="angle-right" size="20" color="#999" />
 			</navigator>
 			
-			<uni-popup :show="modal_show" position="middle" mode="fixed" @hidePopup="modal_show = false" :h5Top="true">
-				<view style="width: 500rpx;">
-					<view class="display_flex">
-						<view style="width: 160rpx;color: #999;">本次收款：</view>
-						<input class="uni-input" placeholder="请输入本次收款金额" v-model="modal_sk.sk_number" type="digit" />
-					</view>
-					<view class="display_flex">
-						<view style="width: 160rpx;color: #999;">备注：</view>
-						<input class="uni-input" placeholder="请输入备注信息" v-model="modal_sk.beizhu" />
-					</view>
-			
-					<view class="modal_confrimbutton" @click="confrim_sk">确定</view>
-				</view>
-			</uni-popup>
-			
 			<view class="getmoney_button" @click="gotopay">收款</view>
 		</view>
 		
