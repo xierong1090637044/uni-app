@@ -2,12 +2,8 @@
 	<!--当月详情-->
 	<view>
 		<view class="fristSearchView display_flex_bet">
-			<view></view>
-			<view class="display_flex">
-				<i class="iconfont icon-chazhao" style="color: #fff;font-size: 36rpx;"></i>
-				<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code'></i>
-			</view>
-			<!--<uni-search-bar :radius="100" @confirm="search" color="#fff" />-->
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;"/>
+			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code'></i>
 		</view>
 
 		<scroll-view scroll-y="true" style="max-height:100vh;">
@@ -36,7 +32,7 @@
 					</navigator>
 				</view>
 			</view>
-			
+
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view style="font-size: 30rpx;color: #333;font-weight: bold;">采购</view>
 				<view class='o_list'>
@@ -49,7 +45,7 @@
 					</navigator>
 				</view>
 			</view>
-			
+
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view style="font-size: 30rpx;color: #333;font-weight: bold;">其他</view>
 				<view class='o_list'>
@@ -61,7 +57,7 @@
 					</navigator>
 				</view>
 			</view>
-			
+
 			<!--<view class='o_item' @click="navigateToKCB">
 				<view style='width:100%'>
 					<image src="/static/newVer.png" class='o_image' />
@@ -134,12 +130,13 @@
 						notice: '无需审核',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
-					},/*{
-						name: '销售订单',
-						notice: '审核后出库',
-						icon: 'icon-xiaoshoudingdan',
-						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
-					},*/
+					},
+					/*{
+											name: '销售订单',
+											notice: '审核后出库',
+											icon: 'icon-xiaoshoudingdan',
+											url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
+										},*/
 					{
 						name: '销售退货',
 						notice: '审核后入库',
@@ -148,26 +145,29 @@
 					},
 				],
 				purchaseLists: [{
-					name: '采购(旧)',
-					notice: '无需审核',
-					icon: 'icon-caigoushenqing',
-					url: '/pages/common/goods-select/goods-select?type=entering&value=1'
-				}, {
-					name: '采购(新)',
-					notice: '无需审核',
-					icon: 'icon-caigoushenqing',
-					url: '/pages/common/goods-select/goods-select?type=entering&value=3'
-				},/*{
-					name: '采购订单',
-					notice: '审核后入库',
-					icon: 'icon-navicon-cgdd',
-					url: '/pages/common/goods-select/goods-select?type=entering&value=3'
-				},*/{
-					name: '采购退货',
-					notice: '审核后出库',
-					icon: 'icon-icon5',
-					url: '/pages/common/goods-select/goods-select?type=entering&value=1'
-				}],
+						name: '采购(旧)',
+						notice: '无需审核',
+						icon: 'icon-caigoushenqing',
+						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+					}, {
+						name: '采购(新)',
+						notice: '无需审核',
+						icon: 'icon-caigoushenqing',
+						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
+					},
+					/*{
+										name: '采购订单',
+										notice: '审核后入库',
+										icon: 'icon-navicon-cgdd',
+										url: '/pages/common/goods-select/goods-select?type=entering&value=3'
+									},*/
+					{
+						name: '采购退货',
+						notice: '审核后出库',
+						icon: 'icon-icon5',
+						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+					}
+				],
 				optionsLists: [{
 						name: '产品添加',
 						icon: 'icon-wodechanpin',
@@ -232,7 +232,7 @@
 				if (that.user.rights && that.user.rights.othercurrent) {
 					that.othercurrent = that.user.rights.othercurrent
 				}
-				
+
 				mine.getMineInfo().then(res => {
 					console.log(res)
 					if (res.disabled) {
@@ -469,8 +469,15 @@
 	.o_list {
 		background: #fff;
 	}
-	.o_headerItem{
-		width:80rpx;height: 80rpx;border-radius: 50%;background: #2ca879;line-height: 80rpx;margin: 0 auto;text-align: center;
+
+	.o_headerItem {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 50%;
+		background: #2ca879;
+		line-height: 80rpx;
+		margin: 0 auto;
+		text-align: center;
 	}
 
 	.o_image {
