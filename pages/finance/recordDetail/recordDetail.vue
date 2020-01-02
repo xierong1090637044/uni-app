@@ -1,19 +1,19 @@
 <template>
 	<view>
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.custom">
-			<view class="left_content">客户姓名</view>
+			<view class="left_content">客户</view>
 			<view>{{detail.custom.custom_name}}</view>
 		</view>
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;" v-else-if="detail.producer">
-			<view class="left_content">供货商姓名</view>
+			<view class="left_content">供货商</view>
 			<view>{{detail.producer.producer_name}}</view>
 		</view>
 		
-		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;" v-else-if="detail.producer">
-			<view class="left_content">供货商姓名</view>
-			<view>{{detail.producer.producer_name}}</view>
+		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
+			<view class="left_content">交易分类</view>
+			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type == 5">采购支出</view>
+			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type == 5">销售收款</view>
 		</view>
-		
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
 			<view class="left_content">发生金额</view>
 			<view style="color: #2ca879;">{{detail.real_money}}</view>
@@ -31,7 +31,7 @@
 		
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;margin-top: 60rpx;">
 			<view class="left_content">经办人</view>
-			<view>{{detail.operater.nickName}}</view>
+			<view v-if="detail.opreater">{{detail.opreater.nickName}}</view>
 		</view>
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
 			<view class="left_content">相关单号</view>
@@ -41,13 +41,13 @@
 			<view class="left_content">备注说明</view>
 			<view>{{detail.beizhu || "未填写"}}</view>
 		</view>
-		<view v-if="detail.Images && detail.Images.length > 0">
+		<view v-if="detail.Images && detail.Images.length > 0" style="padding: 20rpx 30rpx;background: #fff;margin-top: 30rpx;">
 			<view class="left_content">凭证图</view>
 		
 			<view style="width: 100%;padding: 20rpx 0;">
 				<view class="upload_image display_flex">
 					<view style="position: relative;" v-for="(url,index) in detail.Images" :key="index" @click="priview(url)">
-						<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+						<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
@@ -69,7 +69,7 @@
 		
 		onLoad(options) {
 			that = this;
-			const query = Bmob.Query('financeRecord');
+			const query = Bmob.Query('order_opreations');
 			query.include("opreater","account","custom","producer");
 			query.get(options.id).then(res => {
 			  console.log(res)

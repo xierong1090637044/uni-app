@@ -77,7 +77,7 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="value !=3&&type !='returing'">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input">

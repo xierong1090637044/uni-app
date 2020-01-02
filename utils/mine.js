@@ -5,11 +5,9 @@ export default {
 	
 	//获取用户的信息
 	getMineInfo(){
-		console.log("ssss")
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query('_User');
 			query.get(uid).then(res => {
-			  console.log(res)
 				resolve(res)
 			}).catch(err => {
 			  console.log(err)

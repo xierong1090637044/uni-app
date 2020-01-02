@@ -12,7 +12,7 @@
 						</view>
 					</picker>
 				</view>
-			
+
 				<view class="section">
 					<picker @change="bindDate_endChange" mode="date" :end="end_date_desc">
 						<view class="picker">
@@ -23,22 +23,32 @@
 				</view>
 			</view>
 
-			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);" scroll-y>
+			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);"
+			 scroll-y>
 				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/recordDetail/recordDetail?id='+item.objectId">
-					<view class="display_flex_bet" v-if="item.custom">
+					<view v-if="item.custom">
 						<view>客户：<text>{{item.custom.custom_name}}</text></view>
-						<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
+						<view class="display_flex_bet">
+							<view>交易账户：{{item.account.name}}</view>
+							<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
+						</view>
 					</view>
-					<view class="display_flex_bet" v-if="item.producer">
+					<view v-if="item.producer">
 						<view>供货商：<text>{{item.producer.producer_name}}</text></view>
-						<view><text style="color: #f30;">-{{item.real_money}}</text></view>
+						
+						<view class="display_flex_bet">
+							<view>交易账户：{{item.account.name}}</view>
+							<view><text style="color: #f30;">-{{item.real_money}}</text></view>
+						</view>
 					</view>
+
 					<view v-if="item.opreater"> 操作人：{{item.opreater.nickName}}</view>
 					<view style="color: #999999;">{{item.createdAt}}</view>
 				</navigator>
 			</scroll-view>
-			
-			<view style="position: fixed;bottom: 0;width: 100%;background: #fff;padding:20rpx 30rpx;border-top: 1rpx solid#F4F4F4;" class="display_flex">
+
+			<view style="position: fixed;bottom: 0;width: 100%;background: #fff;padding:20rpx 30rpx;border-top: 1rpx solid#F4F4F4;"
+			 class="display_flex">
 				<view style="margin-right: 60rpx;">收入：<text style="color: #2ca879;font-weight: bold;">￥{{inMoney}}</text></view>
 				<view>支出：<text style="color: #f30;font-weight: bold;">￥{{outMoney}}</text></view>
 			</view>
@@ -65,9 +75,9 @@
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
-				
-				inMoney:0,
-				outMoney:0,
+
+				inMoney: 0,
+				outMoney: 0,
 				debt_list: [],
 				loading: true,
 			}
@@ -87,20 +97,25 @@
 
 			getList() {
 				const query = Bmob.Query("order_opreations");
-				query.equalTo("account", "==", accountId);
+				if (accountId) {
+					query.equalTo("account", "==", accountId);
+				} else {
+					query.equalTo("account", "!=", null);
+				}
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.include("opreater", "account", "custom", "producer");
+				query.order("-createdAt")
 				query.find().then(res => {
 					that.loading = false
 					that.debt_list = res
-					
-					for(let item of res){
-						 if(item.type ==-1){
-							 that.inMoney +=item.real_money
-						 }else if(item.type ==1){
-							 that.outMoney +=item.real_money
-						 }
+
+					for (let item of res) {
+						if (item.type == -1) {
+							that.inMoney += item.real_money
+						} else if (item.type == 1) {
+							that.outMoney += item.real_money
+						}
 					}
 				});
 			}
@@ -111,7 +126,7 @@
 			that.start_date_desc = that.start_date.split(" ")[0];
 			that.end_date_desc = that.end_date.split(" ")[0];
 			accountId = options.id
-			
+
 			that.getList()
 		},
 	}

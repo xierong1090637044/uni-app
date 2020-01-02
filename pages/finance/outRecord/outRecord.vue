@@ -216,7 +216,7 @@
 									query.set("account", accountID)
 									query.set("producer", producerID)
 									query.set("master", poiID);
-									query.set("operater", poiID1)
+									query.set("opreater", poiID1)
 									query.set("real_money", Number(that.real_money))
 									query.set("beizhu", that.beizhu_text)
 									query.set("debt", that.producer.debt || 0)
