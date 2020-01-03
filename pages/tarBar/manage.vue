@@ -324,4 +324,8 @@
 		font-weight: bold;
 		font-size: 24rpx;
 	}
+	
+	.fa-icon{
+		line-height: 80rpx !important;
+	}
 </style>

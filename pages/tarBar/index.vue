@@ -2,7 +2,7 @@
 	<!--当月详情-->
 	<view>
 		<view class="fristSearchView display_flex_bet">
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;"/>
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;" />
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code'></i>
 		</view>
 

@@ -287,6 +287,10 @@
 					uni.navigateTo({
 						url: "/pages/common/good_confrim/good_enter/good_enter"
 					})
+				} else if (value == 3) {
+					uni.navigateTo({
+						url: "/pages/common/goods_out/goodPurchaseNew/goodPurchaseNew"
+					})
 				}
 			},
 

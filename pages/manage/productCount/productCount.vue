@@ -71,7 +71,7 @@
 
 			let data = new Date()
 			let year = data.getFullYear();
-			let month = data.getMonth() + 1;
+			let month = (data.getMonth() + 1) < 10?'0'+(data.getMonth() + 1):(data.getMonth() + 1);
 			let day1 = '01'
 			that.starttime = year + "-" + month + "-01"
 			that.endtime = common.getDay(0)

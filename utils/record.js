@@ -127,6 +127,7 @@ export default {
 			let total_money = 0;
 			let length = 0;
 			let warn_num = 0;
+			let over_num = 0;
 			let key = 0;//计数器
 			let params = {}
 			this.querycount().then(count => {
@@ -144,6 +145,8 @@ export default {
 						for (let item of res) {
 							if (item.stocktype == 0) {
 								warn_num += 1;
+							}else if(item.stocktype == 2){
+								over_num +=1;
 							}
 							total_reserve += item.reserve;
 							total_money += item.reserve * item.costPrice;	
@@ -152,10 +155,10 @@ export default {
 						key +=1
 						
 						if(key == Math.ceil(count/1000)){
-							params.total_money = total_money.toFixed(uni.getStorageSync("print_setting").show_float),
-							params.total_reserve = total_reserve.toFixed(uni.getStorageSync("print_setting").show_float),
-												
+							params.total_money = Number(total_money.toFixed(uni.getStorageSync("print_setting").show_float)),
+							params.total_reserve = Number(total_reserve.toFixed(uni.getStorageSync("print_setting").show_float)),				
 							params.warn_num = warn_num
+							params.over_num = over_num
 							resolve(params)
 						}
 					});

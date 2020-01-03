@@ -1,7 +1,7 @@
 <template>
 	<view class="qiun-columns">
 
-		<scroll-view scroll-y="true" style="height: calc(100vh - 80rpx);">
+		<scroll-view scroll-y="true" style="height: calc(100vh - 80rpx);"  v-if="type == 1">
 			<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 				<view class="qiun-title-dot-light">
 					<fa-icon type="paperclip" size="20" color="#21b384"></fa-icon>
@@ -25,6 +25,13 @@
 				 @touchmove="moveLineA($event,'C')" @touchend="touchEndLineA($event,'C')"></canvas>
 			</view>
 		</scroll-view>
+		
+		<view scroll-y="true"  v-else-if="type == 2">
+			<view class="qiun-charts1">
+				<canvas canvas-id="canvasLineA" id="canvasLineA" style="width: 100%;height: 500upx;" disable-scroll=true @touchstart="touchLineA($event,'A')"
+				 @touchmove="moveLineA($event,'A')" @touchend="touchEndLineA($event,'A')"></canvas>
+			</view>
+		</view>
 
 	</view>
 </template>
@@ -47,7 +54,11 @@
 			now_day: {
 				type: String,
 				default: common.getDay(0)
-			} // 标题
+			} ,// 标题
+			type:{
+				type: Number,
+				default: 1
+			}
 		},
 		data() {
 			return {
@@ -251,6 +262,11 @@
 		width: 750upx;
 		height: 500upx;
 		background-color: #FFFFFF;
+	}
+	
+	.qiun-charts1 {
+		width: 750upx;
+		height: 500upx;
 	}
 
 	.charts {

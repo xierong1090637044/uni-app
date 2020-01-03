@@ -104,6 +104,7 @@
 				}
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
+				query.equalTo("real_money", ">", 0);
 				query.include("opreater", "account", "custom", "producer");
 				query.order("-createdAt")
 				query.find().then(res => {

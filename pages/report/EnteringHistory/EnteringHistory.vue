@@ -30,7 +30,7 @@
 				<view class='page'>
 					<scroll-view class='page' scroll-y="true" v-if="list.length > 0">
 						<view class='list-item'>
-							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
+							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item)'>
 								<view style='display:flex;width:100%;'>
 									<view style='line-height:80rpx'>
 										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
@@ -373,15 +373,22 @@
 			},
 
 			//点击得到详情
-			get_detail: function(id) {
+			get_detail: function(item) {
 				if(opeart_type == 5){
 					wx.navigateTo({
-						url: 'productDet/productDet?id=' + id,
+						url: 'productDet/productDet?id=' + item.objectId,
 					})
 				}else{
-					wx.navigateTo({
-						url: 'detail/detail?id=' + id,
-					})
+					if(item.recordType == "new"){
+						wx.navigateTo({
+							url: 'SellDetail/SellDetail?id=' + item.objectId,
+						})
+					}else{
+						wx.navigateTo({
+							url: 'detail/detail?id=' + item.objectId,
+						})
+					}
+					
 				}
 				
 			},

@@ -371,7 +371,7 @@
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
 				if(that.value == 3 || that.value == '3'){
-					query.equalTo("order", "!=", 1);
+					query.equalTo("order", "==", 0);
 				}else{
 					query.equalTo("order", "!=", 0);
 				}

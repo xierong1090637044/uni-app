@@ -194,6 +194,10 @@
 							"navigationBarTitleText": "销售详情"
 						}
         }
+        ,{
+            "path" : "pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{

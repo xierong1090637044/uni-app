@@ -1,78 +1,64 @@
 <template>
 	<!--当月详情-->
-	<view>
-		<uni-notice-bar :show-icon="true" :scrollable="true" color="#426ab3" :text="noticeText" v-if="noticeText" />
-		<swiper indicator-dots="true" indicator-active-color="#fff" class='swiper' autoplay='true'>
-			<block>
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{get_reserve}}</view>
-						<view>今日入库</view>
+	<view style="padding: 0 10rpx;">
+		<view class="Item">
+			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">商品分析</view>
+			<view class="display_flex_bet">
+				<view class="itemB">
+					<view>全部商品</view>
+					<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_products}}种</view>
+					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=more" class="addButton">新增</navigator>
+				</view>
+				<view style="width: 30%;">
+					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
+						<view>总数</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_reserve}}</view>
 					</view>
-					<view class='every_item'>
-						<view class='s_num'>{{out_reserve}}</view>
-						<view>今日出库</view>
+					<view class="itemC">
+						<view>总成本</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_money}}</view>
 					</view>
-				</swiper-item>
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{purchaseNum}}</view>
-						<view>今日采购</view>
+				</view>
+				<view style="width: 30%;">
+					<view class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;">
+						<view>预警产品</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.warn_num}}</view>
 					</view>
-					<view class='every_item'>
-						<view class='s_num'>{{sellNum}}</view>
-						<view>今日销售</view>
+					<view class="itemC" style="background: #ff8282;color: #fff;">
+						<view>高储产品</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.over_num}}</view>
 					</view>
-				</swiper-item>
-
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{total_reserve}}</view>
-						<view>库存总量</view>
-					</view>
-					<view class='every_item'>
-						<view class='s_num'>{{total_money}}</view>
-						<view>库存成本</view>
-					</view>
-				</swiper-item>
-
-				<swiper-item class="item">
-					<view class='every_item'>
-						<view class='s_num'>{{total_products}}</view>
-						<view>库存种类</view>
-					</view>
-				</swiper-item>
-			</block>
-		</swiper>
-
-
-		<swiper vertical="true" style="color: #333 !important;height: 10vh;background:#426ab3 ;" autoplay="true" v-if="logsList.length > 0">
-			<block>
-				<swiper-item class="item" v-for="(item,index) in logsList" :key="index">
-					<navigator class="display_flex_bet" style="width: 100%;background: #fff;height: 100%;padding:0 30rpx;" hover-class="none"
-					 :url="item.link">
-						<view style="line-height: 5vh;width: 90%;">
-							<view style="font-weight: bold;" class="text_overflow">{{item.log}}</view>
-							<view style="font-size: 24rpx;color: #999;">{{item.createdAt}}</view>
-						</view>
-						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-					</navigator>
-
-				</swiper-item>
-			</block>
-		</swiper>
-
-		</scroll-view>
-
-
+				</view>
+			</view>
+		</view>
+		
+		<!--通知列表-->
+		<view class="display_flex" style="border-bottom: 1rpx solid#ddd;margin-bottom: 20rpx;">
+			<fa-icon type="lightbulb-o" size="18" color="#426ab3"></fa-icon>
+			<swiper vertical="true" style="color: #333 !important;height: 6vh;width: 100%;margin-left: 20rpx;" autoplay="true" v-if="noticeText.length > 0">
+				<block>
+					<swiper-item class="item" v-for="(item,index) in noticeText" :key="index">
+						<navigator class="display_flex_bet" style="width: 100%;height: 100%;" hover-class="none" :url="item.link">
+							<view style="font-weight: bold;width: 90%;" class="text_overflow">{{item.content}}</view>
+							<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+						</navigator>
+					</swiper-item>
+				</block>
+			</swiper>
+		</view>
+		
+		<view class="Item" style="overflow: hidden;">
+			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
+			<achart :now_day="now_day" :type="2"></achart>
+		</view>
+		
+		
 	</view>
 </template>
 
 <script>
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
-
+	import achart from '@/components/charts/AChart.vue'
+	
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';
@@ -83,42 +69,32 @@
 
 	export default {
 		components: {
-			faIcon,
-			uniNoticeBar,
-			uniSearchBar
+			achart
 		},
 		data() {
 			return {
+				now_day: common.getDay(0),
 				user: uni.getStorageSync("user"),
 				othercurrent: '',
 				noticeText: '', //首页消息提示内容
 				logsList: [],
-				get_reserve: 0,
-				out_reserve: 0,
-				sellNum: 0,
-				purchaseNum: 0,
-				total_reserve: 0,
-				total_money: 0,
-				total_products: 0,
-				openid: '',
-				user: uni.getStorageSync("user"),
+
+				goodsAnalysis: {}
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			
 		},
 
 		onShow() {
 			if (uni.getStorageSync("user")) {
-				that.gettoday_detail();
 				that.loadallGoods();
-				notice.getNoticeList(1).then(res => {
-					that.noticeText = res[0].content
-					//console.log(res)
+				notice.getNoticeList().then(res => {
+					console.log(res)
+					that.noticeText = res
 				})
-				
+
 				mine.getMineInfo().then(res => {
 					console.log(res)
 					if (res.disabled) {
@@ -135,70 +111,31 @@
 					}
 				})
 			}
-
-			//that.get_logsList();
 		},
 
 		methods: {
 
-			//得到今日概况
-			gettoday_detail: function() {
-				let get_reserve = 0;
-				let out_reserve = 0;
-				let get_reserve_real_money = 0;
-				let out_reserve_real_money = 0;
-				let get_reserve_num = 0;
-				let out_reserve_num = 0;
-				let purchaseNum = 0; // 当日的采购数量
-				let sellNum = 0; //当日的销售数量
-
-				const query = Bmob.Query("Bills");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("createdAt", ">=", common.getDay(0, true));
-				query.equalTo("createdAt", "<=", common.getDay(1, true));
-				query.equalTo("status", "!=", false);
-				query.include("goodsId");
-				query.find().then(res => {
-					for (var i = 0; i < res.length; i++) {
-						if (res[i].type == 1) {
-							get_reserve = get_reserve + res[i].num;
-							get_reserve_real_money = get_reserve_real_money + res[i].num * res[i].goodsId.retailPrice;
-							get_reserve_num = get_reserve_num + res[i].total_money;
-							if (res[i].extra_type == 1) {
-								purchaseNum += res[i].num;
-							}
-						} else if (res[i].type == -1) {
-							out_reserve = out_reserve + res[i].num;
-							out_reserve_real_money = out_reserve_real_money + res[i].num * res[i].goodsId.costPrice;
-							out_reserve_num = out_reserve_num + res[i].total_money;
-							if (res[i].extra_type == 1) {
-								sellNum += res[i].num;
-							}
-						}
-					}
-
-					console.log(purchaseNum, sellNum)
-
-
-					that.purchaseNum = purchaseNum.toFixed(uni.getStorageSync("print_setting").show_float)
-					that.sellNum = sellNum.toFixed(uni.getStorageSync("print_setting").show_float)
-
-					that.get_reserve = get_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
-					that.out_reserve = out_reserve.toFixed(uni.getStorageSync("print_setting").show_float)
-				})
-			},
-
 			//得到总库存数和总金额
 			loadallGoods: function() {
 				record.loadallGoods().then(res => {
+					console.log(res)
 					if (that.user.rights && that.user.rights.othercurrent[0] != '0') {
-						that.total_money = 0
-					} else {
-						that.total_money = res.total_money
+						res.total_money = 0
 					}
 
-					that.total_reserve = res.total_reserve
-					that.total_products = res.total_products
+					if (Number(res.total_reserve) > 1000 && Number(res.total_reserve) < 10000) {
+						res.total_reserve = Number(res.total_reserve) / 1000 + "千"
+					} else if (Number(res.total_reserve) >= 10000) {
+						res.total_reserve = Number(res.total_reserve) / 10000 + "万"
+					}
+
+					if (Number(res.total_money) > 1000 && Number(res.total_money) < 10000) {
+						res.total_money = Number(res.total_money) / 1000 + "千"
+					} else if (Number(res.total_money) >= 10000) {
+						res.total_money = Number(res.total_money) / 10000 + "万"
+					}
+
+					that.goodsAnalysis = res
 				})
 			},
 
@@ -226,79 +163,34 @@
 	}
 </script>
 
-<style>
-	.fristSearchView {
-		padding: 10rpx 30rpx;
-		background: #426ab3;
-	}
+<style lang="scss">
+	.Item {
+		background: #FFFFFF;
+		padding: 30rpx;
+		border-radius: 16rpx;
 
-	.icon-scan {
-		margin-right: 20rpx;
-	}
+		.itemB {
+			background: #f2f2f2;
+			text-align: center;
+			padding: 42rpx 0;
+			width: 30%;
+			border-radius: 8rpx;
+		}
 
-	/* pages/home/index/index.wxss */
-	.swiper {
-		background: #426ab3;
-		color: #fff;
-		height: 14vh;
-	}
+		.itemC {
+			background: #f2f2f2;
+			text-align: left;
+			padding: 10rpx 20rpx;
+			border-radius: 16rpx;
+		}
 
-	.item {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.every_item {
-		width: 50%;
-		text-align: center;
-		line-height: 30px;
-		font-size: 14px;
-	}
-
-	.s_num {
-		font-size: 16px;
-		font-weight: bold;
-	}
-
-	.o_list {
-		background: #fff;
-	}
-
-	.o_image {
-		width: 60rpx;
-		height: 60rpx;
-		border-radius: 50%;
-		border: 3px solid#e2e2e2;
-		padding: 6rpx 6rpx 0;
-	}
-
-	.o_item {
-		width: 25%;
-		text-align: center;
-		display: inline-block;
-		margin-bottom: 20rpx;
-	}
-
-	.o_text {
-		color: #000;
-		font-weight: bold;
-		font-size: 23rpx;
-	}
-
-	.scan_code {
-		margin: 60rpx 30rpx 0;
-		width: calc(100% - 60rpx);
-		background: linear-gradient(to right, #426ab3, #118fff);
-		line-height: 80rpx;
-		text-align: center;
-		border-radius: 8rpx;
-		color: #fff;
-		box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.2);
-		justify-content: center;
-	}
-
-	.icon-scan {
-		margin-right: 20rpx;
+		.addButton {
+			color: #118FFF;
+			border: 1rpx solid#118FFF;
+			border-radius: 40rpx;
+			width: 60%;
+			margin: 0 auto;
+			margin-top: 20rpx;
+		}
 	}
 </style>
