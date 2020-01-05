@@ -49,13 +49,19 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-else>
+							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
+							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
+								 style="color: #d71345;" type="digit" /></view>
+						</view>
 						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">采购时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
@@ -65,20 +71,13 @@
 								</view>
 							</picker>
 						</view>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-else>
-							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
-								 style="color: #d71345;" type="digit" /></view>
-						</view>
+						
 						<view class="display_flex_bet" style="padding: 10rpx;margin-top: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 						<view style='background: #fff;padding: 10rpx;'>
-							<view class="notice_text">上传凭证图(会员可用)</view>
-
-							<view style="width: 100%;padding: 20rpx 0;">
+							<view style="width: 100%;">
 								<view class="upload_image display_flex">
 									<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
 										<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
@@ -142,7 +141,7 @@
 				stock: '', //仓库
 				shop_name: '',
 				products: null,
-				account: '',
+				account: '',//结算账户
 				button_disabled: false,
 				beizhu_text: "",
 				real_money: 0, //实际付款金额

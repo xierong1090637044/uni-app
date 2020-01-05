@@ -38,7 +38,7 @@
 				<view class='o_list'>
 					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #ad4fbb;">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+							<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
 						<view class='o_text'>{{value.name}}</view>
 						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
@@ -146,18 +146,18 @@
 				purchaseLists: [{
 						name: '采购(旧)',
 						notice: '旧版采购流程',
-						icon: 'icon-caigoushenqing',
+						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					}, {
 						name: '采购(新)',
 						notice: '新版销售流程',
-						icon: 'icon-caigoushenqing',
+						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
 					},
 					{
 						name: '采购退货',
 						notice: '审核后出库',
-						icon: 'icon-icon5',
+						icon: 'icon-tuihuo1',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
 					}
 				],

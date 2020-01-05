@@ -69,6 +69,7 @@
 				current: 0,
 				disabled: false,
 				type: '', //'out_choose'是调拨时的选择
+				money:'',//应付账款
 			}
 		},
 
@@ -77,9 +78,10 @@
 			uid = uni.getStorageSync('uid');
 
 			console.log(options)
-			if (options.type == "choose") {
+			if (options.type == "producerChoose" || options.type == "customChoose" || options.type == "choose") {
 				that.is_choose = true
 				that.type = options.type
+				that.money = options.money
 			}
 		},
 		onShow() {
@@ -94,14 +96,17 @@
 			//选择此账号
 			select_this(account) {
 				let producer = uni.getStorageSync("producer")
+				let custom = uni.getStorageSync("custom")
 				
-				if(producer.debt > account.money){
-					uni.showToast({
-						icon:'none',
-						title:'余额不足'
-					})
-					
-					return
+				if(that.type == "producerChoose" || that.type == "customChoose"){
+					if(that.money > account.money){
+						uni.showToast({
+							icon:'none',
+							title:'余额不足'
+						})
+						
+						return
+					}
 				}
 				
 				uni.setStorageSync("account", account)

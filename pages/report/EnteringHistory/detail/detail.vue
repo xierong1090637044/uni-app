@@ -108,6 +108,10 @@
 							<view class="left_content">客户姓名</view>
 							<view>{{detail.custom.custom_name}}</view>
 						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
+							<view class="left_content">结算账户</view>
+							<view class="real_color">{{detail.account.name }}</view>
+						</view>
 						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">折扣率</view>
 							<view>{{detail.discount}}%</view>
@@ -195,6 +199,10 @@
 						<view v-if="detail.producer" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">供货商姓名</view>
 							<view>{{detail.producer.producer_name}}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
+							<view class="left_content">结算账户</view>
+							<view class="real_color">{{detail.account.name }}</view>
 						</view>
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">实际付款</view>

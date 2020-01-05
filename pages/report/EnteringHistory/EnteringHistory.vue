@@ -47,7 +47,7 @@
 												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 													<text>销售</text>
 												</view>
-												<view v-else-if="item.extra_type == 4" class='order_returning' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':'color:#b04fbb;border: 1rpx solid#b04fbb;'">
+												<view v-else-if="item.extra_type == 4" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 													<text>采购退货</text>
 												</view>
 												<view v-else class='order_get'>
@@ -61,7 +61,7 @@
 												<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
 													<text>生产入库</text>
 												</view>
-												<view v-else-if="item.extra_type == 4" class='order_returning' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':'color:#b3b242;border: 1rpx solid#b3b242;'">
+												<view v-else-if="item.extra_type == 4" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
 													<text>销售退货</text>
 												</view>
 												<view v-else class='order_get'>

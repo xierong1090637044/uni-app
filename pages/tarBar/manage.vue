@@ -1,7 +1,7 @@
 <template>
 	<!--操作列表-->
 	<scroll-view scroll-y="true" style="height:100vh;">
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;">
+		<view style="background: #FFFFFF;padding:20rpx;">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;" v-if="identity == 1">
+		<view style="background: #FFFFFF;padding:20rpx;margin: 30rpx 0;" v-if="identity == 1">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">财务模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in financeModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -26,7 +26,7 @@
 			</view>
 		</view>
 
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin-top: 30rpx;">
+		<view style="background: #FFFFFF;padding:20rpx;margin-top: 30rpx;">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">记录模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in second_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -39,7 +39,7 @@
 		</view>
 		
 		
-		<view style="background: #FFFFFF;padding: 30rpx 20rpx 0;margin: 30rpx 0;" v-if="identity == 1">
+		<view style="background: #FFFFFF;padding:20rpx;margin: 30rpx 0;" v-if="identity == 1">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -188,11 +188,11 @@
 		},{
 			name: '记收入',
 			icon: 'money ',
-			url: '/pages/finance/producerOut/producerOut',
+			url: '/pages/finance/InRecord/InRecord?type=record',
 		},{
 			name: '记支出',
 			icon: 'hand-spock-o ',
-			url: '/pages/finance/producerOut/producerOut',
+			url: '/pages/finance/outRecord/outRecord?type=record',
 		},{
 			name: '我的账户',
 			icon: 'gg',
@@ -317,7 +317,7 @@
 	.o_item {
 		width: 25%;
 		text-align: center;
-		padding: 30rpx 0;
+		padding: 30rpx 0 0;
 	}
 
 	.o_left_item {

@@ -33,52 +33,68 @@
 
 			<form @submit="formSubmit" report-submit="true">
 
-				<view style="margin: 30rpx 0;">
+				<view style="margin: 30rpx 0 0;">
 					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">销售明细</view>
-					<view class="kaidan_detail" style="line-height: 70rpx;">
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+					<view style="line-height: 70rpx;">
+
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">选择门店</view>
-							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+							<view style="width: 140rpx;">结算账户<text style="color: #f30;">*</text></view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">发货方式</view>
-							<picker class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
-								<view class="display_flex">
-									<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
-									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-								</view>
-							</picker>
-						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="outType.type == 2 || outType.type == 3">
-							<view style="width: 140rpx;">快递单号</view>
-							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
-								<view class="display_flex">
-									<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;" />
 
-									<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
-								</view>
-
-							</view>
-						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" v-if="custom.discount">
+						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="custom.discount">
 							<view style="width: 140rpx;">折扣率</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
 								 @input="getDiscount" />%
 							</view>
 						</view>
-						
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+							<view>是否欠款</view>
+							<view class="kaidan_rightinput" style="text-align: right;">
+								<switch :checked="wetherDebt" @change="changeDebtStatus" />
+							</view>
+						</view>
+						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
+							<view>实际收款</view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际收款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit" /></view>
+						</view>
+
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx;background: #fff;margin:20rpx 0;">
+							<view style="width: 140rpx;">选择门店</view>
+							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
+								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+
+						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;margin-top:20rpx;">
+							<view style="width: 140rpx;">发货方式</view>
+							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
+								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
+							</picker>
+						</view>
+						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="outType.type == 2 || outType.type == 3">
+							<view style="width: 140rpx;">快递单号</view>
+							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
+								<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;" />
+
+								<fa-icon type="clone" size="16" color="#426ab3" @click="scan_code"></fa-icon>
+							</view>
+						</view>
+
+						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;margin-top:20rpx;">
 							<view style="width: 140rpx;">销售时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -87,31 +103,17 @@
 								</view>
 							</picker>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>实际收款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput"><input placeholder="输入实际收款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;"
-								 type="digit" /></view>
-						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+
+
+						<view class="display_flex_bet" style="padding:10rpx;background: #fff;border-bottom: 1rpx solid#F7F7F7;margin-top:20rpx;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
-							<view>是否出库</view>
-							<view class="kaidan_rightinput" style="text-align: right;">
-								<switch :checked="canOpretion" @change="changeStatus"/>
-							</view>
-						</view>
-						
 					</view>
 				</view>
 
-
-
-				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
-					<view class="notice_text">上传凭证图(会员可用)</view>
-
-					<view style="width: 100%;padding: 20rpx 0;">
+				<view style='background: #fff;padding: 10rpx;'>
+					<view style="width: 100%;">
 						<view class="upload_image display_flex">
 							<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
 								<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
@@ -132,7 +134,8 @@
 						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
+						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>
 					</view>
 
 				</view>
@@ -167,11 +170,12 @@
 				products: null,
 				button_disabled: false,
 				beizhu_text: "",
-				really_total_money:0,
+				really_total_money: 0,
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
-				allCostPrice:0,//成本总额
+				allCostPrice: 0, //成本总额
 				custom: null, //制造商
+				account: '', //收款账户
 				outType: '', //发货方式
 				discount: '', //会员率
 				pickerTypes: [{
@@ -195,7 +199,8 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
-				canOpretion:true,
+				canOpretion: true,
+				wetherDebt:false,
 			}
 		},
 		onLoad() {
@@ -216,6 +221,7 @@
 
 			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
+			that.account = uni.getStorageSync("account")
 
 			if (shop) {
 				that.shop_name = shop.name
@@ -230,7 +236,7 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 					this.total_num += Number(this.products[i].num)
-					that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
+					that.allCostPrice = that.allCostPrice + (Number(that.products[i].num) * Number(that.products[i].costPrice))
 				}
 				this.really_total_money = this.really_total_money * that.discount / 100
 				this.real_money = Number(this.all_money.toFixed(2)) * that.discount / 100
@@ -240,7 +246,7 @@
 					this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
 					this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
 					this.total_num += Number(this.products[i].num)
-					that.allCostPrice = that.allCostPrice+(Number(that.products[i].num)*Number(that.products[i].costPrice))
+					that.allCostPrice = that.allCostPrice + (Number(that.products[i].num) * Number(that.products[i].costPrice))
 				}
 				this.real_money = Number(this.all_money.toFixed(2))
 			}
@@ -248,9 +254,12 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
-			
+			changeDebtStatus(e) {
+				that.wetherDebt = e.detail.value
+			},
+
 			//是否立即入库
-			changeStatus(e){
+			changeStatus(e) {
 				that.canOpretion = e.detail.value
 			},
 
@@ -273,10 +282,10 @@
 				});
 				// #endif
 			},
-			
+
 			//选择时间
-			bindDateChange(e){
-				that.nowDay = e.detail.value+" 00:00:00"
+			bindDateChange(e) {
+				that.nowDay = e.detail.value + " 00:00:00"
 			},
 
 			//移除此张照片
@@ -338,8 +347,8 @@
 
 			formSubmit: function(e) {
 				//console.log(e)
-				
-				if(this.button_disabled){
+
+				if (this.button_disabled) {
 					return
 				}
 				let identity = uni.getStorageSync("identity") // 身份识别标志
@@ -355,6 +364,13 @@
 					uni.showToast({
 						icon: "none",
 						title: "请选择客户"
+					});
+					this.button_disabled = false;
+					return;
+				} else if (uni.getStorageSync("account") == "" || uni.getStorageSync("account") == undefined) {
+					uni.showToast({
+						icon: "none",
+						title: "请选择结算账户"
 					});
 					this.button_disabled = false;
 					return;
@@ -374,7 +390,7 @@
 					let pointer2 = Bmob.Pointer('_User')
 					let operater = pointer2.set(uni.getStorageSync("masterId"))
 					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].header?this.products[i].header.objectId:this.products[i].objectId);
+					let tempGoods_id = pointer1.set(this.products[i].header ? this.products[i].header.objectId : this.products[i].objectId);
 
 					if (uni.getStorageSync("custom")) {
 						let pointer3 = Bmob.Pointer('customs')
@@ -388,7 +404,7 @@
 					tempBills.set('really_total_money', this.products[i].really_total_money);
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
-					tempBills.set('allCostPrice', Number(that.products[i].num)*Number(that.products[i].costPrice));
+					tempBills.set('allCostPrice', Number(that.products[i].num) * Number(that.products[i].costPrice));
 					tempBills.set('type', -1);
 					tempBills.set('count', 1);
 					tempBills.set('extra_type', extraType);
@@ -472,21 +488,26 @@
 							let custom = Bmob.Pointer('customs');
 							let customID = custom.set(that.custom.objectId);
 							query.set("custom", customID);
-
-							//如果客户有欠款
-							if ((that.all_money - Number(that.real_money)) > 0) {
-								let query = Bmob.Query('customs');
-								query.get(that.custom.objectId).then(res => {
-									var debt = (res.debt == null) ? 0 : res.debt;
-									debt = debt + (that.all_money - Number(that.real_money));
-									console.log(debt);
-									let query = Bmob.Query('customs');
-									query.get(that.custom.objectId).then(res => {
-										res.set('debt', debt)
-										res.save()
-									})
+							const accountQuery = Bmob.Query('accounts');
+							accountQuery.get(that.account.objectId).then(res => {
+								res.set('money', res.money + Number(that.real_money));
+								res.save().then(res => {
+									//如果客户有欠款
+									if ((that.all_money - Number(that.real_money)) > 0) {
+										let query = Bmob.Query('customs');
+										query.get(that.custom.objectId).then(res => {
+											var debt = (res.debt == null) ? 0 : res.debt;
+											debt = debt + (that.all_money - Number(that.real_money));
+											console.log(debt);
+											let query = Bmob.Query('customs');
+											query.get(that.custom.objectId).then(res => {
+												res.set('debt', debt)
+												res.save()
+											})
+										})
+									}
 								})
-							}
+							})
 						}
 
 						if (that.outType) {
@@ -510,17 +531,17 @@
 								title: '产品销售成功',
 								icon: 'success',
 								success: function() {
-									if(that.canOpretion){
+									if (that.canOpretion) {
 										common.outRedGoodNum(that.products).then(result => { //减少产品数量		
 											setTimeout(() => {
 												uni.removeStorageSync("_warehouse")
 												uni.removeStorageSync("out_warehouse")
 												uni.removeStorageSync("category")
 												uni.removeStorageSync("warehouse")
-										
+
 												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
 													that.products.length + "商品", -1, operationId);
-													
+
 												that.button_disabled = false;
 												uni.setStorageSync("is_option", true);
 												uni.navigateBack({
@@ -528,22 +549,22 @@
 												});
 											}, 500)
 										})
-									}else{
+									} else {
 										uni.removeStorageSync("_warehouse")
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
-																				
+
 										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
 											that.products.length + "商品", -1, operationId);
-										
+
 										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);							
+										uni.setStorageSync("is_option", true);
 										uni.navigateBack({
 											delta: 2
 										});
 									}
-									
+
 								},
 							})
 						})

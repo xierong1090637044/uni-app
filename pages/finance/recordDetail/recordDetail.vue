@@ -12,16 +12,26 @@
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
 			<view class="left_content">交易分类</view>
 			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type == 5">采购支出</view>
+			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type == 6">手动记录支出</view>
 			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type == 5">销售收款</view>
+			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type == 6">手动记录收入</view>
+		</view>
+		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.extra_type == 6">
+			<view class="left_content">交易类别</view>
+			<view style="color: #2ca879;">
+				<text v-if="detail.fristClass">{{detail.fristClass.class_text}}</text>
+				<text v-if="detail.secondClass">{{detail.secondClass.class_text}}</text>
+			</view>
 		</view>
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
 			<view class="left_content">发生金额</view>
 			<view style="color: #2ca879;">{{detail.real_money}}</view>
 		</view>
 		
+		
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
-			<view class="left_content" v-if="detail.custom">收款时间</view>
-			<view class="left_content" v-else-if="detail.producer">付款时间</view>
+			<view class="left_content" v-if="detail.type == 1">收款时间</view>
+			<view class="left_content" v-else-if="detail.type == -1">付款时间</view>
 			<view v-if="detail.createdTime">{{detail.createdTime.iso.split(" ")[0]}}</view>
 		</view>
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
@@ -70,7 +80,7 @@
 		onLoad(options) {
 			that = this;
 			const query = Bmob.Query('order_opreations');
-			query.include("opreater","account","custom","producer");
+			query.include("opreater","account","custom","producer","secondClass", "fristClass");
 			query.get(options.id).then(res => {
 			  console.log(res)
 				that.detail = res;

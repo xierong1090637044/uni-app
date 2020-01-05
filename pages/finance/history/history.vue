@@ -33,13 +33,38 @@
 							<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
 						</view>
 					</view>
-					<view v-if="item.producer">
+					<view v-else-if="item.producer">
 						<view>供货商：<text>{{item.producer.producer_name}}</text></view>
-						
+
 						<view class="display_flex_bet">
 							<view>交易账户：{{item.account.name}}</view>
 							<view><text style="color: #f30;">-{{item.real_money}}</text></view>
 						</view>
+					</view>
+					<view v-else>
+						<view v-if="item.type == -1">
+							<view>交易类别：
+							  <text v-if="item.fristClass">{{item.fristClass.class_text}}</text>
+								<text v-if="item.secondClass">{{item.secondClass.class_text}}</text>
+							</view>
+
+							<view class="display_flex_bet">
+								<view>交易账户：{{item.account.name}}</view>
+								<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
+							</view>
+						</view>
+						<view v-else-if="item.type == 1">
+							<view>交易类别：
+							  <text v-if="item.fristClass">{{item.fristClass.class_text}}</text>
+								<text v-if="item.secondClass">{{item.secondClass.class_text}}</text>
+							</view>
+						
+							<view class="display_flex_bet">
+								<view>交易账户：{{item.account.name}}</view>
+								<view><text style="color: #f30;">-{{item.real_money}}</text></view>
+							</view>
+						</view>
+
 					</view>
 
 					<view v-if="item.opreater"> 操作人：{{item.opreater.nickName}}</view>
@@ -105,7 +130,7 @@
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.equalTo("real_money", ">", 0);
-				query.include("opreater", "account", "custom", "producer");
+				query.include("opreater", "account", "custom", "producer", "secondClass", "fristClass");
 				query.order("-createdAt")
 				query.find().then(res => {
 					that.loading = false

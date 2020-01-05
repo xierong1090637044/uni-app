@@ -1,13 +1,12 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #333;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
-						<view style="width: calc(100% - 260rpx);">产品：{{item.goodsName}}</view>
-						<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
-						<view v-else>期初进货价：￥{{item.costPrice}}</view>
+						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
+						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
@@ -15,18 +14,9 @@
 							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
 					</view>
-					<view class='pro_list' style='color:#3D3D3D'>
-						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
-						<view v-else>入库仓库：未填写</view>
-						<view>入库数量：X{{item.num}}</view>
-					</view>
-					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-						<view>实际进货价：￥0（X{{item.num}}）</view>
-						<view>合计：￥0</view>
-					</view>
-					<view class='pro_list' v-else>
-						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
-						<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
+					<view class='pro_list'>
+						<view>实际零售价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+						<view>合计：￥{{item.total_money}}</view>
 					</view>
 
 				</view>
@@ -35,32 +25,30 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">采购明细</view>
+					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">采购退货明细</view>
 					<view style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
 								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;" v-else>
-							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
-								 style="color: #d71345;" type="digit" /></view>
+						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+							<view>实际退款（可修改）</view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际退款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit" /></view>
 						</view>
-
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">采购时间</view>
+						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">退货时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
 									<view style="margin-right: 20rpx;">{{nowDay.split(" ")[0]}}</view>
@@ -69,28 +57,23 @@
 							</picker>
 						</view>
 
-
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择门店" disabled="true" :value="shop?shop.name:''" style="text-align: right;margin-right: 20rpx;" />
+								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 
-						<view class="display_flex_bet" style="padding:10rpx;margin-top: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
-							<view>是否入库</view>
-							<view class="kaidan_rightinput" style="text-align: right;">
-								<switch :checked="canOpretion" @change="changeStatus" />
-							</view>
-						</view>
-
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<view class="display_flex_bet" style="padding: 10rpx;margin-top:20px;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
+
 						<view style='background: #fff;padding: 10rpx;'>
-							<view style="width: 100%;">
+							<view class="notice_text">上传凭证图(会员可用)</view>
+
+							<view style="width: 100%;padding: 20rpx 0;">
 								<view class="upload_image display_flex">
 									<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
 										<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
@@ -107,17 +90,13 @@
 					</view>
 				</view>
 
-				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
-					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-						<text>合计：￥0</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
-					</view>
-					<view v-else>
+				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
+					<view>
 						<text>合计：￥{{real_money}}</text>
 						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购退货</button>
 					</view>
 
 				</view>
@@ -131,9 +110,9 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
-	import _goods from '@/utils/goods.js';
 	import send_temp from '@/utils/send_temp.js';
 	import print from '@/utils/print.js';
+	import _goods from '@/utils/goods.js';
 
 	let uid;
 	let that;
@@ -150,55 +129,80 @@
 				stock: '', //仓库
 				shop_name: '',
 				products: null,
-				account: '', //结算账户
 				button_disabled: false,
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
-				really_total_money: 0, //实际的总价
+				allCostPrice: 0, //成本总额
+				really_total_money: 0,
 				producer: null, //制造商
+				account: '', //账户
+				outType: '', //发货方式
+				discount: '', //会员率
+				pickerTypes: [{
+						desc: "自提",
+						type: 1
+					},
+					{
+						desc: "快递",
+						type: 2
+					},
+					{
+						desc: "物流",
+						type: 3
+					},
+					{
+						desc: "送货上门",
+						type: 4
+					},
+				],
+				expressNum: '', //快递单号
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
-				canOpretion: true,
-				shop: '', //门店
 			}
 		},
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
 			this.products = uni.getStorageSync("products");
-			for (let i = 0; i < this.products.length; i++) {
-				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
-				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
-				this.total_num += Number(this.products[i].num)
-			}
-			this.real_money = Number(this.all_money.toFixed(2))
 
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
 		},
-
 		onShow() {
+			this.really_total_money = 0
+			this.all_money = 0
+			this.real_money = 0
+			this.total_num = 0
+			that.allCostPrice = 0
+
 			that.producer = uni.getStorageSync("producer")
 			that.account = uni.getStorageSync("account")
-			if (uni.getStorageSync("shop")) {
-				that.shop = uni.getStorageSync("shop")
+			shop = uni.getStorageSync("shop");
+
+			if (shop) {
+				that.shop_name = shop.name
 
 				const pointer = Bmob.Pointer('shops');
-				shopId = pointer.set(that.shop.objectId);
+				shopId = pointer.set(shop.objectId);
 			}
+
+			for (let i = 0; i < this.products.length; i++) {
+				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
+				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
+				this.total_num += Number(this.products[i].num)
+				that.allCostPrice = that.allCostPrice + (Number(that.products[i].num) * Number(that.products[i].costPrice))
+			}
+			this.real_money = Number(this.all_money.toFixed(2))
+
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
 			//选择时间
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
-			},
-
-			//是否立即入库
-			changeStatus(e) {
-				that.canOpretion = e.detail.value
 			},
 
 			//移除此张照片
@@ -215,7 +219,7 @@
 						sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 						sourceType: ['album', 'camera'], //从相册选择
 						success: function(res) {
-							//console.log(res);
+							console.log(res);
 							let timestamp = Date.parse(new Date());
 							let tempFilePaths = res.tempFilePaths
 							let file;
@@ -237,18 +241,12 @@
 				}
 			},
 
-			//表单提交
 			formSubmit: function(e) {
-				let identity = uni.getStorageSync("identity") // 身份识别标志
-
-				//console.log(that.canOpretion)
-				if (this.button_disabled) {
-					return
-				}
 				//console.log(e)
+				//console.log(res)
+				let identity = uni.getStorageSync("identity") // 身份识别标志
 				this.button_disabled = true;
 				let fromid = e.detail.formId
-				let extraType = 1 // 判断是采购还是入库
 
 				uni.showLoading({
 					title: "上传中..."
@@ -273,50 +271,46 @@
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < this.products.length; i++) {
-					let num = Number(this.products[i].reserve) + this.products[i].num;
+					let num = Number(this.products[i].reserve) - this.products[i].num;
 
 					//单据
-					let detailBills = {}
 					let tempBills = Bmob.Query('Bills');
+					let detailBills = {}
 
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
-					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].header ? this.products[i].header.objectId : this.products[i].objectId);
-
-					let masterId = uni.getStorageSync("masterId");
 					let pointer2 = Bmob.Pointer('_User')
-					let poiID2 = pointer2.set(masterId);
+					let operater = pointer2.set(uni.getStorageSync("masterId"))
+					let pointer1 = Bmob.Pointer('Goods')
+					let tempGoods_id = pointer1.set(this.products[i].objectId);
 
+					if (uni.getStorageSync("producer")) {
+						let pointer3 = Bmob.Pointer('producers')
+						let producer = pointer3.set(uni.getStorageSync("producer").objectId)
+						tempBills.set('producer', producer);
+					}
 					tempBills.set('goodsName', this.products[i].goodsName);
-					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
+					tempBills.set('retailPrice', this.products[i].modify_retailPrice);
 					tempBills.set('num', Number(this.products[i].num));
-					tempBills.set('total_money', this.products[i].total_money);
-					tempBills.set('really_total_money', this.products[i].really_total_money);
+					tempBills.set('total_money', Number(this.products[i].total_money));
+					tempBills.set('really_total_money', Number(this.products[i].really_total_money));
+					tempBills.set('allCostPrice', Number(that.products[i].num) * Number(that.products[i].costPrice));
 					tempBills.set('goodsId', tempGoods_id);
 					tempBills.set('userId', user);
-					tempBills.set("opreater", poiID2);
-					tempBills.set('type', 1);
-					tempBills.set('extra_type', extraType);
-					tempBills.set("status", that.canOpretion); // 操作单详情
+					tempBills.set('type', -1);
+					tempBills.set('extra_type', 4);
+
+					tempBills.set('opreater', operater);
 					tempBills.set("createdTime", {
 						"__type": "Date",
 						"iso": that.nowDay
-					}); // 操作单详情
-					if (that.producer) {
-						let producer = Bmob.Pointer('producers');
-						let producerID = producer.set(that.producer.objectId);
-						tempBills.set("producer", producerID);
+					});
+					if (shop) {
+						tempBills.set("shop", shopId);
 					}
 
 					let goodsId = {}
-					if (this.products[i].stocks && this.products[i].stocks.objectId) {
-						const pointer = Bmob.Pointer('stocks');
-						let stockId = pointer.set(this.products[i].stocks.objectId);
-						tempBills.set("stock", stockId);
-						detailBills.stock = this.products[i].stocks.stock_name
-					}
-
+					tempBills.set("status", false);
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
@@ -330,13 +324,13 @@
 						goodsId.models = this.products[i].models
 					}
 					detailBills.goodsId = goodsId
+					detailBills.type = -1
+					detailBills.extra_type = 4
 					detailBills.num = this.products[i].num
-					detailBills.packingUnit = this.products[i].packingUnit
-					detailBills.type = 1
+					detailBills.warning_num = this.products[i].warning_num
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
-
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
@@ -346,7 +340,6 @@
 							bills.push(res[i].success.objectId)
 						}
 
-
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
 
@@ -354,130 +347,127 @@
 						let pointer1 = Bmob.Pointer('_User')
 						let poiID1 = pointer1.set(masterId);
 
+						let producer = Bmob.Pointer('producers');
+						let producerID = producer.set(that.producer.objectId);
+
+						let pointer4 = Bmob.Pointer('accounts')
+						let accountId = pointer4.set(that.account.objectId)
+
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
-						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("detail", detailObj);
-						query.set("real_num", that.total_num);
-						query.set("type", 1);
-						query.set("extra_type", extraType);
 						query.set("bills", bills);
+						query.set("beizhu", e.detail.value.input_beizhu);
+						query.set("type", -1);
+						query.set('extra_type', 4);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						//query.set("stock", stockId);
+						query.set("real_num", that.total_num);
+						query.set("allCostPrice", that.allCostPrice);
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if (that.shop) query.set("shop", shopId);
-
+						if (that.account) query.set("account", accountId);
+						query.set("recordType", "new"); //"new"代表新版的销售记录
+						if (shop) query.set("shop", shopId);
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
 						});
 
-						if (that.producer) {
-							let producer = Bmob.Pointer('producers');
-							let producerID = producer.set(that.producer.objectId);
-							query.set("producer", producerID);
-							const accountQuery = Bmob.Query('accounts');
-							accountQuery.get(that.account.objectId).then(res => {
-								res.set('money', res.money - Number(that.real_money));
-								res.save().then(res => {
-									//如果客户有欠款
-									if ((that.all_money - Number(that.real_money)) > 0) {
-										let query = Bmob.Query('producers');
-										query.get(that.producer.objectId).then(res => {
-											var debt = (res.debt == null) ? 0 : res.debt;
-											debt = debt + (that.all_money - Number(that.real_money));
-											//console.log(debt);
-											let query = Bmob.Query('producers');
-											query.get(that.producer.objectId).then(res => {
-												res.set('debt', debt)
-												res.save()
-											})
-										})
-									}
-								})
-							})
-						}
-
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", that.canOpretion); // 操作单详情
+						query.set("producer", producerID);
+						/*if (that.stock) {
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(that.stock.objectId);
+							query.set("status", true); // 操作单详情
+							query.set("stock", stockId);
+						} else {
+							query.set("status", false); // 操作单详情
+						}*/
+
+						query.set("status", false); // 操作单详情
 						query.save().then(res => {
-							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
+							let operationId = res.objectId;
 							uni.hideLoading();
-							uni.showToast({
-								title: '产品采购成功',
-								icon: 'success',
-								duration: 1000,
-								complete: function() {
+							uni.removeStorageSync("customs"); //移除这个缓存
+							if (that.stock) { // 执行入库操作
+								uni.showToast({
+									title: '采购退货成功',
+									icon: 'success',
+									duration: 1000,
+									success: function() {
+										common.enterAddGoodNumNew(that.products).then(result => { //减少产品数量
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
 
-									if (that.canOpretion) {
-										common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 											setTimeout(() => {
-
-												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-													that.products
-													.length + "商品", 1, operationId);
-
-												that.button_disabled = false;
-												uni.setStorageSync("is_option", true);
 												uni.removeStorageSync("_warehouse")
 												uni.removeStorageSync("out_warehouse")
 												uni.removeStorageSync("category")
 												uni.removeStorageSync("warehouse")
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
 
+												common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
+													that.products.length + "商品的采购退货", 4, operationId);
+												//自动打印
+												if (uni.getStorageSync("setting").auto_print) {
+													print.autoPrint(operationId);
+												}
+
+												uni.redirectTo({
+													url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
+												})
+											}, 1000)
 										})
-									} else {
-										setTimeout(() => {
 
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-												that.products.length + "商品，还未入库", 11, operationId);
-
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.removeStorageSync("warehouse")
-											uni.navigateBack({
-												delta: 2
-											});
-										}, 500)
-
-										let params = {
-											"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
-												.products
-												.length + "商品",
-											"data1": operationId,
-											"data2": uni.getStorageSync("user").nickName,
-											"data3": "未审核",
-											"data4": res.createdAt,
-											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-												operationId,
-										};
-										send_temp.send_in_noconfrim(params);
 									}
+								})
+							} else { // 执行销售操作
 
+								uni.showToast({
+									title: '采购退货成功',
+									icon: 'success',
+									duration: 1000,
+									success: function() {
+										that.button_disabled = false;
+										uni.setStorageSync("is_option", true);
+										const accountQuery = Bmob.Query('accounts');
+										accountQuery.get(that.account.objectId).then(res => {
+											res.set('money', res.money + Number(that.real_money));
+											res.save().then(res => {
+												setTimeout(() => {
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
+													uni.removeStorageSync("warehouse")
 
+													common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
+														that.products.length + "商品的采购退货", 4, operationId);
 
-								}
-							})
+													uni.redirectTo({
+														url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
+													})
+												}, 1000)
+											})
+										})
+										
+									},
+								})
+
+							}
+
 						})
+
 
 					},
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
 					});
-			},
+
+			}
 		}
 	}
 </script>
@@ -501,7 +491,6 @@
 		width: calc(100% - 30rpx);
 		background: #FAFAFA;
 		padding: 20rpx 0rpx 20rpx 30rpx;
-		font-weight: bold;
 	}
 
 	.pro_list {
@@ -528,15 +517,14 @@
 		width: calc(100% - 40rpx);
 		background-color: #fff;
 		max-height: 100rpx;
-		padding: 10rpx 0;
 	}
 
 	.confrim_button {
+		padding: 0 50rpx;
 		background: #1651aa;
 		color: #fff;
 		font-weight: bold;
 		font-size: 32rpx;
 		border-radius: unset;
-		padding: 0 50rpx;
 	}
 </style>
