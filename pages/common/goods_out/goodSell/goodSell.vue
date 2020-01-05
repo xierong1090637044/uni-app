@@ -464,6 +464,9 @@
 						let masterId = uni.getStorageSync("masterId");
 						let pointer1 = Bmob.Pointer('_User')
 						let poiID1 = pointer1.set(masterId);
+						
+						let pointer4 = Bmob.Pointer('accounts')
+						let accountId = pointer4.set(that.account.objectId)
 
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
@@ -483,7 +486,7 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						if (shop) query.set("shop", shopId);
-
+						if(that.account) query.set("account", accountId);
 						if (that.custom) {
 							let custom = Bmob.Pointer('customs');
 							let customID = custom.set(that.custom.objectId);

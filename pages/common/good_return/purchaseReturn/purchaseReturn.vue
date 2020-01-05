@@ -367,9 +367,9 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if (that.account) query.set("account", accountId);
 						query.set("recordType", "new"); //"new"代表新版的销售记录
 						if (shop) query.set("shop", shopId);
+						if (that.account) query.set("account", accountId);
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
