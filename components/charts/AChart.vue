@@ -58,7 +58,11 @@
 			type:{
 				type: Number,
 				default: 1
-			}
+			},
+			show:{
+				type: Boolean,
+				default: true
+			},
 		},
 		data() {
 			return {
@@ -82,7 +86,13 @@
 				//console.log(now_day,old_day)
 				_self.now_day = now_day
 				_self.getServerData()
-			}
+			},
+			
+			show:function(now, old) {
+				if(now){
+					_self.getServerData()
+				}
+			},
 		},
 
 		methods: {

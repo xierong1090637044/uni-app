@@ -196,7 +196,28 @@
         }
         ,{
             "path" : "pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew",
-            "style" : {}
+            "style" : {
+							"navigationBarTitleText": "采购"
+						}
+        }
+        ,{
+            "path" : "pages/common/good_return/buyReturn/buyReturn",
+            "style" : {
+							"navigationBarTitleText": "销售退货"
+						}
+        }
+        ,{
+            "path" : "pages/common/good_return/purchaseReturn/purchaseReturn",
+            "style" : {
+							"navigationBarTitleText": "采购退货"
+						}
+        }
+        
+        ,{
+            "path" : "pages/report/EnteringHistory/returnDetail/returnDetail",
+            "style" : {
+							"navigationBarTitleText": "退货详情"
+						}
         }
     ],
 

@@ -26,6 +26,7 @@
 									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
 									<text v-if="value == 1 || value == 3">销售量：</text>
 									<text v-else-if="value == 2">出库量：</text>
+									<text v-else-if="value == 4">退货量：</text>
 									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' v-if="negativeOut" />
 									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' :max="Number(model.reserve)"
 									 v-else />
@@ -35,6 +36,7 @@
 						<view class='margin-t-5' v-else>
 							<text v-if="value == 1 || value == 3">销售量：</text>
 							<text v-else-if="value == 2">出库量：</text>
+							<text v-else-if="value == 4">退货量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='1' v-if="negativeOut" />
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else />
 						</view>
@@ -288,9 +290,13 @@
 					uni.navigateTo({
 						url: "/pages/common/goods_out/out_detail/out_detail"
 					})
-				} else if (value == 3) {
+				} else if (value == 3) { //新版的销售流程
 					uni.navigateTo({
 						url: "/pages/common/goods_out/gooSellNew/gooSellNew"
+					})
+				} else if (value == 4) { //新版的采购退货流程
+					uni.navigateTo({
+						url: "/pages/common/good_return/buyReturn/buyReturn"
 					})
 				}
 

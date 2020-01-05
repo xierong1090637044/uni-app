@@ -9,7 +9,7 @@
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
 						
-						<view class="display_flex_bet">
+						<!--<view class="display_flex_bet">
 							<view style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
 								<text>所存仓库:{{item.stocks.stock_name}}</text>
 							</view>
@@ -17,14 +17,19 @@
 								<text>所存仓库：未填写</text>
 							</view>
 							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
+						</view>-->
+						
+						<view class="display_flex_bet">
+							<view>库存：{{item.reserve}}</view>
+							<view style="color: #f30;" v-if="value == 1">建议零售价：{{item.retailPrice}}(元)</view>
+							<view style="color: #f30;" v-else-if="value == 2">成本价：{{item.costPrice}}(元)</view>
 						</view>
 						
-						<view class="display_flex_bet" v-if="value == 1">
+						<view class="display_flex_bet">
 							<view class='input_withlabel'>
 								<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
 								<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 							</view>
-							<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>
 						</view>
 
 						<view v-if="item.selectd_model">
@@ -85,7 +90,8 @@
 			return {
 				products: [],
 				user: uni.getStorageSync("user"),
-				value:''
+				value:'',
+				type:'',
 			}
 		},
 
@@ -96,6 +102,8 @@
 			that = this
 			value = options.value
 			that.value = options.value
+			that.type = options.type
+			
 			if (options.id) {
 				uni.showLoading({
 					title: "加载中..."
@@ -202,9 +210,25 @@
 			//头部确定点击
 			confrim_this() {
 				let products = uni.getStorageSync('products')
-				uni.navigateTo({
-					url: "/pages/common/good_return/return_detail/return_detail"
-				})
+				
+				if(that.type == "returing"){
+					if (value == 1) {
+						uni.navigateTo({
+							url: "/pages/common/good_return/return_detail/return_detail"
+						})
+					} 
+				}else if(that.type == "newReturing"){
+					if (value == 1) {
+						uni.navigateTo({
+							url: "/pages/common/good_return/buyReturn/buyReturn"
+						})
+					} else if (value == 2) {
+						uni.navigateTo({
+							url: "/pages/common/good_return/purchaseReturn/purchaseReturn"
+						})
+					}
+				}
+				
 
 			},
 

@@ -121,7 +121,8 @@ export default {
 	//获得库存成本和总库存
 	loadallGoods: function() {
 		let uid = uni.getStorageSync("uid")
-
+		let user = uni.getStorageSync("user")
+		let setting = uni.getStorageSync("setting")
 		return new Promise((resolve, reject) => {
 			let total_reserve = 0;
 			let total_money = 0;
@@ -154,19 +155,30 @@ export default {
 						
 						key +=1
 						
+						//返回数据
 						if(key == Math.ceil(count/1000)){
-							params.total_money = Number(total_money.toFixed(uni.getStorageSync("print_setting").show_float)),
-							params.total_reserve = Number(total_reserve.toFixed(uni.getStorageSync("print_setting").show_float)),				
+							if (user.rights && user.rights.othercurrent[0] != '0') {
+								total_money = 0
+							}
+							if (Number(total_reserve) > 1000 && Number(total_reserve) < 10000) {
+								total_reserve = Number(total_reserve) / 1000 + "千"
+							} else if (Number(total_reserve) >= 10000) {
+								total_reserve = Number(total_reserve) / 10000 + "万"
+							}
+							if (Number(total_money) > 1000 && Number(total_money) < 10000) {
+								total_money = Number(total_money) / 1000 + "千"
+							} else if (Number(total_money) >= 10000) {
+								total_money = Number(total_money) / 10000 + "万"
+							}
+							params.total_money = total_money,
+							params.total_reserve = total_reserve,				
 							params.warn_num = warn_num
 							params.over_num = over_num
 							resolve(params)
 						}
 					});
 				}
-				
 			})
-
 		})
-
 	},
 }

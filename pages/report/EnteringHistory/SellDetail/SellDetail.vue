@@ -4,7 +4,7 @@
 
 		<view class='page' v-else>
 			<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
-			<scroll-view scroll-y="true" style="height: 100vh;">
+			<scroll-view scroll-y="true" style="height: calc(100vh - 80rpx);">
 				<view style='line-height:70rpx;padding: 0 20rpx;'>操作产品</view>
 				
 				<view>
@@ -26,7 +26,11 @@
 							
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view>实际卖出价：￥{{item.modify_retailPrice}}</view>
+								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
+								<view v-else>
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
+									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
+								</view>
 							</view>
 							
 						</view>
@@ -34,7 +38,7 @@
 					<view class='pro_allmoney'>总计：￥{{detail.all_money }}</view>
 				</view>
 
-				<view>
+				<view v-if="detail.type == -1">
 					<view class="kaidanmx" v-if="detail.extra_type == 1">
 						<view style="padding: 10rpx 30rpx;">销售明细</view>
 						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
@@ -46,7 +50,7 @@
 							<view>{{detail.discount}}%</view>
 						</view>
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
-							<view class="left_content">收款账户</view>
+							<view class="left_content">结算账户</view>
 							<view class="real_color">{{detail.account.name }}</view>
 						</view>
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
@@ -56,6 +60,10 @@
 						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">欠款</view>
 							<view class="real_color">{{detail.debt}}</view>
+						</view>
+						<view class="display_flex"  v-if="detail.createdTime">
+							<view class="left_content">销售时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 						
 						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
@@ -73,20 +81,17 @@
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
 						
-						<view v-if="detail.shop" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+						<view v-if="detail.shop" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
 							<view class="left_content">门店</view>
 							<view>{{detail.shop.name}}</view>
 						</view>
 						
-						<view class="display_flex"  v-if="detail.createdTime">
-							<view class="left_content">销售时间</view>
-							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
-						</view>
-						<view class="display_flex" v-else-if="detail.createdTime"  style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">出库时间</view>
-							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
-						</view>
 						
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
+							<view class="left_content">出库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
+							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 150rpx;" class="left_content">出库仓库<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
@@ -94,12 +99,58 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view class="display_flex">
-							<view class="left_content">出库情况</view>
-							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
-							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
+							<view class="left_content">出库仓库</view>
+							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
+						</view>
+						<view class="display_flex" v-if="detail.status">
+							<view class="left_content">出库时间</view>
+							<view>{{detail.updatedAt}}</view>
 						</view>
 						
+					</view>
+				</view>
+				
+				<!--入库以及采购明细-->
+				<view v-else-if="detail.type == 1">
+					<view class="kaidanmx" v-if="detail.extra_type == 1">
+						<view style="padding: 10rpx 30rpx;">采购明细</view>
+						<view v-if="detail.producer" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">供货商姓名</view>
+							<view>{{detail.producer.producer_name}}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
+							<view class="left_content">结算账户</view>
+							<view class="real_color">{{detail.account.name }}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">实际付款</view>
+							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
+						</view>
+						<view class="display_flex" v-if="detail.debt > 0">
+							<view class="left_content">欠款</view>
+							<view class="real_color">{{detail.debt}}</view>
+						</view>
+						<view class="display_flex" style="margin-top: 20rpx;">
+							<view class="left_content">入库情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已入库</view>
+							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+						</view>
+						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
+							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-else>
+							<view class="left_content">入库仓库</view>
+							<view>{{detail.stock.stock_name}}</view>
+						</view>
+						<view class="display_flex" v-if="detail.status">
+							<view class="left_content">入库时间</view>
+							<view>{{detail.updatedAt}}</view>
+						</view>
 					</view>
 				</view>
 

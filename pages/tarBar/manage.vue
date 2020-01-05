@@ -72,7 +72,7 @@
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=2',
 		},
-		{
+		/*{
 			name: '采购记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=1',
@@ -81,17 +81,23 @@
 			name: '销售记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=1',
-		},
+		},*/
 		{
 			name: '调拨记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
 		},
-		{
-			name: '客户退货记录',
+		/*{
+			name: '销售退货记录',
 			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
-		},
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=4',
+			color: "#b3b242"
+		},{
+			name: '采购退货记录',
+			icon: 'file-o',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=4',
+			color: "#b04fbb"
+		},*/
 		{
 			name: '盘点记录',
 			icon: 'file-o',

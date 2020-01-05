@@ -159,8 +159,8 @@
 				this.url = "../good_confrim/good_confrim?value=" + option.value
 			} else if (option.type == "delivery") {
 				this.url = "../goods_out/goods_out?value=" + option.value
-			} else if (option.type == "returing") {
-				this.url = "../good_return/good_return"
+			} else if (option.type == "returing" ) {
+				this.url = "../good_return/good_return?value=" + option.value+"&type="+option.type
 			} else if (option.type == "counting") {
 				this.url = "../good_count/good_count"
 			} else if (option.type == "allocation") {
@@ -370,7 +370,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
-				if(that.value == 3 || that.value == '3'){
+				if(that.value == 3 || that.value == 4){
 					query.equalTo("order", "==", 0);
 				}else{
 					query.equalTo("order", "!=", 0);

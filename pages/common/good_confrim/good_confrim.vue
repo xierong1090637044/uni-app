@@ -7,43 +7,39 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
+						
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
-							<view v-if="item.stocks && item.stocks.stock_name">
-								<text>入库仓库：{{item.stocks.stock_name}}</text>
-							</view>
-							<view v-else>
-								<text>入库仓库：未填写</text>
-							</view>
 							<view>库存：{{item.reserve}}</view>
-						</view>
-
-						<view class='input_withlabel display_flex_bet' v-if="value == 1">
-							<view class="display_flex">
-								<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
-								<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-									<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
-								</view>
-								<view v-else>
-									<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
-								</view>
-							</view>
+							
 							<view>进价：
 								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">0元</text>
 								<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
+							</view>
+						</view>
+						
+						<view class="display_flex" v-if="value !=2"  style="margin-bottom: 10rpx;">
+							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
+							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
+							</view>
+							<view v-else>
+								<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
 							</view>
 						</view>
 
 						<view v-if="item.selectd_model">
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
-								<text v-if="value == 1">采购量：</text>
+								<text v-if="value == 1 || value == 3">采购量：</text>
 								<text v-else-if="value == 2">入库量：</text>
+								<text v-else-if="value == 4">退货量：</text>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0' />
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							<text v-if="value == 1">采购量：</text>
+							<text v-if="value == 1 || value == 3">采购量：</text>
 							<text v-else-if="value == 2">入库量：</text>
+							<text v-else-if="value == 4">退货量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
 						</view>
 
@@ -289,7 +285,11 @@
 					})
 				} else if (value == 3) {
 					uni.navigateTo({
-						url: "/pages/common/goods_out/goodPurchaseNew/goodPurchaseNew"
+						url: "/pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew"
+					})
+				} else if (value == 4) {
+					uni.navigateTo({
+						url: "/pages/common/good_return/purchaseReturn/purchaseReturn"
 					})
 				}
 			},

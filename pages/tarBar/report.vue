@@ -49,7 +49,7 @@
 		
 		<view class="Item" style="overflow: hidden;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
-			<achart :now_day="now_day" :type="2"></achart>
+			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
 		</view>
 		
 		
@@ -73,6 +73,7 @@
 		},
 		data() {
 			return {
+				achartShow:true,
 				now_day: common.getDay(0),
 				user: uni.getStorageSync("user"),
 				othercurrent: '',
@@ -90,6 +91,7 @@
 		onShow() {
 			if (uni.getStorageSync("user")) {
 				that.loadallGoods();
+				that.achartShow = true,
 				notice.getNoticeList().then(res => {
 					console.log(res)
 					that.noticeText = res
@@ -112,29 +114,16 @@
 				})
 			}
 		},
+		
+		onHide() {
+			that.achartShow = false
+		},
 
 		methods: {
 
 			//得到总库存数和总金额
 			loadallGoods: function() {
 				record.loadallGoods().then(res => {
-					console.log(res)
-					if (that.user.rights && that.user.rights.othercurrent[0] != '0') {
-						res.total_money = 0
-					}
-
-					if (Number(res.total_reserve) > 1000 && Number(res.total_reserve) < 10000) {
-						res.total_reserve = Number(res.total_reserve) / 1000 + "千"
-					} else if (Number(res.total_reserve) >= 10000) {
-						res.total_reserve = Number(res.total_reserve) / 10000 + "万"
-					}
-
-					if (Number(res.total_money) > 1000 && Number(res.total_money) < 10000) {
-						res.total_money = Number(res.total_money) / 1000 + "千"
-					} else if (Number(res.total_money) >= 10000) {
-						res.total_money = Number(res.total_money) / 10000 + "万"
-					}
-
 					that.goodsAnalysis = res
 				})
 			},

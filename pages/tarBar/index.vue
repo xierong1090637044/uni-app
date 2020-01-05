@@ -122,56 +122,49 @@
 				],
 				sellLists: [{
 						name: '销售(旧)',
-						notice: '即将移除',
+						notice: '旧版销售流程',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
 					}, {
+						name: '销售退货(旧)',
+						notice: '旧版的退货',
+						icon: 'icon-tuihuodan',
+						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
+					},{
 						name: '销售(新)',
-						notice: '无需审核',
+						notice: '新版销售流程',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
 					},
-					/*{
-											name: '销售订单',
-											notice: '审核后出库',
-											icon: 'icon-xiaoshoudingdan',
-											url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
-										},*/
 					{
-						name: '销售退货',
+						name: '销售退货(新)',
 						notice: '审核后入库',
 						icon: 'icon-tuihuodan',
-						url: '/pages/common/goods-select/goods-select?type=returing'
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
 					},
 				],
 				purchaseLists: [{
 						name: '采购(旧)',
-						notice: '无需审核',
+						notice: '旧版采购流程',
 						icon: 'icon-caigoushenqing',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					}, {
 						name: '采购(新)',
-						notice: '无需审核',
+						notice: '新版销售流程',
 						icon: 'icon-caigoushenqing',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
 					},
-					/*{
-										name: '采购订单',
-										notice: '审核后入库',
-										icon: 'icon-navicon-cgdd',
-										url: '/pages/common/goods-select/goods-select?type=entering&value=3'
-									},*/
 					{
 						name: '采购退货',
 						notice: '审核后出库',
 						icon: 'icon-icon5',
-						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
 					}
 				],
 				optionsLists: [{
 						name: '产品添加',
 						icon: 'icon-wodechanpin',
-						url: '/pages/manage/good_add/good_add?type=single'
+						url: '/pages/manage/good_add/good_add?type=more'
 					},
 					{
 						name: '使用手册',
