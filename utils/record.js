@@ -94,13 +94,13 @@ export default {
 
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", userid);
-				query.equalTo("type", "==", -1);
+				query.equalTo("type", "==", 1);
 				query.equalTo("extra_type", "==", 1);
 				query.count().then(res => {
 					params.historyNum = res
 					const query = Bmob.Query("order_opreations");
 					query.equalTo("master", "==", userid);
-					query.equalTo("type", "==", -1);
+					query.equalTo("type", "==", 1);
 					query.equalTo("extra_type", "==", 1);
 					query.statTo("groupby", "producer");
 					query.find().then(res => {
