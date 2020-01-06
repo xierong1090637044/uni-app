@@ -46,13 +46,13 @@ export default {
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", userid);
 				query.equalTo("type", "==", -1);
-				query.equalTo("extra_type", "==", 1);
+				query.equalTo("custom", "!=", null);
 				query.count().then(res => {
 					params.historyNum = res
 					const query = Bmob.Query("order_opreations");
 					query.equalTo("master", "==", userid);
 					query.equalTo("type", "==", -1);
-					query.equalTo("extra_type", "==", 1);
+					query.equalTo("custom", "!=", null);
 					query.statTo("groupby", "custom");
 					query.find().then(res => {
 						params.usedNum = res.length
@@ -95,13 +95,13 @@ export default {
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", userid);
 				query.equalTo("type", "==", 1);
-				query.equalTo("extra_type", "==", 1);
+				query.equalTo("producer", "!=", null);
 				query.count().then(res => {
 					params.historyNum = res
 					const query = Bmob.Query("order_opreations");
 					query.equalTo("master", "==", userid);
 					query.equalTo("type", "==", 1);
-					query.equalTo("extra_type", "==", 1);
+					query.equalTo("producer", "!=", null);
 					query.statTo("groupby", "producer");
 					query.find().then(res => {
 						params.usedNum = res.length
