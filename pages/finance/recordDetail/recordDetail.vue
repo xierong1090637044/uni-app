@@ -11,10 +11,12 @@
 		
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;">
 			<view class="left_content">交易分类</view>
-			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type == 5">采购支出</view>
+			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type != 6 && detail.extra_type != 4">采购支出</view>
 			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type == 6">手动记录支出</view>
-			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type == 5">销售收款</view>
+			<view style="color: #2ca879;" v-if="detail.type == 1 && detail.extra_type == 4">采购退货款</view>
+			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type != 6 && detail.extra_type != 4">销售收入</view>
 			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type == 6">手动记录收入</view>
+			<view style="color: #2ca879;" v-if="detail.type == -1 && detail.extra_type == 4">采购退货款</view>
 		</view>
 		<view class="display_flex listItem" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.extra_type == 6">
 			<view class="left_content">交易类别</view>

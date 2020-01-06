@@ -245,6 +245,14 @@
 						<view v-else class="display_flex">
 							<view class="left_content">未记录客户</view>
 						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
+							<view class="left_content">结算账户</view>
+							<view class="real_color">{{detail.account.name }}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">实际付款</view>
+							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
+						</view>
 					</view>
 				</view>
 

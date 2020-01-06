@@ -35,7 +35,15 @@
 						<view v-else class="display_flex">
 							<view class="left_content">未记录客户</view>
 						</view>
-						<view class="display_flex">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
+							<view class="left_content">结算账户</view>
+							<view class="real_color">{{detail.account.name }}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">实际付款</view>
+							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
+						</view>
+						<view class="display_flex" style="margin-top: 20rpx;">
 							<view class="left_content">入库情况</view>
 							<view v-if="detail.status" style="color: #2ca879;">已入库</view>
 							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
@@ -47,6 +55,10 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
+							<view class="left_content">入库仓库</view>
+							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
+						</view>
 					</view>
 					
 					<view class="kaidanmx" v-else-if="detail.type == -1">
@@ -57,6 +69,14 @@
 						</view>
 						<view v-else class="display_flex">
 							<view class="left_content">未记录供货商</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
+							<view class="left_content">结算账户</view>
+							<view class="real_color">{{detail.account.name }}</view>
+						</view>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">实际付款</view>
+							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
 						<view class="display_flex">
 							<view class="left_content">出库情况</view>
@@ -70,6 +90,10 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
+							<view class="left_content">出库仓库</view>
+							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
+						</view>
 					</view>
 				</view>
 
@@ -82,7 +106,6 @@
 						<view class='common_style'>（操作者）</view>
 					</view>
 					<view style='padding:20rpx 0 0'>
-						<view v-if="detail.type != -2 && detail.stock&&detail.stock.stock_name">选择的仓库：{{detail.stock.stock_name}}</view>
 						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>
@@ -250,7 +273,7 @@
 
 			getdetail: function(id) {
 				const query = Bmob.Query('order_opreations');
-				query.include("opreater", "custom", "producer", "stock");
+				query.include("opreater", "custom", "producer", "stock","account");
 				query.get(id).then(res => {
 					console.log(res);
 					that.detail = res;

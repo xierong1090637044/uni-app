@@ -23,7 +23,6 @@ export default {
 		
 	},
 	
-	
 	//增加数据操作
 	add_producer(params) {
 		

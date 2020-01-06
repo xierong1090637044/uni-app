@@ -18,7 +18,6 @@ export default {
 				resolve(res)
 			});
 		})
-
 	},
 	
 	//产品详情里面得到客户统计

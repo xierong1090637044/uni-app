@@ -1,6 +1,6 @@
 <template>
 	<!--当月详情-->
-	<view style="padding: 0 10rpx;">
+	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true">
 		<view class="Item">
 			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">商品分析</view>
 			<view class="display_flex_bet">
@@ -52,8 +52,69 @@
 			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
 		</view>
 		
+		<view class="Item" style="margin-top: 20rpx;">
+			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">客户分析</view>
+			<view class="display_flex_bet">
+				<view class="itemB">
+					<view>全部客户</view>
+					<view style="font-size: 30rpx;font-weight: bold;">{{customsAnalysis.number}}位</view>
+					<navigator hover-class="none" url="/pages/manage/custom/add/add?type=customs" class="addButton">新增</navigator>
+				</view>
+				<view style="width: 30%;">
+					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
+						<view>应收款</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{customsAnalysis.debt}}</view>
+					</view>
+					<view class="itemC">
+						<view>总记录</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{customsAnalysis.historyNum}}</view>
+					</view>
+				</view>
+				<view style="width: 30%;">
+					<view class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;">
+						<view>已发掘</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{customsAnalysis.usedNum}}</view>
+					</view>
+					<view class="itemC" style="background: #ff8282;color: #fff;">
+						<view>待发掘</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{customsAnalysis.noUsedNum}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
 		
-	</view>
+		<view class="Item" style="margin-top: 20rpx;">
+			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">供货商分析</view>
+			<view class="display_flex_bet">
+				<view class="itemB">
+					<view>全部供货商</view>
+					<view style="font-size: 30rpx;font-weight: bold;">{{producersAnalysis.number}}位</view>
+					<navigator hover-class="none" url="/pages/manage/custom/add/add?type=producers" class="addButton">新增</navigator>
+				</view>
+				<view style="width: 30%;">
+					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
+						<view>应还款</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{producersAnalysis.debt}}</view>
+					</view>
+					<view class="itemC">
+						<view>总记录</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{producersAnalysis.historyNum}}</view>
+					</view>
+				</view>
+				<view style="width: 30%;">
+					<view class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;">
+						<view>已发掘</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{producersAnalysis.usedNum}}</view>
+					</view>
+					<view class="itemC" style="background: #ff8282;color: #fff;">
+						<view>待发掘</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{producersAnalysis.noUsedNum}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		
+	</scroll-view>
 </template>
 
 <script>
@@ -80,7 +141,9 @@
 				noticeText: '', //首页消息提示内容
 				logsList: [],
 
-				goodsAnalysis: {}
+				goodsAnalysis: {},//产品分析的数据
+				customsAnalysis:{},//客户分析的数据
+				producersAnalysis:{},//客户分析的数据
 			}
 		},
 		onLoad(options) {
@@ -91,9 +154,9 @@
 		onShow() {
 			if (uni.getStorageSync("user")) {
 				that.loadallGoods();
+				
 				that.achartShow = true,
 				notice.getNoticeList().then(res => {
-					console.log(res)
 					that.noticeText = res
 				})
 
@@ -125,6 +188,15 @@
 			loadallGoods: function() {
 				record.loadallGoods().then(res => {
 					that.goodsAnalysis = res
+					record.getAllCustom().then(res=>{
+						that.customsAnalysis = res
+						record.getAllProducer().then(res=>{
+							that.producersAnalysis = res
+							record.getAllAccounts().then(res=>{
+								console.log(res)
+							})
+						})
+					})
 				})
 			},
 

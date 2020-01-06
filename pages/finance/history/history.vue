@@ -23,14 +23,14 @@
 				</view>
 			</view>
 
-			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);"
-			 scroll-y>
+			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);" scroll-y>
 				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/recordDetail/recordDetail?id='+item.objectId">
 					<view v-if="item.custom">
 						<view>客户：<text>{{item.custom.custom_name}}</text></view>
 						<view class="display_flex_bet">
 							<view>交易账户：{{item.account.name}}</view>
-							<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
+							<view v-if="item.type == -1"><text style="color: #2ca879;" >+{{item.real_money}}</text></view>
+							<view v-else-if="item.type == 1"><text style="color: #f30;">-{{item.real_money}}</text></view>
 						</view>
 					</view>
 					<view v-else-if="item.producer">
@@ -38,7 +38,8 @@
 
 						<view class="display_flex_bet">
 							<view>交易账户：{{item.account.name}}</view>
-							<view><text style="color: #f30;">-{{item.real_money}}</text></view>
+							<view v-if="item.type == -1"><text style="color: #2ca879;">+{{item.real_money}}</text></view>
+							<view v-else-if="item.type == 1"><text style="color: #f30;">-{{item.real_money}}</text></view>
 						</view>
 					</view>
 					<view v-else>
