@@ -6,7 +6,7 @@
 		<view wx:else>
 			<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add"></uni-nav-bar>
 
-			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 88rpx)' scroll-with-animation="true"
 			 enable-back-to-top="true" v-if="accounts && accounts.length > 0">
 				<view v-for="(account,index) in accounts" :key="index">
 					<view class='content'>

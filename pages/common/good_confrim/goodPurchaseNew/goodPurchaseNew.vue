@@ -183,6 +183,9 @@
 		},
 		methods: {
 			changeDebtStatus(e){
+				if(e.detail.value == false){
+					this.real_money = Number(this.all_money.toFixed(2))
+				}
 				that.wetherDebt = e.detail.value
 			},
 

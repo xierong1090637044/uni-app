@@ -312,7 +312,7 @@
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
 								stocks_o.now_model = item.models
-								stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
+								stocks_o.qrcode = (product.productCode) ? product.productCode+ "-" + true+"-new" : item.objectId + "-" + false+"-new"
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
@@ -324,7 +324,7 @@
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
-						that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
+						that.select_qrcode = (product.productCode) ? product.productCode+ "-" + true+"-new" : product.objectId + "-" + false+"-new"
 						that.loading = false
 						uni.hideLoading()
 						console.log(this.product)
