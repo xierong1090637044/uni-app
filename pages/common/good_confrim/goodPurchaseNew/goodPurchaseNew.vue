@@ -50,17 +50,23 @@
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
-							<view style="width: 140rpx;">结算账户<text style="color: #f30;">*</text></view>
+							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-else>
-							<view>实际付款<text style="font-size: 20rpx;color: #CCCCCC;">（可修改）</text></view>
-							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
-								 style="color: #d71345;" type="digit" /></view>
+						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-else>
+							<view>是否赊账</view>
+							<view class="kaidan_rightinput" style="text-align: right;">
+								<switch :checked="wetherDebt" @change="changeDebtStatus" />
+							</view>
+						</view>
+						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
+							<view>实际付款</view>
+							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit" /></view>
 						</view>
 						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">采购时间</view>
@@ -151,6 +157,7 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
+				wetherDebt:false,
 			}
 		},
 		onLoad() {
@@ -175,6 +182,9 @@
 			that.account = uni.getStorageSync("account")
 		},
 		methods: {
+			changeDebtStatus(e){
+				that.wetherDebt = e.detail.value
+			},
 
 			//选择时间
 			bindDateChange(e) {
@@ -233,13 +243,6 @@
 					uni.showToast({
 						icon: "none",
 						title: "请选择供应商"
-					});
-					this.button_disabled = false;
-					return;
-				}else if (uni.getStorageSync("account") == "" || uni.getStorageSync("account") == undefined) {
-					uni.showToast({
-						icon: "none",
-						title: "请选择结算账户"
 					});
 					this.button_disabled = false;
 					return;

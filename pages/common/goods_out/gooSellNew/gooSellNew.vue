@@ -37,7 +37,7 @@
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
-							<view style="width: 140rpx;">结算账户<text style="color: #f30;">*</text></view>
+							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -350,13 +350,6 @@
 					uni.showToast({
 						icon: "none",
 						title: "请选择客户"
-					});
-					this.button_disabled = false;
-					return;
-				} else if (uni.getStorageSync("account") == "" || uni.getStorageSync("account") == undefined) {
-					uni.showToast({
-						icon: "none",
-						title: "请选择结算账户"
 					});
 					this.button_disabled = false;
 					return;

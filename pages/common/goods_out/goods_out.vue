@@ -296,7 +296,7 @@
 					})
 				} else if (value == 4) { //新版的采购退货流程
 					uni.navigateTo({
-						url: "/pages/common/good_return/buyReturn/buyReturn"
+						url: "/pages/common/good_return/purchaseReturn/purchaseReturn"
 					})
 				}
 

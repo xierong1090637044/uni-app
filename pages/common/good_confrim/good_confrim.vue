@@ -289,7 +289,7 @@
 					})
 				} else if (value == 4) {
 					uni.navigateTo({
-						url: "/pages/common/good_return/purchaseReturn/purchaseReturn"
+						url: "/pages/common/good_return/buyReturn/buyReturn"
 					})
 				}
 			},

@@ -140,7 +140,7 @@
 						name: '销售退货(新)',
 						notice: '多规格产品慎用',
 						icon: 'icon-tuihuodan',
-						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
+						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
 					},
 				],
 				purchaseLists: [{
@@ -158,7 +158,7 @@
 						name: '采购退货',
 						notice: '多规格产品慎用',
 						icon: 'icon-tuihuo1',
-						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
+						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
 					}
 				],
 				optionsLists: [{

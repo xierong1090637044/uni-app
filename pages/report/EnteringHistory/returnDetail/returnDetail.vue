@@ -375,6 +375,7 @@
 												
 												that.getdetail(id);
 												setTimeout(function() {
+													uni.removeStorageSync("warehouse")
 													uni.showToast({
 														title: '退货入库成功'
 													})
@@ -426,6 +427,7 @@
 													})*/
 													that.getdetail(id);
 													setTimeout(function() {
+														uni.removeStorageSync("warehouse")
 														uni.showToast({
 															title: '退货入库成功'
 														})
@@ -478,6 +480,7 @@
 												
 												that.getdetail(id);
 												setTimeout(function() {
+													uni.removeStorageSync("warehouse")
 													uni.showToast({
 														title: '采购退货出库成功'
 													})
@@ -530,6 +533,7 @@
 													
 													that.getdetail(id);
 													setTimeout(function() {
+														uni.removeStorageSync("warehouse")
 														uni.showToast({
 															title: '采购退货出库成功'
 														})
