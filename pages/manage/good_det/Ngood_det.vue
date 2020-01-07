@@ -81,9 +81,9 @@
 							<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
 						</view>
 					</view>
-					
+
 				</view>
-				
+
 				<view class="second_one">
 					<view style="margin: 0 0 20rpx;">产品二维码</view>
 					<view style="padding: 20rpx;background: #fff;text-align: center;">
@@ -145,7 +145,7 @@
 			uid = uni.getStorageSync("uid");
 			uni.removeStorageSync("now_model")
 			uni.removeStorageSync("warehouse")
-			
+
 			console.log(options)
 			// #ifdef H5
 			this.$wechat.share_pyq();
@@ -173,8 +173,8 @@
 							query.find().then(res => {
 								console.log(res)
 								if (res.length == 0) {
-									that.upload_good_withNoCan(that.product,thisStock[0].stock).then(res=>{
-										if(res[0]){
+									that.upload_good_withNoCan(that.product, thisStock[0].stock).then(res => {
+										if (res[0]) {
 											uni.removeStorageSync("warehouse")
 											uni.showToast({
 												title: "关联成功",
@@ -312,7 +312,8 @@
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
 								stocks_o.now_model = item.models
-								stocks_o.qrcode = (product.productCode) ? product.productCode+ "-" + true+"-new" : item.objectId + "-" + false+"-new"
+								stocks_o.qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : item.objectId + "-" +
+									false + "-new"
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
@@ -324,7 +325,8 @@
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
-						that.select_qrcode = (product.productCode) ? product.productCode+ "-" + true+"-new" : product.objectId + "-" + false+"-new"
+						that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
+							"-" + false + "-new"
 						that.loading = false
 						uni.hideLoading()
 						console.log(this.product)
@@ -355,7 +357,8 @@
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
 							stocks_o.now_model = item.models
-							stocks_o.qrcode = (product.productCode) ? product.productCode : item.objectId + "-" + false
+							stocks_o.qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : item.objectId + "-" +
+								false + "-new"
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
@@ -367,7 +370,8 @@
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
-					that.select_qrcode = (product.productCode) ? product.productCode : product.objectId + "-" + false
+					that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId + "-" +
+						false + "-new"
 					that.loading = false
 					uni.hideLoading()
 					uni.setStorageSync("now_product", this.product)
@@ -426,7 +430,7 @@
 			//生成二维码
 			show_qrcode(item) {
 				that.is_show = true,
-					that.select_qrcode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+					that.select_qrcode = (item.productCode) ? item.productCode+ "-" + true + "-new" : item.objectId + "-" + false+ "-new"
 			},
 
 			//分库存的switch点击

@@ -198,7 +198,6 @@
 		},
 
 		onUnload() {
-			console.log("sdsada")
 			common.handleData()
 			//数据重置
 			search_text = '';

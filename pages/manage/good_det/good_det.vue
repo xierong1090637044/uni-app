@@ -205,7 +205,7 @@
 							stocks_o.bad_num = (item.bad_num) ? item.bad_num : 0
 							stocks_o.good_id = item.objectId
 							stocks_o.accessory = (item.accessory) ? item.accessory : ''
-							stocks_o.productCode = (item.productCode) ? item.productCode : item.objectId + "-" + false
+							stocks_o.productCode = (item.productCode) ? item.productCode+ "-" + true+"-old" : item.objectId + "-" + false+"-old"
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)

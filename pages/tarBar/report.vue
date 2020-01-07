@@ -7,7 +7,8 @@
 				<view class="itemB">
 					<view>全部商品</view>
 					<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_products}}种</view>
-					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=more" class="addButton">新增</navigator>
+					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=more" class="addButton" v-if="user.is_vip">新增</navigator>
+					<view class="addButton" v-else @click="showNotice">新增</view>
 				</view>
 				<view style="width: 30%;">
 					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
@@ -58,7 +59,8 @@
 				<view class="itemB">
 					<view>全部客户</view>
 					<view style="font-size: 30rpx;font-weight: bold;">{{customsAnalysis.number}}位</view>
-					<navigator hover-class="none" url="/pages/manage/custom/add/add?type=customs" class="addButton">新增</navigator>
+					<navigator hover-class="none" url="/pages/manage/custom/add/add?type=customs" class="addButton" v-if="user.is_vip">新增</navigator>
+					<view class="addButton" v-else @click="showNotice">新增</view>
 				</view>
 				<view style="width: 30%;">
 					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
@@ -89,7 +91,8 @@
 				<view class="itemB">
 					<view>全部供货商</view>
 					<view style="font-size: 30rpx;font-weight: bold;">{{producersAnalysis.number}}位</view>
-					<navigator hover-class="none" url="/pages/manage/custom/add/add?type=producers" class="addButton">新增</navigator>
+					<navigator hover-class="none" url="/pages/manage/custom/add/add?type=producers" class="addButton" v-if="user.is_vip">新增</navigator>
+					<view class="addButton" v-else @click="showNotice">新增</view>
 				</view>
 				<view style="width: 30%;">
 					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
@@ -154,7 +157,7 @@
 		onShow() {
 			if (uni.getStorageSync("user")) {
 				that.loadallGoods();
-				
+				that.user = uni.getStorageSync("user")
 				that.achartShow = true,
 				notice.getNoticeList().then(res => {
 					that.noticeText = res
@@ -183,6 +186,12 @@
 		},
 
 		methods: {
+			showNotice(){
+				uni.showToast({
+					icon:"none",
+					title:"非会员无法使用"
+				})
+			},
 
 			//得到总库存数和总金额
 			loadallGoods: function() {

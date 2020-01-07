@@ -106,7 +106,7 @@
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
 								<view class="left_item">初始库存</view>
-								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" disabled="true"  />
+								<input placeholder="初始库存" type="digit" name="reserve" v-model="reserve" disabled="true" />
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -284,9 +284,32 @@
 					uni.setStorageSync("category", now_product.second_class)
 				}
 
-				if (now_product.stocks && now_product.stocks.length > 0) {
-					uni.setStorageSync("warehouse", now_product.stocks)
-				}
+				that.addType = 'more'
+				const query = Bmob.Query("stocks");
+				query.order("-num");
+				query.equalTo("parent", "==", uid);
+				query.equalTo("disabled", "!=", true);
+				query.find().then(res => {
+					let _warehouse = res
+					let warehouse = []
+					let count = 0;
+					for (let item of res) {
+						const query = Bmob.Query('Goods');
+						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", now_product.objectId);
+						query.equalTo("stocks", "==", item.objectId);
+						query.include("stocks");
+						query.find().then(res => {
+							let product = res[0]
+							that.reserve += product.reserve
+							item.reserve = product.reserve
+							count += 1;
+							if (count == _warehouse.length) {
+								uni.setStorageSync("warehouse", _warehouse)
+							}
+						})
+					}
+				});
 			} else {
 				if (options.type == 'more') {
 					that.addType = options.type
@@ -300,16 +323,16 @@
 						}
 						uni.setStorageSync("warehouse", res)
 					});
-				}else if(options.type == 'single'){
+				} else if (options.type == 'single') {
 					that.addType = options.type
 					const query = Bmob.Query("stocks");
 					query.order("-num");
 					query.equalTo("parent", "==", uid);
 					query.equalTo("disabled", "!=", true);
 					query.find().then(res => {
-						if(res.length > 0){
+						if (res.length > 0) {
 							let warehouse = []
-							let warehouseItem ={}
+							let warehouseItem = {}
 							warehouseItem.reserve = 0
 							warehouseItem.stock = res[0]
 							warehouseItem.warning_num = 0
@@ -332,7 +355,8 @@
 				that.reserve = 0
 				if (that.addType == 'single') {
 					let newStock = []
-					let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync("warehouse")[0]
+					let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync(
+						"warehouse")[0]
 					stockItem.reserve = stockItem.reserve ? stockItem.reserve : 0
 					newStock.push(stockItem)
 					uni.setStorageSync("warehouse", newStock)
@@ -359,14 +383,14 @@
 					}
 					uni.setStorageSync("warehouse", stocksReserve)
 				}
-			}else{
+			} else {
 				that.reserve = 0
-				if(that.productMoreG && uni.getStorageSync("now_model")){
+				if (that.productMoreG && uni.getStorageSync("now_model")) {
 					for (let item of uni.getStorageSync("now_model")) {
 						that.reserve += Number(item.reserve)
 					}
 				}
-				
+
 			}
 
 			if (uni.getStorageSync("category")) {
@@ -398,7 +422,7 @@
 		methods: {
 
 			gotoNext() {
-				if(that.productMoreG){
+				if (that.productMoreG) {
 					if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
 						uni.navigateTo({
 							url: 'moreModel/moreModel'
@@ -408,7 +432,7 @@
 							url: 'stockAdd/stockAdd?type=' + that.productMoreG
 						})
 					}
-				}else{
+				} else {
 					if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
 						uni.showToast({
 							title: "请先选择仓库",
@@ -420,7 +444,7 @@
 						})
 					}
 				}
-				
+
 			},
 
 			changeState(e) {
@@ -502,7 +526,7 @@
 					} else {
 						that.upload_good(good)
 					}
-				}  else {
+				} else {
 					that.upload_good(good)
 				}
 			},
@@ -587,7 +611,9 @@
 
 				///query.set("product_state", good.product_state) //改产品是否是半成品
 				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
-				if (stocksReserve.length > 0) { query.set("order", 0) }
+				if (stocksReserve.length > 0) {
+					query.set("order", 0)
+				}
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
