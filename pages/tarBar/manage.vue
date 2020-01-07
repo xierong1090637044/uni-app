@@ -34,6 +34,7 @@
 						<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
 					</view>
 					<span class='o_text'>{{value.name}}</span>
+					<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
 				</navigator>
 			</view>
 		</view>
@@ -64,13 +65,15 @@
 	let that;
 	let secOptionsLists = [{
 			name: '入库记录',
+			notice: '入库、采购、销售退货',
 			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=2',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=1',
 		},
 		{
 			name: '出库记录',
+			notice: '出库、销售、采购退货',
 			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=2',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1',
 		},
 		/*{
 			name: '采购记录',
@@ -84,6 +87,7 @@
 		},*/
 		{
 			name: '调拨记录',
+			notice: '调拨记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
 		},
@@ -92,31 +96,18 @@
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=4',
 			color: "#b3b242"
-		},{
+		},*/{
 			name: '采购退货记录',
+			notice: '旧版采购退货记录，即将移除',
 			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=4',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
 			color: "#b04fbb"
-		},*/
+		},
 		{
 			name: '盘点记录',
+			notice: '盘点记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
-		},
-		{
-			name: '经营状况',
-			icon: 'recycle',
-			url: '/pages/report/operational_status/operational_status',
-		},
-		{
-			name: '报表',
-			icon: 'pie-chart',
-			url: '/pages/report/chart/chart',
-		},
-		{
-			name: '销售业绩',
-			icon: 'area-chart',
-			url: '/pages/report/staffChart/staffChart',
 		}
 	];
 	
@@ -150,11 +141,6 @@
 			icon: 'list',
 			url: '/pages/manage/category/category',
 		},
-		{
-			name: '单品统计',
-			icon: 'quora',
-			url: '/pages/manage/productCount/productCount',
-		}
 	];
 	
 	let analysisLists= [{
@@ -174,6 +160,23 @@
 			name: '类别汇总',
 			icon: 'list',
 			url: '/pages/analysis/classAll/classAll',
+		},{
+			name: '单品统计',
+			icon: 'quora',
+			url: '/pages/manage/productCount/productCount',
+		},{
+			name: '销售业绩',
+			icon: 'area-chart',
+			url: '/pages/report/staffChart/staffChart',
+		},{
+			name: '经营状况',
+			icon: 'recycle',
+			url: '/pages/report/operational_status/operational_status',
+		},
+		{
+			name: '报表',
+			icon: 'pie-chart',
+			url: '/pages/report/chart/chart',
 		}
 	];
 	

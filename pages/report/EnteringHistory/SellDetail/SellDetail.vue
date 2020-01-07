@@ -330,22 +330,6 @@
 							}
 						});
 			
-					} else {
-						options = ['撤销', '打印']
-						uni.showActionSheet({
-							itemList: options,
-							success: function(res) {
-								if (res.tapIndex == 0) {
-									that.revoke()
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {
-									print.print_operations(that.detail, that.products)
-								}
-							},
-							fail: function(res) {
-								console.log(res.errMsg);
-							}
-						});
 					}
 				}
 			},
@@ -454,6 +438,7 @@
 												
 												that.getdetail(id);
 												setTimeout(function() {
+													uni.removeStorageSync("warehouse")
 													uni.showToast({
 														title: '采购入库成功'
 													})
@@ -505,6 +490,7 @@
 													})*/
 													that.getdetail(id);
 													setTimeout(function() {
+														uni.removeStorageSync("warehouse")
 														uni.showToast({
 															title: '采购入库成功'
 														})
@@ -557,6 +543,7 @@
 												
 												that.getdetail(id);
 												setTimeout(function() {
+													uni.removeStorageSync("warehouse")
 													uni.showToast({
 														title: '销售出库成功'
 													})
@@ -609,6 +596,7 @@
 													
 													that.getdetail(id);
 													setTimeout(function() {
+														uni.removeStorageSync("warehouse")
 														uni.showToast({
 															title: '销售出库成功'
 														})

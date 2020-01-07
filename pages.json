@@ -219,6 +219,10 @@
 							"navigationBarTitleText": "退货详情"
 						}
         }
+        ,{
+            "path" : "pages/webview/webview",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{

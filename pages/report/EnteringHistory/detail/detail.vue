@@ -133,22 +133,18 @@
 								<view class="real_color">{{detail.expressNum}}</view>
 							</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
+						<view class="display_flex_bet" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
 						 @click="gotoexpressDet">
 							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
 							<fa-icon type="angle-right" size="20" color="#0a53c3" />
 						</view>
-						<view class="display_flex"  v-if="detail.createdTime">
+						<view class="display_flex"  v-if="detail.createdTime" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">销售时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 						<view v-if="detail.shop" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">门店</view>
 							<view>{{detail.shop.name}}</view>
-						</view>
-						<view class="display_flex" v-if="detail.createdTime"  style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">出库时间</view>
-							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 						<view class="display_flex">
 							<view class="left_content">出库情况</view>
@@ -400,7 +396,7 @@
 
 			getdetail: function(id) {
 				const query = Bmob.Query('order_opreations');
-				query.include("opreater", "custom", "producer", "stock","shop");
+				query.include("opreater", "custom", "producer", "stock","shop","account");
 				query.get(id).then(res => {
 					console.log(res);
 					that.detail = res;

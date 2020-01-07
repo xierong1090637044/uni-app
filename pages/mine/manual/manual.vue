@@ -2,7 +2,7 @@
 	<view>
 		<view class="list-content">
 			<view class="list">
-				<view class="li" v-for="(item,index) in detail" :key="index" @tap="gotoDet(item.content)">
+				<view class="li" v-for="(item,index) in detail" :key="index" @tap="gotoDet(item)">
 					<fa-icon :type="item.icon" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">{{item.desc}}</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
@@ -25,7 +25,7 @@
 		},
 		onLoad() {
 			that = this;
-			const query = Bmob.Query("operations");
+			const query = Bmob.Query("_Article");
 			query.order("-order")
 			query.find().then(res => {
 				that.detail = res
@@ -36,10 +36,10 @@
 		},
 		methods: {
 			
-			gotoDet(content){
-				uni.setStorageSync("operationDet",content)
+			gotoDet(item){
+				uni.setStorageSync("webviewUrl",item.url)
 				uni.navigateTo({
-					url:"detail/detail"
+					url:"/pages/webview/webview"
 				})
 			}
 

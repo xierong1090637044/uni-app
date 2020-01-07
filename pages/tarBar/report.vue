@@ -47,7 +47,7 @@
 			</swiper>
 		</view>
 		
-		<view class="Item" style="overflow: hidden;">
+		<view class="Item" style="padding: 10rpx 30rpx;overflow: hidden;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
 			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
 		</view>

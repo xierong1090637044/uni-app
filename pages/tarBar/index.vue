@@ -132,13 +132,13 @@
 						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
 					},{
 						name: '销售(新)',
-						notice: '新版销售流程',
+						notice: '多规格产品慎用',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
 					},
 					{
 						name: '销售退货(新)',
-						notice: '审核后入库',
+						notice: '多规格产品慎用',
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
 					},
@@ -150,13 +150,13 @@
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					}, {
 						name: '采购(新)',
-						notice: '新版销售流程',
+						notice: '多规格产品慎用',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
 					},
 					{
 						name: '采购退货',
-						notice: '审核后出库',
+						notice: '多规格产品慎用',
 						icon: 'icon-tuihuo1',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
 					}

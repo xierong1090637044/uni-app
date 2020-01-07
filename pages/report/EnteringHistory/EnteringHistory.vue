@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<view>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"></uni-nav-bar>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"
+			 :left-text="operaterTypeDesc" @click-left="select_operatertype"></uni-nav-bar>
 
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('all')">
@@ -211,22 +212,14 @@
 			uid = uni.getStorageSync("uid");
 
 			if (opeart_type == 1) {
-				that.operaterTypeDesc = "操作类型",
-					uni.setNavigationBarTitle({
-						title: (extra_type == 2) ? "入库记录" : "采购记录"
-					})
-			} else if (opeart_type == -1) {
-				that.operaterTypeDesc = "操作类型",
-					uni.setNavigationBarTitle({
-						title: (extra_type == 2) ? "出库记录" : "销售记录"
-					})
-			} else if (opeart_type == 2) {
+				that.operaterTypeDesc = "全部"
 				uni.setNavigationBarTitle({
-					title: "退货记录"
+					title: "入库记录"
 				})
-			} else if (opeart_type == 3) {
+			} else if (opeart_type == -1) {
+				that.operaterTypeDesc = "全部"
 				uni.setNavigationBarTitle({
-					title: "盘点记录"
+					title: "出库记录"
 				})
 			}
 
@@ -257,19 +250,35 @@
 			//选择操作类型
 			select_operatertype() {
 				uni.showActionSheet({
-					itemList: (opeart_type == 1) ? ['入库', '采购'] : ['出库', '销售'],
+					itemList: (opeart_type == 1) ? ['全部','入库', '采购', '销售退货'] : ['全部','出库', '销售', '采购退货'],
 					success: function(res) {
 						if (opeart_type == 1) {
 							if (res.tapIndex == 0) {
+								that.operaterTypeDesc = "全部"
+								extra_type = ''
+							}else if (res.tapIndex == 1) {
 								that.operaterTypeDesc = "入库"
-							} else {
+								extra_type = 2
+							} else if (res.tapIndex == 2) {
 								that.operaterTypeDesc = "采购"
+								extra_type = 1
+							} else {
+								that.operaterTypeDesc = "销售退货"
+								extra_type = 4
 							}
 						} else if (opeart_type == -1) {
 							if (res.tapIndex == 0) {
+								that.operaterTypeDesc = "全部"
+								extra_type = ''
+							}else if (res.tapIndex == 1) {
 								that.operaterTypeDesc = "出库"
-							} else {
+								extra_type = 2
+							} else if (res.tapIndex == 2) {
 								that.operaterTypeDesc = "销售"
+								extra_type = 1
+							} else {
+								that.operaterTypeDesc = "采购退货"
+								extra_type = 4
 							}
 						}
 						that.get_list();
@@ -354,6 +363,9 @@
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', opeart_type);
+				if (extra_type) {
+					query.equalTo("extra_type", "==", extra_type);
+				}
 				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.userId.objectId);
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
@@ -370,11 +382,7 @@
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
-				if (opeart_type == 1 || opeart_type == -1) {
-					if (extra_type != 2) {
-						query.equalTo("extra_type", "==", extra_type);
-					}
-				}
+
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
 				query.include("opreater", "stock");

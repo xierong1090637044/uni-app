@@ -1,7 +1,6 @@
 <template>
 	<view>
-		<loading v-if="loading"></loading>
-		<view v-else>
+		<view>
 			<!--*筛选器*-->
 			<view class='select'>
 				<view class="section" style="border-right: 1rpx solid#DDDDDD;">
@@ -122,6 +121,7 @@
 			},
 
 			getList() {
+				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query("order_opreations");
 				if (accountId) {
 					query.equalTo("account", "==", accountId);
@@ -144,6 +144,8 @@
 							that.outMoney += item.real_money
 						}
 					}
+					
+					uni.hideLoading()
 				});
 			}
 		},
