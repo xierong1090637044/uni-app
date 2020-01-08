@@ -35,7 +35,8 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=customChoose&money='+real_money" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=customChoose&money='+real_money"
+						 style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
@@ -282,7 +283,7 @@
 						tempBills.set('custom', custom);
 					}
 					tempBills.set('goodsName', this.products[i].goodsName);
-					tempBills.set('retailPrice',this.products[i].modify_retailPrice);
+					tempBills.set('retailPrice', this.products[i].modify_retailPrice);
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('total_money', Number(this.products[i].total_money));
 					tempBills.set('really_total_money', Number(this.products[i].really_total_money));
@@ -357,12 +358,18 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if(that.account){
+						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
+
+							const accountQuery = Bmob.Query('accounts');
+							accountQuery.get(that.account.objectId).then(res => {
+								res.set('money', res.money - Number(that.real_money));
+								res.save().then(res => {})
+							})
 						}
-						query.set("recordType", "new");//"new"代表新版的销售记录
+						query.set("recordType", "new"); //"new"代表新版的销售记录
 						if (shop) query.set("shop", shopId);
 						query.set("createdTime", {
 							"__type": "Date",
@@ -427,26 +434,21 @@
 									success: function() {
 										that.button_disabled = false;
 										uni.setStorageSync("is_option", true);
-										const accountQuery = Bmob.Query('accounts');
-										accountQuery.get(that.account.objectId).then(res => {
-											res.set('money', res.money - Number(that.real_money));
-											res.save().then(res => {
-												setTimeout(() => {
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
-												
-													common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-														that.products.length + "商品的销售退货", 2, operationId);
-												
-													uni.redirectTo({
-														url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
-													})
-												}, 1000)
+
+										setTimeout(() => {
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
+
+											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
+												that.products.length + "商品的销售退货", 2, operationId);
+
+											uni.redirectTo({
+												url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
 											})
-										})
-										
+										}, 1000)
+
 									},
 								})
 

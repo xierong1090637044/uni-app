@@ -359,10 +359,16 @@
 						query.set('debt', that.all_money - Number(that.real_money));
 						query.set("recordType", "new"); //"new"代表新版的销售记录
 						if (shop) query.set("shop", shopId);
-						if(that.account){
+						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
+
+							const accountQuery = Bmob.Query('accounts');
+							accountQuery.get(that.account.objectId).then(res => {
+								res.set('money', res.money + Number(that.real_money));
+								res.save().then(res => {})
+							})
 						}
 						query.set("createdTime", {
 							"__type": "Date",
@@ -427,26 +433,21 @@
 									success: function() {
 										that.button_disabled = false;
 										uni.setStorageSync("is_option", true);
-										const accountQuery = Bmob.Query('accounts');
-										accountQuery.get(that.account.objectId).then(res => {
-											res.set('money', res.money + Number(that.real_money));
-											res.save().then(res => {
-												setTimeout(() => {
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
 
-													common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-														that.products.length + "商品的采购退货", 4, operationId);
+										setTimeout(() => {
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
 
-													uni.redirectTo({
-														url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
-													})
-												}, 1000)
+											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
+												that.products.length + "商品的采购退货", 4, operationId);
+
+											uni.redirectTo({
+												url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
 											})
-										})
-										
+										}, 1000)
+
 									},
 								})
 
