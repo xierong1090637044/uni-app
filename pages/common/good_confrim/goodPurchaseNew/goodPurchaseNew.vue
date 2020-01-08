@@ -334,9 +334,6 @@
 						let masterId = uni.getStorageSync("masterId");
 						let pointer1 = Bmob.Pointer('_User')
 						let poiID1 = pointer1.set(masterId);
-						
-						let pointer4 = Bmob.Pointer('accounts')
-						let accountId = pointer4.set(that.account.objectId)
 
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
@@ -356,7 +353,11 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if(that.account) query.set("account", accountId);
+						if(that.account){
+							let pointer4 = Bmob.Pointer('accounts')
+							let accountId = pointer4.set(that.account.objectId)
+							query.set("account", accountId);
+						}
 						query.set("recordType", "new");//"new"代表新版的销售记录
 						if (that.producer) {
 							let producer = Bmob.Pointer('producers');

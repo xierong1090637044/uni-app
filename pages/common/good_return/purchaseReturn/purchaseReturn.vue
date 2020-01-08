@@ -343,9 +343,6 @@
 						let producer = Bmob.Pointer('producers');
 						let producerID = producer.set(that.producer.objectId);
 
-						let pointer4 = Bmob.Pointer('accounts')
-						let accountId = pointer4.set(that.account.objectId)
-
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
 						query.set("detail", detailObj);
@@ -362,7 +359,11 @@
 						query.set('debt', that.all_money - Number(that.real_money));
 						query.set("recordType", "new"); //"new"代表新版的销售记录
 						if (shop) query.set("shop", shopId);
-						if (that.account) query.set("account", accountId);
+						if(that.account){
+							let pointer4 = Bmob.Pointer('accounts')
+							let accountId = pointer4.set(that.account.objectId)
+							query.set("account", accountId);
+						}
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay

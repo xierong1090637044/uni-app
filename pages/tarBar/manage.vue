@@ -97,8 +97,8 @@
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=4',
 			color: "#b3b242"
 		},*/{
-			name: '采购退货记录',
-			notice: '旧版采购退货记录，即将移除',
+			name: '销售退货记录',
+			notice: '旧版销售退货记录，即将移除',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
 			color: "#b04fbb"

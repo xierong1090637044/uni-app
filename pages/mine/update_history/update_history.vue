@@ -14,6 +14,23 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.1.3 公测版</text>
+						<text class="desc-time">2020.01.08</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>版本优化升级，新增新版的销售，采购流程以及退货流程</text>
+						<text>整体页面样式风格优化</text>
+						<text>新增看板页面</text>
+						<text>新增财务模块</text>
+						<text>产品信息编辑页面bug修复</text>
+						<text>扫码查看详情bug修复</text>
+						<text>单品统计bug修复</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.1.2 公测版</text>
 						<text class="desc-time">2019.12.20</text>
 					</view>

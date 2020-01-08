@@ -285,31 +285,23 @@
 				}
 
 				that.addType = 'more'
-				const query = Bmob.Query("stocks");
-				query.order("-num");
-				query.equalTo("parent", "==", uid);
-				query.equalTo("disabled", "!=", true);
+				let warehouse = []
+				let count = 0;
+				const query = Bmob.Query('Goods');
+				query.equalTo("userId", "==", uid);
+				query.equalTo("header", "==", now_product.objectId);
+				query.include("stocks");
 				query.find().then(res => {
-					let _warehouse = res
-					let warehouse = []
-					let count = 0;
 					for (let item of res) {
-						const query = Bmob.Query('Goods');
-						query.equalTo("userId", "==", uid);
-						query.equalTo("header", "==", now_product.objectId);
-						query.equalTo("stocks", "==", item.objectId);
-						query.include("stocks");
-						query.find().then(res => {
-							let product = res[0]
-							that.reserve += product.reserve
-							item.reserve = product.reserve
-							count += 1;
-							if (count == _warehouse.length) {
-								uni.setStorageSync("warehouse", _warehouse)
-							}
-						})
+						count += 1;
+						//that.reserve += item.reserve
+						item.stocks.reserve = item.reserve
+						item.stocks.good_id = item.objectId
+						warehouse.push(item.stocks)
 					}
-				});
+					
+					uni.setStorageSync("warehouse", warehouse)
+				})
 			} else {
 				if (options.type == 'more') {
 					that.addType = options.type
