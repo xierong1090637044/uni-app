@@ -90,6 +90,7 @@
 
 	let that;
 	let accountId;
+	let uid;
 	export default {
 		components: {
 			loading
@@ -107,6 +108,7 @@
 				loading: true,
 			}
 		},
+		
 		methods: {
 			bindDate_startChange(e) {
 				console.log(e)
@@ -121,6 +123,7 @@
 			},
 
 			getList() {
+				console.log(uid)
 				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query("order_opreations");
 				if (accountId) {
@@ -128,6 +131,7 @@
 				} else {
 					query.equalTo("account", "!=", null);
 				}
+				query.equalTo("master", "==", uid);
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.equalTo("real_money", ">", 0);
@@ -152,6 +156,7 @@
 		onLoad(options) {
 			//console.log(options)
 			that = this;
+			uid = uni.getStorageSync("uid");
 			that.start_date_desc = that.start_date.split(" ")[0];
 			that.end_date_desc = that.end_date.split(" ")[0];
 			accountId = options.id
