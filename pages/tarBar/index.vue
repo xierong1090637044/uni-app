@@ -341,6 +341,10 @@
 							uni.navigateTo({
 								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 							})
+						}else{
+							uni.navigateTo({
+								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
+							})
 						}
 					} else if (type == 6) {
 						let user = uni.getStorageSync("user")
@@ -394,7 +398,11 @@
 								uni.navigateTo({
 									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 								})
-							}
+							}else{
+							uni.navigateTo({
+								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
+							})
+						}
 						} else if (type == 6) {
 							let user = uni.getStorageSync("user")
 							if (user.is_vip) {

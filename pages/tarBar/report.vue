@@ -144,7 +144,13 @@
 				noticeText: '', //首页消息提示内容
 				logsList: [],
 
-				goodsAnalysis: {},//产品分析的数据
+				goodsAnalysis: {
+					total_products:0,
+					total_reserve:0,
+					total_money:0,
+					warn_num:0,
+					over_num:0,
+				},//产品分析的数据
 				customsAnalysis:{},//客户分析的数据
 				producersAnalysis:{},//客户分析的数据
 			}
@@ -195,15 +201,17 @@
 
 			//得到总库存数和总金额
 			loadallGoods: function() {
+				uni.showLoading({mask:true,title:"加载中..."})
 				record.loadallGoods().then(res => {
 					that.goodsAnalysis = res
 					record.getAllCustom().then(res=>{
 						that.customsAnalysis = res
 						record.getAllProducer().then(res=>{
 							that.producersAnalysis = res
-							record.getAllAccounts().then(res=>{
+							uni.hideLoading()
+							/*record.getAllAccounts().then(res=>{
 								console.log(res)
-							})
+							})*/
 						})
 					})
 				})

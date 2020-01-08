@@ -54,13 +54,13 @@
 						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view>是否欠款</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
-								<switch :checked="wetherDebt" @change="changeDebtStatus"/>
+								<switch :checked="wetherDebt" @change="changeDebtStatus" />
 							</view>
 						</view>
 						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
 							<view>实际收款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际收款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
-								 type="digit"/></view>
+								 type="digit" /></view>
 						</view>
 
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx;background: #fff;margin:20rpx 0;">
@@ -191,7 +191,7 @@
 				],
 				expressNum: '', //快递单号
 				total_num: 0, //实际的总数量
-				wetherDebt:false,//是否欠款
+				wetherDebt: false, //是否欠款
 
 				nowDay: common.getDay(0, true, true), //时间
 			}
@@ -247,14 +247,14 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 		},
 		methods: {
-			
-			changeDebtStatus(e){
-				if(e.detail.value == false){
+
+			changeDebtStatus(e) {
+				if (e.detail.value == false) {
 					this.real_money = Number(this.all_money.toFixed(2))
 				}
 				that.wetherDebt = e.detail.value
 			},
-			
+
 			//选择时间
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
@@ -462,42 +462,42 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						if (shop) query.set("shop", shopId);
-						if(that.account){
+						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
+
+							const accountQuery = Bmob.Query('accounts');
+							accountQuery.get(that.account.objectId).then(res => {
+								res.set('money', res.money + Number(that.real_money));
+								res.save().then(res => {})
+							})
 						}
-						query.set("recordType", "new");//"new"代表新版的销售记录
+						query.set("recordType", "new"); //"new"代表新版的销售记录
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
 						});
-						
+
 
 						if (that.custom) {
 							let custom = Bmob.Pointer('customs');
 							let customID = custom.set(that.custom.objectId);
 							query.set("custom", customID);
-							const accountQuery = Bmob.Query('accounts');
-							accountQuery.get(that.account.objectId).then(res => {
-								res.set('money', res.money + Number(that.real_money));
-								res.save().then(res => {
-									//如果客户有欠款
-									if ((that.all_money - Number(that.real_money)) > 0) {
-										let query = Bmob.Query('customs');
-										query.get(that.custom.objectId).then(res => {
-											var debt = (res.debt == null) ? 0 : res.debt;
-											debt = debt + (that.all_money - Number(that.real_money));
-											console.log(debt);
-											let query = Bmob.Query('customs');
-											query.get(that.custom.objectId).then(res => {
-												res.set('debt', debt)
-												res.save()
-											})
-										})
-									}
+							//如果客户有欠款
+							if ((that.all_money - Number(that.real_money)) > 0) {
+								let query = Bmob.Query('customs');
+								query.get(that.custom.objectId).then(res => {
+									var debt = (res.debt == null) ? 0 : res.debt;
+									debt = debt + (that.all_money - Number(that.real_money));
+									console.log(debt);
+									let query = Bmob.Query('customs');
+									query.get(that.custom.objectId).then(res => {
+										res.set('debt', debt)
+										res.save()
+									})
 								})
-							})
+							}
 						}
 
 						if (that.outType) {

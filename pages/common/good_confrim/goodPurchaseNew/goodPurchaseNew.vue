@@ -49,7 +49,8 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money"
+						 style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
@@ -77,7 +78,7 @@
 								</view>
 							</picker>
 						</view>
-						
+
 						<view class="display_flex_bet" style="padding: 10rpx;margin-top: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
@@ -147,7 +148,7 @@
 				stock: '', //仓库
 				shop_name: '',
 				products: null,
-				account: '',//结算账户
+				account: '', //结算账户
 				button_disabled: false,
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
@@ -157,7 +158,7 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
-				wetherDebt:false,
+				wetherDebt: false,
 			}
 		},
 		onLoad() {
@@ -182,8 +183,8 @@
 			that.account = uni.getStorageSync("account")
 		},
 		methods: {
-			changeDebtStatus(e){
-				if(e.detail.value == false){
+			changeDebtStatus(e) {
+				if (e.detail.value == false) {
 					this.real_money = Number(this.all_money.toFixed(2))
 				}
 				that.wetherDebt = e.detail.value
@@ -353,36 +354,35 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if(that.account){
+						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
+							const accountQuery = Bmob.Query('accounts');
+							accountQuery.get(that.account.objectId).then(res => {
+								res.set('money', res.money - Number(that.real_money));
+								res.save().then(res => {})
+							})
 						}
-						query.set("recordType", "new");//"new"代表新版的销售记录
+						query.set("recordType", "new"); //"new"代表新版的销售记录
 						if (that.producer) {
 							let producer = Bmob.Pointer('producers');
 							let producerID = producer.set(that.producer.objectId);
 							query.set("producer", producerID);
-							const accountQuery = Bmob.Query('accounts');
-							accountQuery.get(that.account.objectId).then(res => {
-								res.set('money', res.money - Number(that.real_money));
-								res.save().then(res => {
-									//如果客户有欠款
-									if ((that.all_money - Number(that.real_money)) > 0) {
-										let query = Bmob.Query('producers');
-										query.get(that.producer.objectId).then(res => {
-											var debt = (res.debt) ? res.debt : 0;
-											debt = debt + (that.all_money - Number(that.real_money));
-											//console.log(debt);
-											let query = Bmob.Query('producers');
-											query.get(that.producer.objectId).then(res => {
-												res.set('debt', debt)
-												res.save()
-											})
-										})
-									}
+							//如果客户有欠款
+							if ((that.all_money - Number(that.real_money)) > 0) {
+								let query = Bmob.Query('producers');
+								query.get(that.producer.objectId).then(res => {
+									var debt = (res.debt) ? res.debt : 0;
+									debt = debt + (that.all_money - Number(that.real_money));
+									//console.log(debt);
+									let query = Bmob.Query('producers');
+									query.get(that.producer.objectId).then(res => {
+										res.set('debt', debt)
+										res.save()
+									})
 								})
-							})
+							}
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);

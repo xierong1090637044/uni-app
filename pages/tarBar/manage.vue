@@ -9,6 +9,7 @@
 						<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
 					</view>
 					<span class='o_text'>{{value.name}}</span>
+					<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
 				</navigator>
 			</view>
 		</view>
@@ -113,31 +114,37 @@
 	
 	let optionsLists = [{
 			name: '产品管理',
+			notice: '查看,添加,编辑',
 			icon: 'envelope-open-o',
 			url: '/pages/manage/goods/goods',
 		},
 		{
 			name: '员工管理',
+			notice: '多人管理',
 			icon: 'user',
 			url: '/pages/manage/staff/staff',
 		},
 		{
 			name: '仓库管理',
+			notice: '先完善好仓库',
 			icon: 'home',
 			url: '/pages/manage/warehouse/warehouse',
 		},
 		{
 			name: '门店管理',
+			notice: '门店相关',
 			icon: 'shopping-cart',
 			url: '/pages/manage/shops/shops',
 		},
 		{
 			name: '客户管理',
+			notice: '客户,供应商相关',
 			icon: 'address-card',
 			url: '/pages/manage/custom/custom',
 		},
 		{
 			name: '产品类别管理',
+			notice: '产品类别相关',
 			icon: 'list',
 			url: '/pages/manage/category/category',
 		},

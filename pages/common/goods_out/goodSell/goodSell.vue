@@ -200,7 +200,7 @@
 
 				nowDay: common.getDay(0, true, true), //时间
 				canOpretion: true,
-				wetherDebt:false,
+				wetherDebt: false,
 			}
 		},
 		onLoad() {
@@ -255,7 +255,7 @@
 		},
 		methods: {
 			changeDebtStatus(e) {
-				if(e.detail.value == false){
+				if (e.detail.value == false) {
 					this.real_money = Number(this.all_money.toFixed(2))
 				}
 				that.wetherDebt = e.detail.value
@@ -479,35 +479,35 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						if (shop) query.set("shop", shopId);
-						if(that.account){
+						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
+							
+							const accountQuery = Bmob.Query('accounts');
+							accountQuery.get(that.account.objectId).then(res => {
+								res.set('money', res.money + Number(that.real_money));
+								res.save().then(res => {})
+							})
 						}
 						if (that.custom) {
 							let custom = Bmob.Pointer('customs');
 							let customID = custom.set(that.custom.objectId);
 							query.set("custom", customID);
-							const accountQuery = Bmob.Query('accounts');
-							accountQuery.get(that.account.objectId).then(res => {
-								res.set('money', res.money + Number(that.real_money));
-								res.save().then(res => {
-									//如果客户有欠款
-									if ((that.all_money - Number(that.real_money)) > 0) {
-										let query = Bmob.Query('customs');
-										query.get(that.custom.objectId).then(res => {
-											var debt = (res.debt == null) ? 0 : res.debt;
-											debt = debt + (that.all_money - Number(that.real_money));
-											console.log(debt);
-											let query = Bmob.Query('customs');
-											query.get(that.custom.objectId).then(res => {
-												res.set('debt', debt)
-												res.save()
-											})
-										})
-									}
+							//如果客户有欠款
+							if ((that.all_money - Number(that.real_money)) > 0) {
+								let query = Bmob.Query('customs');
+								query.get(that.custom.objectId).then(res => {
+									var debt = (res.debt == null) ? 0 : res.debt;
+									debt = debt + (that.all_money - Number(that.real_money));
+									console.log(debt);
+									let query = Bmob.Query('customs');
+									query.get(that.custom.objectId).then(res => {
+										res.set('debt', debt)
+										res.save()
+									})
 								})
-							})
+							}
 						}
 
 						if (that.outType) {
