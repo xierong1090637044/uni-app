@@ -253,8 +253,8 @@
 					url: "/pages/landing/landing"
 				})
 			}
-
-			//that.get_logsList();
+			
+			uni.removeStorageSync("now_product")
 		},
 
 		//分享

@@ -1,6 +1,6 @@
 <template>
 	<!--当月详情-->
-	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true">
+	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true" v-if="identity == 1">
 		<view class="Item">
 			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">商品分析</view>
 			<view class="display_flex_bet">
@@ -118,6 +118,10 @@
 		</view>
 		
 	</scroll-view>
+	
+	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true" v-else>
+		<view style="color: #333;font-weight: bold;margin-top: 60rpx;font-size: 32rpx;">员工暂时无法查看</view>
+	</scroll-view>
 </template>
 
 <script>
@@ -140,6 +144,7 @@
 				achartShow:true,
 				now_day: common.getDay(0),
 				user: uni.getStorageSync("user"),
+				identity:uni.getStorageSync("identity"),
 				othercurrent: '',
 				noticeText: '', //首页消息提示内容
 				logsList: [],
@@ -185,6 +190,8 @@
 					}
 				})
 			}
+			
+			uni.removeStorageSync("now_product")
 		},
 		
 		onHide() {

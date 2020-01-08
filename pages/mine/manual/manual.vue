@@ -26,7 +26,7 @@
 		onLoad() {
 			that = this;
 			const query = Bmob.Query("_Article");
-			query.order("-order")
+			query.order("order")
 			query.find().then(res => {
 				that.detail = res
 			});
