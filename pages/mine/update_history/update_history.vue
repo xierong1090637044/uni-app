@@ -4,7 +4,7 @@
 			<view class="version">
 				<view class="version-title">
 					<text class="title-name">库存表</text>
-					<text class="version-text">{{version}}</text>
+					<text class="version-text">1.1.3</text>
 					<text class="version-text">公测版</text>
 				</view>
 				<view>
@@ -278,7 +278,6 @@
 	export default {
 		data() {
 			return {
-				version: "1.1.2",
 				year: new Date().getFullYear()
 			}
 		},
