@@ -22,7 +22,18 @@ module.exports = {
 					num = Number(products[i].reserve) + Number(products[i].num);
 				}
 				query.set('reserve', num)
-				query.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+				if(products[i].order=="" || products[i].order==null || products[i].order==undefined){ //预警判断 分两种类型
+					if(products[i].max_num >=0){
+						if(num >= products[i].max_num){
+							query.set('stocktype', 2)
+						}else if(num <= products[i].warning_num){
+							query.set('stocktype', 0)
+						}else{
+							query.set('stocktype', 1)
+						}
+					}
+				}
+				//query.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 				query.set('id', products[i].objectId) //需要修改的objectId
 				query.save().then(res => {
 					console.log(products[i])
@@ -36,7 +47,15 @@ module.exports = {
 							let now_reserve = res[0]._sumReserve
 							const query = Bmob.Query('Goods');
 							query.set('reserve', now_reserve)
-							query.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
+							if(products[i].max_num >=0){
+								if(num >= products[i].max_num){
+									query.set('stocktype', 2)
+								}else if(num <= products[i].warning_num){
+									query.set('stocktype', 0)
+								}else{
+									query.set('stocktype', 1)
+								}
+							}
 							query.set('id', products[i].header.objectId)
 							query.save().then(res => {
 								if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
@@ -91,13 +110,21 @@ module.exports = {
 				}
 				
 				query.set('reserve', num)
-				query.set('stocktype', (num >= products[i].warning_num) ? 1 : 0)
+				if(products[i].order=="" || products[i].order==null || products[i].order==undefined){ //预警判断 分两种类型
+					if(products[i].max_num >=0){
+						if(num >= products[i].max_num){
+							query.set('stocktype', 2)
+						}else if(num <= products[i].warning_num){
+							query.set('stocktype', 0)
+						}else{
+							query.set('stocktype', 1)
+						}
+					}
+				}
 				query.set('id', products[i].objectId) //需要修改的objectId
 				query.save().then(res => {
 					//console.log(res)
-
 					that.record_staffOut(Number(products[i].num))
-
 					if (products[i].header) {
 						const query1 = Bmob.Query("Goods");
 						query1.equalTo("header", "==", products[i].header.objectId);
@@ -108,10 +135,18 @@ module.exports = {
 							let now_reserve = res[0]._sumReserve
 							const query = Bmob.Query('Goods');
 							query.set('reserve', now_reserve)
-							query.set('stocktype', (now_reserve > products[i].warning_num) ? 1 : 0)
+							if(products[i].max_num >=0){
+								if(num >= products[i].max_num){
+									query.set('stocktype', 2)
+								}else if(num <= products[i].warning_num){
+									query.set('stocktype', 0)
+								}else{
+									query.set('stocktype', 1)
+								}
+							}
 							query.set('id', products[i].header.objectId)
 							query.save().then(res => {
-								if (products[i].warning_num >= now_reserve) {
+							  if (products[i].warning_num >=0 && products[i].warning_num >= now_reserve) {
 									that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 										products[i].objectId);
 								}
@@ -122,7 +157,7 @@ module.exports = {
 						})
 
 					} else {
-						if (products[i].warning_num >= num) {
+						if (products[i].warning_num >= num && products[i].warning_num >=0) {
 							that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 								products[i].objectId);
 						}
@@ -145,7 +180,7 @@ module.exports = {
 			let uid = uni.getStorageSync("uid")
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
-				const query = Bmob.Query('NGoods');
+				const query = Bmob.Query('Goods');
 				query.get(products[i].objectId).then(res => {
 					console.log(products[i])
 	
@@ -163,11 +198,19 @@ module.exports = {
 					} else {
 						num = Number(products[i].reserve) + Number(products[i].num);
 					}
-					res.set('reserve', num)
-					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
+					res.set('reserve', num)	
+					if(products[i].max_num >=0){
+						if(num >= products[i].max_num){
+							res.set('stocktype', 2)
+						}else if(num <= products[i].warning_num){
+							res.set('stocktype', 0)
+						}else{
+							res.set('stocktype', 1)
+						}
+					}
 					res.save()
 	
-					const query = Bmob.Query("NGoods");
+					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
@@ -181,7 +224,7 @@ module.exports = {
 								}
 							})
 						} else {
-							const query = Bmob.Query('NGoods');
+							const query = Bmob.Query('Goods');
 							query.set('id', res[0].objectId) //需要修改的objectId
 							query.set('reserve', res[0].reserve + Number(products[i].num))
 							query.save().then(res => {
@@ -216,7 +259,7 @@ module.exports = {
 			let uid = uni.getStorageSync("uid")
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
-				const query = Bmob.Query('NGoods');
+				const query = Bmob.Query('Goods');
 				query.get(products[i].objectId).then(res => {
 					console.log(products[i])
 	
@@ -238,7 +281,7 @@ module.exports = {
 					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 					res.save()
 	
-					const query = Bmob.Query("NGoods");
+					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
@@ -252,7 +295,7 @@ module.exports = {
 								}
 							})
 						} else {
-							const query = Bmob.Query('NGoods');
+							const query = Bmob.Query('Goods');
 							query.set('id', res[0].objectId) //需要修改的objectId
 							query.set('reserve', res[0].reserve - Number(products[i].num))
 							query.save().then(res => {

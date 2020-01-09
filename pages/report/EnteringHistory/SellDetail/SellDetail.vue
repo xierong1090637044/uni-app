@@ -436,8 +436,6 @@
 
 			//采购单确定采购入库之后改变产品库存
 			addOrReduceGoodReserve(product, count) {
-
-
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("header", "==", product.goodsId.objectId);
@@ -457,7 +455,18 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
+								if(product.max_num >=0){
+									if(now_reserve >= product.max_num){
+										query.set('stocktype', 2)
+									}else if(now_reserve <= product.warning_num){
+										query.set('stocktype', 0)
+									}else{
+										query.set('stocktype', 1)
+									}
+								}else{
+									query.set('stocktype', 1)
+								}
+								//query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
 								query.set('id', product.goodsId.objectId)
 								query.save().then(res => {
 									if (count == (that.products.length - 1)) {
@@ -523,7 +532,17 @@
 									let now_reserve = res[0]._sumReserve
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
-									query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
+									if(product.max_num >=0){
+										if(now_reserve >= product.max_num){
+											query.set('stocktype', 2)
+										}else if(now_reserve <= product.warning_num){
+											query.set('stocktype', 0)
+										}else{
+											query.set('stocktype', 1)
+										}
+									}else{
+										query.set('stocktype', 1)
+									}
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
 										if (count == (that.products.length - 1)) {
@@ -597,7 +616,15 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
+								if(product.warning_num >=0){
+									if(now_reserve >= product.max_num){
+										query.set('stocktype', 2)
+									}else if(now_reserve <= product.warning_num){
+										query.set('stocktype', 0)
+									}else{
+										query.set('stocktype', 1)
+									}
+								}
 								query.set('id', product.goodsId.objectId)
 								query.save().then(res => {
 									if (count == (that.products.length - 1)) {
@@ -663,7 +690,15 @@
 									let now_reserve = res[0]._sumReserve
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
-									query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
+									if(product.warning_num >=0){
+										if(now_reserve >= product.max_num){
+											query.set('stocktype', 2)
+										}else if(now_reserve <= product.warning_num){
+											query.set('stocktype', 0)
+										}else{
+											query.set('stocktype', 1)
+										}
+									}
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
 										if (count == (that.products.length - 1)) {

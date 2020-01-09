@@ -543,7 +543,21 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
+								
+								if(thisGood.order=="" || thisGood.order==null || thisGood.order==undefined){									
+									if(thisGood.max_num >=0){
+										if(num >= thisGood.max_num){
+											query.set('stocktype', 2)
+										}else if(num <= thisGood.warning_num){
+											query.set('stocktype', 0)
+										}else{
+											query.set('stocktype', 1)
+										}
+									}else{
+										query.set('stocktype', 1)
+									}
+								}
+								
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
 									if (count == (that.products.length - 1)) {
@@ -636,10 +650,22 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
+								if(thisGood.order=="" || thisGood.order==null || thisGood.order==undefined){
+									if(thisGood.warning_num >=0){
+										if(num >= thisGood.max_num){
+											query.set('stocktype', 2)
+										}else if(num <= thisGood.warning_num){
+											query.set('stocktype', 0)
+										}else{
+											query.set('stocktype', 1)
+										}
+									}else{
+										query.set('stocktype', 1)
+									}
+								}
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
-									if (product.warning_num >= now_reserve) {
+									if (product.warning_num >= now_reserve && product.warning_num>=0) {
 										common.log(product.goodsName + "销售了" + product.num + "件，已经低于预警数量" + product.warning_num, -2, product.goodsId
 											.objectId);
 									}
