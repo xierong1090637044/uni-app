@@ -134,8 +134,9 @@
 						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
-						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>
+						<!--<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
+						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>-->
+						 <button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
 					</view>
 
 				</view>

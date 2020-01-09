@@ -8,6 +8,10 @@
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
 						
+						<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
+							<view>存放仓库：{{item.stocks.stock_name}}</view>
+						</view>
+						
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
 							<view>库存：{{item.reserve}}</view>
 							

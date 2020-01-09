@@ -391,7 +391,6 @@
 				} else {
 
 					const query = Bmob.Query("_User");
-					query.equalTo("masterId", "==", uid);
 					query.equalTo("mobilePhoneNumber", "==", that.staff_phone);
 					query.find().then(res => {
 						console.log(res)
@@ -432,7 +431,11 @@
 								}
 							})
 						} else {
-
+							uni.hideLoading();
+							uni.showToast({
+								title: "已存在此账号",
+								icon: "none"
+							})
 						}
 
 					});

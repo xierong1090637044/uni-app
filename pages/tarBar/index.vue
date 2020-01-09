@@ -9,7 +9,7 @@
 		<scroll-view scroll-y="true" style="max-height:100vh;">
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">库存</view>
 				<view class='o_list'>
 					<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem">
@@ -21,7 +21,11 @@
 			</view>
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">销售</view>
+				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+					<view style="font-size: 30rpx;color: #333;font-weight: bold;">销售</view>
+					<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+				</view>
+				
 				<view class='o_list'>
 					<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #afbb4f;">
@@ -34,7 +38,11 @@
 			</view>
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">采购</view>
+				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+					<view style="font-size: 30rpx;color: #333;font-weight: bold;">采购</view>
+					<fa-icon type="question-circle" size="20" color="#426ab3"  @click="gotoNotice()"></fa-icon>
+				</view>
+				
 				<view class='o_list'>
 					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #ad4fbb;">
@@ -47,7 +55,7 @@
 			</view>
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">其他</view>
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
 				<view class='o_list'>
 					<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #bb4f77;">
@@ -130,7 +138,7 @@
 						notice: '旧版的退货',
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
-					},{
+					}, {
 						name: '销售(新)',
 						notice: '多规格产品慎用',
 						icon: 'icon-navicon-xsckd',
@@ -180,7 +188,6 @@
 				total_money: 0,
 				total_products: 0,
 				openid: '',
-				user: uni.getStorageSync("user"),
 			}
 		},
 		onLoad(options) {
@@ -193,28 +200,42 @@
 			}
 			// #endif
 
-			if (that.user) {
+			if (that.user) { //会员vip 校验
 				let user = that.user
-				let identity = uni.getStorageSync("identity")
-				let now_time = new Date().getTime()
-				if (user.vip_time <= now_time) {
-					if (identity == 1) {
-						const query = Bmob.Query('_User');
-						query.get(user.objectId).then(res => {
-							res.set('is_vip', false)
-							res.set('vip_time', 0)
-							res.save()
+				const query = Bmob.Query('_User');
+				query.get(uid).then(res => {
+					let nowUser = res
+					let identity = uni.getStorageSync("identity")
+					Bmob.timestamp().then(res => {
+						console.log(res,res.datetime)
+						let now_time = res.timestamp * 1000
+						if (nowUser.vip_time <= now_time) {
+							if (identity == 1) {
+								const query = Bmob.Query('_User');
+								query.get(user.objectId).then(res => {
+									res.set('is_vip', false)
+									res.set('vip_time', 0)
+									res.save()
 
-							user.is_vip = false
-							user.vip_time = 0
-							uni.setStorageSync("user", user)
-						}).catch(err => {})
-					} else {
-						user.is_vip = false
-						user.vip_time = 0
-						uni.setStorageSync("user", user)
-					}
-				}
+									user.is_vip = false
+									user.vip_time = 0
+									uni.setStorageSync("user", user)
+								}).catch(err => {})
+							} else {
+								user.is_vip = false
+								user.vip_time = 0
+								uni.setStorageSync("user", user)
+							}
+						} else {
+							if (identity == 1) {
+								uni.setStorageSync("user", nowUser)
+							}
+						}
+					})
+
+				}).catch(err => {
+					console.log(err)
+				})
 			}
 
 		},
@@ -253,7 +274,7 @@
 					url: "/pages/landing/landing"
 				})
 			}
-			
+
 			uni.removeStorageSync("now_product")
 		},
 
@@ -279,6 +300,20 @@
 					success(res) {
 						// 打开成功
 					}
+				})
+			},
+			
+			//去到新版旧版的简介
+			gotoNotice(){
+				const query = Bmob.Query('_Article');
+				query.get('P2MN0002').then(res => {
+				  console.log(res)
+					uni.setStorageSync("webviewUrl",res.url)
+					uni.navigateTo({
+						url:"/pages/webview/webview"
+					})
+				}).catch(err => {
+				  console.log(err)
 				})
 			},
 
@@ -341,7 +376,7 @@
 							uni.navigateTo({
 								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 							})
-						}else{
+						} else {
 							uni.navigateTo({
 								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
 							})
@@ -398,11 +433,11 @@
 								uni.navigateTo({
 									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 								})
-							}else{
-							uni.navigateTo({
-								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
-							})
-						}
+							} else {
+								uni.navigateTo({
+									url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
+								})
+							}
 						} else if (type == 6) {
 							let user = uni.getStorageSync("user")
 							if (user.is_vip) {
