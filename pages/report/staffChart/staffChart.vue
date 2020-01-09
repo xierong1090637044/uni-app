@@ -127,10 +127,10 @@
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.find().then(res => {
-					console.log(res)
 					let opreaterList = res
 					let count= 0 
-					for(let item of res){
+					for(let item of opreaterList){
+						const query = Bmob.Query("order_opreations");
 						query.equalTo("master", "==", uid);
 						query.equalTo("opreater", "==", item.opreater.objectId);
 						query.equalTo("type", "==", -1);
