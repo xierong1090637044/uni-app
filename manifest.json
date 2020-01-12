@@ -92,9 +92,9 @@
                 "ios" : {
                     "iphone" : {
                         "portrait-896h@3x" : "static/newVer.png",
-                        "retina35" : "static/lanuch.png",
-                        "retina40l" : "static/lanuch.png",
-                        "retina40" : "static/lanuch.png"
+                        "retina35" : "C:/Users/Administrator/Desktop/kcb_all/static/order_history.png",
+                        "retina40l" : "C:/Users/Administrator/Desktop/kcb_all/static/entering.png",
+                        "retina40" : "C:/Users/Administrator/Desktop/kcb_all/static/return_goods.png"
                     }
                 }
             }

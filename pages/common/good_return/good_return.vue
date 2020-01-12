@@ -104,6 +104,12 @@
 			that.value = options.value
 			that.type = options.type
 			
+			if (value == 1) {
+				uni.setNavigationBarTitle({
+					title: "产品采购"
+				})
+			}
+			
 			if (options.id) {
 				uni.showLoading({
 					title: "加载中..."
@@ -116,66 +122,15 @@
 				}
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
+				query.include("stocks");
 				query.find().then(res => {
-					//console.log(res)
-					for (let item of res) {
-						item.num = 1;
-						item.total_money = 1 * item.retailPrice;
-						item.really_total_money = 1 * item.retailPrice;
-						item.modify_retailPrice = item.retailPrice;
-						if (item.models) {
-							let count = 0
-							for (let model of item.models) {
-								model.num = 0
-								count += 1
-							}
-							item.num = count
-							item.selectd_model = item.models
-							item.selected_model = item.models
-						}
-					}
-					this.products = res;
-					wx.hideLoading()
-				})
-			} else {
-				this.products = uni.getStorageSync("products");
-				for (let item of this.products) {
-					if (item.models) {
-						let count = 0
-						for (let model of item.models) {
-							model.num = 1;
-							count +=1;
-						}
-						item.num = count;
-						item.selectd_model = item.models
-						item.selected_model = item.models
-					}
-				}
-				this.products = this.products
-			}
-		},
-
-		methods: {
-			//扫码
-			scanGoods() {
-				uni.scanCode({
-					success(res) {
-						uni.showLoading({
-							title: "加载中..."
-						})
-						let result = res.result;
-						let array = result.split("-");
-
-						const query = Bmob.Query('Goods');
-						if (array[1] == "false") {
-							query.equalTo("objectId", "==", array[0]);
-						} else {
-							query.equalTo("productCode", "==", array[0])
-						}
-						query.equalTo("status", "!=", -1);
+					console.log(res)
+			
+					if(res[0].order == 0){
 						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", res[0].objectId);
+						query.include("stocks");
 						query.find().then(res => {
-							//console.log(res)
 							for (let item of res) {
 								item.num = 1;
 								item.total_money = 1 * item.retailPrice;
@@ -192,10 +147,112 @@
 									item.selected_model = item.models
 								}
 							}
-							
-							that.products = that.products.concat(res);
-							uni.hideLoading()
+							that.products = res;
+							wx.hideLoading()
+						})
+					}else{
+						for (let item of res) {
+							item.num = 1;
+							item.total_money = 1 * item.retailPrice;
+							item.really_total_money = 1 * item.retailPrice;
+							item.modify_retailPrice = item.retailPrice;
+							if (item.models) {
+								let count = 0
+								for (let model of item.models) {
+									model.num = 0
+									count += 1
+								}
+								item.num = count
+								item.selectd_model = item.models
+								item.selected_model = item.models
+							}
+						}
+						that.products = res;
+						wx.hideLoading()
+					}
+				})
+			} else {
+				this.products = uni.getStorageSync("products");
+				for (let item of this.products) {
+					if (item.models) {
+						let count = 0
+						for (let model of item.models) {
+							model.num = 0
+							count += 1
+						}
+						item.num = count
+						item.selectd_model = item.models
+						item.selected_model = item.models
+					}
+				}
+				that.products = this.products
+			}
+		},
 
+		methods: {
+			//扫码
+			scanGoods() {
+				uni.scanCode({
+					success(res) {
+						uni.showLoading({
+							title: "加载中..."
+						})
+						let result = res.result;
+						let array = result.split("-");
+			
+						const query = Bmob.Query('Goods');
+						if (array[1] == "false") {
+							query.equalTo("objectId", "==", array[0]);
+						} else {
+							query.equalTo("productCode", "==", array[0])
+						}
+						query.equalTo("userId", "==", uid);
+						query.include("stocks");
+						query.find().then(res => {
+							if(res[0].order == 0){
+								query.equalTo("userId", "==", uid);
+								query.equalTo("header", "==", res[0].objectId);
+								query.include("stocks");
+								query.find().then(res => {
+									for (let item of res) {
+										item.num = 1;
+										item.total_money = 1 * item.retailPrice;
+										item.really_total_money = 1 * item.retailPrice;
+										item.modify_retailPrice = item.retailPrice;
+										if (item.models) {
+											let count = 0
+											for (let model of item.models) {
+												model.num = 0
+												count += 1
+											}
+											item.num = count
+											item.selectd_model = item.models
+											item.selected_model = item.models
+										}
+									}
+									that.products.concat(res)
+									wx.hideLoading()
+								})
+							}else{
+								for (let item of res) {
+									item.num = 1;
+									item.total_money = 1 * item.retailPrice;
+									item.really_total_money = 1 * item.retailPrice;
+									item.modify_retailPrice = item.retailPrice;
+									if (item.models) {
+										let count = 0
+										for (let model of item.models) {
+											model.num = 0
+											count += 1
+										}
+										item.num = count
+										item.selectd_model = item.models
+										item.selected_model = item.models
+									}
+								}
+								that.products.concat(res)
+								wx.hideLoading()
+							}
 						})
 					},
 					fail(res) {

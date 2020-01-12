@@ -208,14 +208,12 @@
 
 			//得到总库存数和总金额
 			loadallGoods: function() {
-				uni.showLoading({mask:true,title:"加载中..."})
 				record.loadallGoods().then(res => {
 					that.goodsAnalysis = res
 					record.getAllCustom().then(res=>{
 						that.customsAnalysis = res
 						record.getAllProducer().then(res=>{
 							that.producersAnalysis = res
-							uni.hideLoading()
 							/*record.getAllAccounts().then(res=>{
 								console.log(res)
 							})*/

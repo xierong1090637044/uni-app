@@ -3,13 +3,17 @@
 	<view>
 		<view class="fristSearchView display_flex_bet">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;" />
-			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code'></i>
+			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
 		</view>
 
 		<scroll-view scroll-y="true" style="max-height:100vh;">
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">库存</view>
+				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'></i>
+				</view>
+
 				<view class='o_list'>
 					<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem">
@@ -22,10 +26,14 @@
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view style="font-size: 30rpx;color: #333;font-weight: bold;">销售</view>
-					<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+					<view class="display_flex">
+						<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">销售</view>
+						<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+					</view>
+
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)'></i>
 				</view>
-				
+
 				<view class='o_list'>
 					<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #afbb4f;">
@@ -39,10 +47,14 @@
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view style="font-size: 30rpx;color: #333;font-weight: bold;">采购</view>
-					<fa-icon type="question-circle" size="20" color="#426ab3"  @click="gotoNotice()"></fa-icon>
+					<view class="display_flex">
+						<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">采购</view>
+						<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+					</view>
+
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)'></i>
 				</view>
-				
+
 				<view class='o_list'>
 					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #ad4fbb;">
@@ -57,25 +69,15 @@
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
 				<view class='o_list'>
-					<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url)">
 						<view class="o_headerItem" style="background: #bb4f77;">
 							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
 						<view class='o_text'>{{value.name}}</view>
-					</navigator>
+					</view>
 				</view>
 			</view>
 
-			<!--<view class='o_item' @click="navigateToKCB">
-				<view style='width:100%'>
-					<image src="/static/newVer.png" class='o_image' />
-				</view>
-				<view class='o_text'>库存表KCB版</view>
-			</view>-->
-			<!--<view class='scan_code display_flex' @click='scan_code'>
-			<fa-icon type="qrcode" size="20" color="#fff" class="icon-scan" />
-			<text>扫描产品条形码</text>
-		</view>-->
 		</scroll-view>
 
 
@@ -84,13 +86,10 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
-	import record from '@/utils/record.js';
-	import notice from '@/utils/notice.js';
 	import Bmob from "hydrogen-js-sdk";
 	let that;
 	let uid;
@@ -98,7 +97,6 @@
 	export default {
 		components: {
 			faIcon,
-			uniNoticeBar,
 			uniSearchBar
 		},
 		data() {
@@ -173,6 +171,10 @@
 						name: '产品添加',
 						icon: 'icon-wodechanpin',
 						url: '/pages/manage/good_add/good_add?type=more'
+					}, {
+						name: '扫码添加产品',
+						icon: 'icon-saoma',
+						url: ''
 					},
 					{
 						name: '使用手册',
@@ -207,7 +209,7 @@
 					let nowUser = res
 					let identity = uni.getStorageSync("identity")
 					Bmob.timestamp().then(res => {
-						console.log(res,res.datetime)
+						console.log(res, res.datetime)
 						let now_time = res.timestamp * 1000
 						if (nowUser.vip_time <= now_time) {
 							if (identity == 1) {
@@ -302,18 +304,44 @@
 					}
 				})
 			},
-			
+
+			//其他功能的点击事件
+			otherFunctions(url) {
+				if (url) {
+					uni.navigateTo({
+						url: url
+					})
+				} else {
+					uni.scanCode({
+						success(res) {
+							let result = res.result;
+							let user = uni.getStorageSync("user")
+							if (user.is_vip) {
+								uni.navigateTo({
+									url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
+								})
+							} else {
+								uni.showToast({
+									title: "该功能只限会员使用",
+									icon: "none"
+								})
+							}
+						}
+					})
+				}
+			},
+
 			//去到新版旧版的简介
-			gotoNotice(){
+			gotoNotice() {
 				const query = Bmob.Query('_Article');
 				query.get('P2MN0002').then(res => {
-				  console.log(res)
-					uni.setStorageSync("webviewUrl",res.url)
+					console.log(res)
+					uni.setStorageSync("webviewUrl", res.url)
 					uni.navigateTo({
-						url:"/pages/webview/webview"
+						url: "/pages/webview/webview"
 					})
 				}).catch(err => {
-				  console.log(err)
+					console.log(err)
 				})
 			},
 
@@ -327,11 +355,22 @@
 			},
 
 			//点击扫描产品条形码
-			scan_code: function() {
+			scan_code: function(type) {
+				let opLists = [];
+
+				if (type == 0) {
+					opLists = ['出库', '销售', '入库', '采购', '盘点', '产品详情']
+				} else if (type == 1) {
+					opLists = ['入库', '出库', '调拨', '盘点']
+				} else if (type == 2) {
+					opLists = ['销售', '销售退货']
+				} else if (type == 3) {
+					opLists = ['采购']
+				}
 				uni.showActionSheet({
-					itemList: ['扫码出库', '扫码销售', '扫码入库', '扫码采购', '扫码盘点', '查看详情'],
+					itemList: opLists,
 					success(res) {
-						that.scan(res.tapIndex);
+						that.scan(res.tapIndex, opLists);
 					},
 					fail(res) {
 						console.log(res.errMsg)
@@ -340,117 +379,26 @@
 			},
 
 			//扫码操作
-			scan: function(type) {
+			scan: function(type, opLists) {
 				// #ifdef H5
 				this.$wechat.scanQRCode().then(res => {
 					let result = res.result;
 					let array = result.split("-");
 					let productType = array[2]
-
-					if (type == 0) {
-						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
-					} else if (type == 1) {
-						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
-						})
-					} else if (type == 2) {
-						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
-					} else if (type == 3) {
-						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
-						})
-					} else if (type == 4) {
-						uni.navigateTo({
-							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
-					} else if (type == 5) {
-						if (productType == "new") {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
-							})
-						} else if (productType == "old") {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-							})
-						} else {
-							uni.navigateTo({
-								url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
-							})
-						}
-					} else if (type == 6) {
-						let user = uni.getStorageSync("user")
-						if (user.is_vip) {
-							uni.navigateTo({
-								url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
-							})
-						} else {
-							uni.showToast({
-								title: "该功能只限会员使用",
-								icon: "none"
-							})
-						}
-					}
+					
+					that.returnUrl(opLists,type,array,productType)
 				})
 				// #endif
 
 				// #ifdef MP-WEIXIN
 				uni.scanCode({
 					success(res) {
+						console.log(res)
 						let result = res.result;
 						let array = result.split("-");
 						let productType = array[2]
 
-						if (type == 0) {
-							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
-							})
-						} else if (type == 1) {
-							uni.navigateTo({
-								url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
-							})
-						} else if (type == 2) {
-							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
-							})
-						} else if (type == 3) {
-							uni.navigateTo({
-								url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
-							})
-						} else if (type == 4) {
-							uni.navigateTo({
-								url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
-							})
-						} else if (type == 5) {
-							if (productType == "new") {
-								uni.navigateTo({
-									url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
-								})
-							} else if (productType == "old") {
-								uni.navigateTo({
-									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
-								})
-							} else {
-								uni.navigateTo({
-									url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
-								})
-							}
-						} else if (type == 6) {
-							let user = uni.getStorageSync("user")
-							if (user.is_vip) {
-								uni.navigateTo({
-									url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
-								})
-							} else {
-								uni.showToast({
-									title: "该功能只限会员使用",
-									icon: "none"
-								})
-							}
-						}
+						that.returnUrl(opLists,type,array,productType)
 					},
 					fail(res) {
 						uni.showToast({
@@ -460,8 +408,50 @@
 					}
 				})
 				// #endif
-
 			},
+			
+			//去到之指定的链接
+			returnUrl(opLists,type,array,productType){
+				if (opLists[type] == '出库') {
+					uni.navigateTo({
+						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
+				} else if (opLists[type] == '销售') {
+					uni.navigateTo({
+						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
+					})
+				}  else if (opLists[type] == '销售退货') {
+					uni.navigateTo({
+						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=returing&value=1",
+					})
+				} else if (opLists[type] == '入库') {
+					uni.navigateTo({
+						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
+				} else if (opLists[type] == '采购') {
+					uni.navigateTo({
+						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
+					})
+				} else if (opLists[type] == '盘点') {
+					uni.navigateTo({
+						url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
+				} else if (opLists[type] == '产品详情') {
+					if (productType == "new") {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (productType == "old") {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+						})
+					} else {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
+						})
+					}
+				}
+			}
 
 		}
 	}
