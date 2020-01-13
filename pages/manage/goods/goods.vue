@@ -65,7 +65,7 @@
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
 			<view class="showOptions">
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" @click.stop="">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">类别</view>
 						<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true"></input></view>
@@ -76,7 +76,7 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" @click.stop>
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
@@ -97,7 +97,7 @@
 
 					<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
 						<view>失效产品</view>
-						<view @click.stop="">
+						<view @click.stop="" style="margin-left: 30rpx;">
 							<switch :checked="checked" @change="change_timestatus" />
 						</view>
 					</view>
@@ -169,15 +169,9 @@
 		onShow() {
 			this.page_num = page_num
 			uni.removeStorageSync("now_product");
-			if (uni.getStorageSync("category")) {
-				that.showOptions = true;
-				that.category = uni.getStorageSync("category")
-			}
-
-			if (uni.getStorageSync("warehouse")) {
-				that.showOptions = true;
-				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
-			}
+			
+			that.category = uni.getStorageSync("category")
+			that.stock = uni.getStorageSync("warehouse")?uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock:''
 
 			if (uni.getStorageSync("is_add")) {
 				that.get_productList();
@@ -341,7 +335,7 @@
 			goDetail(value) {
 				console.log(value)
 				uni.setStorageSync("now_product", value);
-				if (value.order == 0) {
+				if (value.order == 0 || value.order == 1) {
 					uni.navigateTo({
 						url: "../good_det/Ngood_det"
 					})
@@ -357,9 +351,14 @@
 			get_productList() {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("stocks", "==", that.stock.objectId);
+				
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "!=", 1);
+				if(that.stock && that.stock.objectId){
+					query.equalTo("stocks", "==", that.stock.objectId);
+				}else{
+					query.equalTo("order", "!=", 1);
+				}
+				
 				if (that.category.type == 1) {
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				} else {

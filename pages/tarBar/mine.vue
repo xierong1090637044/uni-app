@@ -40,7 +40,8 @@
 			<view class="list">
 				<navigator class="li " hover-class="none" url="/pages/mine/InforCnter/InforCnter">
 					<fa-icon type="instagram" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text display_flex">消息中心<view class="weidu" v-if="noticeState"></view></view>
+					<view class="text display_flex">消息中心<view class="weidu" v-if="noticeState"></view>
+					</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
 				<navigator class="li " hover-class="none" url="/pages/mine/vip/vip" v-if="vipShow">
@@ -60,16 +61,20 @@
 						<text style="margin-right: 10rpx;">(电脑版网址)</text>
 						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 					</view>
-					
+
 				</navigator>
 			</view>
 			<view class="list">
-
 				<navigator class="li " hover-class="none" url="/pages/mine/update_history/update_history">
 					<fa-icon type="yelp" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
+				<button plain="true" style="border: unset;padding: unset;border-bottom: 1px solid #f3f3f3;" open-type="contact" class="li">
+					<fa-icon type="comments" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">联系客服</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</button>
 				<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
 					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>
@@ -89,6 +94,8 @@
 				</navigator>
 			</view>
 		</view>
+
+
 	</view>
 </template>
 <script>
@@ -96,13 +103,12 @@
 	let that;
 	let uid = uni.getStorageSync("uid")
 	export default {
-		components: {
-		},
+		components: {},
 		data() {
 			return {
-				noticeState:false,
+				noticeState: false,
 				user: null,
-				vipShow:false,
+				vipShow: false,
 			};
 		},
 		onLoad() {
@@ -113,39 +119,39 @@
 			that.getNoticeList()
 		},
 		methods: {
-			willCome(){
+			willCome() {
 				uni.showToast({
-					title:"敬请期待",
-					icon:"none"
+					title: "敬请期待",
+					icon: "none"
 				})
 			},
-			
+
 			//得到消息列表
-			getNoticeList(){
+			getNoticeList() {
 				const query = Bmob.Query("InfoCenter");
 				query.order("-createdAt");
-				const query1 = query.equalTo("toUser", '==',uid);
-				const query2 = query.equalTo("toUser", '==',"I75puc2O");//这是系统消息
-				
+				const query1 = query.equalTo("toUser", '==', uid);
+				const query2 = query.equalTo("toUser", '==', "I75puc2O"); //这是系统消息
+
 				query.or(query1, query2);
 				query.find().then(res => {
-					for(let item of res){
-						if(item.status == false){
+					for (let item of res) {
+						if (item.status == false) {
 							that.noticeState = true
 						}
 					}
 					const query = Bmob.Query('wc_setting');
 					query.get('FtIO888D').then(res => {
-					  //console.log(res)
-						if(that.user.objectId == "aXcyRBaf"){
+						//console.log(res)
+						if (that.user.objectId == "aXcyRBaf") {
 							that.vipShow = false
-						}else{
+						} else {
 							that.vipShow = res.isShow
 						}
 					}).catch(err => {
-					  console.log(err)
+						console.log(err)
 					})
-					
+
 				});
 			},
 		}
@@ -157,12 +163,13 @@
 		background-color: #f1f1f1;
 		font-size: 30rpx;
 	}
-	
-	.vip_logo{
+
+	.vip_logo {
 		position: absolute;
 		bottom: 66%;
 		right: 40%;
 	}
+
 	.header {
 		background: #fff;
 		height: 290rpx;
@@ -174,6 +181,19 @@
 			padding-top: 100rpx;
 			background-color: #426ab3;
 		}
+	}
+
+	.concatUsButton {
+		height: 80rpx;
+		width: 80rpx;
+		border-radius: 50%;
+		background-color: transparent;
+		position: fixed;
+		bottom: 20%;
+		right: 30rpx;
+		line-height: 80rpx;
+		text-align: center;
+		padding: unset;
 	}
 
 	.box {
@@ -199,6 +219,7 @@
 				margin-top: -80rpx;
 				overflow: hidden;
 				position: relative;
+
 				img {
 					width: 100%;
 					height: 100%;

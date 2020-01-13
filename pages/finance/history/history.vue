@@ -111,13 +111,15 @@
 		
 		methods: {
 			bindDate_startChange(e) {
-				console.log(e)
+				that.inMoney = 0;
+				that.outMoney = 0;
 				that.start_date = e.detail.value + ' 00:00:00';
 				that.getList()
 			},
 
 			bindDate_endChange(e) {
-				console.log(e)
+				that.inMoney = 0;
+				that.outMoney = 0;
 				that.end_date = e.detail.value + ' 00:00:00';
 				that.getList()
 			},

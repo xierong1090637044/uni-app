@@ -32,27 +32,26 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!--通知列表-->
-		<view class="display_flex" style="border-bottom: 1rpx solid#ddd;margin-bottom: 20rpx;">
-			<fa-icon type="lightbulb-o" size="18" color="#426ab3"></fa-icon>
-			<swiper vertical="true" style="color: #333 !important;height: 6vh;width: 100%;margin-left: 20rpx;" autoplay="true" v-if="noticeText.length > 0">
-				<block>
-					<swiper-item class="item" v-for="(item,index) in noticeText" :key="index">
-						<navigator class="display_flex_bet" style="width: 100%;height: 100%;" hover-class="none" :url="item.link">
-							<view style="font-weight: bold;width: 90%;" class="text_overflow">{{item.content}}</view>
-							<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-						</navigator>
-					</swiper-item>
-				</block>
+		<view style="margin: 20rpx 0;background: #fff;padding: 0 20rpx;" class="display_flex">
+			<fa-icon type="lightbulb-o" size="20" color="#426ab3"></fa-icon>
+			<swiper vertical="true" style="color: #333 !important;width: 100%;margin-left: 20rpx;height: 110rpx;" v-if="noticeText.length > 0">
+				<swiper-item class="item" v-for="(item,index) in noticeText" :key="index">
+					
+					<view class="display_flex_bet" style="width: 100%;height: 100%;" hover-class="none" :url="item.link">
+						<view style="font-weight: bold;width: 90%;line-height: 44rpx;" class="text_overflow_2">{{item.content}}</view>
+						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+					</view>
+				</swiper-item>
 			</swiper>
 		</view>
-		
+
 		<view class="Item" style="padding: 10rpx 30rpx;overflow: hidden;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
 			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
 		</view>
-		
+
 		<view class="Item" style="margin-top: 20rpx;">
 			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">客户分析</view>
 			<view class="display_flex_bet">
@@ -84,7 +83,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="Item" style="margin-top: 20rpx;">
 			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">供货商分析</view>
 			<view class="display_flex_bet">
@@ -116,9 +115,9 @@
 				</view>
 			</view>
 		</view>
-		
+
 	</scroll-view>
-	
+
 	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true" v-else>
 		<view style="color: #333;font-weight: bold;margin-top: 60rpx;font-size: 32rpx;">员工暂时无法查看</view>
 	</scroll-view>
@@ -126,7 +125,7 @@
 
 <script>
 	import achart from '@/components/charts/AChart.vue'
-	
+
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
 	import record from '@/utils/record.js';
@@ -141,23 +140,23 @@
 		},
 		data() {
 			return {
-				achartShow:true,
+				achartShow: true,
 				now_day: common.getDay(0),
 				user: uni.getStorageSync("user"),
-				identity:uni.getStorageSync("identity"),
+				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				noticeText: '', //首页消息提示内容
 				logsList: [],
 
 				goodsAnalysis: {
-					total_products:0,
-					total_reserve:0,
-					total_money:0,
-					warn_num:0,
-					over_num:0,
-				},//产品分析的数据
-				customsAnalysis:{},//客户分析的数据
-				producersAnalysis:{},//客户分析的数据
+					total_products: 0,
+					total_reserve: 0,
+					total_money: 0,
+					warn_num: 0,
+					over_num: 0,
+				}, //产品分析的数据
+				customsAnalysis: {}, //客户分析的数据
+				producersAnalysis: {}, //客户分析的数据
 			}
 		},
 		onLoad(options) {
@@ -170,9 +169,9 @@
 				that.loadallGoods();
 				that.user = uni.getStorageSync("user")
 				that.achartShow = true,
-				notice.getNoticeList().then(res => {
-					that.noticeText = res
-				})
+					notice.getNoticeList().then(res => {
+						that.noticeText = res
+					})
 
 				mine.getMineInfo().then(res => {
 					console.log(res)
@@ -190,19 +189,19 @@
 					}
 				})
 			}
-			
+
 			uni.removeStorageSync("now_product")
 		},
-		
+
 		onHide() {
 			that.achartShow = false
 		},
 
 		methods: {
-			showNotice(){
+			showNotice() {
 				uni.showToast({
-					icon:"none",
-					title:"非会员无法使用"
+					icon: "none",
+					title: "非会员无法使用"
 				})
 			},
 
@@ -210,9 +209,9 @@
 			loadallGoods: function() {
 				record.loadallGoods().then(res => {
 					that.goodsAnalysis = res
-					record.getAllCustom().then(res=>{
+					record.getAllCustom().then(res => {
 						that.customsAnalysis = res
-						record.getAllProducer().then(res=>{
+						record.getAllProducer().then(res => {
 							that.producersAnalysis = res
 							/*record.getAllAccounts().then(res=>{
 								console.log(res)
