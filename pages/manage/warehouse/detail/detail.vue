@@ -209,6 +209,7 @@
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
+				query.limit(500);
 				query.order("-reserve");
 				query.find().then(res => {
 					console.log(res)

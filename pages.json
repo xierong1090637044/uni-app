@@ -66,7 +66,9 @@
 		},
 		{
 			"path": "pages/report/EnteringHistory/EnteringHistory",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "操作单列表"
+			}
 		},
 
 
@@ -181,49 +183,46 @@
 			"style": {
 				"navigationBarTitleText": "员工业绩"
 			}
+		}, {
+			"path": "pages/common/goods_out/gooSellNew/gooSellNew",
+			"style": {
+				"navigationBarTitleText": "销售"
+			}
+		}, {
+			"path": "pages/report/EnteringHistory/SellDetail/SellDetail",
+			"style": {
+				"navigationBarTitleText": "销售详情"
+			}
+		}, {
+			"path": "pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew",
+			"style": {
+				"navigationBarTitleText": "采购"
+			}
+		}, {
+			"path": "pages/common/good_return/buyReturn/buyReturn",
+			"style": {
+				"navigationBarTitleText": "销售退货"
+			}
+		}, {
+			"path": "pages/common/good_return/purchaseReturn/purchaseReturn",
+			"style": {
+				"navigationBarTitleText": "采购退货"
+			}
 		}
-        ,{
-            "path" : "pages/common/goods_out/gooSellNew/gooSellNew",
-            "style" : {
-							"navigationBarTitleText": "销售"
-						}
-        }
-        ,{
-            "path" : "pages/report/EnteringHistory/SellDetail/SellDetail",
-            "style" : {
-							"navigationBarTitleText": "销售详情"
-						}
-        }
-        ,{
-            "path" : "pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew",
-            "style" : {
-							"navigationBarTitleText": "采购"
-						}
-        }
-        ,{
-            "path" : "pages/common/good_return/buyReturn/buyReturn",
-            "style" : {
-							"navigationBarTitleText": "销售退货"
-						}
-        }
-        ,{
-            "path" : "pages/common/good_return/purchaseReturn/purchaseReturn",
-            "style" : {
-							"navigationBarTitleText": "采购退货"
-						}
-        }
-        
-        ,{
-            "path" : "pages/report/EnteringHistory/returnDetail/returnDetail",
-            "style" : {
-							"navigationBarTitleText": "退货详情"
-						}
-        }
-        ,{
-            "path" : "pages/webview/webview",
-            "style" : {}
-        }
-    ],
+
+		, {
+			"path": "pages/report/EnteringHistory/returnDetail/returnDetail",
+			"style": {
+				"navigationBarTitleText": "退货详情"
+			}
+		}, {
+			"path": "pages/webview/webview",
+			"style": {}
+		}, {
+			"path": "pages/test/test",
+			"style": {}
+		}
+	],
 
 	"subPackages": [{
 			"root": "pages/production",
@@ -425,12 +424,12 @@
 					"style": {
 						"navigationBarTitleText": "详情"
 					}
-				},{
-            "path" : "history/history",
-            "style" : {
-							"navigationBarTitleText": "账户资金流水记录"
-						}
-        }
+				}, {
+					"path": "history/history",
+					"style": {
+						"navigationBarTitleText": "账户资金流水记录"
+					}
+				}
 			]
 		},
 

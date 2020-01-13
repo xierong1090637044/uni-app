@@ -21,11 +21,13 @@
 						<view>
 							<text v-if="detail.extra_type ==2">入库数量：</text>
 							<text v-else-if="detail.extra_type ==1">采购数量：</text>
+							<text v-else-if="detail.extra_type ==4">销售退货数量：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.num}}</text>
 						</view>
 						<view>
 							<text v-if="detail.extra_type ==2">入库单价：</text>
 							<text v-else-if="detail.extra_type ==1">采购单价：</text>
+							<text v-else-if="detail.extra_type ==4">退货单价：</text>
 							<text style="margin-left: 10rpx;color: #FC0F4A;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
@@ -36,24 +38,13 @@
 						<view>
 							<text v-if="detail.extra_type ==2">出库数量：</text>
 							<text v-else-if="detail.extra_type ==1">销售数量：</text>
+							<text v-else-if="detail.extra_type ==4">采购退货数量：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.num}}</text>
 						</view>
 						<view>
 							<text v-if="detail.extra_type ==2">出库单价：</text>
 							<text v-else-if="detail.extra_type ==1">销售单价：</text>
-							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
-						</view>
-					</view>
-				</view>
-
-				<view v-if="detail.type === 2">
-					<view class="display_flex_bet">
-						<view>
-							<text>退货数量：</text>
-							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.num}}</text>
-						</view>
-						<view>
-							<text>退货单价：</text>
+							<text v-else-if="detail.extra_type ==4">退货单价：</text>
 							<text style="margin-left: 10rpx;color: #f30;font-weight: bold;">{{detail.retailPrice}}</text>
 						</view>
 					</view>
@@ -143,7 +134,7 @@
 
 			let Day = new Date()
 			that.year = Day.getFullYear();
-			that.month = Day.getMonth() + 1;
+			that.month = Number(Day.getMonth() + 1)<10?'0'+Number(Day.getMonth() + 1):Day.getMonth() + 1;
 			that.getdetail();
 			console.log(that.year, that.month)
 		},
