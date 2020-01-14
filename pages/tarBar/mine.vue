@@ -87,7 +87,7 @@
 				</view>
 			</view>
 			<view class="list">
-				<navigator class="li noborder" hover-class="none" url="/pages/landing/landing">
+				<navigator class="li noborder" hover-class="none" url="/pages/landing/landing" open-type="reLaunch" @click="removeStorage">
 					<fa-icon type="sign-out" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">退出登录</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
@@ -124,6 +124,11 @@
 					title: "敬请期待",
 					icon: "none"
 				})
+			},
+			
+			//清除全部缓存
+			removeStorage(){
+				uni.clearStorageSync()
 			},
 
 			//得到消息列表

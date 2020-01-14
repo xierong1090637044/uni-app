@@ -37,14 +37,15 @@
 								<text v-if="value == 1 || value == 3">采购量：</text>
 								<text v-else-if="value == 2">入库量：</text>
 								<text v-else-if="value == 4">退货量：</text>
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0' />
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1'  v-if="key==0"/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0'  v-else/>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
 							<text v-if="value == 1 || value == 3">采购量：</text>
 							<text v-else-if="value == 2">入库量：</text>
 							<text v-else-if="value == 4">退货量：</text>
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" value='1'/>
 						</view>
 
 						<view class="bottom_del display_flex_bet">

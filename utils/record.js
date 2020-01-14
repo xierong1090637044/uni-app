@@ -35,14 +35,15 @@ export default {
 				for (let item of res) {
 					debt += item.debt ? item.debt : 0
 				}
-				if (10000 > debt > 1000) {
+				if (10000 > debt && debt >= 1000) {
 					debt = (debt / 1000).toFixed(2) + "千"
-				} else if (debt > 10000) {
+				} else if (100000 > debt && debt >= 10000) {
 					debt = (debt / 10000).toFixed(2) + "万"
+				} else if (1000000 > debt && debt >= 100000) {
+					debt = (debt / 10000).toFixed(2) + "十万"
 				}
 				params.debt = debt
-
-
+				
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", userid);
 				query.equalTo("type", "==", -1);
@@ -84,11 +85,12 @@ export default {
 				for (let item of res) {
 					debt += item.debt ? item.debt : 0
 				}
-				console.log(debt)
-				if (10000 > Number(debt) > 1000) {
+				if (10000 > Number(debt) && Number(debt) > 1000) {
 					debt = (Number(debt) / 1000).toFixed(2) + "千"
-				} else if (Number(debt) > 10000) {
+				} else if (100000 > Number(debt) && Number(debt) >= 10000) {
 					debt = (Number(debt) / 10000).toFixed(2) + "万"
+				} else if (1000000 > Number(debt) && Number(debt) >= 100000) {
+					debt = (Number(debt) / 10000).toFixed(2) + "十万"
 				}
 				params.debt = debt
 
@@ -268,15 +270,15 @@ export default {
 			let params = {}
 			this.querycount().then(count => {
 				params.total_products = count
-				for (var i = 0; i < Math.ceil(count / 1000); i++) {
+				for (var i = 0; i < Math.ceil(count / 500); i++) {
 					console.log(i)
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.equalTo("order", "!=", 1);
 					query.select("reserve", "costPrice", "stocktype");
-					query.limit(1000);
-					query.skip(1000 * i);
+					query.limit(500);
+					query.skip(500 * i);
 					query.find().then(res => {
 						for (let item of res) {
 							if (item.stocktype == 0) {
@@ -289,21 +291,25 @@ export default {
 						}
 
 						key += 1
-
 						//返回数据
-						if (key == Math.ceil(count / 1000)) {
-							if (user.rights && user.rights.othercurrent[0] != '0') {
+						if (key == Math.ceil(count / 500)) {
+							if (user.identity != 1 && user.rights && user.rights.othercurrent[0] != '0') {
 								total_money = 0
 							}
 							if (Number(total_reserve) > 1000 && Number(total_reserve) < 10000) {
 								total_reserve = Number(total_reserve) / 1000 + "千"
-							} else if (Number(total_reserve) >= 10000) {
+							} else if (Number(total_reserve) >= 10000 && Number(total_money) < 100000) {
 								total_reserve = Number(total_reserve) / 10000 + "万"
+							} else if (Number(total_reserve) >= 100000) {
+								total_reserve = Number(total_reserve) / 10000 + "十万"
 							}
+
 							if (Number(total_money) > 1000 && Number(total_money) < 10000) {
-								total_money = Number(total_money) / 1000 + "千"
-							} else if (Number(total_money) >= 10000) {
-								total_money = Number(total_money) / 10000 + "万"
+								total_money = (Number(total_money) / 1000).toFixed(2) + "千"
+							} else if (Number(total_money) >= 10000 && Number(total_money) < 100000) {
+								total_money = (Number(total_money) / 10000).toFixed(4) + "万"
+							} else if (Number(total_money) >= 100000) {
+								total_money = (Number(total_money) / 100000).toFixed(4) + "十万"
 							}
 							params.total_money = total_money,
 								params.total_reserve = total_reserve,

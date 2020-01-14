@@ -327,7 +327,7 @@
 							let warehouseItem = {}
 							warehouseItem.reserve = 0
 							warehouseItem.stock = res[0]
-							warehouseItem.warning_num = 0
+							//warehouseItem.warning_num = 0
 							warehouse.push(warehouseItem)
 							uni.setStorageSync("warehouse", warehouse)
 							that.stock_name = res[0].stock_name
@@ -571,7 +571,8 @@
 					});
 				}
 			},
-
+			
+			//编辑产品
 			edit_good(good) {
 				let now_product = uni.getStorageSync("now_product")
 				let stocksReserve = uni.getStorageSync("warehouse")
@@ -597,10 +598,16 @@
 				query.set("packingUnit", good.packingUnit)
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
-				query.set("warning_num", Number(good.warning_num))
-				query.set("max_num", Number(good.max_num))
-				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
-
+				
+				if(good.warning_num !=""){
+					query.set("warning_num", Number(good.warning_num))
+					query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+				}
+				
+				if(good.max_num !=""){
+					query.set("max_num", Number(good.max_num))
+					query.set("stocktype", (Number(good.max_num) > Number(that.reserve)) ? 2 : 1) //库存数量类型 0代表库存过足 1代表库存充足
+				}
 				///query.set("product_state", good.product_state) //改产品是否是半成品
 				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
 				if (stocksReserve.length > 0) {
@@ -632,8 +639,12 @@
 								res.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
 								res.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 								res.set("goodsName", good.goodsName)
-								res.set("warning_num", Number(good.warning_num))
-								res.set("max_num", Number(good.max_num))
+								if(good.warning_num !=""){
+									res.set("warning_num", Number(good.warning_num))		
+								}
+								if(good.max_num !=""){
+									res.set("max_num", Number(good.max_num))
+								}
 								that.productMoreG ? res.set("models", item.now_model) : ''
 								res.save()
 							}).catch(err => {
@@ -682,9 +693,16 @@
 				query.set("packingUnit", good.packingUnit)
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
-				query.set("warning_num", Number(good.warning_num))
-				query.set("max_num", Number(good.max_num))
-				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+				
+				if(good.warning_num !=""){
+					query.set("warning_num", Number(good.warning_num))
+					query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+				}
+				
+				if(good.max_num !=""){
+					query.set("max_num", Number(good.max_num))
+					query.set("stocktype", (Number(good.max_num) > Number(that.reserve)) ? 2 : 1) //库存数量类型 0代表库存过足 1代表库存充足
+				}
 
 				//query.set("product_state", good.product_state) //改产品是否是半成品
 				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
@@ -727,8 +745,12 @@
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)
 							queryObj.set("reserve", Number(stocksReserve[i].reserve))
-							queryObj.set("warning_num", Number(good.warning_num))
-							queryObj.set("max_num", Number(good.max_num))
+							if(good.warning_num !=""){
+								queryObj.set("warning_num", Number(good.warning_num))		
+							}
+							if(good.max_num !=""){
+								queryObj.set("max_num", Number(good.max_num))
+							}
 							that.productMoreG ? queryObj.set("models", stocksReserve[i].now_model) : ''
 							queryArray.push(queryObj);
 						}
