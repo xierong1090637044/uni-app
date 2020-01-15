@@ -26,9 +26,9 @@
 							// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
 							updateManager.applyUpdate()
 							
-							uni.navigateTo({
+							/*uni.navigateTo({
 								url:"/pages/mine/update_history/update_history"
-							})
+							})*/
 						}
 					}
 				})
