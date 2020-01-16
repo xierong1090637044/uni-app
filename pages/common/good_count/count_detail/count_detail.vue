@@ -204,7 +204,7 @@
 											}
 
 											res.set('reserve', num)
-											res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+											//res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
 											res.save()
 
 											if (that.products[i].header) {
@@ -213,15 +213,18 @@
 												query1.equalTo("order", "==", 1);
 												query1.statTo("sum", "reserve");
 												query1.find().then(res => {
-													console.log("dasds", res)
+													//console.log("dasds", res)
 													let now_reserve = res[0]._sumReserve
 													const query = Bmob.Query('Goods');
 													query.get(that.products[i].header.objectId).then(res => {
 														res.set('reserve', now_reserve)
-														res.set('stocktype', (now_reserve > that.products[i].warning_num) ? 1 : 0)
 														res.save()
+														
+														common.modifyStockType(that.products[i].header.objectId)
 													})
 												})
+											}else{
+												common.modifyStockType(that.products[i].objectId)
 											}
 
 										}).catch(err => {
@@ -236,16 +239,16 @@
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
-										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", 3, res.objectId);
+										/*common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
+											.length + "商品", 3, res.objectId);*/
 
 										//自动打印
 										if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);
 										}
-										uni.navigateBack({
+										/*uni.navigateBack({
 											delta: 2
-										});
+										});*/
 									}, 500)
 								}
 							})

@@ -160,6 +160,7 @@
 									
 										res.set('reserve', num)
 										res.save()
+										
 										query.get(out_products[0].objectId).then(res => {
 											res.set('reserve', num1)
 											res.save()
@@ -253,9 +254,9 @@
 																uni.removeStorageSync("out_warehouse")
 																uni.removeStorageSync("category")
 																uni.removeStorageSync("warehouse")
-																common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
+																/*common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
 																	that
-																	.products.length + "商品", -2, res.objectId);
+																	.products.length + "商品", -2, res.objectId);*/
 									
 																/*let params = {
 																	"data1": res.objectId,
@@ -295,8 +296,7 @@
 							
 							const query = Bmob.Query('Goods');
 							query.get(that.products[i].objectId).then(res => {
-								console.log(res)
-							
+								//console.log(res)
 								res.set('reserve', num)
 								res.save()
 								query.get(out_products[0].objectId).then(res => {

@@ -455,20 +455,9 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								if(product.max_num >=0){
-									if(now_reserve >= product.max_num){
-										query.set('stocktype', 2)
-									}else if(now_reserve <= product.warning_num){
-										query.set('stocktype', 0)
-									}else{
-										query.set('stocktype', 1)
-									}
-								}else{
-									query.set('stocktype', 1)
-								}
-								//query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
 								query.set('id', product.goodsId.objectId)
 								query.save().then(res => {
+									common.modifyStockType(product.goodsId.objectId)
 									if (count == (that.products.length - 1)) {
 										const pointer = Bmob.Pointer('stocks');
 										let stockId = pointer.set(that.stock.objectId);
@@ -532,17 +521,6 @@
 									let now_reserve = res[0]._sumReserve
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
-									if(product.max_num >=0){
-										if(now_reserve >= product.max_num){
-											query.set('stocktype', 2)
-										}else if(now_reserve <= product.warning_num){
-											query.set('stocktype', 0)
-										}else{
-											query.set('stocktype', 1)
-										}
-									}else{
-										query.set('stocktype', 1)
-									}
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
 										if (count == (that.products.length - 1)) {
@@ -564,10 +542,11 @@
 														query1.equalTo("order", "==", 1);
 														query1.statTo("sum", "reserve");
 														query1.find().then(res => {
+															common.modifyStockType(product.goodsId.objectId)
+															
 															let now_reserve = res[0]._sumReserve
 															const query = Bmob.Query('Goods');
 															query.set('reserve', now_reserve)
-															query.set('stocktype', (now_reserve > product.warning_num) ? 1 : 0)
 															query.set('id', product.goodsId.objectId)
 															query.save().then(res => {
 																uni.removeStorageSync("warehouse")
@@ -616,17 +595,11 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								if(product.warning_num >=0){
-									if(now_reserve >= product.max_num){
-										query.set('stocktype', 2)
-									}else if(now_reserve <= product.warning_num){
-										query.set('stocktype', 0)
-									}else{
-										query.set('stocktype', 1)
-									}
-								}
 								query.set('id', product.goodsId.objectId)
 								query.save().then(res => {
+									
+									common.modifyStockType(product.goodsId.objectId)
+									
 									if (count == (that.products.length - 1)) {
 										const pointer = Bmob.Pointer('stocks');
 										let stockId = pointer.set(that.stock.objectId);
@@ -690,17 +663,9 @@
 									let now_reserve = res[0]._sumReserve
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
-									if(product.warning_num >=0){
-										if(now_reserve >= product.max_num){
-											query.set('stocktype', 2)
-										}else if(now_reserve <= product.warning_num){
-											query.set('stocktype', 0)
-										}else{
-											query.set('stocktype', 1)
-										}
-									}
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
+										common.modifyStockType(product.goodsId.objectId)
 										if (count == (that.products.length - 1)) {
 											const pointer = Bmob.Pointer('stocks');
 											let stockId = pointer.set(that.stock.objectId);
@@ -805,6 +770,7 @@
 								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
+									common.modifyStockType(thisGood.header.objectId)
 									if (i == (that.products.length - 1)) {
 										uni.hideLoading();
 										uni.navigateBack({
@@ -819,6 +785,7 @@
 								})
 							})
 						} else {
+							common.modifyStockType(thisGood.objectId)
 							if (i == (that.products.length - 1)) {
 								uni.hideLoading();
 								uni.navigateBack({

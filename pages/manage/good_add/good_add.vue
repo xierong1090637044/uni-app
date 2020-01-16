@@ -552,6 +552,14 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
+				
+				if(Number(good.max_num) <=Number(good.warning_num)){
+					uni.showToast({
+						title: "最大库存数错误",
+						icon: "none"
+					})
+					return
+				}
 
 				if (uni.getStorageSync("now_product")) {
 					that.edit_good(good)

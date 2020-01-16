@@ -22,18 +22,6 @@ module.exports = {
 					num = Number(products[i].reserve) + Number(products[i].num);
 				}
 				query.set('reserve', num)
-				if(products[i].order=="" || products[i].order==null || products[i].order==undefined){ //预警判断 分两种类型
-					if(products[i].max_num >=0){
-						if(num >= products[i].max_num){
-							query.set('stocktype', 2)
-						}else if(num <= products[i].warning_num){
-							query.set('stocktype', 0)
-						}else{
-							query.set('stocktype', 1)
-						}
-					}
-				}
-				//query.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 				query.set('id', products[i].objectId) //需要修改的objectId
 				query.save().then(res => {
 					console.log(products[i])
@@ -47,32 +35,16 @@ module.exports = {
 							let now_reserve = res[0]._sumReserve
 							const query = Bmob.Query('Goods');
 							query.set('reserve', now_reserve)
-							if(products[i].max_num >=0){
-								if(num >= products[i].max_num){
-									query.set('stocktype', 2)
-								}else if(num <= products[i].warning_num){
-									query.set('stocktype', 0)
-								}else{
-									query.set('stocktype', 1)
-								}
-							}
 							query.set('id', products[i].header.objectId)
 							query.save().then(res => {
-								if (products[i].max_num >= 0 && products[i].max_num <= now_reserve) {
-									that.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num,
-										-2,
-										products[i].objectId);
-								}
+								that.modifyStockType(products[i].header.objectId) //显示预警
 								if (i == products.length - 1) {
 									resolve(true)
 								}
 							})
 						})
 					} else {
-						if (products[i].max_num >= 0 && products[i].max_num <= num) {
-							that.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
-								products[i].objectId);
-						}
+						that.modifyStockType(products[i].objectId) //显示预警
 						if (i == products.length - 1) {
 							resolve(true)
 						}
@@ -110,21 +82,11 @@ module.exports = {
 				}
 				
 				query.set('reserve', num)
-				if(products[i].order=="" || products[i].order==null || products[i].order==undefined){ //预警判断 分两种类型
-					if(products[i].max_num >=0){
-						if(num >= products[i].max_num){
-							query.set('stocktype', 2)
-						}else if(num <= products[i].warning_num){
-							query.set('stocktype', 0)
-						}else{
-							query.set('stocktype', 1)
-						}
-					}
-				}
 				query.set('id', products[i].objectId) //需要修改的objectId
 				query.save().then(res => {
 					//console.log(res)
-					that.record_staffOut(Number(products[i].num))
+					//that.record_staffOut(Number(products[i].num))
+					
 					if (products[i].header) {
 						const query1 = Bmob.Query("Goods");
 						query1.equalTo("header", "==", products[i].header.objectId);
@@ -135,21 +97,13 @@ module.exports = {
 							let now_reserve = res[0]._sumReserve
 							const query = Bmob.Query('Goods');
 							query.set('reserve', now_reserve)
-							if(products[i].max_num >=0){
-								if(num >= products[i].max_num){
-									query.set('stocktype', 2)
-								}else if(num <= products[i].warning_num){
-									query.set('stocktype', 0)
-								}else{
-									query.set('stocktype', 1)
-								}
-							}
 							query.set('id', products[i].header.objectId)
 							query.save().then(res => {
-							  if (products[i].warning_num >=0 && products[i].warning_num >= now_reserve) {
+								that.modifyStockType(products[i].header.objectId)
+							  /*if (products[i].warning_num >=0 && products[i].warning_num >= now_reserve) {
 									that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 										products[i].objectId);
-								}
+								}*/
 								if (i == products.length - 1) {
 									resolve(true)
 								}
@@ -157,10 +111,11 @@ module.exports = {
 						})
 
 					} else {
-						if (products[i].warning_num >= num && products[i].warning_num >=0) {
+						that.modifyStockType(products[i].objectId)
+						/*if (products[i].warning_num >= num && products[i].warning_num >=0) {
 							that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 								products[i].objectId);
-						}
+						}*/
 						if (i == products.length - 1) {
 							resolve(true)
 						}
@@ -182,8 +137,7 @@ module.exports = {
 				let num = 0;
 				const query = Bmob.Query('Goods');
 				query.get(products[i].objectId).then(res => {
-					console.log(products[i])
-	
+					//console.log(products[i])
 					if (products[i].selectd_model) {
 						for (let model of products[i].selected_model) {
 							for (let item of products[i].models) {
@@ -199,23 +153,14 @@ module.exports = {
 						num = Number(products[i].reserve) + Number(products[i].num);
 					}
 					res.set('reserve', num)	
-					if(products[i].max_num >=0){
-						if(num >= products[i].max_num){
-							res.set('stocktype', 2)
-						}else if(num <= products[i].warning_num){
-							res.set('stocktype', 0)
-						}else{
-							res.set('stocktype', 1)
-						}
-					}
 					res.save()
-	
+					
 					const query = Bmob.Query("Goods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
 					query.find().then(res => {
-						console.log("仓库里的产品", res)
+						//console.log("仓库里的产品", res)
 						if (res.length == 0) {
 							this.upload_good_withNoCan(products[i], stock, Number(products[i].num)).then(res => {
 								console.log(res)
@@ -239,10 +184,10 @@ module.exports = {
 	
 					})
 	
-					if (products[i].max_num >= 0 && products[i].max_num <= num) {
+					/*if (products[i].max_num >= 0 && products[i].max_num <= num) {
 						this.log(products[i].goodsName + "入库了" + products[i].num + "件，已经超过设置的最大库存值" + products[i].max_num, -2,
 							products[i].objectId);
-					}
+					}*/
 	
 				}).catch(err => {
 					console.log(err)
@@ -261,7 +206,7 @@ module.exports = {
 				let num = 0;
 				const query = Bmob.Query('Goods');
 				query.get(products[i].objectId).then(res => {
-					console.log(products[i])
+					//console.log(products[i])
 	
 					if (products[i].selectd_model) {
 						for (let model of products[i].selected_model) {
@@ -278,7 +223,6 @@ module.exports = {
 						num = Number(products[i].reserve) - Number(products[i].num);
 					}
 					res.set('reserve', num)
-					res.set('stocktype', (num > products[i].warning_num) ? 1 : 0)
 					res.save()
 	
 					const query = Bmob.Query("Goods");
@@ -286,7 +230,7 @@ module.exports = {
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
 					query.find().then(res => {
-						console.log("仓库里的产品", res)
+						//console.log("仓库里的产品", res)
 						if (res.length == 0) {
 							this.upload_good_withNoCan(products[i], stock, Number(products[i].num), "out").then(res => {
 								console.log(res)
@@ -309,10 +253,10 @@ module.exports = {
 						}
 	
 					})
-					if (products[i].warning_num >= num) {
+					/*if (products[i].warning_num >= num) {
 						this.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
 							products[i].objectId);
-					}
+					}*/
 	
 				}).catch(err => {
 					console.log(err)
@@ -381,6 +325,38 @@ module.exports = {
 			console.log(res)
 		}).catch(err => {
 			console.log(err)
+		})
+	},
+	
+	//更新产品的库存类型
+	modifyStockType(productId){
+		const query = Bmob.Query('Goods');
+		query.get(productId).then(res => {
+			
+			console.log("sdsdasdasd",res,res.warning_num,res.max_num)
+			let good = res
+			if(good.warning_num == "" &&good.max_num == "")
+			{
+				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
+			}else{
+				if (good.warning_num != "") {
+					if(good.warning_num >= good.reserve){
+						res.set("stocktype", 0)
+					}else{
+						res.set("stocktype", 1) 
+					}
+				}
+				if (good.max_num != "") {
+					if(good.max_num <= good.reserve){
+						res.set("stocktype", 2)
+					}else{
+						res.set("stocktype", 1) 
+					}
+				}
+			}
+		  res.save()
+		}).catch(err => {
+		  console.log(err)
 		})
 	},
 
