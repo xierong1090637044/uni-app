@@ -254,20 +254,9 @@
 																uni.removeStorageSync("out_warehouse")
 																uni.removeStorageSync("category")
 																uni.removeStorageSync("warehouse")
-																/*common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
+																common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
 																	that
-																	.products.length + "商品", -2, res.objectId);*/
-									
-																/*let params = {
-																	"data1": res.objectId,
-																	"data2": uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that.products
-																		.length + "商品",
-																	"data3": that.stock ? that.stock.stock_name : "未填写",
-																	"data4": res.createdAt,
-																	"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-																	"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
-																};
-																send_temp.send_temp(params);*/
+																	.products.length + "商品", -2, res.objectId);
 									
 																//自动打印
 																if (uni.getStorageSync("setting").auto_print) {
@@ -395,17 +384,6 @@
 														common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
 															that
 															.products.length + "商品", -2, res.objectId);
-							
-														/*let params = {
-															"data1": res.objectId,
-															"data2": uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" + that.products
-																.length + "商品",
-															"data3": that.stock ? that.stock.stock_name : "未填写",
-															"data4": res.createdAt,
-															"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-															"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" + res.objectId,
-														};
-														send_temp.send_temp(params);*/
 							
 														//自动打印
 														if (uni.getStorageSync("setting").auto_print) {

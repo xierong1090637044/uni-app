@@ -194,14 +194,25 @@ export default {
 					for (var i = 0; i < res.length; i++) {
 						if (res[i].type == 1) {
 							get_reserve += res[i].num;
-							get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
+							if(res[i].goodsId){
+								get_reserve_real_money += 0;
+							}else{
+								get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
+							}
+							
 							//get_reserve_num += res[i].total_money;
 							if (res[i].extra_type == 1) {
 								purchaseNum += res[i].num;
 							}
 						} else if (res[i].type == -1) {
 							out_reserve += res[i].num;
-							out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
+							
+							if(res[i].goodsId){
+								out_reserve_real_money += 0;
+							}else{
+								out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
+							}
+							
 							//out_reserve_num += res[i].total_money;
 							if (res[i].extra_type == 1) {
 								sellNum += res[i].num;

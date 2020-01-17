@@ -239,16 +239,16 @@
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
-										/*common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", 3, res.objectId);*/
+										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
+											.length + "商品", 3, res.objectId);
 
 										//自动打印
 										if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);
 										}
-										/*uni.navigateBack({
+										uni.navigateBack({
 											delta: 2
-										});*/
+										});
 									}, 500)
 								}
 							})

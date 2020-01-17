@@ -341,7 +341,7 @@
 			}
 		},
 		onShow() {
-			if(that.text_desc =="保存"){
+			if(that.text_desc =="保存"){ //修改的状态时触发
 				let stocksReserve
 				if (uni.getStorageSync("warehouse")) {
 					that.reserve = 0
@@ -384,24 +384,24 @@
 					}
 				
 				}
-				
-				if (uni.getStorageSync("category")) {
-					that.category = uni.getStorageSync("category")
-				
-					if (that.category.type == 2) {
-						let pointer2 = Bmob.Pointer('class_user')
-						p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-				
-						let pointer3 = Bmob.Pointer('second_class')
-						p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-				
-						console.log(that.category.parent.objectId, that.category.objectId)
-					} else {
-						let pointer2 = Bmob.Pointer('class_user')
-						p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
-					}
-				
+			}
+			
+			if (uni.getStorageSync("category")) {
+				that.category = uni.getStorageSync("category")
+			
+				if (that.category.type == 2) {
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
+			
+					let pointer3 = Bmob.Pointer('second_class')
+					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+			
+					console.log(that.category.parent.objectId, that.category.objectId)
+				} else {
+					let pointer2 = Bmob.Pointer('class_user')
+					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
 				}
+			
 			}
 			
 		},
@@ -553,12 +553,14 @@
 					title: "上传中..."
 				});
 				
-				if(Number(good.max_num) <=Number(good.warning_num)){
-					uni.showToast({
-						title: "最大库存数错误",
-						icon: "none"
-					})
-					return
+				if(good.max_num !=""&&good.warning_num !=""){
+					if(Number(good.max_num) <=Number(good.warning_num)){
+						uni.showToast({
+							title: "最大库存数须大于预警数",
+							icon: "none"
+						})
+						return
+					}
 				}
 
 				if (uni.getStorageSync("now_product")) {
@@ -620,7 +622,7 @@
 					
 					if (good.max_num != "") {
 						query.set("max_num", Number(good.max_num))
-						query.set("stocktype", (Number(good.max_num) > Number(that.reserve)) ? 2 : 1) //库存数量类型 0代表库存过足 1代表库存充足
+						query.set("stocktype", (Number(good.max_num) <= Number(that.reserve)) ? 2 : 1) //库存数量类型 2代表库存过足 1代表库存充足
 					}
 				}
 				

@@ -69,7 +69,7 @@
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
 				<view class='o_list'>
-					<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url)">
+					<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url,index)">
 						<view class="o_headerItem" style="background: #bb4f77;">
 							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 						</view>
@@ -306,16 +306,31 @@
 			},
 
 			//其他功能的点击事件
-			otherFunctions(url) {
+			otherFunctions(url, index) {
+				let user = uni.getStorageSync("user")
+
 				if (url) {
-					uni.navigateTo({
-						url: url
-					})
+					if (index == 0) {
+						if (user.is_vip) {
+							uni.navigateTo({
+								url: url
+							})
+						} else {
+							uni.showToast({
+								title: "该功能只限会员使用",
+								icon: "none"
+							})
+						}
+					} else {
+						uni.navigateTo({
+							url: url
+						})
+					}
 				} else {
 					uni.scanCode({
 						success(res) {
 							let result = res.result;
-							let user = uni.getStorageSync("user")
+
 							if (user.is_vip) {
 								uni.navigateTo({
 									url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
@@ -385,8 +400,8 @@
 					let result = res.result;
 					let array = result.split("-");
 					let productType = array[2]
-					
-					that.returnUrl(opLists,type,array,productType)
+
+					that.returnUrl(opLists, type, array, productType)
 				})
 				// #endif
 
@@ -398,7 +413,7 @@
 						let array = result.split("-");
 						let productType = array[2]
 
-						that.returnUrl(opLists,type,array,productType)
+						that.returnUrl(opLists, type, array, productType)
 					},
 					fail(res) {
 						uni.showToast({
@@ -409,9 +424,9 @@
 				})
 				// #endif
 			},
-			
+
 			//去到之指定的链接
-			returnUrl(opLists,type,array,productType){
+			returnUrl(opLists, type, array, productType) {
 				if (opLists[type] == '出库') {
 					uni.navigateTo({
 						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
@@ -420,7 +435,7 @@
 					uni.navigateTo({
 						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
 					})
-				}  else if (opLists[type] == '销售退货') {
+				} else if (opLists[type] == '销售退货') {
 					uni.navigateTo({
 						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=returing&value=1",
 					})

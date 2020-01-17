@@ -275,7 +275,12 @@ module.exports = {
 			const pointer1 = Bmob.Pointer('stocks')
 			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
 			const pointer2 = Bmob.Pointer('Goods')
-			const p_good_id = pointer2.set(good.objectId) //仓库的id关联
+			let p_good_id =""
+			if(good.header){
+				p_good_id = pointer2.set(good.header.objectId)
+			}else{
+				p_good_id = pointer2.set(good.objectId)
+			}
 
 			const query = Bmob.Query('Goods');
 			query.set("goodsName", good.goodsName)
@@ -330,6 +335,7 @@ module.exports = {
 
 	//更新产品的库存类型
 	modifyStockType(productId) {
+		let that = this
 		const query = Bmob.Query('Goods');
 		query.get(productId).then(res => {
 
@@ -341,13 +347,16 @@ module.exports = {
 				if (good.warning_num != "") {
 					if (good.warning_num >= good.reserve) {
 						res.set("stocktype", 0)
+						that.log(good.goodsName + "已经超过设置的最小库存值" + good.warning_num,-2,good.objectId);
 					} else if (good.warning_num < good.reserve && good.reserve < good.max_num) {
 						res.set("stocktype", 1)
 					}
 				}
 				if (good.max_num != "") {
 					if (good.max_num <= good.reserve) {
+						
 						res.set("stocktype", 2)
+						that.log(good.goodsName + "已经超过设置的最大库存值" + good.max_num,-2,good.objectId);
 					} else if (good.warning_num < good.reserve && good.reserve < good.max_num) {
 						res.set("stocktype", 1)
 					}

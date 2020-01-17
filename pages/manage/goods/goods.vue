@@ -251,47 +251,53 @@
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				if (user.is_vip || that.productList.length < 30) {
-					wx.showActionSheet({
-					  itemList: ['多仓库添加', '单仓库添加'],
-					  success (res) {
-							if(res.tapIndex == 0){
-								uni.navigateTo({
-									url: "../good_add/good_add?type=more"
-								})
-							}else if(res.tapIndex == 1){
-								uni.navigateTo({
-									url: "../good_add/good_add?type=single"
-								})
-							}
-					  },
-					  fail (res) {
-					    console.log(res.errMsg)
-					  }
-					})
-				} else {
-					uni.showModal({
-						title: '提示',
-						content: '非会员最多上传30件产品',
-						confirmText: "充值会员",
-						success: function(res) {
-							if (res.confirm) {
-								if (identity == 1) {
+				
+				const query = Bmob.Query("Goods");
+				query.equalTo("userId", "==", uid);
+				query.find().then(res => {
+					let productList = res
+					if (user.is_vip || productList.length < 30) {
+						wx.showActionSheet({
+						  itemList: ['多仓库添加', '单仓库添加'],
+						  success (res) {
+								if(res.tapIndex == 0){
 									uni.navigateTo({
-										url: "/pages/mine/vip/vip"
+										url: "../good_add/good_add?type=more"
 									})
-								} else {
-									uni.showToast({
-										title: "员工不能充值",
-										icon: "none"
+								}else if(res.tapIndex == 1){
+									uni.navigateTo({
+										url: "../good_add/good_add?type=single"
 									})
 								}
-							} else if (res.cancel) {
-								console.log('用户点击取消');
+						  },
+						  fail (res) {
+						    console.log(res.errMsg)
+						  }
+						})
+					} else {
+						uni.showModal({
+							title: '提示',
+							content: '非会员最多上传30件产品',
+							confirmText: "充值会员",
+							success: function(res) {
+								if (res.confirm) {
+									if (identity == 1) {
+										uni.navigateTo({
+											url: "/pages/mine/vip/vip"
+										})
+									} else {
+										uni.showToast({
+											title: "员工不能充值",
+											icon: "none"
+										})
+									}
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
 							}
-						}
-					})
-				}
+						})
+					}
+				})
 			},
 
 			//modal重置的确认点击
