@@ -275,10 +275,10 @@ module.exports = {
 			const pointer1 = Bmob.Pointer('stocks')
 			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
 			const pointer2 = Bmob.Pointer('Goods')
-			let p_good_id =""
-			if(good.header){
+			let p_good_id = ""
+			if (good.header) {
 				p_good_id = pointer2.set(good.header.objectId)
-			}else{
+			} else {
 				p_good_id = pointer2.set(good.objectId)
 			}
 
@@ -321,16 +321,38 @@ module.exports = {
 		let pointer = Bmob.Pointer('_User')
 		let userid = pointer.set(uni.getStorageSync("uid"));
 
-		const query = Bmob.Query('logs');
-		query.set("parent", userid);
-		query.set("log", log);
-		query.set("detail_id", id);
-		query.set("type", type);
-		query.save().then(res => {
-			console.log(res)
-		}).catch(err => {
-			console.log(err)
-		})
+		if (type == -2) {
+			let pointer1 = Bmob.Pointer('Goods')
+			let goodId = pointer1.set(id);
+			
+			const query = Bmob.Query('logs');
+			query.equalTo("goodId", "==", id);
+			query.find().then(res => {
+				if (res.length == 0) {
+					const query = Bmob.Query('logs');
+					query.set("parent", userid);
+					query.set("goodId", goodId);
+					query.set("log", log);
+					query.set("type", type);
+					query.save().then(res => {
+						console.log(res)
+					}).catch(err => {
+						console.log(err)
+					})
+				}
+			});
+		} else {
+			const query = Bmob.Query('logs');
+			query.set("parent", userid);
+			query.set("log", log);
+			query.set("detail_id", id);
+			query.set("type", type);
+			query.save().then(res => {
+				console.log(res)
+			}).catch(err => {
+				console.log(err)
+			})
+		}
 	},
 
 	//更新产品的库存类型
@@ -347,16 +369,16 @@ module.exports = {
 				if (good.warning_num != "") {
 					if (good.warning_num >= good.reserve) {
 						res.set("stocktype", 0)
-						that.log(good.goodsName + "已经超过设置的最小库存值" + good.warning_num,-2,good.objectId);
+						that.log(good.goodsName + "已经超过设置的最小库存值" + good.warning_num, -2, good.objectId);
 					} else if (good.warning_num < good.reserve && good.reserve < good.max_num) {
 						res.set("stocktype", 1)
 					}
 				}
 				if (good.max_num != "") {
 					if (good.max_num <= good.reserve) {
-						
+
 						res.set("stocktype", 2)
-						that.log(good.goodsName + "已经超过设置的最大库存值" + good.max_num,-2,good.objectId);
+						that.log(good.goodsName + "已经超过设置的最大库存值" + good.max_num, -2, good.objectId);
 					} else if (good.warning_num < good.reserve && good.reserve < good.max_num) {
 						res.set("stocktype", 1)
 					}

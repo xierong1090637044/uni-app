@@ -10,7 +10,7 @@
 					</view>
 				</picker>
 			</view>
-		
+
 			<view class="section">
 				<picker @change="bindDate_endChange" mode="date" :end="end_date_desc">
 					<view class="picker">
@@ -20,7 +20,7 @@
 				</picker>
 			</view>
 		</view>
-		
+
 		<scroll-view class="uni-product-list" scroll-y>
 			<view v-if="goodSellList.length > 0">
 				<view class="uni-product" v-for="(product,index) in goodSellList" :key="index">
@@ -28,7 +28,7 @@
 						<image v-if="product.producer.avatar" class="product_image" :src="product.producer.avatar" mode="widthFix" @click="priviewImg(product.producer.avatar)"></image>
 						<image src="/static/customDef.png" class="product_image" v-else mode="widthFix"></image>
 					</view>
-		
+
 					<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;" @click="goDetail(product.producer.objectId)">
 						<view class="product_name">{{product.producer.producer_name}}</view>
 						<view class="product_reserve display_flex_bet" style="width: 90%;">
@@ -38,7 +38,7 @@
 						</view>
 						<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.goodsId.createdAt}}</text></view>-->
 					</view>
-		
+
 					<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 				</view>
 			</view>
@@ -52,7 +52,7 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
-	
+
 	let that;
 	let uid;
 	export default {
@@ -62,37 +62,39 @@
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
-				
-				goodSellList:[],
+
+				goodSellList: [],
 			}
 		},
-		
+
 		onLoad() {
 			that = this;
 			uid = uni.getStorageSync("uid");
 			that.start_date_desc = that.start_date.split(" ")[0];
 			that.end_date_desc = that.end_date.split(" ")[0];
-			
+
 			that.getdetail()
 		},
-		
+
 		methods: {
-			
-			bindDate_startChange(e){
+
+			bindDate_startChange(e) {
 				console.log(e)
-				that.start_date = e.detail.value+' 00:00:00';
+				that.start_date = e.detail.value + ' 00:00:00';
 				that.getdetail()
 			},
-			
-			bindDate_endChange(e){
+
+			bindDate_endChange(e) {
 				console.log(e)
-				that.end_date = e.detail.value+' 00:00:00';
+				that.end_date = e.detail.value + ' 00:00:00';
 				that.getdetail()
 			},
-			
-			getdetail(){
-				uni.showLoading({title:'加载中...'})
-				
+
+			getdetail() {
+				uni.showLoading({
+					title: '加载中...'
+				})
+
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", 1);
@@ -105,31 +107,50 @@
 				query.statTo("groupby", "producer");
 				query.statTo("order", "-_sumNum");
 				query.statTo("groupcount", "true");
-				query.find().then(res => {
+				query.limit(500);
+				query.count().then(res => {
+					let count = res;
+					let newArrar = [];
+					let key = 0;
 					
-					let newArrar = []
-					for(let item of res){
-						 if(item.producer && item.producer.objectId){
-							 newArrar.push(item)
-						 }
+					if(count == 0){
+						uni.hideLoading()
+						return
 					}
-					//console.log(newArrar.sort(function(a,b){return b._sumNum - a._sumNum}))
-					that.goodSellList = newArrar.sort(function(a,b){return b._sumNum - a._sumNum})
 					
-					uni.hideLoading()
-				});
+					for (var i = 0; i < Math.ceil(count / 500); i++) {
+						query.limit(500);
+						query.skip(500 * i);
+						query.find().then(res => {
+							for (let item of res) {
+								if (item.producer && item.producer.objectId) {
+									newArrar.push(item)
+								}
+							}
+							if (key == Math.ceil(count / 500) - 1) {
+								that.goodSellList = newArrar.sort(function(a, b) {
+									return b._sumNum - a._sumNum
+								})
+								uni.hideLoading()
+							}
+
+							key += 1
+						});
+					}
+				})
+
 			},
-			
+
 			//头部的options选择
 			selectd(type) {
-				if(type == "stocktype"){
+				if (type == "stocktype") {
 					that.stock_checked = true;
-				}else{
+				} else {
 					that.stock_checked = false;
 				}
 				that.checked_option = type;
 			},
-			
+
 			//支持预览图片
 			priviewImg(imgurl) {
 				uni.previewImage({
@@ -137,14 +158,14 @@
 					urls: [imgurl],
 				});
 			},
-			
+
 			//点击去到详情
 			goDetail(value) {
 				uni.navigateTo({
-					url: "/pages/manage/custom/producer_detail/producer_detail?id="+value
+					url: "/pages/manage/custom/producer_detail/producer_detail?id=" + value
 				})
 			},
-			
+
 		}
 	}
 </script>
@@ -152,7 +173,7 @@
 	page {
 		background: #fff;
 	}
-	
+
 	.select {
 		display: flex;
 		align-items: center;
@@ -160,7 +181,7 @@
 		padding: 20rpx 30rpx;
 		margin-bottom: 20rpx;
 		border-bottom: 1rpx solid#F7F7F7;
-	
+
 		.section {
 			width: 50%;
 			text-align: center;

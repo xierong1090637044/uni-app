@@ -126,6 +126,7 @@
 				query.statTo("groupby", "opreater");
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
+				query.limit(1000);
 				query.find().then(res => {
 					let opreaterList = res
 					let count= 0 
@@ -138,19 +139,27 @@
 						query.equalTo("extra_type", "==", 1);
 						query.equalTo("createdAt", ">=", that.start_date);
 						query.equalTo("createdAt", "<=", that.end_date);
-						query.find().then(res => {
-							item.sellNum = res.length
-							item.sellPrice = 0
-							for(let record of res){
-								item.sellPrice += record.all_money
+						query.count().then(res => {
+							let opreaterCount = res
+							for (var i = 0; i < Math.ceil(opreaterCount / 500); i++) {
+								query.limit(500);
+								query.skip(500 * i);
+								query.find().then(res => {
+									item.sellNum = res.length
+									item.sellPrice = 0
+									for(let record of res){
+										item.sellPrice += record.all_money
+									}
+									
+									if(count == opreaterList.length -1){
+										that.opreaterList = opreaterList
+									}
+									console.log(res)
+									count +=1
+								})
 							}
-							
-							if(count == opreaterList.length -1){
-								that.opreaterList = opreaterList
-							}
-							console.log(res)
-							count +=1
 						})
+						
 					}
 					
 					that.getheaderData()
@@ -167,14 +176,22 @@
 				query.equalTo("extra_type", "==", 1);
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
-				query.find().then(res => {
-					console.log(res)
-					for(let item of res){
-						that.headerData.data1 += item.all_money?item.all_money:0
-						that.headerData.data2 += item.profit?item.profit:0
+				query.limit(500);
+				query.count().then(res => {
+					let count = res
+					for (var i = 0; i < Math.ceil(count / 500); i++) {
+						query.limit(500);
+						query.skip(500 * i);
+						query.find().then(res => {
+							for(let item of res){
+								that.headerData.data1 += item.all_money?item.all_money:0
+								that.headerData.data2 += item.profit?item.profit:0
+							}
+							that.headerData.data3 += res.length
+						});
 					}
-					that.headerData.data3 += res.length
-				});
+				})
+				
 			}
 		}
 	}

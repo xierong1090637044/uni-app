@@ -195,9 +195,9 @@ export default {
 						if (res[i].type == 1) {
 							get_reserve += res[i].num;
 							if(res[i].goodsId){
-								get_reserve_real_money += 0;
-							}else{
 								get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
+							}else{
+								get_reserve_real_money += 0;
 							}
 							
 							//get_reserve_num += res[i].total_money;
@@ -208,9 +208,9 @@ export default {
 							out_reserve += res[i].num;
 							
 							if(res[i].goodsId){
-								out_reserve_real_money += 0;
-							}else{
 								out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
+							}else{
+								out_reserve_real_money += 0;
 							}
 							
 							//out_reserve_num += res[i].total_money;
