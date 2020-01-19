@@ -244,11 +244,11 @@
 								rights = res.rights.current;
 								recordRights = res.rights.recodecurrent;
 								
-								if(res.rights.analysisCurrent.indexOf("0") !=-1){
+								if(res.rights.analysisCurrent && res.rights.analysisCurrent.indexOf("0") !=-1){
 									that.analysisModule = analysisLists
 								}
 								
-								if(res.rights.moneyCurrent.indexOf("0") !=-1){
+								if(res.rights.moneyCurrent &&res.rights.moneyCurrent.indexOf("0") !=-1){
 									that.financeModule = financeLists
 								}
 								
@@ -256,11 +256,11 @@
 								rights = uni.getStorageSync("user").rights.current;
 								recordRights = uni.getStorageSync("user").rights.recodecurrent;
 								
-								if(uni.getStorageSync("user").rights.analysisCurrent.indexOf("0") !=-1){
+								if(res.rights.analysisCurrent &&uni.getStorageSync("user").rights.analysisCurrent.indexOf("0") !=-1){
 									that.analysisModule = analysisLists
 								}
 								
-								if(uni.getStorageSync("user").rights.moneyCurrent.indexOf("0") !=-1){
+								if(res.rights.moneyCurrent &&uni.getStorageSync("user").rights.moneyCurrent.indexOf("0") !=-1){
 									that.financeModule = financeLists
 								}
 							}
