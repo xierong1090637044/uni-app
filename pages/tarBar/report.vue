@@ -21,14 +21,14 @@
 					</view>
 				</view>
 				<view style="width: 30%;">
-					<view class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;">
+					<navigator class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;" hover-class="none" url="/pages/report/warningGoods/warningGoods">
 						<view>预警产品</view>
 						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.warn_num}}</view>
-					</view>
-					<view class="itemC" style="background: #ff8282;color: #fff;">
+					</navigator>
+					<navigator class="itemC" style="background: #ff8282;color: #fff;" hover-class="none" url="/pages/report/warningGoods/warningGoods">
 						<view>高储产品</view>
 						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.over_num}}</view>
-					</view>
+					</navigator>
 				</view>
 			</view>
 		</view>
@@ -176,7 +176,7 @@
 					that.noticeText = res
 				})
 
-				if (that.user.rights.othercurrent.indexOf("4") != -1) {
+				if (uni.getStorageSync("identity") == 2  &&that.user.rights.othercurrent.indexOf("4") != -1) {
 					that.staffCan.see = true
 				}
 

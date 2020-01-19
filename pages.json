@@ -221,6 +221,16 @@
 		}, {
 			"path": "pages/test/test",
 			"style": {}
+		}, {
+			"path": "pages/thanks/thanks",
+			"style": {
+				"navigationBarTitleText": "特别感谢"
+			}
+		}, {
+			"path": "pages/report/warningGoods/warningGoods",
+			"style": {
+				"navigationBarTitleText": "库存预警"
+			}
 		}
 	],
 

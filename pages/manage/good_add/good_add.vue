@@ -292,9 +292,10 @@
 				query.equalTo("header", "==", now_product.objectId);
 				query.include("stocks");
 				query.find().then(res => {
+					that.reserve = 0;
 					for (let item of res) {
 						count += 1;
-						//that.reserve += item.reserve
+						that.reserve += item.reserve
 						item.stocks.reserve = item.reserve
 						item.stocks.good_id = item.objectId
 						warehouse.push(item.stocks)
@@ -341,69 +342,67 @@
 			}
 		},
 		onShow() {
-			if(that.text_desc =="保存"){ //修改的状态时触发
-				let stocksReserve
-				if (uni.getStorageSync("warehouse")) {
-					that.reserve = 0
-					if (that.addType == 'single') {
-						let newStock = []
-						let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync(
-							"warehouse")[0]
-						stockItem.reserve = stockItem.reserve ? stockItem.reserve : 0
-						newStock.push(stockItem)
-						uni.setStorageSync("warehouse", newStock)
-				
-						stocksReserve = uni.getStorageSync("warehouse")
-						that.stock_name = uni.getStorageSync("warehouse")[0].stock_name
-					} else {
-						stocksReserve = uni.getStorageSync("warehouse")
-					}
-				
+			let stocksReserve
+			if (uni.getStorageSync("warehouse")) {
+				that.reserve = 0
+				if (that.addType == 'single') {
+					let newStock = []
+					let stockItem = uni.getStorageSync("warehouse")[0].stock ? uni.getStorageSync("warehouse")[0].stock : uni.getStorageSync(
+						"warehouse")[0]
+					stockItem.reserve = stockItem.reserve ? stockItem.reserve : 0
+					newStock.push(stockItem)
+					uni.setStorageSync("warehouse", newStock)
+
+					stocksReserve = uni.getStorageSync("warehouse")
+					that.stock_name = uni.getStorageSync("warehouse")[0].stock_name
+				} else {
+					stocksReserve = uni.getStorageSync("warehouse")
+				}
+
+				for (let item of stocksReserve) {
+					that.reserve += Number(item.reserve)
+				}
+
+				if (uni.getStorageSync("now_model") && that.productMoreG) {
 					for (let item of stocksReserve) {
+						if (item.now_model) {} else {
+							let now_model = uni.getStorageSync("now_model")
+							for (let model of now_model) {
+								model.reserve = 0
+							}
+							item.now_model = now_model
+						}
+					}
+					uni.setStorageSync("warehouse", stocksReserve)
+				}
+			} else {
+				that.reserve = 0
+				if (that.productMoreG && uni.getStorageSync("now_model")) {
+					for (let item of uni.getStorageSync("now_model")) {
 						that.reserve += Number(item.reserve)
 					}
-				
-					if (uni.getStorageSync("now_model") && that.productMoreG) {
-						for (let item of stocksReserve) {
-							if (item.now_model) {} else {
-								let now_model = uni.getStorageSync("now_model")
-								for (let model of now_model) {
-									model.reserve = 0
-								}
-								item.now_model = now_model
-							}
-						}
-						uni.setStorageSync("warehouse", stocksReserve)
-					}
-				} else {
-					that.reserve = 0
-					if (that.productMoreG && uni.getStorageSync("now_model")) {
-						for (let item of uni.getStorageSync("now_model")) {
-							that.reserve += Number(item.reserve)
-						}
-					}
-				
 				}
+
 			}
-			
+
 			if (uni.getStorageSync("category")) {
 				that.category = uni.getStorageSync("category")
-			
+
 				if (that.category.type == 2) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-			
+
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-			
+
 					console.log(that.category.parent.objectId, that.category.objectId)
 				} else {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
 				}
-			
+
 			}
-			
+
 		},
 
 		onUnload() {
@@ -552,9 +551,9 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
-				
-				if(good.max_num !=""&&good.warning_num !=""){
-					if(Number(good.max_num) <=Number(good.warning_num)){
+
+				if (good.max_num != "" && good.warning_num != "") {
+					if (Number(good.max_num) <= Number(good.warning_num)) {
 						uni.showToast({
 							title: "最大库存数须大于预警数",
 							icon: "none"
@@ -610,22 +609,21 @@
 				query.set("packingUnit", good.packingUnit)
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
-				
-				if(good.warning_num == "" &&good.max_num == "")
-				{
+
+				if (good.warning_num == "" && good.max_num == "") {
 					query.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足
-				}else{
+				} else {
 					if (good.warning_num != "") {
 						query.set("warning_num", Number(good.warning_num))
 						query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
 					}
-					
+
 					if (good.max_num != "") {
 						query.set("max_num", Number(good.max_num))
 						query.set("stocktype", (Number(good.max_num) <= Number(that.reserve)) ? 2 : 1) //库存数量类型 2代表库存过足 1代表库存充足
 					}
 				}
-				
+
 				///query.set("product_state", good.product_state) //改产品是否是半成品
 				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
 				if (stocksReserve.length > 0) {
@@ -657,7 +655,7 @@
 								res.set("costPrice", good.costPrice ? good.costPrice.toString() : '0')
 								res.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 								res.set("goodsName", good.goodsName)
-								
+
 								if (good.warning_num != "") {
 									res.set("warning_num", Number(good.warning_num))
 								}

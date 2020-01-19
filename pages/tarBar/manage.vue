@@ -133,6 +133,10 @@
 			icon: 'gg',
 			url: '/pages/analysis/goodSell/goodSell',
 		},{
+			name: '预警产品',
+			icon: 'exclamation-circle',
+			url: '/pages/report/warningGoods/warningGoods',
+		},{
 			name: '客户销售',
 			icon: 'id-card-o',
 			url: '/pages/analysis/customSell/customSell',
