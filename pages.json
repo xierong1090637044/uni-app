@@ -442,6 +442,12 @@
 					}
 				},
 				{
+					"path": "staff/authAdd/authAdd",
+					"style": {
+						"navigationBarTitleText": "权限分配"
+					}
+				},
+				{
 					"path": "good_add/moreModel/moreModel",
 					"style": {
 						"navigationBarTitleText": "多规格设置"

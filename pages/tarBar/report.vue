@@ -1,6 +1,6 @@
 <template>
 	<!--当月详情-->
-	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true" v-if="identity == 1">
+	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true" v-if="identity == 1 ||staffCan.see">
 		<view class="Item">
 			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">商品分析</view>
 			<view class="display_flex_bet">
@@ -38,7 +38,7 @@
 			<fa-icon type="lightbulb-o" size="20" color="#426ab3"></fa-icon>
 			<swiper vertical="true" style="color: #333 !important;width: 100%;margin-left: 20rpx;height: 110rpx;" v-if="noticeText.length > 0">
 				<swiper-item class="item" v-for="(item,index) in noticeText" :key="index">
-					
+
 					<view class="display_flex_bet" style="width: 100%;height: 100%;" hover-class="none" :url="item.link">
 						<view style="font-weight: bold;width: 90%;line-height: 44rpx;" class="text_overflow_2">{{item.content}}</view>
 						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
@@ -142,7 +142,7 @@
 			return {
 				achartShow: true,
 				now_day: common.getDay(0),
-				user: uni.getStorageSync("user"),
+				user: "",
 				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				noticeText: '', //首页消息提示内容
@@ -157,6 +157,9 @@
 				}, //产品分析的数据
 				customsAnalysis: {}, //客户分析的数据
 				producersAnalysis: {}, //客户分析的数据
+				staffCan: {
+					see: false
+				} //员工权限
 			}
 		},
 		onLoad(options) {
@@ -168,13 +171,17 @@
 			if (uni.getStorageSync("user")) {
 				that.loadallGoods();
 				that.user = uni.getStorageSync("user")
-				that.achartShow = true,
-					notice.getNoticeList().then(res => {
-						that.noticeText = res
-					})
+				that.achartShow = true;
+				notice.getNoticeList().then(res => {
+					that.noticeText = res
+				})
+
+				if (that.user.rights.othercurrent.indexOf("4") != -1) {
+					that.staffCan.see = true
+				}
 
 				mine.getMineInfo().then(res => {
-					console.log(res)
+
 					if (res.disabled) {
 						setTimeout(function() {
 							uni.showToast({

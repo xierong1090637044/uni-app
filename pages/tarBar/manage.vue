@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		
-		<view style="background: #FFFFFF;padding:20rpx;margin: 30rpx 0;" v-if="identity == 1">
+		<view style="background: #FFFFFF;padding:20rpx;margin: 30rpx 0;" v-if="financeModule.length > 0">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">财务模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in financeModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -41,7 +41,7 @@
 		</view>
 		
 		
-		<view style="background: #FFFFFF;padding:20rpx;margin: 30rpx 0;" v-if="identity == 1">
+		<view style="background: #FFFFFF;padding:20rpx;margin: 30rpx 0;" v-if="analysisModule.length > 0">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -76,34 +76,12 @@
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1',
 		},
-		/*{
-			name: '采购记录',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=1',
-		},
-		{
-			name: '销售记录',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=1',
-		},*/
 		{
 			name: '调拨记录',
 			notice: '调拨记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
 		},
-		/*{
-			name: '销售退货记录',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=4',
-			color: "#b3b242"
-		},{
-			name: '销售退货记录',
-			notice: '旧版销售退货记录，即将移除',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=2',
-			color: "#b04fbb"
-		},*/
 		{
 			name: '盘点记录',
 			notice: '盘点记录',
@@ -261,9 +239,26 @@
 							if (res) {
 								rights = res.rights.current;
 								recordRights = res.rights.recodecurrent;
+								
+								if(res.rights.analysisCurrent.indexOf("0") !=-1){
+									that.analysisModule = analysisLists
+								}
+								
+								if(res.rights.moneyCurrent.indexOf("0") !=-1){
+									that.financeModule = financeLists
+								}
+								
 							} else {
 								rights = uni.getStorageSync("user").rights.current;
 								recordRights = uni.getStorageSync("user").rights.recodecurrent;
+								
+								if(uni.getStorageSync("user").rights.analysisCurrent.indexOf("0") !=-1){
+									that.analysisModule = analysisLists
+								}
+								
+								if(uni.getStorageSync("user").rights.moneyCurrent.indexOf("0") !=-1){
+									that.financeModule = financeLists
+								}
 							}
 							let manage_rights = []
 							let record_rights = []

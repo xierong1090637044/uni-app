@@ -310,8 +310,12 @@
 				let user = uni.getStorageSync("user")
 
 				if (url) {
-					if (index == 0) {
-						if (user.is_vip) {
+					if (index == 0) { //添加产品
+					const query = Bmob.Query("Goods");
+					query.equalTo("userId", "==", uid);
+					query.find().then(res => {
+						let productList = res
+						if (user.is_vip || productList.length < 30) {
 							uni.navigateTo({
 								url: url
 							})
@@ -321,6 +325,8 @@
 								icon: "none"
 							})
 						}
+					})
+						
 					} else {
 						uni.navigateTo({
 							url: url

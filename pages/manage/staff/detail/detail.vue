@@ -83,13 +83,14 @@
 					for(let record of res){
 						that.sellRecord.sellPrice += record.all_money
 					}
-					
-					console.log(that.sellRecord)
 				})
 			}
 		},
+		
+		onShow() {
+			uni.removeStorageSync("staffRights")
+		},
 		methods: {
-
 			show_options() {
 				uni.showActionSheet({
 					itemList: ["编辑", "删除"],

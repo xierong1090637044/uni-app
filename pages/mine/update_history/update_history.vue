@@ -15,11 +15,12 @@
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.1.3 公测版</text>
-						<text class="desc-time">2020.01.08</text>
+						<text class="desc-time">2020.01.19</text>
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>版本优化升级，新增新版的销售，采购流程以及退货流程</text>
+						<text>员工权限分配优化</text>
 						<text>整体页面样式风格优化</text>
 						<text>新增看板页面</text>
 						<text>新增财务模块</text>
