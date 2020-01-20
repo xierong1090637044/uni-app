@@ -105,7 +105,6 @@
 				inMoney: 0,
 				outMoney: 0,
 				debt_list: [],
-				loading: true,
 			}
 		},
 		
@@ -125,7 +124,7 @@
 			},
 
 			getList() {
-				console.log(uid)
+				let opreationList = []
 				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query("order_opreations");
 				if (accountId) {
@@ -138,21 +137,37 @@
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.equalTo("real_money", ">", 0);
 				query.include("opreater", "account", "custom", "producer", "secondClass", "fristClass");
-				query.order("-createdAt")
-				query.find().then(res => {
-					that.loading = false
-					that.debt_list = res
-
-					for (let item of res) {
-						if (item.type == -1) {
-							that.inMoney += item.real_money
-						} else if (item.type == 1) {
-							that.outMoney += item.real_money
+				query.order("-createdAt");
+				query.limit(500);
+				query.count().then(res => {
+					let opreaterCount = res
+					if(opreaterCount == 0){
+						uni.hideLoading()
+						return
+					}else{
+						for (var i = 0; i < Math.ceil(opreaterCount / 500); i++) {
+							query.limit(500);
+							query.skip(500 * i);
+							query.find().then(res => {
+								for (let item of res) {
+									if (item.type == -1) {
+										that.inMoney += item.real_money
+									} else if (item.type == 1) {
+										that.outMoney += item.real_money
+									}
+									opreationList.push(item)
+								}
+								
+								if(i == Math.ceil(opreaterCount / 500)){
+									that.debt_list = opreationList
+									uni.hideLoading()
+								}
+								
+							})
 						}
 					}
 					
-					uni.hideLoading()
-				});
+				})
 			}
 		},
 		onLoad(options) {

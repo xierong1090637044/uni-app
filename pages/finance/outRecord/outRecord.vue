@@ -240,7 +240,7 @@
 				if (that.type == "record") {
 					const query = Bmob.Query('accounts');
 					query.get(that.account.objectId).then(res => {
-						res.set('money', res.money + Number(that.real_money));
+						res.set('money', res.money - Number(that.real_money));
 						res.save().then(res => {
 							
 							let account = Bmob.Pointer('accounts');
@@ -307,7 +307,7 @@
 							res.save().then(res => {
 								const query = Bmob.Query('accounts');
 								query.get(that.account.objectId).then(res => {
-									res.set('money', res.money + Number(that.real_money));
+									res.set('money', res.money - Number(that.real_money));
 									res.save().then(res => {
 										let producer = Bmob.Pointer('producers');
 										let producerID = producer.set(that.producer.objectId);
