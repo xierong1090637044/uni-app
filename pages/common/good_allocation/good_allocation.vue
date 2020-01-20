@@ -79,7 +79,15 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
-					console.log(res)
+					if(res.length == 0){
+						uni.showToast({
+							icon:"none",
+							title:"没有此产品"
+						})
+						uni.hideLoading();
+						return;
+					}
+					
 					if (res[0].status == -1) {
 						uni.showToast({
 							title: "该产品已删除",
@@ -116,7 +124,14 @@
 						}
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
-							console.log(res)
+							if(res.length == 0){
+								uni.showToast({
+									icon:"none",
+									title:"没有此产品"
+								})
+								uni.hideLoading();
+								return;
+							}
 							if (res[0].status == -1) {
 								uni.showToast({
 									title: "该产品已删除",

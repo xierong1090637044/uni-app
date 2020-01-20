@@ -17,7 +17,7 @@
 									<checkbox-group @change="checkstockChange" v-if="current.indexOf('2') != -1">
 										<view class="display_flex rights_item" v-for="(item,index) in stocks" :key="index">
 											<checkbox :value="item.objectId" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
-											<text style="margin-left: 20rpx;">{{item.name}}</text>
+											<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 										</view>
 									</checkbox-group>
 								</view>
@@ -36,7 +36,7 @@
 							<checkbox-group @change="checkboxChangeMoney">
 								<view class="display_flex rights_item" v-for="(item,index) in moneyAuth" :key="''+index">
 									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
-									<text style="margin-left: 20rpx;">{{item.name}}</text>
+									<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
 						</view>
@@ -51,7 +51,7 @@
 							<checkbox-group @change="checkboxChange_record">
 								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="''+index">
 									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
-									<text style="margin-left: 20rpx;">{{item.name}}</text>
+									<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
 						</view>
@@ -66,7 +66,7 @@
 							<checkbox-group @change="checkboxChangeAnalysis">
 								<view class="display_flex rights_item" v-for="(item,index) in analysisAuth" :key="''+index">
 									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
-									<text style="margin-left: 20rpx;">{{item.name}}</text>
+									<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
 						</view>
@@ -323,5 +323,7 @@
 </script>
 
 <style>
-
+.rights_item{
+	padding: 6rpx 0;
+}
 </style>

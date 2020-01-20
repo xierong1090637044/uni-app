@@ -124,8 +124,16 @@
 				query.equalTo("status", "!=", -1);
 				query.include("stocks");
 				query.find().then(res => {
-					console.log(res)
-			
+					
+					if(res.length == 0){
+						uni.showToast({
+							icon:"none",
+							title:"没有此产品"
+						})
+						uni.hideLoading();
+						return;
+					}
+					
 					if(res[0].order == 0){
 						query.equalTo("userId", "==", uid);
 						query.equalTo("header", "==", res[0].objectId);
@@ -209,6 +217,15 @@
 						query.equalTo("userId", "==", uid);
 						query.include("stocks");
 						query.find().then(res => {
+							if(res.length == 0){
+								uni.showToast({
+									icon:"none",
+									title:"没有此产品"
+								})
+								uni.hideLoading();
+								return;
+							}
+							
 							if(res[0].order == 0){
 								query.equalTo("userId", "==", uid);
 								query.equalTo("header", "==", res[0].objectId);

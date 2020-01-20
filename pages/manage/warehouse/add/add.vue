@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="start_add">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="textDesc" @click-right="start_add">
 			<view></view>
 		
 		</uni-nav-bar>
@@ -28,7 +28,7 @@
 			</view>
 			<view class="display_flex item">
 				<text style="margin-right: 6rpx;">排序</text><text style="color: #d93a49;margin-right: 20rpx;">*</text>
-				<input placeholder="请输入排序(数值越小,排列越靠前)" v-model="warehouse_num" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
+				<input placeholder="请输入排序(数值越大,排列越靠前)" v-model="warehouse_num" type="number" maxlength="11" style="width: calc(100% - 200rpx)" />
 			</view>
 
 			<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
@@ -81,6 +81,7 @@
 		},
 		data() {
 			return {
+				textDesc:"添加",
 				user:uni.getStorageSync("user"),
 				Images:[],//上传凭证图
 				warehouse_name: '', //名称
@@ -98,18 +99,18 @@
 
 		onShow() {
 			warehouse = uni.getStorageSync("warehouse");
-			charge = uni.getStorageSync("charge");
 			shop = uni.getStorageSync("shop");
 			
-
 			if (warehouse) {
+				charge = warehouse.Ncharge
 				that.Images = warehouse.Image || []
 				that.warehouse_name = warehouse.stock_name
 				that.warehouse_shop = warehouse.shop
 				that.warehouse_num = warehouse.num
-				that.warehouse_charge = warehouse.charge
+				that.warehouse_charge = warehouse.Ncharge.nickName
 				that.warehouse_beizhu = warehouse.beizhu
 				that.disabled = !warehouse.disabled;
+				that.textDesc = "修改";
 				uni.setNavigationBarTitle({
 					title: '修改仓库信息'
 				});
@@ -126,8 +127,11 @@
 				shopId = pointer.set(shop.objectId);
 			}
 			
-			that.warehouse_charge = charge.username
-
+			if(uni.getStorageSync("charge")){
+				charge = uni.getStorageSync("charge");
+				that.warehouse_charge = charge.username
+			}
+			
 		},
 		
 		onUnload() {
@@ -199,8 +203,14 @@
 						uni.hideLoading();
 						console.log(res)
 						uni.showToast({
+							icon:"none",
 							title: "修改成功"
 						})
+						setTimeout(function(){
+							uni.navigateBack({
+								delta:1
+							})
+						},1000)
 					}).catch(err => {
 						console.log(err)
 
