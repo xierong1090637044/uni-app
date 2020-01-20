@@ -8,14 +8,14 @@
 			</view>
 
 			<scroll-view class="content" scroll-y="true" v-if="logsList && logsList.length > 0">
-				<navigator v-for="(item,index) in logsList" :key="index" class="list_item" hover-class="none" :url="'/pages/report/EnteringHistory/detail/detail?id='+item.detail_id">
+				<view v-for="(item,index) in logsList" :key="index" class="list_item"  @click="gotoDet(item)">
 					<view class="display_flex">
 						<fa-icon type="info-circle" size="20" color="#426ab3"></fa-icon>
 						<view class="information">{{item.log}}</view>
 					</view>
 					
 					<view class="option_time">记录于{{item.createdAt}}</view>
-				</navigator>
+				</view>
 				
 			</scroll-view>
 			<view v-else  class="content">
@@ -90,6 +90,23 @@
 						console.log(common.getDay(-365, true))
 					}
 				}
+			},
+			
+			//点击去到详情
+			gotoDet(item){
+				let url
+				if(item.type == 6){ //手动记录账户金额跳转
+					url="/pages/finance/recordDetail/recordDetail?id="+item.detail_id
+				}else if(item.type ==5){ //产品详情改动跳转
+					url="/pages/manage/good_det/Ngood_det?id="+item.detail_id+"&type=false"
+				}else if(item.type ==-11 || item.type ==11){ //新版销售采购详情跳转
+					url="/pages/report/EnteringHistory/SellDetail/SellDetail?id="+item.detail_id
+				}else{//操作详情跳转
+					url='/pages/report/EnteringHistory/detail/detail?id='+item.detail_id
+				}
+				uni.navigateTo({
+					url:url
+				})
 			},
 
 			//得到日志列表

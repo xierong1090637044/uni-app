@@ -40,14 +40,14 @@
 		<view>
 			<view style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">销售排行</view>
 			
-			<navigator v-for="(staff,index) in opreaterList" :key="index" hover-class="none" :url="'/pages/manage/staff/detail/detail?start_date='+start_date+'&end_date='+end_date" @click="StorageSync(staff.opreater)">
+			<navigator v-for="(staff,index) in opreaterList" :key="index" hover-class="none" :url="'/pages/manage/staff/detail/detail?start_date='+start_date+'&end_date='+end_date" @click="StorageSync(staff)">
 				<view class='content'>
 					<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
 					<view class="display_flex_bet">
 						<view class="display_flex">
 							<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
 							<view>
-								<view class='staff_name'>{{staff.opreater.nickName}}</view>
+								<view class='staff_name'>{{staff.nickName}}</view>
 								<view class='staff_mobile display_flex'>
 									<view>销售笔数 {{staff.sellNum}}</view>
 									<view style="margin-left: 10rpx;">销售额 {{staff.sellPrice}}</view>
@@ -116,24 +116,18 @@
 			},
 			
 			getdetail(){
-				const query = Bmob.Query("order_opreations");
-				query.equalTo("master", "==", uid);
-				query.include("opreater");
-				//query.statTo("sum", "num");
-				query.equalTo("type", "==", -1);
-				query.equalTo("status", "==", true);
-				query.equalTo("extra_type", "==", 1);
-				query.statTo("groupby", "opreater");
-				query.equalTo("createdAt", ">=", that.start_date);
-				query.equalTo("createdAt", "<=", that.end_date);
-				query.limit(1000);
+				uni.showLoading({title:"加载中..."})
+				const query = Bmob.Query("_User");
+				const query1 = query.equalTo("objectId", '==', uid);
+				const query2 = query.equalTo("masterId", '==', uid);
+				query.or(query1, query2);
 				query.find().then(res => {
-					let opreaterList = res
-					let count= 0 
+					console.log(res)
+					let opreaterList = res 
 					for(let item of opreaterList){
 						const query = Bmob.Query("order_opreations");
 						query.equalTo("master", "==", uid);
-						query.equalTo("opreater", "==", item.opreater.objectId);
+						query.equalTo("opreater", "==", item.objectId);
 						query.equalTo("type", "==", -1);
 						query.equalTo("status", "==", true);
 						query.equalTo("extra_type", "==", 1);
@@ -141,25 +135,31 @@
 						query.equalTo("createdAt", "<=", that.end_date);
 						query.count().then(res => {
 							let opreaterCount = res
-							for (var i = 0; i < Math.ceil(opreaterCount / 500); i++) {
-								query.limit(500);
-								query.skip(500 * i);
-								query.find().then(res => {
-									item.sellNum = res.length
-									item.sellPrice = 0
-									for(let record of res){
-										item.sellPrice += record.all_money
-									}
-									
-									if(count == opreaterList.length -1){
-										that.opreaterList = opreaterList
-									}
-									console.log(res)
-									count +=1
-								})
+							
+							if(opreaterCount == 0){
+								opreaterList[0].sellNum = 0
+								opreaterList[0].sellPrice = 0
+								that.opreaterList = opreaterList
+								uni.hideLoading()
+							}else{
+								for (var i = 0; i < Math.ceil(opreaterCount / 500); i++) {
+									query.limit(500);
+									query.skip(500 * i);
+									query.find().then(res => {
+										item.sellNum = res.length
+										item.sellPrice = 0
+										for(let record of res){
+											item.sellPrice += record.all_money
+										}
+										
+										if(i == Math.ceil(opreaterCount / 500)){
+											that.opreaterList = opreaterList
+											uni.hideLoading()
+										}
+									})
+								}
 							}
 						})
-						
 					}
 					
 					that.getheaderData()

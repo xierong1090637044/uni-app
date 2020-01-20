@@ -402,12 +402,7 @@
 								complete: function() {
 									//common.enterAddGoodNum(that.products) //添加产品数量
 									setTimeout(() => {
-
-										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName +
-											"'等" +
-											that.products
-											.length + "商品", 1, operationId);
-
+										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName +"'等" +that.products.length + "商品", 11, operationId);
 										//自动打印
 										/*if (uni.getStorageSync("setting").auto_print) {
 											print.autoPrint(operationId);

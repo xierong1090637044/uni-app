@@ -239,7 +239,7 @@
 					return;
 				}
 
-				if (that.type == "record") {
+				if (that.type == "record") { //手动记录收入
 					const query = Bmob.Query('accounts');
 					query.get(that.account.objectId).then(res => {
 						res.set('money', res.money + Number(that.real_money));
@@ -274,8 +274,7 @@
 							query.save().then(res => {
 								this.button_disabled = false;
 
-								common.log(uni.getStorageSync("user").nickName + "记录了'" + that.custom.custom_name + "'收款￥" +
-									that.real_money + "元", 6, res.objectId);
+								common.log(uni.getStorageSync("user").nickName + "记录了收款￥" +that.real_money + "元", 6, res.objectId);
 
 								uni.navigateBack({
 									delta: 1

@@ -538,7 +538,7 @@
 												uni.removeStorageSync("warehouse")
 
 												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品，并且已经出库", -1, operationId);
+													that.products.length + "商品，并且已经出库", -11, operationId);
 												//自动打印
 												if (uni.getStorageSync("setting").auto_print) {
 													print.autoPrint(operationId);
@@ -568,7 +568,7 @@
 											uni.removeStorageSync("warehouse")
 
 											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
-												.length + "商品，暂未出库", -1, res.objectId);
+												.length + "商品，暂未出库", -11, res.objectId);
 
 											uni.redirectTo({
 												url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,

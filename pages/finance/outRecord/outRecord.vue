@@ -274,8 +274,7 @@
 
 								uni.removeStorageSync("account")
 								that.producer = res
-								common.log(uni.getStorageSync("user").nickName + "记录了'" + that.producer.producer_name +
-									"'付款￥" + that.real_money + "元", 6, res.objectId);
+								common.log(uni.getStorageSync("user").nickName + "记录了付款￥" + that.real_money + "元", 6, res.objectId);
 								
 								uni.navigateBack({
 									delta: 1

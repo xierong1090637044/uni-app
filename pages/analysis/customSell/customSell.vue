@@ -111,7 +111,6 @@
 				query.count().then(res => {
 					let count = res;
 					let newArrar = [];
-					let key = 0;
 					if(count == 0){
 						uni.hideLoading()
 						return
@@ -127,14 +126,12 @@
 								}
 							}
 							
-							if(key == Math.ceil(count / 500) - 1){
+							if(i == Math.ceil(count / 500)){
 								that.goodSellList = newArrar.sort(function(a, b) {
 									return b._sumNum - a._sumNum
 								})
 								uni.hideLoading()
 							}
-							
-							key +=1
 						});
 					}
 				})

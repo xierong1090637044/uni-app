@@ -6,8 +6,8 @@
 			<view class="left_content">
 				<view style="height: 100vh;overflow: scroll;">
 					<view v-for="(item,index) in frist_class" :key="index" :class="selected_id===item.objectId?'selectd_item':''"
-					 class="class_item" >
-						<view class="class_texxt_view" @click="get_second_category(item.objectId,index)" style="font-weight: bold;">{{item.class_text}}</view>
+					 class="class_item"  @click="get_second_category(item.objectId,index)">
+						<view class="class_texxt_view" style="font-weight: bold;">{{item.class_text}}</view>
 						<view>
 							<view>总库存：{{item.reserve}}</view>
 							<view>总成本：{{item.allCostPrice}}</view>
