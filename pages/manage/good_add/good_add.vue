@@ -262,12 +262,15 @@
 				that.category = uni.getStorageSync("category")
 
 				if (that.category.type == 2) {
-					let pointer2 = Bmob.Pointer('class_user')
-					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
-
-					let pointer3 = Bmob.Pointer('second_class')
-					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
-
+					if(that.category.parent.objectId){
+						let pointer2 = Bmob.Pointer('class_user')
+						p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
+					}
+					
+					if(that.category.objectId){
+						let pointer3 = Bmob.Pointer('second_class')
+						p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+					}
 					console.log(that.category.parent.objectId, that.category.objectId)
 				} else {
 					let pointer2 = Bmob.Pointer('class_user')

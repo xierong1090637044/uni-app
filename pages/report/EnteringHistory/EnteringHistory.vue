@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<view>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"></uni-nav-bar>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="筛选" @click-right="shaixuan_click"
+			 :left-text="operaterTypeDesc" @click-left="select_operatertype"></uni-nav-bar>
 
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('all')">
@@ -30,8 +31,8 @@
 				<view class='page'>
 					<scroll-view class='page' scroll-y="true" v-if="list.length > 0">
 						<view class='list-item'>
-							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item.objectId)'>
-								<view style='display:flex;width:calc(100% - 120rpx);'>
+							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item)'>
+								<view style='display:flex;width:100%;'>
 									<view style='line-height:80rpx'>
 										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
 										<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
@@ -40,37 +41,51 @@
 										<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
 										<fa-icon v-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
 									</view>
-									<view style='margin-left:20rpx'>
-										<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
+									<view style='margin-left:20rpx;width: 100%;'>
+										<view class="display_flex_bet">
+											<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
+											<view v-if='item.type == -1'>
+												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+													<text>销售</text>
+												</view>
+												<view v-else-if="item.extra_type == 4" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+													<text>采购退货</text>
+												</view>
+												<view v-else class='order_get'>
+													<text>出库</text>
+												</view>
+											</view>
+											<view v-if='item.type == 1'>
+												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+													<text>采购</text>
+												</view>
+												<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
+													<text>生产入库</text>
+												</view>
+												<view v-else-if="item.extra_type == 4" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
+													<text>销售退货</text>
+												</view>
+												<view v-else class='order_get'>
+													<text>入库</text>
+												</view>
+											</view>
+											<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
+											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
+											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
+											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
+										</view>
+
 										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>仓库：</text>{{item.stock.stock_name}}</view>
-										<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+										<view class="display_flex_bet">
+											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
+											<view style="color: #999;" v-if="item.type !=-2">X{{item.real_num}}</view>
+										</view>
+
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 									</view>
 								</view>
-								<view v-if='item.type == -1'>
-									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-										<text>销售</text>
-									</view>
-									<view v-else class='order_get'>
-										<text>出库</text>
-									</view>
-								</view>
-								<view v-if='item.type == 1'>
-									<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-										<text>采购</text>
-									</view>
-									<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
-										<text>生产入库</text>
-									</view>
-									<view v-else class='order_get'>
-										<text>入库</text>
-									</view>
-								</view>
-								<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
-								<view v-else-if='item.type == 2' class='order_returning'>退货</view>
-								<view v-else-if='item.type == 3' class='order_counting' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">盘点</view>
-								<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
+
 							</view>
 						</view>
 
@@ -105,13 +120,13 @@
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
 				</navigator>
-				
+
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input"><input placeholder="选择仓库" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
-				
+
 					<view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</view>
@@ -169,7 +184,7 @@
 		},
 		data() {
 			return {
-				stock:'',
+				stock: '',
 				now_day: common.getDay(0, false),
 				end_day: common.getDay(1, false),
 				option_now_day: common.getDay(0, false),
@@ -181,10 +196,10 @@
 
 				showOptions: false, //是否显示筛选
 				is_checked: false,
-				data_change:false,
+				data_change: false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
-				operaterTypeDesc:'',// 操作类型描述
+				operaterTypeDesc: '', // 操作类型描述
 			}
 		},
 
@@ -197,36 +212,32 @@
 			uid = uni.getStorageSync("uid");
 
 			if (opeart_type == 1) {
-				that.operaterTypeDesc = "操作类型", 
+				that.operaterTypeDesc = "全部"
 				uni.setNavigationBarTitle({
-					title: (extra_type==2)?"入库记录":"采购记录"
+					title: "入库记录"
 				})
 			} else if (opeart_type == -1) {
-				that.operaterTypeDesc = "操作类型",
+				that.operaterTypeDesc = "全部"
 				uni.setNavigationBarTitle({
-					title:(extra_type==2)?"出库记录":"销售记录"
-				})
-			} else if (opeart_type == 2) {
-				uni.setNavigationBarTitle({
-					title: "退货记录"
-				})
-			} else if (opeart_type == 3) {
-				uni.setNavigationBarTitle({
-					title: "盘点记录"
+					title: "出库记录"
 				})
 			}
+
+			that.get_list()
 		},
 
 		onShow() {
 			if (uni.getStorageSync("charge")) {
 				that.staff = uni.getStorageSync("charge")
 			}
-			
+
 			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
 				that.stock = uni.getStorageSync("warehouse")[0].stock
 			}
-			
-			that.get_list()
+
+			if (uni.getStorageSync("is_option")) {
+				that.get_list()
+			}
 		},
 
 		onUnload() {
@@ -235,30 +246,46 @@
 		},
 
 		methods: {
-			
+
 			//选择操作类型
-			select_operatertype(){
+			select_operatertype() {
 				uni.showActionSheet({
-				    itemList:(opeart_type == 1)?['入库', '采购']:['出库', '销售'],
-				    success: function (res) {
-							if(opeart_type == 1){
-								if(res.tapIndex == 0){
-									that.operaterTypeDesc = "入库"
-								}else{
-									that.operaterTypeDesc = "采购"
-								}
-							}else if(opeart_type == -1){
-								if(res.tapIndex == 0){
-									that.operaterTypeDesc = "出库"
-								}else{
-									that.operaterTypeDesc = "销售"
-								}
+					itemList: (opeart_type == 1) ? ['全部','入库', '采购'] : ['全部','出库'],
+					success: function(res) {
+						if (opeart_type == 1) {
+							if (res.tapIndex == 0) {
+								that.operaterTypeDesc = "全部"
+								extra_type = ''
+							}else if (res.tapIndex == 1) {
+								that.operaterTypeDesc = "入库"
+								extra_type = 2
+							} else if (res.tapIndex == 2) {
+								that.operaterTypeDesc = "采购"
+								extra_type = 1
+							} else {
+								that.operaterTypeDesc = "销售退货"
+								extra_type = 4
 							}
-							that.get_list();
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
+						} else if (opeart_type == -1) {
+							if (res.tapIndex == 0) {
+								that.operaterTypeDesc = "全部"
+								extra_type = ''
+							}else if (res.tapIndex == 1) {
+								that.operaterTypeDesc = "出库"
+								extra_type = 2
+							} else if (res.tapIndex == 2) {
+								that.operaterTypeDesc = "销售"
+								extra_type = 1
+							} else {
+								that.operaterTypeDesc = "采购退货"
+								extra_type = 4
+							}
+						}
+						that.get_list();
+					},
+					fail: function(res) {
+						console.log(res.errMsg);
+					}
 				});
 			},
 
@@ -330,28 +357,35 @@
 
 			//得到列表
 			get_list() {
-				uni.showLoading({title:"加载中..."})
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', opeart_type);
+				if (extra_type) {
+					query.equalTo("extra_type", "==", extra_type);
+				}
 				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.userId.objectId);
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});
-				if(that.stock) query.equalTo("stock", "==", that.stock.objectId);
+				if (that.stock) query.equalTo("stockIds", "==", {
+					"$regex": "" + that.stock.objectId + ".*"
+				});
 				if (that.checked_option != 'all') {
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');
 				} else {
-					if (that.is_checked==true && that.data_change==true) {
+					if (that.is_checked == true && that.data_change == true) {
 						query.equalTo("createdAt", ">=", that.option_now_day + ' 00:00:00');
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
-				if(opeart_type == 1 ||opeart_type == -1) query.equalTo("extra_type", "==", extra_type);
+
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
-				query.include("opreater","stock");
+				query.include("opreater", "stock");
 				query.order("-createdAt");
 				query.find().then(res => {
 					//console.log(res)
@@ -361,17 +395,28 @@
 			},
 
 			//点击得到详情
-			get_detail: function(id) {
-				if(opeart_type == 5){
+			get_detail: function(item) {
+				if (item.extra_type == 5) {
 					wx.navigateTo({
-						url: 'productDet/productDet?id=' + id,
+						url: 'productDet/productDet?id=' + item.objectId,
 					})
-				}else{
-					wx.navigateTo({
-						url: 'detail/detail?id=' + id,
+				} else if (item.extra_type == 4) { //退货详情
+					uni.navigateTo({
+						url: 'returnDetail/returnDetail?id=' + item.objectId,
 					})
+				} else {
+					if (item.recordType == "new") {
+						wx.navigateTo({
+							url: 'SellDetail/SellDetail?id=' + item.objectId,
+						})
+					} else {
+						wx.navigateTo({
+							url: 'detail/detail?id=' + item.objectId,
+						})
+					}
+
 				}
-				
+
 			},
 		}
 	}
@@ -385,8 +430,8 @@
 		color: #3D3D3D;
 		background: #fafafa;
 	}
-	
-	.status_noconfrim{
+
+	.status_noconfrim {
 		border: 1prx solid#f30 !important;
 		color: #f30 !important;
 	}

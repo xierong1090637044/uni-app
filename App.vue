@@ -55,11 +55,23 @@
 <style lang="scss">
 	/*每个页面公共css */
 	@import 'uni.css';
+	@import "iconfont.css";
 	/* #ifdef MP-WEIXIN */
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
 	/* #endif */
-
+	
+	.o_headerItem {
+		width: 80rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		border-radius: 50%;
+		background: #2ca879;
+		line-height: 80rpx;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
 	.text_overflow {
 		overflow: hidden;
 		text-overflow: ellipsis;
