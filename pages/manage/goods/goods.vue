@@ -65,7 +65,8 @@
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
 			<view class="showOptions">
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" @click.stop="">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 @click.stop="">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">类别</view>
 						<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true"></input></view>
@@ -76,7 +77,8 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" @click.stop>
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 @click.stop>
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
@@ -143,13 +145,13 @@
 				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
-				checked_option: 'createdAt', //tab的筛选条件
+				checked_option: 'goodsName', //tab的筛选条件
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效
 				stock_checked: false,
 				search_text: '',
-				user:uni.getStorageSync("user")
+				user: uni.getStorageSync("user")
 			}
 		},
 
@@ -169,16 +171,17 @@
 		onShow() {
 			this.page_num = page_num
 			uni.removeStorageSync("now_product");
-			
+
 			that.category = uni.getStorageSync("category")
-			that.stock = uni.getStorageSync("warehouse")?uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock:''
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length -
+				1].stock : ''
 
 			if (uni.getStorageSync("is_add")) {
 				that.get_productList();
 			}
 
 		},
-		
+
 		//分享
 		onShareAppMessage: function(res) {
 			if (res.from === 'button') {
@@ -186,8 +189,8 @@
 				console.log(res.target)
 			}
 			return {
-				title: that.user.nickName+'的商品列表',
-				path: '/pages/shop/index/index?userId='+uid+"&nickName="+that.user.nickName
+				title: that.user.nickName + '的商品列表',
+				path: '/pages/shop/index/index?userId=' + uid + "&nickName=" + that.user.nickName
 			}
 		},
 
@@ -197,14 +200,14 @@
 			search_text = '';
 			page_size = 30;
 			that.category = "", //选择的类别
-			that.stock = "", //选择的仓库
-			that.checked = false, //选择的是否失效
-			that.stock_checked = false,
-			that.search_text = '',
-			that.page_num = 1,
-			page_num = 1,
+				that.stock = "", //选择的仓库
+				that.checked = false, //选择的是否失效
+				that.stock_checked = false,
+				that.search_text = '',
+				that.page_num = 1,
+				page_num = 1,
 
-			uni.removeStorageSync("is_add");
+				uni.removeStorageSync("is_add");
 		},
 
 		methods: {
@@ -251,28 +254,28 @@
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				
+
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.find().then(res => {
 					let productList = res
 					if (user.is_vip || productList.length < 30) {
 						wx.showActionSheet({
-						  itemList: ['多仓库添加', '单仓库添加'],
-						  success (res) {
-								if(res.tapIndex == 0){
+							itemList: ['多仓库添加', '单仓库添加'],
+							success(res) {
+								if (res.tapIndex == 0) {
 									uni.navigateTo({
 										url: "../good_add/good_add?type=more"
 									})
-								}else if(res.tapIndex == 1){
+								} else if (res.tapIndex == 1) {
 									uni.navigateTo({
 										url: "../good_add/good_add?type=single"
 									})
 								}
-						  },
-						  fail (res) {
-						    console.log(res.errMsg)
-						  }
+							},
+							fail(res) {
+								console.log(res.errMsg)
+							}
 						})
 					} else {
 						uni.showModal({
@@ -327,10 +330,12 @@
 
 			//头部的options选择
 			selectd(type) {
-				page_size = 50;
-				if(type == "stocktype"){
+				page_num = 1;
+				that.page_num = 1;
+				page_size = 30;
+				if (type == "stocktype") {
 					that.stock_checked = true;
-				}else{
+				} else {
 					that.stock_checked = false;
 				}
 				that.checked_option = type;
@@ -357,14 +362,14 @@
 			get_productList() {
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
-				
+
 				query.equalTo("status", "!=", -1);
-				if(that.stock && that.stock.objectId){
+				if (that.stock && that.stock.objectId) {
 					query.equalTo("stocks", "==", that.stock.objectId);
-				}else{
+				} else {
 					query.equalTo("order", "!=", 1);
 				}
-				
+
 				if (that.category.type == 1) {
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				} else {

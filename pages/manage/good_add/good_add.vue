@@ -662,6 +662,16 @@
 								if (good.max_num != "") {
 									res.set("max_num", Number(good.max_num))
 								}
+								
+								if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+									if (that.category.type == 1) {
+										res.set("goodsClass", p_class_user_id)
+									} else {
+										res.set("goodsClass", p_class_user_id)
+										res.set("second_class", p_second_class_id)
+									}
+								}
+								
 								that.productMoreG ? res.set("models", item.now_model) : ''
 								res.save()
 							}).catch(err => {
@@ -761,6 +771,16 @@
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)
 							queryObj.set("reserve", Number(stocksReserve[i].reserve))
+							
+							if (uni.getStorageSync("category")) { //存在此缓存证明选择了类别
+								if (that.category.type == 1) {
+									queryObj.set("goodsClass", p_class_user_id)
+								} else {
+									queryObj.set("goodsClass", p_class_user_id)
+									queryObj.set("second_class", p_second_class_id)
+								}
+							}
+							
 							if (good.warning_num != "") {
 								queryObj.set("warning_num", Number(good.warning_num))
 							}
