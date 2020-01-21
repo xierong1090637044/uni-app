@@ -291,7 +291,6 @@
 							that.confrim_next()
 						} else {
 							that.nextProducts = []
-							products = []
 							that.get_productList()
 							uni.showToast({
 								title: that.type == "allocation" ? "请在筛选中选择调拨的仓库" : "请在筛选中选择盘点的仓库",
