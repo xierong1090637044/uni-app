@@ -31,8 +31,8 @@
 					</view>
 
 					<view class="display_flex_bet">
-						<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num ?product.warning_num:0}}</text></view>
-						<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num ?product.max_num:0}}</text></view>
+						<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num>=0 ?product.warning_num:"未设置"}}</text></view>
+						<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num>=0 ?product.max_num:"未设置"}}</text></view>
 					</view>
 
 					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+product.objectId">

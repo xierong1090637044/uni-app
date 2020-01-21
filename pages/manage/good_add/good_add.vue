@@ -266,7 +266,6 @@
 				that.max_num = now_product.max_num
 				if (now_product.models) {
 					that.productMoreG = true
-
 					uni.setStorageSync("now_model", now_product.models)
 				}
 
@@ -298,6 +297,9 @@
 						that.reserve += item.reserve
 						item.stocks.reserve = item.reserve
 						item.stocks.good_id = item.objectId
+						if (item.models) {
+							item.now_model = item.models
+						}
 						warehouse.push(item.stocks)
 					}
 
