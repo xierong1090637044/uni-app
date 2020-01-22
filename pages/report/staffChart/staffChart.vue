@@ -37,10 +37,11 @@
 			</view>
 		</view>
 
-		<view>
+		<scroll-view scroll-y="true" style="height: calc(100vh - 234rpx);">
 			<view style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">销售排行</view>
-			
-			<navigator v-for="(staff,index) in opreaterList" :key="index" hover-class="none" :url="'/pages/manage/staff/detail/detail?start_date='+start_date+'&end_date='+end_date" @click="StorageSync(staff)">
+
+			<navigator v-for="(staff,index) in opreaterList" :key="index" hover-class="none" :url="'/pages/manage/staff/detail/detail?start_date='+start_date+'&end_date='+end_date"
+			 @click="StorageSync(staff)">
 				<view class='content'>
 					<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
 					<view class="display_flex_bet">
@@ -53,14 +54,14 @@
 									<view style="margin-left: 10rpx;">销售额 {{staff.sellPrice}}</view>
 								</view>
 							</view>
-			
+
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999" />
 					</view>
 				</view>
-			
+
 			</navigator>
-		</view>
+		</scroll-view>
 
 	</view>
 </template>
@@ -78,13 +79,13 @@
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
-				
-				headerData:{
-					data1:0,
-					data2:0,
-					data3:0,
+
+				headerData: {
+					data1: 0,
+					data2: 0,
+					data3: 0,
 				},
-				opreaterList:[],
+				opreaterList: [],
 			}
 		},
 
@@ -98,33 +99,36 @@
 		},
 
 		methods: {
-			
-			StorageSync(item){
-				uni.setStorageSync('staff',item)
+
+			StorageSync(item) {
+				uni.setStorageSync('staff', item)
 			},
-			
-			bindDate_startChange(e){
+
+			bindDate_startChange(e) {
 				console.log(e)
-				that.start_date = e.detail.value+' 00:00:00';
+				that.start_date = e.detail.value + ' 00:00:00';
 				that.getdetail()
 			},
-			
-			bindDate_endChange(e){
+
+			bindDate_endChange(e) {
 				console.log(e)
-				that.end_date = e.detail.value+' 00:00:00';
+				that.end_date = e.detail.value + ' 00:00:00';
 				that.getdetail()
 			},
-			
-			getdetail(){
-				uni.showLoading({title:"加载中..."})
+
+			getdetail() {
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query("_User");
 				const query1 = query.equalTo("objectId", '==', uid);
 				const query2 = query.equalTo("masterId", '==', uid);
 				query.or(query1, query2);
 				query.find().then(res => {
 					console.log(res)
-					let opreaterList = res 
-					for(let item of opreaterList){
+					let opreaterList = res
+					let count = 0;
+					for (let item of opreaterList) {
 						const query = Bmob.Query("order_opreations");
 						query.equalTo("master", "==", uid);
 						query.equalTo("opreater", "==", item.objectId);
@@ -135,40 +139,48 @@
 						query.equalTo("createdAt", "<=", that.end_date);
 						query.count().then(res => {
 							let opreaterCount = res
-							
-							if(opreaterCount == 0){
-								opreaterList[0].sellNum = 0
-								opreaterList[0].sellPrice = 0
-								that.opreaterList = opreaterList
-								uni.hideLoading()
-							}else{
+							count += 1
+							if (opreaterCount == 0) {
+								item.sellNum = 0
+								item.sellPrice = 0
+								if (count == opreaterList.length) {
+									that.opreaterList = opreaterList
+									uni.hideLoading()
+								}
+
+							} else {
 								for (var i = 0; i < Math.ceil(opreaterCount / 500); i++) {
 									query.limit(500);
 									query.skip(500 * i);
 									query.find().then(res => {
-										item.sellNum = res.length
+										item.sellNum = res.length > 0 ? res.length : 0
 										item.sellPrice = 0
-										for(let record of res){
+										for (let record of res) {
 											item.sellPrice += record.all_money
 										}
-										
-										if(i == Math.ceil(opreaterCount / 500)){
+
+										if (count == opreaterList.length) {
 											that.opreaterList = opreaterList
 											uni.hideLoading()
 										}
+
 									})
 								}
 							}
 						})
 					}
-					
+
 					that.getheaderData()
 				});
 			},
-			
+
 			//得到首页的总数
 			getheaderData() {
-				that.headerData = {data1:0,data2:0,data3:0};
+				that.headerData = {
+					data1: 0,
+					data2: 0,
+					data3: 0
+				};
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", "==", -1);
@@ -183,15 +195,15 @@
 						query.limit(500);
 						query.skip(500 * i);
 						query.find().then(res => {
-							for(let item of res){
-								that.headerData.data1 += item.all_money?item.all_money:0
-								that.headerData.data2 += item.profit?item.profit:0
+							for (let item of res) {
+								that.headerData.data1 += item.all_money ? item.all_money : 0
+								that.headerData.data2 += item.profit ? item.profit : 0
 							}
 							that.headerData.data3 += res.length
 						});
 					}
 				})
-				
+
 			}
 		}
 	}
@@ -222,29 +234,29 @@
 			text-align: center;
 		}
 	}
-	
+
 	.staff_name {
 		font-weight: bold;
 		font-size: 30rpx;
 		color: #3D3D3D;
 		margin-bottom: 4rpx;
 	}
-	
+
 	.staff_mobile {
 		color: #999;
 	}
-	
+
 	.right_item {
 		width: 100%;
 		border-bottom: 1rpx solid#ccc;
 	}
-	
+
 	.staff_avatar {
 		width: 100rpx;
 		height: 70rpx;
 		margin-right: 20rpx;
 	}
-	
+
 	.content {
 		padding: 10rpx 30rpx;
 		border-bottom: 1rpx solid#F7F7F7;

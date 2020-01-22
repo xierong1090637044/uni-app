@@ -83,18 +83,16 @@
 					that.address = custom.custom_address
 					that.phone = custom.custom_phone
 					that.debt = custom.debt
+					
+					uni.setNavigationBarTitle({
+						title: '修改客户'
+					});
 				} else {
 					that.name = custom.producer_name
 					that.address = custom.producer_address
 					that.phone = custom.producer_phone
 					that.debt = custom.debt
-				}
-			} else {
-				if (type == "customs") {
-					uni.setNavigationBarTitle({
-						title: '修改客户'
-					});
-				} else {
+					
 					uni.setNavigationBarTitle({
 						title: '修改供货商'
 					});
