@@ -176,6 +176,10 @@
 			"path": "pages/report/list/list",
 			"style": {}
 		}
+        ,{
+            "path" : "pages/analysis/warningGoods/warningGoods",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{

@@ -383,6 +383,16 @@
 				uni.showLoading({
 					title: "上传中..."
 				});
+				
+				if (good.max_num != "" && good.warning_num != "") {
+					if (Number(good.max_num) <= Number(good.warning_num)) {
+						uni.showToast({
+							title: "最大库存数须大于预警数",
+							icon: "none"
+						})
+						return
+					}
+				}
 
 				if (uni.getStorageSync("now_product")) {
 					that.edit_good(good)
@@ -432,7 +442,19 @@
 				query.set("position", good.position)
 				query.set("warning_num", Number(good.warning_num))
 				query.set("max_num", Number(good.max_num))
-				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+				if (good.warning_num == "" && good.max_num == "") {
+					query.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足
+				} else {
+					if (good.warning_num != "") {
+						query.set("warning_num", Number(good.warning_num))
+						query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+					}
+				
+					if (good.max_num != "") {
+						query.set("max_num", Number(good.max_num))
+						query.set("stocktype", (Number(good.max_num) <= Number(that.reserve)) ? 2 : 1) //库存数量类型 2代表库存过足 1代表库存充足
+					}
+				}
 
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				query.set("order", 0)
@@ -509,7 +531,19 @@
 				query.set("position", good.position)
 				query.set("warning_num", Number(good.warning_num))
 				query.set("max_num", Number(good.max_num))
-				query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+				if (good.warning_num == "" && good.max_num == "") {
+					query.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足
+				} else {
+					if (good.warning_num != "") {
+						query.set("warning_num", Number(good.warning_num))
+						query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+					}
+				
+					if (good.max_num != "") {
+						query.set("max_num", Number(good.max_num))
+						query.set("stocktype", (Number(good.max_num) <= Number(that.reserve)) ? 2 : 1) //库存数量类型 2代表库存过足 1代表库存充足
+					}
+				}
 
 				query.set("product_state", good.product_state) //改产品是否是半成品
 				query.set("order", 0)

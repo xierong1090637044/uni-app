@@ -122,7 +122,7 @@
 		},{
 			name: '预警产品',
 			icon: 'exclamation-circle',
-			url: '/pages/report/warningGoods/warningGoods',
+			url: '/pages/analysis/warningGoods/warningGoods',
 		},
 		{
 			name: '供货商采购',

@@ -10,7 +10,7 @@
 				<view class="itemB">
 					<view>全部商品</view>
 					<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_products}}种</view>
-					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=more" class="addButton" @click="showNotice">新增</navigator>
+					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=more" class="addButton">新增</navigator>
 				</view>
 				<view style="width: 30%;">
 					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
@@ -51,6 +51,11 @@
 				</navigator>
 			</view>
 		</view>
+		
+		<view style="padding: 10rpx 30rpx;margin-top: 30rpx;background: #fff;width: calc(100% - 60rpx);">
+			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
+			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
+		</view>
 
 
 	</view>
@@ -58,7 +63,7 @@
 
 <script>
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	import achart from '@/components/charts/AChart.vue'
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
 
 	import common from '@/utils/common.js';
@@ -71,11 +76,13 @@
 	export default {
 		components: {
 			faIcon,
-			uniNoticeBar,
+			achart,
 			uniSearchBar
 		},
 		data() {
 			return {
+				achartShow: true,
+				now_day: common.getDay(0),
 				logsList: [],
 				optionsLists: [{
 						name: '入库',
