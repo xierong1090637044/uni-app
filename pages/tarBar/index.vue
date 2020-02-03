@@ -23,11 +23,11 @@
 					</view>
 				</view>
 				<view style="width: 30%;">
-					<navigator class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;" hover-class="none" url="/pages/report/warningGoods/warningGoods">
+					<navigator class="itemC" style="margin:0 10rpx 10rpx 0;background: #ff8282;color: #fff;" hover-class="none" url="/pages/analysis/warningGoods/warningGoods">
 						<view>预警产品</view>
 						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.warn_num}}</view>
 					</navigator>
-					<navigator class="itemC" style="background: #ff8282;color: #fff;" hover-class="none" url="/pages/report/warningGoods/warningGoods">
+					<navigator class="itemC" style="background: #ff8282;color: #fff;" hover-class="none" url="/pages/analysis/warningGoods/warningGoods">
 						<view>高储产品</view>
 						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.over_num}}</view>
 					</navigator>

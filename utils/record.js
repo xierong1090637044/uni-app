@@ -125,7 +125,7 @@ export default {
 				params.total_products = count
 				for (var i = 0; i < Math.ceil(count / 500); i++) {
 					console.log(i)
-					const query = Bmob.Query("Goods");
+					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
 					query.equalTo("order", "!=", 1);

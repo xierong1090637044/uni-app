@@ -71,7 +71,7 @@
 
 			let data = new Date()
 			let year = data.getFullYear();
-			let month = data.getMonth() + 1;
+			let month = (data.getMonth() + 1) < 10?'0'+(data.getMonth() + 1):(data.getMonth() + 1);
 			let day1 = '01'
 			that.starttime = year + "-" + month + "-01"
 			that.endtime = common.getDay(0)
@@ -198,13 +198,14 @@
 					const query = Bmob.Query("NGoods");
 					query.equalTo("userId", "==", uid);
 					query.equalTo("status", "!=", -1);
+					query.equalTo("order", "!=", 1);
 					if(that.category.type == 1){
 						query.equalTo("goodsClass", "==", that.category.objectId);
 					}else{
 						query.equalTo("second_class", "==", that.category.objectId);
 					}
-					query.equalTo("order","==",0);
 					query.select("goodsName,reserve");
+					
 					query.limit(500)
 					query.find().then(res => {
 						//console.log(res)

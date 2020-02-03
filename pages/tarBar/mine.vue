@@ -70,11 +70,11 @@
 					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
+				<!--<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
 					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
+				</navigator>-->
 				<view class="li ">
 					<fa-icon type="envira" size="18" color="#3d3d3d3"></fa-icon>
 					<button class="text" plain="true" open-type="feedback">意见反馈</button>

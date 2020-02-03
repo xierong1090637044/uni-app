@@ -7,37 +7,59 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;" v-if="item.stocks">
-							<text v-if="item.stocks.stock_name">所存仓库:{{item.stocks.stock_name}}</text>
+						
+						<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
+							<view>存放仓库：{{item.stocks.stock_name}}</view>
 						</view>
-						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view v-else>期初进货价：{{item.costPrice}}(元)</view>
-
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'" class='input_withlabel'>
-							<view>实际进货价(可修改)：</view>
-							<view><input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+						
+						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
+							<view>库存：{{item.reserve}}</view>
+							
+							<view>进价：
+								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">0元</text>
+								<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
+							</view>
 						</view>
-						<view class='input_withlabel' v-else>
-							<view>实际进货价(可修改)：</view>
-							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+						
+						<view class="display_flex" v-if="value !=2"  style="margin-bottom: 10rpx;">
+							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
+							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
+							</view>
+							<view v-else>
+								<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
+							</view>
 						</view>
 
 						<view v-if="item.selectd_model">
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
-								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>入库量：
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
+								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+								<text v-if="value == 1 || value == 3">采购量：</text>
+								<text v-else-if="value == 2">入库量：</text>
+								<text v-else-if="value == 4">退货量：</text>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1'  v-if="key==0"/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0'  v-else/>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							<text v-if="value == 1">采购量：</text>
+							<text v-if="value == 1 || value == 3">采购量：</text>
 							<text v-else-if="value == 2">入库量：</text>
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" />
+							<text v-else-if="value == 4">退货量：</text>
+							<uninumberbox :min="1" @change="handleNumChange($event, index)" value='1'/>
 						</view>
 
-						<view class="bottom_del">
+						<view class="bottom_del display_flex_bet">
+							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
+							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'" v-else>
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
 							<view class='del' @click="handleDel(index)">
-								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+								<fa-icon type="close" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">删除</text>
 							</view>
 						</view>
 					</view>
@@ -69,7 +91,7 @@
 		},
 		data() {
 			return {
-				value:'',
+				value: '',
 				products: [],
 				user: uni.getStorageSync("user"),
 			}
@@ -82,18 +104,18 @@
 			uid = uni.getStorageSync("uid")
 			value = options.value
 			that.value = options.value
-			
-			if(value == 1){
+
+			if (value == 1) {
 				uni.setNavigationBarTitle({
-					title:"产品采购"
+					title: "产品采购"
 				})
 			}
-			
+
 			if (options.id) {
 				uni.showLoading({
 					title: "加载中..."
 				})
-				const query = Bmob.Query('NGoods');
+				const query = Bmob.Query('Goods');
 				if (options.type == "false") {
 					query.equalTo("objectId", "==", options.id);
 				} else {
@@ -101,27 +123,62 @@
 				}
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
+				query.include("stocks");
 				query.find().then(res => {
 					console.log(res)
-
-					for (let item of res) {
-						item.num = 1;
-						item.total_money = 1 * item.costPrice;
-						item.really_total_money = 1 * item.costPrice;
-						item.modify_retailPrice = item.costPrice;
-						if (item.models) {
-							let count = 0
-							for (let model of item.models) {
-								model.num = 0
-								count += 1
-							}
-							item.num = count
-							item.selectd_model = item.models
-							item.selected_model = item.models
-						}
+					if(res.length == 0){
+						uni.showToast({
+							icon:"none",
+							title:"没有此产品"
+						})
+						uni.hideLoading();
+						return;
 					}
-					this.products = res;
-					uni.hideLoading()
+					
+					if(res[0].order == 0){
+						query.equalTo("userId", "==", uid);
+						query.equalTo("header", "==", res[0].objectId);
+						query.include("stocks");
+						query.find().then(res => {
+							for (let item of res) {
+								item.num = 1;
+								item.total_money = 1 * item.retailPrice;
+								item.really_total_money = 1 * item.retailPrice;
+								item.modify_retailPrice = item.retailPrice;
+								if (item.models) {
+									let count = 0
+									for (let model of item.models) {
+										model.num = 0
+										count += 1
+									}
+									item.num = count
+									item.selectd_model = item.models
+									item.selected_model = item.models
+								}
+							}
+							that.products = res;
+							wx.hideLoading()
+						})
+					}else{
+						for (let item of res) {
+							item.num = 1;
+							item.total_money = 1 * item.retailPrice;
+							item.really_total_money = 1 * item.retailPrice;
+							item.modify_retailPrice = item.retailPrice;
+							if (item.models) {
+								let count = 0
+								for (let model of item.models) {
+									model.num = 0
+									count += 1
+								}
+								item.num = count
+								item.selectd_model = item.models
+								item.selected_model = item.models
+							}
+						}
+						that.products = res;
+						wx.hideLoading()
+					}
 				})
 			} else {
 				this.products = uni.getStorageSync("products");
@@ -137,7 +194,7 @@
 						item.selected_model = item.models
 					}
 				}
-				this.products = this.products
+				that.products = this.products
 			}
 
 		},
@@ -153,33 +210,68 @@
 						let result = res.result;
 						let array = result.split("-");
 
-						const query = Bmob.Query('NGoods');
+						const query = Bmob.Query('Goods');
 						if (array[1] == "false") {
 							query.equalTo("objectId", "==", array[0]);
 						} else {
 							query.equalTo("productCode", "==", array[0])
 						}
 						query.equalTo("userId", "==", uid);
+						query.include("stocks");
 						query.find().then(res => {
-							console.log(res)
-							for (let item of res) {
-								item.num = 1;
-								item.total_money = 1 * item.costPrice;
-								item.really_total_money = 1 * item.costPrice;
-								item.modify_retailPrice = item.costPrice;
-								if (item.models) {
-									let count = 0
-									for (let model of item.models) {
-										model.num = 0
-										count += 1
-									}
-									item.num = count
-									item.selectd_model = item.models
-									item.selected_model = item.models
-								}
+							if(res.length == 0){
+								uni.showToast({
+									icon:"none",
+									title:"没有此产品"
+								})
+								uni.hideLoading();
+								return;
 							}
-							that.products = that.products.concat(res);
-							uni.hideLoading()
+							
+							if(res[0].order == 0){
+								query.equalTo("userId", "==", uid);
+								query.equalTo("header", "==", res[0].objectId);
+								query.include("stocks");
+								query.find().then(res => {
+									for (let item of res) {
+										item.num = 1;
+										item.total_money = 1 * item.retailPrice;
+										item.really_total_money = 1 * item.retailPrice;
+										item.modify_retailPrice = item.retailPrice;
+										if (item.models) {
+											let count = 0
+											for (let model of item.models) {
+												model.num = 0
+												count += 1
+											}
+											item.num = count
+											item.selectd_model = item.models
+											item.selected_model = item.models
+										}
+									}
+									that.products.concat(res)
+									wx.hideLoading()
+								})
+							}else{
+								for (let item of res) {
+									item.num = 1;
+									item.total_money = 1 * item.retailPrice;
+									item.really_total_money = 1 * item.retailPrice;
+									item.modify_retailPrice = item.retailPrice;
+									if (item.models) {
+										let count = 0
+										for (let model of item.models) {
+											model.num = 0
+											count += 1
+										}
+										item.num = count
+										item.selectd_model = item.models
+										item.selected_model = item.models
+									}
+								}
+								that.products.concat(res)
+								wx.hideLoading()
+							}
 						})
 					},
 					fail(res) {
@@ -193,16 +285,35 @@
 
 			//头部确定点击
 			confrim_this() {
-				if(value == 1){
+				let products = uni.getStorageSync('products')
+				for (let item of products) {
+					if (item.num == 0) {
+						uni.showToast({
+							title: "0库存不能进行操作",
+							icon: "none"
+						})
+				
+						return
+					}
+				}
+				
+				if (value == 1) {
 					uni.navigateTo({
 						url: "/pages/common/good_confrim/goodPurchase/goodPurchase"
 					})
-				}else if(value == 2){
+				} else if (value == 2) {
 					uni.navigateTo({
 						url: "/pages/common/good_confrim/good_enter/good_enter"
 					})
+				} else if (value == 3) {
+					uni.navigateTo({
+						url: "/pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew"
+					})
+				} else if (value == 4) {
+					uni.navigateTo({
+						url: "/pages/common/good_return/buyReturn/buyReturn"
+					})
 				}
-				
 			},
 
 			//数量改变
@@ -274,6 +385,7 @@
 
 	.bottom_del {
 		text-align: right;
+		margin-top: 10rpx;
 	}
 
 	.del {
@@ -282,8 +394,9 @@
 		background: #aa2116;
 		color: #fff;
 		justify-content: flex-end;
-		padding: 4rpx 12rpx;
+		padding: 4rpx 20rpx;
 		border-radius: 8rpx;
+		font-size: 20rpx;
 	}
 
 	.input_label {

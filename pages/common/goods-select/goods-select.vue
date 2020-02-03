@@ -8,7 +8,7 @@
 			 @click-right="confrim_this" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" @blur="confirm" />
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" @blur="confirm"/>
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -28,32 +28,29 @@
 
 			<view class="uni-product-list">
 				<scroll-view class="uni-product-list" scroll-y v-if="productList.length > 0">
-					<checkbox-group @change="radioChange">
-						<view v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;">
+					<radio-group v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" @click.stop="radioChange(product,product.objectId,index)">
+						<view>
+							<radio style="transform:scale(0.9)" color="#426ab3" class="round blue" :checked="product.checked" />
+						</view>
+
+						<label class="uni-product" :for="''+index">
 							<view>
-								<checkbox :value="JSON.stringify(product)" style="transform:scale(0.9)" color="#426ab3" :data="index" :id="''+index" class="round blue"
-								 :checked="product.checked" />
+								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
+								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 							</view>
 
-							<label class="uni-product" :for="''+index">
-								<view>
-									<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
-									<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
+							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
+								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
+								<view class="product_reserve" v-if="product.stocks">
+									<text v-if="product.stocks.stock_name">所存仓库:{{product.stocks.stock_name}}</text>
 								</view>
+								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:{{product.packageContent}}*{{product.packingUnit}}</view>
+								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 
-								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
-									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-									<view class="product_reserve" v-if="product.stocks">
-										<text v-if="product.stocks.stock_name">所存仓库:{{product.stocks.stock_name}}</text>
-									</view>
-									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:{{product.packageContent}}*{{product.packingUnit}}</view>
-									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-									
-									<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
-								</view>
-							</label>
-						</view>
-					</checkbox-group>
+								<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
+							</view>
+						</label>
+					</radio-group>
 				</scroll-view>
 				<nocontent v-else :type="1"></nocontent>
 			</view>
@@ -66,7 +63,8 @@
 		<!--筛选模板-->
 		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
 			<view class="showOptions">
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 @click.stop="">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">类别</view>
 						<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true"></input></view>
@@ -77,12 +75,14 @@
 					</view>
 				</navigator>
 
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;" v-if="type=='allocation' || 'counting'">
+				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 v-if="value !=3&&type !='returing'" @click.stop="">
 					<view style="display: flex;align-items: center;width: 100%;">
 						<view class="left_item">仓库</view>
 						<view class="right_input">
-							<input placeholder="调出仓库" :value="stock.stock_name" disabled="true" v-if="type=='allocation'"></input>
-							<input placeholder="盘点仓库" :value="stock.stock_name" disabled="true" v-else></input>
+							<input placeholder="调出仓库" :value="stock.stock_name" disabled="true" v-if="type=='allocation'||type=='delivery'"></input>
+							<input placeholder="盘点仓库" :value="stock.stock_name" disabled="true" v-if="type=='counting'"></input>
+							<input placeholder="存放仓库" :value="stock.stock_name" disabled="true" v-if="type=='entering'"></input>
 						</view>
 					</view>
 
@@ -97,9 +97,8 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!--一键清零显示-->
-		<!--<view class="gLButton" @click="reserveTo" v-if="type=='counting' && identity == 1">一键归零</view>-->
 	</view>
 
 	</view>
@@ -113,15 +112,10 @@
 	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 
-	let products = [];
-	let search_products = [];
-	let all_products = [];
 	let uid;
 	let that;
 	let search_text = '';
 	let page_size = 30;
-	let page_num = 1;
-	let search_count = 1;
 	export default {
 		components: {
 			loading,
@@ -132,7 +126,7 @@
 		},
 		data() {
 			return {
-				identity:uni.getStorageSync("identity"),
+				identity: uni.getStorageSync("identity"),
 				selectd_model: '',
 				models_good: '',
 				models_good_key: '',
@@ -142,11 +136,13 @@
 				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
-				checked_option: 'createdAt', //tab的筛选条件
+				checked_option: 'goodsName', //tab的筛选条件
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				type: '', //操作类型
-				is_selected: false, //是否筛选
+				isOption: false, //是否筛选
+				value: '', //操作类型值
+				nextProducts: [],
 			}
 		},
 
@@ -155,11 +151,11 @@
 			this.handle_data();
 
 			if (option.type == "entering") {
-				this.url = "../good_confrim/good_confrim?value="+option.value
+				this.url = "../good_confrim/good_confrim?value=" + option.value
 			} else if (option.type == "delivery") {
-				this.url = "../goods_out/goods_out?value="+option.value
+				this.url = "../goods_out/goods_out?value=" + option.value
 			} else if (option.type == "returing") {
-				this.url = "../good_return/good_return"
+				this.url = "../good_return/good_return?value=" + option.value + "&type=" + option.type
 			} else if (option.type == "counting") {
 				this.url = "../good_count/good_count"
 			} else if (option.type == "allocation") {
@@ -168,65 +164,44 @@
 				this.url = "../good_production/good_production"
 			}
 
-			this.type = option.type
+			that.type = option.type
+			that.value = option.value
 
 			uid = uni.getStorageSync('uid');
 			that.get_productList();
 		},
 
 		onShow() {
-			if (uni.getStorageSync("category")) {
-				that.showOptions = true;
-				that.category = uni.getStorageSync("category")
-			}else{
-				that.category = ''
-			}
 
-			if (uni.getStorageSync("warehouse")) {
-				that.showOptions = true;
-				that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
-			}else{
-				that.stock = ""
-			}
+			that.category = uni.getStorageSync("category") || ""
+			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length -
+				1].stock : ""
 
 			//操作完成后刷新数据
 			if (uni.getStorageSync("is_option")) {
+				that.nextProducts = [];
+				that.page_num = 1;
 				search_text = '';
 				page_size = 30;
-				search_count = 1;
-				all_products = [];
-				products = [];
-				search_products = [];
-				this.productList = []
+				that.productList = []
 				that.get_productList();
 			}
 		},
 
 		onUnload() {
 			//数据重置
+			that.nextProducts = [];
 			search_text = '';
 			page_size = 30;
-			search_count = 1;
-			all_products = [];
-			products = [];
-			search_products = [];
+			that.page_num = 1;
 			uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 		},
 
 		methods: {
 
-			hide_mask() {
-				that.models_good = ''
-			},
-
-			
 			//分页点击
 			change_page(e) {
-				page_num = e.current
-				if (search_text && page_num > 1) {
-					search_count += 1
-				}
-
+				that.page_num = e.current
 				that.get_productList();
 			},
 
@@ -237,27 +212,28 @@
 
 			//输入框输入点击确定
 			confirm(e) {
+				that.showOptions = false;
+				that.isOption = true;
 				search_text = e.detail.value
 				that.search_text = e.detail.value
 				that.page_num = 1
-				page_num = 1
-				search_count += 1
-
 				that.get_productList()
 			},
 
 			//确定点击
 			confrim_this() {
-				this.go_goodsconfrim();
+				that.go_goodsconfrim();
 			},
 
 			//modal重置的确认点击
 			option_reset() {
-				this.productList = [];
+				console.log("3")
+				that.productList = [];
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.category = "";
 				that.stock = "";
+				that.isOption = false;
 				that.showOptions = false;
 				that.get_productList()
 			},
@@ -265,104 +241,91 @@
 			//modal筛选的确认点击
 			option_confrim() {
 				if (uni.getStorageSync("category")) {
-					search_count += 1
-					that.is_selected = true;
+					that.isOption = true;
 					that.category = uni.getStorageSync("category")
 				}
 
 				if (uni.getStorageSync("warehouse")) {
-					search_count += 1
-					that.is_selected = true;
+					that.isOption = true;
 					that.stock = uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length - 1].stock
 				}
 				that.showOptions = false;
-				if (this.type == "allocation" || this.type == "counting") {
-					if (this.stock) {
-						all_products = []
-						products = []
-					}
-				}
 				that.get_productList()
-				
 			},
 
 			//头部的options选择
 			selectd(type) {
-				page_size = 30;
+				that.page_num = 1;
 				that.checked_option = type;
 				that.get_productList();
 			},
 
 			//多选选择触发
-			radioChange: function(e) {
-				//console.log(e)
-				let current = []
-				let key = 0
-				if (search_text || that.is_selected) {
-					search_products[search_count - 1] = e.detail.value
-				} else {
-					products[page_num - 1] = e.detail.value
+			radioChange: function(item, id, index) {
+				//console.log(item, id,index)
+				let checkProduct = item
+				if (that.productList[index].checked) { // 已选中时取消
+					that.productList[index].checked = false
+
+					for (let key in that.nextProducts) {
+						if (that.nextProducts[key].objectId == id) {
+							that.nextProducts.splice(key, 1)
+						}
+					}
+				} else { // 未选中状态
+					that.productList[index].checked = true
+					that.nextProducts.push(checkProduct)
 				}
-				all_products = search_products.concat(products)
-				all_products = all_products.reduce(function(a, b) {
-					return a.concat(b)
-				})
-				all_products = Array.from(new Set(all_products))
-				//console.log(all_products)
 			},
 
 			//点击去到添加产品
 			go_goodsconfrim() {
-				console.log(all_products)
-				if (all_products.length == 0) {
+				if (that.nextProducts.length == 0) {
 					uni.showToast({
 						title: "请选择产品",
 						icon: "none"
 					})
 				} else {
-
-					if (this.type == "allocation" || this.type == "counting") {
-						if (this.stock) {
-							this.confrim_next()
+					if (that.type == "allocation") {
+						if (that.stock) {
+							that.confrim_next()
 						} else {
-							all_products = []
-							products = []
-							this.get_productList()
+							that.nextProducts = []
+							that.get_productList()
 							uni.showToast({
-								title: this.type == "allocation"?"请在筛选中选择调拨的仓库":"请在筛选中选择盘点的仓库",
+								title: that.type == "allocation" ? "请在筛选中选择调拨的仓库" : "请在筛选中选择盘点的仓库",
 								icon: "none"
 							})
 						}
 					} else {
-						this.confrim_next()
+						that.confrim_next()
 					}
-
 				}
 			},
 
 			confrim_next() {
 				let index = 0;
-				if (this.type == "entering") {
-					for (let item of all_products) {
-						all_products[index] = (typeof item == 'object') ? item : JSON.parse(item)
-						all_products[index].num = 1;
-						all_products[index].total_money = 1 * all_products[index].costPrice;
-						all_products[index].really_total_money = 1 * all_products[index].costPrice;
-						all_products[index].modify_retailPrice = all_products[index].costPrice;
+				if (that.type == "entering") {
+					for (let item of that.nextProducts) {
+						that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
+						that.nextProducts[index].num = 0;
+						that.nextProducts[index].total_money = 0 * that.nextProducts[index].costPrice;
+						that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].costPrice;
+						that.nextProducts[index].modify_retailPrice = that.nextProducts[index].costPrice;
 						index += 1;
 					}
 				} else {
-					for (let item of all_products) {
-						all_products[index] = (typeof item == 'object') ? item : JSON.parse(item)
-						all_products[index].num = 0;
-						all_products[index].total_money = 0 * all_products[index].retailPrice;
-						all_products[index].really_total_money = 0 * all_products[index].retailPrice;
-						all_products[index].modify_retailPrice = all_products[index].retailPrice;
+					for (let item of that.nextProducts) {
+						that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
+						that.nextProducts[index].num = 0;
+						that.nextProducts[index].total_money = 0 * that.nextProducts[index].retailPrice;
+						that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].retailPrice;
+						that.nextProducts[index].modify_retailPrice = that.nextProducts[index].retailPrice;
 						index += 1;
 					}
 				}
 
-				uni.setStorageSync("products", all_products);
+				uni.setStorageSync("products", that.nextProducts);
 				uni.navigateTo({
 					url: this.url
 				})
@@ -375,11 +338,7 @@
 				query.include("stocks");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
-				if(that.stock.objectId){
-					query.equalTo("stocks", "==", that.stock.objectId);
-				}else{
-					query.equalTo("order", "!=", 1);
-				}
+				query.equalTo("order", "==", 0);
 				if (that.category.type == 1) {
 					query.equalTo("goodsClass", "==", that.category.objectId);
 				} else {
@@ -393,32 +352,26 @@
 				});
 				query.or(query1, query2);
 				query.limit(page_size);
-				query.skip(page_size * (page_num - 1));
+				query.skip(page_size * (that.page_num - 1));
 				query.order("-" + that.checked_option); //按照条件降序
 				query.find().then(res => {
-					console.log(all_products)
 					let key = 0;
-					if (all_products.length >= 1 && that.showOptions == false && that.is_selected == false && that.search_text == '') {
-						for (let item of all_products) {
-							for (let product of res) {
-								if (product.objectId == (typeof item == 'object' ? item.objectId : JSON.parse(item).objectId)) {
-									product.checked = true
-									product.key = key
-									product.reserve = product.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
-									key += 1
-								}
+					for (let product of res) {
+						product.key = key
+						product.checked = false
+						for (let item of that.nextProducts) {
+							if (item.objectId == product.objectId) {
+								product.checked = true
 							}
 						}
-					} else {
-						for (let product of res) {
-							product.key = key
-							product.reserve = product.reserve.toFixed(uni.getStorageSync("setting")?uni.getStorageSync("setting").show_float:0)
-							key += 1
-						}
+						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
+							0)
+						key += 1
 					}
 
-					this.productList = res;
-					this.loading = false;
+					that.productList = res;
+					that.loading = false;
+					uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 				});
 			},
 
@@ -432,7 +385,6 @@
 
 				search_text = '';
 				page_size = 30;
-				search_count = 1;
 			},
 
 		}

@@ -91,12 +91,12 @@
 			icon: 'home',
 			url: '/pages/manage/warehouse/warehouse',
 		},
-		{
+		/*{
 			name: '门店管理',
 			notice: '门店相关',
 			icon: 'shopping-cart',
 			url: '/pages/manage/shops/shops',
-		},
+		},*/
 		{
 			name: '客户管理',
 			notice: '客户,供应商相关',

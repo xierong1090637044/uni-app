@@ -24,10 +24,6 @@
 					<text :class="(checked_option == 'reserve')?'option_selected':''">库存</text>
 					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
 				</view>
-				<view class="good_option" @click="selectd('stocktype')">
-					<text :class="(checked_option == 'stocktype')?'option_selected':''">预警产品</text>
-					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'stocktype'"></fa-icon>
-				</view>
 			</view>
 			<scroll-view class="uni-product-list" scroll-y>
 				<view v-if="productList.length > 0">
