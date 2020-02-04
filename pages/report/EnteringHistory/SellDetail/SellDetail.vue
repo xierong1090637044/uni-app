@@ -723,7 +723,7 @@
 						if (product.goodsId.selected_model) {
 							let num = 0;
 							for (let model of product.goodsId.selected_model) {
-								for (let item of res.models) {
+								for (let item of thisGood.models) {
 									if (item.id == model.id) {
 										item.reserve = Number(item.reserve) - Number(model.num)
 										//console.log(item.reserve)
@@ -741,7 +741,7 @@
 						if (product.goodsId.selected_model) {
 							let num = 0;
 							for (let model of product.goodsId.selected_model) {
-								for (let item of res.models) {
+								for (let item of thisGood.models) {
 									if (item.id == model.id) {
 										item.reserve = Number(item.reserve) + Number(model.num)
 										//console.log(item.reserve)
@@ -768,7 +768,6 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
 									common.modifyStockType(thisGood.header.objectId)

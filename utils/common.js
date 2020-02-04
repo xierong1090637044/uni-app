@@ -268,6 +268,7 @@ module.exports = {
 	//上传二级商品
 	upload_good_withNoCan(good, stock, reserve, type) {
 		return new Promise((resolve, reject) => {
+			console.log(good)
 			let uid = uni.getStorageSync("uid");
 			const pointer = Bmob.Pointer('_User')
 			const userid = pointer.set(uid)
@@ -286,10 +287,22 @@ module.exports = {
 			query.set("goodsName", good.goodsName)
 			if (type == "out") {
 				query.set("reserve", 0 - Number(reserve))
+				if(good.goodsId.models){
+					for(let model of good.goodsId.models){
+						model.reserve =  0 - Number(model.num)
+					}
+					query.set("models", good.goodsId.models)
+				}
 			} else {
 				query.set("reserve", Number(reserve))
+				if(good.goodsId.models){
+					for(let model of good.goodsId.models){
+						model.reserve = Number(model.num)
+					}
+					query.set("models", good.goodsId.models)
+				}
 			}
-
+			
 			query.set("stocks", p_stock_id)
 			query.set("userId", userid)
 			query.set("header", p_good_id)

@@ -779,7 +779,7 @@
 							query1.equalTo("order", "==", 1);
 							query1.statTo("sum", "reserve");
 							query1.find().then(res => {
-								console.log("dasds", res)
+								console.log("当前的产品的主产品", res)
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
