@@ -441,7 +441,7 @@
 				query.equalTo("header", "==", product.goodsId.objectId);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.find().then(res => {
-					console.log("仓库里的产品", res)
+					//console.log("仓库里的产品", res)
 					if (res.length == 0) {
 						query.get(product.goodsId.objectId).then(res => {
 							product.objectId = product.goodsId.objectId
@@ -493,7 +493,7 @@
 						const query1 = Bmob.Query('Goods');
 						query1.get(res[0].objectId).then(res => {
 							//console.log(res)
-							/*if (product.goodsId.selected_model) {
+							if (product.goodsId.selected_model) {
 								let num = 0;
 								for (let model of product.goodsId.selected_model) {
 									for (let item of res.models) {
@@ -509,9 +509,7 @@
 								res.set('reserve', res.reserve + num);
 							} else {
 								res.set('reserve', res.reserve + product.num);
-							}*/
-
-							res.set('reserve', res.reserve + product.num);
+							}
 							res.save().then(res => {
 								const pointer = Bmob.Pointer('stocks');
 								let stockId = pointer.set(that.stock.objectId);
@@ -583,7 +581,7 @@
 				query.equalTo("header", "==", product.goodsId.objectId);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.find().then(res => {
-					console.log("仓库里的产品", res)
+					//console.log("仓库里的产品", res)
 					if (res.length == 0) {
 						query.get(product.goodsId.objectId).then(res => {
 							product.objectId = product.goodsId.objectId
@@ -640,12 +638,12 @@
 						const query1 = Bmob.Query('Goods');
 						query1.get(res[0].objectId).then(res => {
 							//console.log(res)
-							/*if (product.goodsId.selected_model) {
+							if (product.goodsId.selected_model) {
 								let num = 0;
 								for (let model of product.goodsId.selected_model) {
 									for (let item of res.models) {
 										if (item.id == model.id) {
-											item.reserve = Number(item.reserve) + Number(model.num)
+											item.reserve = Number(item.reserve) - Number(model.num)
 											//console.log(item.reserve)
 											num += Number(model.num)
 										}
@@ -653,12 +651,10 @@
 								}
 								//console.log(res.models)
 								res.set('models', res.models)
-								res.set('reserve', res.reserve + num);
+								res.set('reserve', res.reserve - num);
 							} else {
-								res.set('reserve', res.reserve + product.num);
-							}*/
-
-							res.set('reserve', res.reserve - product.num);
+								res.set('reserve', res.reserve - product.num);
+							}
 							res.save().then(res => {
 								const query1 = Bmob.Query("Goods");
 								query1.equalTo("header", "==", product.goodsId.objectId);

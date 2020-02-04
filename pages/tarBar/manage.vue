@@ -241,8 +241,8 @@
 							}
 
 							if (res) {
-								rights = res.rights.current;
-								recordRights = res.rights.recodecurrent;
+								rights = res.rights.current || [];
+								recordRights = res.rights.recodecurrent || [];
 								
 								if(res.rights.analysisCurrent && res.rights.analysisCurrent.indexOf("0") !=-1){
 									that.analysisModule = analysisLists
@@ -253,8 +253,8 @@
 								}
 								
 							} else {
-								rights = uni.getStorageSync("user").rights.current;
-								recordRights = uni.getStorageSync("user").rights.recodecurrent;
+								rights = uni.getStorageSync("user").rights.current ||  [];
+								recordRights = uni.getStorageSync("user").rights.recodecurrent || [];
 								
 								if(res.rights.analysisCurrent &&uni.getStorageSync("user").rights.analysisCurrent.indexOf("0") !=-1){
 									that.analysisModule = analysisLists

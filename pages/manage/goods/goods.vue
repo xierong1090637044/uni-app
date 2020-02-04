@@ -145,7 +145,7 @@
 				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
-				checked_option: 'goodsName', //tab的筛选条件
+				checked_option: 'createdAt', //tab的筛选条件
 				category: "", //选择的类别
 				stock: "", //选择的仓库
 				checked: false, //选择的是否失效

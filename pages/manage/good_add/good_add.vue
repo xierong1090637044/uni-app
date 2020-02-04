@@ -272,7 +272,7 @@
 				if (now_product.goodsClass && now_product.goodsClass.objectId) {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(now_product.goodsClass.objectId) //一级分类id关联
-					now_product.goodsClass.type = 2
+					now_product.goodsClass.type = 1
 					uni.setStorageSync("category", now_product.goodsClass)
 				}
 
@@ -299,6 +299,7 @@
 						item.stocks.good_id = item.objectId
 						if (item.models) {
 							item.now_model = item.models
+							item.stocks.now_model = item.models
 						}
 						warehouse.push(item.stocks)
 					}
@@ -339,13 +340,13 @@
 				}
 			}
 
-			if (options.id) {
+			if (options.id) { // 扫码进入的页面
 				that.scan_by_id(options.id)
 			}
 		},
 		onShow() {
 			let stocksReserve
-			if (uni.getStorageSync("warehouse")) {
+			if (uni.getStorageSync("warehouse")) { //修改产品信息状态时
 				that.reserve = 0
 				if (that.addType == 'single') {
 					let newStock = []
@@ -674,7 +675,7 @@
 									}
 								}
 								
-								that.productMoreG ? res.set("models", item.now_model) : ''
+								(that.productMoreG && item.now_model) ? res.set("models", item.now_model) : ''
 								res.save()
 							}).catch(err => {
 								console.log(err)
@@ -752,8 +753,6 @@
 					let this_result = res
 
 					if (stocksReserve.length > 0) {
-
-
 						const queryArray = new Array();
 						// 构造含有50个对象的数组
 						for (var i = 0; i < stocksReserve.length; i++) {

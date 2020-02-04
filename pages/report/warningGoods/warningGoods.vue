@@ -88,6 +88,7 @@
 				query.equalTo("userId", "==", uid);
 				
 				query.equalTo("status", "!=", -1);
+				query.equalTo("order", "!=", 1);
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + that.search_text + ".*"
 				});

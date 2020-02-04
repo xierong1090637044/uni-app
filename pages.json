@@ -232,7 +232,11 @@
 				"navigationBarTitleText": "库存预警"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/deleteGoods/deleteGoods",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/production",

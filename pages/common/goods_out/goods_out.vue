@@ -31,6 +31,7 @@
 								<text v-else-if="value == 2">出库量：</text>
 								<text v-else-if="value == 4">退货量：</text>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' v-if="negativeOut" />
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' v-else-if="value == 4 || value == 3" :max="Number(item.reserve)"/>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' :max="Number(model.reserve)" v-else />
 							</view>
 						</view>
@@ -326,7 +327,7 @@
 				item.num = Number($event)
 				this.products[index].selected_model[key] = item
 
-				console.log(this.products[index].selected_model)
+				//console.log(this.products[index].selected_model)
 				let _sumNum = 0;
 				for (let model of this.products[index].selected_model) {
 					if (model.num > 0) {

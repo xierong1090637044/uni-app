@@ -128,41 +128,41 @@
 				],
 				sellLists: [{
 						name: '销售(旧)',
-						notice: '旧版销售流程',
+						notice: '支持所有产品',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
 					}, {
 						name: '销售退货(旧)',
-						notice: '旧版的退货',
+						notice: '支持所有产品',
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
 					}, {
 						name: '销售(新)',
-						notice: '多规格产品慎用',
+						notice: '适用新版产品',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
 					},
 					{
 						name: '销售退货(新)',
-						notice: '多规格产品慎用',
+						notice: '适用新版产品',
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
 					},
 				],
 				purchaseLists: [{
 						name: '采购(旧)',
-						notice: '旧版采购流程',
+						notice: '支持所有产品',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					}, {
 						name: '采购(新)',
-						notice: '多规格产品慎用',
+						notice: '适用新版产品',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
 					},
 					{
 						name: '采购退货',
-						notice: '多规格产品慎用',
+						notice: '适用新版产品',
 						icon: 'icon-tuihuo1',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
 					}
