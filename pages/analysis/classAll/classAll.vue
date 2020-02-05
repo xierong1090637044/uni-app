@@ -6,7 +6,7 @@
 			<view class="left_content">
 				<view style="height: 100vh;overflow: scroll;">
 					<view v-for="(item,index) in frist_class" :key="index" :class="selected_id===item.objectId?'selectd_item':''"
-					 class="class_item"  @click="get_second_category(item.objectId,index)">
+					 class="class_item" @click="get_second_category(item.objectId,index)">
 						<view class="class_texxt_view" style="font-weight: bold;">{{item.class_text}}</view>
 						<view>
 							<view>总库存：{{item.reserve}}</view>
@@ -49,7 +49,7 @@
 		},
 		data() {
 			return {
-				is_choose:false,
+				is_choose: false,
 				loading: true,
 				frist_class: null, //一级分类
 				second_class: null, //二级分类
@@ -65,54 +65,66 @@
 			that.get_category();
 		},
 		methods: {
-			
+
 			//得到一级分类
 			get_category() {
-				
+
 				const query = Bmob.Query("class_user");
 				query.equalTo("parent", "==", uid);
 				query.find().then(res => {
-					console.log(res)
+					//console.log(res)
 					let fristClass = res
 					let count = 0
-					for(let item of fristClass){
+					for (let item of fristClass) {
+						let fristReserve = 0;
+						let fristCostprice = 0;
+						let countLength = 0;
+
 						const query = Bmob.Query("Goods");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("status", "!=", -1);
 						query.equalTo("order", "!=", 1);
-						query.equalTo("goodsClass","==",item.objectId);
-						query.limit(200);
-						query.find().then(res => {
-							//console.log(res)
-							let fristReserve = 0;
-							let fristCostprice = 0;
-							for(let good of res){
-								fristReserve += good.reserve
-								fristCostprice +=good.reserve*Number(good.costPrice)
+						query.equalTo("goodsClass", "==", item.objectId);
+						query.count().then(res => {
+							let allLength = res;
+
+							for (let i = 0; i < Math.ceil(allLength / 500); i++) {
+								query.limit(500);
+								query.skip(500 * i);
+								query.find().then(res => {
+									//console.log(i)
+									for (let good of res) {
+										fristReserve += good.reserve
+										fristCostprice += good.reserve * Number(good.costPrice)
+										countLength += 1
+									}
+
+									if (countLength == allLength) {
+										item.reserve = fristReserve
+										item.allCostPrice = fristCostprice
+
+										if (count == fristClass.length - 1) {
+											that.frist_class = fristClass
+										}
+										count += 1
+									}
+								})
 							}
-							item.reserve = fristReserve
-							item.allCostPrice = fristCostprice
-							
-							if(count == fristClass.length - 1){
-								that.frist_class = fristClass
-							}
-							
-							count +=1
-						});
+						})
 					}
-					if(res.length == 0){
+					if (res.length == 0) {
 						that.loading = false;
-					}else{
-						that.get_second_category(res[0].objectId,0)
+					} else {
+						that.get_second_category(res[0].objectId, 0)
 					}
 				});
 			},
 
 			//得到二级分类
-			get_second_category(id,index) {
+			get_second_category(id, index) {
 				let fristReserve = 0;
 				let fristCostprice = 0;
-				
+
 				that.selected_id = id;
 				const query = Bmob.Query('class_user')
 				query.field('second', id)
@@ -121,34 +133,34 @@
 					let secondClass = res.results;
 					let count = 0
 					that.loading = false;
-					
-					for(let item of secondClass){
+
+					for (let item of secondClass) {
 						const query = Bmob.Query("Goods");
 						query.equalTo("userId", "==", uid);
 						query.equalTo("status", "!=", -1);
 						query.equalTo("order", "!=", 1);
-						query.equalTo("second_class","==",item.objectId);
+						query.equalTo("second_class", "==", item.objectId);
 						query.limit(200);
 						query.find().then(res => {
 							//console.log(res)
 							let fristReserve = 0;
 							let fristCostprice = 0;
-							for(let good of res){
+							for (let good of res) {
 								fristReserve += good.reserve
-								fristCostprice +=good.reserve*Number(good.costPrice)
+								fristCostprice += good.reserve * Number(good.costPrice)
 							}
 							item.reserve = fristReserve
 							item.allCostPrice = fristCostprice
-							
-							if(count == secondClass.length - 1){
+
+							if (count == secondClass.length - 1) {
 								//console.log("sssssssss",secondClass)
 								that.second_class = secondClass
 							}
-							
-							count +=1
+
+							count += 1
 						});
 					}
-					
+
 				})
 			},
 
@@ -157,9 +169,10 @@
 </script>
 
 <style>
-	.page{
+	.page {
 		background: #fff;
 	}
+
 	.content {
 		display: flex;
 	}

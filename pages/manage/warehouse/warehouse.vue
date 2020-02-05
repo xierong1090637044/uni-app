@@ -225,6 +225,7 @@
 					});
 
 				}
+				query.limit("500");
 				query.find().then(res => {
 					//console.log(res)
 					that.loading = false;

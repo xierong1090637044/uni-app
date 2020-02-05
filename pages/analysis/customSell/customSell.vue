@@ -107,7 +107,6 @@
 				query.statTo("groupby", "custom");
 				query.statTo("order", "-_sumNum");
 				query.statTo("groupcount", "true");
-				query.limit(500);
 				query.count().then(res => {
 					let count = res;
 					let newArrar = [];
@@ -116,7 +115,7 @@
 						return
 					}
 					
-					for (var i = 0; i < Math.ceil(count / 500); i++) {
+					for (let i = 0; i < Math.ceil(count / 500); i++) {
 						query.limit(500);
 						query.skip(500 * i);
 						query.find().then(res => {
@@ -126,7 +125,7 @@
 								}
 							}
 							
-							if(i == Math.ceil(count / 500)){
+							if(i == Math.ceil(count / 500) - 1){
 								that.goodSellList = newArrar.sort(function(a, b) {
 									return b._sumNum - a._sumNum
 								})

@@ -104,11 +104,10 @@
 				query.count().then(res => {
 					let opreaterCount = res
 					let newArrar = [];
-					let key = 0;
 					
 					if(opreaterCount == 0){return}
 					
-					for (var i = 0; i < Math.ceil(opreaterCount / 500); i++) {
+					for (let i = 0; i < Math.ceil(opreaterCount / 500); i++) {
 						query.limit(500);
 						query.skip(500 * i);
 						query.find().then(res => {
@@ -119,13 +118,12 @@
 								 }
 							}
 							
-							if (key == Math.ceil(opreaterCount / 500) - 1) {
+							if (i == Math.ceil(opreaterCount / 500)) {
 								that.goodSellList = newArrar.sort(function(a, b) {
 									return b._sumNum - a._sumNum
 								})
 							}
 							
-							key += 1
 						});
 					}
 				})

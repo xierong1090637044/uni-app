@@ -107,18 +107,16 @@
 				query.statTo("groupby", "producer");
 				query.statTo("order", "-_sumNum");
 				query.statTo("groupcount", "true");
-				query.limit(500);
 				query.count().then(res => {
 					let count = res;
 					let newArrar = [];
-					let key = 0;
 					
 					if(count == 0){
 						uni.hideLoading()
 						return
 					}
 					
-					for (var i = 0; i < Math.ceil(count / 500); i++) {
+					for (let i = 0; i < Math.ceil(count / 500); i++) {
 						query.limit(500);
 						query.skip(500 * i);
 						query.find().then(res => {
@@ -127,14 +125,12 @@
 									newArrar.push(item)
 								}
 							}
-							if (key == Math.ceil(count / 500) - 1) {
+							if (i == Math.ceil(count / 500)) {
 								that.goodSellList = newArrar.sort(function(a, b) {
 									return b._sumNum - a._sumNum
 								})
 								uni.hideLoading()
 							}
-
-							key += 1
 						});
 					}
 				})
