@@ -87,12 +87,11 @@
 						query.equalTo("goodsClass", "==", item.objectId);
 						query.count().then(res => {
 							let allLength = res;
-
-							for (let i = 0; i < Math.ceil(allLength / 500); i++) {
+							for (let i = 0; i <= Math.ceil(allLength / 500); i++) {
 								query.limit(500);
 								query.skip(500 * i);
 								query.find().then(res => {
-									//console.log(i)
+									console.log(count,fristClass.length - 1)
 									for (let good of res) {
 										fristReserve += good.reserve
 										fristCostprice += good.reserve * Number(good.costPrice)
@@ -103,13 +102,14 @@
 										item.reserve = fristReserve
 										item.allCostPrice = fristCostprice
 
-										if (count == fristClass.length - 1) {
+										if (count == fristClass.length) {
 											that.frist_class = fristClass
 										}
-										count += 1
+										
 									}
 								})
 							}
+							count += 1
 						})
 					}
 					if (res.length == 0) {

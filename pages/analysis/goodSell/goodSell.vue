@@ -118,7 +118,7 @@
 								 }
 							}
 							
-							if (i == Math.ceil(opreaterCount / 500)) {
+							if (i == Math.ceil(opreaterCount / 500) - 1) {
 								that.goodSellList = newArrar.sort(function(a, b) {
 									return b._sumNum - a._sumNum
 								})

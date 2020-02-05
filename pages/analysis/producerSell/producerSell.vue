@@ -125,7 +125,7 @@
 									newArrar.push(item)
 								}
 							}
-							if (i == Math.ceil(count / 500)) {
+							if (i == Math.ceil(count / 500) - 1) {
 								that.goodSellList = newArrar.sort(function(a, b) {
 									return b._sumNum - a._sumNum
 								})
