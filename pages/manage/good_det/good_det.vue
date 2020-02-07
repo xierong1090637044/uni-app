@@ -210,7 +210,10 @@
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
 						}
-
+						//当员工没有查看进价的权限时
+						if(that.user.rights.othercurrent.indexOf("0") !=-1){
+							product.costPrice  = 0
+						}
 						this.product = product;
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
@@ -259,7 +262,10 @@
 						all_reserve += item.reserve
 						stocks.push(item.stocks)
 					}
-
+					//当员工没有查看进价的权限时
+					if(that.user.rights.othercurrent.indexOf("0") !=-1){
+						product.costPrice  = 0
+					}
 					this.product = uni.getStorageSync("now_product");
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);

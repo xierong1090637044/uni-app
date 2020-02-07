@@ -133,6 +133,18 @@
 						id: 6,
 						name: '产品类别管理'
 					},
+					{
+						id: 7,
+						name: '库存管理（出库、入库、调拨、盘点操作）'
+					},
+					{
+						id: 8,
+						name: '采购（采购，采购退货操作）'
+					},
+					{
+						id: 9,
+						name: '销售（销售，销售退货操作）'
+					},
 				],
 				
 				//财务权限模块
@@ -170,13 +182,7 @@
 				others: [{
 					id: 1,
 					name: '进价隐藏'
-				}, {
-					id: 2,
-					name: '销售'
-				}, {
-					id: 3,
-					name: '采购'
-				}, {
+				},{
 					id: 4,
 					name: '审核'
 				},{
@@ -256,6 +262,7 @@
 			query.include("charge", "shop", "Ncharge")
 			query.equalTo("parent", "==", uid);
 			query.equalTo("disabled", "!=", true);
+			query.limit(500);
 			query.find().then(res => {
 				let stocks = res;
 				let _warehouse = []

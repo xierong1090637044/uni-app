@@ -31,9 +31,9 @@ export default {
 
 			if (setting.objectId) query.set("id", setting.objectId)
 			query.set("show_float", Number(params.show_float))
-			query.set("USER", params.USER)
-			query.set("UKEY", params.UKEY)
-			query.set("number", ''+params.number)
+			//query.set("USER", params.USER)
+			//query.set("UKEY", params.UKEY)
+			//query.set("number", ''+params.number)
 			query.set("wx_openid", params.wx_openid)
 			query.set("auto_print", params.auto_print)
 			query.set("production", params.production)

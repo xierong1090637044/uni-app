@@ -16,14 +16,14 @@
 							<view>库存：{{item.reserve}}</view>
 							
 							<view>进价：
-								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">0元</text>
+								<text v-if="canSeeCostPrice == false">0元</text>
 								<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
 							</view>
 						</view>
 						
 						<view class="display_flex" v-if="value !=2"  style="margin-bottom: 10rpx;">
 							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
-							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+							<view v-if="canSeeCostPrice == false">
 								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
 							</view>
 							<view v-else>
@@ -94,6 +94,7 @@
 				value: '',
 				products: [],
 				user: uni.getStorageSync("user"),
+				canSeeCostPrice:true,
 			}
 		},
 
@@ -197,6 +198,14 @@
 				that.products = this.products
 			}
 
+		},
+		
+		onShow() {
+			if(that.user.rights && that.user.rights.othercurrent){
+				if(that.user.rights.othercurrent.indexOf("0") !=-1){
+					that.canSeeCostPrice = false
+				}
+			}
 		},
 
 		methods: {

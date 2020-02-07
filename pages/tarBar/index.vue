@@ -11,10 +11,10 @@
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;">
 				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'></i>
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockLists.length > 0"></i>
 				</view>
 
-				<view class='o_list'>
+				<view class='o_list' v-if="stockLists.length > 0">
 					<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem">
 							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
@@ -22,19 +22,20 @@
 						<view class='o_text'>{{value.name}}</view>
 					</navigator>
 				</view>
+				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 			</view>
-
+			
+			<!--销售模块-->
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 					<view class="display_flex">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">销售</view>
 						<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
 					</view>
-
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)'></i>
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)' v-if="sellLists.length > 0"></i>
 				</view>
 
-				<view class='o_list'>
+				<view class='o_list' v-if="sellLists.length > 0">
 					<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #afbb4f;">
 							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
@@ -43,8 +44,10 @@
 						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
 					</navigator>
 				</view>
+				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 			</view>
-
+			
+			<!--采购模块-->
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 					<view class="display_flex">
@@ -52,10 +55,10 @@
 						<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
 					</view>
 
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)'></i>
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)' v-if="purchaseLists.length > 0"></i>
 				</view>
 
-				<view class='o_list'>
+				<view class='o_list' v-if="purchaseLists.length > 0">
 					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 						<view class="o_headerItem" style="background: #ad4fbb;">
 							<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
@@ -64,8 +67,10 @@
 						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
 					</navigator>
 				</view>
+				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 			</view>
-
+			
+			<!--其他模块-->
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
 				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
 				<view class='o_list'>
@@ -243,10 +248,23 @@
 		},
 
 		onShow() {
-			if (uni.getStorageSync("user")) {
+			if (uni.getStorageSync("user")) { //登陆情况下进行的操作
+			  that.user = uni.getStorageSync("user")
 				mine.query_setting();
-				if (that.user.rights && that.user.rights.othercurrent) {
-					that.othercurrent = that.user.rights.othercurrent
+				if (that.user.rights) {
+					that.othercurrent = that.user.rights.othercurrent || []
+					
+					if(that.user.rights.current.indexOf("6") == -1){
+						that.stockLists = []
+					}
+					
+					if(that.user.rights.current.indexOf("7") == -1){
+						that.purchaseLists = []
+					}
+					
+					if(that.user.rights.current.indexOf("8") == -1){
+						that.sellLists = []
+					}
 				}
 
 				mine.getMineInfo().then(res => {
@@ -264,7 +282,7 @@
 						})
 					}
 				})
-			} else {
+			} else {//未登录情况下
 				setTimeout(function() {
 					uni.showToast({
 						title: "请先登录",

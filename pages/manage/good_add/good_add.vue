@@ -313,6 +313,7 @@
 					query.order("-num");
 					query.equalTo("parent", "==", uid);
 					query.equalTo("disabled", "!=", true);
+					query.limit(500);
 					query.find().then(res => {
 						for (let item of res) {
 							item.reserve = 0
@@ -398,7 +399,7 @@
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
 
-					console.log(that.category.parent.objectId, that.category.objectId)
+					//console.log(that.category.parent.objectId, that.category.objectId)
 				} else {
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联

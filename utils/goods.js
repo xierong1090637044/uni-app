@@ -190,6 +190,7 @@ export default {
 				});
 
 			}
+			query.limit(500);
 			query.find().then(res => {
 				//console.log(res)
 				localStorage.setItem("stocks", JSON.stringify(res))

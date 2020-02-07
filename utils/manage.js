@@ -30,6 +30,7 @@ export default {
 				});
 
 			}
+			query.limit(500);
 			query.find().then(res => {
 				localStorage.setItem("stocks", JSON.stringify(res))
 				resolve(res)

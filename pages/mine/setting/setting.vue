@@ -12,17 +12,17 @@
 			</view>
 
 			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">USER账号</view>
-				<input class="uni-input" placeholder="请输入USER账号" v-model="params.USER" @blur="modify_setting" :disabled="inputCan" />
+				<view style="margin-right: 10rpx;width: 170rpx;">打印功能</view>
+				<input class="uni-input" placeholder="需购买飞鹅云打印机,然后联系客服开通" :disabled="true"  style="border-bottom: unset;"/>
 			</view>
-			<view class="display_flex item">
+			<!--<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
 				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" @blur="modify_setting" :disabled="inputCan" />
 			</view>
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
 				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" @blur="modify_setting" :disabled="inputCan" />
-			</view>
+			</view>-->
 		</view>
 		
 		<view style="margin-top: 30rpx;">

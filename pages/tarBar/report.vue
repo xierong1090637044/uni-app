@@ -176,7 +176,7 @@
 					that.noticeText = res
 				})
 
-				if (uni.getStorageSync("identity") == 2  &&that.user.rights.othercurrent && that.user.rights.othercurrent.indexOf("4") != -1) {
+				if (uni.getStorageSync("identity") == 2  &&that.user.rights.othercurrent && that.user.rights.othercurrent.indexOf("2") != -1) {
 					that.staffCan.see = true
 				}
 

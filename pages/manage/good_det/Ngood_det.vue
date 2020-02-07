@@ -319,12 +319,19 @@
 								stocks.push(item.stocks)
 							}
 						}
+						
+						//当员工没有查看进价的权限时
+						if(that.user.rights.othercurrent.indexOf("0") !=-1){
+							product.costPrice  = 0
+						}
 
 						this.product = product;
 						if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
+						that.product.productCode =  (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
+							"-" + false + "-new"
 						that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
 							"-" + false + "-new"
 						that.loading = false
@@ -364,12 +371,18 @@
 							stocks.push(item.stocks)
 						}
 					}
-
+					
+					if(that.user.rights.othercurrent.indexOf("0") !=-1){
+						product.costPrice  = 0
+					}
+					
 					this.product = product;
 					if (this.product.nousetime) this.product.nousetime = common.js_date_time(this.product.nousetime)
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
+					that.product.productCode =  (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
+						"-" + false + "-new"
 					that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId + "-" +
 						false + "-new"
 					that.loading = false
@@ -440,6 +453,7 @@
 
 			//商品信息点击
 			print_info(item) {
+				console.log(item)
 				print.print_goodDet(item)
 			},
 
