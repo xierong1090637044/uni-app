@@ -211,7 +211,7 @@
 							stocks.push(item.stocks)
 						}
 						//当员工没有查看进价的权限时
-						if(that.user.rights.othercurrent.indexOf("0") !=-1){
+						if(that.user.rights &&that.user.rights.othercurrent.indexOf("0") !=-1){
 							product.costPrice  = 0
 						}
 						this.product = product;
@@ -263,7 +263,7 @@
 						stocks.push(item.stocks)
 					}
 					//当员工没有查看进价的权限时
-					if(that.user.rights.othercurrent.indexOf("0") !=-1){
+					if(that.user.rights && that.user.rights.othercurrent.indexOf("0") !=-1){
 						product.costPrice  = 0
 					}
 					this.product = uni.getStorageSync("now_product");
