@@ -339,7 +339,7 @@
 			get_productList() {
 				that.productList = []
 				const query = Bmob.Query("Goods");
-				query.include("stocks");
+				query.include("stocks","header");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.equalTo("status", "!=", -1);
@@ -379,8 +379,10 @@
 							}
 						}
 
-						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
-							0)
+						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float:0)
+						if(product.order == 1){
+							product.packingUnit = product.header.packingUnit
+						}
 						key += 1
 					}
 

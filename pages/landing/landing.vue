@@ -36,7 +36,7 @@
 
 		<view style="color: #0081FF;font-size: 20rpx;margin-top: 10rpx;padding: 0 40rpx;">
 			<fa-icon type="info-circle" size="10" color="#0081FF" style="margin-right: 10rpx;"></fa-icon>
-			登陆说明：登陆之后，您可以使用关于一些进销存的功能（包含进库、出库、入库...）
+			注册说明：注册成功之后，您可以使用关于一些进销存的功能（包含进库、出库、入库...）
 		</view>
 
 	</view>
