@@ -257,6 +257,7 @@
 
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
+				query.equalTo("order", "==", 0);
 				query.find().then(res => {
 					let productList = res
 					if (user.is_vip || productList.length < 30) {
