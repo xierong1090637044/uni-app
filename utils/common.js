@@ -287,7 +287,7 @@ module.exports = {
 			query.set("goodsName", good.goodsName)
 			if (type == "out") {
 				query.set("reserve", 0 - Number(reserve))
-				if(good.goodsId.models){
+				if(good.goodsId && good.goodsId.models){
 					for(let model of good.goodsId.models){
 						model.reserve =  0 - Number(model.num)
 					}
@@ -295,7 +295,7 @@ module.exports = {
 				}
 			} else {
 				query.set("reserve", Number(reserve))
-				if(good.goodsId.models){
+				if(good.goodsId && good.goodsId.models){
 					for(let model of good.goodsId.models){
 						model.reserve = Number(model.num)
 					}
@@ -374,7 +374,7 @@ module.exports = {
 		const query = Bmob.Query('Goods');
 		query.get(productId).then(res => {
 
-			console.log("sdsdasdasd", res, res.warning_num, res.max_num)
+			//console.log("sdsdasdasd", res, res.warning_num, res.max_num)
 			let good = res
 			if (good.warning_num == "" && good.max_num == "") {
 				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足

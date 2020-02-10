@@ -8,7 +8,7 @@
 			 @click-right="confrim_this" left-text="筛选">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" @blur="confirm"/>
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" @blur="confirm" />
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
@@ -28,9 +28,10 @@
 
 			<view class="uni-product-list">
 				<scroll-view class="uni-product-list" scroll-y v-if="productList.length > 0">
-					<radio-group v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" @click.stop="radioChange(product,product.objectId,index)">
+					<radio-group v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;"
+					 @click.stop="radioChange(product,product.objectId,index)">
 						<view>
-							<radio style="transform:scale(0.9)" color="#426ab3" class="round blue" :checked="product.checked" />
+							<radio style="transform:scale(0.9);" color="#426ab3" class="round blue" :checked="product.checked" :disabled="product.disabled" />
 						</view>
 
 						<label class="uni-product" :for="''+index">
@@ -143,6 +144,7 @@
 				isOption: false, //是否筛选
 				value: '', //操作类型值
 				nextProducts: [],
+				negativeOut: false,
 			}
 		},
 
@@ -162,6 +164,10 @@
 				this.url = "../good_allocation/good_allocation"
 			} else if (option.type == "prodution") {
 				this.url = "../good_production/good_production"
+			}
+
+			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
+				that.negativeOut = uni.getStorageSync("setting").negativeOut
 			}
 
 			that.type = option.type
@@ -264,6 +270,17 @@
 			radioChange: function(item, id, index) {
 				//console.log(item, id,index)
 				let checkProduct = item
+
+				if (that.productList[index].disabled) {
+					that.productList[index].checked = false
+					uni.showToast({
+						icon: "none",
+						title: "当前产品不能选择"
+					})
+
+					return
+				}
+
 				if (that.productList[index].checked) { // 已选中时取消
 					that.productList[index].checked = false
 
@@ -286,20 +303,7 @@
 						icon: "none"
 					})
 				} else {
-					if (that.type == "allocation") {
-						if (that.stock) {
-							that.confrim_next()
-						} else {
-							that.nextProducts = []
-							that.get_productList()
-							uni.showToast({
-								title: that.type == "allocation" ? "请在筛选中选择调拨的仓库" : "请在筛选中选择盘点的仓库",
-								icon: "none"
-							})
-						}
-					} else {
-						that.confrim_next()
-					}
+					that.confrim_next()
 				}
 			},
 
@@ -364,11 +368,17 @@
 					for (let product of res) {
 						product.key = key
 						product.checked = false
+
+						if (that.type == "delivery" && product.reserve <= 0 && that.negativeOut == false) {
+							product.disabled = true
+						}
+
 						for (let item of that.nextProducts) {
 							if (item.objectId == product.objectId) {
 								product.checked = true
 							}
 						}
+
 						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
 							0)
 						key += 1

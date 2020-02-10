@@ -375,6 +375,9 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let stockIds = [];
+				let stockNames = [];
+				
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
 
@@ -418,6 +421,10 @@
 						let stockId = pointer.set(this.products[i].stocks.objectId);
 						tempBills.set("stock", stockId);
 						detailBills.stock = this.products[i].stocks.stock_name
+						if(stockIds.indexOf(this.products[i].stocks.objectId) == -1){
+							stockIds.push(this.products[i].stocks.objectId)
+							stockNames.push(this.products[i].stocks.stock_name)
+						}
 					}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
@@ -471,6 +478,8 @@
 						query.set('extra_type', extraType);
 						query.set("opreater", poiID1);
 						//query.set("stock", stockId);
+						query.set("stockIds", stockIds);
+						query.set("stockNames", stockNames);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
 						query.set("allCostPrice", that.allCostPrice);

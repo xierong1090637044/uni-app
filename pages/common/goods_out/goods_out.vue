@@ -30,9 +30,9 @@
 								<text v-if="value == 1 || value == 3">销售量：</text>
 								<text v-else-if="value == 2">出库量：</text>
 								<text v-else-if="value == 4">退货量：</text>
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' v-if="negativeOut" />
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' v-else-if="value == 4 || value == 3" :max="Number(item.reserve)"/>
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='0' :max="Number(model.reserve)" v-else />
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' v-if="negativeOut" />
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' v-else-if="value == 4 || value == 3" :max="Number(item.reserve)"/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' :max="Number(model.reserve)" v-else />
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
@@ -196,8 +196,7 @@
 
 			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
 				that.negativeOut = uni.getStorageSync("setting").negativeOut
-
-				console.log(uni.getStorageSync("setting").negativeOut)
+				//console.log(uni.getStorageSync("setting").negativeOut)
 			}
 		},
 
