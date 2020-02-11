@@ -233,7 +233,7 @@
 
 			//modal重置的确认点击
 			option_reset() {
-				console.log("3")
+				//console.log("3")
 				that.productList = [];
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");

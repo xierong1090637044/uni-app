@@ -52,6 +52,12 @@
 								<view>调入仓库：{{item.out_stock}}</view>
 								<!--<view>调拨后库存：{{item.out_reserve + item.num}}</view>-->
 							</view>
+							<view v-if="item.goodsId.selected_model">
+								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
+									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}调出：</view>
+									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
+								</view>
+							</view>
 						</view>
 					</view>
 					<view class='pro_allmoney' v-if="detail.type != -2">总计：￥{{detail.all_money}}</view>

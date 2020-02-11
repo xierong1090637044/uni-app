@@ -43,7 +43,7 @@
 					<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
 					<view>创建时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.createdAt}}</text></view>
 
-					<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
+					<view v-if="select_qrcode">条码: <text class="second_right_text">{{select_qrcode}}</text></view>
 
 					<view class="display_flex">
 						<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
@@ -228,7 +228,12 @@
 					query.set("goodsName", good.goodsName)
 					query.set("costPrice", good.costPrice)
 					query.set("retailPrice", good.retailPrice)
-					if (good.models) query.set("models", good.models)
+					if (good.models){
+						for(let item of good.models){
+							item.reserve = 0
+						}
+						query.set("models", good.models)
+					} 
 					query.set("reserve", 0)
 					query.set("stocks", p_stock_id)
 					query.set("header", p_good_id)
@@ -259,13 +264,13 @@
 								query1.equalTo("order", "==", 1);
 								query1.statTo("sum", "reserve");
 								query1.find().then(res => {
-									console.log("dasds", res)
+									//console.log("dasds", res)
 									let now_reserve = res[0]._sumReserve
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
-									query.set('stocktype', (now_reserve > that.product.warning_num) ? 1 : 0)
 									query.set('id', that.product.objectId)
 									query.save().then(res => {
+										common.modifyStockType(that.product.objectId)
 										that.getDetail_noId()
 									})
 								})
@@ -280,6 +285,7 @@
 
 			//得到产品详情 有id
 			getDetail_byId(id, type) {
+				that.select_qrcode = '';
 				let stocks = [];
 				uni.showLoading({
 					title: "加载中..."
@@ -312,8 +318,7 @@
 								stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 								stocks_o.good_id = item.objectId
 								stocks_o.now_model = item.models
-								stocks_o.qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : item.objectId + "-" +
-									false + "-new"
+								//stocks_o.qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : item.objectId + "-" +false + "-new"
 								item.stocks = stocks_o
 								all_reserve += item.reserve
 								stocks.push(item.stocks)
@@ -330,13 +335,11 @@
 						this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 						this.product.stocks = stocks
-						that.product.productCode =  (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
-							"-" + false + "-new"
-						that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
-							"-" + false + "-new"
+						//that.product.productCode =  (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +"-" + false + "-new"
+						that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +"-" + false + "-new"
 						that.loading = false
 						uni.hideLoading()
-						console.log(this.product)
+						//console.log(this.product)
 					})
 				})
 			},
@@ -344,6 +347,8 @@
 			//得到产品详情没有id
 			getDetail_noId() {
 				let stocks = [];
+				that.select_qrcode = '';
+				
 				let product = uni.getStorageSync("now_product");
 				let all_reserve = 0;
 
@@ -364,8 +369,7 @@
 							stocks_o.reserve = item.reserve.toFixed(uni.getStorageSync("setting").show_float)
 							stocks_o.good_id = item.objectId
 							stocks_o.now_model = item.models
-							stocks_o.qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : item.objectId + "-" +
-								false + "-new"
+							//stocks_o.qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : item.objectId + "-" +false + "-new"
 							item.stocks = stocks_o
 							all_reserve += item.reserve
 							stocks.push(item.stocks)
@@ -381,14 +385,12 @@
 					this.product.all_reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.reserve = all_reserve.toFixed(uni.getStorageSync("setting").show_float);
 					this.product.stocks = stocks
-					that.product.productCode =  (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +
-						"-" + false + "-new"
-					that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId + "-" +
-						false + "-new"
+					//that.product.productCode =  (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId +"-" + false + "-new"
+					that.select_qrcode = (product.productCode) ? product.productCode + "-" + true + "-new" : product.objectId + "-"+false + "-new"
 					that.loading = false
 					uni.hideLoading()
 					uni.setStorageSync("now_product", this.product)
-					console.log(this.product)
+					//console.log(this.product)
 				})
 			},
 
@@ -490,11 +492,8 @@
 					content: '是否删除该商品',
 					success: function(res) {
 						if (res.confirm) {
-
 							uni.setStorageSync("is_add", true)
-
 							const query = Bmob.Query('Goods');
-
 							query.destroy(objectId).then(res => {
 								const query = Bmob.Query('Goods');
 								// 单词最多删除50条

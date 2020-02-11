@@ -293,6 +293,15 @@ module.exports = {
 					}
 					query.set("models", good.goodsId.models)
 				}
+			}else if(type =="allocation"){
+				query.set("reserve", Number(reserve))
+				if(good.selected_model && good.selected_model.length > 0){
+					for(let model of good.selected_model){
+						model.reserve = Number(model.num)
+						delete model.num
+					}
+					query.set("models", good.selected_model)
+				}
 			} else {
 				query.set("reserve", Number(reserve))
 				if(good.goodsId && good.goodsId.models){
@@ -374,11 +383,14 @@ module.exports = {
 		const query = Bmob.Query('Goods');
 		query.get(productId).then(res => {
 
-			//console.log("sdsdasdasd", res, res.warning_num, res.max_num)
 			let good = res
 			if (good.warning_num == "" && good.max_num == "") {
 				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
-			} else {
+			}else if(good.warning_num == undefined && good.max_num == undefined){
+				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
+			} else if(good.warning_num == null && good.max_num == null){
+				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
+			}else {
 				if (good.warning_num != "") {
 					if (good.warning_num >= good.reserve) {
 						res.set("stocktype", 0)

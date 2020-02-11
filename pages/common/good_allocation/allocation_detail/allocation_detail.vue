@@ -10,6 +10,12 @@
 						<view>库存：{{item.reserve}}</view>
 						<view>调出库存：{{item.num}}</view>
 					</view>
+					<view v-if="item.selected_model">
+						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
+							<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
+						</view>
+					</view>
 				</view>
 			</view>
 
@@ -103,8 +109,7 @@
 		methods: {
 
 			formSubmit: function(e) {
-				console.log(e)
-
+				//console.log(e)
 				this.button_disabled = true;
 				if (that.out_stock == '' || that.out_stock == null) {
 					uni.showToast({
@@ -145,8 +150,16 @@
 						let num1
 						if (res.length == 0) {
 							//console.log(that.products[i].goodsName)
-							common.upload_good_withNoCan(that.products[i], that.out_stock, Number(this.products[i].num), "allocation").then(
-								res => {
+							if(that.products[i].selectd_model){
+								uni.showToast({
+									icon:"none",
+									title:"此多规格产品未关联到此仓库"
+								})
+								this.button_disabled = false;
+								return;
+							}
+							
+							common.upload_good_withNoCan(that.products[i], that.out_stock, Number(this.products[i].num), "allocation").then(res => {
 									console.log(res)
 									let obj = {}
 									obj.objectId = res[1].objectId
@@ -157,11 +170,9 @@
 
 									const query = Bmob.Query('Goods');
 									query.get(that.products[i].objectId).then(res => {
-										console.log(res)
-
+										//console.log(res)
 										res.set('reserve', num)
 										res.save()
-
 										query.get(out_products[0].objectId).then(res => {
 											res.set('reserve', num1)
 											res.save()
@@ -200,6 +211,10 @@
 									goodsId.out_objectId = out_products[0].objectId
 									goodsId.reserve = num
 									goodsId.out_reserve = num1
+									if (this.products[i].selectd_model) {
+										goodsId.selected_model = this.products[i].selected_model
+										goodsId.models = this.products[i].models
+									}
 									detailBills.goodsId = goodsId
 									detailBills.num = Number(this.products[i].num)
 									detailBills.type = -2
@@ -208,7 +223,6 @@
 									detailObj.push(detailBills)
 
 									//插入单据
-
 									if (i == (this.products.length - 1)) {
 										Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
 												//console.log("批量新增单据成功", res);
@@ -281,14 +295,38 @@
 								})
 						} else {
 							out_products = res
+							
 							num = Number(this.products[i].reserve) - Number(this.products[i].num);
 							num1 = Number(out_products[0].reserve) + Number(this.products[i].num);
 							
 							if(this.products[i].stocks.objectId != that.out_stock.objectId){
 								const query = Bmob.Query('Goods');
+								if (this.products[i].selectd_model) {
+									for (let model of this.products[i].selected_model) {
+										for (let item of out_products[0].models) {
+											if (item.id == model.id) {
+												item.reserve = Number(item.reserve) + Number(model.num)
+											}
+											delete item.num // 清除没用的属行
+										}
+									}
+									query.set('models', out_products[0].models)
+								} 
 								query.set('id', out_products[0].objectId) //需要修改的objectId
 								query.set('reserve', num1)
 								query.save().then(res => {
+									
+									if (this.products[i].selectd_model) {
+										for (let model of this.products[i].selected_model) {
+											for (let item of this.products[i].models) {
+												if (item.id == model.id) {
+													item.reserve = Number(item.reserve) - Number(model.num)
+												}
+												delete item.num // 清除没用的属行
+											}
+										}
+										query.set('models', this.products[i].models)
+									} 
 									query.set('id', that.products[i].objectId) //需要修改的objectId
 									query.set('reserve', num)
 									query.save().then(res => {
@@ -328,6 +366,10 @@
 							goodsId.out_objectId = out_products[0].objectId
 							goodsId.reserve = num
 							goodsId.out_reserve = num1
+							if (this.products[i].selectd_model) {
+								goodsId.selected_model = this.products[i].selected_model
+								goodsId.models = this.products[i].models
+							}
 							detailBills.goodsId = goodsId
 							detailBills.num = Number(this.products[i].num)
 							detailBills.type = -2

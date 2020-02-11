@@ -13,10 +13,20 @@
 							<view v-else>调出仓库：未填写</view>
 							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
-						<view class='margin-t-5'>
-							调出库存：
-							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="Number(item.reserve)" />
+						<view v-if="item.selectd_model">
+							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+								调出库存：
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :max="Number(model.reserve)"  :value='key==0?1:0'/>
+							</view>
 						</view>
+						<view v-else>
+							<view class='margin-t-5'>
+								调出库存：
+								<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value="1"/>
+							</view>
+						</view>
+						
 						<view class="bottom_del display_flex_bet">
 							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
 								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
@@ -102,7 +112,20 @@
 					uni.hideLoading()
 				})
 			} else {
-				this.products = uni.getStorageSync("products")
+				this.products = uni.getStorageSync("products");
+				for (let item of this.products) {
+					if (item.models) {
+						let count = 0
+						for (let model of item.models) {
+							model.num = 0;
+							count += 1;
+						}
+						item.num = count;
+						item.selectd_model = item.models
+						item.selected_model = item.models
+					}
+				}
+				this.products = this.products
 			}
 
 		},
@@ -163,6 +186,27 @@
 				uni.navigateTo({
 					url: "/pages/common/good_allocation/allocation_detail/allocation_detail"
 				})
+			},
+			
+			//多类型产品数量改变  步骤很重要
+			handleModelNumChange($event, index, key, item) {
+				item.num = Number($event)
+				this.products[index].selected_model[key] = item
+			
+				//console.log(this.products[index].selected_model)
+				let _sumNum = 0;
+				for (let model of this.products[index].selected_model) {
+					if (model.num > 0) {
+						_sumNum += model.num
+					}
+			
+				}
+				//console.log(this.products[index].selected_model)
+			
+				this.products[index].num = _sumNum
+				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].retailPrice)
+				uni.setStorageSync("products", this.products)
 			},
 
 			//数量改变
