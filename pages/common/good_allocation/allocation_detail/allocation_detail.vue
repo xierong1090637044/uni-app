@@ -121,7 +121,140 @@
 					return
 				}
 
-				that.add_tb_record(e)
+				console.log(that.unique(this.products))
+
+				that.addTbRecord(e)
+			},
+
+			unique(arr) {
+				let newArr = [arr[0]];
+				for (let i = 1; i < arr.length; i++) {
+					let repeat = false;
+					for (let j = 0; j < newArr.length; j++) {
+						if (arr[i].header.objectId === newArr[j].header.objectId) {
+							newArr[j].num += arr[i].num
+							repeat = true;
+							break;
+						}
+					}
+					if (!repeat) {
+						newArr.push(arr[i]);
+					}
+				}
+				return newArr;
+			},
+
+			addTbRecord(e) {
+				
+				let stockId;
+				let pointer4 = Bmob.Pointer('stocks');
+				let out_stockId = pointer4.set(that.out_stock.objectId);
+
+				let billsObj = new Array();
+				let detailObj = [];
+				for (let i = 0; i < this.products.length; i++) {
+					let pointer3 = Bmob.Pointer('stocks');
+					stockId = pointer3.set(this.products[i].stocks.objectId)
+
+					let tempBills = Bmob.Query('Bills');
+					let detailBills = {}
+
+					let pointer = Bmob.Pointer('_User')
+					let user = pointer.set(uid)
+					let pointer2 = Bmob.Pointer('_User')
+					let operater = pointer2.set(uni.getStorageSync("masterId"))
+					let pointer1 = Bmob.Pointer('Goods')
+					let tempGoods_id = pointer1.set(this.products[i].objectId);
+
+					tempBills.set('goodsName', this.products[i].goodsName);
+					tempBills.set('retailPrice', this.products[i].modify_retailPrice);
+					tempBills.set('num', Number(this.products[i].num));
+					tempBills.set('total_money', Number(this.products[i].total_money));
+					tempBills.set('goodsId', tempGoods_id);
+					tempBills.set('userId', user);
+					tempBills.set('type', -2);
+					tempBills.set('opreater', operater);
+					tempBills.set("stock", stockId);
+					tempBills.set("out_stock", out_stockId);
+
+					let goodsId = {}
+					detailBills.goodsName = this.products[i].goodsName
+					detailBills.stock = this.products[i].stocks.stock_name
+					detailBills.out_stock = that.out_stock.stock_name
+					detailBills.reserve = this.products[i].reserve
+					//detailBills.out_reserve = out_products[0].reserve
+					goodsId.objectId = this.products[i].objectId
+					//goodsId.out_objectId = out_products[0].objectId
+					//goodsId.reserve = num
+					//goodsId.out_reserve = num1
+					if (this.products[i].selectd_model) {
+						goodsId.selected_model = this.products[i].selected_model
+						goodsId.models = this.products[i].models
+					}
+					detailBills.goodsId = goodsId
+					detailBills.num = Number(this.products[i].num)
+					detailBills.type = -2
+
+					billsObj.push(tempBills)
+					detailObj.push(detailBills)
+				}
+				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
+					//console.log("批量新增单据成功", res);
+					let bills = []
+					for (let i = 0; i < res.length; i++) {
+						bills.push(res[i].success.objectId)
+					}
+
+					let pointer = Bmob.Pointer('_User')
+					let poiID = pointer.set(uid);
+
+					let masterId = uni.getStorageSync("masterId");
+					let pointer1 = Bmob.Pointer('_User')
+					let poiID1 = pointer1.set(masterId);
+
+					let query = Bmob.Query('order_opreations');
+					//query.set("relations", relID);
+					query.set("detail", detailObj);
+					query.set("bills", bills);
+					query.set("beizhu", e.detail.value.input_beizhu);
+					query.set("type", -2);
+					query.set("opreater", poiID1);
+					query.set("stock", stockId);
+					query.set("out_stock", out_stockId);
+					query.set("master", poiID);
+					query.set('goodsName', that.products[0].goodsName);
+
+					query.save().then(res => {
+						let operationId = res.objectId;
+						//console.log("添加操作历史记录成功", res);
+						uni.hideLoading();
+						//uni.removeStorageSync("customs"); //移除这个缓存
+						uni.showToast({
+							title: '产品调拨成功',
+							icon: 'success',
+							success: function() {
+
+								that.button_disabled = false;
+								uni.setStorageSync("is_option", true);
+								//uni.removeStorageSync("warehouse");
+
+								setTimeout(() => {
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.removeStorageSync("warehouse")
+									
+									uni.navigateBack({
+										delta: 2
+									});
+								}, 500)
+							}
+						})
+					})
+				}, function(error) {
+					// 批量新增异常处理
+					console.log("异常处理");
+				});
 			},
 
 			//生成调拨单
@@ -150,16 +283,17 @@
 						let num1
 						if (res.length == 0) {
 							//console.log(that.products[i].goodsName)
-							if(that.products[i].selectd_model){
+							if (that.products[i].selectd_model) {
 								uni.showToast({
-									icon:"none",
-									title:"此多规格产品未关联到此仓库"
+									icon: "none",
+									title: "此多规格产品未关联到此仓库"
 								})
 								this.button_disabled = false;
 								return;
 							}
-							
-							common.upload_good_withNoCan(that.products[i], that.out_stock, Number(this.products[i].num), "allocation").then(res => {
+
+							common.upload_good_withNoCan(that.products[i], that.out_stock, Number(this.products[i].num), "allocation").then(
+								res => {
 									console.log(res)
 									let obj = {}
 									obj.objectId = res[1].objectId
@@ -269,7 +403,8 @@
 																uni.removeStorageSync("out_warehouse")
 																uni.removeStorageSync("category")
 																uni.removeStorageSync("warehouse")
-																common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
+																common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName +
+																	"'等" +
 																	that
 																	.products.length + "商品", -2, res.objectId);
 
@@ -295,41 +430,44 @@
 								})
 						} else {
 							out_products = res
-							
+
 							num = Number(this.products[i].reserve) - Number(this.products[i].num);
 							num1 = Number(out_products[0].reserve) + Number(this.products[i].num);
-							
-							if(this.products[i].stocks.objectId != that.out_stock.objectId){
+
+							if (this.products[i].stocks.objectId != that.out_stock.objectId) {
 								const query = Bmob.Query('Goods');
-								if (this.products[i].selectd_model) {
-									for (let model of this.products[i].selected_model) {
-										for (let item of out_products[0].models) {
-											if (item.id == model.id) {
-												item.reserve = Number(item.reserve) + Number(model.num)
-											}
-											delete item.num // 清除没用的属行
-										}
-									}
-									query.set('models', out_products[0].models)
-								} 
-								query.set('id', out_products[0].objectId) //需要修改的objectId
-								query.set('reserve', num1)
-								query.save().then(res => {
-									
+								query.get(out_products[0].objectId).then(res => {
+									console.log(res)
+									let nowOutProducts = res
 									if (this.products[i].selectd_model) {
 										for (let model of this.products[i].selected_model) {
-											for (let item of this.products[i].models) {
+											for (let item of nowOutProducts.models) {
 												if (item.id == model.id) {
-													item.reserve = Number(item.reserve) - Number(model.num)
+													item.reserve = Number(item.reserve) + Number(model.num)
 												}
 												delete item.num // 清除没用的属行
 											}
 										}
-										query.set('models', this.products[i].models)
-									} 
-									query.set('id', that.products[i].objectId) //需要修改的objectId
-									query.set('reserve', num)
-									query.save().then(res => {
+										res.set('models', nowOutProducts.models)
+									}
+									res.set('reserve', num1)
+									res.save()
+
+									query.get(that.products[i].objectId).then(res => {
+										let nowThisProduct = res
+										if (this.products[i].selectd_model) {
+											for (let model of this.products[i].selected_model) {
+												for (let item of this.products[i].models) {
+													if (item.id == model.id) {
+														item.reserve = Number(item.reserve) - Number(model.num)
+													}
+													delete item.num // 清除没用的属行
+												}
+											}
+											res.set('models', this.products[i].models)
+										}
+										res.set('reserve', num)
+										res.save()
 									})
 								})
 							}
