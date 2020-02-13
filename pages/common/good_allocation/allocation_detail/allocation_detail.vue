@@ -74,6 +74,7 @@
 
 	let uid;
 	let that;
+	let shouldProducts = [];
 
 	export default {
 		data() {
@@ -121,8 +122,7 @@
 					return
 				}
 
-				console.log(that.unique(this.products))
-
+				that.unique(that.products);
 				that.addTbRecord(e)
 			},
 
@@ -132,27 +132,41 @@
 					let repeat = false;
 					for (let j = 0; j < newArr.length; j++) {
 						if (arr[i].header.objectId === newArr[j].header.objectId) {
+
+							if (arr[i].selected_model) { // 如果当前产品是多规格产品
+								for (let model of arr[i].selected_model) {
+									for (let item of newArr[j].selected_model) {
+										if (item.id == model.id) {
+											item.num += Number(model.num)
+										}
+									}
+								}
+							}
 							newArr[j].num += arr[i].num
 							repeat = true;
-							break;
 						}
 					}
 					if (!repeat) {
 						newArr.push(arr[i]);
 					}
 				}
-				return newArr;
+
+				console.log(newArr)
+				that.products = uni.getStorageSync("products");
+				shouldProducts = newArr;
 			},
 
 			addTbRecord(e) {
-				
+				uni.showLoading({
+					title: "请勿退出..."
+				});
 				let stockId;
 				let pointer4 = Bmob.Pointer('stocks');
 				let out_stockId = pointer4.set(that.out_stock.objectId);
 
 				let billsObj = new Array();
 				let detailObj = [];
-				for (let i = 0; i < this.products.length; i++) {
+				for (let i = 0; i < that.products.length; i++) {
 					let pointer3 = Bmob.Pointer('stocks');
 					stockId = pointer3.set(this.products[i].stocks.objectId)
 
@@ -197,6 +211,24 @@
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
+
+					let query = Bmob.Query('Goods');
+					query.get(that.products[i].objectId).then(res => {
+						let num = Number(this.products[i].reserve) - Number(this.products[i].num)
+						if (this.products[i].selected_model) {
+							for (let model of this.products[i].selected_model) {
+								for (let item of this.products[i].models) {
+									if (item.id == model.id) {
+										item.reserve = Number(item.reserve) - Number(model.num)
+									}
+									delete item.num // 清除没用的属行
+								}
+							}
+							res.set('models', this.products[i].models)
+						}
+						res.set('reserve', num)
+						res.save()
+					})
 				}
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
 					//console.log("批量新增单据成功", res);
@@ -229,27 +261,73 @@
 						//console.log("添加操作历史记录成功", res);
 						uni.hideLoading();
 						//uni.removeStorageSync("customs"); //移除这个缓存
-						uni.showToast({
-							title: '产品调拨成功',
-							icon: 'success',
-							success: function() {
+						
+						that.button_disabled = false;
+						uni.setStorageSync("is_option", true);
 
-								that.button_disabled = false;
-								uni.setStorageSync("is_option", true);
-								//uni.removeStorageSync("warehouse");
+						for (let j = 0; j < shouldProducts.length; j++) {
+							const query = Bmob.Query('Goods');
+							query.equalTo("goodsName", "==", shouldProducts[j].goodsName);
+							query.equalTo("userId", "==", uid);
+							query.equalTo("stocks", "==", that.out_stock.objectId);
+							query.find().then(res => {
+								let out_products = res
+								if (out_products.length == 0) {
+									common.upload_good_withNoCan(shouldProducts[j], that.out_stock, Number(shouldProducts[j].num), "allocation")
+										.then(res => {
+											if (j == shouldProducts.length - 1) {
+												uni.hideLoading()
+												uni.removeStorageSync("warehouse");
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+												
+												uni.showToast({title:"调拨成功"})
+												setTimeout(function(){
+													uni.navigateBack({
+														delta: 2
+													});
+												},500)
+											}
+										})
+								} else {
+									query.get(out_products[0].objectId).then(res => {
+										if (shouldProducts[j].selected_model) {
+											for (let model of shouldProducts[j].selected_model) {
+												for (let item of out_products[0].models) {
+													if (item.id == model.id) {
+														item.reserve = Number(item.reserve) + Number(model.num)
+													}
+													delete item.num // 清除没用的属行
+												}
+											}
+											res.set('models', out_products[0].models)
+										}
+										res.set('reserve', Number(out_products[0].reserve) + Number(shouldProducts[j].num))
+										res.save()
 
-								setTimeout(() => {
-									uni.removeStorageSync("_warehouse")
-									uni.removeStorageSync("out_warehouse")
-									uni.removeStorageSync("category")
-									uni.removeStorageSync("warehouse")
-									
-									uni.navigateBack({
-										delta: 2
-									});
-								}, 500)
-							}
-						})
+										if (j == shouldProducts.length - 1) {
+											uni.hideLoading()
+											uni.removeStorageSync("warehouse");
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
+
+											uni.showToast({title:"调拨成功"})
+											setTimeout(function(){
+												uni.navigateBack({
+													delta: 2
+												});
+											},500)
+										}
+									})
+								}
+
+							})
+						}
+						//*/
 					})
 				}, function(error) {
 					// 批量新增异常处理
