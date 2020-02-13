@@ -365,7 +365,7 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', Number(that.real_money));
 						if (shop) query.set("shop", shopId);
-						if(that.account){
+						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
@@ -386,36 +386,56 @@
 							let operationId = res.objectId;
 							uni.hideLoading();
 
-							uni.showToast({
-								title: '退货成功',
-								icon: 'success',
-								success: function() {
-									common.enterAddGoodNum(that.products).then(result => { //减少产品数量
-										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);
 
-										const accountQuery = Bmob.Query('accounts');
-										accountQuery.get(that.account.objectId).then(res => {
-											res.set('money', res.money - Number(that.real_money));
-											res.save().then(res => {
-												setTimeout(() => {
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
+							common.enterAddGoodNum(that.products).then(result => { //减少产品数量
+								
 
-													common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-														that.products.length + "商品的退货", 2, operationId);
+								if (that.account && that.account.objectId) {
+									const accountQuery = Bmob.Query('accounts');
+									accountQuery.get(that.account.objectId).then(res => {
+										res.set('money', res.money - Number(that.real_money));
+										res.save().then(res => {
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
 
-													uni.navigateBack({
-														delta: 2
-													});
-												}, 500)
+											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName +
+												"'等" +
+												that.products.length + "商品的退货", 2, operationId);
+											uni.showToast({
+												title: "退货成功"
 											})
+											setTimeout(() => {
+												uni.navigateBack({
+													delta: 2
+												});
+											}, 500)
 										})
-
 									})
-								},
+								} else {
+									that.button_disabled = false;
+									uni.setStorageSync("is_option", true);
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.removeStorageSync("warehouse")
+
+									common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
+										that.products.length + "商品的退货", 2, operationId);
+									uni.showToast({
+										title: "退货成功"
+									})
+									setTimeout(() => {
+										uni.navigateBack({
+											delta: 2
+										});
+									}, 500)
+								}
+
+
 							})
 						})
 					},

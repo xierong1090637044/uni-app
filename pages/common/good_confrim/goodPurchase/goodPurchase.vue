@@ -264,9 +264,9 @@
 				this.button_disabled = true;
 				let fromid = e.detail.formId
 				let extraType = 1 // 判断是采购还是入库
-				
+
 				uni.showLoading({
-					title: "上传中..."
+					title: "请勿退出..."
 				});
 
 				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
@@ -282,7 +282,7 @@
 				let detailObj = [];
 				let stockIds = [];
 				let stockNames = [];
-				
+
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 
@@ -326,7 +326,7 @@
 						let stockId = pointer.set(this.products[i].stocks.objectId);
 						tempBills.set("stock", stockId);
 						detailBills.stock = this.products[i].stocks.stock_name
-						if(stockIds.indexOf(this.products[i].stocks.objectId) == -1){
+						if (stockIds.indexOf(this.products[i].stocks.objectId) == -1) {
 							stockIds.push(this.products[i].stocks.objectId)
 							stockNames.push(this.products[i].stocks.stock_name)
 						}
@@ -427,69 +427,52 @@
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
-							uni.hideLoading();
-							uni.showToast({
-								title: '产品采购成功',
-								icon: 'success',
-								duration: 1000,
-								complete: function() {
 
-									if (that.canOpretion) {
-										common.enterAddGoodNum(that.products).then(result => { //添加产品数量
-											setTimeout(() => {
+							if (that.canOpretion) {
+								common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+									uni.hideLoading();
+									that.button_disabled = false;
+									uni.setStorageSync("is_option", true);
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.removeStorageSync("warehouse")
 
-												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-													that.products
-													.length + "商品", 1, operationId);
-
-												that.button_disabled = false;
-												uni.setStorageSync("is_option", true);
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
-
-										})
-									} else {
-										setTimeout(() => {
-
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-												that.products.length + "商品，还未入库", 11, operationId);
-
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.removeStorageSync("warehouse")
-											uni.navigateBack({
-												delta: 2
-											});
-										}, 500)
-
-										let params = {
-											"frist": uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
-												.products
-												.length + "商品",
-											"data1": operationId,
-											"data2": uni.getStorageSync("user").nickName,
-											"data3": "未审核",
-											"data4": res.createdAt,
-											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-												operationId,
-										};
-										send_temp.send_in_noconfrim(params);
-									}
+									uni.showToast({
+										title: "产品采购成功"
+									})
+									setTimeout(function() {
+										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+											that.products
+											.length + "商品", 1, operationId);
+										uni.navigateBack({
+											delta: 2
+										});
+									}, 500)
+								})
+							} else {
+								uni.hideLoading();
 
 
+								that.button_disabled = false;
+								uni.setStorageSync("is_option", true);
+								uni.removeStorageSync("_warehouse")
+								uni.removeStorageSync("out_warehouse")
+								uni.removeStorageSync("category")
+								uni.removeStorageSync("warehouse")
+								uni.showToast({
+									title: "产品采购成功"
+								})
+								setTimeout(function() {
+									common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+										that.products.length + "商品，还未入库", 11, operationId);
+									uni.navigateBack({
+										delta: 2
+									});
+								}, 500)
 
-								}
-							})
+							}
+
 						})
 
 					},

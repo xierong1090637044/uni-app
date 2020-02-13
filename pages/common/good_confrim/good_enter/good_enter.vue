@@ -191,24 +191,24 @@
 			//表单提交
 			formSubmit: function(e) {
 				let identity = uni.getStorageSync("identity") // 身份识别标志
-				
-				if(this.button_disabled){
+
+				if (this.button_disabled) {
 					return
 				}
-				
+
 				//console.log(e)
 				this.button_disabled = true;
 				let fromid = e.detail.formId
 				let extraType = 2
 				uni.showLoading({
-					title: "上传中..."
+					title: "请勿退出..."
 				});
 
 				let billsObj = new Array();
 				let detailObj = [];
 				let stockIds = [];
 				let stockNames = [];
-				
+
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 
@@ -219,7 +219,7 @@
 					let pointer = Bmob.Pointer('_User')
 					let user = pointer.set(uid)
 					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].header?this.products[i].header.objectId:this.products[i].objectId);
+					let tempGoods_id = pointer1.set(this.products[i].header ? this.products[i].header.objectId : this.products[i].objectId);
 
 					let masterId = uni.getStorageSync("masterId");
 					let pointer2 = Bmob.Pointer('_User')
@@ -247,7 +247,7 @@
 						let stockId = pointer.set(this.products[i].stocks.objectId);
 						tempBills.set("stock", stockId);
 						detailBills.stock = this.products[i].stocks.stock_name
-						if(stockIds.indexOf(this.products[i].stocks.objectId) == -1){
+						if (stockIds.indexOf(this.products[i].stocks.objectId) == -1) {
 							stockIds.push(this.products[i].stocks.objectId)
 							stockNames.push(this.products[i].stocks.stock_name)
 						}
@@ -316,67 +316,66 @@
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
-							uni.hideLoading();
-							uni.showToast({
-								title: '产品入库成功',
-								icon: 'success',
-								duration: 1000,
-								complete: function() {
-									common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 
-										common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
-											that.products
-											.length + "商品", 1, operationId);
+							common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+								uni.hideLoading();
+								
+								common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
+									that.products
+									.length + "商品", 1, operationId);
 
-										let params = {
-											"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
-												that.products
-												.length + "商品",
-											"data1": res.createdAt,
-											"data2": that.stock ? that.stock.stock_name : "未填写",
-											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-												operationId,
-										};
-										send_temp.send_in(params);
+								let params = {
+									"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
+										that.products
+										.length + "商品",
+									"data1": res.createdAt,
+									"data2": that.stock ? that.stock.stock_name : "未填写",
+									"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+									"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
+										operationId,
+								};
+								send_temp.send_in(params);
 
-										let params1 = {
-											"keyword1": {
-												"value": that.products[0].goodsName + "'等",
-												"color": "#173177"
-											},
-											"keyword2": {
-												"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-											},
-											"keyword3": {
-												"value": res.createdAt
-											},
-											"keyword4": {
-												"value": uni.getStorageSync("user").nickName,
-											}
-										}
-										params1.form_Id = fromid
-										params1.id = operationId
-										send_temp.send_in_mini(params1);
-
-										//自动打印
-										if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
-										}
-
-										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										uni.navigateBack({
-											delta: 2
-										});
-									})
-
+								let params1 = {
+									"keyword1": {
+										"value": that.products[0].goodsName + "'等",
+										"color": "#173177"
+									},
+									"keyword2": {
+										"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+									},
+									"keyword3": {
+										"value": res.createdAt
+									},
+									"keyword4": {
+										"value": uni.getStorageSync("user").nickName,
+									}
 								}
+								params1.form_Id = fromid
+								params1.id = operationId
+								send_temp.send_in_mini(params1);
+
+								//自动打印
+								if (uni.getStorageSync("setting").auto_print) {
+									print.autoPrint(operationId);
+								}
+
+								that.button_disabled = false;
+								uni.setStorageSync("is_option", true);
+								uni.removeStorageSync("_warehouse")
+								uni.removeStorageSync("out_warehouse")
+								uni.removeStorageSync("category")
+								uni.removeStorageSync("warehouse")
+								
+								uni.showToast({title: "入库成功"})
+								setTimeout(function(){
+									uni.navigateBack({
+										delta: 2
+									});
+								},500)
+								
 							})
+
 						})
 
 					},

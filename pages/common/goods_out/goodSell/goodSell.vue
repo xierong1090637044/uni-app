@@ -136,7 +136,7 @@
 					<view class="display_flex">
 						<!--<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
 						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>-->
-						 <button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
 					</view>
 
 				</view>
@@ -361,7 +361,7 @@
 				let extraType = 1 // 判断是销售还是出库
 
 				uni.showLoading({
-					title: "上传中..."
+					title: "请勿退出..."
 				});
 
 				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
@@ -377,7 +377,7 @@
 				let detailObj = [];
 				let stockIds = [];
 				let stockNames = [];
-				
+
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
 
@@ -421,7 +421,7 @@
 						let stockId = pointer.set(this.products[i].stocks.objectId);
 						tempBills.set("stock", stockId);
 						detailBills.stock = this.products[i].stocks.stock_name
-						if(stockIds.indexOf(this.products[i].stocks.objectId) == -1){
+						if (stockIds.indexOf(this.products[i].stocks.objectId) == -1) {
 							stockIds.push(this.products[i].stocks.objectId)
 							stockNames.push(this.products[i].stocks.stock_name)
 						}
@@ -493,7 +493,7 @@
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
-							
+
 							const accountQuery = Bmob.Query('accounts');
 							accountQuery.get(that.account.objectId).then(res => {
 								res.set('money', res.money + Number(that.real_money));
@@ -534,49 +534,47 @@
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							uni.hideLoading();
-							uni.removeStorageSync("customs"); //移除这个缓存
-
-							uni.showToast({
-								title: '产品销售成功',
-								icon: 'success',
-								success: function() {
-									if (that.canOpretion) {
-										common.outRedGoodNum(that.products).then(result => { //减少产品数量		
-											setTimeout(() => {
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-
-												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品", -1, operationId);
-
-												that.button_disabled = false;
-												uni.setStorageSync("is_option", true);
-												uni.navigateBack({
-													delta: 2
-												});
-											}, 500)
-										})
-									} else {
+							
+							if (that.canOpretion) {
+								common.outRedGoodNum(that.products).then(result => { //减少产品数量		
+										uni.hideLoading();
 										uni.removeStorageSync("_warehouse")
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
 
-										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-											that.products.length + "商品", -1, operationId);
-
 										that.button_disabled = false;
 										uni.setStorageSync("is_option", true);
-										uni.navigateBack({
-											delta: 2
-										});
-									}
+										
+										uni.showToast({title:"产品销售成功"})
+										setTimeout(function(){
+											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
+											uni.navigateBack({
+												delta: 2
+											});
+										},500)
+										
+								})
+							} else {
+								uni.hideLoading();
+								uni.removeStorageSync("_warehouse")
+								uni.removeStorageSync("out_warehouse")
+								uni.removeStorageSync("category")
+								uni.removeStorageSync("warehouse")
 
-								},
-							})
+								that.button_disabled = false;
+								uni.setStorageSync("is_option", true);
+								
+								uni.showToast({title:"产品销售成功"})
+								setTimeout(function(){
+									common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+										that.products.length + "商品", -1, operationId);
+									uni.navigateBack({
+										delta: 2
+									});
+								},500)
+							}
+
 						})
 					},
 					function(error) {
