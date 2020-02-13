@@ -251,7 +251,7 @@
 			if (uni.getStorageSync("user")) { //登陆情况下进行的操作
 			  that.user = uni.getStorageSync("user")
 				mine.query_setting();
-				if (that.user.rights) {
+				if (that.user.identity ==2 && that.user.rights) {
 					that.othercurrent = that.user.rights.othercurrent || []
 					
 					if(that.user.rights.current.indexOf("6") == -1){

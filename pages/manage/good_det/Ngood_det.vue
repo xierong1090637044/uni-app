@@ -11,7 +11,7 @@
 			<view class="second">
 				<view class="second_one">
 					<view style="color: #3d3d3d;font-weight: bold;font-size: 34rpx;">{{product.goodsName}}</view>
-					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
+					<view v-if="user.identity == 2 && user.rights && user.rights.othercurrent[0] != '0'"></view>
 					<view v-else>成本价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.costPrice}}</text></view>
 					<view>零售价: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.retailPrice}}</text></view>
 				</view>
@@ -326,7 +326,7 @@
 						}
 						
 						//当员工没有查看进价的权限时
-						if(that.user.rights &&that.user.rights.othercurrent.indexOf("0") !=-1){
+						if(that.user.identity == 2&&that.user.rights &&that.user.rights.othercurrent.indexOf("0") !=-1){
 							product.costPrice  = 0
 						}
 
@@ -376,7 +376,7 @@
 						}
 					}
 					
-					if(that.user.rights &&that.user.rights.othercurrent.indexOf("0") !=-1){
+					if(that.user.identity == 2&&that.user.rights &&that.user.rights.othercurrent.indexOf("0") !=-1){
 						product.costPrice  = 0
 					}
 					
