@@ -429,7 +429,33 @@
 							//console.log("添加操作历史记录成功", res);
 
 							if (that.canOpretion) {
-								common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+								let params =　{
+								  funcName: 'goodEnter',
+								  data: {
+								    products :that.products,
+								  }
+								}
+								Bmob.functions(params.funcName,params.data).then(function (results) {
+									if(results.code == 1){
+										uni.hideLoading();
+										uni.setStorageSync("is_option", true);
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
+										uni.showToast({
+											title: "产品采购成功"
+										})
+										setTimeout(function() {
+											that.button_disabled = false;
+											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
+											uni.navigateBack({
+												delta: 2
+											});
+										}, 500)
+									}
+								})
+								/*common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 									uni.hideLoading();
 									that.button_disabled = false;
 									uni.setStorageSync("is_option", true);
@@ -437,24 +463,18 @@
 									uni.removeStorageSync("out_warehouse")
 									uni.removeStorageSync("category")
 									uni.removeStorageSync("warehouse")
-
 									uni.showToast({
 										title: "产品采购成功"
 									})
 									setTimeout(function() {
-										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-											that.products
-											.length + "商品", 1, operationId);
+										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
 										uni.navigateBack({
 											delta: 2
 										});
 									}, 500)
-								})
+								})*/
 							} else {
 								uni.hideLoading();
-
-
-								that.button_disabled = false;
 								uni.setStorageSync("is_option", true);
 								uni.removeStorageSync("_warehouse")
 								uni.removeStorageSync("out_warehouse")
@@ -464,8 +484,9 @@
 									title: "产品采购成功"
 								})
 								setTimeout(function() {
-									common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-										that.products.length + "商品，还未入库", 11, operationId);
+									that.button_disabled = false;
+									common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products.length + "商品，还未入库", 11, operationId);
+									
 									uni.navigateBack({
 										delta: 2
 									});

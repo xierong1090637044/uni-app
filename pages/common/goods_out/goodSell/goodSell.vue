@@ -451,8 +451,6 @@
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
-
-
 				}
 				//插入单据
 				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
@@ -493,7 +491,6 @@
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
-
 							const accountQuery = Bmob.Query('accounts');
 							accountQuery.get(that.account.objectId).then(res => {
 								res.set('money', res.money + Number(that.real_money));
@@ -536,7 +533,37 @@
 							let operationId = res.objectId;
 							
 							if (that.canOpretion) {
-								common.outRedGoodNum(that.products).then(result => { //减少产品数量		
+								
+								let params =　{
+								  funcName: 'goodOut',
+								  data: {
+								    products :that.products,
+								  }
+								}
+								Bmob.functions(params.funcName,params.data).then(function (results) {
+								    //console.log(results);
+										if(results.code == 1){
+											uni.showToast({
+												title: "产品销售成功",
+												duration:1000,
+												complete:function() {
+													that.button_disabled = false;
+													uni.hideLoading();
+													uni.setStorageSync("is_option", true);
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
+													uni.removeStorageSync("warehouse")
+													setTimeout(function(){
+														common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
+														uni.navigateBack({delta: 2});
+													},1000)
+												}
+											})
+										}
+								})
+								
+								/*common.outRedGoodNum(that.products).then(result => { //减少产品数量		
 										uni.hideLoading();
 										uni.removeStorageSync("_warehouse")
 										uni.removeStorageSync("out_warehouse")
@@ -554,25 +581,7 @@
 											});
 										},500)
 										
-								})
-							} else {
-								uni.hideLoading();
-								uni.removeStorageSync("_warehouse")
-								uni.removeStorageSync("out_warehouse")
-								uni.removeStorageSync("category")
-								uni.removeStorageSync("warehouse")
-
-								that.button_disabled = false;
-								uni.setStorageSync("is_option", true);
-								
-								uni.showToast({title:"产品销售成功"})
-								setTimeout(function(){
-									common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-										that.products.length + "商品", -1, operationId);
-									uni.navigateBack({
-										delta: 2
-									});
-								},500)
+								})*/
 							}
 
 						})

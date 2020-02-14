@@ -375,94 +375,43 @@
 							"__type": "Date",
 							"iso": that.nowDay
 						});
-
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
 						query.set("custom", customID);
-						/*if (that.stock) {
-							const pointer = Bmob.Pointer('stocks');
-							let stockId = pointer.set(that.stock.objectId);
-							query.set("status", true); // 操作单详情
-							query.set("stock", stockId);
-						} else {
-							query.set("status", false); // 操作单详情
-						}*/
-
 						query.set("status", false); // 操作单详情
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							uni.hideLoading();
-							uni.removeStorageSync("customs"); //移除这个缓存
-							if (that.stock) { // 执行入库操作
-								uni.showToast({
-									title: '销售退货成功',
-									icon: 'success',
-									duration: 1000,
-									success: function() {
-										common.enterAddGoodNumNew(that.products).then(result => { //减少产品数量
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-
-											setTimeout(() => {
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-
-												common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品的销售退货", 2, operationId);
-												//自动打印
-												if (uni.getStorageSync("setting").auto_print) {
-													print.autoPrint(operationId);
-												}
-
-												uni.redirectTo({
-													url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
-												})
-											}, 1000)
-										})
-
-									}
-								})
-							} else { // 执行销售操作
-
-								uni.showToast({
-									title: '销售退货成功',
-									icon: 'success',
-									duration: 1000,
-									success: function() {
+							
+							uni.showToast({
+								title: '销售退货成功',
+								icon: 'success',
+								duration: 1000,
+								success: function() {
+									uni.hideLoading();
+									uni.setStorageSync("is_option", true);
+									uni.removeStorageSync("customs"); //移除这个缓存
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.removeStorageSync("warehouse")
+									setTimeout(() => {
 										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);
+										
+										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +that.products.length + "商品的销售退货", 2, operationId);
 
-										setTimeout(() => {
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.removeStorageSync("warehouse")
-
-											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-												that.products.length + "商品的销售退货", 2, operationId);
-
-											uni.redirectTo({
-												url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
-											})
-										}, 1000)
-
-									},
-								})
-
-							}
-
+										uni.redirectTo({
+											url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
+										})
+									}, 1000)
+								},
+							})
 						})
-
-
 					},
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
 					});
-
 			}
 		}
 	}

@@ -307,7 +307,7 @@
 						query.set('debt', 0);
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", true); // 操作单详情
+						query.set("status", false); // 操作单详情
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -315,9 +315,40 @@
 
 						query.save().then(res => {
 							let operationId = res.objectId
+							
+							let params =　{
+							  funcName: 'goodEnter',
+							  data: {
+							    products :that.products,
+									operationId:operationId
+							  }
+							}
+							Bmob.functions(params.funcName,params.data).then(function (results) {
+									if(results.code == 1){
+										uni.showToast({
+											title: "入库成功",
+											duration:1000,
+											complete:function() {
+												that.button_disabled = false;
+												uni.hideLoading();
+												uni.setStorageSync("is_option", true);
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+												setTimeout(function(){
+													uni.navigateBack({delta: 2});
+												},1000)
+												
+											}
+										})
+										
+									}
+							})
+							
 							//console.log("添加操作历史记录成功", res);
 
-							common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+							/*common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 								uni.hideLoading();
 								
 								common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
@@ -374,7 +405,7 @@
 									});
 								},500)
 								
-							})
+							})*/
 
 						})
 

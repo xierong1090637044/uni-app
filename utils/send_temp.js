@@ -68,11 +68,11 @@ export default {
 		});
 	},
 	
-	//发送入库模板
+	//小程序发送出库模板
 	send_out_mini(params){
 		let modelData = {
 		    "touser": uni.getStorageSync("openid"),
-		    "template_id": "z0Km0FFiuvnNiUcXtZD046j43ue5_AxR05cDHFLLXPY",
+		    "template_id": "BKT2_0OuWF3mLZGvFmpRzWFa_Dyr4EIppl_LFF1uRLE",
 		    "page": "/pages/report/EnteringHistory/detail/detail?id="+params.id,
 		    "form_id":params.form_Id,
 		    "data": params,

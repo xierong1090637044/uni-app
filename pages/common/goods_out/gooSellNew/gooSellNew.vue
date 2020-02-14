@@ -130,8 +130,8 @@
 					<view class="display_flex">
 						<!--<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
 						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>-->
-						 
-						 <button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
+
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
 					</view>
 
 				</view>
@@ -521,69 +521,26 @@
 							let operationId = res.objectId;
 							uni.hideLoading();
 							uni.removeStorageSync("customs"); //移除这个缓存
-							if (that.stock) { // 执行入库操作
-								uni.showToast({
-									title: '销售成功',
-									icon: 'success',
-									duration: 1000,
-									success: function() {
-										common.outRedGoodNumNew(that.products).then(result => { //减少产品数量
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-
-											setTimeout(() => {
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-
-												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
-													that.products.length + "商品，并且已经出库", -11, operationId);
-												//自动打印
-												if (uni.getStorageSync("setting").auto_print) {
-													print.autoPrint(operationId);
-												}
-
-												uni.redirectTo({
-													url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-												})
-											}, 1000)
-										})
-
-									}
-								})
-							} else { // 执行销售操作
-
-								uni.showToast({
-									title: '产品销售成功',
-									icon: 'success',
-									duration: 1000,
-									success: function() {
+							uni.removeStorageSync("_warehouse")
+							uni.removeStorageSync("out_warehouse")
+							uni.removeStorageSync("category")
+							uni.removeStorageSync("warehouse")
+							uni.setStorageSync("is_option", true);
+							uni.showToast({
+								title: '产品销售成功',
+								icon: 'success',
+								duration: 1000,
+								success: function() {
+									setTimeout(() => {
+										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products.length + "商品，暂未出库", -11, res.objectId);
 										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);
-										setTimeout(() => {
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.removeStorageSync("warehouse")
-
-											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
-												.length + "商品，暂未出库", -11, res.objectId);
-
-											uni.redirectTo({
-												url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-											})
-										}, 1000)
-
-
-									},
-								})
-
-							}
-
+										uni.redirectTo({
+											url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
+										})
+									}, 1000)
+								},
+							})
 						})
-
-
 					},
 					function(error) {
 						// 批量新增异常处理

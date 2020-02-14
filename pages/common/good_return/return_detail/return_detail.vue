@@ -384,12 +384,62 @@
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							uni.hideLoading();
+							let params =　{
+							  funcName: 'goodEnter',
+							  data: {
+							    products :that.products,
+							  }
+							}
+							Bmob.functions(params.funcName,params.data).then(function (results) {
+								if(results.code == 1){
+									if (that.account && that.account.objectId) {
+										const accountQuery = Bmob.Query('accounts');
+										accountQuery.get(that.account.objectId).then(res => {
+											res.set('money', res.money - Number(that.real_money));
+											res.save().then(res => {
+												
+												uni.hideLoading();
+												uni.setStorageSync("is_option", true);
+												uni.removeStorageSync("_warehouse")
+												uni.removeStorageSync("out_warehouse")
+												uni.removeStorageSync("category")
+												uni.removeStorageSync("warehouse")
+									
+												common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName +"'等" + that.products.length + "商品的退货", 2, operationId);
+												uni.showToast({
+													title: "退货成功"
+												})
+												setTimeout(() => {
+													that.button_disabled = false;
+													uni.navigateBack({
+														delta: 2
+													});
+												}, 500)
+											})
+										})
+									} else {
+										uni.hideLoading();
+										uni.setStorageSync("is_option", true);
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
+									
+										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that.products.length + "商品的退货", 2, operationId);
+										uni.showToast({
+											title: "退货成功"
+										})
+										setTimeout(() => {
+											that.button_disabled = false;
+											uni.navigateBack({
+												delta: 2
+											});
+										}, 500)
+									}
+								}
+							})
 
-
-							common.enterAddGoodNum(that.products).then(result => { //减少产品数量
-								
-
+							/*common.enterAddGoodNum(that.products).then(result => { //减少产品数量
 								if (that.account && that.account.objectId) {
 									const accountQuery = Bmob.Query('accounts');
 									accountQuery.get(that.account.objectId).then(res => {
@@ -436,7 +486,7 @@
 								}
 
 
-							})
+							})*/
 						})
 					},
 					function(error) {
