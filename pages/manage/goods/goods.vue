@@ -1,9 +1,6 @@
 <template>
 	<view class="page">
-
-		<loading v-if="loading"></loading>
-
-		<view v-else class="content">
+		<view class="content">
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-left="shaixuan"
 			 @click-right="goto_add" left-text="筛选">
 				<view class="input-view">
@@ -199,15 +196,15 @@
 			//数据重置
 			search_text = '';
 			page_size = 30;
-			that.category = "", //选择的类别
-				that.stock = "", //选择的仓库
-				that.checked = false, //选择的是否失效
-				that.stock_checked = false,
-				that.search_text = '',
-				that.page_num = 1,
-				page_num = 1,
+			that.category = ""; //选择的类别
+			that.stock = ""; //选择的仓库
+			that.checked = false; //选择的是否失效
+			that.stock_checked = false;
+			that.search_text = '';
+			that.page_num = 1;
+			page_num = 1;
 
-				uni.removeStorageSync("is_add");
+			uni.removeStorageSync("is_add");
 		},
 
 		methods: {
@@ -361,6 +358,7 @@
 
 			//查询产品列表
 			get_productList() {
+				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 
@@ -398,10 +396,11 @@
 				query.find().then(res => {
 					//console.log(res)
 					for (let item of res) {
-						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float:0)
+						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :0)
 					}
 					this.productList = res;
-					this.loading = false;
+					uni.hideLoading();
+					//this.loading = false;
 				});
 			},
 

@@ -10,9 +10,9 @@ export default {
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
 			query.equalTo("status", "!=", -1);
-			
+			query.equalTo("order", "!=", 1);
 			query.order("-reserve"); //按照条件降序
-			query.limit(30);
+			query.limit(20);
 			query.select("reserve","goodsName");
 			query.find().then(res => {
 				//console.log(res)
