@@ -20,6 +20,8 @@
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>页面样式优化</text>
+						<text>员工权限优化</text>
+						<text>图表bug修复</text>
 						<text>一些bug修复</text>
 					</view>
 				</view>

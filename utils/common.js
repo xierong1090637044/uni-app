@@ -99,13 +99,13 @@ module.exports = {
 							query1.equalTo("order", "==", 1);
 							query1.statTo("sum", "reserve");
 							query1.find().then(res => {
-								console.log("dasds", res)
+								//console.log("dasds", res)
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].header.objectId)
 								query.save().then(res => {
-									that.modifyStockType(products[i].header.objectId)
+									that.modifyStockType(products[i].header.objectId) //修改库存类型
 									if (i == products.length - 1) {
 										resolve(true)
 									}
@@ -113,7 +113,7 @@ module.exports = {
 							})
 					
 						} else {
-							that.modifyStockType(products[i].objectId)
+							that.modifyStockType(products[i].objectId)//修改库存类型
 							if (i == products.length - 1) {
 								resolve(true)
 							}

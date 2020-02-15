@@ -451,7 +451,7 @@
 							product.objectId = product.goodsId.objectId
 							product.costPrice = res.costPrice
 							product.retailPrice = res.retailPrice
-							common.upload_good_withNoCan(product, that.stock, Number(product.num)).then(res => { //上传没有的产品
+							common.upload_good_withNoCan(res, that.stock, Number(product.num)).then(res => { //上传没有的产品
 								const query1 = Bmob.Query("Goods");
 								query1.equalTo("header", "==", product.goodsId.objectId);
 								query1.equalTo("order", "==", 1);
@@ -591,7 +591,7 @@
 							product.objectId = product.goodsId.objectId
 							product.costPrice = res.costPrice
 							product.retailPrice = res.retailPrice
-							common.upload_good_withNoCan(product, that.stock, 0 - Number(product.num)).then(res => {
+							common.upload_good_withNoCan(res, that.stock, 0 - Number(product.num)).then(res => {
 								console.log(res)
 								const query1 = Bmob.Query("Goods");
 								query1.equalTo("header", "==", product.goodsId.objectId);

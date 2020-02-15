@@ -114,13 +114,13 @@ export default {
 				for (let item of res) {
 					let key = categories.indexOf(item.createdAt)
 					if (item.type == 1 && key != -1) {
-						inData[key] = item._sumNum
-						inMoney[key] = item._sumTotal_money
-						inReaMoney[key] = item._sumReally_total_money
+						inData[key-1] = item._sumNum
+						inMoney[key-1] = item._sumTotal_money
+						inReaMoney[key-1] = item._sumReally_total_money
 					} else {
-						outData[key] = item._sumNum
-						outMoney[key] = item._sumTotal_money
-						outReaMoney[key] = item._sumReally_total_money
+						outData[key-1] = item._sumNum
+						outMoney[key-1] = item._sumTotal_money
+						outReaMoney[key-1] = item._sumReally_total_money
 					}
 				}
 				
@@ -252,13 +252,13 @@ export default {
 				for (let item of res) {
 					let key = categories.indexOf(item.createdAt)
 					if (item.type == 1 && key != -1) {
-						inData[key] = item._sumNum
-						inMoney[key] = item._sumTotal_money
-						inReaMoney[key] = item._sumReally_total_money
+						inData[key-1] = item._sumNum
+						inMoney[key-1] = item._sumTotal_money
+						inReaMoney[key-1] = item._sumReally_total_money
 					} else {
-						outData[key] = item._sumNum
-						outMoney[key] = item._sumTotal_money
-						outReaMoney[key] = item._sumReally_total_money
+						outData[key-1] = item._sumNum
+						outMoney[key-1] = item._sumTotal_money
+						outReaMoney[key-1] = item._sumReally_total_money
 					}
 				}
 				
