@@ -470,10 +470,10 @@
 
 						console.log(good)
 
-						that.goodsName = good.goodsName,
-							that.producer = good.manuName,
-							that.goodsIcon = good.img //产品图片
-						that.product_info = good.note //产品简介
+						that.goodsName = good.goodsName;
+						that.producer = good.manuName;
+						that.goodsIcon = good.img; //产品图片
+						that.product_info = good.note; //产品简介
 
 						that.productCode = id
 					}
@@ -666,7 +666,7 @@
 								if (good.max_num != "") {
 									res.set("max_num", Number(good.max_num))
 								}
-								
+
 								if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
 									if (that.category.type == 1) {
 										res.set("goodsClass", p_class_user_id)
@@ -675,8 +675,8 @@
 										res.set("second_class", p_second_class_id)
 									}
 								}
-								
-								(that.productMoreG && item.now_model) ? res.set("models", item.now_model) : ''
+
+								(that.productMoreG && item.now_model) ? res.set("models", item.now_model): ''
 								res.save()
 							}).catch(err => {
 								console.log(err)
@@ -773,7 +773,7 @@
 							queryObj.set("userId", userid)
 							queryObj.set("stocks", p_stock_id)
 							queryObj.set("reserve", Number(stocksReserve[i].reserve))
-							
+
 							if (uni.getStorageSync("category")) { //存在此缓存证明选择了类别
 								if (that.category.type == 1) {
 									queryObj.set("goodsClass", p_class_user_id)
@@ -782,7 +782,7 @@
 									queryObj.set("second_class", p_second_class_id)
 								}
 							}
-							
+
 							if (good.warning_num != "") {
 								queryObj.set("warning_num", Number(good.warning_num))
 							}

@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>产品：{{item.goodsName}}</view>
-					<view class='pro_list' style='color:#3D3D3D'>调出仓库：{{item.stocks.stock_name}}</view>
+					<view class='pro_list'>产品：{{item.goodsName}}</view>
+					<view class='pro_list'>调出仓库：{{item.stocks.stock_name}}</view>
 					<view class='pro_list'>
 						<view>库存：{{item.reserve}}</view>
 						<view>调出库存：{{item.num}}</view>
@@ -22,7 +22,7 @@
 			<form @submit="formSubmit">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">调拨明细</view>
+					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">调拨明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose"
 						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">

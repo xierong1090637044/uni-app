@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#3D3D3D'>
@@ -26,17 +26,24 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">销售明细</view>
+					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">销售明细</view>
 					<view style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;background: #fff;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">选择门店</view>
+							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
+								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
@@ -44,40 +51,32 @@
 							</view>
 						</navigator>
 
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="custom.discount">
+						<view class="display_flex_bet" style="padding: 10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="custom.discount">
 							<view style="width: 140rpx;">折扣率</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
 								 @input="getDiscount" />%
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<view class="display_flex_bet" style="padding: 10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view>是否欠款</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
 								<switch :checked="wetherDebt" @change="changeDebtStatus" />
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
 							<view>实际收款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际收款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
 								 type="digit" /></view>
 						</view>
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx;background: #fff;margin:20rpx 0;">
-							<view style="width: 140rpx;">选择门店</view>
-							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;margin-top:20rpx;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;margin-top:20rpx;">
 							<view style="width: 140rpx;">发货方式</view>
 							<picker class="kaidan_rightinput" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
 							</picker>
 						</view>
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="outType.type == 2 || outType.type == 3">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="outType.type == 2 || outType.type == 3">
 							<view style="width: 140rpx;">快递单号</view>
 							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;" />
@@ -86,7 +85,7 @@
 							</view>
 						</view>
 
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;margin-top:20rpx;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;margin-top:20rpx;">
 							<view style="width: 140rpx;">销售时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -95,16 +94,14 @@
 								</view>
 							</picker>
 						</view>
-
-
-						<view class="display_flex_bet" style="padding:10rpx;background: #fff;border-bottom: 1rpx solid#F7F7F7;margin-top:20rpx;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;background: #fff;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 					</view>
 				</view>
 
-				<view style='background: #fff;padding: 10rpx;'>
+				<view style='background: #fff;padding: 10rpx 20rpx;'>
 					<view class="notice_text">上传凭证图(会员可用)</view>
 
 					<view style="width: 100%;padding: 20rpx 0;">
@@ -124,13 +121,10 @@
 
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
 					<view>
-						<text>合计：￥{{real_money}}</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
+						<view>合计：￥{{real_money}}</view>
+						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
-						<!--<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
-						 v-if="othercurrent.indexOf('2') !=-1 || identity==1">销售</button>-->
-
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">销售</button>
 					</view>
 
@@ -556,7 +550,7 @@
 	.page {
 		color: #4d4d4d;
 		font-size: 28rpx;
-		height: calc(100vh - 90rpx);
+		height: calc(100vh - 110rpx);
 		overflow: scroll;
 	}
 

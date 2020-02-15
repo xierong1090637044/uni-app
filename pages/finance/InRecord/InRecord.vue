@@ -374,7 +374,7 @@
 	.page {
 		color: #4d4d4d;
 		font-size: 28rpx;
-		height: calc(100vh - 90rpx);
+		height: calc(100vh - 110rpx);
 		overflow: scroll;
 	}
 

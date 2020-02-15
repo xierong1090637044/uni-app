@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>
+					<view class='pro_list' style='color:#333'>
 						<view>产品：{{item.goodsName}}</view>
 						<view v-if="item.stocks">盘点仓库：{{item.stocks.stock_name}}</view>
 					</view>
@@ -24,7 +24,7 @@
 			<form @submit="formSubmit">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">盘点明细</view>
+					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">盘点明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">盘点时间</view>

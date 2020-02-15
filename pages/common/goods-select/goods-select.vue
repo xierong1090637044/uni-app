@@ -1,9 +1,9 @@
 <template>
 	<view class="page">
 
-		<loading v-if="loading"></loading>
+		<!--<loading v-if="loading"></loading>-->
 
-		<view v-else class="content">
+		<view class="content">
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-left="shaixuan"
 			 @click-right="confrim_this" left-text="筛选">
 				<view class="input-view">
@@ -337,6 +337,8 @@
 
 			//查询产品列表
 			get_productList() {
+				uni.showLoading({title:"加载中.."})
+				
 				that.productList = []
 				const query = Bmob.Query("Goods");
 				query.include("stocks","header");
@@ -387,7 +389,8 @@
 					}
 
 					that.productList = res;
-					that.loading = false;
+					uni.hideLoading();
+					//that.loading = false;
 					uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 				});
 			},

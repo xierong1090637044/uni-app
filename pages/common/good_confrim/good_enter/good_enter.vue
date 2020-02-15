@@ -1,15 +1,15 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;font-size: 32rpx;color: #333;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>
+					<view class='pro_list'>
 						<view style="width: calc(100% - 260rpx);">产品：{{item.goodsName}}</view>
 						<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
 						<view v-else>期初进货价：￥{{item.costPrice}}</view>
 					</view>
-					<view class='pro_list' style='color:#3D3D3D'>
+					<view class='pro_list'>
 						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
 						<view v-else>入库仓库：未填写</view>
 						<view>入库数量：X{{item.num}}</view>
@@ -35,8 +35,8 @@
 
 			<form @submit="formSubmit" report-submit="true">
 
-				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">入库明细</view>
+				<view style="margin: 30rpx 0 0;">
+					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">入库明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">入库时间</view>
@@ -47,7 +47,7 @@
 								</view>
 							</picker>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
@@ -55,7 +55,7 @@
 					</view>
 				</view>
 
-				<view style='margin-top:20px;background: #fff;padding: 10rpx;'>
+				<view style='background: #fff;padding: 10rpx 20rpx;'>
 					<view class="notice_text">上传凭证图(会员可用)</view>
 
 					<view style="width: 100%;padding: 20rpx 0;">
@@ -75,12 +75,12 @@
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
 					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-						<text>合计：￥0</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
+						<view>合计：￥0</view>
+						<view>总数：{{total_num}}</view>
 					</view>
 					<view v-else>
-						<text>合计：￥{{real_money}}</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
+						<view>合计：￥{{real_money}}</view>
+						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2" value="2">入库</button>
@@ -281,8 +281,6 @@
 						for (let i = 0; i < res.length; i++) {
 							bills.push(res[i].success.objectId)
 						}
-
-
 						let pointer = Bmob.Pointer('_User')
 						let poiID = pointer.set(uid);
 
@@ -337,6 +335,7 @@
 												uni.removeStorageSync("category")
 												uni.removeStorageSync("warehouse")
 												setTimeout(function(){
+													common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
 													uni.navigateBack({delta: 2});
 												},1000)
 												
@@ -424,7 +423,7 @@
 	.page {
 		color: #4d4d4d;
 		font-size: 28rpx;
-		height: calc(100vh - 90rpx);
+		height: calc(100vh - 110rpx);
 		overflow: scroll;
 	}
 

@@ -59,7 +59,20 @@
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
 	/* #endif */
-
+	
+	.confrim_button{
+		height: 100rpx;
+		line-height: 100rpx;
+		padding: 0 80rpx !important;
+	}
+	
+	.pro_list{
+		color: #333 !important;
+	}
+	.kaidan_detail{
+		color: #333 !important;
+	}
+	
 	.o_headerItem {
 		width: 80rpx;
 		height: 80rpx;

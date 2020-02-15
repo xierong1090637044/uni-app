@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #333;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>
+					<view class='pro_list'>
 						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
 						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
@@ -25,29 +25,37 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">采购退货明细</view>
+					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">采购退货明细</view>
 					<view style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
 								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">选择门店</view>
+							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
+								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view>实际退款（可修改）</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际退款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
 								 type="digit" /></view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+						
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;margin-top:20px;">
 							<view style="width: 140rpx;">退货时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -57,20 +65,12 @@
 							</picker>
 						</view>
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
-							<view style="width: 140rpx;">选择门店</view>
-							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-
-						<view class="display_flex_bet" style="padding: 10rpx;margin-top:20px;border-bottom: 1rpx solid#F7F7F7;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 
-						<view style='background: #fff;padding: 10rpx;'>
+						<view style='background: #fff;padding:10rpx 20rpx;'>
 							<view class="notice_text">上传凭证图(会员可用)</view>
 
 							<view style="width: 100%;padding: 20rpx 0;">
@@ -423,7 +423,7 @@
 	.page {
 		color: #4d4d4d;
 		font-size: 28rpx;
-		height: calc(100vh - 90rpx);
+		height: calc(100vh - 110rpx);
 		overflow: scroll;
 	}
 

@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #333;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list' style='color:#3D3D3D'>
+					<view class='pro_list'>
 						<view style="width: calc(100% - 260rpx);">产品：{{item.goodsName}}</view>
 						<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
 						<view v-else>期初进货价：￥{{item.costPrice}}</view>
@@ -31,18 +31,10 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 10rpx;color: #333;font-weight: bold;">采购明细</view>
+					<view style="margin:0 0 10rpx 20rpx;color: #333;font-weight: bold;">采购明细</view>
 					<view style="line-height: 70rpx;">
 
-						<!--<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">选择仓库<text style="color: #f30;">*</text></view>
-							<view class="kaidan_rightinput display_flex">
-								<input placeholder="选择仓库" disabled="true" :value="stock.stock_name"  style="text-align: right;margin-right: 20rpx;"/>
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>-->
-
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
 								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
@@ -50,7 +42,7 @@
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money"
-						 style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						 style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
@@ -58,18 +50,19 @@
 							</view>
 						</navigator>
 						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-else>
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-else>
 							<view>是否赊账</view>
 							<view class="kaidan_rightinput" style="text-align: right;">
 								<switch :checked="wetherDebt" @change="changeDebtStatus" />
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding:10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
 							<view>实际付款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
 								 type="digit" /></view>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+						
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
 							<view style="width: 140rpx;">采购时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -79,11 +72,11 @@
 							</picker>
 						</view>
 
-						<view class="display_flex_bet" style="padding: 10rpx;margin-top: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
-						<view style='background: #fff;padding: 10rpx;'>
+						<view style='background: #fff;padding:10rpx 20rpx;'>
 							<view style="width: 100%;">
 								<view class="upload_image display_flex">
 									<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
@@ -102,16 +95,11 @@
 					</view>
 				</view>
 
-
-
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
-					<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
-						<text>合计：￥0</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
-					</view>
-					<view v-else>
-						<text>合计：￥{{real_money}}</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
+					<view style="color: #333333;font-weight: bold;">
+						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">合计：￥0</view>
+						<view v-else>合计：￥{{real_money}}</view>
+						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
@@ -474,7 +462,7 @@
 	.page {
 		color: #4d4d4d;
 		font-size: 28rpx;
-		height: calc(100vh - 90rpx);
+		height: calc(100vh - 110rpx);
 		overflow: scroll;
 	}
 

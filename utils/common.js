@@ -285,6 +285,7 @@ module.exports = {
 
 			const query = Bmob.Query('Goods');
 			query.set("goodsName", good.goodsName)
+			query.set("goodsIcon", good.goodsIcon)
 			if (type == "out") {
 				query.set("reserve", 0 - Number(reserve))
 				if(good.goodsId && good.goodsId.models){

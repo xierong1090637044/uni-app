@@ -398,8 +398,7 @@
 				query.find().then(res => {
 					//console.log(res)
 					for (let item of res) {
-						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
-							0)
+						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float:0)
 					}
 					this.productList = res;
 					this.loading = false;
