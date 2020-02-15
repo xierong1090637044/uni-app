@@ -173,43 +173,6 @@
 				}
 			},
 
-			//判断此商品是否在此仓库中
-			can_addGoods() {
-				return new Promise((resolve, reject) => {
-					let products = uni.getStorageSync("products");
-					let warehouse = uni.getStorageSync("warehouse")
-					if (warehouse) {
-						let count = 0
-						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name != warehouse[
-									0].stock.stock_name) {
-								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到此仓库',
-									content: "是否将它关联到此仓库",
-									showCancel: true,
-									success: res => {
-										console.log(res)
-										if (res.confirm) {
-											resolve([true, item])
-										} else {
-											resolve([false])
-										}
-									},
-									fail: () => {},
-								});
-
-								return
-							} else {
-								resolve([false])
-							}
-						}
-					} else {
-						resolve([false])
-					}
-				})
-
-			},
-
 			formSubmit: function(e) {
 				if (this.button_disabled) {
 					return
@@ -338,7 +301,7 @@
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
 							
-							let params =　{
+							/*let params =　{
 							  funcName: 'goodOut',
 							  data: {
 							    products :that.products,
@@ -365,17 +328,54 @@
 											}
 										})
 									}
-							})
+							})*/
 
-							/*common.outRedGoodNum(that.products).then(result => { //减少产品数量
+							common.outRedGoodNum(that.products).then(result => { //减少产品数量
 								const query = Bmob.Query('order_opreations');
 								query.set('id', operationId) //需要修改的objectId
 								query.set('status', true)
 								query.save().then(res => {
+									
+									let params = {
+										"data1": operationId,
+										"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
+											that.products
+											.length + "商品",
+										"data3": that.stock ? that.stock.stock_name : "未填写",
+										"data4": res.createdAt,
+										"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+										"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
+											operationId,
+									};
+									send_temp.send_temp(params);
+									
+									let params1 = {
+										"keyword1": {
+											"value": that.products[0].goodsName + "'等",
+											"color": "#173177"
+										},
+										"keyword2": {
+											"value": Number(that.total_num),
+										},
+										"keyword3": {
+											"value": uni.getStorageSync("user").nickName,
+										},
+										"keyword4": {
+											"value": res.createdAt
+										}
+										
+									}
+									params1.form_Id = fromid
+									params1.id = operationId
+									send_temp.send_out_mini(params1);
+																		
+									//自动打印
+									if (uni.getStorageSync("setting").auto_print) {
+										print.autoPrint(operationId);
+									}
 									uni.showToast({
 										title: "出库成功"
 									})
-									that.button_disabled = false;
 									
 									uni.hideLoading();
 									uni.setStorageSync("is_option", true);
@@ -385,53 +385,14 @@
 									uni.removeStorageSync("warehouse")
 									
 									setTimeout(() => {
-										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-											that.products.length + "商品", -1, operationId);
-									
-										let params = {
-											"data1": operationId,
-											"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-												that.products
-												.length + "商品",
-											"data3": that.stock ? that.stock.stock_name : "未填写",
-											"data4": res.createdAt,
-											"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-											"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-												operationId,
-										};
-										send_temp.send_temp(params);
-										
-										let params1 = {
-											"keyword1": {
-												"value": that.products[0].goodsName + "'等",
-												"color": "#173177"
-											},
-											"keyword2": {
-												"value": Number(that.total_num),
-											},
-											"keyword3": {
-												"value": uni.getStorageSync("user").nickName,
-											},
-											"keyword4": {
-												"value": res.createdAt
-											}
-											
-										}
-										params1.form_Id = fromid
-										params1.id = operationId
-										send_temp.send_out_mini(params1);
-									
-										//自动打印
-										if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
-										}
-									
+										that.button_disabled = false;
+										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
 										uni.navigateBack({
 											delta: 2
 										});
 									}, 500)
 								})
-							})*/
+							})
 						})
 					},
 					function(error) {

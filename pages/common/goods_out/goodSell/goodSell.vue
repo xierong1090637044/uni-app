@@ -59,7 +59,7 @@
 							</view>
 						</navigator>
 
-						<view class="display_flex_bet" style="padding: 10rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="custom.discount">
+						<view class="display_flex_bet" style="padding: 10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="custom.discount">
 							<view style="width: 140rpx;">折扣率</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
@@ -530,14 +530,13 @@
 							let operationId = res.objectId;
 							
 							if (that.canOpretion) {
-								
 								let params =　{
 								  funcName: 'goodOut',
 								  data: {
 								    products :that.products,
 								  }
 								}
-								Bmob.functions(params.funcName,params.data).then(function (results) {
+								/*Bmob.functions(params.funcName,params.data).then(function (results) {
 								    //console.log(results);
 										if(results.code == 1){
 											uni.showToast({
@@ -558,27 +557,26 @@
 												}
 											})
 										}
-								})
+								})*/
 								
-								/*common.outRedGoodNum(that.products).then(result => { //减少产品数量		
+								common.outRedGoodNum(that.products).then(result => { //减少产品数量		
 										uni.hideLoading();
 										uni.removeStorageSync("_warehouse")
 										uni.removeStorageSync("out_warehouse")
 										uni.removeStorageSync("category")
 										uni.removeStorageSync("warehouse")
-
-										that.button_disabled = false;
 										uni.setStorageSync("is_option", true);
 										
 										uni.showToast({title:"产品销售成功"})
 										setTimeout(function(){
+											that.button_disabled = false;
 											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
 											uni.navigateBack({
 												delta: 2
 											});
 										},500)
 										
-								})*/
+								})
 							}
 
 						})

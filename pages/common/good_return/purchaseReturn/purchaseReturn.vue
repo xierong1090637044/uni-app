@@ -91,9 +91,9 @@
 				</view>
 
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
-					<view>
-						<text>合计：￥{{real_money}}</text>
-						<text style="margin-left: 30rpx;">总数：{{total_num}}</text>
+					<view style="color: #333333;font-weight: bold;">
+						<view>合计：￥{{real_money}}</view>
+						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购退货</button>

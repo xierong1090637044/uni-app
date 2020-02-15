@@ -4,7 +4,7 @@
 			<view class="version">
 				<view class="version-title">
 					<text class="title-name">库存表</text>
-					<text class="version-text">1.1.3</text>
+					<text class="version-text">1.1.4</text>
 					<text class="version-text">公测版</text>
 				</view>
 				<view>
@@ -12,6 +12,18 @@
 				</view>
 			</view>
 			<view class="log-list">
+				<view class="describe">
+					<view class="desc-title">
+						<text class="desc-v">v1.1.4 公测版</text>
+						<text class="desc-time">2020.02.15</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>页面样式优化</text>
+						<text>一些bug修复</text>
+					</view>
+				</view>
+				
 				<view class="describe">
 					<view class="desc-title">
 						<text class="desc-v">v1.1.3 公测版</text>

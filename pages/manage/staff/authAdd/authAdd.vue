@@ -9,7 +9,7 @@
 						<checkbox-group @change="checkboxChange">
 							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">
 								<view class="display_flex">
-									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
+									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 			
@@ -35,7 +35,7 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChangeMoney">
 								<view class="display_flex rights_item" v-for="(item,index) in moneyAuth" :key="''+index">
-									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
+									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -50,7 +50,7 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_record">
 								<view class="display_flex rights_item" v-for="(item,index) in recode" :key="''+index">
-									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
+									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -65,7 +65,7 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChangeAnalysis">
 								<view class="display_flex rights_item" v-for="(item,index) in analysisAuth" :key="''+index">
-									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
+									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;font-size: 28rpx;color: #333;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -80,7 +80,7 @@
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChange_other">
 								<view class="display_flex rights_item" v-for="(item,index) in others" :key="''+index">
-									<checkbox :value="''+index" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
+									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 							</checkbox-group>
@@ -110,83 +110,83 @@
 		data() {
 			return {
 				manage: [{
-						id: 1,
+						id: 0,
 						name: '产品管理'
 					},
 					{
-						id: 2,
+						id: 1,
 						name: '员工管理'
 					},
 					{
-						id: 3,
+						id: 2,
 						name: '仓库管理'
 					},
 					{
-						id: 4,
+						id: 3,
 						name: '门店管理'
 					},
 					{
-						id: 5,
+						id: 4,
 						name: '客户管理'
 					},
 					{
-						id: 6,
+						id: 5,
 						name: '产品类别管理'
 					},
 					{
-						id: 7,
+						id: 6,
 						name: '库存管理（出库、入库、调拨、盘点操作）'
 					},
 					{
-						id: 8,
+						id: 7,
 						name: '采购（采购，采购退货操作）'
 					},
 					{
-						id: 9,
+						id: 8,
 						name: '销售（销售，销售退货操作）'
 					},
 				],
 				
 				//财务权限模块
 				moneyAuth:[{
-						id: 1,
+						id: 0,
 						name: '财务管理模块查看'
 					}
 				],
 				
 				//分析模块权限
 				analysisAuth:[{
-						id: 1,
+						id: 0,
 						name: '分析模块查看'
 					}
 				],
 				
 				//记录模块权限
 				recode: [{
-						id: 1,
+						id: 0,
 						name: '入库记录'
 					},
 					{
-						id: 2,
+						id: 1,
 						name: '出库记录'
 					},
 					{
-						id: 3,
+						id: 2,
 						name: '调拨记录'
 					},
 					{
-						id: 4,
+						id: 3,
 						name: '盘点记录'
 					},
 				],
 				others: [{
-					id: 1,
+					id: 0,
 					name: '进价隐藏'
 				},{
-					id: 4,
+					id: 1,
 					name: '审核'
 				},{
-					id: 5,
+					id: 2,
 					name: '看板查看'
 				}],
 				stocks:[],
@@ -215,38 +215,57 @@
 			if(uni.getStorageSync("staffRights")){
 				rights = uni.getStorageSync("staffRights")
 				if (rights.current) {
-					for (let i of rights.current) {
-						//console.log(i)
-						that.manage[i].checked = true;
-						that.current.push(i)
+					for (let id of rights.current) {
+						for(let item of that.manage){
+							if(id == item.id){
+								item.checked = true;
+								that.current.push(id)
+							}
+						}
 					}
 				}
 				
 				if (rights.recodecurrent) {
-					for (let i of rights.recodecurrent) {
-						that.recode[i].checked = true;
-						that.recodecurrent.push(i)
+					for (let id of rights.recodecurrent) {
+						for(let item of that.recode){
+							if(id == item.id){
+								item.checked = true;
+								that.recodecurrent.push(id)
+							}
+						}
 					}
 				}
 				
 				if (rights.othercurrent) {
-					for (let i of rights.othercurrent) {
-						that.others[i].checked = true;
-						that.othercurrent.push(i)
+					for (let id of rights.othercurrent) {
+						for(let item of that.others){
+							if(id == item.id){
+								item.checked = true;
+								that.othercurrent.push(id)
+							}
+						}
 					}
 				}
 				
 				if (rights.analysisCurrent) {
-					for (let i of rights.analysisCurrent) {
-						that.analysisAuth[i].checked = true;
-						that.analysisCurrent.push(i)
+					for (let id of rights.analysisCurrent) {
+						for(let item of that.analysisAuth){
+							if(id == item.id){
+								item.checked = true;
+								that.analysisCurrent.push(id)
+							}
+						}
 					}
 				}
 				
 				if (rights.moneyCurrent) {
-					for (let i of rights.moneyCurrent) {
-						that.moneyAuth[i].checked = true;
-						that.moneyCurrent.push(i)
+					for (let id of rights.moneyCurrent) {
+						for(let item of that.moneyAuth){
+							if(id == item.id){
+								item.checked = true;
+								that.moneyCurrent.push(id)
+							}
+						}
 					}
 				}
 				

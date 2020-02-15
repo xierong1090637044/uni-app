@@ -106,7 +106,7 @@
 			
 			if (value == 1) {
 				uni.setNavigationBarTitle({
-					title: "产品采购"
+					title: "销售退货"
 				})
 			}
 			

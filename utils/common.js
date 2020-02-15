@@ -7,52 +7,56 @@ module.exports = {
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				if (products[i].selectd_model) {
-					for (let model of products[i].selected_model) {
-						for (let item of products[i].models) {
-							if (item.id == model.id) {
-								item.reserve = Number(item.reserve) + Number(model.num)
-							}
-							delete item.num // 清除没用的属行
-						}
-					}
-					num = Number(products[i].reserve) + Number(products[i].num);
-					query.set('models', products[i].models)
-				} else {
-					num = Number(products[i].reserve) + Number(products[i].num);
-				}
-				query.set('reserve', num)
-				query.set('id', products[i].objectId) //需要修改的objectId
-				query.save().then(res => {
-					console.log(products[i])
-					if (products[i].header) {
-						const query1 = Bmob.Query("Goods");
-						query1.equalTo("header", "==", products[i].header.objectId);
-						query1.equalTo("order", "==", 1);
-						query1.statTo("sum", "reserve");
-						query1.find().then(res => {
-							console.log("dasds", res)
-							let now_reserve = res[0]._sumReserve
-							const query = Bmob.Query('Goods');
-							query.set('reserve', now_reserve)
-							query.set('id', products[i].header.objectId)
-							query.save().then(res => {
-								that.modifyStockType(products[i].header.objectId) //显示预警
-								if (i == products.length - 1) {
-									resolve(true)
+				query.get(products[i].objectId).then(res=>{
+					let goodInfo = res
+					if (products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
+							for (let item of goodInfo.models) {
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) + Number(model.num)
 								}
-							})
-						})
-					} else {
-						that.modifyStockType(products[i].objectId) //显示预警
-						if (i == products.length - 1) {
-							resolve(true)
+								delete item.num // 清除没用的属行
+							}
 						}
+						num = Number(goodInfo.reserve) + Number(products[i].num);
+						query.set('models', goodInfo.models)
+					} else {
+						num = Number(goodInfo.reserve) + Number(products[i].num);
 					}
-
-				}).catch(err => {
-					console.log(err)
+					query.set('reserve', num)
+					query.set('id', products[i].objectId) //需要修改的objectId
+					query.save().then(res => {
+						//console.log(products[i])
+						if (products[i].header) {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", products[i].header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.set('reserve', now_reserve)
+								query.set('id', products[i].header.objectId)
+								query.save().then(res => {
+									that.modifyStockType(products[i].header.objectId) //显示预警
+									if (i == products.length - 1) {
+										resolve(true)
+									}
+								})
+							})
+						} else {
+							that.modifyStockType(products[i].objectId) //显示预警
+							if (i == products.length - 1) {
+								resolve(true)
+							}
+						}
+					
+					}).catch(err => {
+						console.log(err)
+					})
 				})
+				
 			}
 		})
 	},
@@ -65,64 +69,60 @@ module.exports = {
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				if (products[i].selectd_model) {
-					for (let model of products[i].selected_model) {
-						for (let item of products[i].models) {
-							num += Number(item.reserve)
-							if (item.id == model.id) {
-								item.reserve = Number(item.reserve) - Number(model.num)
-							}
-							delete item.num // 清除没用的属行
-						}
-					}
-					num = Number(products[i].reserve) - Number(products[i].num);
-					query.set('models', products[i].models)
-				} else {
-					num = Number(products[i].reserve) - Number(products[i].num);
-				}
-
-				query.set('reserve', num)
-				query.set('id', products[i].objectId) //需要修改的objectId
-				query.save().then(res => {
-					//console.log(res)
-					//that.record_staffOut(Number(products[i].num))
-
-					if (products[i].header) {
-						const query1 = Bmob.Query("Goods");
-						query1.equalTo("header", "==", products[i].header.objectId);
-						query1.equalTo("order", "==", 1);
-						query1.statTo("sum", "reserve");
-						query1.find().then(res => {
-							console.log("dasds", res)
-							let now_reserve = res[0]._sumReserve
-							const query = Bmob.Query('Goods');
-							query.set('reserve', now_reserve)
-							query.set('id', products[i].header.objectId)
-							query.save().then(res => {
-								that.modifyStockType(products[i].header.objectId)
-								/*if (products[i].warning_num >=0 && products[i].warning_num >= now_reserve) {
-									that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
-										products[i].objectId);
-								}*/
-								if (i == products.length - 1) {
-									resolve(true)
+				query.get(products[i].objectId).then(res=>{
+					let goodInfo = res
+					
+					if (products[i].selectd_model) {
+						for (let model of products[i].selected_model) {
+							for (let item of goodInfo.models) {
+								num += Number(item.reserve)
+								if (item.id == model.id) {
+									item.reserve = Number(item.reserve) - Number(model.num)
 								}
-							})
-						})
-
-					} else {
-						that.modifyStockType(products[i].objectId)
-						/*if (products[i].warning_num >= num && products[i].warning_num >=0) {
-							that.log(products[i].goodsName + "出库了" + products[i].num + "件，已经低于预警数量" + products[i].warning_num, -2,
-								products[i].objectId);
-						}*/
-						if (i == products.length - 1) {
-							resolve(true)
+								delete item.num // 清除没用的属行
+							}
 						}
+						num = Number(goodInfo.reserve) - Number(products[i].num);
+						query.set('models', goodInfo.models)
+					} else {
+						num = Number(goodInfo.reserve) - Number(products[i].num);
 					}
-				}).catch(err => {
-					console.log(err)
+					
+					query.set('reserve', num)
+					query.set('id', products[i].objectId) //需要修改的objectId
+					query.save().then(res => {
+						//that.record_staffOut(Number(products[i].num))
+					
+						if (products[i].header) {
+							const query1 = Bmob.Query("Goods");
+							query1.equalTo("header", "==", products[i].header.objectId);
+							query1.equalTo("order", "==", 1);
+							query1.statTo("sum", "reserve");
+							query1.find().then(res => {
+								console.log("dasds", res)
+								let now_reserve = res[0]._sumReserve
+								const query = Bmob.Query('Goods');
+								query.set('reserve', now_reserve)
+								query.set('id', products[i].header.objectId)
+								query.save().then(res => {
+									that.modifyStockType(products[i].header.objectId)
+									if (i == products.length - 1) {
+										resolve(true)
+									}
+								})
+							})
+					
+						} else {
+							that.modifyStockType(products[i].objectId)
+							if (i == products.length - 1) {
+								resolve(true)
+							}
+						}
+					}).catch(err => {
+						console.log(err)
+					})
 				})
+				
 			}
 		})
 	},

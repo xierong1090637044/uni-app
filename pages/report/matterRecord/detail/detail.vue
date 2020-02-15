@@ -280,7 +280,7 @@
 			show_options() {
 				let options = ['打印'];
 				if (that.detail.type == -1 || that.detail.type == 1) {
-					if(that.othercurrent.indexOf("3") !=-1 || that.identity==1 && that.detail.extra_type == 1){
+					if(that.othercurrent.indexOf("1") !=-1 || that.identity==1 && that.detail.extra_type == 1){
 						options = ['审核', '撤销', '打印']
 						
 						uni.showActionSheet({

@@ -313,8 +313,8 @@
 
 						query.save().then(res => {
 							let operationId = res.objectId
-							
-							let params =　{
+
+							/*let params =　{
 							  funcName: 'goodEnter',
 							  data: {
 							    products :that.products,
@@ -343,68 +343,73 @@
 										})
 										
 									}
-							})
-							
+							})*/
+
 							//console.log("添加操作历史记录成功", res);
 
-							/*common.enterAddGoodNum(that.products).then(result => { //添加产品数量
-								uni.hideLoading();
-								
-								common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
-									that.products
-									.length + "商品", 1, operationId);
+							common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+								const query = Bmob.Query('order_opreations');
+								query.set('id', operationId) //需要修改的objectId
+								query.set('status', true)
+								query.save().then(res => {
+									uni.hideLoading();
+									let params = {
+										"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
+											that.products
+											.length + "商品",
+										"data1": res.createdAt,
+										"data2": that.stock ? that.stock.stock_name : "未填写",
+										"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+										"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
+											operationId,
+									};
+									send_temp.send_in(params);
 
-								let params = {
-									"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
-										that.products
-										.length + "商品",
-									"data1": res.createdAt,
-									"data2": that.stock ? that.stock.stock_name : "未填写",
-									"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-									"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-										operationId,
-								};
-								send_temp.send_in(params);
-
-								let params1 = {
-									"keyword1": {
-										"value": that.products[0].goodsName + "'等",
-										"color": "#173177"
-									},
-									"keyword2": {
-										"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-									},
-									"keyword3": {
-										"value": res.createdAt
-									},
-									"keyword4": {
-										"value": uni.getStorageSync("user").nickName,
+									let params1 = {
+										"keyword1": {
+											"value": that.products[0].goodsName + "'等",
+											"color": "#173177"
+										},
+										"keyword2": {
+											"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+										},
+										"keyword3": {
+											"value": res.createdAt
+										},
+										"keyword4": {
+											"value": uni.getStorageSync("user").nickName,
+										}
 									}
-								}
-								params1.form_Id = fromid
-								params1.id = operationId
-								send_temp.send_in_mini(params1);
+									params1.form_Id = fromid
+									params1.id = operationId
+									send_temp.send_in_mini(params1);
 
-								//自动打印
-								if (uni.getStorageSync("setting").auto_print) {
-									print.autoPrint(operationId);
-								}
+									//自动打印
+									if (uni.getStorageSync("setting").auto_print) {
+										print.autoPrint(operationId);
+									}
 
-								that.button_disabled = false;
-								uni.setStorageSync("is_option", true);
-								uni.removeStorageSync("_warehouse")
-								uni.removeStorageSync("out_warehouse")
-								uni.removeStorageSync("category")
-								uni.removeStorageSync("warehouse")
-								
-								uni.showToast({title: "入库成功"})
-								setTimeout(function(){
-									uni.navigateBack({
-										delta: 2
-									});
-								},500)
-								
-							})*/
+									uni.setStorageSync("is_option", true);
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.removeStorageSync("warehouse")
+
+									uni.showToast({
+										title: "入库成功"
+									})
+									setTimeout(function() {
+										that.button_disabled = false;
+										common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" + that.products.length + "商品", 1, operationId);
+										
+										uni.navigateBack({
+											delta: 2
+										});
+									}, 500)
+								})
+
+
+							})
 
 						})
 

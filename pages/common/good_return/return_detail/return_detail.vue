@@ -76,7 +76,7 @@
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
-						<view style='background: #fff;padding: 10rpx;'>
+						<view style='background: #fff;padding: 10rpx 20rpx;'>
 							<view style="width: 100%;padding: 20rpx 0;">
 								<view class="upload_image display_flex">
 									<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
@@ -249,7 +249,7 @@
 				let fromid = e.detail.formId
 
 				uni.showLoading({
-					title: "上传中..."
+					title: "请勿退出..."
 				});
 
 				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
@@ -383,7 +383,7 @@
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							let params =　{
+							/*let params =　{
 							  funcName: 'goodEnter',
 							  data: {
 							    products :that.products,
@@ -436,28 +436,27 @@
 										}, 500)
 									}
 								}
-							})
+							})*/
 
-							/*common.enterAddGoodNum(that.products).then(result => { //减少产品数量
+							common.enterAddGoodNum(that.products).then(result => { //减少产品数量
 								if (that.account && that.account.objectId) {
 									const accountQuery = Bmob.Query('accounts');
 									accountQuery.get(that.account.objectId).then(res => {
 										res.set('money', res.money - Number(that.real_money));
 										res.save().then(res => {
-											that.button_disabled = false;
+											uni.hideLoading();
 											uni.setStorageSync("is_option", true);
 											uni.removeStorageSync("_warehouse")
 											uni.removeStorageSync("out_warehouse")
 											uni.removeStorageSync("category")
 											uni.removeStorageSync("warehouse")
-
-											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName +
-												"'等" +
-												that.products.length + "商品的退货", 2, operationId);
+																					
 											uni.showToast({
 												title: "退货成功"
 											})
 											setTimeout(() => {
+												that.button_disabled = false;
+												common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName +"'等" +that.products.length + "商品的退货", 2, operationId);
 												uni.navigateBack({
 													delta: 2
 												});
@@ -465,27 +464,25 @@
 										})
 									})
 								} else {
-									that.button_disabled = false;
+									uni.hideLoading();
 									uni.setStorageSync("is_option", true);
 									uni.removeStorageSync("_warehouse")
 									uni.removeStorageSync("out_warehouse")
 									uni.removeStorageSync("category")
 									uni.removeStorageSync("warehouse")
-
-									common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +
-										that.products.length + "商品的退货", 2, operationId);
 									uni.showToast({
 										title: "退货成功"
 									})
 									setTimeout(() => {
+										that.button_disabled = false;
+										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +that.products.length + "商品的退货", 2, operationId);
 										uni.navigateBack({
 											delta: 2
 										});
 									}, 500)
 								}
-
-
-							})*/
+								
+							})
 						})
 					},
 					function(error) {

@@ -160,35 +160,9 @@
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
 						<view style="padding: 10rpx 30rpx;">出库明细</view>
-						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">客户姓名</view>
-							<view>{{detail.custom.custom_name}}</view>
-						</view>
-						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">折扣率</view>
-							<view>{{detail.discount}}%</view>
-						</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">实际付款</view>
-							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
-						</view>
-						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">欠款</view>
-							<view class="real_color">{{detail.debt}}</view>
-						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;">
-							<view class="display_flex">
-								<view class="left_content">发送方式</view>
-								<view class="real_color">{{detail.typeDesc}}</view>
-							</view>
-							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
-								<view class="real_color">{{detail.expressNum}}</view>
-							</view>
-						</view>
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
-						 @click="gotoexpressDet">
-							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
-							<fa-icon type="angle-right" size="20" color="#0a53c3" />
+						<view class="display_flex" v-if="detail.createdTime">
+							<view class="left_content">出库时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 						
 					</view>

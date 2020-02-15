@@ -120,7 +120,7 @@
 				</view>
 
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
-					<view>
+					<view style="color: #333333;font-weight: bold;">
 						<view>合计：￥{{real_money}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>

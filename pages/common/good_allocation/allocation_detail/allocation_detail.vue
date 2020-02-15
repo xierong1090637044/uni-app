@@ -624,26 +624,23 @@
 
 										query.save().then(res => {
 											let operationId = res.objectId;
-											//console.log("添加操作历史记录成功", res);
-											uni.hideLoading();
-											//uni.removeStorageSync("customs"); //移除这个缓存
+											
 											uni.showToast({
 												title: '产品调拨成功',
 												icon: 'success',
 												success: function() {
-
-													that.button_disabled = false;
+													uni.hideLoading();
 													uni.setStorageSync("is_option", true);
+													uni.removeStorageSync("_warehouse");
+													uni.removeStorageSync("out_warehouse");
+													uni.removeStorageSync("category");
+													uni.removeStorageSync("warehouse");
+													
 													//uni.removeStorageSync("warehouse");
-
 													setTimeout(() => {
-														uni.removeStorageSync("_warehouse")
-														uni.removeStorageSync("out_warehouse")
-														uni.removeStorageSync("category")
-														uni.removeStorageSync("warehouse")
-														common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +
-															that
-															.products.length + "商品", -2, res.objectId);
+														that.button_disabled = false;
+														
+														common.log(uni.getStorageSync("user").nickName + "调拨了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -2, res.objectId);
 
 														//自动打印
 														if (uni.getStorageSync("setting").auto_print) {

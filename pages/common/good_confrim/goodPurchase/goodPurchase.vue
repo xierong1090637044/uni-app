@@ -423,7 +423,7 @@
 							//console.log("添加操作历史记录成功", res);
 
 							if (that.canOpretion) {
-								let params =　{
+								/*let params =　{
 								  funcName: 'goodEnter',
 								  data: {
 								    products :that.products,
@@ -448,10 +448,10 @@
 											});
 										}, 500)
 									}
-								})
-								/*common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+								})*/
+								common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 									uni.hideLoading();
-									that.button_disabled = false;
+									
 									uni.setStorageSync("is_option", true);
 									uni.removeStorageSync("_warehouse")
 									uni.removeStorageSync("out_warehouse")
@@ -461,12 +461,13 @@
 										title: "产品采购成功"
 									})
 									setTimeout(function() {
+										that.button_disabled = false;
 										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
 										uni.navigateBack({
 											delta: 2
 										});
 									}, 500)
-								})*/
+								})
 							} else {
 								uni.hideLoading();
 								uni.setStorageSync("is_option", true);
