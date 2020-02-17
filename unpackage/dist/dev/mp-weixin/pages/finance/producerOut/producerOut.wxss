@@ -1,0 +1,21 @@
+
+page {
+	background: #FAFAFA;
+}
+.uni-common-mt {
+	padding: 30rpx;
+}
+.content {
+	height: calc(100vh - 80rpx);
+	background: #fff;
+}
+.info_item {
+	padding: 20rpx 30rpx;
+	background: #fff;
+}
+.item {
+	border-bottom: 1rpx solid#ccc;
+	padding-bottom: 10rpx;
+	margin-bottom: 10rpx;
+}
+

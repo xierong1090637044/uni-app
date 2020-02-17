@@ -1,0 +1,55 @@
+
+.page {
+	color: #4d4d4d;
+	font-size: 28rpx;
+	height: calc(100vh - 110rpx);
+	overflow: scroll;
+}
+.display_flex_bet {
+	background: #fff;
+}
+.bottomEle {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: calc(100% - 30rpx);
+	background: #FAFAFA;
+	padding: 20rpx 0rpx 20rpx 30rpx;
+	font-weight: bold;
+}
+.pro_list {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.pro_listitem {
+	background-color: #fff;
+	padding: 10rpx 20rpx;
+	border-bottom: 1rpx solid#ddd;
+}
+.pro_allmoney {
+	background-color: #fff;
+	padding: 10rpx 20rpx;
+	text-align: right;
+	font-size: 32rpx;
+	color: #f30
+}
+.beizhu_style {
+	text-align: right;
+	width: calc(100% - 40rpx);
+	background-color: #fff;
+	max-height: 100rpx;
+	padding: 10rpx 0;
+}
+.confrim_button {
+	background: #1651aa;
+	color: #fff;
+	font-weight: bold;
+	font-size: 32rpx;
+	border-radius: unset;
+	padding: 0 50rpx;
+}
+

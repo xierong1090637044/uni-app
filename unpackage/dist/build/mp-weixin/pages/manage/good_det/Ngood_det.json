@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "产品详情",
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "tki-qrcode": "/components/tki-qrcode/tki-qrcode"
+  }
+}

@@ -268,7 +268,7 @@ module.exports = {
 	//上传二级商品
 	upload_good_withNoCan(good, stock, reserve, type) {
 		return new Promise((resolve, reject) => {
-			console.log(good)
+			//console.log(good)
 			let uid = uni.getStorageSync("uid");
 			const pointer = Bmob.Pointer('_User')
 			const userid = pointer.set(uid)

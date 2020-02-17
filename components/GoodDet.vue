@@ -1,0 +1,188 @@
+<template>
+	<view class="second">
+		<view class="second_one">
+			<view>品牌: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
+			<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
+			<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
+			<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
+
+			<view v-if="product.goodsClass && product.goodsClass.class_text">
+				所属分类
+				<text style="margin-left: 20rpx;color: #3D3D3D;">{{product.goodsClass.class_text}}</text>
+				<text style="color: #3D3D3D;" v-if="product.second_class && product.second_class.class_text">
+					<text style="color: #2ca879;">-></text>{{product.second_class.class_text}}
+				</text>
+			</view>
+
+			<view class="display_flex_bet">
+				<view>预警库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.warning_num>=0 ?product.warning_num:"未设置"}}</text></view>
+				<view style="margin-left: 40rpx;">最大库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.max_num>=0 ?product.max_num:"未设置"}}</text></view>
+			</view>
+
+			<navigator class="display_flex_bet" hover-class="none" :url="'/pages/manage/good_det/bad_history/bad_history?id='+product.objectId">
+				<view>货损数量: <text style="color: #FD2E32;margin-left: 20rpx;">{{product.bad_num ?product.bad_num:0}}</text></view>
+				<fa-icon type="angle-right" size="20" color="#999" />
+			</navigator>
+
+			<view v-if="product.nousetime">过期时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.nousetime}}</text></view>
+			<view>创建时间: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.createdAt}}</text></view>
+
+			<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
+
+			<!--<view class="display_flex">
+				<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
+				<navigator hover-class="none" :url="'../operations/operations?objectId='+product.objectId+'&goodsName='+product.goodsName"
+				 class="opion_item">此产品的操作记录</navigator>
+			</view>
+			<view class="display_flex">
+				<view class="opion_item" @click='print_info(product)'>打印</view>
+				<view class="opion_item" @click='modify(product)'>编辑</view>
+				<view class="opion_item" @click='add_badnum(product)'>记录货损</view>
+				<view class="opion_item" @click='delete_good(product.objectId)'>全部删除</view>
+				<navigator class="opion_item" url="/pages/manage/warehouse/warehouse?type=choose" hover-class="none" @click="isRealationNew = true">关联新的仓库</navigator>
+			</view>-->
+			
+			<!--<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
+				<view class="popup_content">
+					<view class="popup_title" style="text-align: center;margin-bottom: 20rpx;">记录货损</view>
+					<view style="margin-bottom: 20rpx;"><input placeholder="请输入该产品的货损数量" class="popup_input" v-model="badnum.num" /></view>
+					<view style="margin-bottom: 20rpx;"><input placeholder="请输入备注" class="popup_input" v-model="badnum.desc" /></view>
+					<view><button class="popup_button" @click="confrim_badnum">确认</button></view>
+				</view>
+			</uni-popup>-->
+
+		</view>
+
+		<view class="second_one display_flex_bet">
+			<view>总库存: <text class="second_right_text">{{product.all_reserve}}</text></view>
+			<view class="display_flex">
+				<text style="margin-right: 10rpx;">分库存</text>
+				<switch @change="change_state" :checked="get_reserve_checked" />
+			</view>
+		</view>
+
+		<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
+			<view class="display_flex_bet">
+				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+				<view class="opion_item" @click='delete_singlegood(item.good_id)'>删除</view>
+			</view>
+
+			<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
+			<view v-if="item.now_model" style="color: #3D3D3D;">
+				<view v-for="(model,index) in item.now_model" :key="index" class="display_flex_bet">
+					<view style="font-size: 24rpx;">{{model.custom1.value}}{{model.custom2.value}}{{model.custom3.value}}{{model.custom4.value}}</view>
+					<view style="color: #FD2E32;font-size: 24rpx;">库存:{{model.reserve}}</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="second_one">
+			<view style="margin: 0 0 20rpx;">产品二维码</view>
+			<view style="padding: 20rpx;background: #fff;text-align: center;">
+				<tki-qrcode cid="qrcode" ref="qrcode" :val="product.productCode" :size="100" :loadMake="true" :usingComponents="true"
+				 unit="rpx" @result="qrR" v-if="product.productCode" />
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	
+	let that;
+	export default {
+		props: {
+			product: {
+				type: Object,
+				default: {}
+			} // 标题
+		},
+		components: {
+			uniPopup,
+			tkiQrcode
+		},
+		data() {
+			return {
+				get_reserve_checked: true, //分库存显示控制
+			};
+		},
+		
+		mounted() {
+			that = this;
+		},
+		methods:{
+			
+			//分库存的switch点击
+			change_state(e) {
+				that.get_reserve_checked = e.detail.value
+			},
+			
+			//二维码路径
+			qrR(res) {
+				this.src = res
+			},
+			
+			//点击条形码保存
+			saveQrcode() {
+				this.$refs.qrcode._saveCode()
+			},
+		}
+	}
+</script>
+
+<style>
+	
+	.opion_item {
+		color: #118FFF;
+		font-weight: bold;
+		padding: 0 20rpx 0 0;
+	}
+	
+	.second {
+		padding: 0 30rpx;
+		border-top: 1rpx solid#DDDDDD;
+		background: #fff;
+	}
+
+	.second_one {
+		padding: 20rpx 0;
+		border-bottom: 1rpx solid#DDDDDD;
+		line-height: 60rpx;
+		font-size: 26rpx;
+		color: #999999;
+	}
+
+	.second_right_text {
+		color: #3d3d3d;
+		margin-left: 20rpx;
+	}
+
+	.thrid {
+		padding: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 30rpx;
+		font-size: 28rpx;
+		border-bottom: 1rpx solid#DDDDDD;
+		background: #fff;
+		border-bottom: 1px solid#DDDDDD;
+	}
+
+	.four {
+		display: flex;
+		justify-content: space-around;
+		margin: 30rpx 0 60rpx;
+	}
+
+	.qrimg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #426ab3;
+		text-align: center;
+	}
+</style>

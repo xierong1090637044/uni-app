@@ -1,0 +1,165 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* pages/mine/about_notice/about_notice.wxss */
+.news {
+  margin: 30rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  padding: 20rpx 20rpx 10rpx;
+}
+.tit {
+  padding: 10rpx;
+}
+.title {
+  float: left;
+  font-size: 35rpx;
+  line-height: 40rpx;
+}
+.weidu {
+  background: red;
+  border-radius: 50%;
+  width: 16rpx;
+  height: 16rpx;
+  float: left;
+  margin-top: 10rpx;
+}
+.time {
+  color: #999;
+  margin-top: 6rpx;
+  font-size: 28rpx;
+}
+.value {
+  padding: 10rpx 10rpx 20rpx;
+  font-size: 30rpx;
+  color: #999;
+  border-bottom: 4rpx #f7f7f7 solid;
+}
+.details {
+  padding: 10rpx;
+}
+.very>image {
+  width: 20rpx;
+  height: 20rpx;
+}
+.about_value {
+  padding: 20rpx;
+  background: #f7f7f7;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+}
+.about_value>text {
+  display: inline-block;
+  margin-left: 20rpx;
+}
+.about_value>image {
+  width: 50rpx;
+  height: 70rpx;
+  /* margin-left: 20rpx; */
+  border-radius: 10rpx;
+}
+.title>image {
+  width: 60rpx;
+  height: 60rpx;
+}
+.title>view {
+  margin-top: 4rpx;
+  margin-left: 10rpx;
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+
