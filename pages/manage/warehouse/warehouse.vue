@@ -1,10 +1,8 @@
 <template>
 	<view style="height: 100vh;">
-
-		<loading v-if="loading"></loading>
-
-		<view wx:else>
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add">
+		<view>
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add"
+			 :shadow="false">
 				<view class="input-view">
 					<uni-icon type="search" size="22" color="#666666" />
 					<input confirm-type="search" class="input" type="text" placeholder="输入搜索关键词" @confirm="input_confirm" />
@@ -21,7 +19,8 @@
 					<view class='content'>
 						<view class="display_flex_bet" @click="goto_detail(stock)">
 							<view class="display_flex">
-								<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])" mode="aspectFit"></image>
+								<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])"
+								 mode="aspectFit"></image>
 								<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
 								<view>
 									<view class='stock_name'>{{stock.stock_name}}</view>
@@ -30,22 +29,14 @@
 									<view class='stock_mobile' v-else>负责人：未填写</view>
 								</view>
 							</view>
-
 							<fa-icon type="angle-right" size="20" color="#999" />
 						</view>
 
-						<!--<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;" v-else></fa-icon>-->
 						<view class="right_item">
 							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(stock)">
 								<text style="color: #d93a49;">选择</text>
 							</view>
-
-							<!--<view class="display_flex" style="justify-content: flex-end;" v-else>
-								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(stock.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 8rpx;" @click="edit(stock)"></fa-icon>
-							</view>-->
 						</view>
-						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
 					</view>
 				</view>
 			</scroll-view>
@@ -106,9 +97,9 @@
 		},
 		methods: {
 			//预览图片
-			priviewImg(url){
+			priviewImg(url) {
 				uni.previewImage({
-					current:url,
+					current: url,
 					urls: [url],
 				});
 			},
@@ -177,31 +168,31 @@
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				if(user.is_vip || that.stocks.length <2){
+				if (user.is_vip || that.stocks.length < 2) {
 					uni.navigateTo({
 						url: "add/add"
 					})
-				}else{
+				} else {
 					uni.showModal({
-					    title: '提示',
-					    content: '非会员最多上传2个仓库',
-							confirmText:"充值会员",
-					    success: function (res) {
-					        if (res.confirm) {
-					            if(identity == 1){
-					            	uni.navigateTo({
-					            		url:"/pages/mine/vip/vip"
-					            	})
-					            }else{
-					            	uni.showToast({
-					            		title:"员工不能充值",
-					            		icon:"none"
-					            	})
-					            }
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
+						title: '提示',
+						content: '非会员最多上传2个仓库',
+						confirmText: "充值会员",
+						success: function(res) {
+							if (res.confirm) {
+								if (identity == 1) {
+									uni.navigateTo({
+										url: "/pages/mine/vip/vip"
+									})
+								} else {
+									uni.showToast({
+										title: "员工不能充值",
+										icon: "none"
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
 					})
 				}
 			},
@@ -214,9 +205,12 @@
 
 			//得到仓库列表
 			getstock_list: function() {
+				uni.showLoading({
+					title:"加载中..."
+				})
 				const query = Bmob.Query("stocks");
 				query.order("-num");
-				query.include("charge", "shop","Ncharge")
+				query.include("charge", "shop", "Ncharge")
 				query.equalTo("parent", "==", uid);
 				query.equalTo("disabled", "!=", !that.disabled);
 				if (search_text) {
@@ -228,9 +222,9 @@
 				query.limit(500);
 				query.find().then(res => {
 					//console.log(res)
-					that.loading = false;
-					let stocks = res;
 					
+					uni.hideLoading();
+					let stocks = res;
 					let _warehouse = []
 					for (let item of stocks) {
 						let warehouse = {}

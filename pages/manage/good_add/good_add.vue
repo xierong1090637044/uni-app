@@ -236,7 +236,6 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			uni.removeStorageSync("category")
 			uni.removeStorageSync("is_add");
 
 			if (uni.getStorageSync("now_product")) {
@@ -280,6 +279,7 @@
 					let pointer3 = Bmob.Pointer('second_class')
 					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
 					now_product.second_class.type = 2
+					now_product.second_class.parent = now_product.goodsClass
 					uni.setStorageSync("category", now_product.second_class)
 				}
 

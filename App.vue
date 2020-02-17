@@ -115,8 +115,9 @@
 	}
 
 	.good_option_view {
-		padding: 16rpx 10rpx;
+		padding: 10rpx 10rpx;
 		border-bottom: 1rpx solid#CCCCCC;
+		font-size: 24rpx;
 	}
 
 	.good_option {
@@ -124,7 +125,14 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border-right: 1rpx solid#ccc;
+		color: #333;
+	}
+	.good_optionText{
+		margin-right: 10rpx;
+		max-width: 80%;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
 	}
 
 	.option_selected {
@@ -140,17 +148,16 @@
 		width: 100%;
 		height: 100vh;
 		z-index: 100;
-		background: rgba(0, 0, 0, 0.2);
+		background: transparent;
 	}
 
 	.showOptions {
 		position: fixed;
-		top: 0;
+		top: 140rpx;
 		left: 0;
 		background: #fff;
 		width: 100%;
-		padding: 20rpx 0rpx;
-		background: #fffef9;
+		padding: 0rpx 0rpx 20rpx;
 		box-shadow: 0 10rpx 10rpx rgba(0, 122, 255, 0.2);
 		z-index: 100000;
 

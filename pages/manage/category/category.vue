@@ -1,8 +1,6 @@
 <template>
 	<view class='page'>
-		<loading v-if="loading"></loading>
-
-		<view v-else class="content">
+		<view class="content">
 			<view class="left_content">
 				<view style="height: calc(100vh - 80rpx);overflow: scroll;">
 					<view v-for="(item,index) in frist_class" :key="index" :class="selected_id===item.objectId?'selectd_item':''"
@@ -108,7 +106,10 @@
 			},
 			
 			//得到一级分类
-			get_category() {
+			get_category(){
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query("class_user");
 				query.equalTo("parent", "==", uid);
 				query.find().then(res => {
@@ -116,12 +117,10 @@
 					that.frist_class = res;
 					
 					if(res.length == 0){
-						that.loading = false;
+						uni.hideLoading()
 					}else{
 						that.get_second_category(res[0].objectId)
 					}
-
-					
 				});
 			},
 
@@ -131,8 +130,8 @@
 				const query = Bmob.Query('class_user')
 				query.field('second', id)
 				query.relation('second_class').then(res => {
-					console.log(res);
-					that.loading = false;
+					//console.log(res);
+					uni.hideLoading()
 					that.second_class = res.results;
 				})
 			},
