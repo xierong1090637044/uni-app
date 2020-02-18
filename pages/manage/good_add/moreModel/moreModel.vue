@@ -6,7 +6,7 @@
 				<view class="left_item">颜色</view>
 				<view class="right_input1 display_flex_bet" style="width: calc(100% - 200rpx);">
 					<input placeholder="请输入颜色名"  v-model="item.custom1.value"></input>
-					<fa-icon type="minus-square-o" size="20" color="#2ca879" v-if="index >= 1" @click="reduce_this(index)"></fa-icon>
+					<fa-icon type="minus-square-o" size="20" color="#2ca879" v-if="index >= 1&&type=='add'" @click="reduce_this(index)"></fa-icon>
 				</view>
 				
 			</view>
@@ -22,13 +22,13 @@
 				<view class="left_item"><input placeholder="自定义规格名2" v-model="item.custom4.name" /></view>
 				<view class="right_input1"><input placeholder="请输入自定义规格2的值"  v-model="item.custom4.value"></input></view>
 			</view>
-			<view class="input_item">
+			<view class="input_item" v-if="type !='add'">
 				<view class="left_item">库存</view>
-				<view class="right_input1"><input placeholder="请输入库存数量"  v-model="item.reserve" type="number"></input></view>
+				<view class="right_input1"><input placeholder="请输入库存数量" v-model="item.reserve" type="number"></input></view>
 			</view>
 		</view>
 		<view class="input_item2 frist1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose_more"
-		 style="margin: 30rpx 0;justify-content: center;" @click="push_model">
+		 style="margin: 30rpx 0;justify-content: center;" @click="push_model" v-if="type=='add'">
 			<view style="display: flex;align-items: center;">
 				<view class="left_item" style="color: #2ca879;">增加规格</view>
 				<fa-icon type="plus" size="20" color="#2ca879"></fa-icon>
@@ -54,17 +54,23 @@
 					custom2:{"name":"尺寸",value:""},
 					custom3:{"name":"",value:""},
 					custom4:{"name":"",value:""},
-					reserve:0,
-				}]
+				}],
+				type:''
 			}
 		},
 		onLoad(options){
 			that = this;
-			that.index = options.index
+			that.index = Number(options.index);
+			that.type = options.type;
 		},
 		
 		onShow() {
-			if(that.index){
+			if(that.type == "add"){
+				if(uni.getStorageSync("now_model")){
+					let now_model = uni.getStorageSync("now_model")
+					that.model = now_model
+				}
+			}else{
 				that.stock = uni.getStorageSync("warehouse")
 				let now_model = that.stocks[that.index].now_model||that.stocks[that.index].models
 				if(now_model){
@@ -74,14 +80,7 @@
 						that.model = uni.getStorageSync("now_model")
 					}
 				}
-			}else{
-				if(uni.getStorageSync("now_model")){
-					let now_model = uni.getStorageSync("now_model")
-					that.model = now_model
-				}
-				
-			}
-			
+			}	
 		},
 		
 		methods: {
@@ -93,7 +92,6 @@
 					custom2:{"name":"尺寸",value:""},
 					custom3:{"name":"",value:""},
 					custom4:{"name":"",value:""},
-					reserve:0,
 				}
 				model.id = that.model.length
 				that.model.push(model)
@@ -117,7 +115,9 @@
 					}
 				}
 				
-				if(that.index){
+				if(that.type == "add"){
+					uni.setStorageSync("now_model",that.model)
+				}else{
 					let reserve = 0;
 					that.stocks[that.index].now_model = that.model
 					for(let item of that.model){
@@ -125,10 +125,6 @@
 					}
 					that.stocks[that.index].reserve = reserve
 					uni.setStorageSync("warehouse",that.stocks)
-					
-					uni.setStorageSync("now_model",that.model)
-				}else{
-					uni.setStorageSync("now_model",that.model)
 				}
 				
 				uni.navigateBack({

@@ -94,8 +94,8 @@
 		</view>
 
 		<!--排序模板-->
-		<view v-if="showOrder" class="modal_background" @click="showOrder = false">
-			<view class="showOptions">
+		<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
+			<view class="showOptionsTransparent">
 				<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;" @click="selectOrder(item)">
 					<view style="color: #333;">{{item.desc}}({{item.notice}})</view>
 					<fa-icon type="check" size="18" color="#2ca879" v-if="item.checked"></fa-icon>

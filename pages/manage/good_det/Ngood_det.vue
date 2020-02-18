@@ -26,7 +26,9 @@
 			
 			<GoodDet :product="product" v-if="current == 0"></GoodDet>
 			<!--采购情况-->
-			<productPurchase v-else-if="current == 1 && product" :productId="productId"></productPurchase>
+			<productPurchase v-else-if="current == 1" :productId="productId" :stock="thisStock"></productPurchase>
+			<!--销售情况-->
+			<productSell v-else-if="current == 2" :productId="productId" :stock="thisStock"></productSell>
 		</scroll-view>
 		
 		<goodDetBottom :product="product" @isChooseStock = "isRealationNew = true"></goodDetBottom>
@@ -41,6 +43,7 @@
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
 	import GoodDet from '@/components/GoodDet.vue';//产品详情
 	import productPurchase from '@/components/productPurchase.vue';//采购详情
+	import productSell from '@/components/productSell.vue';//采购详情
 	import goodDetBottom from '@/components/goodDetBottom.vue';//底部操作栏
 
 	let that;
@@ -50,12 +53,13 @@
 			uniSegmentedControl,
 			GoodDet,
 			goodDetBottom,
-			productPurchase
+			productPurchase,
+			productSell
 		},
 		data() {
 			return {
 				items: ['产品详情', '进货情况','销售情况'],
-				current: 1,
+				current: 0,
 				
 				user: uni.getStorageSync("user"),
 				badnum: {
@@ -68,6 +72,8 @@
 				selected_item: '', //选择的产品
 				isRealationNew:false,
 				productId:'',
+				type:'',
+				thisStock:{},
 			}
 		},
 		onLoad(options) {
@@ -78,7 +84,8 @@
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			// #endif
-			that.productId = options.id
+			that.productId = options.id;
+			that.type = options.type;
 			that.getDetail_byId(options.id, options.type)
 		},
 
@@ -104,7 +111,7 @@
 												title: "关联成功",
 												icon: 'none'
 											})
-											that.getDetail_noId()
+											that.getDetail_byId(that.productId,that.type)
 										}
 									})
 								} else {
@@ -120,6 +127,8 @@
 						}
 					},
 				})
+			}else if(uni.getStorageSync("warehouse")){
+				that.thisStock = uni.getStorageSync("warehouse")[0].stock
 			}
 		},
 

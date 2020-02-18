@@ -105,9 +105,10 @@
 	.uni-navbar__content {
 		display: block;
 		position: relative;
-		width: 100%;
 		background-color: #fff;
 		overflow: hidden;
+		padding: 0 30rpx;
+		width: calc(100% - 60rpx);
 	}
 
 	.uni-navbar__content view {
@@ -123,6 +124,7 @@
 		font-size: 26rpx;
 		font-weight: bold;
 		color: #333333;
+		padding: 0 10rpx 0 0;
 	}
 
 	.uni-navbar__header-btns {

@@ -29,28 +29,6 @@
 
 			<view v-if="product.productCode">条码: <text class="second_right_text">{{product.productCode}}</text></view>
 
-			<!--<view class="display_flex">
-				<navigator hover-class="none" :url="'custom_detail/custom_detail?id='+product.objectId" class="opion_item">客户统计</navigator>
-				<navigator hover-class="none" :url="'../operations/operations?objectId='+product.objectId+'&goodsName='+product.goodsName"
-				 class="opion_item">此产品的操作记录</navigator>
-			</view>
-			<view class="display_flex">
-				<view class="opion_item" @click='print_info(product)'>打印</view>
-				<view class="opion_item" @click='modify(product)'>编辑</view>
-				<view class="opion_item" @click='add_badnum(product)'>记录货损</view>
-				<view class="opion_item" @click='delete_good(product.objectId)'>全部删除</view>
-				<navigator class="opion_item" url="/pages/manage/warehouse/warehouse?type=choose" hover-class="none" @click="isRealationNew = true">关联新的仓库</navigator>
-			</view>-->
-			
-			<!--<uni-popup :show="bad_numshow" type="top" mode="fixed" @hidePopup="bad_numshow = false" class="popup">
-				<view class="popup_content">
-					<view class="popup_title" style="text-align: center;margin-bottom: 20rpx;">记录货损</view>
-					<view style="margin-bottom: 20rpx;"><input placeholder="请输入该产品的货损数量" class="popup_input" v-model="badnum.num" /></view>
-					<view style="margin-bottom: 20rpx;"><input placeholder="请输入备注" class="popup_input" v-model="badnum.desc" /></view>
-					<view><button class="popup_button" @click="confrim_badnum">确认</button></view>
-				</view>
-			</uni-popup>-->
-
 		</view>
 
 		<view class="second_one display_flex_bet">

@@ -1,26 +1,26 @@
 <template>
-	<view style="width: 100%;display: flex;justify-content: space-between;position: fixed;bottom: 0;background: #fff;z-index: 100;padding: 14rpx 0;border-top: 1rpx solid#DDDDDD;">
+	<view style="width: 100%;display: flex;justify-content: space-between;position: fixed;bottom: 0;background: #fff;z-index: 100;padding: 12rpx 0;border-top: 1rpx solid#DDDDDD;">
 		<view class="Listitem" @click="modify">
 			<view class="Icon">
-				<fa-icon type="pencil-square-o" size="18" color="#2ca879" />
+				<fa-icon type="pencil-square-o" size="18" color="#426ab3" />
 			</view>
 			<view class="Notice">编辑</view>
 		</view>
 		<button class="Listitem" open-type="share" plain="true" style="border: unset;">
 			<view class="Icon">
-				<fa-icon type="share-square-o" size="18" color="#2ca879" />
+				<fa-icon type="share-square-o" size="18" color="#426ab3" />
 			</view>
 			<view class="Notice">分享</view>
 		</button>
-		<view class="Listitem">
+		<view class="Listitem" @click="addBadGoodRecord">
 			<view class="Icon">
-				<fa-icon type="cube" size="18" color="#2ca879" />
+				<fa-icon type="cube" size="18" color="#426ab3" />
 			</view>
-			<view class="Notice">记录货损</view>
+			<view class="Notice">货损单</view>
 		</view>
 		<view class="Listitem" @click="moreActions">
 			<view class="Icon">
-				<fa-icon type="tags" size="18" color="#2ca879" />
+				<fa-icon type="tags" size="18" color="#426ab3" />
 			</view>
 			<view class="Notice">更多操作</view>
 		</view>
@@ -47,6 +47,15 @@
 			that = this
 		},
 		methods: {
+			
+			//货损记录点击
+			addBadGoodRecord(){
+				uni.showToast({
+					icon:"none",
+					title:"正在完善中"
+				})
+			},
+			
 			//产品信息修改点击
 			modify() {
 				uni.navigateTo({

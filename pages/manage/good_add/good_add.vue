@@ -60,16 +60,13 @@
 						</view>
 					</view>
 
-					<!--<navigator class="input_item1" hover-class="none" url="/pages/manage/goods_add_MoreG/G_More/G_More" v-if="productMoreG">
+					<navigator class="input_item1" hover-class="none" url="/pages/manage/good_add/moreModel/moreModel?type=add" v-if="productMoreG">
 						<view style="display: flex;align-items: center;width: 100%;">
-							<view class="left_item">规格设置<te</view> <view class="right_input"><input placeholder="请设置多规格" name="goodsClass"
-									 disabled="true"></input></view>
+							<view class="left_item">规格设置</view>
+							<view class="right_input"><input placeholder="请设置多规格" name="goodsClass" disabled="true"></input></view>
 						</view>
-
-						<view>
-							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-						</view>
-					</navigator>-->
+						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+					</navigator>
 				</view>
 
 				<view class="frist" style="margin: 30rpx 0;" v-if="addType == 'more'">
@@ -228,8 +225,9 @@
 				producttime: "",
 				nousetime: "",
 				productMoreG: false, //产品是否是多规格
-				isMoreModelAdd: uni.getStorageSync("addMoreModel"),
+				//isMoreModelAdd: uni.getStorageSync("addMoreModel"),
 				addType: '', //添加类型
+				modelsValue:'',//产品规格数据
 			}
 		},
 
@@ -237,6 +235,7 @@
 			that = this;
 			uid = uni.getStorageSync('uid');
 			uni.removeStorageSync("is_add");
+			uni.removeStorageSync("now_model");
 
 			if (uni.getStorageSync("now_product")) {
 				uni.setNavigationBarTitle({
@@ -386,7 +385,6 @@
 						that.reserve += Number(item.reserve)
 					}
 				}
-
 			}
 
 			if (uni.getStorageSync("category")) {
@@ -410,6 +408,7 @@
 		},
 
 		onUnload() {
+			uni.removeStorageSync("now_model");
 			p_class_user_id = "";
 			p_second_class_id = "";
 

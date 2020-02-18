@@ -2,7 +2,7 @@
 	<view>
 		<view class="frist">
 			<view class="display_flex_bet header">
-				<view class="listItem">实际进货<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
+				<view class="listItem">实际销售<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</view>
 				<view class="display_flex listItem" @click="open">
 					<view>
@@ -21,18 +21,18 @@
 		<view class="display_flex_bet second">
 			<view class="secondItem">
 				<view style="line-height: 40rpx;color: #333;font-weight: bold;">{{purcharseNotice.num}}</view>
-				<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">实际进货数</view>
+				<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">实际销售数</view>
 			</view>
 			<view class="secondItem">
 				<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{purcharseNotice.money}}</view>
-				<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">实际进货金额</view>
+				<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">实际销售金额</view>
 			</view>
 		</view>
 
 		<view style="margin-top: 60rpx;">
 			<view style="padding: 0 20rpx;margin-bottom: 10rpx;" class="display_flex">
 				<view style="background: #426ab3;width: 16rpx;height: 40rpx;"></view>
-				<view style="color: #999;margin-left: 20rpx;font-weight: bold;">供应商维度</view>
+				<view style="color: #999;margin-left: 20rpx;font-weight: bold;">客户维度</view>
 			</view>
 			<z-table :tableData='purcharseList' :columns='alignColumns'></z-table>
 		</view>
@@ -91,17 +91,17 @@
 					money: 0
 				},
 				alignColumns: [{
-						title: "供应商",
+						title: "客户",
 						key: 'name',
 						width: '300'
 					},
 					{
-						title: '实际进货数',
+						title: '实际销售数',
 						key: "num",
 						width: '200'
 					},
 					{
-						title: "实际进货金额",
+						title: "实际销售金额",
 						key: "really_total_money",
 						width: '200'
 					}
@@ -112,12 +112,12 @@
 						width: '300'
 					},
 					{
-						title: '实际进货数',
+						title: '实际销售数',
 						key: "num",
 						width: '200'
 					},
 					{
-						title: "实际进货金额",
+						title: "实际销售金额",
 						key: "really_total_money",
 						width: '200'
 					}
@@ -163,7 +163,7 @@
 
 				const query = Bmob.Query("Bills");
 				query.equalTo("userId", "==", uni.getStorageSync("uid"));
-				query.equalTo("type", "==", 1);
+				query.equalTo("type", "==", -1);
 				query.equalTo("extra_type", "==", 1);
 				query.equalTo("createdAt", ">=", that.start_date + ' 00:00:00');
 				query.equalTo("createdAt", "<=", that.end_date + ' 23:59:59');
@@ -176,15 +176,15 @@
 
 					for (let i = 0; i < Math.ceil(count / 500); i++) {
 						if(that.stock && that.stock.objectId) query.equalTo("stock", "==", that.stock.objectId);
-						query.include("producer", "opreater");
+						query.include("custom", "opreater");
 						query.limit(500);
 						query.skip(500 * i);
 						query.find().then(res => {
 							for (let item of res) {
-								if (item.producer && item.producer.objectId) {
+								if (item.custom && item.custom.objectId) {
 									that.purcharseNotice.num += item.num
-									that.purcharseNotice.money += item.really_total_money
-									item.name = item.producer.producer_name
+									that.purcharseNotice.money += item.total_money
+									item.name = item.custom.custom_name
 									item.nickName = item.opreater.nickName
 									newArrar.push(item)
 								}
@@ -192,10 +192,11 @@
 
 							uni.setStorageSync("productPurchase", newArrar);
 							that.purcharseList = uni.getStorageSync("productPurchase").reduce((resp, obj) => {
-								let originObj = resp.find(item => item.producer.objectId === obj.producer.objectId);
+								let originObj = resp.find(item => item.custom.objectId === obj.custom.objectId);
 								if (originObj) {
 									originObj.num += obj.num;
-									originObj.really_total_money += obj.really_total_money;
+									originObj.really_total_money += obj.total_money;
+									//originObj.reallyProfit += obj.really_total_money;
 								} else {
 									resp.push(obj)
 								}
@@ -206,7 +207,8 @@
 								let originObj1 = resp1.find(item1 => item1.opreater.objectId === obj1.opreater.objectId);
 								if (originObj1) {
 									originObj1.num += obj1.num;
-									originObj1.really_total_money += obj1.really_total_money;
+									originObj1.really_total_money += obj1.total_money;
+									//originObj1.reallyProfit += obj1.really_total_money;
 								} else {
 									resp1.push(obj1)
 								}
