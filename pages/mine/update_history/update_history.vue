@@ -19,6 +19,8 @@
 					</view>
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
+						<text>产品编辑添加优化</text>
+						<text>产品详情优化</text>
 						<text>页面样式优化</text>
 						<text>员工权限优化</text>
 						<text>图表bug修复</text>

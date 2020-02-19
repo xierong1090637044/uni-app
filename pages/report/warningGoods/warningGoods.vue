@@ -73,7 +73,7 @@
 				uni.setStorageSync("now_product", value);
 				if (value.order == 0 || value.order == 1) {
 					uni.navigateTo({
-						url: "/pages/manage/good_det/Ngood_det"
+						url: "/pages/manage/good_det/Ngood_det?id="+value.objectId+"&type=false"
 					})
 				} else {
 					uni.navigateTo({
@@ -89,13 +89,6 @@
 				
 				query.equalTo("status", "!=", -1);
 				query.equalTo("order", "!=", 1);
-				const query1 = query.equalTo("goodsName", "==", {
-					"$regex": "" + that.search_text + ".*"
-				});
-				const query2 = query.equalTo("packageContent", "==", {
-					"$regex": "" + that.search_text + ".*"
-				});
-				query.or(query1, query2);
 				query.equalTo("stocktype", "==", stocktype);
 				query.limit(500);
 				//query.skip(that.page_size * (that.page_num - 1));
@@ -104,8 +97,7 @@
 				query.find().then(res => {
 					//console.log(res)
 					for (let item of res) {
-						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
-							0)
+						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :0)
 					}
 					that.productList = res;
 				});

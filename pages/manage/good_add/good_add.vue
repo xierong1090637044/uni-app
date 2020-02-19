@@ -423,7 +423,12 @@
 						uni.navigateTo({
 							url: 'moreModel/moreModel'
 						})
-					} else {
+					} else if (uni.getStorageSync("now_model") == null || uni.getStorageSync("now_model") == "") {
+						uni.showToast({
+							title: "请先去填写多规格",
+							icon: 'none'
+						})
+					}else {
 						uni.navigateTo({
 							url: 'stockAdd/stockAdd?type=' + that.productMoreG
 						})
@@ -514,7 +519,7 @@
 				} else if (that.productMoreG) {
 					if (uni.getStorageSync("now_model") == null || uni.getStorageSync("now_model") == "") {
 						uni.showToast({
-							title: "请填写多规格",
+							title: "请先去填写多规格",
 							icon: "none"
 						})
 

@@ -78,7 +78,7 @@
 										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>仓库：</text>{{item.stock.stock_name}}</view>
 										<view class="display_flex_bet">
 											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-											<view style="color: #999;" v-if="item.type !=-2">X{{item.real_num}}</view>
+											<view style="color: #999;" v-if="item.type !=-2 && item.type !=3">X{{item.real_num}}</view>
 										</view>
 
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>

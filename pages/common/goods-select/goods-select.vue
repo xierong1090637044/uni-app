@@ -188,6 +188,14 @@
 		onShow() {
 			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
 			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+			
+			if(uni.getStorageSync("is_option")){
+				that.nextProducts = [];
+				search_text = '';
+				page_size = 30;
+				that.page_num = 1;
+				that.option_reset()
+			}
 			that.get_productList();
 		},
 
@@ -224,9 +232,7 @@
 			},
 
 			//输入框输入点击确定
-			confirm(e) {
-				that.showOptions = false;
-				that.isOption = true;
+			input_confirm(e) {
 				search_text = e.detail.value
 				that.search_text = e.detail.value
 				that.page_num = 1

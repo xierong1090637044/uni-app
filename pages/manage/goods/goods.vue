@@ -439,7 +439,7 @@
 							0)
 
 						if (that.user.identity == 2 && that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1) {
-							product.costPrice = 0
+							item.costPrice = 0
 						}
 					}
 					this.productList = res;

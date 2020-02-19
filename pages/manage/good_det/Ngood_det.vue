@@ -77,6 +77,7 @@
 			}
 		},
 		onLoad(options) {
+			console.log(options)
 			that = this;
 			uid = uni.getStorageSync("uid");
 			uni.removeStorageSync("now_model")
@@ -140,7 +141,7 @@
 			}
 			return {
 				title: '库存表-' + that.product.goodsName + '的详情',
-				path: '/pages/manage/good_det/Ngood_det?id=' + that.product.objectId + '&type="false"'
+				path: '/pages/manage/good_det/Ngood_det?id=' + that.product.objectId + '&type=false'
 			}
 		},
 
