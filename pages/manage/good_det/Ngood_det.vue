@@ -24,7 +24,7 @@
 				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
 			</view>
 			
-			<GoodDet :product="product" v-if="current == 0"></GoodDet>
+			<GoodDet :product="product" v-if="current == 0" @deleteSingle='getDetail_byId'></GoodDet>
 			<!--采购情况-->
 			<productPurchase v-else-if="current == 1" :productId="productId" :stock="thisStock"></productPurchase>
 			<!--销售情况-->
@@ -87,7 +87,7 @@
 			// #endif
 			that.productId = options.id;
 			that.type = options.type;
-			that.getDetail_byId(options.id, options.type)
+			that.getDetail_byId()
 		},
 
 		onShow() {
@@ -112,7 +112,7 @@
 												title: "关联成功",
 												icon: 'none'
 											})
-											that.getDetail_byId(that.productId,that.type)
+											that.getDetail_byId()
 										}
 									})
 								} else {
@@ -151,49 +151,17 @@
 				that.current = value
 			},
 
-			//删除商品
-			delete_singlegood(objectId) {
-				uni.showModal({
-					title: '提示',
-					content: '是否删除该商品',
-					success: function(res) {
-						if (res.confirm) {
-							const query = Bmob.Query('Goods');
-							query.destroy(objectId).then(res => {
-								console.log(res)
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", that.product.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									//console.log("dasds", res)
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', that.product.objectId)
-									query.save().then(res => {
-										common.modifyStockType(that.product.objectId)
-									})
-								})
-							}).catch(err => {
-								console.log(err)
-							})
-						}
-					}
-				});
-			},
-
 			//得到产品详情 有id
-			getDetail_byId(id, type) {
+			getDetail_byId() {
 				let stocks = [];
 				uni.showLoading({
 					title: "加载中..."
 				})
 				const query = Bmob.Query('Goods');
-				if (type == "false") {
-					query.equalTo("objectId", "==", id);
+				if (that.type == "false") {
+					query.equalTo("objectId", "==", that.productId );
 				} else {
-					query.equalTo("productCode", "==", id)
+					query.equalTo("productCode", "==", that.productId )
 				}
 				query.equalTo("userId", "==", uid);
 				query.include("stocks", "goodsClass", "second_class");

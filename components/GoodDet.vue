@@ -65,6 +65,9 @@
 </template>
 
 <script>
+	import Bmob from "hydrogen-js-sdk";
+	import common from "@/utils/common.js"
+	
 	import tkiQrcode from '@/components/tki-qrcode/tki-qrcode.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	
@@ -90,6 +93,40 @@
 			that = this;
 		},
 		methods:{
+			
+			//删除商品
+			delete_singlegood(objectId) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除该商品',
+					success: function(res) {
+						if (res.confirm) {
+							const query = Bmob.Query('Goods');
+							query.destroy(objectId).then(res => {
+								console.log(res)
+								const query1 = Bmob.Query("Goods");
+								query1.equalTo("header", "==", that.product.objectId);
+								query1.equalTo("order", "==", 1);
+								query1.statTo("sum", "reserve");
+								query1.find().then(res => {
+									//console.log("dasds", res)
+									let now_reserve = res[0]._sumReserve
+									const query = Bmob.Query('Goods');
+									query.set('reserve', now_reserve)
+									query.set('id', that.product.objectId)
+									query.save().then(res => {
+										common.modifyStockType(that.product.objectId);
+								    that.$emit("deleteSingle",true);
+										uni.showToast({title:"删除成功"});
+									})
+								})
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+					}
+				});
+			},
 			
 			//分库存的switch点击
 			change_state(e) {

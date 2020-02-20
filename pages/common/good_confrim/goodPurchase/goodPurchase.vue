@@ -420,35 +420,10 @@
 						query.set("status", that.canOpretion); // 操作单详情
 						query.save().then(res => {
 							let operationId = res.objectId
+							let createdAt = res.createdAt
 							//console.log("添加操作历史记录成功", res);
 
 							if (that.canOpretion) {
-								/*let params =　{
-								  funcName: 'goodEnter',
-								  data: {
-								    products :that.products,
-								  }
-								}
-								Bmob.functions(params.funcName,params.data).then(function (results) {
-									if(results.code == 1){
-										uni.hideLoading();
-										uni.setStorageSync("is_option", true);
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										uni.showToast({
-											title: "产品采购成功"
-										})
-										setTimeout(function() {
-											that.button_disabled = false;
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
-											uni.navigateBack({
-												delta: 2
-											});
-										}, 500)
-									}
-								})*/
 								common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 									uni.hideLoading();
 									
@@ -461,6 +436,15 @@
 										title: "产品采购成功"
 									})
 									setTimeout(function() {
+										
+										//发送小程序订阅通知
+										let miniParams = {};
+										miniParams.goodsName = that.products[0].goodsName;
+										miniParams.total_num = that.total_num;
+										miniParams.createdAt = createdAt;
+										miniParams.operationId = operationId;
+										send_temp.sendTempMini(miniParams,"enter");
+										
 										that.button_disabled = false;
 										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
 										uni.navigateBack({

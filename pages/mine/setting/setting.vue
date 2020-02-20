@@ -13,7 +13,7 @@
 
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">打印功能</view>
-				<input class="uni-input" placeholder="需购买飞鹅云打印机,然后联系客服开通" :disabled="true"  style="border-bottom: unset;"/>
+				<input class="uni-input" placeholder="需购买飞鹅云打印机,然后联系客服开通" :disabled="true" style="border-bottom: unset;" />
 			</view>
 			<!--<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
@@ -24,16 +24,16 @@
 				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" @blur="modify_setting" :disabled="inputCan" />
 			</view>-->
 		</view>
-		
+
 		<view style="margin-top: 30rpx;">
 			<view>
-				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
 					<view>自动打印</view>
 					<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan" />
 				</view>
 			</view>
 			<view>
-				<view class="display_flex_bet item" style="padding: 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+				<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
 					<view>负出库</view>
 					<switch @change="negativeOut" :checked="params.negativeOut" :disabled="inputCan" />
 				</view>
@@ -45,13 +45,21 @@
 				</view>
 			</view>
 		</view>
-		
+
 
 		<view style="margin-top: 30rpx;" v-if="identity == 1">
-			<view class="display_flex_bet item" style="padding: 20rpx;">
+			<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
 				<view>关联微信通知</view>
 				<switch @change="link_wechatinfo" :checked="params.wechat_info" />
 			</view>
+
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="display_flex_bet item" style="padding: 20rpx;">
+				<view>订阅小程序通知</view>
+				<button style="margin: unset;font-size: 28rpx;line-height: unset;" plain="true" @click="orderThisInfo">订阅</button>
+			</view>
+			<!-- #endif -->
+
 		</view>
 
 	</view>
@@ -76,7 +84,7 @@
 					wx_openid: '',
 					wechat_info: false,
 					auto_print: false, //自动打印
-					negativeOut:false,//负出库
+					negativeOut: false, //负出库
 					production: true
 				},
 			}
@@ -104,7 +112,7 @@
 					} else {
 						that.params.auto_print = false
 					}
-					
+
 					if (res[0].negativeOut) {
 						that.params.negativeOut = true
 					} else {
@@ -122,6 +130,20 @@
 			})
 		},
 		methods: {
+
+			//订阅微信通知
+			orderThisInfo() {
+				wx.requestSubscribeMessage({
+					tmplIds: ['G2UJEDEyAtGuBdO-Yv96yBi-UnTLhaInr-KzEXqZ-48','BKT2_0OuWF3mLZGvFmpRzWFa_Dyr4EIppl_LFF1uRLE'],
+					success(res) {
+						console.log(res)
+						uni.showToast({
+							title:"订阅成功",
+						})
+					}
+				})
+			},
+
 			modify_setting() {
 				mine.modify_setting(that.params)
 			},
@@ -137,8 +159,8 @@
 				that.params.auto_print = e.detail.value
 				mine.modify_setting(that.params)
 			},
-			
-			negativeOut(e){
+
+			negativeOut(e) {
 				that.params.negativeOut = e.detail.value
 				mine.modify_setting(that.params)
 			},

@@ -4,7 +4,7 @@
 
 	export default {
 		onLaunch: function() {
-
+			
 			// #ifdef MP-WEIXIN
 			Bmob.User.auth().then(res => {}).catch(err => {
 				console.log(err)
@@ -25,6 +25,7 @@
 						if (res.confirm) {
 							// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
 							updateManager.applyUpdate()
+							uni.setStorageSync("isUpdate",true)
 						}
 					}
 				})
@@ -60,6 +61,17 @@
 	@import "colorui/icon.css";
 	/* #endif */
 	
+	.updateContent{
+		position: fixed;
+		top: 20%;
+		left: 10%;
+		right: 10%;
+		background: #fff;
+		z-index: 10;
+		padding: 30rpx;
+		border-radius: 16rpx;
+		box-shadow:0 10rpx 10rpx rgba($color: #fff, $alpha: 0.6);
+	}
 	.confrim_button{
 		height: 100rpx;
 		line-height: 100rpx;
@@ -257,5 +269,14 @@
 				color: #426ab3;
 			}
 		}
+	}
+	
+	.normalButton{
+		margin:  unset;
+		line-height: unset;
+		font-size: 28rpx;
+	}
+	.normalBorder{
+		border-bottom: 1rpx solid#F7F7F7;
 	}
 </style>

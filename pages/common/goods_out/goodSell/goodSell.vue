@@ -528,7 +528,7 @@
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							
+							let createdAt = res.createdAt;
 							if (that.canOpretion) {
 								let params =　{
 								  funcName: 'goodOut',
@@ -536,28 +536,6 @@
 								    products :that.products,
 								  }
 								}
-								/*Bmob.functions(params.funcName,params.data).then(function (results) {
-								    //console.log(results);
-										if(results.code == 1){
-											uni.showToast({
-												title: "产品销售成功",
-												duration:1000,
-												complete:function() {
-													that.button_disabled = false;
-													uni.hideLoading();
-													uni.setStorageSync("is_option", true);
-													uni.removeStorageSync("_warehouse")
-													uni.removeStorageSync("out_warehouse")
-													uni.removeStorageSync("category")
-													uni.removeStorageSync("warehouse")
-													setTimeout(function(){
-														common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
-														uni.navigateBack({delta: 2});
-													},1000)
-												}
-											})
-										}
-								})*/
 								
 								common.outRedGoodNum(that.products).then(result => { //减少产品数量		
 										uni.hideLoading();
@@ -569,6 +547,14 @@
 										
 										uni.showToast({title:"产品销售成功"})
 										setTimeout(function(){
+											//发送小程序订阅通知
+											let miniParams = {};
+											miniParams.goodsName = that.products[0].goodsName;
+											miniParams.total_num = that.total_num;
+											miniParams.createdAt = createdAt;
+											miniParams.operationId = operationId;
+											send_temp.sendTempMini(miniParams,"out");
+											
 											that.button_disabled = false;
 											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
 											uni.navigateBack({

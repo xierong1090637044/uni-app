@@ -82,16 +82,28 @@
 					</view>
 				</view>
 			</view>
-
 		</scroll-view>
+		
+		<!--更新弹窗-->
+		<modal :is_transparent="false" v-if="isUpdate" @hideModal="hideModal">
+			<view class="updateContent">
+				<view style="text-align: center;"><image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;"></image></view>
+				<view style="color: #333;font-weight: bold;">*本次更新内容</view>
+				<view style="margin-left: 20rpx;font-size: 24rpx;">
+					<view>1、新增出入库服务通知，可在"我的设置"里面订阅</view>
+					<view>2、产品删除bug不生效修改</view>
+				</view>
+				<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
+			</view>
+		</modal>
 
 
 	</view>
 </template>
 
 <script>
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue'
+	import modal from '@/components/modal.vue'
 
 	import common from '@/utils/common.js';
 	import mine from '@/utils/mine.js';
@@ -101,7 +113,7 @@
 
 	export default {
 		components: {
-			faIcon,
+			modal,
 			uniSearchBar
 		},
 		data() {
@@ -185,7 +197,7 @@
 						name: '使用手册',
 						icon: 'icon-tishishuoming',
 						url: '/pages/mine/manual/manual'
-					},
+					}
 				],
 				get_reserve: 0,
 				out_reserve: 0,
@@ -195,16 +207,27 @@
 				total_money: 0,
 				total_products: 0,
 				openid: '',
+				isUpdate:false,
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
+			// #endif
+			
+			//  #ifdef MP-WEIXIN
+			wx.requestSubscribeMessage({
+			  tmplIds: ['G2UJEDEyAtGuBdO-Yv96yBi-UnTLhaInr-KzEXqZ-48'],
+			  success: function(res) { 
+					console.log(res)
+				}
+			})
 			// #endif
 
 			if (that.user) { //会员vip 校验
@@ -282,6 +305,8 @@
 						})
 					}
 				})
+				
+				that.isUpdate = uni.getStorageSync("isUpdate") || false;//检测是否有更新
 			} else {//未登录情况下
 				setTimeout(function() {
 					uni.showToast({
@@ -311,16 +336,11 @@
 		},
 
 		methods: {
-
-			//去到KCB
-			navigateToKCB() {
-				uni.navigateToMiniProgram({
-					appId: 'wx6783307185c8385e',
-					path: 'pages/tarBar/index?phone=' + that.user.mobilePhoneNumber,
-					success(res) {
-						// 打开成功
-					}
-				})
+			
+			//关闭更新Modal
+			hideModal(){
+				that.isUpdate = false;
+				uni.removeStorageSync("isUpdate")
 			},
 
 			//其他功能的点击事件
@@ -351,22 +371,23 @@
 						})
 					}
 				} else {
-					uni.scanCode({
-						success(res) {
-							let result = res.result;
-
-							if (user.is_vip) {
-								uni.navigateTo({
-									url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
-								})
-							} else {
-								uni.showToast({
-									title: "该功能只限会员使用",
-									icon: "none"
-								})
+					if(index == 1){
+						uni.scanCode({
+							success(res) {
+								let result = res.result;
+								if (user.is_vip) {
+									uni.navigateTo({
+										url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
+									})
+								} else {
+									uni.showToast({
+										title: "该功能只限会员使用",
+										icon: "none"
+									})
+								}
 							}
-						}
-					})
+						})
+					}
 				}
 			},
 

@@ -28,7 +28,9 @@
 </template>
 
 <script>
-	import print from "@/utils/print.js"
+	import Bmob from "hydrogen-js-sdk";
+	import common from "@/utils/common.js";
+	import print from "@/utils/print.js";
 	
 	let that;
 	export default {

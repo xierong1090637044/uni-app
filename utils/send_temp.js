@@ -1,5 +1,49 @@
 import Bmob from "hydrogen-js-sdk";
 export default {
+	
+	sendTempMini(params,type){
+		if(type == "enter"){
+			let params1 = {
+				"thing1": {
+					"value": params.goodsName + "...等",
+					"color": "#173177"
+				},
+				"number2": {
+					"value": params.total_num,
+					"color": "#173177"
+				},
+				"name3": {
+					"value": uni.getStorageSync("user").nickName,
+				},
+				"date4": {
+					"value": params.createdAt
+				},
+			}
+			params1.id = params.operationId
+			this.send_in_mini(params1);
+		}else if(type == "out"){
+			let params1 = {
+				"thing1": {
+					"value": params.goodsName + "...等",
+					"color": "#173177"
+				},
+				"number2": {
+					"value": params.total_num,
+					"color": "#173177"
+				},
+				"name3": {
+					"value": uni.getStorageSync("user").nickName,
+				},
+				"time4": {
+					"value": params.createdAt
+				},
+			}
+			params1.id = params.operationId
+			this.send_out_mini(params1);
+		}
+		
+	},
+	
 	//发送入库模板
 	send_in(params){
 		let openid = uni.getStorageSync("setting").wx_openid
@@ -50,13 +94,12 @@ export default {
 		});
 	},
 	
-	//发送入库模板
+	//小程序发送入库模板
 	send_in_mini(params){
 		let modelData = {
 		    "touser": uni.getStorageSync("openid"),
-		    "template_id": "nqZl9FWDofCo9cxU4de45grLKh2GU-PJcAvWSbJMy9k",
+		    "template_id": "G2UJEDEyAtGuBdO-Yv96yBi-UnTLhaInr-KzEXqZ-48",
 		    "page": "/pages/report/EnteringHistory/detail/detail?id="+params.id,
-		    "form_id":params.form_Id,
 		    "data": params,
 		    "emphasis_keyword": ""
 		}
@@ -74,7 +117,6 @@ export default {
 		    "touser": uni.getStorageSync("openid"),
 		    "template_id": "BKT2_0OuWF3mLZGvFmpRzWFa_Dyr4EIppl_LFF1uRLE",
 		    "page": "/pages/report/EnteringHistory/detail/detail?id="+params.id,
-		    "form_id":params.form_Id,
 		    "data": params,
 		    "emphasis_keyword": ""
 		}

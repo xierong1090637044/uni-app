@@ -300,36 +300,8 @@
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
+							let createdAt = res.createdAt;
 							
-							/*let params =　{
-							  funcName: 'goodOut',
-							  data: {
-							    products :that.products,
-									operationId:operationId
-							  }
-							}
-							Bmob.functions(params.funcName,params.data).then(function (results) {
-							    //console.log(results);
-									if(results.code == 1){
-										uni.showToast({
-											title: "出库成功",
-											duration:1000,
-											complete:function() {
-												that.button_disabled = false;
-												uni.hideLoading();
-												uni.setStorageSync("is_option", true);
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-												setTimeout(function(){
-													uni.navigateBack({delta: 2});
-												},1000)
-											}
-										})
-									}
-							})*/
-
 							common.outRedGoodNum(that.products).then(result => { //减少产品数量
 								const query = Bmob.Query('order_opreations');
 								query.set('id', operationId) //需要修改的objectId
@@ -342,32 +314,20 @@
 											that.products
 											.length + "商品",
 										"data3": that.stock ? that.stock.stock_name : "未填写",
-										"data4": res.createdAt,
+										"data4": createdAt,
 										"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 										"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
 											operationId,
 									};
 									send_temp.send_temp(params);
 									
-									let params1 = {
-										"keyword1": {
-											"value": that.products[0].goodsName + "'等",
-											"color": "#173177"
-										},
-										"keyword2": {
-											"value": Number(that.total_num),
-										},
-										"keyword3": {
-											"value": uni.getStorageSync("user").nickName,
-										},
-										"keyword4": {
-											"value": res.createdAt
-										}
-										
-									}
-									params1.form_Id = fromid
-									params1.id = operationId
-									send_temp.send_out_mini(params1);
+									//发送小程序订阅通知
+								  let miniParams = {};
+								  miniParams.goodsName = that.products[0].goodsName;
+								  miniParams.total_num = that.total_num;
+								  miniParams.createdAt = createdAt;
+								  miniParams.operationId = operationId;
+								  send_temp.sendTempMini(miniParams,"out");
 																		
 									//自动打印
 									if (uni.getStorageSync("setting").auto_print) {

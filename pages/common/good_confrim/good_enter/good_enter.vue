@@ -28,8 +28,6 @@
 						<view>实际进货价：￥{{item.modify_retailPrice}}</view>
 						<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
 					</view>
-
-
 				</view>
 			</view>
 
@@ -313,40 +311,8 @@
 
 						query.save().then(res => {
 							let operationId = res.objectId
-
-							/*let params =　{
-							  funcName: 'goodEnter',
-							  data: {
-							    products :that.products,
-									operationId:operationId
-							  }
-							}
-							Bmob.functions(params.funcName,params.data).then(function (results) {
-									if(results.code == 1){
-										uni.showToast({
-											title: "入库成功",
-											duration:1000,
-											complete:function() {
-												that.button_disabled = false;
-												uni.hideLoading();
-												uni.setStorageSync("is_option", true);
-												uni.removeStorageSync("_warehouse")
-												uni.removeStorageSync("out_warehouse")
-												uni.removeStorageSync("category")
-												uni.removeStorageSync("warehouse")
-												setTimeout(function(){
-													common.log(uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", 1, operationId);
-													uni.navigateBack({delta: 2});
-												},1000)
-												
-											}
-										})
-										
-									}
-							})*/
-
-							//console.log("添加操作历史记录成功", res);
-
+							let createdAt = res.createdAt;
+							
 							common.enterAddGoodNum(that.products).then(result => { //添加产品数量
 								const query = Bmob.Query('order_opreations');
 								query.set('id', operationId) //需要修改的objectId
@@ -357,33 +323,22 @@
 										"frist": uni.getStorageSync("user").nickName + "入库了'" + that.products[0].goodsName + "'等" +
 											that.products
 											.length + "商品",
-										"data1": res.createdAt,
+										"data1": createdAt,
 										"data2": that.stock ? that.stock.stock_name : "未填写",
 										"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
 										"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
 											operationId,
 									};
 									send_temp.send_in(params);
-
-									let params1 = {
-										"keyword1": {
-											"value": that.products[0].goodsName + "'等",
-											"color": "#173177"
-										},
-										"keyword2": {
-											"value": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-										},
-										"keyword3": {
-											"value": res.createdAt
-										},
-										"keyword4": {
-											"value": uni.getStorageSync("user").nickName,
-										}
-									}
-									params1.form_Id = fromid
-									params1.id = operationId
-									send_temp.send_in_mini(params1);
-
+									
+									//发送小程序订阅通知
+									let miniParams = {};
+									miniParams.goodsName = that.products[0].goodsName;
+									miniParams.total_num = that.total_num;
+									miniParams.createdAt = createdAt;
+									miniParams.operationId = operationId;
+								  send_temp.sendTempMini(miniParams,"enter");
+									
 									//自动打印
 									if (uni.getStorageSync("setting").auto_print) {
 										print.autoPrint(operationId);
