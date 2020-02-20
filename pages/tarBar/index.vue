@@ -87,9 +87,9 @@
 		<!--更新弹窗-->
 		<modal :is_transparent="false" v-if="isUpdate" @hideModal="hideModal">
 			<view class="updateContent">
-				<view style="text-align: center;"><image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;"></image></view>
+				<view style="text-align: center;"><image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;border-radius: 50%;"></image></view>
 				<view style="color: #333;font-weight: bold;">*本次更新内容</view>
-				<view style="margin-left: 20rpx;font-size: 24rpx;">
+				<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 					<view>1、新增出入库服务通知，可在"我的设置"里面订阅</view>
 					<view>2、产品删除bug不生效修改</view>
 				</view>

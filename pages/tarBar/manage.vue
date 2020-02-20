@@ -103,8 +103,8 @@
 			url: '/pages/manage/staff/staff',
 		},
 		{
-			name: '仓库管理',
-			notice: '先完善好仓库',
+			name: '店仓管理',
+			notice: '先完善好店仓',
 			icon: 'home',
 			url: '/pages/manage/warehouse/warehouse',
 		},

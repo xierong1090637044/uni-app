@@ -29,12 +29,19 @@
 		</view>
 
 		<!-- 底部信息 -->
-		<navigator class="footer" url="/pages/register/register" open-type="navigate" hover-class="none">
-			<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
-			<view>注册账号</view>
-		</navigator>
+		<div class="display_flex_bet" style="padding: 0 20%;">
+			<navigator class="footer" url="/pages/register/register" open-type="navigate" hover-class="none">
+				<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
+				<view>注册账号</view>
+			</navigator>
+			<view class="footer" @click="loginTiYan">
+				<fa-icon type="unlock" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
+				<view>体验一下</view>
+			</view>
+		</div>
 
-		<view style="color: #0081FF;font-size: 20rpx;margin-top: 10rpx;padding: 0 40rpx;">
+
+		<view style="color: #0081FF;font-size: 20rpx;padding: 0 40rpx;position: fixed;bottom: 60rpx;">
 			<fa-icon type="info-circle" size="10" color="#0081FF" style="margin-right: 10rpx;"></fa-icon>
 			注册说明：注册成功之后，您可以使用关于一些进销存的功能（包含进库、出库、入库...）
 		</view>
@@ -61,6 +68,34 @@
 			//手机输入触发
 			get_InputPhone(e) {
 				phone_number = e.detail.value;
+			},
+			
+			//体验账号登陆
+			loginTiYan() {
+				uni.showLoading({
+					title: "登录中..."
+				})
+
+				Bmob.User.login('test', 'test').then(res => {
+					console.log(res)
+
+					uni.setStorageSync("user", res)
+					uni.setStorageSync("masterId", res.objectId)
+					uni.setStorageSync("identity", 1); //1是老板，2是员工
+					uni.setStorageSync("uid", res.objectId)
+					uni.switchTab({
+						url: "/pages/tarBar/index"
+					});
+
+				}).catch(err => {
+					console.log(err)
+					if (err.code == 101) {
+						uni.showToast({
+							title: "账号密码不正确",
+							icon: 'none'
+						})
+					}
+				});
 			},
 
 			//获取验证码点击
@@ -104,7 +139,7 @@
 			//登陆提交
 			formSubmit(e) {
 				console.log(e)
-				let phone =e.detail.value.phone;
+				let phone = e.detail.value.phone;
 				let sms_code = e.detail.value.sms_code;
 
 				if (e.detail.value.phone.length < 11) {
@@ -120,9 +155,9 @@
 				} else {
 					let smsCode = sms_code
 					let data = {
-					  mobilePhoneNumber: phone
+						mobilePhoneNumber: phone
 					}
-					Bmob.verifySmsCode(smsCode ,data).then(function(response) {
+					Bmob.verifySmsCode(smsCode, data).then(function(response) {
 						console.log(response);
 						const query = Bmob.Query("_User");
 						query.equalTo("mobilePhoneNumber", "==", phone);
@@ -139,12 +174,12 @@
 									now_staff.is_vip = false
 									now_staff.vip_time = 0
 								}
-							
+
 								uni.setStorageSync("user", now_staff)
 								uni.setStorageSync("identity", 2) //1是老板，2是员工
 								uni.setStorageSync("masterId", res[0].objectId)
 								uni.setStorageSync("uid", master[0].objectId)
-							}else{
+							} else {
 								uni.setStorageSync("user", res[0])
 								uni.setStorageSync("masterId", res[0].objectId)
 								uni.setStorageSync("identity", 1); //1是老板，2是员工
@@ -152,14 +187,14 @@
 								uni.switchTab({
 									url: "/pages/tarBar/index"
 								});
-								
-								if(res[0].pwd){
+
+								if (res[0].pwd) {
 									Bmob.User.login(res[0].username, res[0].pwd).then(res => {
 										console.log(res)
 									}).catch(err => {
 										console.log(err)
 									});
-								}else{
+								} else {
 									Bmob.User.login(res[0].username, res[0].username).then(res => {
 										console.log(res)
 									}).catch(err => {
@@ -167,7 +202,7 @@
 									});
 								}
 							}
-							
+
 						});
 
 					}).catch(function(error) {
@@ -191,7 +226,7 @@
 		justify-content: center;
 		align-items: center;
 		font-size: 28upx;
-		margin-top: 180upx;
+		margin-top: 20upx;
 		color: rgba(0, 0, 0, 0.7);
 		text-align: center;
 		height: 40upx;
@@ -203,6 +238,7 @@
 		text-align: center;
 		font-size: 28rpx;
 		color: #3D3D3D;
+		height: 100vh;
 	}
 
 	input:focus {

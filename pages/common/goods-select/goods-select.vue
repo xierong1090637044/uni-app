@@ -430,7 +430,11 @@
 
 						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float:0)
 						if(product.order == 1){
-							product.packingUnit = product.header.packingUnit
+							if(product.header && product.header.packingUnit){
+								product.packingUnit = product.header.packingUnit || ""
+							}else{
+								product.packingUnit = ""
+							}
 						}
 						key += 1
 					}
