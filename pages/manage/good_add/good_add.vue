@@ -63,7 +63,7 @@
 					<navigator class="input_item1" hover-class="none" url="/pages/manage/good_add/moreModel/moreModel?type=add" v-if="productMoreG">
 						<view style="display: flex;align-items: center;width: 100%;">
 							<view class="left_item">规格设置</view>
-							<view class="right_input"><input placeholder="请设置多规格" name="goodsClass" disabled="true"></input></view>
+							<view class="right_input"><input :placeholder="haveSetProductMoreG?'已设置':'请设置多规格'" name="goodsClass" disabled="true"></input></view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</navigator>
@@ -228,6 +228,7 @@
 				//isMoreModelAdd: uni.getStorageSync("addMoreModel"),
 				addType: '', //添加类型
 				modelsValue:'',//产品规格数据
+				haveSetProductMoreG:false,//是否设置了多规格
 			}
 		},
 
@@ -366,10 +367,21 @@
 					that.reserve += Number(item.reserve)
 				}
 
-				if (uni.getStorageSync("now_model") && that.productMoreG) {
+				if (uni.getStorageSync("now_model") && that.productMoreG) { //已经设置多规格的情况下
+				  that.haveSetProductMoreG = true;
 					for (let item of stocksReserve) {
-						if (item.now_model) {} else {
-							let now_model = uni.getStorageSync("now_model")
+						let now_model = uni.getStorageSync("now_model")
+						if (item.now_model) {
+							for(let model of now_model){
+								for(let thisModel of item.now_model){
+									if(model.id == thisModel.id){
+										model.reserve =thisModel.reserve
+									}
+								}
+							}
+							item.now_model=now_model
+						} else {
+							
 							for (let model of now_model) {
 								model.reserve = 0
 							}

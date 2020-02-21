@@ -125,7 +125,7 @@
         "domain" : "https://www.jimuzhou.com",
         "router" : {
             "base" : "/h5/",
-            "mode" : "history"
+            "mode" : "hash"
         },
         "optimization" : {
             "treeShaking" : {
