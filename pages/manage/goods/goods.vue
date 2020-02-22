@@ -163,6 +163,11 @@
 					"notice": "最晚",
 					"order": "createdAt",
 					"checked":false,
+				},{
+					"desc": "名字",
+					"notice": "正序",
+					"order": "goodsName",
+					"checked":false,
 				}]
 			}
 		},

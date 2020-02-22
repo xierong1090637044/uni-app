@@ -81,7 +81,7 @@
 			},
 			shadow: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			border: {
 				type: Boolean,

@@ -102,11 +102,6 @@
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
 				query.order("-num");
-				query.include("custom");
-				query.statTo("sum", "num,total_money");
-				query.statTo("groupby", "custom");
-				query.statTo("order", "-_sumNum");
-				query.statTo("groupcount", "true");
 				query.count().then(res => {
 					let count = res;
 					let newArrar = [];
@@ -116,6 +111,11 @@
 					}
 					
 					for (let i = 0; i < Math.ceil(count / 500); i++) {
+						query.include("custom");
+						query.statTo("sum", "num,total_money");
+						query.statTo("groupby", "custom");
+						query.statTo("order", "-_sumNum");
+						query.statTo("groupcount", "true");
 						query.limit(500);
 						query.skip(500 * i);
 						query.find().then(res => {
