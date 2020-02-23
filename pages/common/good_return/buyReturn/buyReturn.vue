@@ -35,13 +35,13 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<!--<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
 								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
-						</navigator>
+						</navigator>-->
 						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=customChoose&money='+real_money"
 						 style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>

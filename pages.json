@@ -451,8 +451,26 @@
 						"navigationBarTitleText": "产品统计"
 					}
 				},{
+            "path" : "producer/producer_detail/debt_history/debt_history",
+            "style" : {
+							"navigationBarTitleText": "付款流水"
+						}
+        }
+        ,{
+            "path" : "producer/producer_detail/history/history",
+            "style" : {
+							"navigationBarTitleText": "交易历史"
+						}
+        },{
+            "path" : "producer/producer_detail/producer_detail",
+            "style" : {
+							"navigationBarTitleText": "供应商详情"
+						}
+        },{
             "path" : "producer/add/add",
-            "style" : {}
+            "style" : {
+							"navigationBarTitleText": "供应商添加"
+						}
         },{
 					"path": "producer/producer",
 					"style": {
@@ -526,13 +544,6 @@
 					"path": "custom/custom_detail/debt_history/debt_history",
 					"style": {
 						"navigationBarTitleText": "收款列表"
-					}
-				},
-
-				{
-					"path": "custom/producer_detail/producer_detail",
-					"style": {
-						"navigationBarTitleText": "供货商详情"
 					}
 				},
 				{
@@ -619,15 +630,6 @@
 					"style": {
 						"navigationBarTitleText": "员工列表"
 					}
-				},
-				{
-					"path": "custom/producer_detail/history/history",
-					"style": {
-						"navigationBarTitleText": "采购明细"
-					}
-				}, {
-					"path": "custom/producer_detail/debt_history/debt_history",
-					"style": {}
 				}, {
 					"path": "warehouse/record/record",
 					"style": {

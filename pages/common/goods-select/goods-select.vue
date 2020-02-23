@@ -50,15 +50,15 @@
 									<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name text_overflow">{{product.goodsName}}</view>
 									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">{{product.packageContent}}*{{product.packingUnit}}</view>
 								</view>
-							
+
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
 									<view style="font-size: 24rpx;" v-if="canSeeCostprice">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
 									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
 									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
 								</view>
-							
+
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
-									<view v-if="product.stocks.stock_name" style="font-size: 24rpx;">所存仓库:{{product.stocks.stock_name}}</view>
+									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存仓库:{{product.stocks.stock_name}}</view>
 									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
 								</view>
 							</view>
@@ -76,7 +76,8 @@
 		<!--排序模板-->
 		<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
 			<view class="showOptionsTransparent">
-				<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;" @click="selectOrder(item)">
+				<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 @click="selectOrder(item)">
 					<view style="color: #333;">{{item.desc}}({{item.notice}})</view>
 					<fa-icon type="check" size="18" color="#2ca879" v-if="item.checked"></fa-icon>
 				</view>
@@ -109,7 +110,7 @@
 		},
 		data() {
 			return {
-				showOrder:false,
+				showOrder: false,
 				user: uni.getStorageSync("user"),
 				selectd_model: '',
 				models_good: '',
@@ -122,40 +123,42 @@
 				value: '', //操作类型值
 				nextProducts: [],
 				negativeOut: false,
-				
+
 				headerSelection: {
 					goodsClass: '',
 					stocks: "",
-					order: {"order":"-createdAt"},
-					options:'' ,
+					order: {
+						"order": "-createdAt"
+					},
+					options: '',
 				},
 				orders: [{
 					"desc": "库存数量",
 					"notice": "从高到低",
 					"order": "-reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "库存数量",
 					"notice": "从低到高",
 					"order": "reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked":true,
+					"checked": true,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
 					"order": "createdAt",
-					"checked":false,
-				},{
+					"checked": false,
+				}, {
 					"desc": "名字",
 					"notice": "正序",
 					"order": "goodsName",
-					"checked":false,
+					"checked": false,
 				}],
-				canSeeCostprice:true,
+				canSeeCostprice: true,
 			}
 		},
 
@@ -185,7 +188,7 @@
 			that.value = option.value
 
 			uid = uni.getStorageSync('uid');
-			if(that.user.identity == 2&&that.user.rights &&that.user.rights.othercurrent.indexOf("0") !=-1){
+			if (that.user.identity == 2 && that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1) {
 				that.canSeeCostprice = false
 			}
 		},
@@ -193,8 +196,8 @@
 		onShow() {
 			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
 			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
-			
-			if(uni.getStorageSync("is_option")){
+
+			if (uni.getStorageSync("is_option")) {
 				that.nextProducts = [];
 				search_text = '';
 				page_size = 30;
@@ -214,10 +217,10 @@
 		},
 
 		methods: {
-			
+
 			//选择当前排序
-			selectOrder(item){
-				for(let item of that.orders){
+			selectOrder(item) {
+				for (let item of that.orders) {
 					item.checked = false
 				}
 				item.checked = true
@@ -256,29 +259,36 @@
 				that.headerSelection = {
 					goodsClass: '',
 					stocks: "",
-					order: {"order":"-createdAt"},
+					order: {
+						"order": "-createdAt"
+					},
 					options: '',
 				};
 				that.orders = [{
 					"desc": "库存数量",
 					"notice": "从高到低",
 					"order": "-reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "库存数量",
 					"notice": "从低到高",
 					"order": "reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked":true,
+					"checked": true,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
 					"order": "createdAt",
-					"checked":false,
+					"checked": false,
+				}, {
+					"desc": "名字",
+					"notice": "正序",
+					"order": "goodsName",
+					"checked": false,
 				}]
 				that.page_num = 1;
 				that.search_text = "";
@@ -311,9 +321,9 @@
 					uni.navigateTo({
 						url: "/pages/manage/warehouse/warehouse?type=choose"
 					})
-				}else if(type == "order"){
+				} else if (type == "order") {
 					that.showOrder = true
-				}else if(type == "options"){
+				} else if (type == "options") {
 					that.showOptions = true
 				}
 			},
@@ -389,11 +399,13 @@
 
 			//查询产品列表
 			get_productList() {
-				uni.showLoading({title:"加载中.."})
-				
+				uni.showLoading({
+					title: "加载中.."
+				})
+
 				that.productList = []
 				const query = Bmob.Query("Goods");
-				query.include("stocks","header");
+				query.include("stocks", "header");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
 				query.equalTo("status", "!=", -1);
@@ -416,7 +428,7 @@
 				query.or(query1, query2);
 				query.limit(page_size);
 				query.skip(page_size * (that.page_num - 1));
-				query.order(that.headerSelection.order.order,"goodsName"); //按照条件降序
+				query.order(that.headerSelection.order.order, "goodsName"); //按照条件降序
 				query.find().then(res => {
 					let key = 0;
 					for (let product of res) {
@@ -433,11 +445,12 @@
 							}
 						}
 
-						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float:0)
-						if(product.order == 1){
-							if(product.header && product.header.packingUnit){
+						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
+							0)
+						if (product.order == 1) {
+							if (product.header && product.header.packingUnit) {
 								product.packingUnit = product.header.packingUnit
-							}else{
+							} else {
 								product.packingUnit = ""
 							}
 						}

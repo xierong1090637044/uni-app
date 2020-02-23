@@ -130,8 +130,7 @@
 			
 			//编辑操作
 			edit(item) {
-				uni.setStorageSync("customs", item);
-				uni.setStorageSync("custom_type", "producers");
+				uni.setStorageSync("producers", item);
 				uni.navigateTo({
 					url: "../add/add"
 				})

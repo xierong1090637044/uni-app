@@ -11,42 +11,69 @@
 				</view>
 			</uni-nav-bar>
 
-			<view class="uni-common-mt">
-				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#426ab3" @clickItem="onClickItem" />
-			</view>
-			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
-			 enable-back-to-top="true"  v-if="staffs && staffs.length > 0">
-				<view v-for="(staff,index) in staffs" :key="index">
-					<view class='content'>
-						<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
-						<view class="display_flex_bet" @click="goto_detail(staff)">
-							<view class="display_flex">
-								<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
-								<view>
-									<view class='staff_name'>{{staff.nickName}}</view>
-									<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
-								</view>
-
-							</view>
-							<fa-icon type="angle-right" size="20" color="#999" />
-						</view>
-
-						<view class="right_item">
-							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(staff)">
-								<text style="color: #d93a49;">选择</text>
-							</view>
-
-							<!--<view class="display_flex" style="justify-content: flex-end;align-items: center;" v-else>
-								<fa-icon type="trash" size="20" color="#d93a49" style="margin-right: 40rpx;" @click="delete_this(staff.objectId)"></fa-icon>
-								<fa-icon type="pencil-square-o" size="20" color="#d93a49" style="margin-right: 40rpx;padding-top: 6rpx;" @click="edit(staff)"></fa-icon>
-							</view>-->
-						</view>
-						<!--<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>-->
-
-					</view>
-
+			<view class="display_flex good_option_view" style="background: #fff;">
+				<view class="good_option" @click="selectd('order')">
+					<view class="good_optionText">{{headerSelection.order.desc || '排序'}}</view>
+					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
+				<!--<view class="good_option" @click="selectd('options')">
+					<view class="good_optionText">筛选</view>
+					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+				</view>-->
+				<view class="good_option" @click="option_reset">
+					<view class="good_optionText">重置</view>
+					<fa-icon type="repeat" size="16" color="#999"></fa-icon>
+				</view>
+			</view>
+
+			<view style="padding: 10rpx 30rpx;background: #FAFAFA;color: #999;" class="display_flex_bet">
+				<view style="font-size: 24rpx;font-weight: 500;">员工总数：{{staffHeader.num}}</view>
+				<!--<view style="font-size: 24rpx;font-weight: 500;">应收欠款：{{staffHeader.debtMoney}}</view>-->
+			</view>
+
+			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
+			 enable-back-to-top="true" v-if="staffs && staffs.length > 0">
+				<radio-group @change="select_this">
+					<label v-for="(staff,index) in staffs" :key="index" style="width: 100%;" class="display_flex_bet">
+						<view class='content normalBorder'>
+							<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
+							<view class="display_flex_bet" @click.stop="goto_detail(staff)">
+								<view class="display_flex" style="width: 94%;">
+									<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
+									<view style="width: 100%;">
+										<view class='staff_name'>{{staff.nickName}}</view>
+										<view class="display_flex_bet">
+											<view class='staff_mobile'>账号：{{staff.mobilePhoneNumber}}</view>
+											<view class="display_flex" @click.stop="makePhoneCall(staff.mobilePhoneNumber)">
+												<fa-icon type="phone" size="14" color="#999" />
+												<text style="margin-left: 10rpx;font-size: 24rpx;">打电话</text>
+											</view>
+										</view>
+									</view>
+
+								</view>
+								<view v-if="is_choose">
+									<radio :value="JSON.stringify(staff)" style="transform:scale(0.7)" />
+								</view>
+								<fa-icon type="angle-right" size="20" color="#999" v-else/>
+							</view>
+						</view>
+					</label>
+				</radio-group>
+				
+				<!--排序模板-->
+				<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
+					<view class="showOptionsTransparent">
+						<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
+						 @click="selectOrder(item)">
+							<view style="color: #333;">{{item.desc}}({{item.notice}})</view>
+							<fa-icon type="check" size="18" color="#2ca879" v-if="item.checked"></fa-icon>
+						</view>
+					</view>
+				</view>
+				
 			</scroll-view>
+			
 			<nocontent v-else :type="1"></nocontent>
 		</view>
 	</view>
@@ -54,32 +81,51 @@
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
-	
-	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
+
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
-	import loading from "@/components/Loading/index.vue"
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 
 	let that;
 	let search_text;
 	let uid;
 	export default {
 		components: {
-			uniSegmentedControl,
-			loading,
-			uniNavBar,
-			faIcon,
-			uniIcon
+			uniNavBar
 		},
 		data() {
 			return {
+				showOrder:false,
 				loading: true,
-				staffs: null,
+				staffs: [],
 				is_choose: false,
-				items: ['已启用', '未启用'],
-				current: 0,
-				disabled: false
+				disabled: false,
+
+				staffHeader: {
+					num: 0,
+					debtMoney: 0
+				},
+
+				headerSelection: {
+					order: {
+						"order": "-createdAt"
+					},
+					options: '',
+				},
+				orders: [{
+					"desc": "创建日期",
+					"notice": "最新",
+					"order": "-createdAt",
+					"checked": true,
+				}, {
+					"desc": "创建日期",
+					"notice": "最晚",
+					"order": "createdAt",
+					"checked": false,
+				}, {
+					"desc": "名字",
+					"notice": "正序",
+					"order": "goodsName",
+					"checked": false,
+				}]
 			}
 		},
 
@@ -100,33 +146,56 @@
 			search_text = ""
 		},
 		methods: {
-			
+
+			//头部的options选择
+			selectd(type) {
+				if (type == "order") {
+					that.showOrder = true
+				} else if (type == "options") {
+					that.showOptions = true
+				}
+			},
+
+			//选择当前排序
+			selectOrder(item) {
+				for (let item of that.orders) {
+					item.checked = false
+				}
+				item.checked = true
+				that.headerSelection.order = item
+				that.getstaff_list();
+			},
+
+			//打电话
+			makePhoneCall(phone) {
+				if (phone) {
+					uni.makePhoneCall({
+						phoneNumber: phone //仅为示例
+					});
+				} else {
+					uni.showToast({
+						icon: "none",
+						title: "未填写联系电话"
+					})
+				}
+			},
+
 			//去到员工详情
-			goto_detail(staff){
+			goto_detail(staff) {
+				if(that.is_choose){
+					return
+				}
+				
 				uni.setStorageSync("staff", staff)
 				uni.navigateTo({
 					url: "detail/detail"
 				})
 			},
 
-			//tab点击
-			onClickItem(index) {
-				if (this.current !== index) {
-					this.current = index
-
-					if (index == 0) {
-						that.disabled = false,
-							that.getstaff_list()
-					} else if (index == 1) {
-						that.disabled = true,
-							that.getstaff_list()
-					}
-				}
-			},
-
 			//选择此员工当负责人
-			select_this(charge) {
-				uni.setStorageSync("charge", charge)
+			select_this(e) {
+				let charge = JSON.parse(e.detail.value);
+				uni.setStorageSync("charge", charge);
 				uni.navigateBack({
 					delta: 1
 				})
@@ -136,34 +205,34 @@
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
-				if(user.is_vip || that.staffs.length <2){
+				if (user.is_vip || that.staffs.length < 2) {
 					uni.navigateTo({
 						url: "add/add"
 					})
-				}else{
+				} else {
 					uni.showModal({
-					    title: '提示',
-					    content: '非会员最多上传2个员工账号',
-							confirmText:"充值会员",
-					    success: function (res) {
-					        if (res.confirm) {
-										if(identity == 1){
-											uni.navigateTo({
-												url:"/pages/mine/vip/vip"
-											})
-										}else{
-											uni.showToast({
-												title:"员工不能充值",
-												icon:"none"
-											})
-										}
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
+						title: '提示',
+						content: '非会员最多上传2个员工账号',
+						confirmText: "充值会员",
+						success: function(res) {
+							if (res.confirm) {
+								if (identity == 1) {
+									uni.navigateTo({
+										url: "/pages/mine/vip/vip"
+									})
+								} else {
+									uni.showToast({
+										title: "员工不能充值",
+										icon: "none"
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
 					})
 				}
-				
+
 			},
 
 			//输入内容筛选
@@ -177,10 +246,11 @@
 				const query = Bmob.Query("_User");
 				query.order("-createdAt");
 				query.equalTo("masterId", "==", uid);
-				if(that.disabled){
+				if (that.disabled) {
 					query.equalTo("disabled", "==", that.disabled);
 				}
-				query.include("shop")
+				query.include("shop");
+				query.order(that.headerSelection.order.order);
 				if (search_text) {
 					query.equalTo("username", "==", {
 						"$regex": "" + search_text + ".*"
@@ -233,5 +303,6 @@
 	.content {
 		padding: 10rpx 30rpx;
 		background: #FFFFFF;
+		width: 100%;
 	}
 </style>

@@ -34,7 +34,7 @@
 					<view style="margin:0 0 10rpx 20rpx;color: #333;font-weight: bold;">采购明细</view>
 					<view style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=producer" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/producer/producer?type=producer" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
 							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
 								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
