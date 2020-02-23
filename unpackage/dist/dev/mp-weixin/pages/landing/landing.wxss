@@ -14,7 +14,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	font-size: 28rpx;
-	margin-top: 180rpx;
+	margin-top: 20rpx;
 	color: rgba(0, 0, 0, 0.7);
 	text-align: center;
 	height: 40rpx;
@@ -25,6 +25,7 @@ page {
 	text-align: center;
 	font-size: 28rpx;
 	color: #3D3D3D;
+	height: 100vh;
 }
 input:focus {
 	border-bottom: 1px solid#426ab3 !important;

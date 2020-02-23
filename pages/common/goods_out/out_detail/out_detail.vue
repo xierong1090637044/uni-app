@@ -10,7 +10,7 @@
 					</view>
 
 					<view class='pro_list' style='color:#333'>
-						<view>出库仓库：
+						<view>出库店仓：
 							<text v-if="item.stocks && item.stocks.stock_name">{{item.stocks.stock_name}}</text>
 							<text v-else>未填写</text>
 						</view>
@@ -106,7 +106,7 @@
 				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				Images: [], //上传凭证图
-				stock: '', //仓库
+				stock: '', //店仓
 				shop_name: '',
 				products: null,
 				button_disabled: false,
@@ -282,8 +282,8 @@
 						query.set('extra_type', extraType);
 						query.set("opreater", poiID1);
 						//query.set("stock", stockId);
-						query.set("stockIds", stockIds); //仓库Id的数组
-						query.set("stockNames", stockNames); //仓库名字的数组
+						query.set("stockIds", stockIds); //店仓Id的数组
+						query.set("stockNames", stockNames); //店仓名字的数组
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
 						query.set('goodsName', that.products[0].goodsName);

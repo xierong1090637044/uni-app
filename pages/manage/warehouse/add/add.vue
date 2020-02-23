@@ -6,7 +6,7 @@
 		<view>
 
 			<view style='background: #fff;padding: 0 30rpx;' class="normalBorder">
-				<view class="notice_text">上传仓库图(会员可用)</view>
+				<view class="notice_text">上传店仓图(会员可用)</view>
 
 				<view style="width: 100%;padding: 20rpx 0;">
 					<view class="upload_image display_flex">
@@ -126,11 +126,11 @@
 				that.address = warehouse.address
 				that.textDesc = "修改";
 				uni.setNavigationBarTitle({
-					title: '修改仓库信息'
+					title: '修改店仓信息'
 				});
 			} else {
 				uni.setNavigationBarTitle({
-					title: '新增仓库'
+					title: '新增店仓'
 				});
 			}
 
@@ -177,12 +177,12 @@
 			start_add() {
 				if (this.warehouse_name == '') {
 					uni.showToast({
-						title: "请输入仓库名字",
+						title: "请输入店仓名字",
 						icon: "none"
 					})
 				} else if (this.warehouse_charge == '' || this.warehouse_charge == null) {
 					uni.showToast({
-						title: "请选择仓库负责人",
+						title: "请选择店仓负责人",
 						icon: "none"
 					})
 				} else {
@@ -271,7 +271,7 @@
 							})
 						} else {
 							uni.showToast({
-								title: "已存在此仓库",
+								title: "已存在此店仓",
 								icon: "none"
 							})
 						}

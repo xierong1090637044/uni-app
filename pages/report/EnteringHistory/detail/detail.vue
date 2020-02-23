@@ -11,7 +11,7 @@
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
 								<view>产品：{{item.goodsName}}</view>
-								<view v-if="item.stock">盘点仓库：{{item.stock}}</view>
+								<view v-if="item.stock">盘点店仓：{{item.stock}}</view>
 							</view>
 							<view class='pro_list'>
 								<view>盘点前库存：{{item.reserve}}</view>
@@ -45,11 +45,11 @@
 								<view>调拨数量：{{item.num}} {{item.packingUnit}}</view>
 							</view>
 							<view class='pro_list' style="padding: 10rpx 0;">
-								<view>调出仓库：{{item.stock}}</view>
+								<view>调出店仓：{{item.stock}}</view>
 								<view>调拨后库存：{{item.reserve - item.num}}</view>
 							</view>
 							<view class='pro_list'>
-								<view>调入仓库：{{item.out_stock}}</view>
+								<view>调入店仓：{{item.out_stock}}</view>
 								<!--<view>调拨后库存：{{item.out_reserve + item.num}}</view>-->
 							</view>
 							<view v-if="item.goodsId.selected_model">
@@ -80,12 +80,12 @@
 							</view>
 							<view class='pro_list'>
 								<view v-if="item.type == -1">
-									<view v-if="item.stock">出库仓库:{{item.stock}}</view>
-									<view v-else>出库仓库:未填写</view>
+									<view v-if="item.stock">出库店仓:{{item.stock}}</view>
+									<view v-else>出库店仓:未填写</view>
 								</view>
 								<view v-else-if="item.type == 1">
-									<view v-if="item.stock">存放仓库:{{item.stock}}</view>
-									<view v-else>存放仓库:未填写</view>
+									<view v-if="item.stock">存放店仓:{{item.stock}}</view>
+									<view v-else>存放店仓:未填写</view>
 								</view>
 
 								<view>数量：X{{item.num}} {{item.packingUnit}}</view>

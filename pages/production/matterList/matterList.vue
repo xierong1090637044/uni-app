@@ -74,8 +74,8 @@
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="border: 1rpx solid#F7F7F7;padding: 10rpx 30rpx;">
 					<view style="display: flex;align-items: center;width: 100%;">
-						<view class="left_item">仓库</view>
-						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
+						<view class="left_item">店仓</view>
+						<view class="right_input"><input placeholder="存放店仓" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
 
 					<view>
@@ -131,7 +131,7 @@
 				productList: null,
 				checked_option: 'createdAt', //tab的筛选条件
 				category: "", //选择的类别
-				stock: "", //选择的仓库
+				stock: "", //选择的店仓
 				checked: false, //选择的是否失效
 				stock_checked: false,
 				search_text: ''

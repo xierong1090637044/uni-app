@@ -93,8 +93,8 @@
 					<navigator style="line-height: 70rpx;" class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view class="display_flex">
 							<view class="input_item" style="width: 100%;">
-								<view class="left_item">存放仓库</view>
-								<input placeholder="请选择存放仓库" name="reserve" :value="stock_name" disabled="true" />
+								<view class="left_item">存放店仓</view>
+								<input placeholder="请选择存放店仓" name="reserve" :value="stock_name" disabled="true" />
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -220,8 +220,8 @@
 				category: "", //分类
 				reserve: 0, //初始库存
 				goodsIcon: "", //产品图片
-				stock_name: "", //存放仓库的名字
-				stocks: "", //存放的仓库
+				stock_name: "", //存放店仓的名字
+				stocks: "", //存放的店仓
 				producttime: "",
 				nousetime: "",
 				productMoreG: false, //产品是否是多规格
@@ -277,7 +277,7 @@
 
 				if (now_product.second_class && now_product.second_class.objectId) {
 					let pointer3 = Bmob.Pointer('second_class')
-					p_second_class_id = pointer3.set(now_product.second_class.objectId) //仓库的id关联
+					p_second_class_id = pointer3.set(now_product.second_class.objectId) //店仓的id关联
 					now_product.second_class.type = 2
 					now_product.second_class.parent = now_product.goodsClass
 					uni.setStorageSync("category", now_product.second_class)
@@ -407,7 +407,7 @@
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
 
 					let pointer3 = Bmob.Pointer('second_class')
-					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+					p_second_class_id = pointer3.set(that.category.objectId) //店仓的id关联
 
 					//console.log(that.category.parent.objectId, that.category.objectId)
 				} else {
@@ -448,7 +448,7 @@
 				} else {
 					if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == null) {
 						uni.showToast({
-							title: "请先选择仓库",
+							title: "请先选择店仓",
 							icon: 'none'
 						})
 					} else {
@@ -649,7 +649,7 @@
 				if (stocksReserve.length > 0) {
 					query.set("order", 0)
 				}
-				if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+				if (uni.getStorageSync("category")) { //存在此缓存证明选择了店仓
 					if (that.category.type == 1) {
 						query.set("goodsClass", p_class_user_id)
 					} else {
@@ -683,7 +683,7 @@
 									res.set("max_num", Number(good.max_num))
 								}
 
-								if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+								if (uni.getStorageSync("category")) { //存在此缓存证明选择了店仓
 									if (that.category.type == 1) {
 										res.set("goodsClass", p_class_user_id)
 									} else {
@@ -774,10 +774,10 @@
 						// 构造含有50个对象的数组
 						for (var i = 0; i < stocksReserve.length; i++) {
 							const pointer1 = Bmob.Pointer('stocks')
-							const p_stock_id = pointer1.set(stocksReserve[i].objectId) //仓库的id关联
+							const p_stock_id = pointer1.set(stocksReserve[i].objectId) //店仓的id关联
 
 							const pointer2 = Bmob.Pointer('Goods')
-							const p_good_id = pointer2.set(this_result.objectId) //仓库的id关联
+							const p_good_id = pointer2.set(this_result.objectId) //店仓的id关联
 
 							var queryObj = Bmob.Query('Goods');
 							queryObj.set("order", 1)
@@ -855,7 +855,7 @@
 				that.category = "" //分类
 				that.reserve = 0 //初始库存
 				that.goodsIcon = "" //产品图片
-				that.stocks = "" //存放的仓库
+				that.stocks = "" //存放的店仓
 				that.stock_name = ""
 				that.producttime = ""
 				that.nousetime = ""

@@ -75,7 +75,7 @@
 											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
 										</view>
 
-										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>仓库：</text>{{item.stock.stock_name}}</view>
+										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>店仓：</text>{{item.stock.stock_name}}</view>
 										<view class="display_flex_bet">
 											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
 											<view style="color: #999;" v-if="item.type !=-2 && item.type !=3">X{{item.real_num}}</view>
@@ -123,8 +123,8 @@
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
-						<view class="left_item">仓库</view>
-						<view class="right_input"><input placeholder="选择仓库" :value="stock.stock_name" disabled="true"></input></view>
+						<view class="left_item">店仓</view>
+						<view class="right_input"><input placeholder="选择店仓" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
 
 					<view>
@@ -231,7 +231,7 @@
 				that.staff = uni.getStorageSync("charge")
 			}
 
-			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了店仓
 				that.stock = uni.getStorageSync("warehouse")[0].stock
 			}
 

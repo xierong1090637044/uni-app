@@ -28,7 +28,7 @@
 
 			<view class="input_item2 display_flex_bet">
 				<view style="display: flex;align-items: center;">
-					<view class="left_item">仓库</view>
+					<view class="left_item">店仓</view>
 					<view class="right_input1">
 						<input :value="item.stock_name" disabled="true"></input>
 					</view>
@@ -72,7 +72,7 @@
 			remove_stock(index) {
 				if(that.stocks.length ==1){
 					uni.showToast({
-						title:"至少选择一个仓库",
+						title:"至少选择一个店仓",
 						icon:'none'
 					})
 				}else{

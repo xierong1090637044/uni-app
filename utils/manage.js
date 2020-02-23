@@ -1,7 +1,7 @@
 import Bmob from "hydrogen-js-sdk";
 export default {
 	
-	//删除仓库
+	//删除店仓
 	delete_stock(id) {
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query("stocks");
@@ -14,7 +14,7 @@ export default {
 		
 	},
 
-	//得到仓库列表
+	//得到店仓列表
 	getstock_list(disabled, search_text) {
 		let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
 
@@ -39,7 +39,7 @@ export default {
 
 	},
 
-	//添加仓库
+	//添加店仓
 	add_stock(params) {
 		let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
 		const pointer = Bmob.Pointer('_User');

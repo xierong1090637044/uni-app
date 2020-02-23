@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "仓库详情",
+  "navigationBarTitleText": "店仓详情",
   "usingComponents": {
     "fa-icon": "/components/kilvn-fa-icon/fa-icon",
     "loading": "/components/Loading/index"

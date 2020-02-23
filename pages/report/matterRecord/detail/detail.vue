@@ -44,11 +44,11 @@
 								<view>调拨数量：{{item.num}}</view>
 							</view>
 							<view class='pro_list' style="padding: 10rpx 0;">
-								<view>调出仓库：{{item.stock}}</view>
+								<view>调出店仓：{{item.stock}}</view>
 								<view>调拨后库存：{{item.reserve - item.num}}</view>
 							</view>
 							<view class='pro_list'>
-								<view>调入仓库：{{item.out_stock}}</view>
+								<view>调入店仓：{{item.out_stock}}</view>
 								<view>调拨后库存：{{item.out_reserve + item.num}}</view>
 							</view>
 						</view>
@@ -178,7 +178,7 @@
 						<view class='common_style'>（操作者）</view>
 					</view>
 					<view style='padding:20rpx 0 0'>
-						<view v-if="detail.type != -2 && detail.stock&&detail.stock.stock_name">选择的仓库：{{detail.stock.stock_name}}</view>
+						<view v-if="detail.type != -2 && detail.stock&&detail.stock.stock_name">选择的店仓：{{detail.stock.stock_name}}</view>
 						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>

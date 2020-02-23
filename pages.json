@@ -568,7 +568,7 @@
 				{
 					"path": "warehouse/detail/detail",
 					"style": {
-						"navigationBarTitleText": "仓库详情"
+						"navigationBarTitleText": "店仓详情"
 					}
 				},
 				{
@@ -587,13 +587,13 @@
 				{
 					"path": "warehouse/warehouse",
 					"style": {
-						"navigationBarTitleText": "仓库管理"
+						"navigationBarTitleText": "店仓管理"
 					}
 				},
 				{
 					"path": "warehouse/add/add",
 					"style": {
-						"navigationBarTitleText": "新增仓库"
+						"navigationBarTitleText": "新增店仓"
 					}
 				},
 
@@ -633,7 +633,7 @@
 				}, {
 					"path": "warehouse/record/record",
 					"style": {
-						"navigationBarTitleText": "仓库记录"
+						"navigationBarTitleText": "店仓记录"
 					}
 				}, {
 					"path": "goods_add/goods_add",

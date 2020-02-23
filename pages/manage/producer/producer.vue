@@ -185,7 +185,7 @@
 				}
 			},
 			
-			//点击仓库去到详情
+			//点击店仓去到详情
 			gotoDetail(item) {
 				if (that.is_producer) {
 					return

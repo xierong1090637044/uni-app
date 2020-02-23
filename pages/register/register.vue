@@ -61,13 +61,13 @@
 			that = this;
 		},
 		methods: {
-			//添加默认仓库
+			//添加默认店仓
 			addMoRenStock(uid) {
 				const pointer = Bmob.Pointer('_User');
 				let poiID = pointer.set(uid);
 				
 				const query = Bmob.Query('stocks');
-				query.set("stock_name", "默认仓库");
+				query.set("stock_name", "默认店仓");
 				query.set("disabled", false);
 				query.set("parent", poiID);
 				query.set("Ncharge",poiID);

@@ -10,8 +10,8 @@
 						<view v-else>期初进货价：￥{{item.costPrice}}</view>
 					</view>
 					<view class='pro_list'>
-						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
-						<view v-else>入库仓库：未填写</view>
+						<view v-if="item.stocks && item.stocks.stock_name">入库店仓：{{item.stocks.stock_name}}</view>
+						<view v-else>入库店仓：未填写</view>
 						<view>入库数量：X{{item.num}}</view>
 					</view>
 					<view v-if="item.selected_model">
@@ -111,7 +111,7 @@
 				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				Images: [], //上传凭证图
-				stock: '', //仓库
+				stock: '', //店仓
 				shop_name: '',
 				products: null,
 				button_disabled: false,

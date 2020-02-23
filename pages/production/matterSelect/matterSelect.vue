@@ -44,7 +44,7 @@
 								<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
 									<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
 									<view class="product_reserve" v-if="product.stocks">
-										<text v-if="product.stocks.stock_name">所存仓库:{{product.stocks.stock_name}}</text>
+										<text v-if="product.stocks.stock_name">所存店仓:{{product.stocks.stock_name}}</text>
 									</view>
 									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:{{product.packageContent}}*{{product.packingUnit}}</view>
 									<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
@@ -79,8 +79,8 @@
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
-						<view class="left_item">仓库</view>
-						<view class="right_input"><input placeholder="存放仓库" :value="stock.stock_name" disabled="true"></input></view>
+						<view class="left_item">店仓</view>
+						<view class="right_input"><input placeholder="存放店仓" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
 
 					<view>
@@ -139,7 +139,7 @@
 				productList: null,
 				checked_option: 'createdAt', //tab的筛选条件
 				category: "", //选择的类别
-				stock: "", //选择的仓库
+				stock: "", //选择的店仓
 				type: '', //操作类型
 				is_selected: false, //是否筛选
 			}

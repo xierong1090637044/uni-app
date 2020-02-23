@@ -23,7 +23,7 @@ export default {
 		orderInfo = '<CB>商品信息</CB><BR>';
 		orderInfo += '--------------------------------<BR>';
 		orderInfo += '产品名称：　　 ' + good.goodsName + '<BR>';
-		if (good.stocks) orderInfo += '存放仓库：　　 ' + good.stocks.stock_name + '<BR>';
+		if (good.stocks) orderInfo += '存放店仓：　　 ' + good.stocks.stock_name + '<BR>';
 
 		if (good.position) orderInfo += '货架位置：　　 ' + good.position + '<BR>';
 		if (good.producttime) orderInfo += '生产日期：　　 ' + good.producttime + '<BR>';
@@ -61,9 +61,9 @@ export default {
 				orderInfo += '调拨数量：' + products[i].num + '<BR>';
 				orderInfo += '--------------------------------<BR>';
 				for (let item of detail.detail) {
-					orderInfo += '调出仓库：' + item.stock + '<BR>';
+					orderInfo += '调出店仓：' + item.stock + '<BR>';
 					orderInfo += '<RIGHT>当前库存：' + (item.reserve - item.num) + '</RIGHT><BR>';
-					orderInfo += '调入仓库：' + item.out_stock + '<BR>';
+					orderInfo += '调入店仓：' + item.out_stock + '<BR>';
 					orderInfo += '<RIGHT>当前库存：' + (item.out_reserve + item.num) + '</RIGHT><BR>';
 				}
 			}

@@ -10,7 +10,7 @@
 					</view>
 
 					<view class='pro_list' style='color:#3D3D3D'>
-						<view>存放仓库：
+						<view>存放店仓：
 							<text v-if="item.stocks && item.stocks.stock_name">{{item.stocks.stock_name}}</text>
 							<text v-else>未填写</text>
 						</view>
@@ -131,7 +131,7 @@
 				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				Images: [], //上传凭证图
-				stock: '', //仓库
+				stock: '', //店仓
 				shop_name: '',
 				products: null,
 				account: "",

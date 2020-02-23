@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "z-table": "/components/z-table/z-table",
+    "uni-calendar": "/components/uni-calendar/uni-calendar"
+  }
+}

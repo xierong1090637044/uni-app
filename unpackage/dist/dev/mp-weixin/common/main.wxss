@@ -6492,6 +6492,17 @@ scroll-view.cu-steps .cu-item {
 .cuIcon-btn:before {
 	content: "\E601";
 }
+.updateContent {
+  position: fixed;
+  top: 20%;
+  left: 10%;
+  right: 10%;
+  background: #fff;
+  z-index: 10;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 10rpx 10rpx rgba(255, 255, 255, 0.6);
+}
 .confrim_button {
   height: 100rpx;
   line-height: 100rpx;
@@ -6574,15 +6585,16 @@ scroll-view.cu-steps .cu-item {
   width: 100%;
   height: 100vh;
   z-index: 100;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.2);
 }
 .showOptions {
   position: fixed;
-  top: 140rpx;
+  top: 0rpx;
   left: 0;
   background: #fff;
   width: 100%;
-  padding: 0rpx 0rpx 20rpx;
+  padding: 20rpx 0rpx;
+  background: #fffef9;
   box-shadow: 0 10rpx 10rpx rgba(0, 122, 255, 0.2);
   z-index: 100000;
 }
@@ -6624,5 +6636,71 @@ scroll-view.cu-steps .cu-item {
       text-align: center;
       border-left: 1rpx solid #ccc;
       color: #426ab3;
+}
+.modal_backgroundTransparent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  background: transparent;
+}
+.showOptionsTransparent {
+  position: fixed;
+  top: 140rpx;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  padding: 0rpx 0rpx 20rpx;
+  box-shadow: 0 10rpx 10rpx rgba(0, 122, 255, 0.2);
+  z-index: 100000;
+}
+.showOptionsTransparent .input_item1 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+            justify-content: space-between;
+    line-height: 80rpx;
+    padding: 0 30rpx;
+}
+.showOptionsTransparent .left_item {
+    width: 150rpx;
+}
+.showOptionsTransparent .right_input {
+    margin-left: 20rpx;
+    width: 100%;
+}
+.showOptionsTransparent .option_bottom {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    padding: 20rpx 0 0;
+    margin-top: 30rpx;
+    border-top: 1rpx solid #ccc;
+}
+.showOptionsTransparent .option_bottom .selection {
+      width: 50%;
+      text-align: center;
+}
+.showOptionsTransparent .option_bottom .selection1 {
+      width: 50%;
+      text-align: center;
+      border-left: 1rpx solid #ccc;
+      color: #426ab3;
+}
+.normalButton {
+  margin: unset;
+  line-height: unset;
+  font-size: 28rpx;
+}
+.normalBorder {
+  border-bottom: 1rpx solid #F7F7F7;
 }
 

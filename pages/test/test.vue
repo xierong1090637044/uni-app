@@ -84,19 +84,19 @@
 						query.set("stocktype", item.stocktype) //库存数量类型 0代表库存不足 1代表库存充足
 						query.set("order", item.order)
 
-						if (item.goodsClass) { //存在此缓存证明选择了仓库
+						if (item.goodsClass) { //存在此缓存证明选择了店仓
 							let pointer2 = Bmob.Pointer('class_user')
 							let p_class_user_id = pointer2.set(item.goodsClass.objectId) //一级分类id关联
 							query.set("goodsClass", p_class_user_id)
 						}
 
-						if (item.second_class) { //存在此缓存证明选择了仓库
+						if (item.second_class) { //存在此缓存证明选择了店仓
 							let pointer1 = Bmob.Pointer('second_class')
 							let p_class_user_id2 = pointer1.set(item.second_class.objectId) //一级分类id关联
 							query.set("second_class", p_class_user_id2)
 						}
 
-						/*if (item.header) { //存在此缓存证明选择了仓库
+						/*if (item.header) { //存在此缓存证明选择了店仓
 							let pointer3 = Bmob.Pointer('Goods')
 							let p_class_user_id3 = pointer3.set(item.header.objectId) //一级分类id关联
 							query.set("header", p_class_user_id2)
@@ -136,7 +136,7 @@
 											queryObj.set("retailPrice", good.retailPrice ? good.retailPrice.toString() : '0')
 											queryObj.set("header", p_headerId)
 											queryObj.set("userId", userid)
-											if (good.stocks) { //存在此缓存证明选择了仓库
+											if (good.stocks) { //存在此缓存证明选择了店仓
 												let pointer5 = Bmob.Pointer('stocks')
 												let p_class_user_id5 = pointer5.set(good.stocks.objectId) //一级分类id关联
 												queryObj.set("stocks", p_class_user_id5)

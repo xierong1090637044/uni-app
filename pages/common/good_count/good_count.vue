@@ -11,10 +11,10 @@
 					<view>
 						<view class="display_flex_bet">
 							<view style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
-								<text>盘点仓库:{{item.stocks.stock_name}}</text>
+								<text>盘点店仓:{{item.stocks.stock_name}}</text>
 							</view>
 							<view style="margin-bottom: 10rpx;" v-else>
-								<text>盘点仓库:未填写</text>
+								<text>盘点店仓:未填写</text>
 							</view>
 							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>

@@ -13,7 +13,7 @@
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 			
-								<view v-if="item.id == 3" style="padding-left: 80rpx;">
+								<view v-if="item.id == 2" style="padding-left: 80rpx;">
 									<checkbox-group @change="checkstockChange" v-if="current.indexOf('2') != -1">
 										<view class="display_flex rights_item" v-for="(item,index) in stocks" :key="index">
 											<checkbox :value="item.objectId" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
@@ -119,11 +119,7 @@
 					},
 					{
 						id: 2,
-						name: '仓库管理'
-					},
-					{
-						id: 3,
-						name: '门店管理'
+						name: '店仓管理'
 					},
 					{
 						id: 4,
@@ -195,7 +191,7 @@
 				moneyCurrent:[],//财务模块选中的权限
 				recodecurrent: [],//记录模块选中的权限
 				othercurrent: [],//其他选中的权限
-				select_stocks: [], //选中的仓库
+				select_stocks: [], //选中的店仓
 			}
 		},
 		
@@ -309,7 +305,7 @@
 				})
 			},
 			
-			//仓库多选器
+			//店仓多选器
 			checkstockChange(e) {
 				that.select_stocks = e.detail.value
 				rights.select_stocks = e.detail.value;

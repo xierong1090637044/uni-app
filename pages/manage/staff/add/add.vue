@@ -62,7 +62,7 @@
 		},
 		data() {
 			return {
-				stocks: uni.getStorageSync("_warehouse"), //管理的仓库
+				stocks: uni.getStorageSync("_warehouse"), //管理的店仓
 				modify_desc: "添加",
 				disabled: true, //是否启用
 				shop_name: '',

@@ -95,7 +95,7 @@
 				let thisStock = uni.getStorageSync("warehouse")
 				uni.showModal({
 					title: '提示',
-					content: '是否将该产品添加到' + thisStock[0].stock.stock_name + "这个仓库",
+					content: '是否将该产品添加到' + thisStock[0].stock.stock_name + "这个店仓",
 					success: function(res) {
 						if (res.confirm) {
 							const query = Bmob.Query("Goods");
@@ -117,7 +117,7 @@
 									})
 								} else {
 									uni.showToast({
-										title: "该仓库已有此产品",
+										title: "该店仓已有此产品",
 										icon: 'none'
 									})
 								}

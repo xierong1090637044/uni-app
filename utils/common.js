@@ -160,7 +160,7 @@ module.exports = {
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
 					query.find().then(res => {
-						//console.log("仓库里的产品", res)
+						//console.log("店仓里的产品", res)
 						if (res.length == 0) {
 							this.upload_good_withNoCan(products[i], stock, Number(products[i].num)).then(res => {
 								console.log(res)
@@ -230,7 +230,7 @@ module.exports = {
 					query.equalTo("header", "==", products[i].objectId);
 					query.equalTo("stocks", "==", stock.objectId);
 					query.find().then(res => {
-						//console.log("仓库里的产品", res)
+						//console.log("店仓里的产品", res)
 						if (res.length == 0) {
 							this.upload_good_withNoCan(products[i], stock, Number(products[i].num), "out").then(res => {
 								console.log(res)
@@ -274,7 +274,7 @@ module.exports = {
 			const userid = pointer.set(uid)
 
 			const pointer1 = Bmob.Pointer('stocks')
-			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
+			const p_stock_id = pointer1.set(stock.objectId) //店仓的id关联
 			const pointer2 = Bmob.Pointer('Goods')
 			let p_good_id = ""
 			if (good.header) {

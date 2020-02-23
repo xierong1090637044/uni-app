@@ -23,7 +23,7 @@
 						<view>实际进货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.modify_retailPrice*item.num}}</view>
 					</view>
-					<view v-if="item.stocks && item.stocks.stock_name" style="font-size: 24rpx;color:#2ca879;">存放仓库:{{item.stocks.stock_name}}</view>
+					<view v-if="item.stocks && item.stocks.stock_name" style="font-size: 24rpx;color:#2ca879;">存放店仓:{{item.stocks.stock_name}}</view>
 
 				</view>
 			</view>
@@ -133,7 +133,7 @@
 				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				Images: [], //上传凭证图
-				stock: '', //仓库
+				stock: '', //店仓
 				shop_name: '',
 				products: null,
 				account: '', //结算账户
@@ -420,7 +420,7 @@
 			},
 
 
-			//判断此商品是否在此仓库中
+			//判断此商品是否在此店仓中
 			can_addGoods() {
 				return new Promise((resolve, reject) => {
 					let products = uni.getStorageSync("products");
@@ -430,8 +430,8 @@
 							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name !=
 								warehouse[0].stock.stock_name) {
 								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到调出仓库',
-									content: "是否将它关联到此仓库",
+									title: "'" + item.goodsName + "'" + '没有关联到调出店仓',
+									content: "是否将它关联到此店仓",
 									showCancel: true,
 									success: res => {
 										console.log(res)

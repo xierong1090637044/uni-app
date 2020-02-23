@@ -123,7 +123,7 @@
 		{
 			name: '供应商管理',
 			notice: '供应商相关资料',
-			icon: 'address-card',
+			icon: 'address-book',
 			url: '/pages/manage/producer/producer',
 		},
 		{

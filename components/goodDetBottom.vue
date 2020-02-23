@@ -67,7 +67,7 @@
 
 			moreActions() {
 				uni.showActionSheet({
-					itemList: ['产品操作记录', '关联新仓库', '删除','打印'],
+					itemList: ['产品操作记录', '关联新店仓', '删除','打印'],
 					success: function(res) {
 						let tapIndex = res.tapIndex + 1;
 						if(tapIndex == 1){

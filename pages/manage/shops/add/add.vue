@@ -59,7 +59,7 @@
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 	let that;
-	let shop;//仓库
+	let shop;//店仓
 	let charge;//负责人
 	let uid;
 	export default {

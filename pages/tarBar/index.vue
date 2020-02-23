@@ -92,6 +92,10 @@
 				<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 					<view>1、筛选增加产品名称筛选</view>
 					<view>2、报表出入库数量显示不正确bug修复</view>
+					<view>3、员工页面UI优化</view>
+					<view>4、供应商页面UI优化</view>
+					<view>5、客户页面UI优化</view>
+					<view>4、店仓页面UI优化</view>
 				</view>
 				<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 			</view>

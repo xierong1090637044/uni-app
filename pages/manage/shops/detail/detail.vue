@@ -113,7 +113,7 @@
 			delete_this(id) {
 				uni.showModal({
 					title: '提示',
-					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此仓库',
+					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此店仓',
 					success: function(res) {
 						if (res.confirm) {
 							console.log(id);

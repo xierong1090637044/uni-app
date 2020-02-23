@@ -75,8 +75,8 @@
 					<view class="desc-list">
 						<text>员工权限以及显示bug修复</text>
 						<text>产品调拨bug修复</text>
-						<text>产品添加可以移除不想要的仓库</text>
-						<text>产品详情支持关联到新的仓库</text>
+						<text>产品添加可以移除不想要的店仓</text>
+						<text>产品详情支持关联到新的店仓</text>
 						<text>页面样式修复</text>
 						<text>增加销售后出库，采购后入库操作</text>
 						<text>操作撤销bug修复</text>
@@ -131,7 +131,7 @@
 						<text>商品关联类别bug修复</text>
 						<text>筛选样式优化，产品信息修改样式优化</text>
 						<text>精度问题bug修复</text>
-						<text>出库、调拨可以关联到仓库</text>
+						<text>出库、调拨可以关联到店仓</text>
 					</view>
 				</view>
 				<view class="describe">
@@ -160,7 +160,7 @@
 					<view class="desc-list">
 						<text>新增自动打印</text>
 						<text>新增批量导入导出</text>
-						<text>新增上传门店图片，以及仓库图片</text>
+						<text>新增上传门店图片，以及店仓图片</text>
 						<text>新增会员可以在操作记录详情查看物流详情</text>
 						<text>出入库新增凭证图</text>
 						<text>预警记录以及操作记录支持查询到一年</text>
@@ -236,7 +236,7 @@
 						<text>产品出库、入库、盘点、退货选择产品优化</text>
 						<text>修改、增加产品bug修复</text>
 						<text>所有的操作记录增加分页显示，支持可以查看所有日期的记录</text>
-						<text>员工的权限可以实时同步，并增加仓库管理、调拨记录的权限</text>
+						<text>员工的权限可以实时同步，并增加店仓管理、调拨记录的权限</text>
 						<text>增加商品信息打印功能、操作记录打印功能，后续将开放更多打印功能</text>
 						<text>优化一些页面的操作以及UI体验</text>
 					</view>
@@ -255,7 +255,7 @@
 						<text>首页新增天气，通知跳转</text>
 						<text>与扫码中心对接，支持扫码添加商品</text>
 						<text>输入自己商品的条形码信息时，不再有后缀</text>
-						<text>出入库关联仓库，仓库新增仓库操作记录</text>
+						<text>出入库关联店仓，店仓新增店仓操作记录</text>
 						<text>商品出库bug修复</text>
 						<text>商品信息修改bug修复</text>
 						<text>客户明细bug修复</text>
@@ -270,7 +270,7 @@
 					<text class="desc-content">优化升级</text>
 					<view class="desc-list">
 						<text>员工管理时，操作记录显示bug修复</text>
-						<text>电脑端仓库管理修改bug修复</text>
+						<text>电脑端店仓管理修改bug修复</text>
 						<text>增加产品修改信息功能</text>
 						<text>增加客户明细，收款明细</text>
 						<text>增加供货商明细，还款明细</text>

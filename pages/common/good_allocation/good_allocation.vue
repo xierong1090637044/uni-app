@@ -9,8 +9,8 @@
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
 						<view class='margin-t-5 display_flex_bet'>
-							<view v-if="item.stocks && item.stocks.stock_name">调出仓库：{{item.stocks.stock_name}}</view>
-							<view v-else>调出仓库：未填写</view>
+							<view v-if="item.stocks && item.stocks.stock_name">调出店仓：{{item.stocks.stock_name}}</view>
+							<view v-else>调出店仓：未填写</view>
 							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
 						<view v-if="item.selectd_model">

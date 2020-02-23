@@ -113,6 +113,11 @@
       "root": "pages/manage",
       "pages": [
         "productCount/productCount",
+        "producer/producer_detail/debt_history/debt_history",
+        "producer/producer_detail/history/history",
+        "producer/producer_detail/producer_detail",
+        "producer/add/add",
+        "producer/producer",
         "staff/authAdd/authAdd",
         "good_add/moreModel/moreModel",
         "good_add/stockAdd/stockAdd",
@@ -124,7 +129,6 @@
         "goods/goods",
         "good_det/custom_detail/custom_detail",
         "custom/custom_detail/debt_history/debt_history",
-        "custom/producer_detail/producer_detail",
         "custom/custom_detail/custom_detail",
         "good_det/good_det",
         "good_det/Ngood_det",
@@ -139,8 +143,6 @@
         "custom/add/add",
         "category/category",
         "shops/staff_in/staff_in",
-        "custom/producer_detail/history/history",
-        "custom/producer_detail/debt_history/debt_history",
         "warehouse/record/record",
         "goods_add/goods_add",
         "staff/history/history",
@@ -206,5 +208,5 @@
     "nocontent": "/components/No_content",
     "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
   },
-  "sitemapLocation": "sitemap17.json"
+  "sitemapLocation": "sitemap60.json"
 }

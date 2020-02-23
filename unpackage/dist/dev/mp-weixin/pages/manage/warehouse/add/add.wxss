@@ -2,11 +2,20 @@
 page {
 	background: #FAFAFA;
 }
+.notice_text{
+	padding: 20rpx 0 0;
+}
 .item {
 	padding: 20rpx 30rpx;
 	background: #FFFFFF;
 }
 .rights_item {
 	margin-bottom: 20rpx;
+}
+.rightItem {
+	width: 200rpx;
+}
+.leftItem {
+	text-align: right;
 }
 

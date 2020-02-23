@@ -48,7 +48,7 @@ page {
 .uni-product-list {
 	padding: 0 10rpx;
 	width: calc(100% - 20rpx);
-	height: calc(100vh - 236rpx);
+	height: calc(100vh - 220rpx);
 }
 .uni-product {
 	display: -webkit-box;
@@ -62,7 +62,7 @@ page {
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	width: 100%;
+	width: 89%;
 	margin-left: 20rpx;
 }
 .product_image {
@@ -72,6 +72,10 @@ page {
 .product_name {
 	font-weight: bold;
 	color: #333;
+	max-width: 60%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .product_reserve {
 	color: #6C757D;

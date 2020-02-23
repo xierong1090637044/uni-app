@@ -6,7 +6,7 @@
 		<view style="padding: 0 30rpx;background: #fff;">
 			<view class="display_flex_bet frist border_bottom" hover-class="none" @click="edit(stock)">
 				<view class="display_flex">
-					<view>仓库名称</view>
+					<view>店仓名称</view>
 					<view style="margin-left: 30rpx;">{{stock.stock_name}}</view>
 				</view>
 				<fa-icon type="angle-right" size="20" color="#999" />
@@ -110,7 +110,7 @@
 									that.delete_this(that.stock.objectId)
 								}else{
 									uni.showToast({
-										title:"最少保留一个仓库",
+										title:"最少保留一个店仓",
 										icon:"none"
 									})
 								}
@@ -138,7 +138,7 @@
 			delete_this(id) {
 				uni.showModal({
 					title: '提示',
-					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此仓库',
+					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此店仓',
 					success: function(res) {
 						if (res.confirm) {
 							console.log(id);

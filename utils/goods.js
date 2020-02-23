@@ -30,7 +30,7 @@ export default {
 			let reserve = good.reserve
 
 			const pointer1 = Bmob.Pointer('stocks')
-			const p_stock_id = pointer1.set(stock.objectId) //仓库的id关联
+			const p_stock_id = pointer1.set(stock.objectId) //店仓的id关联
 
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
@@ -39,7 +39,7 @@ export default {
 			query.find().then(res => {
 				console.log(res)
 				if (res.length >= 1) {
-					resolve([false, '该商品存在此仓库中'])
+					resolve([false, '该商品存在此店仓中'])
 				} else {
 					const query = Bmob.Query('Goods');
 					query.set("goodsName", good.goodsName)
@@ -65,7 +65,7 @@ export default {
 						query.set("second_class", p_second_class_id)
 						
 						let pointer3 = Bmob.Pointer('second_class')
-						let p_second_class_id = pointer3.set(good.second_class) //仓库的id关联
+						let p_second_class_id = pointer3.set(good.second_class) //店仓的id关联
 						query.set("goodsClass", p_class_user_id)
 					}
 					
@@ -95,7 +95,7 @@ export default {
 			let p_class_user_id = pointer2.set(good.goodsClass) //一级分类id关联
 
 			let pointer3 = Bmob.Pointer('second_class')
-			let p_second_class_id = pointer3.set(good.second_class) //仓库的id关联
+			let p_second_class_id = pointer3.set(good.second_class) //店仓的id关联
 
 			const query = Bmob.Query("Goods");
 			query.equalTo("userId", "==", uid);
@@ -110,7 +110,7 @@ export default {
 					let reserve = good.reserve
 
 					const pointer1 = Bmob.Pointer('stocks')
-					const p_stock_id = pointer1.set(good.stocks) //仓库的id关联
+					const p_stock_id = pointer1.set(good.stocks) //店仓的id关联
 
 					const query = Bmob.Query('Goods');
 					query.set("goodsName", good.goodsName)
@@ -175,7 +175,7 @@ export default {
 		})
 	},
 
-	//得到仓库列表
+	//得到店仓列表
 	getstock_list: function(search_text) {
 		let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
 		return new Promise((resolve, reject) => {

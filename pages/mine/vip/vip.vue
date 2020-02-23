@@ -44,8 +44,8 @@
 					</view>
 					
 					<view style="color: #999999;font-size: 24rpx;">
-						<view>1.会员可无限制上传产品、员工、仓库、门店</view>
-						<view>2.会员可上传凭证图，门店图、仓库图</view>
+						<view>1.会员可无限制上传产品、员工、店仓、门店</view>
+						<view>2.会员可上传凭证图，门店图、店仓图</view>
 						<view>3.会员可查询出入库单中的物流信息</view>
 						<view>4.会员可扫码添加产品</view>
 						<view>5.会员可使用电脑版</view>

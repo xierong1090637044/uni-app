@@ -35,7 +35,7 @@
 				</view>
 
 				<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
-					<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+					<view>存放店仓: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
 
 					<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
 					<view v-if="item.models" style="color: #3D3D3D;">

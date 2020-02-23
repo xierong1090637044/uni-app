@@ -33,11 +33,11 @@
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 212rpx)' scroll-with-animation="true"
 			 enable-back-to-top="true" v-if="staffs && staffs.length > 0">
-				<radio-group @change="select_this">
-					<label v-for="(staff,index) in staffs" :key="index" style="width: 100%;" class="display_flex_bet">
-						<view class='content normalBorder'>
+				<view>
+					<radio-group>
+						<view v-for="(staff,index) in staffs" :key="index" class="display_flex_bet content normalBorder" :for="staff.objectId">
 							<!--<image v-if="staff.avatarUrl" :src="staff.avatarUrl" class="staff_avatar"></image>-->
-							<view class="display_flex_bet" @click.stop="goto_detail(staff)">
+							<view class="display_flex_bet" @click.stop="goto_detail(staff)" style="width: 100%;">
 								<view class="display_flex" style="width: 94%;">
 									<fa-icon type="user-circle" size="30" color="#426ab3" style="margin-right: 20rpx;"></fa-icon>
 									<view style="width: 100%;">
@@ -53,14 +53,15 @@
 
 								</view>
 								<view v-if="is_choose">
-									<radio :value="JSON.stringify(staff)" style="transform:scale(0.7)" />
+									<radio :value="JSON.stringify(staff)" style="transform:scale(0.7)" :id="staff.objectId" />
 								</view>
-								<fa-icon type="angle-right" size="20" color="#999" v-else/>
+								<fa-icon type="angle-right" size="20" color="#999" v-else />
 							</view>
 						</view>
-					</label>
-				</radio-group>
-				
+					</radio-group>
+
+				</view>
+
 				<!--排序模板-->
 				<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
 					<view class="showOptionsTransparent">
@@ -71,9 +72,9 @@
 						</view>
 					</view>
 				</view>
-				
+
 			</scroll-view>
-			
+
 			<nocontent v-else :type="1"></nocontent>
 		</view>
 	</view>
@@ -93,7 +94,7 @@
 		},
 		data() {
 			return {
-				showOrder:false,
+				showOrder: false,
 				loading: true,
 				staffs: [],
 				is_choose: false,
@@ -182,24 +183,28 @@
 
 			//去到员工详情
 			goto_detail(staff) {
-				if(that.is_choose){
-					return
+				if (that.is_choose) {
+					let charge = staff;
+					uni.setStorageSync("charge", charge);
+					uni.navigateBack({
+						delta: 1
+					})
+				}else{
+					uni.setStorageSync("staff", staff)
+					uni.navigateTo({
+						url: "detail/detail"
+					})
 				}
-				
-				uni.setStorageSync("staff", staff)
-				uni.navigateTo({
-					url: "detail/detail"
-				})
 			},
 
 			//选择此员工当负责人
-			select_this(e) {
+			/*select_this(e) {
 				let charge = JSON.parse(e.detail.value);
 				uni.setStorageSync("charge", charge);
 				uni.navigateBack({
 					delta: 1
 				})
-			},
+			},*/
 
 			//前去添加员工
 			goto_add() {
@@ -303,6 +308,5 @@
 	.content {
 		padding: 10rpx 30rpx;
 		background: #FFFFFF;
-		width: 100%;
 	}
 </style>

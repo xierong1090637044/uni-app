@@ -71,9 +71,9 @@
 
 					<view class="input_item2">
 						<view style="display: flex;align-items: center;">
-							<view class="left_item">仓库</view>
+							<view class="left_item">店仓</view>
 							<view class="right_input1">
-								<input placeholder="选择仓库" :value="item.stock.stock_name" disabled="true"></input>
+								<input placeholder="选择店仓" :value="item.stock.stock_name" disabled="true"></input>
 							</view>
 						</view>
 						<view style="color: #2ca879;font-weight: bold;" @click="remove_stock(index)">移除</view>
@@ -83,7 +83,7 @@
 				<navigator class="input_item2 frist1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose_more"
 				 style="margin-bottom: 30rpx;justify-content: center;">
 					<view style="display: flex;align-items: center;">
-						<view class="left_item" style="color: #2ca879;">选择仓库</view>
+						<view class="left_item" style="color: #2ca879;">选择店仓</view>
 						<fa-icon type="angle-right" size="20" color="#2ca879"></fa-icon>
 					</view>
 				</navigator>
@@ -184,7 +184,7 @@
 				productCode: "", //产品条码
 				category: "", //分类
 				goodsIcon: "", //产品图片
-				stocks: [], //存放的仓库
+				stocks: [], //存放的店仓
 				producttime: "",
 				nousetime: "",
 				product_state: false, //产品是否是半成品
@@ -200,7 +200,7 @@
 		},
 		onShow() {
 
-			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了店仓
 				that.stocks = uni.getStorageSync("warehouse")
 			}
 
@@ -212,7 +212,7 @@
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
 
 					let pointer3 = Bmob.Pointer('second_class')
-					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+					p_second_class_id = pointer3.set(that.category.objectId) //店仓的id关联
 
 					console.log(that.category.parent.objectId, that.category.objectId)
 				} else {
@@ -318,7 +318,7 @@
 					let stock_id = that.stocks[key].stock.objectId
 
 					const pointer1 = Bmob.Pointer('stocks')
-					const p_stock_id = pointer1.set(stock_id) //仓库的id关联
+					const p_stock_id = pointer1.set(stock_id) //店仓的id关联
 
 					const query = Bmob.Query('Goods');
 					query.set("goodsIcon", that.goodsIcon)
@@ -347,7 +347,7 @@
 					}
 
 					query.set("product_state", good.product_state) //改产品是否是半成品
-					if (uni.getStorageSync("category")) { //存在此缓存证明选择了仓库
+					if (uni.getStorageSync("category")) { //存在此缓存证明选择了店仓
 						if (that.category.type == 1) {
 							query.set("goodsClass", p_class_user_id)
 						} else {
@@ -394,7 +394,7 @@
 				that.category = "" //分类
 				that.reserve = 0 //初始库存
 				that.goodsIcon = "" //产品图片
-				that.stocks = "" //存放的仓库
+				that.stocks = "" //存放的店仓
 				that.stock_name = ""
 				that.producttime = ""
 				that.nousetime = ""

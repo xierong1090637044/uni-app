@@ -273,7 +273,7 @@
 					let productList = res
 					if (user.is_vip || productList.length < 30) {
 						wx.showActionSheet({
-							itemList: ['多仓库添加', '单仓库添加'],
+							itemList: ['多店仓添加', '单店仓添加'],
 							success(res) {
 								if (res.tapIndex == 0) {
 									uni.navigateTo({

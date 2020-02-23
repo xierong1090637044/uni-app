@@ -94,14 +94,14 @@
 						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false"
 						 style="border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 150rpx;" class="left_content">出库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: 150rpx;" class="left_content">出库店仓<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
+								<input placeholder="请选择要出库的店仓" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
-							<view class="left_content">出库仓库</view>
+							<view class="left_content">出库店仓</view>
 							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
 						</view>
 						<view class="display_flex" v-if="detail.status">
@@ -138,14 +138,14 @@
 							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
 						</view>
 						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
+							<view style="width: 150rpx;" class="left_content">入库店仓<text style="color: #f30;">*</text></view>
 							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
+								<input placeholder="请选择要入库的店仓" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-else>
-							<view class="left_content">入库仓库</view>
+							<view class="left_content">入库店仓</view>
 							<view>{{detail.stock.stock_name}}</view>
 						</view>
 						<view class="display_flex" v-if="detail.status">
@@ -214,7 +214,7 @@
 				loading: true,
 				products: null,
 				detail: null,
-				stock: '', //仓库
+				stock: '', //店仓
 			}
 		},
 		onLoad(options) {
@@ -293,7 +293,7 @@
 											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
 												uni.showToast({
 													icon: "none",
-													title: "请选择仓库"
+													title: "请选择店仓"
 												});
 												return;
 											} else {
@@ -310,7 +310,7 @@
 											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
 												uni.showToast({
 													icon: "none",
-													title: "请选择仓库"
+													title: "请选择店仓"
 												});
 												return;
 											} else {
@@ -445,7 +445,7 @@
 				query.equalTo("header", "==", product.goodsId.objectId);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.find().then(res => {
-					//console.log("仓库里的产品", res)
+					//console.log("店仓里的产品", res)
 					if (res.length == 0) {
 						query.get(product.goodsId.objectId).then(res => {
 							product.objectId = product.goodsId.objectId
@@ -585,7 +585,7 @@
 				query.equalTo("header", "==", product.goodsId.objectId);
 				query.equalTo("stocks", "==", that.stock.objectId);
 				query.find().then(res => {
-					//console.log("仓库里的产品", res)
+					//console.log("店仓里的产品", res)
 					if (res.length == 0) {
 						query.get(product.goodsId.objectId).then(res => {
 							product.objectId = product.goodsId.objectId

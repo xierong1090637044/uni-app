@@ -83,9 +83,9 @@
 
 					<navigator class="input_item2" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 						<view style="display: flex;align-items: center;">
-							<view class="left_item">仓库</view>
+							<view class="left_item">店仓</view>
 							<view class="right_input1">
-								<input placeholder="选择仓库" v-model="stock_name" disabled="true"></input>
+								<input placeholder="选择店仓" v-model="stock_name" disabled="true"></input>
 							</view>
 						</view>
 
@@ -143,8 +143,8 @@
 				category: "", //分类
 				reserve: 0, //初始库存
 				goodsIcon: "", //物料图片
-				stock_name: "", //存放仓库的名字
-				stocks: "", //存放的仓库
+				stock_name: "", //存放店仓的名字
+				stocks: "", //存放的店仓
 				packingModel: '', //材质
 				producttime: "",
 				nousetime: "",
@@ -193,7 +193,7 @@
 				that.stock_name = now_product.stocks?now_product.stocks.stock_name:''
 			}
 
-			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了店仓
 				that.stocks = uni.getStorageSync("warehouse")[0].stock
 				that.stock_name = uni.getStorageSync("warehouse")[0].stock.stock_name
 			}
@@ -209,7 +209,7 @@
 					p_class_user_id = pointer2.set(that.category.parent.objectId) //一级分类id关联
 
 					let pointer3 = Bmob.Pointer('M_second_class')
-					p_second_class_id = pointer3.set(that.category.objectId) //仓库的id关联
+					p_second_class_id = pointer3.set(that.category.objectId) //店仓的id关联
 				}
 
 				console.log(that.category.parent.objectId, that.category.objectId)
@@ -223,7 +223,7 @@
 
 				if (now_product.secondClass) {
 					let pointer3 = Bmob.Pointer('M_second_class')
-					p_second_class_id = pointer3.set(now_product.secondClass.objectId) //仓库的id关联
+					p_second_class_id = pointer3.set(now_product.secondClass.objectId) //店仓的id关联
 				}
 			}
 		},
@@ -300,7 +300,7 @@
 				const stock_id = (that.stocks.objectId ? that.stocks.objectId : '')
 				
 				const pointer1 = Bmob.Pointer('stocks')
-				const p_stock_id = pointer1.set(stock_id) //仓库的id关联
+				const p_stock_id = pointer1.set(stock_id) //店仓的id关联
 
 				const query = Bmob.Query('Matters');
 				query.set("goodsIcon", that.goodsIcon)
@@ -369,7 +369,7 @@
 				that.category = "" //分类
 				that.reserve = 0 //初始库存
 				that.goodsIcon = "" //物料图片
-				that.stocks = "" //存放的仓库
+				that.stocks = "" //存放的店仓
 				that.stock_name = ""
 				that.producttime = ""
 				that.nousetime = ""
