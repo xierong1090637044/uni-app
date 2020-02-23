@@ -69,10 +69,8 @@
 	import staffs from "@/utils/staffs.js"
 
 	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import loading from "@/components/Loading/index.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 
 	let that;
 	let search_text;
@@ -80,10 +78,8 @@
 	export default {
 		components: {
 			uniSegmentedControl,
-			faIcon,
 			loading,
-			uniNavBar,
-			uniIcon
+			uniNavBar
 		},
 		data() {
 			return {

@@ -450,6 +450,14 @@
 					"style": {
 						"navigationBarTitleText": "产品统计"
 					}
+				},{
+            "path" : "producer/add/add",
+            "style" : {}
+        },{
+					"path": "producer/producer",
+					"style": {
+						"navigationBarTitleText": "供应商"
+					}
 				},
 				{
 					"path": "staff/authAdd/authAdd",

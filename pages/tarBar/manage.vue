@@ -116,9 +116,15 @@
 		},
 		{
 			name: '客户管理',
-			notice: '客户,供应商相关',
+			notice: '客户相关资料',
 			icon: 'address-card',
 			url: '/pages/manage/custom/custom',
+		},
+		{
+			name: '供应商管理',
+			notice: '供应商相关资料',
+			icon: 'address-card',
+			url: '/pages/manage/producer/producer',
 		},
 		{
 			name: '产品类别管理',
