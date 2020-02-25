@@ -6,7 +6,7 @@
 	color: #3D3D3D;
 	background: #fafafa;
 }
-.status_noconfrim{
+.status_noconfrim {
 	border: 1prx solid#f30 !important;
 	color: #f30 !important;
 }

@@ -202,6 +202,79 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* pages/home/index/index.wxss */
 .manage_icon {
 	width: 60rpx;
@@ -240,7 +313,7 @@
 .o_item {
 	width: 25%;
 	text-align: center;
-	padding: 30rpx 0;
+	padding: 30rpx 0 0;
 }
 .o_left_item {
 	display: -webkit-box;
@@ -254,5 +327,8 @@
 	color: #000;
 	font-weight: bold;
 	font-size: 24rpx;
+}
+.fa-icon{
+	line-height: 80rpx !important;
 }
 

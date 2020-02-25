@@ -5,14 +5,14 @@
 			<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 				<view class="qiun-title-dot-light">
 					<fa-icon type="paperclip" size="20" color="#21b384"></fa-icon>
-					<text style="margin-left: 10rpx;" v-if="type == 1">入库统计</text>
-					<text style="margin-left: 10rpx;" v-else-if="type == 2">出库统计</text>
+					<text style="margin-left: 10rpx;" v-if="type == 2">入库统计</text>
+					<text style="margin-left: 10rpx;" v-else-if="type == 3">出库统计</text>
 				</view>
 			</view>
-			<view class="qiun-charts" v-if="type == 1">
+			<view class="qiun-charts" v-if="type == 2">
 				<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" disable-scroll=true @touchstart="touchColumn" @touchmove="moveColumn" @touchend="touchEndColumn"></canvas>
 			</view>
-			<view class="qiun-charts" v-else-if="type == 2">
+			<view class="qiun-charts" v-else-if="type == 3">
 				<canvas canvas-id="canvasColumn2" id="canvasColumn2" class="charts" disable-scroll=true @touchstart="touchColumn" @touchmove="moveColumn" @touchend="touchEndColumn"></canvas>
 			</view>
 		</scroll-view>
@@ -77,7 +77,7 @@
 					console.log(res)
 					_self.textarea = JSON.stringify(res);
 					
-					if(_self.type == 1){
+					if(_self.type == 2){
 						_self.showColumn("canvasColumn",res);
 					}else{
 						_self.showColumn("canvasColumn2",res);

@@ -124,7 +124,6 @@
 					dataPointShape: true,
 					dataPointShapeType: 'hollow',
 					background: '#FFFFFF',
-					cWidth:"100%",
 					pixelRatio: _self.pixelRatio,
 					categories: chartData.categories,
 					series: chartData.series,

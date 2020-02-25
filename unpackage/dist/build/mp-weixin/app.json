@@ -23,13 +23,23 @@
     "pages/register/user_protocol/user_protocol",
     "pages/common/good_allocation/good_allocation",
     "pages/common/good_allocation/allocation_detail/allocation_detail",
-    "pages/report/EnteringHistory/expressDet/expressDet"
+    "pages/report/EnteringHistory/expressDet/expressDet",
+    "pages/report/matterRecord/matterRecord",
+    "pages/report/matterRecord/detail/detail",
+    "pages/common/good_production/good_production",
+    "pages/common/good_production/detail/detail",
+    "pages/report/EnteringHistory/productDet/productDet",
+    "pages/report/EnteringHistory/productDet/matterDet/matterDet",
+    "pages/report/EnteringHistory/productDet/productEnter/productEnter",
+    "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+    "pages/common/good_confrim/goodPurchase/goodPurchase",
+    "pages/common/goods_out/goodSell/goodSell",
+    "pages/report/list/list"
   ],
   "subPackages": [
     {
       "root": "pages/production",
       "pages": [
-        "index/index",
         "matterList/matterList",
         "matterAdd/matterAdd",
         "matterCategroy/matterCategroy",
@@ -52,13 +62,29 @@
         "setting/setting",
         "about_us/about_us",
         "home_page/home_page",
-        "warning_log/warning_log"
+        "warning_log/warning_log",
+        "InforCnter/InforCnter",
+        "InforCnter/Infodetail/Infodetail"
+      ]
+    },
+    {
+      "root": "pages/analysis",
+      "pages": [
+        "goodSell/goodSell",
+        "customSell/customSell",
+        "producerSell/producerSell",
+        "goodIn/goodIn",
+        "classAll/classAll",
+        "warningGoods/warningGoods"
       ]
     },
     {
       "root": "pages/manage",
       "pages": [
         "productCount/productCount",
+        "stockGoods/stockGoods",
+        "good_add/modelAdd/modelAdd",
+        "good_add/stockAdd/stockAdd",
         "shops/detail/detail",
         "operations/operations",
         "shops/record/record",
@@ -97,7 +123,7 @@
   ],
   "window": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "库存表",
+    "navigationBarTitleText": "高明燃气库存管理",
     "navigationBarBackgroundColor": "#426ab3",
     "backgroundColor": "#fff"
   },
@@ -120,12 +146,6 @@
         "text": "管理"
       },
       {
-        "pagePath": "pages/tarBar/report",
-        "iconPath": "static/report.png",
-        "selectedIconPath": "static/report.png",
-        "text": "记录"
-      },
-      {
         "pagePath": "pages/tarBar/mine",
         "iconPath": "static/person.png",
         "selectedIconPath": "static/person.png",
@@ -135,7 +155,7 @@
   },
   "permission": {
     "scope.userLocation": {
-      "desc": "你的位置信息将用于库存表小程序获得天气"
+      "desc": "你的位置信息将用于高明燃气库存管理小程序获得天气"
     }
   },
   "usingComponents": {

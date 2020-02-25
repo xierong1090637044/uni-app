@@ -1,93 +1,148 @@
-
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
 .fristSearchView {
-	padding: 10rpx 30rpx;
-	background: #426ab3;
+  padding: 10rpx 30rpx;
+  background: #426ab3;
 }
 .scan_code {
-	position: fixed;
-	width: calc(100% - 60rpx);
-	left: 30rpx;
-	right: 30rpx;
-	bottom: 10%;
-	background: -webkit-linear-gradient(left, #426ab3, #118fff);
-	background: linear-gradient(to right, #426ab3, #118fff);
-	line-height: 80rpx;
-	text-align: center;
-	border-radius: 4px;
-	color: #fff;
-	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2)
+  position: fixed;
+  width: calc(100% - 60rpx);
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 10%;
+  background: -webkit-linear-gradient(left, #426ab3, #118fff);
+  background: linear-gradient(to right, #426ab3, #118fff);
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 4px;
+  color: #fff;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
 .icon-scan {
-	margin-right: 20rpx;
+  margin-right: 20rpx;
 }
-
 /* pages/home/index/index.wxss */
 .swiper {
-	background: #426ab3;
-	color: #fff;
-	height: 14vh;
+  background: #426ab3;
+  color: #fff;
+  height: 14vh;
 }
 .item {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	        justify-content: space-between;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.o_headerItem {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #2ca879;
+  line-height: 80rpx;
+  margin: 0 auto;
+  text-align: center;
 }
 .every_item {
-	width: 50%;
-	text-align: center;
-	line-height: 30px;
-	font-size: 14px;
+  width: 50%;
+  text-align: center;
+  line-height: 30px;
+  font-size: 14px;
 }
 .s_num {
-	font-size: 16px;
-	font-weight: bold;
-}
-.o_list {
-	background: #fff;
-	padding: 15px 15px 0;
+  font-size: 16px;
+  font-weight: bold;
 }
 .o_image {
-	width: 80rpx;
-	height: 80rpx;
-	border-radius: 50%;
-	border: 3px solid#e2e2e2;
-	padding: 6rpx 6rpx 0;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  border: 3px solid #e2e2e2;
+  padding: 6rpx 6rpx 0;
 }
 .o_item {
-	width: 25%;
-	text-align: center;
-	display: inline-block;
-	margin-bottom: 20rpx;
+  width: 25%;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 20rpx;
 }
 .o_text {
-	color: #000;
-	font-weight: bold;
-	font-size: 23rpx;
+  color: #000;
+  font-weight: bold;
+  font-size: 23rpx;
 }
 .scan_code {
-	position: fixed;
-	width: calc(100% - 60rpx);
-	left: 30rpx;
-	right: 30rpx;
-	bottom: 10%;
-	background: -webkit-linear-gradient(left, #426ab3, #118fff);
-	background: linear-gradient(to right, #426ab3, #118fff);
-	line-height: 80rpx;
-	text-align: center;
-	border-radius: 8rpx;
-	color: #fff;
-	box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.2);
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
+  position: fixed;
+  width: calc(100% - 60rpx);
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 10%;
+  background: -webkit-linear-gradient(left, #426ab3, #118fff);
+  background: linear-gradient(to right, #426ab3, #118fff);
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  color: #fff;
+  box-shadow: 0 10rpx 10rpx rgba(0, 0, 0, 0.2);
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
 .icon-scan {
-	margin-right: 20rpx;
+  margin-right: 20rpx;
+}
+.Item {
+  background: #FFFFFF;
+  padding: 30rpx;
+  border-radius: 16rpx;
+}
+.Item .itemB {
+    background: #f2f2f2;
+    text-align: center;
+    padding: 42rpx 0;
+    width: 30%;
+    border-radius: 8rpx;
+}
+.Item .itemC {
+    background: #f2f2f2;
+    text-align: left;
+    padding: 10rpx 20rpx;
+    border-radius: 16rpx;
+}
+.Item .addButton {
+    color: #118FFF;
+    border: 1rpx solid #118FFF;
+    border-radius: 40rpx;
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 20rpx;
 }
 

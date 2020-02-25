@@ -48,7 +48,7 @@
 					<view>
 						<view>{{good.goodsName}}</view>
 						<view v-if="good.reserve == 0">0%</view>
-						<view v-else>{{(good.reserve/reserve_num)*100}}%</view>
+						<view v-else>{{(good.reserve/reserve_num).toFixed(4)*100}}%</view>
 					</view>
 					<view class="display_flex">
 						<view style="margin-right: 20rpx;">{{good.reserve}}</view>
@@ -198,20 +198,9 @@
 			},
 
 			goto_detail(good) {
-				const query = Bmob.Query('NGoods');
-				query.get(good.objectId).then(res => {
-				  console.log(res)
-					query.get(res.header.objectId).then(res => {
-						uni.setStorageSync("now_product", res);
-						uni.navigateTo({
-							url: "/pages/manage/good_det/good_det"
-						})
-					})
-					
-				}).catch(err => {
-				  console.log(err)
+				uni.navigateTo({
+					url: "/pages/manage/good_det/Ngood_det?id="+good.header.objectId+"&type=false"
 				})
-				
 			},
 
 			get_detail() {
@@ -221,6 +210,7 @@
 				query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
 				query.order("-reserve");
 				query.include("header");
+				query.limit(1000);
 				query.find().then(res => {
 					console.log(res)
 					that.NGoods = res;

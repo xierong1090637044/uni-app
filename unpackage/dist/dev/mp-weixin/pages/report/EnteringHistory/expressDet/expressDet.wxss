@@ -1,4 +1,4 @@
-.div-bg.data-v-32600248 {
+.div-bg.data-v-5ff62034 {
   background: #fff;
   height: 100vh;
   overflow: scroll;
@@ -6,7 +6,7 @@
   width: calc(100% - 60rpx);
   overflow-x: hidden;
 }
-.message-text.data-v-32600248 {
+.message-text.data-v-5ff62034 {
   font-size: 24rpx;
   font-weight: normal;
   font-stretch: normal;
@@ -14,15 +14,15 @@
   color: #333;
   width: 50%;
 }
-.fontblack.data-v-32600248 {
+.fontblack.data-v-5ff62034 {
   color: #999;
 }
-.img2.data-v-32600248 {
+.img2.data-v-5ff62034 {
   width: 0.81rem;
   height: 0.8rem;
   float: right;
 }
-.addressshow2.data-v-32600248 {
+.addressshow2.data-v-5ff62034 {
   height: auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -35,7 +35,7 @@
   word-break: break-all;
   font-size: 1rem;
 }
-.addressshow1.data-v-32600248 {
+.addressshow1.data-v-5ff62034 {
   height: auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -48,7 +48,7 @@
   word-break: break-all;
   font-size: 1rem;
 }
-.orderTitle.data-v-32600248 {
+.orderTitle.data-v-5ff62034 {
   font-size: 1rem;
   color: #333;
   height: auto;
@@ -62,17 +62,17 @@
   word-break: break-all;
   height: 2.5rem;
 }
-.orderDetail.data-v-32600248 {
+.orderDetail.data-v-5ff62034 {
   font-size: 0.8rem;
   color: #666;
   text-align: left;
 }
-.border-ceter.data-v-32600248 {
+.border-ceter.data-v-5ff62034 {
   width: 92%;
   padding-left: 15px;
   padding-right: 15px;
 }
-.pay-button.data-v-32600248 {
+.pay-button.data-v-5ff62034 {
   width: 88%;
   height: 2.6rem;
   position: relative;
@@ -80,30 +80,30 @@
   color: #fff;
   margin-left: 6%;
 }
-._ul ._li.data-v-32600248 {
+._ul ._li.data-v-5ff62034 {
   list-style: none;
   font-size: 1rem;
 }
-._ul.data-v-32600248 {
+._ul.data-v-5ff62034 {
   padding-left: 30rpx;
 }
-.track-list.data-v-32600248 {
+.track-list.data-v-5ff62034 {
   position: relative;
 }
-.track-list ._li.data-v-32600248 {
+.track-list ._li.data-v-5ff62034 {
   position: relative;
   padding: 0px 0 60rpx 40rpx;
   border-left: 1px solid #d9d9d9;
   color: #999;
 }
-.track-list ._li.first.data-v-32600248 {
+.track-list ._li.first.data-v-5ff62034 {
   color: #f00;
   padding-top: 0;
   width: 100%;
   text-align: left;
   border-left: 1px solid #d9d9d9;
 }
-.track-list ._li .node-icon.data-v-32600248 {
+.track-list ._li .node-icon.data-v-5ff62034 {
   position: absolute;
   left: -5.5px;
   border-radius: 50%;
@@ -112,7 +112,7 @@
   top: 4px;
   background-color: #999;
 }
-.track-list ._li.first .node-icon.data-v-32600248 {
+.track-list ._li.first .node-icon.data-v-5ff62034 {
   background-position: 0 -72px;
   background-color: #f00;
   width: 30rpx;
@@ -123,7 +123,7 @@
   top: 0;
   border-radius: 50%;
 }
-.track-list ._li .time.data-v-32600248 {
+.track-list ._li .time.data-v-5ff62034 {
   margin-right: 20px;
   position: relative;
   top: 4px;
@@ -135,26 +135,26 @@
   text-align: left;
   font-size: 28rpx;
 }
-.track-list ._li .txt.data-v-32600248 {
+.track-list ._li .txt.data-v-5ff62034 {
   position: relative;
   display: inline-block;
   vertical-align: top;
   color: #999;
   font-size: 28rpx;
 }
-.track-list ._li.first .time.data-v-32600248 {
+.track-list ._li.first .time.data-v-5ff62034 {
   text-align: left;
   width: 94%;
   color: #f00;
   font-size: 32rpx;
 }
-.track-list ._li.first .txt.data-v-32600248 {
+.track-list ._li.first .txt.data-v-5ff62034 {
   color: #f00;
   text-align: left;
   width: 94%;
   font-size: 32rpx;
 }
-.track-list ._li.finall.data-v-32600248 {
+.track-list ._li.finall.data-v-5ff62034 {
   position: relative;
   padding: 0px 0 20rpx 40rpx;
   line-height: 18px;
@@ -162,7 +162,7 @@
   border-left: 1px solid #fff;
   color: #999;
 }
-.track-list ._li.finall .div-spilander.data-v-32600248 {
+.track-list ._li.finall .div-spilander.data-v-5ff62034 {
   width: 1px;
   position: absolute;
   position: absolute;

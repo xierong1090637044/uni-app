@@ -8,19 +8,37 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-
-						<view class='margin-t-5 display_flex'>
-							调出仓库：
-							<view>{{stock.stock_name}}</view>
+						<view class='margin-t-5 display_flex_bet'>
+							<view v-if="item.stocks && item.stocks.stock_name">调出店仓：{{item.stocks.stock_name}}</view>
+							<view v-else>调出店仓：未填写</view>
+							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
 						</view>
-						<view class='margin-t-5'>
-							调出库存：
-							<uninumberbox :min="0" @change="handleNumChange($event, index)" :max="Number(item.reserve)" />
+						<view v-if="item.selectd_model">
+							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+								调出库存：
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :max="Number(model.reserve)"  :value='key==0?1:0'/>
+							</view>
 						</view>
-						<view class="bottom_del">
+						<view v-else>
+							<view class='margin-t-5'>
+								调出库存：
+								<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value="1"/>
+							</view>
+						</view>
+						
+						<view class="bottom_del display_flex_bet">
+							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
+							<navigator class='del'  style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'" v-else>
+								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">详情</text>
+							</navigator>
 							<view class='del' @click="handleDel(index)">
-								<fa-icon type="close" size="15" color="#fff"></fa-icon>删除
+								<fa-icon type="close" size="12" color="#fff"></fa-icon>
+								<text style="margin-left: 10rpx;">删除</text>
 							</view>
 						</view>
 					</view>
@@ -52,7 +70,6 @@
 		data() {
 			return {
 				products: null,
-				stock: uni.getStorageSync("warehouse")[0].stock
 			}
 		},
 
@@ -72,7 +89,15 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
-					console.log(res)
+					if(res.length == 0){
+						uni.showToast({
+							icon:"none",
+							title:"没有此产品"
+						})
+						uni.hideLoading();
+						return;
+					}
+					
 					if (res[0].status == -1) {
 						uni.showToast({
 							title: "该产品已删除",
@@ -87,13 +112,20 @@
 					uni.hideLoading()
 				})
 			} else {
-				/*let products = []
-				for(let item of uni.getStorageSync("products")){
-					if(item.stocks && item.stocks.stock_name){
-						products.push(item)
+				this.products = uni.getStorageSync("products");
+				for (let item of this.products) {
+					if (item.models) {
+						let count = 0
+						for (let model of item.models) {
+							model.num = 0;
+							count += 1;
+						}
+						item.num = count;
+						item.selectd_model = item.models
+						item.selected_model = item.models
 					}
-				}*/
-				this.products = uni.getStorageSync("products")
+				}
+				this.products = this.products
 			}
 
 		},
@@ -115,7 +147,14 @@
 						}
 						query.equalTo("userId", "==", uid);
 						query.find().then(res => {
-							console.log(res)
+							if(res.length == 0){
+								uni.showToast({
+									icon:"none",
+									title:"没有此产品"
+								})
+								uni.hideLoading();
+								return;
+							}
 							if (res[0].status == -1) {
 								uni.showToast({
 									title: "该产品已删除",
@@ -147,6 +186,27 @@
 				uni.navigateTo({
 					url: "/pages/common/good_allocation/allocation_detail/allocation_detail"
 				})
+			},
+			
+			//多类型产品数量改变  步骤很重要
+			handleModelNumChange($event, index, key, item) {
+				item.num = Number($event)
+				this.products[index].selected_model[key] = item
+			
+				//console.log(this.products[index].selected_model)
+				let _sumNum = 0;
+				for (let model of this.products[index].selected_model) {
+					if (model.num > 0) {
+						_sumNum += model.num
+					}
+			
+				}
+				//console.log(this.products[index].selected_model)
+			
+				this.products[index].num = _sumNum
+				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].retailPrice)
+				uni.setStorageSync("products", this.products)
 			},
 
 			//数量改变
@@ -214,8 +274,9 @@
 		background: #aa2116;
 		color: #fff;
 		justify-content: flex-end;
-		padding: 4rpx 12rpx;
+		padding: 4rpx 20rpx;
 		border-radius: 8rpx;
+		font-size: 20rpx;
 	}
 
 	.input_label {

@@ -1,36 +1,39 @@
 <template>
 	<view class="page">
-
-		<loading v-if="loading"></loading>
-
-		<view v-else class="content">
+		<view class="content">
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-left="shaixuan"
-			 @click-right="confrim_this" left-text="筛选">
-				<view class="input-view">
-					<uni-icon type="search" size="22" color="#666666" />
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="confirm" @blur="confirm"/>
+			 @click-right="confrim_this" :shadow="false">
+				<view class="input-view display_flex">
+					<fa-icon type="search" size="16" color="#999"></fa-icon>
+					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm" @blur="input_confirm"
+					 :value="search_text" />
 				</view>
 			</uni-nav-bar>
 			<view class="display_flex good_option_view">
-				<view class="good_option" @click="selectd('createdAt')">
-					<text :class="(checked_option == 'createdAt')?'option_selected':''">创建时间</text>
-					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'createdAt'"></fa-icon>
+				<view class="good_option" @click="selectd('goodsClass')">
+					<view class="good_optionText">{{headerSelection.goodsClass.class_text || '分类'}}</view>
+					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
-				<view class="good_option" @click="selectd('goodsName')">
-					<text :class="(checked_option == 'goodsName')?'option_selected':''">名字</text>
-					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'goodsName'"></fa-icon>
+				<view class="good_option" @click="selectd('stocks')">
+					<view class="good_optionText">{{headerSelection.stocks.stock_name || '仓库'}}</view>
+					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
-				<view class="good_option" @click="selectd('reserve')">
-					<text :class="(checked_option == 'reserve')?'option_selected':''">库存</text>
-					<fa-icon type="check" size="20" color="#1d953f" v-if="checked_option == 'reserve'"></fa-icon>
+				<view class="good_option" @click="selectd('order')">
+					<view class="good_optionText">{{headerSelection.order.desc || '排序'}}</view>
+					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+				</view>
+				<view class="good_option" @click="option_reset">
+					<view class="good_optionText">重置</view>
+					<fa-icon type="repeat" size="16" color="#999"></fa-icon>
 				</view>
 			</view>
 
 			<view class="uni-product-list">
 				<scroll-view class="uni-product-list" scroll-y v-if="productList.length > 0">
-					<radio-group v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;" @click.stop="radioChange(product,product.objectId,index)">
+					<radio-group v-for="(product,index) in productList" :key="index" style="display: flex;align-items: center;"
+					 @click.stop="radioChange(product,product.objectId,index)">
 						<view>
-							<radio style="transform:scale(0.9)" color="#426ab3" class="round blue" :checked="product.checked" />
+							<radio style="transform:scale(0.9);" color="#426ab3" class="round blue" :checked="product.checked" :disabled="product.disabled" />
 						</view>
 
 						<label class="uni-product" :for="''+index">
@@ -39,15 +42,22 @@
 								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 							</view>
 
-							<view style="margin-left: 20rpx;width: 100%;line-height: 40rpx;">
-								<view style="font-size: 30rpx;" class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.stocks">
-									<text v-if="product.stocks.stock_name">所存仓库:{{product.stocks.stock_name}}</text>
+							<view style="margin:0 20rpx;width: 80%;">
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name text_overflow">{{product.goodsName}}</view>
+									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">{{product.packageContent}}*{{product.packingUnit}}</view>
 								</view>
-								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:{{product.packageContent}}*{{product.packingUnit}}</view>
-								<view class="product_reserve">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 
-								<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view style="font-size: 24rpx;" v-if="canSeeCostprice">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
+									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
+									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
+								</view>
+
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存店仓:{{product.stocks.stock_name}}</view>
+									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
+								</view>
 							</view>
 						</label>
 					</radio-group>
@@ -60,45 +70,16 @@
 			</view>
 		</view>
 
-		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
-			<view class="showOptions">
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/category/category?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;"
-				 @click.stop="">
-					<view style="display: flex;align-items: center;width: 100%;">
-						<view class="left_item">类别</view>
-						<view class="right_input"><input placeholder="产品类别" :value="category.class_text" disabled="true"></input></view>
-					</view>
-
-					<view>
-						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-					</view>
-				</navigator>
-
-				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;"
-				 v-if="value !=3&&type !='returing'" @click.stop="">
-					<view style="display: flex;align-items: center;width: 100%;">
-						<view class="left_item">仓库</view>
-						<view class="right_input">
-							<input placeholder="调出仓库" :value="stock.stock_name" disabled="true" v-if="type=='allocation'||type=='delivery'"></input>
-							<input placeholder="盘点仓库" :value="stock.stock_name" disabled="true" v-if="type=='counting'"></input>
-							<input placeholder="存放仓库" :value="stock.stock_name" disabled="true" v-if="type=='entering'"></input>
-						</view>
-					</view>
-
-					<view>
-						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-					</view>
-				</navigator>
-
-				<view class="option_bottom">
-					<view class="selection" @click="option_reset">重置</view>
-					<view class="selection1" @click="option_confrim">确定</view>
+		<!--排序模板-->
+		<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
+			<view class="showOptionsTransparent">
+				<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 @click="selectOrder(item)">
+					<view style="color: #333;">{{item.desc}}({{item.notice}})</view>
+					<fa-icon type="check" size="18" color="#2ca879" v-if="item.checked"></fa-icon>
 				</view>
 			</view>
 		</view>
-
-		<!--一键清零显示-->
 	</view>
 
 	</view>
@@ -126,23 +107,55 @@
 		},
 		data() {
 			return {
-				identity: uni.getStorageSync("identity"),
+				showOrder: false,
+				user: uni.getStorageSync("user"),
 				selectd_model: '',
 				models_good: '',
 				models_good_key: '',
 				page_num: 1,
 				search_text: '',
 				url: null,
-				showOptions: false, //是否显示筛选
 				loading: true,
 				productList: null,
-				checked_option: 'goodsName', //tab的筛选条件
-				category: "", //选择的类别
-				stock: "", //选择的仓库
-				type: '', //操作类型
-				isOption: false, //是否筛选
 				value: '', //操作类型值
 				nextProducts: [],
+				negativeOut: false,
+
+				headerSelection: {
+					goodsClass: '',
+					stocks: "",
+					order: {
+						"order": "-createdAt"
+					},
+					options: '',
+				},
+				orders: [{
+					"desc": "库存数量",
+					"notice": "从高到低",
+					"order": "-reserve",
+					"checked": false,
+				}, {
+					"desc": "库存数量",
+					"notice": "从低到高",
+					"order": "reserve",
+					"checked": false,
+				}, {
+					"desc": "创建日期",
+					"notice": "最新",
+					"order": "-createdAt",
+					"checked": true,
+				}, {
+					"desc": "创建日期",
+					"notice": "最晚",
+					"order": "createdAt",
+					"checked": false,
+				}, {
+					"desc": "名字",
+					"notice": "正序",
+					"order": "goodsName",
+					"checked": false,
+				}],
+				canSeeCostprice: true,
 			}
 		},
 
@@ -164,28 +177,31 @@
 				this.url = "../good_production/good_production"
 			}
 
+			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
+				that.negativeOut = uni.getStorageSync("setting").negativeOut
+			}
+
 			that.type = option.type
 			that.value = option.value
 
 			uid = uni.getStorageSync('uid');
-			that.get_productList();
+			if (that.user.identity == 2 && that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1) {
+				that.canSeeCostprice = false
+			}
 		},
 
 		onShow() {
+			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
+			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 
-			that.category = uni.getStorageSync("category") || ""
-			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[uni.getStorageSync("warehouse").length -
-				1].stock : ""
-
-			//操作完成后刷新数据
 			if (uni.getStorageSync("is_option")) {
 				that.nextProducts = [];
-				that.page_num = 1;
 				search_text = '';
 				page_size = 30;
-				that.productList = []
-				that.get_productList();
+				that.page_num = 1;
+				that.option_reset()
 			}
+			that.get_productList();
 		},
 
 		onUnload() {
@@ -199,6 +215,16 @@
 
 		methods: {
 
+			//选择当前排序
+			selectOrder(item) {
+				for (let item of that.orders) {
+					item.checked = false
+				}
+				item.checked = true
+				that.headerSelection.order = item
+				that.get_productList()
+			},
+
 			//分页点击
 			change_page(e) {
 				that.page_num = e.current
@@ -211,9 +237,7 @@
 			},
 
 			//输入框输入点击确定
-			confirm(e) {
-				that.showOptions = false;
-				that.isOption = true;
+			input_confirm(e) {
 				search_text = e.detail.value
 				that.search_text = e.detail.value
 				that.page_num = 1
@@ -227,15 +251,45 @@
 
 			//modal重置的确认点击
 			option_reset() {
-				console.log("3")
-				that.productList = [];
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
-				that.category = "";
-				that.stock = "";
-				that.isOption = false;
-				that.showOptions = false;
-				that.get_productList()
+				that.headerSelection = {
+					goodsClass: '',
+					stocks: "",
+					order: {
+						"order": "-createdAt"
+					},
+					options: '',
+				};
+				that.orders = [{
+					"desc": "库存数量",
+					"notice": "从高到低",
+					"order": "-reserve",
+					"checked": false,
+				}, {
+					"desc": "库存数量",
+					"notice": "从低到高",
+					"order": "reserve",
+					"checked": false,
+				}, {
+					"desc": "创建日期",
+					"notice": "最新",
+					"order": "-createdAt",
+					"checked": true,
+				}, {
+					"desc": "创建日期",
+					"notice": "最晚",
+					"order": "createdAt",
+					"checked": false,
+				}, {
+					"desc": "名字",
+					"notice": "正序",
+					"order": "goodsName",
+					"checked": false,
+				}]
+				that.page_num = 1;
+				that.search_text = "";
+				that.get_productList();
 			},
 
 			//modal筛选的确认点击
@@ -255,15 +309,37 @@
 
 			//头部的options选择
 			selectd(type) {
-				that.page_num = 1;
-				that.checked_option = type;
-				that.get_productList();
+				console.log(type)
+				if (type == "goodsClass") {
+					uni.navigateTo({
+						url: "/pages/manage/category/category?type=choose"
+					})
+				} else if (type == "stocks") {
+					uni.navigateTo({
+						url: "/pages/manage/warehouse/warehouse?type=choose"
+					})
+				} else if (type == "order") {
+					that.showOrder = true
+				} else if (type == "options") {
+					that.showOptions = true
+				}
 			},
 
 			//多选选择触发
 			radioChange: function(item, id, index) {
 				//console.log(item, id,index)
 				let checkProduct = item
+
+				if (that.productList[index].disabled) {
+					that.productList[index].checked = false
+					uni.showToast({
+						icon: "none",
+						title: "当前产品不能选择"
+					})
+
+					return
+				}
+
 				if (that.productList[index].checked) { // 已选中时取消
 					that.productList[index].checked = false
 
@@ -286,20 +362,7 @@
 						icon: "none"
 					})
 				} else {
-					if (that.type == "allocation") {
-						if (that.stock) {
-							that.confrim_next()
-						} else {
-							that.nextProducts = []
-							that.get_productList()
-							uni.showToast({
-								title: that.type == "allocation" ? "请在筛选中选择调拨的仓库" : "请在筛选中选择盘点的仓库",
-								icon: "none"
-							})
-						}
-					} else {
-						that.confrim_next()
-					}
+					that.confrim_next()
 				}
 			},
 
@@ -333,16 +396,25 @@
 
 			//查询产品列表
 			get_productList() {
+				uni.showLoading({
+					title: "加载中.."
+				})
+
 				that.productList = []
 				const query = Bmob.Query("NGoods");
-				query.include("stocks");
+				query.include("stocks", "header");
 				query.equalTo("userId", "==", uid);
+				query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "==", 0);
-				if (that.category.type == 1) {
-					query.equalTo("goodsClass", "==", that.category.objectId);
+				if (that.value == 3 || that.value == 4) {
+					query.equalTo("order", "==", 0);
 				} else {
-					query.equalTo("second_class", "==", that.category.objectId);
+					query.equalTo("order", "!=", 0);
+				}
+				if (that.headerSelection.goodsClass.type == 1) {
+					query.equalTo("goodsClass", "==", that.headerSelection.goodsClass.objectId);
+				} else {
+					query.equalTo("second_class", "==", that.headerSelection.goodsClass.objectId);
 				}
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"
@@ -353,24 +425,38 @@
 				query.or(query1, query2);
 				query.limit(page_size);
 				query.skip(page_size * (that.page_num - 1));
-				query.order("-" + that.checked_option); //按照条件降序
+				query.order(that.headerSelection.order.order, "goodsName"); //按照条件降序
 				query.find().then(res => {
 					let key = 0;
 					for (let product of res) {
 						product.key = key
 						product.checked = false
+
+						if (that.type == "delivery" && product.reserve <= 0 && that.negativeOut == false) {
+							product.disabled = true
+						}
+
 						for (let item of that.nextProducts) {
 							if (item.objectId == product.objectId) {
 								product.checked = true
 							}
 						}
+
 						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
 							0)
+						if (product.order == 1) {
+							if (product.header && product.header.packingUnit) {
+								product.packingUnit = product.header.packingUnit
+							} else {
+								product.packingUnit = ""
+							}
+						}
 						key += 1
 					}
 
 					that.productList = res;
-					that.loading = false;
+					uni.hideLoading();
+					//that.loading = false;
 					uni.removeStorageSync("is_option"); //用于判断是否进行了操作
 				});
 			},
@@ -448,7 +534,7 @@
 	.uni-product-list {
 		padding: 0 10rpx;
 		width: calc(100% - 20rpx);
-		height: calc(100vh - 236rpx);
+		height: calc(100vh - 220rpx);
 	}
 
 	.uni-product {
@@ -457,7 +543,7 @@
 		border-bottom: 1px solid#ddd;
 		justify-content: space-between;
 		align-items: center;
-		width: 100%;
+		width: 89%;
 		margin-left: 20rpx;
 	}
 
@@ -469,6 +555,10 @@
 	.product_name {
 		font-weight: bold;
 		color: #333;
+		max-width: 60%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.product_reserve {

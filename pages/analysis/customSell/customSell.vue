@@ -93,7 +93,7 @@
 			getdetail(){
 				uni.showLoading({title:'加载中...'})
 				
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("type", "==", -1);
 				query.equalTo("extra_type", "==", 1);

@@ -320,6 +320,21 @@
 					"style": {
 						"navigationBarTitleText": "产品统计"
 					}
+				},{
+				    "path" : "producer/producer_detail/producer_detail",
+				    "style" : {
+							"navigationBarTitleText": "供应商详情"
+						}
+				},{
+				    "path" : "producer/add/add",
+				    "style" : {
+							"navigationBarTitleText": "供应商添加"
+						}
+				},{
+					"path": "producer/producer",
+					"style": {
+						"navigationBarTitleText": "供应商"
+					}
 				},
 				{
 					"path": "stockGoods/stockGoods",
@@ -406,6 +421,12 @@
 
 				{
 					"path": "good_det/good_det",
+					"style": {
+						"navigationBarTitleText": "产品详情"
+					}
+				},
+				{
+					"path": "good_det/Ngood_det",
 					"style": {
 						"navigationBarTitleText": "产品详情"
 					}

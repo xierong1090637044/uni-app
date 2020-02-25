@@ -1,6 +1,6 @@
 <template>
 	<view class="uni-navbar">
-		<view :class="{'uni-navbar--fixed': fixed,'uni-navbar--shadow':border,'uni-navbar--border':border}" :style="{'background-color':backgroundColor}" class="uni-navbar__content">
+		<view :class="{'uni-navbar--fixed': fixed,'uni-navbar--shadow':shadow,'uni-navbar--border':border}" :style="{'background-color':backgroundColor}" class="uni-navbar__content">
 			<uni-status-bar v-if="statusBar" />
 			<view :style="{color:color}" class="uni-navbar__header">
 				<view class="uni-navbar__header-btns" @tap="onClickLeft">
@@ -81,7 +81,7 @@
 			},
 			shadow: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			border: {
 				type: Boolean,
@@ -105,7 +105,6 @@
 	.uni-navbar__content {
 		display: block;
 		position: relative;
-		width: 100%;
 		background-color: #fff;
 		overflow: hidden;
 		padding: 0 30rpx;
@@ -125,6 +124,7 @@
 		font-size: 26rpx;
 		font-weight: bold;
 		color: #333333;
+		padding: 0 10rpx 0 0;
 	}
 
 	.uni-navbar__header-btns {

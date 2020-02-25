@@ -19,14 +19,14 @@
 				<text style="margin-right: 20rpx;">联系地址</text>
 				<input placeholder="请输入地址" v-model="staff_address" style="width: calc(100% - 200rpx)" />
 			</view>
-			<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
+			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
 				<view class="display_flex">
 					<text style="margin-right: 20rpx;">门店</text>
 					<input placeholder="请选择门店" v-model="shop_name" style="width: calc(100% - 200rpx)" />
 				</view>
 
 				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-			</navigator>
+			</navigator>-->
 			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../warehouse/warehouse?type=choose" v-if="current.indexOf('2') != -1">
 				<view class="display_flex">
 					<text style="margin-right: 20rpx;">仓库</text>

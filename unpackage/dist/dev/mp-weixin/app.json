@@ -68,6 +68,17 @@
       ]
     },
     {
+      "root": "pages/analysis",
+      "pages": [
+        "goodSell/goodSell",
+        "customSell/customSell",
+        "producerSell/producerSell",
+        "goodIn/goodIn",
+        "classAll/classAll",
+        "warningGoods/warningGoods"
+      ]
+    },
+    {
       "root": "pages/manage",
       "pages": [
         "productCount/productCount",

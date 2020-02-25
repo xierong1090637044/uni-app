@@ -110,7 +110,7 @@
 		/* #endif */
 		flex-direction: row;
 		position: relative;
-		padding: 8px 0;
+		padding: 4rpx 0;
 	}
 
 	.uni-searchbar__box {

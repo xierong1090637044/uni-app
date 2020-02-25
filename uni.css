@@ -26,25 +26,12 @@ uni-page {
 }
 
 .kaidan_detail {
-	background: #fff;
-	padding: 10rpx;
+	
 }
 
 .kaidan_rightinput {
 	margin-left: 10rpx;
-}
-
-.good_option_view {
-	padding: 16rpx 10rpx;
-	border-bottom: 1rpx solid#CCCCCC;
-}
-
-.good_option {
-	width: 25%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-right: 1rpx solid#ccc;
+	text-align: right;
 }
 
 .option_selected {
