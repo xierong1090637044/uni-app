@@ -176,10 +176,6 @@
 			"path": "pages/report/list/list",
 			"style": {}
 		}
-        ,{
-            "path" : "pages/analysis/warningGoods/warningGoods",
-            "style" : {}
-        }
     ],
 
 	"subPackages": [{
@@ -308,7 +304,12 @@
             "style" : {
 							"navigationBarTitleText": "类别汇总分析"
 						}
-        }
+        },{
+					"path" : "warningGoods/warningGoods",
+					"style" : {
+						"navigationBarTitleText": "预警分析"
+					}
+				}
 			]
 		},
 

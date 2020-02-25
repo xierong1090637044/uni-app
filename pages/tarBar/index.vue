@@ -52,7 +52,7 @@
 			</view>
 		</view>
 		
-		<view style="padding: 10rpx 30rpx;margin-top: 30rpx;background: #fff;width: calc(100% - 60rpx);">
+		<view style="padding: 10rpx 30rpx;margin-top: 30rpx;background: #fff;width: calc(100% - 60rpx);overflow-x: hidden;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
 			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
 		</view>
