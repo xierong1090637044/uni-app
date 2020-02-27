@@ -124,8 +124,8 @@
         "title" : "库存表",
         "domain" : "https://www.jimuzhou.com",
         "router" : {
-            "base" : "/h5/",
-            "mode" : "hash"
+            "base" : "/",
+            "mode" : "history"
         },
         "optimization" : {
             "treeShaking" : {

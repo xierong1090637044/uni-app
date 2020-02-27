@@ -19,14 +19,14 @@
 				<text style="margin-right: 20rpx;">联系地址</text>
 				<input placeholder="请输入地址" v-model="staff_address" style="width: calc(100% - 200rpx)" />
 			</view>
-			<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
+			<!--<navigator class="display_flex_bet item" hover-class="none" url="../../shops/shops?type=choose">
 				<view class="display_flex">
 					<text style="margin-right: 20rpx;">门店</text>
 					<input placeholder="请选择门店" v-model="shop_name" style="width: calc(100% - 200rpx)" disabled="true"/>
 				</view>
 
 				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
-			</navigator>
+			</navigator>-->
 			
 			<navigator class="display_flex_bet item" hover-class="none" url="../authAdd/authAdd">
 				<view class="display_flex">
@@ -94,14 +94,6 @@
 				that.staff_password = staff.pwd || ""
 				uni.setStorageSync("staffRights",staff.rights)
 			}
-
-			if (shop) {
-				that.shop_name = shop.name
-
-				const pointer = Bmob.Pointer('shops');
-				shopId = pointer.set(shop.objectId);
-			}
-
 		},
 
 		methods: {
@@ -161,15 +153,20 @@
 					query.set("disabled", !that.disabled);
 					query.set("stocks", rights.select_stocks || []);
 					query.set("identity", 2);
-					if (shop) query.set("shop", shopId);
+					//if (shop) query.set("shop", shopId);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
-						console.log(res)
-						uni.showToast({
-							title: "修改成功"
-						})
+						//console.log(res)
 						that.select_stocks = []
 						uni.removeStorageSync("staffRights")
+						setTimeout(function(){
+							uni.showToast({
+								title: "修改成功"
+							})
+						},1000)
+						uni.navigateBack({
+							delta:1
+						})
 					}).catch(err => {
 						console.log(err)
 

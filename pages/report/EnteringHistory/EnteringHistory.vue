@@ -366,7 +366,7 @@
 				if (extra_type) {
 					query.equalTo("extra_type", "==", extra_type);
 				}
-				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.userId.objectId);
+				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.objectId);
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});

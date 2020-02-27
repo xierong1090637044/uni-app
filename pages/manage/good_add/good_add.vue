@@ -264,6 +264,7 @@
 				that.nousetime = (now_product.nousetime) ? common.js_date_time(now_product.nousetime) : ''
 				that.max_num = now_product.max_num
 				if (now_product.models) {
+					that.haveSetProductMoreG = true
 					that.productMoreG = true
 					uni.setStorageSync("now_model", now_product.models)
 				}
