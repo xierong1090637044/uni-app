@@ -87,20 +87,21 @@
 									<view v-if="item.stock">存放店仓:{{item.stock}}</view>
 									<view v-else>存放店仓:未填写</view>
 								</view>
+								<view v-else-if="item.type == 7">
+									<view v-if="item.stock">货损店仓:{{item.stock}}</view>
+									<view v-else>货损店仓:未填写</view>
+								</view>
 
 								<view>数量：X{{item.num}} {{item.packingUnit}}</view>
 							</view>
-							<view class='pro_list'>
+							<view class='pro_list' v-if="item.type !=7">
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
 								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
-								<view v-else>
+								<view v-else-if="item.type == 1">
 									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
 								</view>
 							</view>
-
-							<!--<view style="text-align: right;" v-if="user.rights&&user.rights.othercurrent[0] != '0'">总价：￥0</view>
-							<view style="text-align: right;" v-else>总价：￥{{item.total_money }}</view>-->
 						</view>
 					</view>
 					<view class='pro_allmoney' v-if="user.rights&&user.rights.othercurrent[0] != '0'">总计：￥0</view>
@@ -228,6 +229,20 @@
 						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">实际付款</view>
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
+						</view>
+					</view>
+				</view>
+				
+				<view v-else-if="detail.type == 7">
+					<view class="kaidanmx">
+						<view style="padding: 10rpx 30rpx;">货损明细</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;background: #FFFFFF;padding: 15rpx 30rpx;" v-if="detail.createdTime">
+							<view>货损时间</view>
+							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;background: #FFFFFF;padding: 15rpx 30rpx;">
+							<view >是否已减去库存数量</view>
+							<view class="real_color">{{detail.isReducesNum?'是':'否' }}</view>
 						</view>
 					</view>
 				</view>

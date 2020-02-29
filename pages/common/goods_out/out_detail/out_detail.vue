@@ -292,7 +292,7 @@
 
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", false); // 操作单详情
+						query.set("status", true); // 操作单详情
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -303,55 +303,50 @@
 							let createdAt = res.createdAt;
 							
 							common.outRedGoodNum(that.products).then(result => { //减少产品数量
-								const query = Bmob.Query('order_opreations');
-								query.set('id', operationId) //需要修改的objectId
-								query.set('status', true)
-								query.save().then(res => {
-									
-									let params = {
-										"data1": operationId,
-										"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
-											that.products
-											.length + "商品",
-										"data3": that.stock ? that.stock.stock_name : "未填写",
-										"data4": createdAt,
-										"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
-										"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
-											operationId,
-									};
-									send_temp.send_temp(params);
-									
-									//发送小程序订阅通知
-								  let miniParams = {};
-								  miniParams.goodsName = that.products[0].goodsName;
-								  miniParams.total_num = that.total_num;
-								  miniParams.createdAt = createdAt;
-								  miniParams.operationId = operationId;
-								  send_temp.sendTempMini(miniParams,"out");
-																		
-									//自动打印
-									if (uni.getStorageSync("setting").auto_print) {
-										print.autoPrint(operationId);
-									}
-									uni.showToast({
-										title: "出库成功"
-									})
-									
-									uni.hideLoading();
-									uni.setStorageSync("is_option", true);
-									uni.removeStorageSync("_warehouse")
-									uni.removeStorageSync("out_warehouse")
-									uni.removeStorageSync("category")
-									uni.removeStorageSync("warehouse")
-									
-									setTimeout(() => {
-										that.button_disabled = false;
-										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +that.products.length + "商品", -1, operationId);
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
+								let params = {
+									"data1": operationId,
+									"data2": uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" +
+										that.products
+										.length + "商品",
+									"data3": that.stock ? that.stock.stock_name : "未填写",
+									"data4": createdAt,
+									"remark": e.detail.value.input_beizhu ? e.detail.value.input_beizhu : "未填写",
+									"url": "https://www.jimuzhou.com/h5/pages/report/EnteringHistory/detail/detail?id=" +
+										operationId,
+								};
+								send_temp.send_temp(params);
+
+								//发送小程序订阅通知
+								let miniParams = {};
+								miniParams.goodsName = that.products[0].goodsName;
+								miniParams.total_num = that.total_num;
+								miniParams.createdAt = createdAt;
+								miniParams.operationId = operationId;
+								send_temp.sendTempMini(miniParams, "out");
+
+								//自动打印
+								if (uni.getStorageSync("setting").auto_print) {
+									print.autoPrint(operationId);
+								}
+								uni.showToast({
+									title: "出库成功"
 								})
+
+								uni.hideLoading();
+								uni.setStorageSync("is_option", true);
+								uni.removeStorageSync("_warehouse")
+								uni.removeStorageSync("out_warehouse")
+								uni.removeStorageSync("category")
+								uni.removeStorageSync("warehouse")
+
+								setTimeout(() => {
+									that.button_disabled = false;
+									common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.products
+										.length + "商品", -1, operationId);
+									uni.navigateBack({
+										delta: 2
+									});
+								}, 500)
 							})
 						})
 					},

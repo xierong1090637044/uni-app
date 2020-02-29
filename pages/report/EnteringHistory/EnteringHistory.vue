@@ -35,11 +35,12 @@
 								<view style='display:flex;width:100%;'>
 									<view style='line-height:80rpx'>
 										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
-										<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
-										<fa-icon v-if='item.type == -2' type="random" size="20" color="#4e72b8" />
-										<fa-icon v-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
-										<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
-										<fa-icon v-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
+										<fa-icon v-else-if='item.type == -1' type="sign-out" size="20" color="#f30" />
+										<fa-icon v-else-if='item.type == -2' type="random" size="20" color="#4e72b8" />
+										<fa-icon v-else-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
+										<fa-icon v-else-if='item.type == 3' type="check-square-o" size="20" color="#000" />
+										<fa-icon v-else-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
+										<fa-icon v-else-if='item.type == 7' type="tasks" size="20" color="#bba14f" />
 									</view>
 									<view style='margin-left:20rpx;width: 100%;'>
 										<view class="display_flex_bet">
@@ -73,6 +74,7 @@
 											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
 											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
+											<view v-else-if='item.type == 7' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">货损单</view>
 										</view>
 
 										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>店仓：</text>{{item.stock.stock_name}}</view>

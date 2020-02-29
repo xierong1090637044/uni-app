@@ -196,7 +196,11 @@
 						name: '扫码添加产品',
 						icon: 'icon-saoma',
 						url: ''
-					},
+					},{
+						name: '货损',
+						icon: 'icon-wodechanpin',
+						url: '/pages/common/goods-select/goods-select?type=bad'
+					}, 
 					{
 						name: '使用手册',
 						icon: 'icon-tishishuoming',

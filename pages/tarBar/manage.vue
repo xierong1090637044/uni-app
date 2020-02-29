@@ -87,6 +87,11 @@
 			notice: '盘点记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
+		},{
+			name: '货损记录',
+			notice: '货损',
+			icon: 'file-o',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=7',
 		}
 	];
 	
