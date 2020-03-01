@@ -30,7 +30,7 @@
 						<view>还款账户：<text>{{item.account.name}}</text></view>
 						<view><text style="color: #f30;">-{{item.real_money}}</text></view>
 					</view>
-					<view v-if="item.operater.nickName"> 操作人：{{item.operater.nickName}}</view>
+					<view v-if="item.opreater.nickName"> 操作人：{{item.opreater.nickName}}</view>
 					<view style="color: #999999;">{{item.createdAt}}</view>
 				</navigator>
 			</scroll-view>
@@ -87,6 +87,7 @@
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("producer", "==", producerId);
 				query.equalTo("type","==", 1);
+				query.equalTo("extra_type","==", 5);
 				query.equalTo("account","!=", null);
 				query.include("opreater", "account");
 				query.find().then(res => {

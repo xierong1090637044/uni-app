@@ -1,7 +1,7 @@
 import Bmob from "hydrogen-js-sdk";
+let uid = uni.getStorageSync("uid");
 export default {
 	//得到门店列表
-
 	get_producerList(disabled,search_text) {
 		return new Promise((resolve, reject) => {
 			let userid = JSON.parse(localStorage.getItem('bmob')).objectId;
@@ -118,6 +118,138 @@ export default {
 					resolve(res)
 			});
 			
+		})
+	},
+	
+	//得到客户的销售记录
+	getProducerSellList(params) {
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("order_opreations");
+			query.equalTo("master", "==", uid);
+			query.equalTo("type", '==', -1);
+			query.equalTo("extra_type", "==", 1);
+			query.equalTo("extra_type", "==", 1);
+			query.equalTo("producer", "==", params.producerId);
+			query.equalTo("status", "==", true);
+			query.equalTo("createdAt", ">=", params.startDate);
+			query.equalTo("createdAt", "<=", params.endDate);
+			query.limit(50);
+			query.skip(50 * (params.pageNum - 1));
+			query.include("opreater", "producer", "stock");
+			query.order("-createdAt");
+			query.find().then(res => {
+				resolve(res)
+			});
+		})
+	},
+	
+	//得到所有的客户销售列表
+	getAllProducerSellList(params) {
+		let data = {}
+		let total = 0;
+		let money = 0;
+		let count = 0;
+		let realMoney = 0;
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("order_opreations");
+			query.equalTo("master", "==", uid);
+			query.equalTo("type", '==', params.type);
+			query.equalTo("extra_type", "==", params.extra_type);
+			query.equalTo("producer", "==", params.producerId);
+			query.equalTo("status", "==", true);
+			query.equalTo("createdAt", ">=", params.startDate + " 00:00:01");
+			query.equalTo("createdAt", "<=", params.endDate + " 00:00:01");
+			query.count().then(res => {
+				count = res;
+				let countIndex = 0;
+	
+				if (count == 0) {
+					data.total = total;
+					data.num = count;
+					data.money = money;
+					data.realMoney = 0;
+					resolve(data)
+				} else {
+					for (var i = 0; i < Math.ceil(count / 500); i++) {
+						query.equalTo("master", "==", uid);
+						query.equalTo("type", '==', params.type);
+						query.equalTo("extra_type", "==", params.extra_type);
+						query.equalTo("producer", "==", params.producerId);
+						query.equalTo("status", "==", true);
+						query.limit(500);
+						query.skip(500 * i);
+						query.include("opreater", "producer", "stock");
+						query.order("-createdAt");
+						query.equalTo("createdAt", ">=", params.startDate + " 00:00:01");
+						query.equalTo("createdAt", "<=", params.endDate + " 00:00:01");
+						query.find().then(res => {
+							for (let item of res) {
+								total += item.real_num
+								money += item.all_money
+								realMoney += item.real_money
+								countIndex += 1;
+							}
+							if (countIndex == count) {
+								data.total = total;
+								data.num = count;
+								data.money = money;
+								data.realMoney = realMoney;
+								resolve(data)
+							}
+						});
+					}
+				}
+			})
+		})
+	},
+	
+	//得到客户收款分析
+	getAllProducerInRecord(params) {
+		let data = {}
+		let total = 0;
+		let money = 0;
+		let count = 0;
+		return new Promise((resolve, reject) => {
+			const query = Bmob.Query("order_opreations");
+			query.equalTo("master", "==", uid);
+			query.equalTo("type", '==', 1);
+			query.equalTo("extra_type", "==", 5);
+			query.equalTo("producer", "==", params.producerId);
+			query.equalTo("createdAt", ">=", params.startDate + " 00:00:01");
+			query.equalTo("createdAt", "<=", params.endDate + " 00:00:01");
+			query.count().then(res => {
+				count = res;
+				let countIndex = 0;
+	
+				if (count == 0) {
+					data.num = count;
+					data.money = money;
+					resolve(data)
+				} else {
+					for (var i = 0; i < Math.ceil(count / 500); i++) {
+						query.equalTo("master", "==", uid);
+						query.equalTo("type", '==', 1);
+						query.equalTo("extra_type", "==", 5);
+						query.equalTo("producer", "==", params.producerId);
+						query.limit(500);
+						query.skip(500 * i);
+						query.order("-createdAt");
+						query.equalTo("createdAt", ">=", params.startDate + " 00:00:01");
+						query.equalTo("createdAt", "<=", params.endDate + " 00:00:01");
+						query.find().then(res => {
+							for (let item of res) {
+								money += item.real_money
+								countIndex += 1;
+							}
+							if (countIndex == count) {
+								data.num = count;
+								data.money = money;
+								resolve(data)
+							}
+						});
+					}
+				}
+			})
 		})
 	},
 	
