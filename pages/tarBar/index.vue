@@ -198,7 +198,7 @@
 						url: ''
 					},{
 						name: '货损',
-						icon: 'icon-wodechanpin',
+						icon: 'icon-chanpin',
 						url: '/pages/common/goods-select/goods-select?type=bad'
 					}, 
 					{
@@ -221,21 +221,13 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
+			getApp().globalData.uid = uni.getStorageSync('uid');
 			
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			if (options.openid) {
 				uni.setStorageSync("openid", options.openid)
 			}
-			// #endif
-			
-			//  #ifdef MP-WEIXIN
-			wx.requestSubscribeMessage({
-			  tmplIds: ['G2UJEDEyAtGuBdO-Yv96yBi-UnTLhaInr-KzEXqZ-48'],
-			  success: function(res) { 
-					console.log(res)
-				}
-			})
 			// #endif
 
 			if (that.user) { //会员vip 校验

@@ -3,8 +3,13 @@
 	import mine from '@/utils/mine.js';
 
 	export default {
+		globalData: {
+			setting: {},//用户设置
+			uid:'',//最高权限id
+			user:{}//用户相关信息
+		},
 		onLaunch: function() {
-			
+
 			// #ifdef MP-WEIXIN
 			Bmob.User.auth().then(res => {}).catch(err => {
 				console.log(err)
@@ -24,9 +29,9 @@
 					success: function(res) {
 						if (res.confirm) {
 							// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-							uni.setStorageSync("isUpdate",true);
+							uni.setStorageSync("isUpdate", true);
 							updateManager.applyUpdate()
-							
+
 						}
 					}
 				})
@@ -61,8 +66,8 @@
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
 	/* #endif */
-	
-	.updateContent{
+
+	.updateContent {
 		position: fixed;
 		top: 20%;
 		left: 10%;
@@ -71,21 +76,23 @@
 		z-index: 10;
 		padding: 30rpx;
 		border-radius: 16rpx;
-		box-shadow:0 10rpx 10rpx rgba($color: #fff, $alpha: 0.6);
+		box-shadow: 0 10rpx 10rpx rgba($color: #fff, $alpha: 0.6);
 	}
-	.confrim_button{
+
+	.confrim_button {
 		height: 100rpx;
 		line-height: 100rpx;
 		padding: 0 80rpx !important;
 	}
-	
-	.pro_list{
+
+	.pro_list {
 		color: #333 !important;
 	}
-	.kaidan_detail{
+
+	.kaidan_detail {
 		color: #333 !important;
 	}
-	
+
 	.o_headerItem {
 		width: 80rpx;
 		height: 80rpx;
@@ -140,11 +147,12 @@
 		align-items: center;
 		color: #333;
 	}
-	.good_optionText{
+
+	.good_optionText {
 		margin-right: 10rpx;
 		max-width: 80%;
 		overflow: hidden;
-		text-overflow:ellipsis;
+		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
@@ -212,8 +220,8 @@
 			}
 		}
 	}
-	
-	
+
+
 	.modal_backgroundTransparent {
 		position: fixed;
 		top: 0;
@@ -223,7 +231,7 @@
 		z-index: 100;
 		background: transparent;
 	}
-	
+
 	.showOptionsTransparent {
 		position: fixed;
 		top: 140rpx;
@@ -233,7 +241,7 @@
 		padding: 0rpx 0rpx 20rpx;
 		box-shadow: 0 10rpx 10rpx rgba(0, 122, 255, 0.2);
 		z-index: 100000;
-	
+
 		.input_item1 {
 			display: flex;
 			align-items: center;
@@ -241,28 +249,28 @@
 			line-height: 80rpx;
 			padding: 0 30rpx;
 		}
-	
+
 		.left_item {
 			width: 150rpx;
 		}
-	
+
 		.right_input {
 			margin-left: 20rpx;
 			width: 100%;
 		}
-	
+
 		.option_bottom {
 			width: 100%;
 			display: flex;
 			padding: 20rpx 0 0;
 			margin-top: 30rpx;
 			border-top: 1rpx solid#ccc;
-	
+
 			.selection {
 				width: 50%;
 				text-align: center
 			}
-	
+
 			.selection1 {
 				width: 50%;
 				text-align: center;
@@ -271,13 +279,14 @@
 			}
 		}
 	}
-	
-	.normalButton{
-		margin:  unset;
+
+	.normalButton {
+		margin: unset;
 		line-height: unset;
 		font-size: 28rpx;
 	}
-	.normalBorder{
+
+	.normalBorder {
 		border-bottom: 1rpx solid#F7F7F7;
 	}
 </style>

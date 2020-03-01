@@ -38,15 +38,15 @@
 				<view v-if="Goods && Goods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
 				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)"
 				 v-else>
-					<view>
+					<view style="width: 100%;">
 						<view>{{good.goodsName}}</view>
-						<view v-if="good.reserve == 0">0%</view>
-						<view v-else>{{(good.reserve/reserve_num)*100}}%</view>
+						<view class="display_flex_bet">
+							<view v-if="good.reserve == 0">0%</view>
+							<view v-else>{{(good.reserve/reserve_num).toFixed(4)*100}}%</view>
+							<view style="margin-right: 20rpx;">库存：{{good.reserve}}</view>
+						</view>
 					</view>
-					<view class="display_flex">
-						<view style="margin-right: 20rpx;">{{good.reserve}}</view>
-						<fa-icon type="angle-right" size="20" color="#999" />
-					</view>
+					<fa-icon type="angle-right" size="20" color="#999" />
 				</view>
 			</view>
 		</view>

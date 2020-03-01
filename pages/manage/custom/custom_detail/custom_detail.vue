@@ -1,98 +1,266 @@
 <template>
 	<view>
-		<loading v-if="loading"></loading>
-		
-		<view v-else>
-			<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
-			
-			<view class="display_flex_bet list_item border_bottom">
-				<view class="left_desc">客户昵称</view>
-				<view>{{custom.custom_name}}</view>
-			</view>
-			
-			<view class="display_flex_bet list_item border_bottom">
-				<view class="left_desc">联系电话</view>
-				<view v-if="custom.custom_phone">{{custom.custom_phone}}</view>
-				<view v-else>未填写</view>
-			</view>
-			
-			<navigator class="display_flex_bet list_item border_bottom" hover-class="none" :url="'debt_history/debt_history?id='+custom.objectId+'&name='+custom.custom_name">
-				<view class="left_desc">客户欠款</view>
-				<view class="display_flex">
-					<text style="margin-right: 20rpx;">￥{{custom.debt?custom.debt:0}}</text>
-					<fa-icon type="angle-right" size="20" color="#999" />
-				</view>
-			</navigator>
-			
-			<view class="display_flex_bet list_item border_bottom">
-				<view class="left_desc">建立时间</view>
-				<view>{{custom.createdAt}}</view>
-			</view>
-			
-			
-			<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none" :url="'history/history?id='+custom.objectId">
-				<text class="left_desc">交易历史</text>
-				<fa-icon type="angle-right" size="20" color="#999" />
-			</navigator>
-			<navigator class="list_item display_flex_bet" style="margin: 20rpx 0;" hover-class="none"  :url="'debt_history/debt_history?id='+custom.objectId+'&name='+custom.custom_name+'&type=producer'">
-				<text class="left_desc">收款流水</text>
-				<fa-icon type="angle-right" size="20" color="#999" />
-			</navigator>
-			
-			<view class="getmoney_button" @click="gotopay">收款</view>
-		</view>
-		
+		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
 
+		<view>
+			<view class="display_flex_bet frist" style="background: #fff;padding: 20rpx 30rpx;">
+				<view>
+					<image v-if="custom.Images && custom.Images.length > 0" :src="custom.Images[0]" style="width: 100rpx;height: 100rpx;"
+					 mode="aspectFit"></image>
+					<image v-else src="/static/custom.png" style="height: 100rpx;width: 100rpx;" mode="aspectFit"></image>
+				</view>
+
+				<view style="width: calc(100% - 120rpx);">
+					<view style="color: #3d3d3d;font-weight: bold;">{{custom.custom_name}}</view>
+					<view class="display_flex_bet">
+						<view class="noticeText">地址:{{custom.custom_address || "未填写"}}</view>
+						<view class="noticeText">电话:{{custom.custom_phone || "未填写"}}</view>
+					</view>
+					<view class="display_flex_bet">
+						<view>
+							欠款金额：<text style="color: #f30;font-weight: bold;">￥{{custom.debt}}</text>
+						</view>
+						<view class="display_flex labeNotice" @click.stop="makePhoneCall(custom.custom_phone)">
+							<fa-icon type="phone" size="14" color="#fff" />
+							<text style="margin-left: 10rpx;font-size: 24rpx;">打电话</text>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<view style="margin: 30rpx 0;">
+				<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
+			</view>
+
+			<!--销售情况-->
+			<view v-if="current == 0">
+				<view class="frist">
+					<view class="display_flex_bet header">
+						<view class="listItem" @click="showOptions">
+							<text v-if="sellType == 0">销售</text>
+							<text v-else-if="sellType == 1">退货</text>
+							<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
+						</view>
+						<view class="display_flex listItem" @click="open">
+							<view>
+								<view style="font-size: 24rpx;line-height: 28rpx;">{{sellParams.startDate}}</view>
+								<view style="font-size: 24rpx;line-height: 28rpx;">{{sellParams.endDate}}</view>
+							</view>
+							<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
+						</view>
+					</view>
+				</view>
+
+				<view class="display_flex_bet second">
+					<view class="secondItem">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">{{buyTotal.num || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text v-if="sellType == 0">销售笔数</text>
+							<text v-if="sellType == 1">退款笔数</text>
+						</view>
+					</view>
+					<view class="secondItem">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">{{buyTotal.total || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text v-if="sellType == 0">销售数量</text>
+							<text v-if="sellType == 1">退货数量</text>
+						</view>
+					</view>
+					<view class="secondItem">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{buyTotal.money || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text v-if="sellType == 0">销售金额</text>
+							<text v-if="sellType == 1">退款金额</text>
+						</view>
+					</view>
+					<view class="secondItem" v-if="sellType == 0">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{buyTotal.realMoney || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text>实际销售金额</text>
+						</view>
+					</view>
+				</view>
+			</view>
+			
+			<!--收款情况-->
+			<view v-else-if="current == 1">
+				<view class="frist">
+					<view class="display_flex_bet header">
+						<view class="listItem">
+							<text>收款</text>
+							<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
+						</view>
+						<view class="display_flex listItem" @click="open">
+							<view>
+								<view style="font-size: 24rpx;line-height: 28rpx;">{{sellParams.startDate}}</view>
+								<view style="font-size: 24rpx;line-height: 28rpx;">{{sellParams.endDate}}</view>
+							</view>
+							<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
+						</view>
+					</view>
+				</view>
+			
+				<view class="display_flex_bet second">
+					<view class="secondItem">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">{{getMoney.num || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text>收款笔数</text>
+						</view>
+					</view>
+					<view class="secondItem">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">{{getMoney.money || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text>收款金额</text>
+						</view>
+					</view>
+				</view>
+			</view>
+
+		</view>
+
+		<uni-calendar ref="calendar" :date="sellParams.startDate" :insert="false" :lunar="true" :range="true" @confirm="confirm"
+		 :endDate="sellParams.startDate" />
+		 
+		 <customDetBottom :custom="custom"></customDetBottom>
 	</view>
 </template>
 
 <script>
 	import Bmob from "hydrogen-js-sdk";
-	import customs from '@/utils/customs.js';
 	import common from '@/utils/common.js';
-	
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import loading from "@/components/Loading/index.vue"
-	
+	import customs from '@/utils/customs.js';
+
+	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
+	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
+	import customDetBottom from '@/components/customDetBottom.vue'
+
 	let that;
 	export default {
 		components: {
-			faIcon,
-			loading,
-			uniPopup
+			customDetBottom,
+			uniCalendar,
+			uniSegmentedControl
 		},
 
 		data() {
 			return {
-				loading: true,
-				modal_show:false,
+				items: ['销售情况', '收款记录'],
+				current: 0,
+				sellType: 0,
+
 				custom: {},
-				modal_sk: {
-					sk_number: '',
-					beizhu: ""
-				}
+				sellParams: {
+					customId: '',
+					startDate: common.getDay(0, false),
+					endDate: common.getDay(1, false),
+					type: -1,
+					extra_type: 1,
+				}, //获取销售情况参数
+				buyTotal: {},//销售情况记录
+				getMoney:{},//收款情况记录
 			}
 		},
 
 		onLoad(options) {
 			that = this;
+			that.sellParams.customId = options.id;
 			//console.log(options.id)
-			customs.custom_detail(options.id).then(res => {
-				console.log(res)
+		},
+		
+		onShow() {
+			customs.custom_detail(that.sellParams.customId).then(res => {
+				//console.log(res)
 				that.custom = res
-				that.loading = false
+				that.sellParams.customId = res.objectId
+				if(that.current == 0){
+					customs.getAllCustomSellList(that.sellParams).then(res => {
+						that.buyTotal = res
+					})
+				}else if(value == 1){
+					customs.getAllCustomInRecord(that.sellParams).then(res => {
+						that.getMoney = res
+					})
+				}
 			})
 		},
+		
 		methods: {
-			gotopay(){
-				uni.setStorageSync("custom",that.custom)
-				uni.redirectTo({
-					url: '/pages/finance/InRecord/InRecord'
+
+			showOptions() {
+				uni.showActionSheet({
+					itemList: ['销售', '退货'],
+					success: function(res) {
+						if (res.tapIndex == 0) {
+							that.sellType = 0
+							that.sellParams.type = -1
+							that.sellParams.extra_type = 1
+						} else {
+							that.sellType = 1
+							that.sellParams.type = 1
+							that.sellParams.extra_type = 4
+						}
+						customs.getAllCustomSellList(that.sellParams).then(res => {
+							that.buyTotal = res
+						})
+					}
 				});
 			},
-			
-			show_options(){
+
+			open() {
+				that.$refs.calendar.open();
+			},
+
+			confirm(e) {
+				console.log(e)
+				if (e.range.data.length == 0) {
+					that.sellParams.startDate = e.fulldate
+				} else {
+					that.sellParams.startDate = e.range.data[0];
+					that.sellParams.endDate = e.range.data[e.range.data.length - 1];
+				}
+				if(that.current == 0){
+					customs.getAllCustomSellList(that.sellParams).then(res => {
+						console.log(res)
+						that.buyTotal = res
+					})
+				}else if(value == 1){
+					customs.getAllCustomInRecord(that.sellParams).then(res => {
+						console.log(res)
+						that.getMoney = res
+					})
+				}
+			},
+
+			onClickItem(value) {
+				that.current = value
+				if(that.current == 0){
+					customs.getAllCustomSellList(that.sellParams).then(res => {
+						console.log(res)
+						that.buyTotal = res
+					})
+				}else if(that.current == 1){
+					customs.getAllCustomInRecord(that.sellParams).then(res => {
+						console.log(res)
+						that.getMoney = res
+					})
+				}
+			},
+
+			//打电话
+			makePhoneCall(phone) {
+				if (phone) {
+					uni.makePhoneCall({
+						phoneNumber: phone //仅为示例
+					});
+				} else {
+					uni.showToast({
+						icon: "none",
+						title: "未填写联系电话"
+					})
+				}
+			},
+
+			show_options() {
 				uni.showActionSheet({
 					itemList: ["编辑", "删除"],
 					success: function(res) {
@@ -107,7 +275,7 @@
 					}
 				});
 			},
-			
+
 			//编辑操作
 			edit(item) {
 				uni.setStorageSync("customs", item);
@@ -116,7 +284,7 @@
 					url: "../add/add"
 				})
 			},
-			
+
 			//删除操作
 			delete_this(id) {
 				uni.showModal({
@@ -129,7 +297,7 @@
 					}
 				});
 			},
-			
+
 			//删除数据
 			delete_data(type, id) {
 				console.log(id)
@@ -141,127 +309,51 @@
 						icon: "none"
 					})
 					uni.navigateBack({
-						delta:1
+						delta: 1
 					})
 				}).catch(err => {
 					console.log(err)
 				})
-			},
-			
-			//确认收款金额
-			confrim_sk(){
-				console.log(that.modal_sk)
-				let input_money = that.modal_sk.sk_number
-				let beizhu = that.modal_sk.beizhu
-				let custom_id = that.custom.objectId
-				
-				if (input_money == null || input_money.length == 0) {
-				      uni.showToast({
-				        title: '请输入收款金额',
-				        icon: "none"
-				      });
-				    } else {
-				      uni.showLoading({ title: '加载中...' });
-				      that.modal_show = false;
-				      const query = Bmob.Query('customs');
-				      query.get(custom_id).then(res => {
-				        if (res.debt - Number(input_money) < 0)
-				        {
-				          uni.hideLoading();
-				          uni.showToast({
-				            icon:"none",
-				            title: '收款金额过大',
-				          })
-				        } else if (res.debt == null || res.debt == 0 )
-				        {
-				          uni.hideLoading();
-				          uni.showToast({
-				            icon: "none",
-				            title: '该客户没有欠款',
-				          })
-				        }
-				        else{
-				          res.set('debt', res.debt - Number(input_money));
-				          res.save();
-				
-				          const pointer = Bmob.Pointer('customs');
-				          const poiID = pointer.set(custom_id);
-				          const pointer1 = Bmob.Pointer('_User');
-				          const poiID1 = pointer1.set(uni.getStorageSync("uid"));
-									const pointer2 = Bmob.Pointer('_User');
-									const poiID2 = pointer2.set(uni.getStorageSync("masterId"));
-									
-				          const query = Bmob.Query('debt_history');
-				          query.set("custom", poiID);
-				          query.set("master", poiID1);
-									query.set("operater", poiID2)
-				          query.set("debt_number", Number(input_money))
-									query.set("beizhu", beizhu)
-				          query.save().then(res => {
-				            console.log(res)
-										common.log(uni.getStorageSync("user").nickName+"操作'"+that.custom.custom_name+"'客户还款￥"+input_money+"元",6,res.objectId);
-				            uni.hideLoading();
-										customs.custom_detail(that.custom.objectId).then(res => {
-											console.log(res)
-											
-											that.custom = res
-											uni.showToast({
-											  title: '收款成功',
-											});
-										})
-				            
-				          }).catch(err => {
-				            console.log(err)
-				          })
-				        }
-				
-				      }).catch(err => {
-				        console.log(err)
-				      })
-				    }
 			},
 
 		},
 	}
 </script>
 
-<style>
+<style lang="scss">
 	page {
 		color: #3D3D3D;
 	}
 
-	.modal_confrimbutton {
-		background: #426AB3;
+	.labeNotice {
+		background: #426ab3;
 		color: #fff;
-		width: 60%;
-		padding: 20rpx 0;
-		text-align: center;
-		margin-left: 20%;
+		padding: 2rpx 8rpx;
 		border-radius: 8rpx;
-		margin-top: 30rpx;
 	}
 
-	.list_item {
-		padding: 20rpx 30rpx;
-		background: #FFFFFF;
+	.frist {
+		background: #fff;
+
+		.header {
+			padding: 10rpx 0;
+		}
+
+		.listItem {
+			text-align: center;
+			width: 33.33%;
+			justify-content: center;
+		}
 	}
 
-	.left_desc {
-		color: #999;
-	}
-
-	.border_bottom {
-		border-bottom: 1rpx solid#DDDDDD;
-	}
-
-	.getmoney_button {
-		width: 100%;
-		background: #426AB3;
-		color: #FFFFFF;
+	.second {
+		background: #fff;
+		border-top: 1rpx solid#ddd;
 		padding: 20rpx 0;
-		text-align: center;
-		position: fixed;
-		bottom: 0;
-		left: 0;
+
+		.secondItem {
+			width: 50%;
+			text-align: center;
+		}
 	}
 </style>
