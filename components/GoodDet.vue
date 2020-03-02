@@ -41,7 +41,7 @@
 
 		<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
 			<view class="display_flex_bet">
-				<view>存放店仓: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
+				<view>存放仓库: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
 				<view class="opion_item" @click='delete_singlegood(item.good_id)'>删除</view>
 			</view>
 

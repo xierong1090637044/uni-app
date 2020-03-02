@@ -16,8 +16,8 @@
 						</view>
 					</view>
 					<view class='pro_list' style='color:#3D3D3D'>
-						<view v-if="item.stocks && item.stocks.stock_name">入库店仓：{{item.stocks.stock_name}}</view>
-						<view v-else>入库店仓：未填写</view>
+						<view v-if="item.stocks && item.stocks.stock_name">入库仓库：{{item.stocks.stock_name}}</view>
+						<view v-else>入库仓库：未填写</view>
 						<view>入库数量：X{{item.num}}</view>
 					</view>
 					<view class='pro_list' v-if="user.rights&&user.rights.othercurrent[0] != '0'">
@@ -148,7 +148,7 @@
 				identity: uni.getStorageSync("identity"),
 				othercurrent: '',
 				Images: [], //上传凭证图
-				stock: '', //店仓
+				stock: '', //仓库
 				shop_name: '',
 				products: null,
 				account: '', //结算账户

@@ -12,7 +12,7 @@
 					<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</view>
 				<navigator class="listItem" url="/pages/manage/warehouse/warehouse?type=choose">
-					<text>{{stock.stock_name || "所有店仓"}}</text>
+					<text>{{stock.stock_name || "所有仓库"}}</text>
 					<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</navigator>
 			</view>

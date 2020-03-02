@@ -14,8 +14,8 @@
 			</view>-->
 
 			<view style="padding: 10rpx 30rpx;background: #FAFAFA;color: #999;" class="display_flex_bet">
-				<view style="font-size: 24rpx;font-weight: 500;">店仓总数：{{header.userNum}}</view>
-				<view style="font-size: 24rpx;font-weight: 500;">停用店仓：{{header.noUserNum}}</view>
+				<view style="font-size: 24rpx;font-weight: 500;">仓库总数：{{header.userNum}}</view>
+				<view style="font-size: 24rpx;font-weight: 500;">停用仓库：{{header.noUserNum}}</view>
 			</view>
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 142rpx)' scroll-with-animation="true"
@@ -152,7 +152,7 @@
 				}
 			},
 
-			//点击店仓去到详情
+			//点击仓库去到详情
 			goto_detail(stock) {
 				if (that.is_choose) {
 					return
@@ -163,7 +163,7 @@
 				})
 			},
 
-			//选择此店仓
+			//选择此仓库
 			select_this(e) {
 				console.log(e)
 				let item = JSON.parse(e.detail.value);
@@ -195,14 +195,14 @@
 					}
 				} else {
 					uni.showToast({
-						title: "已选择此店仓",
+						title: "已选择此仓库",
 						icon: "none"
 					})
 				}
 
 			},
 
-			//前去添加店仓
+			//前去添加仓库
 			goto_add() {
 				let user = uni.getStorageSync("user")
 				let identity = uni.getStorageSync("identity")
@@ -213,7 +213,7 @@
 				} else {
 					uni.showModal({
 						title: '提示',
-						content: '非会员最多上传2个店仓',
+						content: '非会员最多上传2个仓库',
 						confirmText: "充值会员",
 						success: function(res) {
 							if (res.confirm) {
@@ -241,7 +241,7 @@
 				that.getstock_list();
 			},
 
-			//得到店仓列表
+			//得到仓库列表
 			getstock_list: function() {
 				uni.showLoading({
 					title: "加载中..."

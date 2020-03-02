@@ -15,7 +15,7 @@
 				<view style="width: 30%;">
 					<view class="itemC" style="margin:0 10rpx 10rpx 0;">
 						<view>总数</view>
-						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_reserve}}</view>
+						<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_reserve}}个</view>
 					</view>
 					<view class="itemC">
 						<view>总成本</view>

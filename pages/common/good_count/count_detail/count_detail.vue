@@ -6,7 +6,7 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#333'>
 						<view>产品：{{item.goodsName}}</view>
-						<view v-if="item.stocks">盘点店仓：{{item.stocks.stock_name}}</view>
+						<view v-if="item.stocks">盘点仓库：{{item.stocks.stock_name}}</view>
 					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">

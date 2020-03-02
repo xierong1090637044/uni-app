@@ -15,7 +15,7 @@
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('stocks')">
-					<view class="good_optionText">{{headerSelection.stocks.stock_name || '店仓'}}</view>
+					<view class="good_optionText">{{headerSelection.stocks.stock_name || '仓库'}}</view>
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('order')">
@@ -45,13 +45,12 @@
 							</view>
 
 							<view class="product_reserve display_flex_bet" style="width: 100%;">
-								<view style="font-size: 24rpx;">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
-								<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
-							</view>
-
-							<view class="product_reserve display_flex_bet" style="width: 100%;">
 								<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
+							</view>
+							<view class="product_reserve display_flex_bet" style="width: 100%;">
+								<view style="font-size: 24rpx;">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
+								<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
@@ -273,7 +272,7 @@
 					let productList = res
 					if (user.is_vip || productList.length < 30) {
 						wx.showActionSheet({
-							itemList: ['多店仓添加', '单店仓添加'],
+							itemList: ['多仓库添加', '单仓库添加'],
 							success(res) {
 								if (res.tapIndex == 0) {
 									uni.navigateTo({

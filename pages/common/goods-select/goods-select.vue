@@ -49,14 +49,13 @@
 								</view>
 
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存仓库:{{product.stocks.stock_name}}</view>
+									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
+								</view>
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
 									<view style="font-size: 24rpx;" v-if="canSeeCostprice">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
 									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
 									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
-								</view>
-
-								<view class="product_reserve display_flex_bet" style="width: 100%;">
-									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存店仓:{{product.stocks.stock_name}}</view>
-									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
 								</view>
 							</view>
 						</label>

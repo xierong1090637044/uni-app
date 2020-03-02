@@ -5,7 +5,7 @@
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list'>产品：{{item.goodsName}}</view>
-					<view class='pro_list'>调出店仓：{{item.stocks.stock_name}}</view>
+					<view class='pro_list'>调出仓库：{{item.stocks.stock_name}}</view>
 					<view class='pro_list'>
 						<view>库存：{{item.reserve}}</view>
 						<view>调出库存：{{item.num}}</view>
@@ -26,9 +26,9 @@
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose"
 						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>调入店仓</text></view>
+							<view>调入仓库</text></view>
 							<view class="kaidan_rightinput display_flex">
-								<input placeholder="选择调入店仓" disabled="true" :value="out_stock.stock_name" style="margin-right: 20rpx;text-align: right;" />
+								<input placeholder="选择调入仓库" disabled="true" :value="out_stock.stock_name" style="margin-right: 20rpx;text-align: right;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
@@ -80,8 +80,8 @@
 		data() {
 			return {
 				products: [],
-				stock: '', //调出店仓
-				out_stock: '', //调入店仓
+				stock: '', //调出仓库
+				out_stock: '', //调入仓库
 				button_disabled: false,
 				beizhu_text: "",
 				out_products: [], //调入的商品
@@ -114,7 +114,7 @@
 				this.button_disabled = true;
 				if (that.out_stock == '' || that.out_stock == null) {
 					uni.showToast({
-						title: "请选择调入店仓",
+						title: "请选择调入仓库",
 						icon: 'none'
 					})
 
@@ -364,7 +364,7 @@
 							if (that.products[i].selectd_model) {
 								uni.showToast({
 									icon: "none",
-									title: "此多规格产品未关联到此店仓"
+									title: "此多规格产品未关联到此仓库"
 								})
 								this.button_disabled = false;
 								return;
