@@ -52,10 +52,24 @@
 			
 			//货损记录点击
 			addBadGoodRecord(){
-				uni.showToast({
-					icon:"none",
-					title:"正在完善中"
-				})
+				let products = []
+				let uid = uni.getStorageSync("uid")
+				const query = Bmob.Query("NGoods");
+				query.equalTo("userId", "==", uid);
+				query.equalTo("header", "==", that.product.objectId);
+				query.include("stocks");
+				query.find().then(res => {
+					for(let item of res){
+						item.num = 1;
+						item.total_money = 1 * item.costPrice;
+						item.really_total_money = 1 * item.costPrice;
+						item.modify_retailPrice = item.costPrice;
+					}
+					uni.setStorageSync("products",res)
+					uni.navigateTo({
+						url:"/pages/common/goodBad/goodBad"
+					})
+				});
 			},
 			
 			//产品信息修改点击
