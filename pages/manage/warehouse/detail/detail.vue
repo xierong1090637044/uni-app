@@ -42,7 +42,7 @@
 						<view>{{good.goodsName}}</view>
 						<view class="display_flex_bet">
 							<view v-if="good.reserve == 0">0%</view>
-							<view v-else>{{(good.reserve/reserve_num).toFixed(4)*100}}%</view>
+							<view v-else>{{good.percent}}%</view>
 							<view style="margin-right: 20rpx;">库存：{{good.reserve}}</view>
 						</view>
 					</view>
@@ -81,7 +81,7 @@
 			that.stock = uni.getStorageSync("stock")
 			that.get_detail()
 		},
-		
+
 		//分享
 		/*onShareAppMessage: function(res) {
 			if (res.from === 'button') {
@@ -93,7 +93,7 @@
 				path: '/pages/manage/good_det/good_det?id=' + that.product.objectId + '&type="false"'
 			}
 		},*/
-		
+
 		methods: {
 			show_options() {
 				uni.showActionSheet({
@@ -106,16 +106,16 @@
 							query.equalTo("parent", "==", uid);
 							query.equalTo("disabled", "!=", true);
 							query.find().then(res => {
-								if(res.length >1){
+								if (res.length > 1) {
 									that.delete_this(that.stock.objectId)
-								}else{
+								} else {
 									uni.showToast({
-										title:"最少保留一个店仓",
-										icon:"none"
+										title: "最少保留一个店仓",
+										icon: "none"
 									})
 								}
 							})
-							
+
 						}
 					},
 					fail: function(res) {
@@ -193,12 +193,11 @@
 			},
 
 			goto_detail(good) {
-				uni.setStorageSync("now_product", good);
-				if(good.order == 1){
+				if (good.order == 1) {
 					uni.navigateTo({
-						url: "/pages/manage/good_det/Ngood_det"
+						url: "/pages/manage/good_det/Ngood_det?id="+good.header.objectId+"&type=false"
 					})
-				}else{
+				} else {
 					uni.navigateTo({
 						url: "/pages/manage/good_det/good_det"
 					})
@@ -211,23 +210,33 @@
 				query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
 				query.limit(500);
 				query.order("-reserve");
+				query.statTo("sum", "reserve");
 				query.find().then(res => {
 					console.log(res)
-					that.Goods = res;
-					let reserve_num = 0;
-					let reserve_money = 0;
-					for (let item of res) {
-						reserve_money += Number(item.costPrice) * Number(item.reserve)
-						reserve_num += Number(item.reserve)
-					}
+					let sumReserve = res[0]._sumReserve
+					query.equalTo("userId", "==", uid);
+					query.equalTo("order", "==", 1);
+					query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
+					query.order("-reserve");
+					query.include("header");
+					query.limit(1000);
+					query.find().then(res => {
+						console.log(res)
+						that.Goods = res;
+						let reserve_num = 0;
+						let reserve_money = 0;
+						for (let item of res) {
+							reserve_money += Number(item.costPrice) * Number(item.reserve)
+							reserve_num += Number(item.reserve)
+							item.percent = ((Number(item.reserve) / sumReserve) * 100).toFixed(2)
+						}
 
-					that.reserve_money = reserve_money
-					that.reserve_num = reserve_num
-					that.loading = false
-				});
+						that.reserve_money = reserve_money
+						that.reserve_num = reserve_num
+						that.loading = false
+					})
+				})
 			},
-
-
 		}
 	}
 </script>

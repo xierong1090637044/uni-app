@@ -18,7 +18,7 @@
 					</view>
 					<view class="display_flex_bet">
 						<view>
-							待还金额：<text style="color: #f30;font-weight: bold;">￥{{producer.debt}}</text>
+							应付欠款：<text style="color: #f30;font-weight: bold;">￥{{producer.debt}}</text>
 						</view>
 						<view class="display_flex labeNotice" @click.stop="makePhoneCall(producer.producer_phone)">
 							<fa-icon type="phone" size="14" color="#fff" />

@@ -165,7 +165,7 @@
 							})
 						},1000)
 						uni.navigateBack({
-							delta:1
+							delta:2
 						})
 					}).catch(err => {
 						console.log(err)

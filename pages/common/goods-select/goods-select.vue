@@ -47,8 +47,7 @@
 
 							<view style="margin:0 20rpx;width: 80%;">
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
-									<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name text_overflow">{{product.goodsName}}</view>
-									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">{{product.packageContent}}*{{product.packingUnit}}</view>
+									<view class="product_name text_overflow">{{product.goodsName}}</view>
 								</view>
 
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
@@ -60,6 +59,9 @@
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
 									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存店仓:{{product.stocks.stock_name}}</view>
 									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
+								</view>
+								<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
+									<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
 								</view>
 							</view>
 						</label>
@@ -560,7 +562,7 @@
 	.product_name {
 		font-weight: bold;
 		color: #333;
-		max-width: 60%;
+		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

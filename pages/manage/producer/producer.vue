@@ -23,7 +23,7 @@
 		</view>
 
 		<view style="padding: 10rpx 30rpx;background: #FAFAFA;color: #999;" class="display_flex_bet">
-			<view style="font-size: 24rpx;font-weight: 500;">客户总数：{{producerHeader.num}}</view>
+			<view style="font-size: 24rpx;font-weight: 500;">供应商总数：{{producerHeader.num}}</view>
 			<view style="font-size: 24rpx;font-weight: 500;">应付欠款：{{producerHeader.debtMoney}}</view>
 		</view>
 
