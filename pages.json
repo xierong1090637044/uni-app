@@ -176,6 +176,14 @@
 			"path": "pages/report/list/list",
 			"style": {}
 		}
+        ,{
+            "path" : "pages/common/goodBad/goodBad",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/common/goodBad/badRecord/badRecord",
+            "style" : {}
+        }
     ],
 
 	"subPackages": [{

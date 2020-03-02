@@ -108,7 +108,11 @@
 						name: '采购',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
-					},
+					},{
+						name: '货损',
+						icon: 'icon-chanpin',
+						url: '/pages/common/goods-select/goods-select?type=bad'
+					}, 
 				],
 				goodsAnalysis: {
 					total_products: 0,

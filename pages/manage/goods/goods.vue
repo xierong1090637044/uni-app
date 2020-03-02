@@ -404,9 +404,6 @@
 
 			//查询产品列表
 			get_productList() {
-				uni.showLoading({
-					title: "加载中..."
-				})
 				const query = Bmob.Query("NGoods");
 				query.equalTo("userId", "==", uid);
 
@@ -451,8 +448,7 @@
 							item.costPrice = 0
 						}
 					}
-					this.productList = res;
-					uni.hideLoading();
+					that.productList = res;
 					//this.loading = false;
 				});
 			},

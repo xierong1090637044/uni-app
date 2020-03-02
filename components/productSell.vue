@@ -161,7 +161,7 @@
 				that.purcharseList1 = [];
 				that.purcharseList = [];
 
-				const query = Bmob.Query("Bills");
+				const query = Bmob.Query("NBills");
 				query.equalTo("userId", "==", uni.getStorageSync("uid"));
 				query.equalTo("type", "==", -1);
 				query.equalTo("extra_type", "==", 1);

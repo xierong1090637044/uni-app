@@ -124,7 +124,7 @@
 					goodsClass: '',
 					stocks: "",
 					order: {
-						"order": "-createdAt"
+						"order": "goodsName"
 					},
 					options: '',
 				},
@@ -142,7 +142,7 @@
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked": true,
+					"checked": false,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
@@ -152,7 +152,7 @@
 					"desc": "名字",
 					"notice": "正序",
 					"order": "goodsName",
-					"checked": false,
+					"checked": true,
 				}],
 				canSeeCostprice: true,
 			}
@@ -174,6 +174,8 @@
 				this.url = "../good_allocation/good_allocation"
 			} else if (option.type == "prodution") {
 				this.url = "../good_production/good_production"
+			} else if (option.type == "bad") {
+				this.url = "../goodBad/goodBad"
 			}
 
 			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
@@ -256,7 +258,7 @@
 					goodsClass: '',
 					stocks: "",
 					order: {
-						"order": "-createdAt"
+						"order":  "goodsName"
 					},
 					options: '',
 				};
@@ -274,7 +276,7 @@
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked": true,
+					"checked": false,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
@@ -284,7 +286,7 @@
 					"desc": "名字",
 					"notice": "正序",
 					"order": "goodsName",
-					"checked": false,
+					"checked": true,
 				}]
 				that.page_num = 1;
 				that.search_text = "";
@@ -424,7 +426,7 @@
 				query.or(query1, query2);
 				query.limit(page_size);
 				query.skip(page_size * (that.page_num - 1));
-				query.order(that.headerSelection.order.order, "goodsName"); //按照条件降序
+				query.order(that.headerSelection.order.order); //按照条件降序
 				query.find().then(res => {
 					let key = 0;
 					for (let product of res) {

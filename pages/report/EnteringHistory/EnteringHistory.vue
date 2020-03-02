@@ -35,11 +35,12 @@
 								<view style='display:flex;width:100%;'>
 									<view style='line-height:80rpx'>
 										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
-										<fa-icon v-if='item.type == -1' type="sign-out" size="20" color="#f30" />
-										<fa-icon v-if='item.type == -2' type="random" size="20" color="#4e72b8" />
-										<fa-icon v-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
-										<fa-icon v-if='item.type == 3' type="check-square-o" size="20" color="#000" />
-										<fa-icon v-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
+										<fa-icon v-else-if='item.type == -1' type="sign-out" size="20" color="#f30" />
+										<fa-icon v-else-if='item.type == -2' type="random" size="20" color="#4e72b8" />
+										<fa-icon v-else-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
+										<fa-icon v-else-if='item.type == 3' type="check-square-o" size="20" color="#000" />
+										<fa-icon v-else-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
+										<fa-icon v-else-if='item.type == 7' type="tasks" size="20" color="#bba14f" />
 									</view>
 									<view style='margin-left:20rpx;width: 100%;'>
 										<view class="display_flex_bet">
@@ -73,12 +74,13 @@
 											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
 											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
+											<view v-else-if='item.type == 7' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">货损单</view>
 										</view>
 
-										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>仓库：</text>{{item.stock.stock_name}}</view>
+										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>店仓：</text>{{item.stock.stock_name}}</view>
 										<view class="display_flex_bet">
 											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-											<view style="color: #999;" v-if="item.type !=-2">X{{item.real_num}}</view>
+											<view style="color: #999;" v-if="item.type !=-2 && item.type !=3">X{{item.real_num}}</view>
 										</view>
 
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
@@ -123,8 +125,8 @@
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
-						<view class="left_item">仓库</view>
-						<view class="right_input"><input placeholder="选择仓库" :value="stock.stock_name" disabled="true"></input></view>
+						<view class="left_item">店仓</view>
+						<view class="right_input"><input placeholder="选择店仓" :value="stock.stock_name" disabled="true"></input></view>
 					</view>
 
 					<view>
@@ -231,7 +233,7 @@
 				that.staff = uni.getStorageSync("charge")
 			}
 
-			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了仓库
+			if (uni.getStorageSync("warehouse")) { //存在此缓存证明选择了店仓
 				that.stock = uni.getStorageSync("warehouse")[0].stock
 			}
 
@@ -250,7 +252,7 @@
 			//选择操作类型
 			select_operatertype() {
 				uni.showActionSheet({
-					itemList: (opeart_type == 1) ? ['全部','入库', '采购'] : ['全部','出库'],
+					itemList: (opeart_type == 1) ? ['全部','入库', '采购', '销售退货'] : ['全部','出库', '销售', '采购退货'],
 					success: function(res) {
 						if (opeart_type == 1) {
 							if (res.tapIndex == 0) {
@@ -366,7 +368,7 @@
 				if (extra_type) {
 					query.equalTo("extra_type", "==", extra_type);
 				}
-				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.userId.objectId);
+				if (uni.getStorageSync("charge")) query.equalTo("opreater", '==', that.staff.objectId);
 				query.equalTo("goodsName", "==", {
 					"$regex": "" + that.goodsName + ".*"
 				});

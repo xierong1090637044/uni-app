@@ -33,8 +33,8 @@
 		<view style="background: #FFFFFF;margin: 0 0 20rpx;">
 			<view style="padding: 20rpx 30rpx;">仓库二维码</view>
 			<view style="padding: 20rpx;background: #fff;text-align: center;">
-				<tki-qrcode cid="qrcode" ref="qrcode" :val="codeVal" :size="100" :loadMake="true" :usingComponents="true"
-				 unit="rpx" @result="qrR" />
+				<tki-qrcode cid="qrcode" ref="qrcode" :val="codeVal" :size="100" :loadMake="true" :usingComponents="true" unit="rpx"
+				 @result="qrR" />
 			</view>
 		</view>
 
@@ -48,7 +48,7 @@
 					<view>
 						<view>{{good.goodsName}}</view>
 						<view v-if="good.reserve == 0">0%</view>
-						<view v-else>{{(good.reserve/reserve_num).toFixed(4)*100}}%</view>
+						<view v-else>{{good.percent}}%</view>
 					</view>
 					<view class="display_flex">
 						<view style="margin-right: 20rpx;">{{good.reserve}}</view>
@@ -81,30 +81,30 @@
 				NGoods: null,
 				reserve_num: 0,
 				reserve_money: 0,
-				codeVal:''
+				codeVal: ''
 			}
 		},
 
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			
-			if(options.id){
+
+			if (options.id) {
 				const query = Bmob.Query('stocks');
 				query.get(options.id).then(res => {
-				  //console.log(res)
+					//console.log(res)
 					that.stock = res
-					that.codeVal = res.objectId+'-stock'
+					that.codeVal = res.objectId + '-stock'
 					that.get_detail()
 				}).catch(err => {
-				  console.log(err)
+					console.log(err)
 				})
-			}else{
+			} else {
 				that.stock = uni.getStorageSync("stock")
-				that.codeVal = that.stock.objectId+'-stock'
+				that.codeVal = that.stock.objectId + '-stock'
 				that.get_detail()
 			}
-			
+
 		},
 		methods: {
 			show_options() {
@@ -152,8 +152,8 @@
 				console.log(id)
 				const query = Bmob.Query("stocks");
 				query.destroy(id).then(res => {
-					this.muchDelete(id).then(res=>{
-						if(res){
+					this.muchDelete(id).then(res => {
+						if (res) {
 							uni.showToast({
 								title: "删除成功",
 								icon: "none"
@@ -163,7 +163,7 @@
 							})
 						}
 					})
-					
+
 				}).catch(err => {
 					console.log(err)
 				})
@@ -182,9 +182,9 @@
 							query.equalTo("stocks", "==", id);
 							query.count().then(res => {
 								console.log(res)
-								if(res == 0){
+								if (res == 0) {
 									resolve(true)
-								}else{
+								} else {
 									this.muchDelete(id)
 								}
 							});
@@ -194,12 +194,12 @@
 						});
 					})
 				})
-				
+
 			},
 
 			goto_detail(good) {
 				uni.navigateTo({
-					url: "/pages/manage/good_det/Ngood_det?id="+good.header.objectId+"&type=false"
+					url: "/pages/manage/good_det/Ngood_det?id=" + good.header.objectId + "&type=false"
 				})
 			},
 
@@ -211,28 +211,39 @@
 				query.order("-reserve");
 				query.include("header");
 				query.limit(1000);
+				query.statTo("sum", "reserve");
 				query.find().then(res => {
 					console.log(res)
-					that.NGoods = res;
-					let reserve_num = 0;
-					let reserve_money = 0;
-					for (let item of res) {
-						reserve_money += Number(item.header.costPrice) * Number(item.reserve)
-						reserve_num += Number(item.reserve)
-					}
+					let sumReserve = res[0]._sumReserve
+					query.equalTo("userId", "==", uid);
+					query.equalTo("order", "==", 1);
+					query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
+					query.order("-reserve");
+					query.include("header");
+					query.limit(1000);
+					query.find().then(res => {
+						that.NGoods = res;
+						let reserve_num = 0;
+						let reserve_money = 0;
+						for (let item of res) {
+							reserve_money += Number(item.header.costPrice) * Number(item.reserve)
+							reserve_num += Number(item.reserve)
+							item.percent = ((Number(item.reserve)/sumReserve)*100).toFixed(4)
+						}
 
-					that.reserve_money = reserve_money
-					that.reserve_num = reserve_num
-					that.loading = false
+						that.reserve_money = reserve_money
+						that.reserve_num = reserve_num
+						that.loading = false
+					})
 				});
 			},
-			
-			
+
+
 			//二维码路径
 			qrR(res) {
 				this.src = res
 			},
-			
+
 			//点击条形码保存
 			saveQrcode() {
 				this.$refs.qrcode._saveCode()
