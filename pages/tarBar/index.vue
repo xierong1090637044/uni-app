@@ -90,12 +90,11 @@
 				<view style="text-align: center;"><image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;border-radius: 50%;"></image></view>
 				<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 				<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-					<view>1、筛选增加产品名称筛选</view>
-					<view>2、报表出入库数量显示不正确bug修复</view>
-					<view>3、员工页面UI优化</view>
-					<view>4、供应商页面UI优化</view>
-					<view>5、客户页面UI优化</view>
-					<view>4、店仓页面UI优化</view>
+					<view>1、客户详情优化</view>
+					<view>2、供应商详情优化</view>
+					<view>3、仓库详情优化</view>
+					<view>4、新增货损单</view>
+					<view>5、完善大家反馈的bug</view>
 				</view>
 				<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 			</view>
