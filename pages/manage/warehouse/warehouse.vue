@@ -33,7 +33,7 @@
 										<view class='stock_mobile' v-if="stock.charge &&stock.charge.nickName">负责人：{{stock.charge.nickName}}</view>
 										<view class='stock_mobile' v-else-if="stock.Ncharge &&stock.Ncharge.nickName">负责人：{{stock.Ncharge.nickName}}</view>
 										<view class='stock_mobile' v-else>负责人：未填写</view>
-										
+
 										<view class="display_flex_bet" style="width: 100%;">
 											<view class='stock_mobile'>地址：{{stock.address || ''}}</view>
 											<view class="display_flex" @click.stop="makePhoneCall(stock.phoneNumber)">
@@ -41,15 +41,15 @@
 												<text style="margin-left: 10rpx;font-size: 24rpx;">打电话</text>
 											</view>
 										</view>
-										
+
 									</view>
 								</view>
-								
+
 								<view v-if="is_choose">
 									<radio :value="JSON.stringify(stock)" style="transform:scale(0.7)" />
 								</view>
 								<fa-icon type="angle-right" size="20" color="#999" v-else />
-								
+
 							</view>
 
 							<view class="right_item normalBorder"></view>
@@ -92,7 +92,7 @@
 				type: '', //'out_choose'是调拨时的选择
 				header: {
 					userNum: 0,
-					noUserNum:0,
+					noUserNum: 0,
 				},
 			}
 		},
@@ -102,7 +102,7 @@
 			uid = uni.getStorageSync('uid');
 
 			//console.log(options)
-			if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more") {
+			if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more" || options.type =="in_choose") {
 				that.is_choose = true
 				that.type = options.type
 			}
@@ -114,21 +114,21 @@
 			search_text = ""
 		},
 		methods: {
-			
+
 			//打电话
-			makePhoneCall(phone){
-				if(phone){
+			makePhoneCall(phone) {
+				if (phone) {
 					uni.makePhoneCall({
-					    phoneNumber: phone //仅为示例
+						phoneNumber: phone //仅为示例
 					});
-				}else{
+				} else {
 					uni.showToast({
-						icon:"none",
-						title:"未填写联系电话"
+						icon: "none",
+						title: "未填写联系电话"
 					})
 				}
 			},
-			
+
 			//预览图片
 			priviewImg(url) {
 				uni.previewImage({
@@ -184,15 +184,14 @@
 					warehouse.push(_stocks);
 					if (that.type == "out_choose") {
 						uni.setStorageSync("out_warehouse", warehouse)
-						uni.navigateBack({
-							delta: 1
-						})
-					} else {
+					} else if(that.type == "in_choose"){
+						uni.setStorageSync("in_warehouse", warehouse)
+					}else {
 						uni.setStorageSync("warehouse", warehouse)
-						uni.navigateBack({
-							delta: 1
-						})
 					}
+					uni.navigateBack({
+						delta: 1
+					})
 				} else {
 					uni.showToast({
 						title: "已选择此仓库",
@@ -266,8 +265,8 @@
 					that.header.userNum = res.length;
 					let _warehouse = [];
 					for (let item of stocks) {
-						if(item.disabled){
-							that.header.noUserNum +=1
+						if (item.disabled) {
+							that.header.noUserNum += 1
 						}
 						let warehouse = {}
 						warehouse.name = item.stock_name

@@ -52,6 +52,23 @@
 			</view>
 		</view>
 		
+		<!--操作列表-->
+		<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 30rpx;">
+			<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存(New)</view>
+				<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code()'></i>
+			</view>
+		
+			<view>
+				<navigator v-for='(value,index) in optionsListsNew' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view class="o_headerItem">
+						<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+					</view>
+					<view class='o_text'>{{value.name}}</view>
+				</navigator>
+			</view>
+		</view>
+		
 		<view style="padding: 10rpx 30rpx;margin-top: 30rpx;background: #fff;width: calc(100% - 60rpx);overflow-x: hidden;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月出入库统计</view>
 			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
@@ -112,6 +129,36 @@
 						name: '货损',
 						icon: 'icon-chanpin',
 						url: '/pages/common/goods-select/goods-select?type=bad'
+					}, 
+				],
+				optionsListsNew: [{
+						name: '入库',
+						icon: 'icon-ruku',
+						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=2'
+					},
+					{
+						name: '出库',
+						icon: 'icon-chuku',
+						url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=2'
+					},
+					{
+						name: '产品调拨',
+						icon: 'icon-icon-transfer',
+						url: '/pages/commonNew/goods-select/goods-select?type=allocation'
+					},
+					{
+						name: '库存盘点',
+						icon: 'icon-pandian',
+						url: '/pages/commonNew/goods-select/goods-select?type=counting'
+					},
+					{
+						name: '采购',
+						icon: 'icon-office-supplies-shopping-list',
+						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=1'
+					},{
+						name: '货损',
+						icon: 'icon-chanpin',
+						url: '/pages/commonNew/goods-select/goods-select?type=bad'
 					}, 
 				],
 				goodsAnalysis: {

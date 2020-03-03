@@ -422,7 +422,7 @@
 							})
 							const query = Bmob.Query('order_opreations');
 							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('Bills');
+								const query = Bmob.Query('NBills');
 								query.containedIn("objectId", that.bills);
 								query.find().then(todos => {
 
@@ -505,7 +505,7 @@
 
 			//采购单确定审核之后改变产品库存
 			addOrReduceGoodReserve(product, count) {
-				const query1 = Bmob.Query('Goods');
+				const query1 = Bmob.Query('NGoods');
 				query1.get(product.goodsId.objectId).then(res => {
 					console.log(res)
 					let thisGood = res;
@@ -529,14 +529,14 @@
 
 					res.save().then(res => {
 						if (thisGood.header) {
-							const query1 = Bmob.Query("Goods");
+							const query1 = Bmob.Query("NGoods");
 							query1.equalTo("header", "==", thisGood.header.objectId);
 							query1.equalTo("order", "==", 1);
 							query1.statTo("sum", "reserve");
 							query1.find().then(res => {
 								console.log("dasds", res)
 								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
+								const query = Bmob.Query('NGoods');
 								query.set('reserve', now_reserve)
 								
 								if(thisGood.order=="" || thisGood.order==null || thisGood.order==undefined){									
@@ -556,7 +556,7 @@
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
 									if (count == (that.products.length - 1)) {
-										const query = Bmob.Query('Bills');
+										const query = Bmob.Query('NBills');
 										query.containedIn("objectId", that.bills);
 										query.find().then(todos => {
 											todos.set('status', true);
@@ -580,7 +580,7 @@
 							})
 						}else{
 							if (count == (that.products.length - 1)) {
-								const query = Bmob.Query('Bills');
+								const query = Bmob.Query('NBills');
 								query.containedIn("objectId", that.bills);
 								query.find().then(todos => {
 									todos.set('status', true);
@@ -608,7 +608,7 @@
 
 			//销售单确认审核之后减少库存
 			ReduceGoodReserve(product, count) {
-				const query1 = Bmob.Query('Goods');
+				const query1 = Bmob.Query('NGoods');
 				let now_reserve = 0;
 				query1.get(product.goodsId.objectId).then(res => {
 					console.log(res)
@@ -636,14 +636,14 @@
 					console.log(product)
 					res.save().then(res => {
 						if (thisGood.header) {
-							const query1 = Bmob.Query("Goods");
+							const query1 = Bmob.Query("NGoods");
 							query1.equalTo("header", "==", thisGood.header.objectId);
 							query1.equalTo("order", "==", 1);
 							query1.statTo("sum", "reserve");
 							query1.find().then(res => {
 								console.log("dasds", res)
 								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
+								const query = Bmob.Query('NGoods');
 								query.set('reserve', now_reserve)
 								if(thisGood.order=="" || thisGood.order==null || thisGood.order==undefined){
 									if(thisGood.warning_num >=0){
@@ -666,7 +666,7 @@
 									}
 
 									if (count == (that.products.length - 1)) {
-										const query = Bmob.Query('Bills');
+										const query = Bmob.Query('NBills');
 										query.containedIn("objectId", that.bills);
 										query.find().then(todos => {
 											todos.set('status', true);
@@ -695,7 +695,7 @@
 							}
 
 							if (count == (that.products.length - 1)) {
-								const query = Bmob.Query('Bills');
+								const query = Bmob.Query('NBills');
 								query.containedIn("objectId", that.bills);
 								query.find().then(todos => {
 									todos.set('status', true);
@@ -724,7 +724,7 @@
 				let product = that.products[i];
 				let bill = that.bills[i]
 
-				const query1 = Bmob.Query('Goods');
+				const query1 = Bmob.Query('NGoods');
 				query1.get(product.goodsId.objectId).then(res => {
 					console.log(res)
 					let thisGood = res;
@@ -769,14 +769,14 @@
 					}
 					query1.save().then(res => {
 						if (thisGood.header) {
-							const query1 = Bmob.Query("Goods");
+							const query1 = Bmob.Query("NGoods");
 							query1.equalTo("header", "==", thisGood.header.objectId);
 							query1.equalTo("order", "==", 1);
 							query1.statTo("sum", "reserve");
 							query1.find().then(res => {
 								console.log("当前的产品的主产品", res)
 								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
+								const query = Bmob.Query('NGoods');
 								query.set('reserve', now_reserve)
 								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
 								query.set('id', thisGood.header.objectId)

@@ -316,8 +316,8 @@ module.exports = {
 			query.set("stocks", p_stock_id)
 			query.set("userId", userid)
 			query.set("header", p_good_id)
-			query.set("costPrice", '' + good.costPrice)
-			query.set("retailPrice", '' + good.retailPrice)
+			query.set("costPrice", good.costPrice)
+			query.set("retailPrice", good.retailPrice)
 			query.set("order", 1)
 			query.save().then(res => {
 				console.log(res)
