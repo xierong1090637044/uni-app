@@ -141,10 +141,10 @@
 					let poiID2 = pointer2.set(masterId);
 
 					tempBills.set('goodsName', this.products[i].goodsName);
-					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
+					tempBills.set('retailPrice', Number(this.products[i].modify_retailPrice));
 					tempBills.set('num', Number(this.products[i].num));
 					tempBills.set('reserve', Number(this.products[i].reserve));
-					tempBills.set('now_reserve', this.products[i].num.toString());
+					tempBills.set('now_reserve', this.products[i].num);
 					tempBills.set('total_money', this.products[i].total_money);
 					tempBills.set('opreater', poiID2);
 					tempBills.set('goodsId', tempGoods_id);
@@ -159,7 +159,7 @@
 						let poiID3 = pointer3.set(that.stock.objectId);
 
 						tempBills.set('stock', poiID3);
-						stockIds.push(this.products[i].stocks.objectId)
+						stockIds.push(that.stock.objectId)
 						detailBills.stock = that.stock.stock_name
 					}
 

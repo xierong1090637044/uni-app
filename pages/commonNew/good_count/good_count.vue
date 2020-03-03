@@ -9,9 +9,7 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						<view class="display_flex_bet">
-							<view style="margin-bottom: 10rpx;">库存：{{item.reserve}}</view>
-						</view>
+						
 						<view v-if="item.selectd_model">
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
@@ -26,11 +24,7 @@
 						</view>
 						
 						<view class="bottom_del display_flex_bet">
-							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
-								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
-								<text style="margin-left: 10rpx;">详情</text>
-							</navigator>
-							<navigator class='del'  style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'" v-else>
+							<navigator class='del'  style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'">
 								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
 								<text style="margin-left: 10rpx;">详情</text>
 							</navigator>
@@ -100,50 +94,24 @@
 						return;
 					}
 					
-					if(res[0].order == 0){
-						query.equalTo("userId", "==", uid);
-						query.equalTo("header", "==", res[0].objectId);
-						query.include("stocks");
-						query.find().then(res => {
-							for (let item of res) {
-								item.num = 1;
-								item.total_money = 1 * item.retailPrice;
-								item.really_total_money = 1 * item.retailPrice;
-								item.modify_retailPrice = item.retailPrice;
-								if (item.models) {
-									let count = 0
-									for (let model of item.models) {
-										model.num = 0
-										count += 1
-									}
-									item.num = count
-									item.selectd_model = item.models
-									item.selected_model = item.models
-								}
+					for (let item of res) {
+						item.num = 1;
+						item.total_money = 1 * item.retailPrice;
+						item.really_total_money = 1 * item.retailPrice;
+						item.modify_retailPrice = item.retailPrice;
+						if (item.models) {
+							let count = 0
+							for (let model of item.models) {
+								model.num = 0
+								count += 1
 							}
-							this.products = res;
-							wx.hideLoading()
-						})
-					}else{
-						for (let item of res) {
-							item.num = 1;
-							item.total_money = 1 * item.retailPrice;
-							item.really_total_money = 1 * item.retailPrice;
-							item.modify_retailPrice = item.retailPrice;
-							if (item.models) {
-								let count = 0
-								for (let model of item.models) {
-									model.num = 0
-									count += 1
-								}
-								item.num = count
-								item.selectd_model = item.models
-								item.selected_model = item.models
-							}
+							item.num = count
+							item.selectd_model = item.models
+							item.selected_model = item.models
 						}
-						this.products = res;
-						wx.hideLoading()
 					}
+					this.products = res;
+					wx.hideLoading()
 				})
 			} else {
 				this.products = uni.getStorageSync("products");

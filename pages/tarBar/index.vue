@@ -34,16 +34,16 @@
 				</view>
 			</view>
 		</view>
-
+		
 		<!--操作列表-->
 		<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 30rpx;">
 			<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
-				<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code()'></i>
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存(New)</view>
+				<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code("new")'></i>
 			</view>
 		
 			<view>
-				<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+				<navigator v-for='(value,index) in optionsListsNew' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 					</view>
@@ -51,16 +51,16 @@
 				</navigator>
 			</view>
 		</view>
-		
+
 		<!--操作列表-->
 		<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 30rpx;">
 			<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存(New)</view>
-				<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code()'></i>
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
+				<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code("old")'></i>
 			</view>
 		
 			<view>
-				<navigator v-for='(value,index) in optionsListsNew' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+				<navigator v-for='(value,index) in optionsLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 					</view>
@@ -214,16 +214,100 @@
 			},
 
 			//点击扫描产品条形码
-			scan_code: function() {
+			scan_code: function(type) {
 				uni.showActionSheet({
 					itemList: ['扫码出库', '扫码入库', '扫码盘点', '查看详情'],
 					success(res) {
-						that.scan(res.tapIndex);
+						if(type == "new"){
+							that.scanNew(res.tapIndex);
+						}else if(type == "old"){
+							that.scan(res.tapIndex);
+						}
 					},
 					fail(res) {
 						console.log(res.errMsg)
 					}
 				})
+			},
+			
+			scanNew(type){
+				// #ifdef H5
+				this.$wechat.scanQRCode().then(res => {
+					let array = res.split("-");
+				
+					if (type == 0) {
+						uni.navigateTo({
+							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
+						})
+					} else if (type == 1) {
+						uni.navigateTo({
+							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
+						})
+					} else if (type == 2) {
+						uni.navigateTo({
+							url: '/pages/commonNew/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+						})
+					} else if (type == 3) {
+						uni.navigateTo({
+							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+						})
+					}
+				})
+				// #endif
+				
+				// #ifdef MP-WEIXIN
+				uni.scanCode({
+					success(res) {
+						var result = res.result;
+						var array = result.split("-");
+				
+						if (type == 0) {
+							uni.navigateTo({
+								url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							})
+						} else if (type == 1) {
+							uni.navigateTo({
+								url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1]+"&value=2",
+							})
+						} else if (type == 2) {
+							uni.navigateTo({
+								url: '/pages/commonNew/good_count/good_count?id=' + array[0] + "&type=" + array[1],
+							})
+						} else if (type == 3) {
+							uni.showLoading({
+								title:"跳转中..."
+							})
+							if (array[1] == 'stock') {
+								const query = Bmob.Query('stocks');
+								query.get(array[0]).then(res => {
+									let warehouse = []
+									let warehouseItem = {}
+									warehouseItem.stock = res
+									warehouse.push(warehouseItem)
+									uni.setStorageSync("warehouse",warehouse)
+									uni.hideLoading()
+									uni.navigateTo({
+										url: '/pages/manage/stockGoods/stockGoods?stockId=' + array[0] + "&type=" + array[1],
+									})
+								}).catch(err => {
+									console.log(err)
+								})
+							} else {
+								uni.navigateTo({
+									url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
+								})
+							}
+				
+						}
+					},
+					fail(res) {
+						uni.showToast({
+							title: '未识别到条形码',
+							icon: "none"
+						})
+					}
+				})
+				// #endif
 			},
 
 			//扫码操作
