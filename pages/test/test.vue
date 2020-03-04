@@ -55,7 +55,7 @@
 				const pointer = Bmob.Pointer('_User')
 				const userid = pointer.set("525ad58072")
 
-				const query = Bmob.Query("NGoods");
+				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", "525ad58072");
 				query.equalTo("order", "==", 0);
 				query.limit(500);
@@ -109,7 +109,7 @@
 
 							count += 1
 							if (count == maxlength) {
-								const query = Bmob.Query("NGoods");
+								const query = Bmob.Query("Goods");
 								query.equalTo("userId", "==", "525ad58072");
 								query.equalTo("order", "==", 1);
 								query.limit(500);

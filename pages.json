@@ -7,25 +7,6 @@
 		},
 
 		{
-			"path": "pages/common/goods_out/out_detail/out_detail",
-			"style": {
-				"navigationBarTitleText": "出库详情"
-			}
-		},
-		{
-			"path": "pages/common/good_confrim/good_enter/good_enter",
-			"style": {
-				"navigationBarTitleText": "入库详情"
-			}
-		},
-		{
-			"path": "pages/common/good_confrim/good_confrim",
-			"style": {
-				"navigationBarTitleText": "产品入库"
-			}
-		},
-
-		{
 			"path": "pages/tarBar/manage",
 			"style": {
 				"navigationBarTitleText": "管理"
@@ -71,22 +52,6 @@
 			}
 		},
 
-
-		{
-			"path": "pages/common/goods-select/goods-select",
-			"style": {
-				"navigationBarTitleText": "选择产品"
-			}
-		},
-
-
-		{
-			"path": "pages/common/good_return/return_detail/return_detail",
-			"style": {
-				"navigationBarTitleText": "退货详情"
-			}
-		},
-
 		{
 			"path": "pages/tarBar/report",
 			"style": {
@@ -97,28 +62,7 @@
 			"style": {
 				"navigationBarTitleText": "明细"
 			}
-		}, {
-			"path": "pages/common/goods_out/goods_out",
-			"style": {
-				"navigationBarTitleText": "产品出库"
-			}
-		}, {
-			"path": "pages/common/good_return/good_return",
-			"style": {
-				"navigationBarTitleText": "产品退货"
-			}
-		}, {
-			"path": "pages/common/good_count/good_count",
-			"style": {
-				"navigationBarTitleText": "产品盘点"
-			}
-		}, {
-			"path": "pages/common/good_count/count_detail/count_detail",
-			"style": {
-				"navigationBarTitleText": "盘点详情"
-			}
-		},
-
+		}, 
 		{
 			"path": "pages/staff_landing/staff_landing",
 			"style": {
@@ -128,16 +72,6 @@
 			"path": "pages/register/user_protocol/user_protocol",
 			"style": {
 				"navigationBarTitleText": "用户协议"
-			}
-		}, {
-			"path": "pages/common/good_allocation/good_allocation",
-			"style": {
-				"navigationBarTitleText": "库存调拨"
-			}
-		}, {
-			"path": "pages/common/good_allocation/allocation_detail/allocation_detail",
-			"style": {
-				"navigationBarTitleText": "调拨详情"
 			}
 		}, {
 			"path": "pages/report/EnteringHistory/expressDet/expressDet",
@@ -150,13 +84,7 @@
 		}, {
 			"path": "pages/report/matterRecord/detail/detail",
 			"style": {}
-		}, {
-			"path": "pages/common/good_production/good_production",
-			"style": {}
-		}, {
-			"path": "pages/common/good_production/detail/detail",
-			"style": {}
-		}, {
+		},{
 			"path": "pages/report/EnteringHistory/productDet/productDet",
 			"style": {}
 		}, {
@@ -168,49 +96,17 @@
 		}, {
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
-		}, {
-			"path": "pages/common/good_confrim/goodPurchase/goodPurchase",
-			"style": {
-				"navigationBarTitleText": "采购详情"
-			}
-		}, {
-			"path": "pages/common/goods_out/goodSell/goodSell",
-			"style": {
-				"navigationBarTitleText": "销售详情"
-			}
-		}, {
+		},  {
 			"path": "pages/report/staffChart/staffChart",
 			"style": {
 				"navigationBarTitleText": "员工业绩"
-			}
-		}, {
-			"path": "pages/common/goods_out/gooSellNew/gooSellNew",
-			"style": {
-				"navigationBarTitleText": "销售"
 			}
 		}, {
 			"path": "pages/report/EnteringHistory/SellDetail/SellDetail",
 			"style": {
 				"navigationBarTitleText": "销售详情"
 			}
-		}, {
-			"path": "pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew",
-			"style": {
-				"navigationBarTitleText": "采购"
-			}
-		}, {
-			"path": "pages/common/good_return/buyReturn/buyReturn",
-			"style": {
-				"navigationBarTitleText": "销售退货"
-			}
-		}, {
-			"path": "pages/common/good_return/purchaseReturn/purchaseReturn",
-			"style": {
-				"navigationBarTitleText": "采购退货"
-			}
-		}
-
-		, {
+		},{
 			"path": "pages/report/EnteringHistory/returnDetail/returnDetail",
 			"style": {
 				"navigationBarTitleText": "退货详情"
@@ -231,20 +127,176 @@
 			"style": {
 				"navigationBarTitleText": "库存预警"
 			}
-		}, {
-			"path": "pages/common/goodBad/goodBad",
-			"style": {
-				"navigationBarTitleText": "货损产品"
-			}
-		}, {
-			"path": "pages/common/goodBad/badRecord/badRecord",
-			"style": {
-				"navigationBarTitleText": "货损记录"
-			}
 		}
     ],
 
 	"subPackages": [{
+			"root": "pages/common",
+			"pages": [{
+					"path": "goods_out/out_detail/out_detail",
+					"style": {
+						"navigationBarTitleText": "出库详情"
+					}
+				},
+				{
+					"path": "good_confrim/goodPurchase/goodPurchase",
+					"style": {}
+				}, {
+					"path": "goods_out/goodSell/goodSell",
+					"style": {}
+				}, {
+					"path": "goodBad/goodBad",
+					"style": {}
+				}, {
+					"path": "goodBad/badRecord/badRecord",
+					"style": {}
+				},
+				{
+					"path": "good_production/good_production",
+					"style": {}
+				}, {
+					"path": "good_production/detail/detail",
+					"style": {}
+				},
+				{
+					"path": "good_allocation/good_allocation",
+					"style": {
+						"navigationBarTitleText": "库存调拨"
+					}
+				}, {
+					"path": "good_allocation/allocation_detail/allocation_detail",
+					"style": {
+						"navigationBarTitleText": "调拨详情"
+					}
+				},
+				{
+					"path": "good_confrim/good_enter/good_enter",
+					"style": {
+						"navigationBarTitleText": "入库详情"
+					}
+				},
+				{
+					"path": "good_confrim/good_confrim",
+					"style": {
+						"navigationBarTitleText": "产品入库"
+					}
+				}, {
+					"path": "goods-select/goods-select",
+					"style": {
+						"navigationBarTitleText": "选择产品"
+					}
+				},
+				{
+					"path": "good_return/return_detail/return_detail",
+					"style": {
+						"navigationBarTitleText": "退货详情"
+					}
+				}, {
+					"path": "goods_out/goods_out",
+					"style": {
+						"navigationBarTitleText": "产品出库"
+					}
+				}, {
+					"path": "good_return/good_return",
+					"style": {
+						"navigationBarTitleText": "产品退货"
+					}
+				}, {
+					"path": "good_count/good_count",
+					"style": {
+						"navigationBarTitleText": "产品盘点"
+					}
+				}, {
+					"path": "good_count/count_detail/count_detail",
+					"style": {
+						"navigationBarTitleText": "盘点详情"
+					}
+				}
+			]
+		},{
+			"root": "pages/commonNew",
+			"pages": [{
+					"path": "goods_out/out_detail/out_detail",
+					"style": {
+						"navigationBarTitleText": "出库详情"
+					}
+				},
+				{
+					"path": "good_confrim/goodPurchase/goodPurchase",
+					"style": {}
+				}, {
+					"path": "goods_out/goodSell/goodSell",
+					"style": {}
+				}, {
+					"path": "goodBad/goodBad",
+					"style": {}
+				}, {
+					"path": "goodBad/badRecord/badRecord",
+					"style": {}
+				},
+				{
+					"path": "good_production/good_production",
+					"style": {}
+				}, {
+					"path": "good_production/detail/detail",
+					"style": {}
+				},
+				{
+					"path": "good_allocation/good_allocation",
+					"style": {
+						"navigationBarTitleText": "库存调拨"
+					}
+				}, {
+					"path": "good_allocation/allocation_detail/allocation_detail",
+					"style": {
+						"navigationBarTitleText": "调拨详情"
+					}
+				},
+				{
+					"path": "good_confrim/good_enter/good_enter",
+					"style": {
+						"navigationBarTitleText": "入库详情"
+					}
+				},
+				{
+					"path": "good_confrim/good_confrim",
+					"style": {
+						"navigationBarTitleText": "产品入库"
+					}
+				}, {
+					"path": "goods-select/goods-select",
+					"style": {
+						"navigationBarTitleText": "选择产品"
+					}
+				},
+				{
+					"path": "good_return/return_detail/return_detail",
+					"style": {
+						"navigationBarTitleText": "退货详情"
+					}
+				}, {
+					"path": "goods_out/goods_out",
+					"style": {
+						"navigationBarTitleText": "产品出库"
+					}
+				}, {
+					"path": "good_return/good_return",
+					"style": {
+						"navigationBarTitleText": "产品退货"
+					}
+				}, {
+					"path": "good_count/good_count",
+					"style": {
+						"navigationBarTitleText": "产品盘点"
+					}
+				}, {
+					"path": "good_count/count_detail/count_detail",
+					"style": {
+						"navigationBarTitleText": "盘点详情"
+					}
+				}
+			]
+		}, {
 			"root": "pages/production",
 			"pages": [{
 				"path": "matterList/matterList",

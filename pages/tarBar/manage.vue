@@ -183,11 +183,11 @@
 	let financeLists= [{
 			name: '应收款',
 			icon: 'clock-o',
-			url: '/pages/finance/customIn/customIn',
+			url: '/pages/manage/custom/custom',
 		},{
 			name: '应付款',
 			icon: 'calendar ',
-			url: '/pages/finance/producerOut/producerOut',
+			url: '/pages/manage/producer/producer',
 		},{
 			name: '记收入',
 			icon: 'money ',

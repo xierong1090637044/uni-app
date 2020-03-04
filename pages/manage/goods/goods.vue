@@ -189,13 +189,13 @@
 			that.get_productList();
 		},
 		onShow() {
-			
-			that.page_num = 1
-			uni.removeStorageSync("now_product");
-			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
-			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
-			that.get_productList();
-			
+			if(uni.getStorageSync("isClickShaiXuan")){
+				that.page_num = 1
+				uni.removeStorageSync("now_product");
+				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
+				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+				that.get_productList();
+			}
 		},
 
 		//分享
@@ -388,6 +388,8 @@
 				}else if(type == "options"){
 					that.showOptions = true
 				}
+				
+				uni.setStorageSync("isClickShaiXuan",true);
 			},
 
 			//点击去到详情
@@ -457,6 +459,7 @@
 					}
 					this.productList = res;
 					uni.hideLoading();
+					uni.removeStorageSync("isClickShaiXuan")
 					//this.loading = false;
 				});
 			},

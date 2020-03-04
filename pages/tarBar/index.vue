@@ -10,7 +10,7 @@
 
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;">
 				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
+					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
 					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockLists.length > 0"></i>
 				</view>
 
@@ -24,6 +24,23 @@
 				</view>
 				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 			</view>
+			
+			<!--<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
+				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品单仓库操作）</text></view>
+					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockListsNew.length > 0"></i>
+				</view>
+			
+				<view class='o_list' v-if="stockListsNew.length > 0">
+					<navigator v-for='(value,index) in stockListsNew' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem">
+							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+						</view>
+						<view class='o_text'>{{value.name}}</view>
+					</navigator>
+				</view>
+				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
+			</view>-->
 			
 			<!--销售模块-->
 			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
@@ -144,6 +161,27 @@
 						name: '库存盘点',
 						icon: 'icon-pandian',
 						url: '/pages/common/goods-select/goods-select?type=counting'
+					}
+				],
+				stockListsNew: [{
+						name: '入库',
+						icon: 'icon-ruku',
+						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=2'
+					},
+					{
+						name: '出库',
+						icon: 'icon-chuku',
+						url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=2'
+					},
+					{
+						name: '产品调拨',
+						icon: 'icon-icon-transfer',
+						url: '/pages/commonNew/goods-select/goods-select?type=allocation'
+					},
+					{
+						name: '库存盘点',
+						icon: 'icon-pandian',
+						url: '/pages/commonNew/goods-select/goods-select?type=counting'
 					}
 				],
 				sellLists: [{
@@ -278,6 +316,7 @@
 					
 					if(that.user.rights.current.indexOf("6") == -1){
 						that.stockLists = []
+						that.stockListsNew = []
 					}
 					
 					if(that.user.rights.current.indexOf("7") == -1){
