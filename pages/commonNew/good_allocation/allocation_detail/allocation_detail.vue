@@ -114,8 +114,8 @@
 			that.out_stock = uni.getStorageSync("out_warehouse") ? uni.getStorageSync("out_warehouse")[0].stock : ''
 		},
 		methods: {
-			
-			showHideFunction(){
+
+			showHideFunction() {
 				that.button_disabled = false;
 				uni.hideLoading();
 				uni.setStorageSync("is_option", true);
@@ -124,7 +124,7 @@
 				uni.removeStorageSync("out_warehouse")
 				uni.removeStorageSync("category")
 				uni.removeStorageSync("warehouse")
-																		
+
 				uni.showToast({
 					title: "调拨成功"
 				})
@@ -155,7 +155,7 @@
 				uni.showLoading({
 					title: "请勿退出..."
 				});
-				
+
 				let pointer3 = Bmob.Pointer('stocks');
 				let pointer4 = Bmob.Pointer('stocks');
 				let out_stockId = pointer4.set(that.out_stock.objectId);
@@ -164,8 +164,6 @@
 				let billsObj = new Array();
 				let detailObj = [];
 				for (let i = 0; i < that.products.length; i++) {
-					
-
 
 					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
@@ -246,6 +244,7 @@
 							query.equalTo("stocks", "==", that.out_stock.objectId);
 							query.find().then(res => {
 								let out_products = res
+								let in_products
 								if (out_products.length == 0) {
 									common.upload_good_withNoCan(that.products[j], that.out_stock, Number(that.products[j].num),
 										"allocation").then(res => {
@@ -253,17 +252,30 @@
 										query.equalTo("userId", "==", uid);
 										query.equalTo("stocks", "==", that.in_stock.objectId);
 										query.find().then(res => {
-											let in_products = res
+											in_products = res
+											//console.log("dsdsdsd", in_products, that.in_stock.objectId)
 											if (in_products.length == 0) {
-												common.upload_good_withNoCan(that.products[j], that.in_stock, 0-Number(that.products[j].num),
+												common.upload_good_withNoCan(that.products[j], that.in_stock, 0 - Number(that.products[j].num),
 													"allocation").then(res => {
-														if (j == that.products.length - 1) {
-															that.showHideFunction()
-														}
+													if (j == that.products.length - 1) {
+														that.showHideFunction()
+													}
 												})
 											} else {
-												query.set('id', in_products[0].objectId) //需要修改的objectId
+
+												if (that.products[j].selected_model) {
+													for (let model of that.products[j].selectd_model) {
+														for (let item of in_products[0].models) {
+															if (item.id == model.id) {
+																item.reserve = Number(item.reserve) - Number(model.num)
+															}
+															delete item.num // 清除没用的属行
+														}
+													}
+													query.set('models', in_products[0].models)
+												}
 												query.set('reserve', Number(in_products[0].reserve) - Number(that.products[j].num))
+												query.set('id', in_products[0].objectId) //需要修改的objectId
 												query.save().then(res => {
 													if (j == that.products.length - 1) {
 														that.showHideFunction()
@@ -277,14 +289,25 @@
 										})
 									})
 								} else {
-									query.set('id', out_products[0].objectId) //需要修改的objectId
+									if (that.products[j].selected_model) {
+										for (let model of that.products[j].selectd_model) {
+											for (let item of out_products[0].models) {
+												if (item.id == model.id) {
+													item.reserve = Number(item.reserve) + Number(model.num)
+												}
+												delete item.num // 清除没用的属行
+											}
+										}
+										query.set('models', out_products[0].models)
+									}
 									query.set('reserve', Number(out_products[0].reserve) + Number(that.products[j].num))
+									query.set('id', out_products[0].objectId) //需要修改的objectId
 									query.save().then(res => {
 										query.equalTo("header", "==", that.products[j].objectId);
 										query.equalTo("userId", "==", uid);
 										query.equalTo("stocks", "==", that.in_stock.objectId);
 										query.find().then(res => {
-											let in_products = res
+											in_products = res
 											if (in_products.length == 0) {
 												common.upload_good_withNoCan(that.products[j], that.in_stock, Number(that.products[j].num),
 													"allocation").then(res => {
@@ -293,8 +316,19 @@
 													}
 												})
 											} else {
-												query.set('id', in_products[0].objectId) //需要修改的objectId
+												if (that.products[j].selected_model) {
+													for (let model of that.products[j].selectd_model) {
+														for (let item of in_products[0].models) {
+															if (item.id == model.id) {
+																item.reserve = Number(item.reserve) - Number(model.num)
+															}
+															delete item.num // 清除没用的属行
+														}
+													}
+													query.set('models', in_products[0].models)
+												}
 												query.set('reserve', Number(in_products[0].reserve) - Number(that.products[j].num))
+												query.set('id', in_products[0].objectId) //需要修改的objectId
 												query.save().then(res => {
 													if (j == that.products.length - 1) {
 														that.showHideFunction()

@@ -213,7 +213,7 @@
 				query.statTo("sum", "reserve");
 				query.find().then(res => {
 					console.log(res)
-					let sumReserve = res[0]._sumReserve
+					let sumReserve = res[0]? res[0]._sumReserve : 0
 					query.equalTo("userId", "==", uid);
 					query.equalTo("order", "==", 1);
 					query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);

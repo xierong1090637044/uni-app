@@ -235,7 +235,7 @@
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
-			uni.removeStorageSync("is_add");
+			uni.removeStorageSync("isClickShaiXuan");
 			uni.removeStorageSync("now_model");
 
 			if (uni.getStorageSync("now_product")) {
@@ -703,7 +703,7 @@
 
 					uni.hideLoading();
 					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + now_product.goodsName + "'", 5, now_product.objectId);
-					uni.setStorageSync("is_add", true)
+					uni.setStorageSync("isClickShaiXuan", true)
 					uni.navigateBack({
 						delta: 2
 					})
@@ -819,7 +819,7 @@
 								title: "上传成功"
 							})
 
-							uni.setStorageSync("is_add", true)
+							uni.setStorageSync("isClickShaiXuan", true)
 						}).catch(err => {
 							console.log(err);
 						});
@@ -830,7 +830,7 @@
 							title: "上传成功"
 						})
 
-						uni.setStorageSync("is_add", true)
+						uni.setStorageSync("isClickShaiXuan", true)
 					}
 
 

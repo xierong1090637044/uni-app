@@ -42,7 +42,7 @@
 		<view v-if="get_reserve_checked" class="second_one" v-for="(item,index) in product.stocks" :key="index">
 			<view class="display_flex_bet">
 				<view>存放店仓: <text style="margin-left: 20rpx;color: #3D3D3D;">{{item.stock_name?item.stock_name:"未填写"}}</text></view>
-				<view class="opion_item" @click='delete_singlegood(item.good_id)'>删除</view>
+				<view class="opion_item" @click='delete_singlegood(item.good_id)' v-if="identity == 1">删除</view>
 			</view>
 
 			<view>当前库存: <text style="color: #FD2E32;margin-left: 20rpx;">{{item.reserve}}</text></view>
@@ -85,6 +85,7 @@
 		},
 		data() {
 			return {
+				identity:uni.getStorageSync("identity"),
 				get_reserve_checked: true, //分库存显示控制
 			};
 		},
@@ -117,6 +118,7 @@
 									query.save().then(res => {
 										common.modifyStockType(that.product.objectId);
 								    that.$emit("deleteSingle",true);
+										uni.setStorageSync("isClickShaiXuan",true)
 										uni.showToast({title:"删除成功"});
 									})
 								})

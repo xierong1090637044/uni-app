@@ -306,6 +306,11 @@ module.exports = {
 						model.reserve =  0 - Number(model.num)
 					}
 					query.set("models", good.goodsId.models)
+				}else if(good.models && good.models.length > 0){
+					for(let model of good.models){
+						model.reserve =  0 - Number(model.num)
+					}
+					query.set("models", good.models)
 				}
 			}else if(type =="allocation"){
 				query.set("reserve", Number(reserve))
@@ -323,6 +328,11 @@ module.exports = {
 						model.reserve = Number(model.num)
 					}
 					query.set("models", good.goodsId.models)
+				}else if(good.models && good.models.length > 0){
+					for(let model of good.models){
+						model.reserve =  Number(model.num?model.num:0)
+					}
+					query.set("models", good.models)
 				}
 			}
 			

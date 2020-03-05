@@ -414,7 +414,11 @@
 				const query = Bmob.Query("Goods");
 				query.include("stocks", "header");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
+				if(that.user.identity == 2){
+					query.containedIn("stocks", that.user.stocks);
+				}else{
+					query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
+				}
 				query.equalTo("status", "!=", -1);
 				if (that.value == 3 || that.value == 4) {
 					query.equalTo("order", "==", 0);

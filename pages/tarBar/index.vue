@@ -6,116 +6,128 @@
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
 		</view>
 
-		<scroll-view scroll-y="true" style="max-height:100vh;">
+		<!-- #ifdef H5 -->
+		<scroll-view scroll-y="true" style="height:85vh;">
+			<!-- #endif -->
+			<!-- #ifdef MP-WEIXIN -->
+			<scroll-view scroll-y="true" style="height:91vh;">
+				<!-- #endif -->
 
-			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;">
-				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockLists.length > 0"></i>
-				</view>
-
-				<view class='o_list' v-if="stockLists.length > 0">
-					<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
-						</view>
-						<view class='o_text'>{{value.name}}</view>
-					</navigator>
-				</view>
-				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
-			</view>
-			
-			<!--<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品单仓库操作）</text></view>
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockListsNew.length > 0"></i>
-				</view>
-			
-				<view class='o_list' v-if="stockListsNew.length > 0">
-					<navigator v-for='(value,index) in stockListsNew' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
-						</view>
-						<view class='o_text'>{{value.name}}</view>
-					</navigator>
-				</view>
-				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
-			</view>-->
-			
-			<!--销售模块-->
-			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view class="display_flex">
-						<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">销售</view>
-						<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
-					</view>
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)' v-if="sellLists.length > 0"></i>
-				</view>
-
-				<view class='o_list' v-if="sellLists.length > 0">
-					<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem" style="background: #afbb4f;">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
-						</view>
-						<view class='o_text'>{{value.name}}</view>
-						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
-					</navigator>
-				</view>
-				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
-			</view>
-			
-			<!--采购模块-->
-			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-					<view class="display_flex">
-						<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">采购</view>
-						<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
+					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
+						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
+						 v-if="stockLists.length > 0"></i>
 					</view>
 
-					<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)' v-if="purchaseLists.length > 0"></i>
+					<view class='o_list' v-if="stockLists.length > 0">
+						<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+							<view class="o_headerItem">
+								<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+							</view>
+							<view class='o_text'>{{value.name}}</view>
+						</navigator>
+					</view>
+					<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 				</view>
 
-				<view class='o_list' v-if="purchaseLists.length > 0">
-					<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem" style="background: #ad4fbb;">
-							<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
+				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;">
+					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存
+							<text style="color: #f30;">New</text>
+							<text style="font-size: 24rpx;">（多产品单仓库操作）（适用于新版产品）</text>
 						</view>
-						<view class='o_text'>{{value.name}}</view>
-						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
-					</navigator>
+						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
+						 v-if="stockListsNew.length > 0"></i>
+					</view>
+
+					<view class='o_list' v-if="stockListsNew.length > 0">
+						<navigator v-for='(value,index) in stockListsNew' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+							<view class="o_headerItem">
+								<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+							</view>
+							<view class='o_text'>{{value.name}}</view>
+						</navigator>
+					</view>
+					<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 				</view>
-				<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
-			</view>
-			
-			<!--其他模块-->
-			<view style="background: #FFFFFF;padding: 20rpx 20rpx 0;margin-top: 20rpx;">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
-				<view class='o_list'>
-					<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url,index)">
-						<view class="o_headerItem" style="background: #bb4f77;">
-							<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+
+				<!--销售模块-->
+				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;">
+					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+						<view class="display_flex">
+							<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">销售</view>
+							<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
 						</view>
-						<view class='o_text'>{{value.name}}</view>
+						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)'
+						 v-if="sellLists.length > 0"></i>
+					</view>
+
+					<view class='o_list' v-if="sellLists.length > 0">
+						<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+							<view class="o_headerItem" style="background: #afbb4f;">
+								<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+							</view>
+							<view class='o_text'>{{value.name}}</view>
+							<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+						</navigator>
+					</view>
+					<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
+				</view>
+
+				<!--采购模块-->
+				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;">
+					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+						<view class="display_flex">
+							<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">采购</view>
+							<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+						</view>
+
+						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)'
+						 v-if="purchaseLists.length > 0"></i>
+					</view>
+
+					<view class='o_list' v-if="purchaseLists.length > 0">
+						<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+							<view class="o_headerItem" style="background: #ad4fbb;">
+								<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
+							</view>
+							<view class='o_text'>{{value.name}}</view>
+							<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+						</navigator>
+					</view>
+					<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
+				</view>
+
+				<!--其他模块-->
+				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;" v-if="user.identity !=2">
+					<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
+					<view class='o_list'>
+						<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url,index)">
+							<view class="o_headerItem" style="background: #bb4f77;">
+								<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+							</view>
+							<view class='o_text'>{{value.name}}</view>
+						</view>
 					</view>
 				</view>
-			</view>
-		</scroll-view>
-		
-		<!--更新弹窗-->
-		<modal :is_transparent="false" v-if="isUpdate" @hideModal="hideModal">
-			<view class="updateContent">
-				<view style="text-align: center;"><image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;border-radius: 50%;"></image></view>
-				<view style="color: #333;font-weight: bold;">*本次更新内容</view>
-				<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-					<view>1、客户详情优化</view>
-					<view>2、供应商详情优化</view>
-					<view>3、仓库详情优化</view>
-					<view>4、新增货损单</view>
-					<view>5、完善大家反馈的bug</view>
+			</scroll-view>
+
+			<!--更新弹窗-->
+			<modal :is_transparent="false" v-if="isUpdate" @hideModal="hideModal">
+				<view class="updateContent">
+					<view style="text-align: center;">
+						<image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;border-radius: 50%;"></image>
+					</view>
+					<view style="color: #333;font-weight: bold;">*本次更新内容</view>
+					<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
+						<view>1、新增新版库存模块</view>
+						<view>2、页面重置优化</view>
+						<view>3、完善大家反馈的bug</view>
+					</view>
+					<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 				</view>
-				<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
-			</view>
-		</modal>
+			</modal>
 
 
 	</view>
@@ -233,11 +245,11 @@
 						name: '扫码添加产品',
 						icon: 'icon-saoma',
 						url: ''
-					},{
+					}, {
 						name: '货损',
 						icon: 'icon-chanpin',
 						url: '/pages/common/goods-select/goods-select?type=bad'
-					}, 
+					},
 					{
 						name: '使用手册',
 						icon: 'icon-tishishuoming',
@@ -252,14 +264,14 @@
 				total_money: 0,
 				total_products: 0,
 				openid: '',
-				isUpdate:false,
+				isUpdate: false,
 			}
 		},
 		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync('uid');
 			getApp().globalData.uid = uni.getStorageSync('uid');
-			
+
 			// #ifdef H5
 			this.$wechat.share_pyq();
 			if (options.openid) {
@@ -309,21 +321,21 @@
 
 		onShow() {
 			if (uni.getStorageSync("user")) { //登陆情况下进行的操作
-			  that.user = uni.getStorageSync("user")
+				that.user = uni.getStorageSync("user")
 				mine.query_setting();
-				if (that.user.identity ==2 && that.user.rights) {
+				if (that.user.identity == 2 && that.user.rights) {
 					that.othercurrent = that.user.rights.othercurrent || []
-					
-					if(that.user.rights.current.indexOf("6") == -1){
+
+					if (that.user.rights.current.indexOf("6") == -1) {
 						that.stockLists = []
 						that.stockListsNew = []
 					}
-					
-					if(that.user.rights.current.indexOf("7") == -1){
+
+					if (that.user.rights.current.indexOf("7") == -1) {
 						that.purchaseLists = []
 					}
-					
-					if(that.user.rights.current.indexOf("8") == -1){
+
+					if (that.user.rights.current.indexOf("8") == -1) {
 						that.sellLists = []
 					}
 				}
@@ -343,9 +355,9 @@
 						})
 					}
 				})
-				
-				that.isUpdate = uni.getStorageSync("isUpdate") || false;//检测是否有更新
-			} else {//未登录情况下
+
+				that.isUpdate = uni.getStorageSync("isUpdate") || false; //检测是否有更新
+			} else { //未登录情况下
 				setTimeout(function() {
 					uni.showToast({
 						title: "请先登录",
@@ -374,9 +386,9 @@
 		},
 
 		methods: {
-			
+
 			//关闭更新Modal
-			hideModal(){
+			hideModal() {
 				that.isUpdate = false;
 				uni.removeStorageSync("isUpdate")
 			},
@@ -387,29 +399,29 @@
 
 				if (url) {
 					if (index == 0) { //添加产品
-					const query = Bmob.Query("Goods");
-					query.equalTo("userId", "==", uid);
-					query.find().then(res => {
-						let productList = res
-						if (user.is_vip || productList.length < 30) {
-							uni.navigateTo({
-								url: url
-							})
-						} else {
-							uni.showToast({
-								title: "该功能只限会员使用",
-								icon: "none"
-							})
-						}
-					})
-						
+						const query = Bmob.Query("Goods");
+						query.equalTo("userId", "==", uid);
+						query.find().then(res => {
+							let productList = res
+							if (user.is_vip || productList.length < 30) {
+								uni.navigateTo({
+									url: url
+								})
+							} else {
+								uni.showToast({
+									title: "该功能只限会员使用",
+									icon: "none"
+								})
+							}
+						})
+
 					} else {
 						uni.navigateTo({
 							url: url
 						})
 					}
 				} else {
-					if(index == 1){
+					if (index == 1) {
 						uni.scanCode({
 							success(res) {
 								let result = res.result;

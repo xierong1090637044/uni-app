@@ -110,7 +110,7 @@
 					content: '是否删除该商品',
 					success: function(res) {
 						if (res.confirm) {
-							uni.setStorageSync("is_add", true)
+							uni.setStorageSync("isClickShaiXuan", true)
 							const query = Bmob.Query('Goods');
 							query.destroy(objectId).then(res => {
 								const query = Bmob.Query('Goods');
@@ -118,22 +118,34 @@
 								query.equalTo("header", "==", objectId);
 								query.equalTo("userId", "==", uid);
 								query.find().then(todos => {
-									todos.destroyAll().then(res => {
-										// 成功批量修改
-										console.log(res, 'ok')
+									
+									if(todos.length > 0){
+										todos.destroyAll().then(res => {
+											// 成功批量修改
+											uni.navigateBack({
+												delta: 1
+											})	
+											setTimeout(function() {
+												uni.showToast({
+													title: "删除成功"
+												})
+											}, 1000)
+													
+										}).catch(err => {
+											console.log(err)
+										});
+									}else{
 										uni.navigateBack({
 											delta: 1
 										})
-			
+												
 										setTimeout(function() {
 											uni.showToast({
 												title: "删除成功"
 											})
 										}, 1000)
-			
-									}).catch(err => {
-										console.log(err)
-									});
+									}
+									
 								})
 			
 							}).catch(err => {

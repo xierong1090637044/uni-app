@@ -5,6 +5,7 @@
 		 leftIcon="scan" left-text="扫码" @click-left="scanGoods">
 		</uni-nav-bar>
 		<view class="page">
+			
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
@@ -12,7 +13,7 @@
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
 								调出库存：
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :max="Number(model.reserve)"  :value='key==0?1:0'/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)"  :value='key==0?1:0'/>
 							</view>
 						</view>
 						<view v-else>
@@ -64,7 +65,7 @@
 		},
 		data() {
 			return {
-				products: null,
+				products: [],
 			}
 		},
 
@@ -106,6 +107,21 @@
 					}
 					uni.hideLoading()
 				})
+			}else {
+				this.products = uni.getStorageSync("products");
+				for (let item of this.products) {
+					if (item.models) {
+						let count = 0
+						for (let model of item.models) {
+							model.num = 0;
+							count += 1;
+						}
+						item.num = count;
+						item.selectd_model = item.models
+						item.selected_model = item.models
+					}
+				}
+				this.products = this.products
 			}
 
 		},

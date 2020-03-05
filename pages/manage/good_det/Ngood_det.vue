@@ -178,6 +178,7 @@
 					query.include("stocks", "goodsClass", "second_class");
 					query.equalTo("header", "==", product.objectId);
 					query.find().then(res => {
+						
 						for (let item of res) {
 							if (item.order != 0) {
 								let stocks_o = {}

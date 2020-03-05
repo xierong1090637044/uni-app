@@ -16,7 +16,8 @@
 					<view class="name">{{goods.goodsName}}</view>
 					<view class="info">
 						<view class="price">￥{{goods.retailPrice}}</view>
-						<view class="slogan">已出售{{goods.sellNum?goods.sellNum:0}}{{goods.packingUnit?goods.packingUnit:''}}</view>
+						<!--<view class="slogan">已出售{{goods.sellNum?goods.sellNum:0}}{{goods.packingUnit?goods.packingUnit:''}}</view>-->
+						<view class="slogan">库存{{goods.reserve}}{{goods.packingUnit?goods.packingUnit:''}}</view>
 					</view>
 				</view>
 			</view>
@@ -101,7 +102,7 @@
 				query.find().then(res => {
 					console.log(res)
 					for (let item of res) {
-						item.reserve = item.reserve.toFixed(2)
+						item.reserve = item.reserve.toFixed(1)
 					}
 					that.goodsList = that.goodsList.concat(res);
 				});

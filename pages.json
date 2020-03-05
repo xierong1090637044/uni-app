@@ -62,7 +62,7 @@
 			"style": {
 				"navigationBarTitleText": "明细"
 			}
-		}, 
+		},
 		{
 			"path": "pages/staff_landing/staff_landing",
 			"style": {
@@ -84,7 +84,7 @@
 		}, {
 			"path": "pages/report/matterRecord/detail/detail",
 			"style": {}
-		},{
+		}, {
 			"path": "pages/report/EnteringHistory/productDet/productDet",
 			"style": {}
 		}, {
@@ -96,7 +96,7 @@
 		}, {
 			"path": "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
 			"style": {}
-		},  {
+		}, {
 			"path": "pages/report/staffChart/staffChart",
 			"style": {
 				"navigationBarTitleText": "员工业绩"
@@ -106,7 +106,7 @@
 			"style": {
 				"navigationBarTitleText": "销售详情"
 			}
-		},{
+		}, {
 			"path": "pages/report/EnteringHistory/returnDetail/returnDetail",
 			"style": {
 				"navigationBarTitleText": "退货详情"
@@ -128,7 +128,7 @@
 				"navigationBarTitleText": "库存预警"
 			}
 		}
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/common",
@@ -136,6 +136,30 @@
 					"path": "goods_out/out_detail/out_detail",
 					"style": {
 						"navigationBarTitleText": "出库详情"
+					}
+				},
+				{
+					"path": "goods_out/gooSellNew/gooSellNew",
+					"style": {
+						"navigationBarTitleText": "销售（新版）"
+					}
+				},
+				{
+					"path": "good_return/buyReturn/buyReturn",
+					"style": {
+						"navigationBarTitleText": "销售退货（新版）"
+					}
+				},
+				{
+					"path": "good_confrim/goodPurchaseNew/goodPurchaseNew",
+					"style": {
+						"navigationBarTitleText": "采购（新版）"
+					}
+				},
+				{
+					"path": "good_return/purchaseReturn/purchaseReturn",
+					"style": {
+						"navigationBarTitleText": "采购退货（新版）"
 					}
 				},
 				{
@@ -213,7 +237,7 @@
 					}
 				}
 			]
-		},{
+		}, {
 			"root": "pages/commonNew",
 			"pages": [{
 					"path": "goods_out/out_detail/out_detail",
