@@ -227,8 +227,8 @@
 				productMoreG: false, //产品是否是多规格
 				//isMoreModelAdd: uni.getStorageSync("addMoreModel"),
 				addType: '', //添加类型
-				modelsValue:'',//产品规格数据
-				haveSetProductMoreG:false,//是否设置了多规格
+				modelsValue: '', //产品规格数据
+				haveSetProductMoreG: false, //是否设置了多规格
 			}
 		},
 
@@ -369,20 +369,20 @@
 				}
 
 				if (uni.getStorageSync("now_model") && that.productMoreG) { //已经设置多规格的情况下
-				  that.haveSetProductMoreG = true;
+					that.haveSetProductMoreG = true;
 					for (let item of stocksReserve) {
 						let now_model = uni.getStorageSync("now_model")
 						if (item.now_model) {
-							for(let model of now_model){
-								for(let thisModel of item.now_model){
-									if(model.id == thisModel.id){
-										model.reserve =thisModel.reserve
+							for (let model of now_model) {
+								for (let thisModel of item.now_model) {
+									if (model.id == thisModel.id) {
+										model.reserve = thisModel.reserve
 									}
 								}
 							}
-							item.now_model=now_model
+							item.now_model = now_model
 						} else {
-							
+
 							for (let model of now_model) {
 								model.reserve = 0
 							}
@@ -441,7 +441,7 @@
 							title: "请先去填写多规格",
 							icon: 'none'
 						})
-					}else {
+					} else {
 						uni.navigateTo({
 							url: 'stockAdd/stockAdd?type=' + that.productMoreG
 						})
@@ -651,9 +651,14 @@
 					query.set("order", 0)
 				}
 				if (uni.getStorageSync("category")) { //存在此缓存证明选择了店仓
-					if (that.category.type == 1) {
+					if (uni.getStorageSync("category").type == 1) {
 						query.set("goodsClass", p_class_user_id)
+						query.get(now_product.objectId).then(res => {
+							res.unset('second_class')
+							res.save()
+						})
 					} else {
+						console.log("jjjj")
 						query.set("goodsClass", p_class_user_id)
 						query.set("second_class", p_second_class_id)
 					}
@@ -665,8 +670,9 @@
 
 					if (uni.getStorageSync("warehouse") && uni.getStorageSync("warehouse").length > 0) {
 						let stocksReserve = uni.getStorageSync("warehouse")
+						let count = 0;
 						for (var i = 0; i < stocksReserve.length; i++) {
-							console.log(stocksReserve[i])
+							//console.log("sss", stocksReserve[i])
 							let item = stocksReserve[i]
 							const query = Bmob.Query('Goods');
 							query.get(item.good_id).then(res => {
@@ -685,8 +691,10 @@
 								}
 
 								if (uni.getStorageSync("category")) { //存在此缓存证明选择了店仓
-									if (that.category.type == 1) {
+									if (uni.getStorageSync("category").type == 1) {
+										console.log("dsadas")
 										res.set("goodsClass", p_class_user_id)
+										res.unset('second_class')
 									} else {
 										res.set("goodsClass", p_class_user_id)
 										res.set("second_class", p_second_class_id)
@@ -695,23 +703,28 @@
 
 								(that.productMoreG && item.now_model) ? res.set("models", item.now_model): ''
 								res.save()
+								count += 1;
+								if (count == stocksReserve.length) {
+									uni.hideLoading();
+									common.log(uni.getStorageSync("user").nickName + "修改了产品'" + now_product.goodsName + "'", 5, now_product.objectId);
+									uni.setStorageSync("isClickShaiXuan", true)
+									uni.showToast({
+										title: "修改成功",
+									})
+
+									setTimeout(function() {
+										uni.navigateBack({
+											delta: 2
+										})
+									}, 1000)
+								}
 							}).catch(err => {
 								console.log(err)
 							})
 						}
 					}
 
-					uni.hideLoading();
-					common.log(uni.getStorageSync("user").nickName + "修改了产品'" + now_product.goodsName + "'", 5, now_product.objectId);
-					uni.setStorageSync("isClickShaiXuan", true)
-					uni.navigateBack({
-						delta: 2
-					})
-					setTimeout(function() {
-						uni.showToast({
-							title: "修改成功",
-						})
-					}, 1000)
+
 
 				})
 			},

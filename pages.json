@@ -420,7 +420,11 @@
 						"navigationBarTitleText": "预警记录"
 					}
 				}
-			]
+			    ,{
+                    "path" : "systemSetting/systemSetting",
+                    "style" : {}
+                }
+            ]
 		},
 		{
 			"root": "pages/shop",

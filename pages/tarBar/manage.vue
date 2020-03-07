@@ -27,7 +27,7 @@
 			</view>
 		</view>
 
-		<view style="background: #FFFFFF;padding:20rpx;margin-top: 30rpx;">
+		<view style="background: #FFFFFF;padding:20rpx;margin-top: 30rpx;" v-if="second_optionsLists.length > 0">
 			<view style="font-size: 30rpx;color: #333;font-weight: bold;">记录模块</view>
 			<view class='o_list'>
 				<navigator v-for="(value,index) in second_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -100,18 +100,21 @@
 			notice: '查看,添加,编辑',
 			icon: 'envelope-open-o',
 			url: '/pages/manage/goods/goods',
+			id:0,
 		},
 		{
 			name: '员工管理',
 			notice: '多人管理',
 			icon: 'user',
 			url: '/pages/manage/staff/staff',
+			id:1
 		},
 		{
 			name: '店仓管理',
 			notice: '先完善好店仓',
 			icon: 'home',
 			url: '/pages/manage/warehouse/warehouse',
+			id:2
 		},
 		/*{
 			name: '门店管理',
@@ -124,18 +127,21 @@
 			notice: '客户相关资料',
 			icon: 'address-card',
 			url: '/pages/manage/custom/custom',
+			id:3
 		},
 		{
 			name: '供应商管理',
 			notice: '供应商相关资料',
 			icon: 'address-book',
 			url: '/pages/manage/producer/producer',
+			id:4
 		},
 		{
 			name: '产品类别管理',
 			notice: '产品类别相关',
 			icon: 'list',
 			url: '/pages/manage/category/category',
+			id:5
 		},
 	];
 	

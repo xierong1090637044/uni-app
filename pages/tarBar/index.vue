@@ -121,9 +121,8 @@
 					</view>
 					<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 					<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-						<view>1、新增新版库存模块</view>
-						<view>2、页面重置优化</view>
-						<view>3、完善大家反馈的bug</view>
+						<view>1、产品修改时类别不同步问题修改</view>
+						<view>2、员工客户管理跟供应商管理权限bug修复</view>
 					</view>
 					<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 				</view>

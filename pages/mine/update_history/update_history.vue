@@ -14,6 +14,18 @@
 			<view class="log-list">
 				<view class="describe">
 					<view class="desc-title">
+						<text class="desc-v">v1.1.5 公测版</text>
+						<text class="desc-time">2020.03.07</text>
+					</view>
+					<text class="desc-content">优化升级</text>
+					<view class="desc-list">
+						<text>产品修改时类别不同步问题修改</text>
+						<text>员工客户管理跟供应商管理权限bug修复</text>
+					</view>
+				</view>
+				
+				<view class="describe">
+					<view class="desc-title">
 						<text class="desc-v">v1.1.4 公测版</text>
 						<text class="desc-time">2020.02.15</text>
 					</view>
