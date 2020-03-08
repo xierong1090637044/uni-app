@@ -184,14 +184,14 @@
 
 			if (option.search_text) {
 				that.search_text = option.search_text
-				search_text = option.search_text
 			}
 			that.get_productList();
 		},
 		onShow() {
-			if(uni.getStorageSync("isClickShaiXuan")){
+			uni.removeStorageSync("now_product");
+			
+			if(uni.getStorageSync("isClickShaiXuan")){ //判断是否下级页面进行了操作
 				that.page_num = 1
-				uni.removeStorageSync("now_product");
 				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
 				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 				that.get_productList();

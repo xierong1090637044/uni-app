@@ -12,7 +12,6 @@
 							<fa-icon type="plus-square-o" size="40" color="#426ab3" v-else></fa-icon>
 						</view>
 						<input name="goodsIcon" v-show="false" :value="goodsIcon" />
-
 					</view>
 
 				</view>
@@ -748,6 +747,7 @@
 				}
 				query.set("regNumber", good.regNumber)
 				query.set("reserve", Number(good.reserve))
+				query.set("originReserve", Number(good.reserve))//期初库存
 				query.set("productCode", good.productCode)
 				query.set("product_info", good.product_info)
 				query.set("producer", good.producer)
@@ -765,7 +765,10 @@
 				}
 
 				//query.set("product_state", good.product_state) //改产品是否是半成品
-				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
+				if(that.productMoreG){
+					query.set("models", uni.getStorageSync("now_model"))
+					query.set("originModels", uni.getStorageSync("now_model"))//期初各规格数量
+				}
 				if (stocksReserve.length > 0) {
 					query.set("order", 0)
 				}
