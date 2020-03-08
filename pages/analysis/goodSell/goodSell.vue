@@ -140,12 +140,12 @@
 			
 			//点击去到详情
 			goDetail(value) {
-				uni.setStorageSync("now_product", value);
 				if (value.order == 0) {
 					uni.navigateTo({
-						url: "/pages/manage/good_det/Ngood_det"
+						url: "/pages/manage/good_det/Ngood_det?id="+value.objectId+"&type=false"
 					})
 				} else {
+					uni.setStorageSync("now_product", value);
 					uni.navigateTo({
 						url: "/pages/manage/good_det/good_det"
 					})

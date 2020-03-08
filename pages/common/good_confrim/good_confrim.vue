@@ -7,11 +7,9 @@
 			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 				<unicard :title="'品名：'+item.goodsName">
 					<view>
-						
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
 							<view>存放店仓：{{item.stocks.stock_name}}</view>
 						</view>
-						
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
 							<view>库存：{{item.reserve}}</view>
 							
@@ -49,14 +47,26 @@
 						</view>
 
 						<view class="bottom_del display_flex_bet">
-							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'" v-if="item.order == 1">
-								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
-								<text style="margin-left: 10rpx;">详情</text>
-							</navigator>
-							<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'" v-else>
-								<fa-icon type="magic" size="12" color="#fff"></fa-icon>
-								<text style="margin-left: 10rpx;">详情</text>
-							</navigator>
+							<view>
+								<view v-if="user.identity !=2">
+									<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.header.objectId + '&type=false'"
+									 v-if="item.order == 1">
+										<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+										<text style="margin-left: 10rpx;">详情</text>
+									</navigator>
+									<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.objectId + '&type=false'"
+									 v-else-if="item.order == 0">
+										<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+										<text style="margin-left: 10rpx;">详情</text>
+									</navigator>
+									<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/good_det?id=' + item.objectId + '&type=false'"
+									 v-else>
+										<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+										<text style="margin-left: 10rpx;">详情</text>
+									</navigator>
+								</view>
+							</view>
+							
 							<view class='del' @click="handleDel(index)">
 								<fa-icon type="close" size="12" color="#fff"></fa-icon>
 								<text style="margin-left: 10rpx;">删除</text>
