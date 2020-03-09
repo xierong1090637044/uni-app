@@ -1,9 +1,9 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<view class="fristSearchView display_flex_bet">
+		<view class="fristSearchView display_flex_bet" v-if="canScanCode">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;" />
-			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)' v-if="canScanCode"></i>
+			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
 		</view>
 
 		<!-- #ifdef H5 -->
