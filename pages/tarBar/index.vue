@@ -3,7 +3,7 @@
 	<view>
 		<view class="fristSearchView display_flex_bet">
 			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;" />
-			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
+			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)' v-if="canScanCode"></i>
 		</view>
 
 		<!-- #ifdef H5 -->
@@ -16,8 +16,7 @@
 				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
-						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
-						 v-if="stockLists.length > 0"></i>
+						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockLists.length > 0"></i>
 					</view>
 
 					<view class='o_list' v-if="stockLists.length > 0">
@@ -121,8 +120,12 @@
 					</view>
 					<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 					<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-						<view>1、产品修改时类别不同步问题修改</view>
-						<view>2、员工客户管理跟供应商管理权限bug修复</view>
+						<view>1、新增产品时增加期初库存的记录</view>
+						<view>2、员工扩充到500位</view>
+						<view>3、客户详情里增加成本显示</view>
+						<view>4、操作记录增加备注查询</view>
+						<view>5、用户反馈的bug修复</view>
+						<view>6、产品图片展示进行压缩优化</view>
 					</view>
 					<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 				</view>
@@ -264,6 +267,7 @@
 				total_products: 0,
 				openid: '',
 				isUpdate: false,
+				canScanCode:true,//根据权限判断是否可以扫码操作
 			}
 		},
 		onLoad(options) {
@@ -328,6 +332,10 @@
 					if (that.user.rights.current.indexOf("6") == -1) {
 						that.stockLists = []
 						that.stockListsNew = []
+					}
+					
+					if(that.user.rights.current.indexOf("0") == -1){
+						that.canScanCode = false
 					}
 
 					if (that.user.rights.current.indexOf("7") == -1) {
@@ -468,7 +476,7 @@
 				let opLists = [];
 
 				if (type == 0) {
-					opLists = ['出库', '销售', '入库', '采购', '盘点', '产品详情']
+					opLists = ['产品详情']
 				} else if (type == 1) {
 					opLists = ['入库', '出库', '调拨', '盘点']
 				} else if (type == 2) {

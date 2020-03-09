@@ -41,7 +41,7 @@
 
 						<label class="uni-product" :for="''+index">
 							<view>
-								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
+								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon+'!upyun520//fwfh/200x200'" mode="widthFix" lazy-load="true"></image>
 								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 							</view>
 

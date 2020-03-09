@@ -66,13 +66,20 @@
 							<text v-if="sellType == 1">退货数量</text>
 						</view>
 					</view>
-					<view class="secondItem">
-						<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{buyTotal.money || 0}}</view>
+					
+					<view class="secondItem" v-if="sellType == 0">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{buyTotal.realCost || 0}}</view>
 						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
-							<text v-if="sellType == 0">销售金额</text>
-							<text v-if="sellType == 1">退款金额</text>
+							<text>总成本</text>
 						</view>
 					</view>
+					<view class="secondItem" v-else-if="sellType == 1">
+						<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{buyTotal.money || 0}}</view>
+						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">
+							<text>退款金额</text>
+						</view>
+					</view>
+					
 					<view class="secondItem" v-if="sellType == 0">
 						<view style="line-height: 40rpx;color: #333;font-weight: bold;">￥{{buyTotal.realMoney || 0}}</view>
 						<view style="line-height: 40rpx;color: #999;font-size: 24rpx;">

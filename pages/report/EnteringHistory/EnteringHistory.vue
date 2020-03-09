@@ -111,6 +111,12 @@
 						<view class="right_input"><input placeholder="产品名称" v-model="goodsName" @click.stop></input></view>
 					</view>
 				</view>
+				<view class="input_item1" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
+					<view style="display: flex;align-items: center;width: 100%;">
+						<view class="left_item">备注</view>
+						<view class="right_input"><input placeholder="备注" v-model="beizhu" @click.stop></input></view>
+					</view>
+				</view>
 
 				<navigator class="input_item1" hover-class="none" url="/pages/manage/staff/staff?type=choose" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
 					<view style="display: flex;align-items: center;width: 100%;">
@@ -201,6 +207,7 @@
 				data_change: false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
+				beizhu:'',//输入的备注
 				operaterTypeDesc: '', // 操作类型描述
 			}
 		},
@@ -375,6 +382,12 @@
 				if (that.stock) query.equalTo("stockIds", "==", {
 					"$regex": "" + that.stock.objectId + ".*"
 				});
+				
+				if(that.beizhu){
+					query.equalTo("beizhu", "==", {
+						"$regex": "" + that.beizhu + ".*"
+					});
+				}
 				if (that.checked_option != 'all') {
 					query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');
 					query.equalTo("createdAt", "<=", that.end_day + ' 00:00:00');

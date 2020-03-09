@@ -256,6 +256,7 @@
 				}
 				query.include("shop");
 				query.order(that.headerSelection.order.order);
+				query.limit(500);
 				if (search_text) {
 					query.equalTo("username", "==", {
 						"$regex": "" + search_text + ".*"

@@ -174,6 +174,7 @@ export default {
 		let money = 0;
 		let count = 0;
 		let realMoney = 0;
+		let realCost = 0;
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query("order_opreations");
 			query.equalTo("master", "==", uid);
@@ -192,6 +193,7 @@ export default {
 					data.num = count;
 					data.money = money;
 					data.realMoney = 0;
+					data.realCost = 0;
 					resolve(data)
 				} else {
 					for (var i = 0; i < Math.ceil(count / 500); i++) {
@@ -211,6 +213,7 @@ export default {
 								total += item.real_num
 								money += item.all_money
 								realMoney += item.real_money
+								realCost += item.allCostPrice
 								countIndex += 1;
 							}
 							if (countIndex == count) {
@@ -218,6 +221,7 @@ export default {
 								data.num = count;
 								data.money = money;
 								data.realMoney = realMoney;
+								data.realCost = realCost;
 								resolve(data)
 							}
 						});

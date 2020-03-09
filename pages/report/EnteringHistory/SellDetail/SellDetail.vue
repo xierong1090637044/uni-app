@@ -477,7 +477,6 @@
 							
 													that.getdetail(id);
 													setTimeout(function() {
-														uni.removeStorageSync("warehouse")
 														uni.showToast({
 															title: '采购入库成功'
 														})
@@ -689,7 +688,6 @@
 													that.getdetail(id);
 													setTimeout(function() {
 
-														uni.removeStorageSync("warehouse")
 														uni.showToast({
 															title: '销售出库成功'
 														})

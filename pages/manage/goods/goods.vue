@@ -35,7 +35,7 @@
 				<view v-if="productList && productList.length > 0">
 					<view class="uni-product display_flex" v-for="(product,index) in productList" :key="index">
 
-						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="aspectFit" @click="priviewImg(product.goodsIcon)"></image>
+						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon+'!upyun520//fwfh/200x200'" mode="aspectFit" @click="priviewImg(product.goodsIcon)"></image>
 						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
 
 						<view style="margin:0 20rpx;width: 80%;" @click="goDetail(product)">
