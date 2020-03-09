@@ -1,5 +1,8 @@
 <template>
 	<view class="page">
+
+		<!--<loading v-if="loading"></loading>-->
+
 		<view class="content">
 			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-left="shaixuan"
 			 @click-right="confrim_this" :shadow="false">
@@ -15,7 +18,7 @@
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('stocks')">
-					<view class="good_optionText">{{headerSelection.stocks.stock_name || '仓库'}}</view>
+					<view class="good_optionText">{{headerSelection.stocks.stock_name || '店仓'}}</view>
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('order')">
@@ -38,24 +41,27 @@
 
 						<label class="uni-product" :for="''+index">
 							<view>
-								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="widthFix" lazy-load="true"></image>
+								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon+'!upyun520//fwfh/200x200'" mode="widthFix" lazy-load="true"></image>
 								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix" lazy-load="true"></image>
 							</view>
 
 							<view style="margin:0 20rpx;width: 80%;">
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
-									<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name text_overflow">{{product.goodsName}}</view>
-									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">{{product.packageContent}}*{{product.packingUnit}}</view>
+									<view class="product_name text_overflow">{{product.goodsName}}</view>
 								</view>
 
-								<view class="product_reserve display_flex_bet" style="width: 100%;">
-									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存仓库:{{product.stocks.stock_name}}</view>
-									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
-								</view>
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
 									<view style="font-size: 24rpx;" v-if="canSeeCostprice">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
 									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
 									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
+								</view>
+
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存店仓:{{product.stocks.stock_name}}</view>
+									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
+								</view>
+								<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
+									<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
 								</view>
 							</view>
 						</label>
@@ -115,7 +121,7 @@
 				search_text: '',
 				url: null,
 				loading: true,
-				productList: null,
+				productList: [],
 				value: '', //操作类型值
 				nextProducts: [],
 				negativeOut: false,
@@ -189,20 +195,21 @@
 			if (that.user.identity == 2 && that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1) {
 				that.canSeeCostprice = false
 			}
+			
+			that.get_productList();
 		},
 
 		onShow() {
-			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
-			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
-
 			if (uni.getStorageSync("is_option")) {
 				that.nextProducts = [];
-				search_text = '';
-				page_size = 30;
-				that.page_num = 1;
-				that.option_reset()
+				that.get_productList();
 			}
-			that.get_productList();
+			
+			if(uni.getStorageSync("isClickShaiXuan")){
+				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
+				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+				that.get_productList();
+			}
 		},
 
 		onUnload() {
@@ -258,7 +265,7 @@
 					goodsClass: '',
 					stocks: "",
 					order: {
-						"order":  "goodsName"
+						"order": "goodsName"
 					},
 					options: '',
 				};
@@ -276,7 +283,7 @@
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked": false,
+					"checked": true,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
@@ -286,7 +293,7 @@
 					"desc": "名字",
 					"notice": "正序",
 					"order": "goodsName",
-					"checked": true,
+					"checked": false,
 				}]
 				that.page_num = 1;
 				that.search_text = "";
@@ -324,6 +331,8 @@
 				} else if (type == "options") {
 					that.showOptions = true
 				}
+				
+				uni.setStorageSync("isClickShaiXuan",true);
 			},
 
 			//多选选择触发
@@ -405,7 +414,11 @@
 				const query = Bmob.Query("NGoods");
 				query.include("stocks", "header");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
+				if(that.user.identity == 2){
+					query.containedIn("stocks", that.user.stocks);
+				}else{
+					query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
+				}
 				query.equalTo("status", "!=", -1);
 				if (that.value == 3 || that.value == 4) {
 					query.equalTo("order", "==", 0);
@@ -426,7 +439,7 @@
 				query.or(query1, query2);
 				query.limit(page_size);
 				query.skip(page_size * (that.page_num - 1));
-				query.order(that.headerSelection.order.order); //按照条件降序
+				query.order(that.headerSelection.order.order,"goodsName"); //按照条件降序
 				query.find().then(res => {
 					let key = 0;
 					for (let product of res) {
@@ -459,6 +472,7 @@
 					uni.hideLoading();
 					//that.loading = false;
 					uni.removeStorageSync("is_option"); //用于判断是否进行了操作
+					uni.removeStorageSync("isClickShaiXuan")
 				});
 			},
 
@@ -556,7 +570,7 @@
 	.product_name {
 		font-weight: bold;
 		color: #333;
-		max-width: 60%;
+		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

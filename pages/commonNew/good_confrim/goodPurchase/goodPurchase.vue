@@ -428,15 +428,6 @@
 										title: "产品采购成功"
 									})
 									setTimeout(function() {
-
-										//发送小程序订阅通知
-										let miniParams = {};
-										miniParams.goodsName = that.products[0].goodsName;
-										miniParams.total_num = that.total_num;
-										miniParams.createdAt = createdAt;
-										miniParams.operationId = operationId;
-										send_temp.sendTempMini(miniParams, "enter");
-
 										that.button_disabled = false;
 										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
 											.length + "商品", 1, operationId);

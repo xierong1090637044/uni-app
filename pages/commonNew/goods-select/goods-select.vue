@@ -185,20 +185,22 @@
 			if (that.user.identity == 2 && that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1) {
 				that.canSeeCostprice = false
 			}
+			
+			that.get_productList();
 		},
 
 		onShow() {
-			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
-			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
-
 			if (uni.getStorageSync("is_option")) {
 				that.nextProducts = [];
-				search_text = '';
-				page_size = 30;
-				that.page_num = 1;
-				that.option_reset()
+				that.get_productList();
 			}
-			that.get_productList();
+			
+			if(uni.getStorageSync("isClickShaiXuan")){
+				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
+				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+				that.get_productList();
+			}
+			
 		},
 
 		onUnload() {
@@ -320,6 +322,8 @@
 				} else if (type == "options") {
 					that.showOptions = true
 				}
+				
+				uni.setStorageSync("isClickShaiXuan",true);
 			},
 
 			//多选选择触发
@@ -450,6 +454,7 @@
 					uni.hideLoading();
 					//that.loading = false;
 					uni.removeStorageSync("is_option"); //用于判断是否进行了操作
+					uni.removeStorageSync("isClickShaiXuan")
 				});
 			},
 

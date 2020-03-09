@@ -15,7 +15,7 @@
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('stocks')">
-					<view class="good_optionText">{{headerSelection.stocks.stock_name || '仓库'}}</view>
+					<view class="good_optionText">{{headerSelection.stocks.stock_name || '店仓'}}</view>
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('order')">
@@ -35,22 +35,26 @@
 				<view v-if="productList && productList.length > 0">
 					<view class="uni-product display_flex" v-for="(product,index) in productList" :key="index">
 
-						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon" mode="aspectFit" @click="priviewImg(product.goodsIcon)"></image>
+						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon+'!upyun520//fwfh/200x200'" mode="aspectFit" @click="priviewImg(product.goodsIcon)"></image>
 						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
 
 						<view style="margin:0 20rpx;width: 80%;" @click="goDetail(product)">
 							<view class="product_reserve display_flex_bet" style="width: 100%;">
 								<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name">{{product.goodsName}}</view>
-								<view class="product_reserve" v-if="product.packageContent && product.packingUnit">{{product.packageContent}}*{{product.packingUnit}}</view>
+								
+							</view>
+
+							<view class="product_reserve display_flex_bet" style="width: 100%;">
+								<view style="font-size: 24rpx;">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
+								<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
 							</view>
 
 							<view class="product_reserve display_flex_bet" style="width: 100%;">
 								<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 								<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 							</view>
-							<view class="product_reserve display_flex_bet" style="width: 100%;">
-								<view style="font-size: 24rpx;">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
-								<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
+							<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
+								<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
@@ -180,18 +184,18 @@
 
 			if (option.search_text) {
 				that.search_text = option.search_text
-				search_text = option.search_text
 			}
 			that.get_productList();
 		},
 		onShow() {
-			
-			that.page_num = 1
 			uni.removeStorageSync("now_product");
-			that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
-			that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
-			that.get_productList();
 			
+			if(uni.getStorageSync("isClickShaiXuan")){ //判断是否下级页面进行了操作
+				that.page_num = 1
+				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
+				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+				that.get_productList();
+			}
 		},
 
 		//分享
@@ -270,47 +274,9 @@
 				query.equalTo("order", "==", 0);
 				query.find().then(res => {
 					let productList = res
-					if (user.is_vip || productList.length < 30) {
-						wx.showActionSheet({
-							itemList: ['多仓库添加', '单仓库添加'],
-							success(res) {
-								if (res.tapIndex == 0) {
-									uni.navigateTo({
-										url: "../good_add/good_add?type=more"
-									})
-								} else if (res.tapIndex == 1) {
-									uni.navigateTo({
-										url: "../good_add/good_add?type=single"
-									})
-								}
-							},
-							fail(res) {
-								console.log(res.errMsg)
-							}
-						})
-					} else {
-						uni.showModal({
-							title: '提示',
-							content: '非会员最多上传30件产品',
-							confirmText: "充值会员",
-							success: function(res) {
-								if (res.confirm) {
-									if (identity == 1) {
-										uni.navigateTo({
-											url: "/pages/mine/vip/vip"
-										})
-									} else {
-										uni.showToast({
-											title: "员工不能充值",
-											icon: "none"
-										})
-									}
-								} else if (res.cancel) {
-									console.log('用户点击取消');
-								}
-							}
-						})
-					}
+					uni.navigateTo({
+						url: "../good_add/good_add?type=more"
+					})
 				})
 			},
 
@@ -384,6 +350,8 @@
 				}else if(type == "options"){
 					that.showOptions = true
 				}
+				
+				uni.setStorageSync("isClickShaiXuan",true);
 			},
 
 			//点击去到详情
@@ -404,6 +372,9 @@
 
 			//查询产品列表
 			get_productList() {
+				uni.showLoading({
+					title: "加载中..."
+				})
 				const query = Bmob.Query("NGoods");
 				query.equalTo("userId", "==", uid);
 
@@ -448,7 +419,9 @@
 							item.costPrice = 0
 						}
 					}
-					that.productList = res;
+					this.productList = res;
+					uni.hideLoading();
+					uni.removeStorageSync("isClickShaiXuan")
 					//this.loading = false;
 				});
 			},
@@ -493,7 +466,7 @@
 	.product_name {
 		font-weight: bold;
 		color: #333;
-		max-width: 60%;
+		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
