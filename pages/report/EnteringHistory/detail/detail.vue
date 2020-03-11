@@ -88,8 +88,8 @@
 									<view v-else>存放店仓:未填写</view>
 								</view>
 								<view v-else-if="item.type == 7">
-									<view v-if="item.stock">货损店仓:{{item.stock}}</view>
-									<view v-else>货损店仓:未填写</view>
+									<view v-if="item.stock">报废店仓:{{item.stock}}</view>
+									<view v-else>报废店仓:未填写</view>
 								</view>
 
 								<view>数量：X{{item.num}} {{item.packingUnit}}</view>
@@ -235,10 +235,14 @@
 				
 				<view v-else-if="detail.type == 7">
 					<view class="kaidanmx">
-						<view style="padding: 10rpx 30rpx;">货损明细</view>
+						<view style="padding: 10rpx 30rpx;">报废明细</view>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;background: #FFFFFF;padding: 15rpx 30rpx;" v-if="detail.createdTime">
-							<view>货损时间</view>
+							<view>报废时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;background: #FFFFFF;padding: 15rpx 30rpx;" v-if="detail.createdTime">
+							<view>审核状态</view>
+							<view class="real_color">{{detail.status?'已审核':'未审核' }}</view>
 						</view>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;background: #FFFFFF;padding: 15rpx 30rpx;">
 							<view >是否已减去库存数量</view>
@@ -327,7 +331,7 @@
 				console.log(res.target)
 			}
 			return {
-				title: '库存表-操作单详情',
+				title: '高明燃气物资库存管理-操作单详情',
 				path: '/pages/report/EnteringHistory/detail/detail?id=' + id
 			}
 		},
@@ -361,15 +365,16 @@
 
 				if (that.detail.type == 1 || that.detail.type == -1) {
 					if (that.detail.type == 1 && that.detail.extra_type == 1) {
-						options = ['撤销', '打印', "采购入库"]
+						options = ['撤销', "采购入库"]
 					} else if (that.detail.type == -1 && that.detail.extra_type == 1) {
-						options = ['撤销', '打印', '销售出库']
+						options = ['撤销', '销售出库']
 					} else {
-						options = ['撤销', '打印']
+						options = ['撤销']
 					}
-
+				}else if(that.detail.type == 7){
+					options = ['撤销','审核此报废单']
 				} else {
-					options = ['打印']
+					options = []
 				}
 				uni.showActionSheet({
 					itemList: options,
@@ -378,8 +383,6 @@
 							that.revoke()
 							uni.setStorageSync("is_option", true)
 						} else if (res.tapIndex == 1) {
-							print.print_operations(that.detail, that.products)
-						} else if (res.tapIndex == 2) {
 							that.confrimOrder()
 						}
 					},
@@ -429,8 +432,26 @@
 									todos.destroyAll().then(res => {
 										// 成功批量修改
 										if (that.detail.status) {
-											for (var i = 0; i < that.products.length; i++) {
-												that.delete_bill(i);
+											if(that.type == 7){
+												if(that.isReducesNum == true){
+													for (var i = 0; i < that.products.length; i++) {
+														that.delete_bill(i);
+													}
+												}else{
+													uni.hideLoading();
+													uni.navigateBack({
+														delta: 1
+													})
+													setTimeout(function() {
+														uni.showToast({
+															title: '撤销成功'
+														})
+													}, 1000);
+												}
+											}else{
+												for (var i = 0; i < that.products.length; i++) {
+													that.delete_bill(i);
+												}
 											}
 										} else {
 											uni.hideLoading();
@@ -493,6 +514,20 @@
 										that.ReduceGoodReserve(item, count);
 										count += 1;
 									}
+								}else if(that.detail.type == 7){
+									if(that.detail.isReducesNum){
+										for (let item of that.products) {
+											that.ReduceGoodReserve(item, count);
+											count += 1;
+										}
+									}else{
+										uni.showToast({
+											title: '审核成功'
+										})
+										uni.hideLoading()
+										
+										that.getdetail(id);
+									}
 								}
 
 							}).catch(err => {
@@ -538,21 +573,6 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('NGoods');
 								query.set('reserve', now_reserve)
-								
-								if(thisGood.order=="" || thisGood.order==null || thisGood.order==undefined){									
-									if(thisGood.max_num >=0){
-										if(num >= thisGood.max_num){
-											query.set('stocktype', 2)
-										}else if(num <= thisGood.warning_num){
-											query.set('stocktype', 0)
-										}else{
-											query.set('stocktype', 1)
-										}
-									}else{
-										query.set('stocktype', 1)
-									}
-								}
-								
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
 									if (count == (that.products.length - 1)) {
@@ -566,6 +586,7 @@
 													delta: 1
 												})
 												setTimeout(function() {
+													common.modifyStockType(thisGood.header.objectId)
 													uni.showToast({
 														title: '审核成功'
 													})
@@ -645,19 +666,6 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('NGoods');
 								query.set('reserve', now_reserve)
-								if(thisGood.order=="" || thisGood.order==null || thisGood.order==undefined){
-									if(thisGood.warning_num >=0){
-										if(num >= thisGood.max_num){
-											query.set('stocktype', 2)
-										}else if(num <= thisGood.warning_num){
-											query.set('stocktype', 0)
-										}else{
-											query.set('stocktype', 1)
-										}
-									}else{
-										query.set('stocktype', 1)
-									}
-								}
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
 									if (product.warning_num >= now_reserve && product.warning_num>=0) {
@@ -676,6 +684,7 @@
 													delta: 1
 												})
 												setTimeout(function() {
+													common.modifyStockType(thisGood.header.objectId)
 													uni.showToast({
 														title: '审核成功'
 													})
@@ -747,7 +756,7 @@
 						}else{
 							query1.set('reserve', res.reserve - product.num);
 						}
-					} else if (product.type == -1) {
+					} else if (product.type == -1 || product.type == 7) {
 						if (product.goodsId.selected_model) {
 							let num = 0;
 							for (let model of product.goodsId.selected_model) {
@@ -778,7 +787,6 @@
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('NGoods');
 								query.set('reserve', now_reserve)
-								query.set('stocktype', (now_reserve > thisGood.warning_num) ? 1 : 0)
 								query.set('id', thisGood.header.objectId)
 								query.save().then(res => {
 									if (i == (that.products.length - 1)) {
@@ -787,6 +795,7 @@
 											delta: 1
 										})
 										setTimeout(function() {
+											common.modifyStockType(thisGood.header.objectId)
 											uni.showToast({
 												title: '撤销成功'
 											})

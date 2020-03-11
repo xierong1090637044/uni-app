@@ -74,7 +74,7 @@
 											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
 											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
-											<view v-else-if='item.type == 7' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">货损单</view>
+											<view v-else-if='item.type == 7' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;"  :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':'border: 1rpx solid#bba14f;color: #bba14f;'">报废单</view>
 										</view>
 
 										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>店仓：</text>{{item.stock.stock_name}}</view>

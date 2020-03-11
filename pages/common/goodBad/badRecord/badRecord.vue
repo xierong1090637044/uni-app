@@ -78,7 +78,7 @@
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">货损</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="2">确认报废</button>
 					</view>
 
 				</view>
@@ -220,7 +220,7 @@
 					tempBills.set('userId', user);
 					tempBills.set('type', 7);
 					tempBills.set('opreater', operater);
-					tempBills.set("status", true); // 操作单详情
+					tempBills.set("status", false); // 操作单详情
 					tempBills.set("createdTime", {
 						"__type": "Date",
 						"iso": that.nowDay
@@ -290,7 +290,7 @@
 
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", true); // 操作单详情
+						query.set("status", false); // 操作单详情
 						query.set("isReducesNum", that.canOpretion); // 操作单详情
 						query.set("createdTime", {
 							"__type": "Date",
@@ -301,48 +301,25 @@
 							let operationId = res.objectId;
 							let createdAt = res.createdAt;
 
-							if (that.canOpretion) { //选择从库存中减去库存数量
-								common.outRedGoodNum(that.products).then(result => { //减少产品数量
-									uni.showToast({
-										title: "记录成功"
-									})
-									uni.hideLoading();
-									uni.setStorageSync("is_option", true);
-									uni.removeStorageSync("_warehouse")
-									uni.removeStorageSync("out_warehouse")
-									uni.removeStorageSync("category")
-									uni.removeStorageSync("warehouse")
+							uni.showToast({
+								title: "记录成功"
+							})
 
-									setTimeout(() => {
-										that.button_disabled = false;
-										common.log(uni.getStorageSync("user").nickName + "货损了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", 7, operationId);
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
-								})
-							} else {
-								uni.showToast({
-									title: "记录成功"
-								})
+							uni.hideLoading();
+							uni.setStorageSync("is_option", true);
+							uni.removeStorageSync("_warehouse")
+							uni.removeStorageSync("out_warehouse")
+							uni.removeStorageSync("category")
+							uni.removeStorageSync("warehouse")
 
-								uni.hideLoading();
-								uni.setStorageSync("is_option", true);
-								uni.removeStorageSync("_warehouse")
-								uni.removeStorageSync("out_warehouse")
-								uni.removeStorageSync("category")
-								uni.removeStorageSync("warehouse")
-
-								setTimeout(() => {
-									that.button_disabled = false;
-									common.log(uni.getStorageSync("user").nickName + "货损了'" + that.products[0].goodsName + "'等" + that.products
-										.length + "商品", 7, operationId);
-									uni.navigateBack({
-										delta: 2
-									});
-								}, 500)
-							}
+							setTimeout(() => {
+								that.button_disabled = false;
+								common.log(uni.getStorageSync("user").nickName + "报废了'" + that.products[0].goodsName + "'等" + that.products
+									.length + "商品", 7, operationId);
+								uni.navigateBack({
+									delta: 2
+								});
+							}, 500)
 						})
 					},
 					function(error) {

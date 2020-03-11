@@ -228,7 +228,7 @@
 						for (let item of res) {
 							reserve_money += Number(item.header.costPrice) * Number(item.reserve)
 							reserve_num += Number(item.reserve)
-							item.percent = ((Number(item.reserve)/sumReserve)*100).toFixed(4)
+							item.percent = ((Number(item.reserve)/sumReserve)*100).toFixed(1)
 						}
 
 						that.reserve_money = reserve_money
