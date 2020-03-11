@@ -71,8 +71,8 @@
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
 		},{
-			name: '货损记录',
-			notice: '货损记录',
+			name: '报废记录',
+			notice: '报废记录',
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=7',
 		}
