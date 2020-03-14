@@ -755,7 +755,11 @@
 					"path": "good_det/bad_history/bad_history",
 					"style": {}
 				}
-			]
+			    ,{
+                    "path" : "customClass/customClass",
+                    "style" : {}
+                }
+            ]
 		}
 	],
 

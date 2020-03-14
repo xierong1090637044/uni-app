@@ -227,10 +227,10 @@
 				that.seleted_tab = -1;
 				that.selected_text = '出库';
 
-				that.now_day = common.getDay(0, false),
-					that.end_day = common.getDay(1, false),
-					that.max_day = common.getDay(0, false),
-					that.showOptions = false;
+				that.now_day = common.getDay(0, false);
+				that.end_day = common.getDay(1, false);
+				that.max_day = common.getDay(0, false);
+				that.showOptions = false;
 				that.getdetail()
 			},
 
@@ -286,12 +286,16 @@
 				query.include("opreater", "goodsId");
 				query.limit(500);
 				query.find().then(res => {
-					console.log(res)
+					
 					for (let item of res) {
-						console.log(item)
-						that.header.total += item.num
-						that.header.total_money += item.really_total_money
-						that.header.get_money += item.total_money - item.really_total_money
+						if(item.type == 1 || item.type == -1){
+							if(item.really_total_money){
+								that.header.total += item.num
+								that.header.total_money += item.really_total_money
+								that.header.get_money += item.total_money - item.really_total_money
+							}
+						}
+						
 					}
 					that.list = res;
 					that.loading = false;

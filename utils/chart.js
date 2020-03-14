@@ -31,7 +31,7 @@ export default {
 	},
 
 	//得到出入库的线形图数据
-	getLineChart(year, month) {
+	getLineChart(year, month,stock) {
 		let lineReserve = {}
 		let columnChart = {}
 
@@ -81,6 +81,9 @@ export default {
 			query.equalTo("userId", "==", uid);
 			query.equalTo("createdAt", ">=", end_date);
 			query.equalTo("createdAt", "<=", start_date);
+			if(stock && stock.objectId){
+				query.equalTo("stock", "==", stock.objectId);
+			}
 			query.equalTo("status", "!=", false);
 			const query1 = query.equalTo("type", '==', 1);
 			const query2 = query.equalTo("type", '==', -1);

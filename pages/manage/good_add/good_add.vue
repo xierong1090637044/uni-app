@@ -657,7 +657,6 @@
 							res.save()
 						})
 					} else {
-						console.log("jjjj")
 						query.set("goodsClass", p_class_user_id)
 						query.set("second_class", p_second_class_id)
 					}

@@ -121,6 +121,7 @@ export default {
 	custom_detail(id) {
 		return new Promise((resolve, reject) => {
 			const query = Bmob.Query('customs');
+			query.include("customFristClass","customSecondClass")
 			query.get(id).then(res => {
 				//console.log(res)
 				resolve(res)

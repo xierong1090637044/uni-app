@@ -63,6 +63,11 @@
 			},
 			
 			edit() {
+				if(that.custom.customSecondClass){
+					uni.setStorageSync("customCategory", that.custom.customSecondClass);
+				}else if(that.custom.customFristClass){
+					uni.setStorageSync("customCategory", that.custom.customFristClass);
+				}
 				uni.setStorageSync("customs", that.custom);
 				uni.navigateTo({
 					url: "../add/add"

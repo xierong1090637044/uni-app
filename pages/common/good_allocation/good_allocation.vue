@@ -94,6 +94,7 @@
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
+					uni.setStorageSync("keepScan", true);
 					if(res.length == 0){
 						uni.showToast({
 							icon:"none",

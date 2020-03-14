@@ -101,7 +101,7 @@
 				query.equalTo("status", "!=", -1);
 				query.include("stocks");
 				query.find().then(res => {
-					
+					uni.setStorageSync("keepScan", true);
 					if(res.length == 0){
 						uni.showToast({
 							icon:"none",

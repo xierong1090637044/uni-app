@@ -28,6 +28,13 @@
 				<view style="margin-right: 20rpx;width: 160rpx;">姓名<text style="color: #d93a49;">*</text></view>
 				<input placeholder="请输入姓名" v-model="name" style="width: calc(100% - 200rpx)" class="rightInput"/>
 			</view>
+			
+			<navigator class="display_flex_bet item normalBorder" hover-class="none" url="/pages/manage/customClass/customClass?type=choose">
+				<view style="margin-right: 20rpx;width: 160rpx;">客户类别</view>
+				<input placeholder="请选择客户分类" v-model="customClass.class_text" style="width: calc(100% - 200rpx)" class="rightInput" :disabled="true"/>
+				
+				<fa-icon type="angle-right" size="20" color="#999" style="margin-left: 20rpx;"></fa-icon>
+			</navigator>
 
 			<view class="display_flex_bet item normalBorder">
 				<view style="margin-right: 20rpx;width: 160rpx;">联系地址</view>
@@ -75,13 +82,15 @@
 				phone: '',
 				debt: 0,
 				discount: 100, //折扣率
-				textDesc:'添加'
+				textDesc:'添加',
+				customClass:{}
 			}
 		},
 		onLoad(options) {
 			type = options.type
 			that = this;
 			uid = uni.getStorageSync('uid');
+			uni.removeStorageSync("customCategory")
 			//type = "customs"
 		},
 
@@ -106,11 +115,16 @@
 					title: '新增客户'
 				});
 			}
+			
+			if(uni.getStorageSync("customCategory")){
+				that.customClass = uni.getStorageSync("customCategory")
+			}
 		},
 
 		onUnload() {
-			uni.removeStorageSync("custom_type")
-			uni.removeStorageSync("customs")
+			uni.removeStorageSync("custom_type");
+			uni.removeStorageSync("customs");
+			uni.removeStorageSync("customCategory")
 		},
 
 		methods: {
@@ -167,6 +181,27 @@
 					query.set("discount", Number(that.discount))
 					query.set("parent", poiID)
 					query.set("Images",that.Images)
+					if (that.customClass.type == 1) {
+						let pointer1 = Bmob.Pointer('customFristClass')
+						let  customFristClass = pointer1.set(that.customClass.objectId) //一级分类id关联
+						query.set("customFristClass", customFristClass)
+						
+						if(custom){
+							query.get(custom.objectId).then(res => {
+								res.unset('customSecondClass')
+								res.save()
+							})
+						}
+					} else if(that.customClass.type == 2) {
+						let pointer1 = Bmob.Pointer('customFristClass')
+						let customFristClass = pointer1.set(that.customClass.parent.objectId) //一级分类id关联
+						let pointer2 = Bmob.Pointer('customSecondClass')
+						let customSecondClass = pointer2.set(that.customClass.objectId) //店仓的id关联
+						
+						
+						query.set("customFristClass", customFristClass)
+						query.set("customSecondClass", customSecondClass)
+					}
 					//query.set("beizhu", "Bmob")
 					query.save().then(res => {
 						console.log(res)

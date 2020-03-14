@@ -8,6 +8,10 @@
 		</uni-nav-bar>
 
 		<view class="display_flex good_option_view" style="background: #fff;">
+			<view class="good_option" @click="selectd('customCategory')">
+				<view class="good_optionText">{{headerSelection.customCategory.class_text || '分类'}}</view>
+				<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+			</view>
 			<view class="good_option" @click="selectd('order')">
 				<view class="good_optionText">{{headerSelection.order.desc || '排序'}}</view>
 				<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
@@ -100,6 +104,7 @@
 					order: {
 						"order": "-createdAt"
 					},
+					customCategory:{},
 					options: '',
 				},
 				orders: [{
@@ -145,10 +150,19 @@
 		onShow() {
 			uni.removeStorageSync("customs")
 			uni.removeStorageSync("custom_type")
-			that.load_data("customs")
+			
+			if(uni.getStorageSync("isClickShaiXuan")){ //判断是否下级页面进行了操作
+				that.headerSelection.customCategory = uni.getStorageSync("customCategory") || ''
+				that.load_data("customs")
+			}else{
+				that.load_data("customs")
+			}
+			
+			
 		},
 		onUnload() {
 			search_text = ""
+			uni.removeStorageSync("isClickShaiXuan")
 		},
 		methods: {
 
@@ -156,9 +170,14 @@
 			selectd(type) {
 				if (type == "order") {
 					that.showOrder = true
+				}else if (type == "customCategory") {
+					uni.navigateTo({
+						url: "/pages/manage/customClass/customClass?type=choose"
+					})
 				} else if (type == "options") {
 					that.showOptions = true
 				}
+				uni.setStorageSync("isClickShaiXuan",true);
 			},
 			
 			//选择当前排序
@@ -185,7 +204,7 @@
 				}
 			},
 			
-			//点击店仓去到详情
+			//点击客户去到详情
 			gotoDetail(item) {
 				if (that.is_custom) {
 					return
@@ -231,6 +250,7 @@
 			option_reset() {
 				that.headerSelection = {
 					order: {"order":"-createdAt"},
+					customCategory:{},
 					options: '',
 				};
 				that.orders =  [{
@@ -277,6 +297,12 @@
 						"$regex": "" + search_text + ".*"
 					});
 				}
+				if (that.headerSelection.customCategory.type == 1) {
+					query.equalTo("customFristClass", "==", that.headerSelection.customCategory.objectId);
+				} else {
+					query.equalTo("customSecondClass", "==", that.headerSelection.customCategory.objectId);
+				}
+				query.include("customFristClass","customSecondClass")
 				query.find().then(res => {
 					console.log(res)
 					uni.hideLoading();

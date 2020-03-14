@@ -117,13 +117,13 @@
 				charge = warehouse.Ncharge
 				that.Images = warehouse.Image || []
 				that.warehouse_name = warehouse.stock_name
-				that.warehouse_shop = warehouse.shop
+				that.warehouse_shop = warehouse.shop||''
 				that.warehouse_num = warehouse.num
 				that.warehouse_charge = warehouse.Ncharge.nickName
-				that.warehouse_beizhu = warehouse.beizhu
+				that.warehouse_beizhu = warehouse.beizhu||''
 				that.disabled = !warehouse.disabled;
-				that.phoneNumber = warehouse.phoneNumber
-				that.address = warehouse.address
+				that.phoneNumber = warehouse.phoneNumber||''
+				that.address = warehouse.address||''
 				that.textDesc = "修改";
 				uni.setNavigationBarTitle({
 					title: '修改店仓信息'

@@ -137,6 +137,7 @@
 				query.include("stocks");
 				query.find().then(res => {
 					console.log(res)
+					uni.setStorageSync("keepScan", true);
 					if(res.length == 0){
 						uni.showToast({
 							icon:"none",

@@ -11,7 +11,20 @@
 		onLaunch: function() {
 
 			// #ifdef MP-WEIXIN
-			Bmob.User.auth().then(res => {}).catch(err => {
+			Bmob.User.auth().then(res => {
+				//console.log(res)
+				let Opid = res?res.authData.weapp.openid:''
+				let thisUser = uni.getStorageSync("user");
+				if(thisUser){
+					const query = Bmob.Query('_User');
+					query.get(thisUser.objectId).then(res => {
+					  res.set('miniProgramOpid',Opid)
+					  res.save()
+					}).catch(err => {
+					  console.log(err)
+					})
+				}
+			}).catch(err => {
 				console.log(err)
 			});
 

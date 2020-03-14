@@ -16,7 +16,8 @@
 				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
-						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)' v-if="stockLists.length > 0"></i>
+						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
+						 v-if="stockLists.length > 0"></i>
 					</view>
 
 					<view class='o_list' v-if="stockLists.length > 0">
@@ -120,12 +121,10 @@
 					</view>
 					<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 					<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-						<view>1、新增产品时增加期初库存的记录</view>
-						<view>2、员工扩充到500位</view>
-						<view>3、客户详情里增加成本显示</view>
-						<view>4、操作记录增加备注查询</view>
-						<view>5、用户反馈的bug修复</view>
-						<view>6、产品图片展示进行压缩优化</view>
+						<view>1、新增客户分类</view>
+						<view>2、店仓详情优化</view>
+						<view>3、将会支持账户注销以及数据备份</view>
+						<view>4、用户反馈的bug修复</view>
 					</view>
 					<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 				</view>
@@ -144,6 +143,7 @@
 	import Bmob from "hydrogen-js-sdk";
 	let that;
 	let uid;
+	let haveShow = false;
 
 	export default {
 		components: {
@@ -267,7 +267,7 @@
 				total_products: 0,
 				openid: '',
 				isUpdate: false,
-				canScanCode:true,//根据权限判断是否可以扫码操作
+				canScanCode: true, //根据权限判断是否可以扫码操作
 			}
 		},
 		onLoad(options) {
@@ -333,8 +333,8 @@
 						that.stockLists = []
 						that.stockListsNew = []
 					}
-					
-					if(that.user.rights.current.indexOf("0") == -1){
+
+					if (that.user.rights.current.indexOf("0") == -1) {
 						that.canScanCode = false
 					}
 
@@ -364,6 +364,23 @@
 				})
 
 				that.isUpdate = uni.getStorageSync("isUpdate") || false; //检测是否有更新
+				
+				/*if (uni.getStorageSync("keepScan") && haveShow == false) {
+					haveShow = true
+					uni.showModal({
+						content: '是否继续上次的扫码操作',
+						success: function(res) {
+							if (res.confirm) {
+								that.scan(uni.getStorageSync("scanType"), uni.getStorageSync("scanOplists"));
+							} else if (res.cancel) {
+								haveShow == false
+								uni.removeStorageSync("keepScan")
+								uni.removeStorageSync("scanType")
+								uni.removeStorageSync("scanOplists")
+							}
+						}
+					})
+				}*/
 			} else { //未登录情况下
 				setTimeout(function() {
 					uni.showToast({
@@ -376,7 +393,7 @@
 					url: "/pages/landing/landing"
 				})
 			}
-
+			
 			uni.removeStorageSync("now_product")
 		},
 
@@ -497,6 +514,8 @@
 
 			//扫码操作
 			scan: function(type, opLists) {
+				uni.setStorageSync("scanOplists", opLists);
+				uni.setStorageSync("scanType", type);
 				// #ifdef H5
 				this.$wechat.scanQRCode().then(res => {
 					let result = res.result;
@@ -539,7 +558,7 @@
 					})
 				} else if (opLists[type] == '销售退货') {
 					uni.navigateTo({
-						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=returing&value=1",
+						url: '/pages/common/good_return/good_return?id=' + array[0] + "&isCode=" + array[1] + "&type=return&value=1",
 					})
 				} else if (opLists[type] == '入库') {
 					uni.navigateTo({
@@ -568,6 +587,7 @@
 						})
 					}
 				}
+				haveShow =false
 			}
 
 		}

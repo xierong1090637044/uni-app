@@ -119,7 +119,7 @@
 					title: "加载中..."
 				})
 				const query = Bmob.Query('Goods');
-				if (options.type == "false") {
+				if (options.isCode == "false") {
 					query.equalTo("objectId", "==", options.id);
 				} else {
 					query.equalTo("productCode", "==", options.id)
@@ -128,7 +128,7 @@
 				query.equalTo("status", "!=", -1);
 				query.include("stocks");
 				query.find().then(res => {
-					
+					uni.setStorageSync("keepScan", true);
 					if(res.length == 0){
 						uni.showToast({
 							icon:"none",

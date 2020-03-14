@@ -143,6 +143,13 @@
 			url: '/pages/manage/category/category',
 			id:5
 		},
+		{
+			name: '客户类别管理',
+			notice: '客户类别相关',
+			icon: 'list',
+			url: '/pages/manage/customClass/customClass',
+			id:6
+		},
 	];
 	
 	let analysisLists= [{

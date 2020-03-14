@@ -63,6 +63,7 @@
 				type: Boolean,
 				default: true
 			},
+			thisStock:{}
 		},
 		data() {
 			return {
@@ -99,7 +100,7 @@
 			getServerData() {
 				let year = _self.now_day.split("-")[0]
 				let month = _self.now_day.split("-")[1]
-				chart.getLineChart(year, month).then(res => {
+				chart.getLineChart(year, month,this.thisStock).then(res => {
 					console.log(res)
 					_self.textarea = JSON.stringify(res);
 					_self.showLineA("canvasLineA", res);

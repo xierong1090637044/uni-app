@@ -13,23 +13,23 @@
 			<view class="content_bg">
 				<view>开通会员可以体验全部功能哦！<text style="font-size: 20rpx;">（将于七日后恢复原价）</text></view>
 				<view class="display_flex_bet" style="margin-top: 40rpx;">
-					<view :class="['price_content',(selected_price==10)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(10)">
+					<view :class="['price_content',(selected_price==10)?'selected_price_bg':'']"  @click="selected_this(10)">
 						<view class="time_desc">一个月</view>
 						<view class="price_text">￥10</view>
-						<view style="position: relative;color: #999;font-size: 24rpx;">原价20 <view class="price_line">————</view>
+						<view style="position: relative;font-size: 24rpx;">原价20 <view class="price_line">————</view>
 						</view>
 					</view>
-					<view :class="['price_content',(selected_price==25)?'selected_price_bg':'']" style="margin: 0 30rpx;color: #999;"
+					<view :class="['price_content',(selected_price==25)?'selected_price_bg':'']" style="margin: 0 30rpx;"
 					 @click="selected_this(25)">
 						<view class="time_desc">一个季度</view>
 						<view class="price_text">￥25</view>
-						<view style="position: relative;color: #999;font-size: 24rpx;">原价60 <view class="price_line">————</view>
+						<view style="position: relative;font-size: 24rpx;">原价60 <view class="price_line">————</view>
 						</view>
 					</view>
-					<view :class="['price_content',(selected_price==100)?'selected_price_bg':'']" style="color: #999;" @click="selected_this(100)">
+					<view :class="['price_content',(selected_price==100)?'selected_price_bg':'']" @click="selected_this(100)">
 						<view class="time_desc">一年</view>
 						<view class="price_text">￥100</view>
-						<view style="position: relative;color: #999;font-size: 24rpx;">原价240 <view class="price_line">————</view>
+						<view style="position: relative;font-size: 24rpx;">原价240 <view class="price_line">————</view>
 						</view>
 					</view>
 				</view>
@@ -74,6 +74,24 @@
 
 		onLoad() {
 			that = this;
+			// #ifdef MP-WEIXIN
+			Bmob.User.auth().then(res => {
+				console.log(res)
+				let Opid = res?res.authData.weapp.openid:''
+				let thisUser = uni.getStorageSync("user");
+				if(thisUser){
+					const query = Bmob.Query('_User');
+					query.get(thisUser.objectId).then(res => {
+					  res.set('miniProgramOpid',Opid)
+					  res.save()
+					}).catch(err => {
+					  console.log(err)
+					})
+				}
+			}).catch(err => {
+				console.log(err)
+			});
+			// #endif
 		},
 
 		methods: {
@@ -231,6 +249,7 @@
 		padding: 20rpx 0;
 		border-radius: 16rpx;
 		line-height: 40rpx;
+		color: #333;
 	}
 
 	.price_line {
@@ -241,7 +260,6 @@
 
 	.price_text {
 		font-size: 32rpx;
-		color: #333;
 		font-weight: bold;
 	}
 
@@ -251,6 +269,7 @@
 
 	.selected_price_bg {
 		background: #12bcfe !important;
+		color: #fff !important;
 	}
 
 	.pay_button {

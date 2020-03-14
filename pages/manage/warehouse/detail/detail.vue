@@ -1,77 +1,79 @@
 <template>
 	<view>
-		<loading v-if="loading"></loading>
+		<!--<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>-->
 
-		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="操作" @click-right="show_options"></uni-nav-bar>
-		<view style="padding: 0 30rpx;background: #fff;">
-			<view class="display_flex_bet frist border_bottom" hover-class="none" @click="edit(stock)">
-				<view class="display_flex">
-					<view>店仓名称</view>
-					<view style="margin-left: 30rpx;">{{stock.stock_name}}</view>
-				</view>
-				<fa-icon type="angle-right" size="20" color="#999" />
-			</view>
-
-			<view class="display_flex_bet frist border_bottom">
-				<view class="display_flex_bet" style="width: 100%;">
-					<view>库存数量</view>
-					<view>{{reserve_num}}</view>
-				</view>
-			</view>
-
-			<view class="display_flex_bet frist border_bottom">
-				<view class="display_flex_bet" style="width: 100%;">
-					<view>库存金额</view>
-					<view>{{reserve_money}}</view>
-				</view>
-			</view>
+		<view style="padding: 20rpx 0;">
+			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
 		</view>
-		<navigator class="list_item display_flex_bet" hover-class="none" :url="'../record/record?stockId='+stock.objectId">
-			<text class="left_desc">相关的操作记录</text>
-			<fa-icon type="angle-right" size="20" color="#999" />
-		</navigator>
 
-		<!---存货统计-->
-		<view style="margin: 40rpx 0 20rpx;">
-			<view style="padding: 0 30rpx 20rpx;">存货统计</view>
-			<view style="background: #FFFFFF;padding: 0 30rpx;">
-				<view v-if="Goods && Goods.length == 0" style="font-weight: bold;padding: 20rpx 0;" class="second">未有存货</view>
-				<view v-for="(good,index) in Goods" :key="index" class="display_flex_bet second border_bottom" @click="goto_detail(good)"
-				 v-else>
-					<view style="width: 100%;">
-						<view>{{good.goodsName}}</view>
-						<view class="display_flex_bet">
-							<view v-if="good.reserve == 0">0%</view>
-							<view v-else>{{good.percent}}%</view>
-							<view style="margin-right: 20rpx;">库存：{{good.reserve}}</view>
-						</view>
+		<view v-if="current == 0">
+			<view style="padding: 0 30rpx;background: #fff;">
+				<view class="display_flex_bet frist border_bottom" hover-class="none">
+					<view class="display_flex">
+						<view>店仓名称</view>
+						<view style="margin-left: 30rpx;">{{stock.stock_name}}</view>
 					</view>
-					<fa-icon type="angle-right" size="20" color="#999" />
+				</view>
+
+				<view class="display_flex_bet frist border_bottom">
+					<view class="display_flex_bet" style="width: 100%;">
+						<view>库存数量</view>
+						<view>{{reserve_num}}</view>
+					</view>
+				</view>
+
+				<view class="display_flex_bet frist border_bottom">
+					<view class="display_flex_bet" style="width: 100%;">
+						<view>库存金额</view>
+						<view>{{reserve_money}}</view>
+					</view>
 				</view>
 			</view>
+			
+			<view class="Item" style="padding: 10rpx 30rpx;overflow: hidden;margin-top: 30rpx;">
+				<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;margin-bottom: 20rpx;">当月该仓库出入库统计</view>
+				<achart :now_day="now_day" :type="2" :show="true" :thisStock="stock"></achart>
+			</view>
+			
+			<stockDetBottom :thisStock="stock"></stockDetBottom>
+		</view>
+
+		<view v-if="current == 1">
+			<stockGoods :thisStock="stock" :thisClass="thisClass"></stockGoods>
 		</view>
 	</view>
 </template>
 
 <script>
-	import Bmob from "hydrogen-js-sdk";
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-	import loading from "@/components/Loading/index.vue"
+	import uniSegmentedControl from '@/components/uni-segmented-control/uni-segmented-control.vue';
+	import stockGoods from '@/components/stockGoods.vue';
+	import stockDetBottom from '@/components/stockDetBottom.vue';
+	import achart from '@/components/charts/AChart.vue'
+	
+	import common from '@/utils/common.js';
+	import Bmob from "hydrogen-js-sdk"
 
 	let that;
 	let uid;
 	export default {
 		components: {
-			faIcon,
-			loading
+			achart,
+			stockDetBottom,
+			uniSegmentedControl,
+			stockGoods,
 		},
 		data() {
 			return {
+				items: ['店仓详情', '产品存货'],
+				current: 0,
+				
+				now_day: common.getDay(0),
 				loading: true,
 				stock: "",
 				Goods: null,
 				reserve_num: 0,
 				reserve_money: 0,
+				thisClass: {}
 			}
 		},
 
@@ -80,6 +82,20 @@
 			uid = uni.getStorageSync("uid");
 			that.stock = uni.getStorageSync("stock")
 			that.get_detail()
+		},
+
+		onShow() {
+			if (uni.getStorageSync("isClickShaiXuan")) { //判断是否下级页面进行了操作
+				that.thisClass = uni.getStorageSync("category") || ''
+			}
+		},
+
+		onUnload() {
+			common.handleData();
+			uni.removeStorageSync("is_add");
+			uni.removeStorageSync("category");
+			uni.removeStorageSync("isClickShaiXuan");
+			uni.removeStorageSync("stock");
 		},
 
 		//分享
@@ -95,6 +111,10 @@
 		},*/
 
 		methods: {
+			onClickItem(value) {
+				that.current = value
+			},
+
 			show_options() {
 				uni.showActionSheet({
 					itemList: ["编辑", "删除"],
@@ -102,19 +122,7 @@
 						if (res.tapIndex == 0) {
 							that.edit(that.stock)
 						} else if (res.tapIndex == 1) {
-							const query = Bmob.Query("stocks");
-							query.equalTo("parent", "==", uid);
-							query.equalTo("disabled", "!=", true);
-							query.find().then(res => {
-								if (res.length > 1) {
-									that.delete_this(that.stock.objectId)
-								} else {
-									uni.showToast({
-										title: "最少保留一个店仓",
-										icon: "none"
-									})
-								}
-							})
+							
 
 						}
 					},
@@ -124,78 +132,10 @@
 				});
 			},
 
-			//编辑操作
-			edit(item) {
-				uni.setStorageSync("warehouse", item);
-				uni.setStorageSync("charge", item.charge);
-				uni.setStorageSync("shop", item.shop);
-				uni.navigateTo({
-					url: "../add/add"
-				})
-			},
-
-			//删除操作
-			delete_this(id) {
-				uni.showModal({
-					title: '提示',
-					content: '请谨慎删除，一旦删除，数据不能恢复，是否删除此店仓',
-					success: function(res) {
-						if (res.confirm) {
-							console.log(id);
-							that.delete_data(id)
-						}
-					}
-				});
-			},
-
-			//删除数据
-			delete_data(id) {
-				console.log(id)
-				const query = Bmob.Query("stocks");
-				query.destroy(id).then(res => {
-					console.log(res)
-
-					uni.showToast({
-						title: "删除成功",
-						icon: "none"
-					})
-					uni.navigateBack({
-						delta: 1
-					})
-					/*const query = Bmob.Query('Goods');
-					// 单词最多删除50条
-					query.limit(50)
-					query.equalTo("stocks", "==", id);
-					query.count().then(res => {
-						console.log(`共有${res}条记录`)
-						for (var i = 0; i < Math.ceil(res / 50); i++) {
-							query.find().then(todos => {
-								todos.destroyAll().then(res => {
-									// 成功批量修改
-									console.log(res, 'ok')
-									uni.showToast({
-										title: "删除成功",
-										icon: "none"
-									})
-									uni.navigateBack({
-										delta: 1
-									})
-								}).catch(err => {
-									console.log(err)
-								});
-							})
-						}
-					});*/
-
-				}).catch(err => {
-					console.log(err)
-				})
-			},
-
 			goto_detail(good) {
 				if (good.order == 1) {
 					uni.navigateTo({
-						url: "/pages/manage/good_det/Ngood_det?id="+good.header.objectId+"&type=false"
+						url: "/pages/manage/good_det/Ngood_det?id=" + good.header.objectId + "&type=false"
 					})
 				} else {
 					uni.navigateTo({
@@ -205,36 +145,39 @@
 			},
 
 			get_detail() {
+				let countKey = 0; //计数器
 				const query = Bmob.Query("Goods");
 				query.equalTo("userId", "==", uid);
 				query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
-				query.limit(500);
-				query.order("-reserve");
-				query.statTo("sum", "reserve");
-				query.find().then(res => {
-					console.log(res)
-					let sumReserve = res[0]? res[0]._sumReserve : 0
-					query.equalTo("userId", "==", uid);
-					query.equalTo("order", "==", 1);
-					query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
-					query.order("-reserve");
-					query.include("header");
-					query.limit(1000);
-					query.find().then(res => {
-						console.log(res)
-						that.Goods = res;
-						let reserve_num = 0;
-						let reserve_money = 0;
-						for (let item of res) {
-							reserve_money += Number(item.costPrice) * Number(item.reserve)
-							reserve_num += Number(item.reserve)
-							item.percent = ((Number(item.reserve) / sumReserve) * 100).toFixed(2)
-						}
+				query.count().then(res => {
+					let shouldKey =  Math.ceil(res / 500)
+					for (let i = 0; i < shouldKey; i++) {
+						query.equalTo("userId", "==", uid);
+						query.equalTo("order", "==", 1);
+						query.equalTo("stocks", "==", uni.getStorageSync("stock").objectId);
+						query.order("-reserve");
+						query.include("header");
+						query.limit(500);
+						query.skip(500 * i);
+						query.find().then(res => {
+							countKey += 1
 
-						that.reserve_money = reserve_money
-						that.reserve_num = reserve_num
-						that.loading = false
-					})
+							if (countKey == shouldKey) {
+								console.log(res)
+								let reserve_num = 0;
+								let reserve_money = 0;
+								for (let item of res) {
+									reserve_money += Number(item.costPrice) * Number(item.reserve)
+									reserve_num += Number(item.reserve)
+								}
+
+								that.reserve_money = reserve_money
+								that.reserve_num = reserve_num
+								that.loading = false
+							}
+
+						})
+					}
 				})
 			},
 		}

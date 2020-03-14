@@ -2,9 +2,14 @@
 	<view>
 		<view class="list-content">
 			<view class="list">
-				<view class="li " @click="downloadDemoFile">
-					<fa-icon type="download" size="18" color="#3d3d3d3"></fa-icon>
+				<view class="li " @click="copyAllFile">
+					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">产品数据备份</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</view>
+				<view class="li " @click="accountDelete">
+					<fa-icon type="telegram" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">账号注销</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</view>
 				<view class="li ">
@@ -17,82 +22,67 @@
 	</view>
 </template>
 <script>
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import Bmob from "hydrogen-js-sdk";
 	let that;
 	export default {
-		components: {
-			faIcon
-		},
+		components: {},
 		data() {
 			return {
 				user: null,
 			};
 		},
 		onLoad() {
+			uni.setNavigationBarTitle({"title":"系统设置"})
 			that = this;
 		},
 		onShow() {
 			that.user = uni.getStorageSync("user");
 		},
 		methods: {
-			
-			//下载数据模板
-			downloadDemoFile(){
-				wx.downloadFile({
-				  // 示例 url，并非真实存在
-				  url: 'https://www.jimuzhou.com/static/demo.xlsx',
-				  success: function (res) {
-				    const filePath = res.tempFilePath
-				    wx.openDocument({
-				      filePath: filePath,
-							fileType:'xlsx',
-				      success: function (res) {
-				        console.log('打开文档成功')
-				      }
-				    })
-				  }
-				})
+			accountDelete() {
+				uni.showModal({
+					title: '提示',
+					content: '是否确认注销当前账户',
+					success: function(res) {
+						if (res.confirm) {
+							let params = {
+								funcName: 'accountDelete',
+								data: {
+									uid: that.user.objectId,
+								}
+							}
+							Bmob.functions(params.funcName, params.data).then(function(res) {
+								uni.showToast({
+									icon: "none",
+									title: res.msg
+								})
+							})
+						}
+					}
+				});
 			},
 			
-			uploadfile() {
-				if(that.user.is_vip){
-					uni.showLoading({
-						title:"上传中..."
-					})
-					wx.chooseMessageFile({
-						count: 1,
-						type: 'file',
-						success(res) {
-							console.log(res)
-							// tempFilePath可以作为img标签的src属性显示图片
-							const tempFiles = res.tempFiles
-					
-							uni.uploadFile({
-								url: 'https://www.jimuzhou.com/api/getfile.php', //仅为示例，非真实的接口地址
-								filePath: tempFiles[0].path,
-								name: 'file',
-								formData: {
-									'userid': uni.getStorageSync('uid')
-								},
-								success: (uploadFileRes) => {
-									//console.log(JSON.parse(uploadFileRes.data))
-									let result = JSON.parse(uploadFileRes.data)
-									uni.hideLoading();
-									if(result.code == "1"){
-										uni.showToast({
-											title:"上传成功"
-										})
-									}
+			copyAllFile(){
+				uni.showModal({
+					title: '提示',
+					content: '是否备份当前账户的产品数据',
+					success: function(res) {
+						if (res.confirm) {
+							let params = {
+								funcName: 'copayAllFile',
+								data: {
+									uid: that.user.objectId,
 								}
-							});
+							}
+							Bmob.functions(params.funcName, params.data).then(function(res) {
+								uni.showToast({
+									icon: "none",
+									title: res.msg
+								})
+							})
 						}
-					})
-				}else{
-					uni.showToast({
-						title:"您还不是会员",
-						icon:"none"
-					})
-				}
+					}
+				});
 			},
 		}
 	}
