@@ -228,6 +228,26 @@
 															res.save()
 
 															common.modifyStockType(that.products[i].objectId)
+
+															that.button_disabled = false;
+															uni.setStorageSync("is_option", true);
+															setTimeout(() => {
+																uni.removeStorageSync("_warehouse")
+																uni.removeStorageSync("out_warehouse")
+																uni.removeStorageSync("category")
+																uni.removeStorageSync("warehouse")
+																common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +
+																	"'等" + that.products
+																	.length + "商品", 3, res.objectId);
+
+																//自动打印
+																if (uni.getStorageSync("setting").auto_print) {
+																	print.autoPrint(operationId);
+																}
+																uni.navigateBack({
+																	delta: 2
+																});
+															}, 500)
 														})
 													})
 												})
@@ -258,40 +278,37 @@
 															res.save()
 
 															common.modifyStockType(that.products[i].objectId)
+
+															that.button_disabled = false;
+															uni.setStorageSync("is_option", true);
+															setTimeout(() => {
+																uni.removeStorageSync("_warehouse")
+																uni.removeStorageSync("out_warehouse")
+																uni.removeStorageSync("category")
+																uni.removeStorageSync("warehouse")
+																common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +
+																	"'等" + that.products
+																	.length + "商品", 3, res.objectId);
+
+																//自动打印
+																if (uni.getStorageSync("setting").auto_print) {
+																	print.autoPrint(operationId);
+																}
+																uni.navigateBack({
+																	delta: 2
+																});
+															}, 500)
 														})
 													})
 												}).catch(err => {
 													console.log(err)
 												})
 											}
-
-
 										})
 									}
-
-									that.button_disabled = false;
-									uni.setStorageSync("is_option", true);
-									setTimeout(() => {
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", 3, res.objectId);
-
-										//自动打印
-										if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
-										}
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
 								}
 							})
 						})
-
-
 					},
 					function(error) {
 						// 批量新增异常处理
