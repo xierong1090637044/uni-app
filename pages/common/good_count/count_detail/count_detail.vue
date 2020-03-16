@@ -188,6 +188,7 @@
 								title: '产品盘点成功',
 								icon: 'success',
 								success: function() {
+									let countKey = 0;
 									for (let i = 0; i < that.products.length; i++) {
 										let num = 0;
 										const query = Bmob.Query('NGoods');
@@ -220,11 +221,55 @@
 														res.set('reserve', now_reserve)
 														res.save()
 														
+														countKey +=1
 														common.modifyStockType(that.products[i].header.objectId)
+														
+														if(countKey == that.products.length){
+															that.button_disabled = false;
+															uni.setStorageSync("is_option", true);
+															setTimeout(() => {
+																uni.removeStorageSync("_warehouse")
+																uni.removeStorageSync("out_warehouse")
+																uni.removeStorageSync("category")
+																uni.removeStorageSync("warehouse")
+																common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
+																	.length + "商品", 3, res.objectId);
+															
+																//自动打印
+																if (uni.getStorageSync("setting").auto_print) {
+																	print.autoPrint(operationId);
+																}
+																uni.navigateBack({
+																	delta: 2
+																});
+															}, 500)
+														}
 													})
 												})
 											}else{
+												countKey +=1
 												common.modifyStockType(that.products[i].objectId)
+												
+												if(countKey == that.products.length){
+													that.button_disabled = false;
+													uni.setStorageSync("is_option", true);
+													setTimeout(() => {
+														uni.removeStorageSync("_warehouse")
+														uni.removeStorageSync("out_warehouse")
+														uni.removeStorageSync("category")
+														uni.removeStorageSync("warehouse")
+														common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
+															.length + "商品", 3, res.objectId);
+													
+														//自动打印
+														if (uni.getStorageSync("setting").auto_print) {
+															print.autoPrint(operationId);
+														}
+														uni.navigateBack({
+															delta: 2
+														});
+													}, 500)
+												}
 											}
 
 										}).catch(err => {
@@ -232,24 +277,7 @@
 										})
 									}
 
-									that.button_disabled = false;
-									uni.setStorageSync("is_option", true);
-									setTimeout(() => {
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", 3, res.objectId);
-
-										//自动打印
-										if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
-										}
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
+									
 								}
 							})
 						})

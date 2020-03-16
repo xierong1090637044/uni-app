@@ -49,16 +49,15 @@
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
 									<view class="product_name text_overflow">{{product.goodsName}}</view>
 								</view>
-
+								
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存店仓:{{product.stocks.stock_name}}</view>
+									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
+								</view>
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
 									<view style="font-size: 24rpx;" v-if="canSeeCostprice">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
 									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
 									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
-								</view>
-
-								<view class="product_reserve display_flex_bet" style="width: 100%;">
-									<view v-if="product.stocks&&product.stocks.stock_name" style="font-size: 24rpx;">所存店仓:{{product.stocks.stock_name}}</view>
-									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
 								</view>
 								<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
 									<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
@@ -414,7 +413,7 @@
 				const query = Bmob.Query("NGoods");
 				query.include("stocks", "header");
 				query.equalTo("userId", "==", uid);
-				if(that.user.identity == 2){
+				if(that.user.identity == 2&&that.type !="counting"){
 					query.containedIn("stocks", that.user.stocks);
 				}else{
 					query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
