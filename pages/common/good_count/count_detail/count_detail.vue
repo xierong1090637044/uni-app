@@ -181,77 +181,108 @@
 							"iso": that.nowDay
 						}); // 操作单详情
 						query.save().then(res => {
+							let countKey = 0;
 							let operationId = res.objectId;
 							//console.log("添加操作历史记录成功", res);
 							uni.hideLoading();
-							uni.showToast({
-								title: '产品盘点成功',
-								icon: 'success',
-								success: function() {
-									for (let i = 0; i < that.products.length; i++) {
-										let num = 0;
-										const query = Bmob.Query('Goods');
-										query.get(that.products[i].objectId).then(res => {
-											//console.log(res)
-											if (that.products[i].selectd_model) {
-												for (let item of that.products[i].selected_model) {
-													delete item.num // 清除没用的属行
-												}
-												res.set('models', that.products[i].selected_model)
-												num = Number(that.products[i].num);
-											} else {
-												num = Number(that.products[i].num);
-											}
 
-											res.set('reserve', num)
-											//res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
-											res.save()
-
-											if (that.products[i].header) {
-												const query1 = Bmob.Query("Goods");
-												query1.equalTo("header", "==", that.products[i].header.objectId);
-												query1.equalTo("order", "==", 1);
-												query1.statTo("sum", "reserve");
-												query1.find().then(res => {
-													//console.log("dasds", res)
-													let now_reserve = res[0]._sumReserve
-													const query = Bmob.Query('Goods');
-													query.get(that.products[i].header.objectId).then(res => {
-														res.set('reserve', now_reserve)
-														res.save()
-														
-														common.modifyStockType(that.products[i].header.objectId)
-													})
-												})
-											}else{
-												common.modifyStockType(that.products[i].objectId)
-											}
-
-										}).catch(err => {
-											console.log(err)
-										})
+							for (let i = 0; i < that.products.length; i++) {
+								let num = 0;
+								const query = Bmob.Query('Goods');
+								query.get(that.products[i].objectId).then(res => {
+									//console.log(res)
+									if (that.products[i].selectd_model) {
+										for (let item of that.products[i].selected_model) {
+											delete item.num // 清除没用的属行
+										}
+										res.set('models', that.products[i].selected_model)
+										num = Number(that.products[i].num);
+									} else {
+										num = Number(that.products[i].num);
 									}
 
-									that.button_disabled = false;
-									uni.setStorageSync("is_option", true);
-									setTimeout(() => {
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", 3, res.objectId);
+									res.set('reserve', num)
+									//res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
+									res.save()
 
-										//自动打印
-										if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
+									if (that.products[i].header) {
+										const query1 = Bmob.Query("Goods");
+										query1.equalTo("header", "==", that.products[i].header.objectId);
+										query1.equalTo("order", "==", 1);
+										query1.statTo("sum", "reserve");
+										query1.find().then(res => {
+											//console.log("dasds", res)
+											let now_reserve = res[0]._sumReserve
+											const query = Bmob.Query('Goods');
+											query.get(that.products[i].header.objectId).then(res => {
+												res.set('reserve', now_reserve)
+												res.save()
+
+												countKey += 1
+												common.modifyStockType(that.products[i].header.objectId)
+												if (countKey == that.products.length) {
+													that.button_disabled = false;
+													uni.setStorageSync("is_option", true);
+													uni.removeStorageSync("_warehouse")
+													uni.removeStorageSync("out_warehouse")
+													uni.removeStorageSync("category")
+													uni.removeStorageSync("warehouse")
+													common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" +
+														that.products
+														.length + "商品", 3, res.objectId);
+
+													//自动打印
+													if (uni.getStorageSync("setting").auto_print) {
+														print.autoPrint(operationId);
+													}
+													uni.navigateBack({
+														delta: 2
+													});
+													
+													setTimeout(function(){
+														uni.showToast({
+															title: "盘点成功"
+														})
+													},500)
+												}
+											})
+										})
+									} else {
+										countKey += 1
+										common.modifyStockType(that.products[i].header.objectId)
+										if (countKey == that.products.length) {
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.removeStorageSync("warehouse")
+											common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" +
+												that.products
+												.length + "商品", 3, res.objectId);
+
+											//自动打印
+											if (uni.getStorageSync("setting").auto_print) {
+												print.autoPrint(operationId);
+											}
+											uni.navigateBack({
+												delta: 2
+											});
+											
+											setTimeout(function(){
+												uni.showToast({
+													title: "盘点成功"
+												})
+											},500)
 										}
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
-								}
-							})
+									}
+
+								}).catch(err => {
+									console.log(err)
+								})
+							}
+
+
 						})
 
 

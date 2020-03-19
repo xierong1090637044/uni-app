@@ -2,36 +2,23 @@
 	<!--当月详情-->
 	<view>
 		<view class="fristSearchView display_flex_bet" v-if="canScanCode">
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:100%;" />
+			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision">
+				<text v-if="thisVision == 'New'">旧版</text>
+				<text v-if="thisVision == 'Old'">新版</text>
+				<i class="iconfont icon-down-trangle" style="font-size: 24rpx;margin-left: 10rpx;"></i>
+			</view>
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:70%;" />
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
 		</view>
 
 		<!-- #ifdef H5 -->
-		<scroll-view scroll-y="true" style="height:85vh;">
+		<scroll-view scroll-y="true" style="height:85vh;" v-if="thisVision == 'New'">
 			<!-- #endif -->
 			<!-- #ifdef MP-WEIXIN -->
-			<scroll-view scroll-y="true" style="height:91vh;">
+			<scroll-view scroll-y="true" style="height:91vh;" v-if="thisVision == 'New'">
 				<!-- #endif -->
 
 				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
-					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
-						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
-						 v-if="stockLists.length > 0"></i>
-					</view>
-
-					<view class='o_list' v-if="stockLists.length > 0">
-						<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
-							<view class="o_headerItem">
-								<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
-							</view>
-							<view class='o_text'>{{value.name}}</view>
-						</navigator>
-					</view>
-					<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
-				</view>
-
-				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;">
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存
 							<text style="color: #f30;">New</text>
@@ -64,7 +51,8 @@
 					</view>
 
 					<view class='o_list' v-if="sellLists.length > 0">
-						<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none"
+						 v-if="value.type=='New'">
 							<view class="o_headerItem" style="background: #afbb4f;">
 								<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 							</view>
@@ -88,7 +76,8 @@
 					</view>
 
 					<view class='o_list' v-if="purchaseLists.length > 0">
-						<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none"
+						 v-if="value.type=='New'">
 							<view class="o_headerItem" style="background: #ad4fbb;">
 								<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
 							</view>
@@ -113,22 +102,109 @@
 				</view>
 			</scroll-view>
 
-			<!--更新弹窗-->
-			<modal :is_transparent="false" v-if="isUpdate" @hideModal="hideModal">
-				<view class="updateContent">
-					<view style="text-align: center;">
-						<image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;border-radius: 50%;"></image>
+
+			<!-- #ifdef H5 -->
+			<scroll-view scroll-y="true" style="height:85vh;" v-if="thisVision == 'Old'">
+				<!-- #endif -->
+				<!-- #ifdef MP-WEIXIN -->
+				<scroll-view scroll-y="true" style="height:91vh;" v-if="thisVision == 'Old'">
+					<!-- #endif -->
+
+					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
+						<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+							<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
+							<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
+							 v-if="stockLists.length > 0"></i>
+						</view>
+
+						<view class='o_list' v-if="stockLists.length > 0">
+							<navigator v-for='(value,index) in stockLists' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+								<view class="o_headerItem">
+									<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+								</view>
+								<view class='o_text'>{{value.name}}</view>
+							</navigator>
+						</view>
+						<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 					</view>
-					<view style="color: #333;font-weight: bold;">*本次更新内容</view>
-					<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-						<view>1、新增客户分类</view>
-						<view>2、店仓详情优化</view>
-						<view>3、将会支持账户注销以及数据备份</view>
-						<view>4、用户反馈的bug修复</view>
+
+					<!--销售模块-->
+					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;">
+						<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+							<view class="display_flex">
+								<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">销售</view>
+								<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+							</view>
+							<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)'
+							 v-if="sellLists.length > 0"></i>
+						</view>
+
+						<view class='o_list' v-if="sellLists.length > 0">
+							<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none" v-if="value.type=='Old'">
+								<view class="o_headerItem" style="background: #afbb4f;">
+									<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+								</view>
+								<view class='o_text'>{{value.name}}</view>
+								<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+							</navigator>
+						</view>
+						<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
 					</view>
-					<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
-				</view>
-			</modal>
+
+					<!--采购模块-->
+					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;">
+						<view class="display_flex_bet" style="padding-bottom: 10rpx;">
+							<view class="display_flex">
+								<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">采购</view>
+								<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+							</view>
+
+							<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)'
+							 v-if="purchaseLists.length > 0"></i>
+						</view>
+
+						<view class='o_list' v-if="purchaseLists.length > 0">
+							<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none" v-if="value.type=='Old'">
+								<view class="o_headerItem" style="background: #ad4fbb;">
+									<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
+								</view>
+								<view class='o_text'>{{value.name}}</view>
+								<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+							</navigator>
+						</view>
+						<view v-else style="text-align: center;color: #333;font-weight: bold;padding: 20rpx 0;">暂无操作权限</view>
+					</view>
+
+					<!--其他模块-->
+					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;" v-if="user.identity !=2">
+						<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
+						<view class='o_list'>
+							<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url,index)">
+								<view class="o_headerItem" style="background: #bb4f77;">
+									<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
+								</view>
+								<view class='o_text'>{{value.name}}</view>
+							</view>
+						</view>
+					</view>
+				</scroll-view>
+
+				<!--更新弹窗-->
+				<modal :is_transparent="false" v-if="isUpdate" @hideModal="hideModal">
+					<view class="updateContent">
+						<view style="text-align: center;">
+							<image src="http://www.shoujixungeng.com/2020/02/20/f7bd059c400e250780a9a54710537f16.jpg" style="width: 90rpx;height: 90rpx;border-radius: 50%;"></image>
+						</view>
+						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
+						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
+							<view>1、新增客户分类</view>
+							<view>2、店仓详情优化</view>
+							<view>3、将会支持账户注销以及数据备份</view>
+							<view>4、用户反馈的bug修复</view>
+						</view>
+						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
+					</view>
+				</modal>
 
 
 	</view>
@@ -201,40 +277,47 @@
 				sellLists: [{
 						name: '销售(旧)',
 						notice: '支持所有产品',
+						type: 'Old',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=1'
 					}, {
 						name: '销售退货(旧)',
 						notice: '支持所有产品',
+						type: 'Old',
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
 					}, {
 						name: '销售(新)',
 						notice: '适用新版产品',
+						type: 'New',
 						icon: 'icon-navicon-xsckd',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
 					},
 					{
 						name: '销售退货(新)',
 						notice: '适用新版产品',
+						type: 'New',
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
 					},
 				],
 				purchaseLists: [{
 						name: '采购(旧)',
+						type: 'Old',
 						notice: '支持所有产品',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
 					}, {
 						name: '采购(新)',
 						notice: '适用新版产品',
+						type: 'New',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
 					},
 					{
 						name: '采购退货',
 						notice: '适用新版产品',
+						type: 'New',
 						icon: 'icon-tuihuo1',
 						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
 					}
@@ -268,6 +351,7 @@
 				openid: '',
 				isUpdate: false,
 				canScanCode: true, //根据权限判断是否可以扫码操作
+				thisVision: "New",
 			}
 		},
 		onLoad(options) {
@@ -364,7 +448,7 @@
 				})
 
 				that.isUpdate = uni.getStorageSync("isUpdate") || false; //检测是否有更新
-				
+
 				/*if (uni.getStorageSync("keepScan") && haveShow == false) {
 					haveShow = true
 					uni.showModal({
@@ -393,7 +477,7 @@
 					url: "/pages/landing/landing"
 				})
 			}
-			
+
 			uni.removeStorageSync("now_product")
 		},
 
@@ -410,6 +494,16 @@
 		},
 
 		methods: {
+			
+			changeVision(){
+				if(that.thisVision == 'New'){
+					that.thisVision = 'Old'
+					uni.setNavigationBarTitle({title:"首页（旧版）"})
+				}else{
+					that.thisVision = 'New'
+					uni.setNavigationBarTitle({title:"首页（新版）"})
+				}
+			},
 
 			//关闭更新Modal
 			hideModal() {
@@ -549,9 +643,15 @@
 			//去到之指定的链接
 			returnUrl(opLists, type, array, productType) {
 				if (opLists[type] == '出库') {
-					uni.navigateTo({
-						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
-					})
+					if(that.thisVision == "New"){
+						uni.navigateTo({
+							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
+						})
+					}else{
+						uni.navigateTo({
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
+						})
+					}
 				} else if (opLists[type] == '销售') {
 					uni.navigateTo({
 						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
@@ -561,17 +661,29 @@
 						url: '/pages/common/good_return/good_return?id=' + array[0] + "&isCode=" + array[1] + "&type=return&value=1",
 					})
 				} else if (opLists[type] == '入库') {
-					uni.navigateTo({
-						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
-					})
+					if(that.thisVision == "New"){
+						uni.navigateTo({
+							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
+						})
+					}else{
+						uni.navigateTo({
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
+						})
+					}
 				} else if (opLists[type] == '采购') {
 					uni.navigateTo({
 						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
 					})
 				} else if (opLists[type] == '盘点') {
-					uni.navigateTo({
-						url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
-					})
+					if(that.thisVision == "New"){
+						uni.navigateTo({
+							url: '/pages/commonNew/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
+						})
+					}else{
+						uni.navigateTo({
+							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
+						})
+					}
 				} else if (opLists[type] == '产品详情') {
 					if (productType == "new") {
 						uni.navigateTo({
@@ -587,7 +699,7 @@
 						})
 					}
 				}
-				haveShow =false
+				haveShow = false
 			}
 
 		}
