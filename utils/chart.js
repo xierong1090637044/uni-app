@@ -31,7 +31,7 @@ export default {
 	},
 
 	//得到出入库的线形图数据
-	getLineChart(year, month,stock) {
+	getLineChart(year, month, stock) {
 		let lineReserve = {}
 		let columnChart = {}
 
@@ -81,108 +81,95 @@ export default {
 			query.equalTo("userId", "==", uid);
 			query.equalTo("createdAt", ">=", end_date);
 			query.equalTo("createdAt", "<=", start_date);
-			if(stock && stock.objectId){
+			if (stock && stock.objectId) {
 				query.equalTo("stock", "==", stock.objectId);
 			}
 			query.equalTo("status", "!=", false);
 			const query1 = query.equalTo("type", '==', 1);
 			const query2 = query.equalTo("type", '==', -1);
 			query.or(query1, query2);
-			query.count().then(res => {
-				let count = res;
-				let newArrar = [];
-				if (count == 0) {
-					uni.hideLoading()
-					return
+			query.statTo("sum", "num,total_money,really_total_money");
+			query.statTo("groupby", "createdAt,type");
+			query.statTo("order", "-createdAt");
+			query.find().then(res => {
+
+				if (now_month != month || now_year != now_year) {
+					for (let i = 1; i <= d; i++) {
+						let day = year + "-" + month + "-" + (i < 10 ? '0' + i : i)
+						categories.push(day)
+						outData.push(0)
+						inData.push(0)
+						outMoney.push(0)
+						inMoney.push(0)
+						outReaMoney.push(0)
+						inReaMoney.push(0)
+					}
+				} else {
+					for (let i = 0; i < d; i++) {
+						categories.push(common.getDay(-i))
+						outData.push(0)
+						inData.push(0)
+						outMoney.push(0)
+						inMoney.push(0)
+						outReaMoney.push(0)
+						inReaMoney.push(0)
+					}
 				}
 
-				for (let i = 0; i < Math.ceil(count / 1000); i++) {
-					query.statTo("sum", "num,total_money,really_total_money");
-					query.statTo("groupby", "createdAt,type");
-					query.statTo("order", "-createdAt");
-					query.limit(1000);
-					query.skip(1000 * i);
-					query.find().then(res => {
-
-						if (now_month != month || now_year != now_year) {
-							for (let i = 1; i <= d; i++) {
-								let day = year + "-" + month + "-" + (i < 10 ? '0' + i : i)
-								categories.push(day)
-								outData.push(0)
-								inData.push(0)
-								outMoney.push(0)
-								inMoney.push(0)
-								outReaMoney.push(0)
-								inReaMoney.push(0)
-							}
-						} else {
-							for (let i = 0; i < d; i++) {
-								categories.push(common.getDay(-i))
-								outData.push(0)
-								inData.push(0)
-								outMoney.push(0)
-								inMoney.push(0)
-								outReaMoney.push(0)
-								inReaMoney.push(0)
-							}
-						}
-
-						for (let item of res) {
-							let key = categories.indexOf(item.createdAt)
-							if (item.type == 1 && key != -1) {
-								inData[key] = item._sumNum
-								inMoney[key] = item._sumTotal_money
-								inReaMoney[key] = item._sumReally_total_money
-							} else if (item.type == -1 && key != -1) {
-								outData[key] = item._sumNum
-								outMoney[key] = item._sumTotal_money
-								outReaMoney[key] = item._sumReally_total_money
-							}
-						}
-
-						seriesItem2.name = "出库量"
-						seriesItem2.data = outData
-						series.push(seriesItem2)
-						columnSeries2.push(seriesItem2)
-						seriesItem1.name = "入库量"
-						seriesItem1.data = inData
-						series.push(seriesItem1)
-						columnSeries1.push(seriesItem1)
-
-						seriesItem3.name = "出库金额"
-						seriesItem3.data = outMoney
-						series1.push(seriesItem3)
-						//columnSeries1.push(seriesItem3)
-						seriesItem4.name = "入库金额"
-						seriesItem4.data = inMoney
-						series1.push(seriesItem4)
-
-						seriesItem5.name = "出库金额"
-						seriesItem5.data = outReaMoney
-						columnSeries2.push(seriesItem5)
-						series2.push(seriesItem5)
-						seriesItem6.name = "入库金额"
-						seriesItem6.data = inReaMoney
-						series2.push(seriesItem6)
-						columnSeries1.push(seriesItem6)
-
-
-						lineReserve.categories = categories
-						lineReserve.series = series
-						lineReserve.series1 = series1
-						lineReserve.series2 = series2
-						lineReserve.columnSeries1 = columnSeries1
-						lineReserve.columnSeries2 = columnSeries2
-
-						resolve(lineReserve)
-						//console.log(lineReserve)
-					});
-
+				for (let item of res) {
+					let key = categories.indexOf(item.createdAt)
+					if (item.type == 1 && key != -1) {
+						inData[key] = item._sumNum
+						inMoney[key] = item._sumTotal_money
+						inReaMoney[key] = item._sumReally_total_money
+					} else if (item.type == -1 && key != -1) {
+						outData[key] = item._sumNum
+						outMoney[key] = item._sumTotal_money
+						outReaMoney[key] = item._sumReally_total_money
+					}
 				}
-			})
+
+				seriesItem2.name = "出库量"
+				seriesItem2.data = outData
+				series.push(seriesItem2)
+				columnSeries2.push(seriesItem2)
+				seriesItem1.name = "入库量"
+				seriesItem1.data = inData
+				series.push(seriesItem1)
+				columnSeries1.push(seriesItem1)
+
+				seriesItem3.name = "出库金额"
+				seriesItem3.data = outMoney
+				series1.push(seriesItem3)
+				//columnSeries1.push(seriesItem3)
+				seriesItem4.name = "入库金额"
+				seriesItem4.data = inMoney
+				series1.push(seriesItem4)
+
+				seriesItem5.name = "出库金额"
+				seriesItem5.data = outReaMoney
+				columnSeries2.push(seriesItem5)
+				series2.push(seriesItem5)
+				seriesItem6.name = "入库金额"
+				seriesItem6.data = inReaMoney
+				series2.push(seriesItem6)
+				columnSeries1.push(seriesItem6)
 
 
-		});
+				lineReserve.categories = categories
+				lineReserve.series = series
+				lineReserve.series1 = series1
+				lineReserve.series2 = series2
+				lineReserve.columnSeries1 = columnSeries1
+				lineReserve.columnSeries2 = columnSeries2
+
+				resolve(lineReserve)
+				//console.log(lineReserve)
+			});
+
+		})
+
+
 	},
 
 
@@ -240,98 +227,85 @@ export default {
 			query.equalTo("createdAt", "<=", start_date);
 			query.equalTo("extra_type", "==", 1);
 			query.equalTo("status", "!=", false);
-			query.count().then(res => {
-				let count = res;
-				let newArrar = [];
-				if (count == 0) {
-					uni.hideLoading()
-					return
+			query.statTo("sum", "num,total_money,really_total_money");
+			query.statTo("groupby", "createdAt,type");
+			query.statTo("order", "-createdAt");
+			query.find().then(res => {
+				if (now_month != month || now_year != now_year) {
+					for (let i = 1; i <= d; i++) {
+						let day = year + "-" + month + "-" + (i < 10 ? '0' + i : i)
+						categories.push(day)
+						outData.push(0)
+						inData.push(0)
+						outMoney.push(0)
+						inMoney.push(0)
+						outReaMoney.push(0)
+						inReaMoney.push(0)
+					}
+				} else {
+					for (let i = 0; i < d; i++) {
+						categories.push(common.getDay(-i))
+						outData.push(0)
+						inData.push(0)
+						outMoney.push(0)
+						inMoney.push(0)
+						outReaMoney.push(0)
+						inReaMoney.push(0)
+					}
 				}
 
-				for (let i = 0; i < Math.ceil(count / 1000); i++) {
-					query.statTo("sum", "num,total_money,really_total_money");
-					query.statTo("groupby", "createdAt,type");
-					query.statTo("order", "-createdAt");
-					query.limit(1000);
-					query.skip(1000 * i);
-					query.find().then(res => {
-
-						if (now_month != month || now_year != now_year) {
-							for (let i = 1; i <= d; i++) {
-								let day = year + "-" + month + "-" + (i < 10 ? '0' + i : i)
-								categories.push(day)
-								outData.push(0)
-								inData.push(0)
-								outMoney.push(0)
-								inMoney.push(0)
-								outReaMoney.push(0)
-								inReaMoney.push(0)
-							}
-						} else {
-							for (let i = 0; i < d; i++) {
-								categories.push(common.getDay(-i))
-								outData.push(0)
-								inData.push(0)
-								outMoney.push(0)
-								inMoney.push(0)
-								outReaMoney.push(0)
-								inReaMoney.push(0)
-							}
-						}
-
-						for (let item of res) {
-							let key = categories.indexOf(item.createdAt)
-							if (item.type == 1 && key != -1) {
-								inData[key] = item._sumNum
-								inMoney[key] = item._sumTotal_money
-								inReaMoney[key] = item._sumReally_total_money
-							} else if(item.type == -1 && key != -1) {
-								outData[key] = item._sumNum
-								outMoney[key] = item._sumTotal_money
-								outReaMoney[key] = item._sumReally_total_money
-							}
-						}
-
-						seriesItem1.name = "销售量"
-						seriesItem1.data = outData
-						series.push(seriesItem1)
-						columnSeries1.push(seriesItem1)
-						seriesItem2.name = "采购数量"
-						seriesItem2.data = inData
-						series.push(seriesItem2)
-						columnSeries2.push(seriesItem2)
-
-						seriesItem3.name = "销售金额"
-						seriesItem3.data = outMoney
-						series1.push(seriesItem3)
-						//columnSeries1.push(seriesItem3)
-						seriesItem4.name = "采购金额"
-						seriesItem4.data = inMoney
-						series1.push(seriesItem4)
-
-						seriesItem5.name = "销售金额"
-						seriesItem5.data = outReaMoney
-						columnSeries2.push(seriesItem5)
-						series2.push(seriesItem5)
-						seriesItem6.name = "采购金额"
-						seriesItem6.data = inReaMoney
-						series2.push(seriesItem6)
-						columnSeries1.push(seriesItem6)
-
-
-						lineReserve.categories = categories
-						lineReserve.series = series
-						lineReserve.series1 = series1
-						lineReserve.series2 = series2
-						lineReserve.columnSeries1 = columnSeries1
-						lineReserve.columnSeries2 = columnSeries2
-
-						resolve(lineReserve)
-						//console.log(lineReserve)
-					});
-
+				for (let item of res) {
+					let key = categories.indexOf(item.createdAt)
+					if (item.type == 1 && key != -1) {
+						inData[key] = item._sumNum
+						inMoney[key] = item._sumTotal_money
+						inReaMoney[key] = item._sumReally_total_money
+					} else if (item.type == -1 && key != -1) {
+						outData[key] = item._sumNum
+						outMoney[key] = item._sumTotal_money
+						outReaMoney[key] = item._sumReally_total_money
+					}
 				}
-			})
+
+				seriesItem1.name = "销售量"
+				seriesItem1.data = outData
+				series.push(seriesItem1)
+				columnSeries1.push(seriesItem1)
+				seriesItem2.name = "采购数量"
+				seriesItem2.data = inData
+				series.push(seriesItem2)
+				columnSeries2.push(seriesItem2)
+
+				seriesItem3.name = "销售金额"
+				seriesItem3.data = outMoney
+				series1.push(seriesItem3)
+				//columnSeries1.push(seriesItem3)
+				seriesItem4.name = "采购金额"
+				seriesItem4.data = inMoney
+				series1.push(seriesItem4)
+
+				seriesItem5.name = "销售金额"
+				seriesItem5.data = outReaMoney
+				columnSeries2.push(seriesItem5)
+				series2.push(seriesItem5)
+				seriesItem6.name = "采购金额"
+				seriesItem6.data = inReaMoney
+				series2.push(seriesItem6)
+				columnSeries1.push(seriesItem6)
+
+
+				lineReserve.categories = categories
+				lineReserve.series = series
+				lineReserve.series1 = series1
+				lineReserve.series2 = series2
+				lineReserve.columnSeries1 = columnSeries1
+				lineReserve.columnSeries2 = columnSeries2
+
+				resolve(lineReserve)
+				//console.log(lineReserve)
+			});
+
+
 
 
 		});

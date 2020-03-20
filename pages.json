@@ -246,24 +246,26 @@
 					}
 				},
 				{
-					"path": "good_confrim/goodPurchase/goodPurchase",
-					"style": {}
-				}, {
-					"path": "goods_out/goodSell/goodSell",
-					"style": {}
-				}, {
-					"path": "goodBad/goodBad",
-					"style": {}
-				}, {
-					"path": "goodBad/badRecord/badRecord",
-					"style": {}
+					"path": "goods_out/gooSellNew/gooSellNew",
+					"style": {
+						"navigationBarTitleText": "销售（新）"
+					}
+				},{
+					"path": "good_confrim/goodPurchaseNew/goodPurchaseNew",
+					"style": {
+						"navigationBarTitleText": "采购（新）"
+					}
+				},{
+					"path": "good_return/buyReturn/buyReturn",
+					"style": {
+						"navigationBarTitleText": "销售退货"
+					}
 				},
 				{
-					"path": "good_production/good_production",
-					"style": {}
-				}, {
-					"path": "good_production/detail/detail",
-					"style": {}
+					"path": "good_return/purchaseReturn/purchaseReturn",
+					"style": {
+						"navigationBarTitleText": "采购退货（新）"
+					}
 				},
 				{
 					"path": "good_allocation/good_allocation",

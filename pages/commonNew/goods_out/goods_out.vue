@@ -198,8 +198,7 @@
 							
 							if (res[0].order == 0) {
 								query.equalTo("userId", "==", uid);
-								query.equalTo("header", "==", res[0].objectId);
-								query.include("stocks");
+								query.equalTo("objectId", "==", res[0].objectId);
 								query.find().then(res => {
 									for (let item of res) {
 										item.num = 1;
@@ -265,12 +264,8 @@
 						return
 					}
 				}
-
-				if (value == 1) {
-					uni.navigateTo({
-						url: "/pages/commonNew/goods_out/goodSell/goodSell"
-					})
-				} else if (value == 2) {
+				
+				if (value == 2) {
 					uni.navigateTo({
 						url: "/pages/commonNew/goods_out/out_detail/out_detail"
 					})

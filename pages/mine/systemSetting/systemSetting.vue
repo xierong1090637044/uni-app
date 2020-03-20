@@ -12,6 +12,11 @@
 					<view class="text">账号注销</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</view>
+				<view class="li " @click="systemStart">
+					<fa-icon type="link" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text">系统重建</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</view>
 				<view class="li ">
 					<fa-icon type="info-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">更多功能正在开发中....</view>
@@ -39,6 +44,30 @@
 			that.user = uni.getStorageSync("user");
 		},
 		methods: {
+			
+			systemStart(){
+				uni.showModal({
+					title: '提示',
+					content: '是否进行系统重建，除账号信息外其他信息将被清除',
+					success: function(res) {
+						if (res.confirm) {
+							let params = {
+								funcName: 'accountStart',
+								data: {
+									uid: that.user.objectId,
+								}
+							}
+							Bmob.functions(params.funcName, params.data).then(function(res) {
+								uni.showToast({
+									icon: "none",
+									title: res.msg
+								})
+							})
+						}
+					}
+				});
+			},
+			
 			accountDelete() {
 				uni.showModal({
 					title: '提示',

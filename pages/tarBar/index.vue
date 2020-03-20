@@ -3,11 +3,11 @@
 	<view>
 		<view class="fristSearchView display_flex_bet" v-if="canScanCode">
 			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision">
-				<text v-if="thisVision == 'New'">旧版</text>
-				<text v-if="thisVision == 'Old'">新版</text>
+				<text v-if="thisVision == 'New'">回到旧版</text>
+				<text v-if="thisVision == 'Old'">回到新版</text>
 				<i class="iconfont icon-down-trangle" style="font-size: 24rpx;margin-left: 10rpx;"></i>
 			</view>
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:70%;" />
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:65%;" />
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
 		</view>
 
@@ -22,7 +22,7 @@
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存
 							<text style="color: #f30;">New</text>
-							<text style="font-size: 24rpx;">（多产品单仓库操作）（适用于新版产品）</text>
+							<text style="font-size: 24rpx;">（适用于新版产品）</text>
 						</view>
 						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
 						 v-if="stockListsNew.length > 0"></i>
@@ -112,7 +112,7 @@
 
 					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
 						<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-							<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（多产品多仓库操作）</text></view>
+							<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存<text style="font-size: 24rpx;">（旧）</text></view>
 							<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
 							 v-if="stockLists.length > 0"></i>
 						</view>
@@ -140,7 +140,8 @@
 						</view>
 
 						<view class='o_list' v-if="sellLists.length > 0">
-							<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none" v-if="value.type=='Old'">
+							<navigator v-for='(value,index) in sellLists' :key="index" class='o_item' :url="(value.url)" hover-class="none"
+							 v-if="value.type=='Old'">
 								<view class="o_headerItem" style="background: #afbb4f;">
 									<i :class="'iconfont '+value.icon" style="font-size: 36rpx;color: #fff;line-height: 80rpx;"></i>
 								</view>
@@ -164,7 +165,8 @@
 						</view>
 
 						<view class='o_list' v-if="purchaseLists.length > 0">
-							<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none" v-if="value.type=='Old'">
+							<navigator v-for='(value,index) in purchaseLists' :key="index" class='o_item' :url="(value.url)" hover-class="none"
+							 v-if="value.type=='Old'">
 								<view class="o_headerItem" style="background: #ad4fbb;">
 									<i :class="'iconfont '+value.icon" style="font-size: 40rpx;color: #fff;line-height: 80rpx;"></i>
 								</view>
@@ -197,10 +199,9 @@
 						</view>
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-							<view>1、新增客户分类</view>
-							<view>2、店仓详情优化</view>
-							<view>3、将会支持账户注销以及数据备份</view>
-							<view>4、用户反馈的bug修复</view>
+							<view>1、首页优化，新旧模式分开展示，可点击左上角进行切换</view>
+							<view>2、扫码操作优化</view>
+							<view>3、产品修改优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -291,14 +292,14 @@
 						notice: '适用新版产品',
 						type: 'New',
 						icon: 'icon-navicon-xsckd',
-						url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
+						url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=3'
 					},
 					{
 						name: '销售退货(新)',
 						notice: '适用新版产品',
 						type: 'New',
 						icon: 'icon-tuihuodan',
-						url: '/pages/common/goods-select/goods-select?type=entering&value=4'
+						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=4'
 					},
 				],
 				purchaseLists: [{
@@ -312,14 +313,14 @@
 						notice: '适用新版产品',
 						type: 'New',
 						icon: 'icon-office-supplies-shopping-list',
-						url: '/pages/common/goods-select/goods-select?type=entering&value=3'
+						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=3'
 					},
 					{
 						name: '采购退货',
 						notice: '适用新版产品',
 						type: 'New',
 						icon: 'icon-tuihuo1',
-						url: '/pages/common/goods-select/goods-select?type=delivery&value=4'
+						url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=4'
 					}
 				],
 				optionsLists: [{
@@ -408,6 +409,7 @@
 
 		onShow() {
 			if (uni.getStorageSync("user")) { //登陆情况下进行的操作
+				that.thisVision = uni.getStorageSync("thisVision") || "New"
 				that.user = uni.getStorageSync("user")
 				mine.query_setting();
 				if (that.user.identity == 2 && that.user.rights) {
@@ -494,14 +496,20 @@
 		},
 
 		methods: {
-			
-			changeVision(){
-				if(that.thisVision == 'New'){
+
+			changeVision() {
+				if (that.thisVision == 'New') {
+					uni.setStorageSync("thisVision", 'Old')
 					that.thisVision = 'Old'
-					uni.setNavigationBarTitle({title:"首页（旧版）"})
-				}else{
+					uni.setNavigationBarTitle({
+						title: "首页（旧版）"
+					})
+				} else {
+					uni.setStorageSync("thisVision", 'New')
 					that.thisVision = 'New'
-					uni.setNavigationBarTitle({title:"首页（新版）"})
+					uni.setNavigationBarTitle({
+						title: "首页（新版）"
+					})
 				}
 			},
 
@@ -593,7 +601,7 @@
 				} else if (type == 2) {
 					opLists = ['销售', '销售退货']
 				} else if (type == 3) {
-					opLists = ['采购']
+					opLists = ['采购', '采购退货']
 				}
 				uni.showActionSheet({
 					itemList: opLists,
@@ -643,43 +651,71 @@
 			//去到之指定的链接
 			returnUrl(opLists, type, array, productType) {
 				if (opLists[type] == '出库') {
-					if(that.thisVision == "New"){
+					if (that.thisVision == "New") {
 						uni.navigateTo({
 							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}else{
+					} else {
 						uni.navigateTo({
 							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
 					}
 				} else if (opLists[type] == '销售') {
-					uni.navigateTo({
-						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
-					})
+					if (that.thisVision == "New") {
+						uni.navigateTo({
+							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=3",
+						})
+					} else {
+						uni.navigateTo({
+							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
+						})
+					}
 				} else if (opLists[type] == '销售退货') {
-					uni.navigateTo({
-						url: '/pages/common/good_return/good_return?id=' + array[0] + "&isCode=" + array[1] + "&type=return&value=1",
-					})
-				} else if (opLists[type] == '入库') {
-					if(that.thisVision == "New"){
+					if (that.thisVision == "New") {
+						uni.navigateTo({
+							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] +"&value=4",
+						})
+					} else {
+						uni.navigateTo({
+							url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
+						})
+					}
+				} else if (opLists[type] == '采购退货') {
+					if (that.thisVision == "New") {
+						uni.navigateTo({
+							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] +"&value=4",
+						})
+					} else {
+						uni.navigateTo({
+							url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
+						})
+					}
+				}  else if (opLists[type] == '入库') {
+					if (that.thisVision == "New") {
 						uni.navigateTo({
 							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}else{
+					} else {
 						uni.navigateTo({
 							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
 					}
 				} else if (opLists[type] == '采购') {
-					uni.navigateTo({
-						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
-					})
+					if (that.thisVision == "New") {
+						uni.navigateTo({
+							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=3",
+						})
+					} else {
+						uni.navigateTo({
+							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
+						})
+					}
 				} else if (opLists[type] == '盘点') {
-					if(that.thisVision == "New"){
+					if (that.thisVision == "New") {
 						uni.navigateTo({
 							url: '/pages/commonNew/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}else{
+					} else {
 						uni.navigateTo({
 							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})

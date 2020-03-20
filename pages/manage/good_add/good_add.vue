@@ -645,7 +645,14 @@
 				}
 
 				///query.set("product_state", good.product_state) //改产品是否是半成品
-				that.productMoreG ? query.set("models", uni.getStorageSync("now_model")) : ''
+				if(that.productMoreG){
+					query.set("models", uni.getStorageSync("now_model"))
+				}else{
+					query.get(now_product.objectId).then(res => {
+						res.unset('models')
+						res.save()
+					})
+				}
 				if (stocksReserve.length > 0) {
 					query.set("order", 0)
 				}
@@ -698,8 +705,12 @@
 										res.set("second_class", p_second_class_id)
 									}
 								}
-
-								(that.productMoreG && item.now_model) ? res.set("models", item.now_model): ''
+								
+								if(that.productMoreG){
+									res.set("models", item.now_model)
+								}else{
+									res.unset('models')
+								}
 								res.save()
 								count += 1;
 								if (count == stocksReserve.length) {
@@ -721,9 +732,6 @@
 							})
 						}
 					}
-
-
-
 				})
 			},
 

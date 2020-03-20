@@ -201,8 +201,7 @@
 							
 							if(res[0].order == 0){
 								query.equalTo("userId", "==", uid);
-								query.equalTo("header", "==", res[0].objectId);
-								query.include("stocks");
+								query.equalTo("objectId", "==", res[0].objectId);
 								query.find().then(res => {
 									for (let item of res) {
 										item.num = 1;
