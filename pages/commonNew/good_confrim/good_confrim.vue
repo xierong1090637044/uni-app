@@ -219,7 +219,7 @@
 											item.selected_model = item.models
 										}
 									}
-									that.products.concat(res)
+									that.products = that.products.concat(res);
 									wx.hideLoading()
 								})
 							}else{

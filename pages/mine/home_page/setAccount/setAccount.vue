@@ -68,6 +68,15 @@
 					});
 					return false;
 				}
+				
+				if(that.user.objectId == "aXcyRBaf"){
+					uni.showToast({
+						icon: 'none',
+						position: 'bottom',
+						title: '体验账号不能修改'
+					});
+					return false;
+				}
 				that.isRotate = true
 
 				const query = Bmob.Query('_User');

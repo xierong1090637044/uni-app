@@ -157,7 +157,7 @@
 									item.selected_model = item.models
 								}
 							}
-							this.products = res;
+							that.products = that.products.concat(res);
 							uni.hideLoading()
 						})
 					} else {
@@ -177,7 +177,7 @@
 								item.selected_model = item.models
 							}
 						}
-						this.products = res;
+						that.products = that.products.concat(res);
 						uni.hideLoading()
 					}
 				})
