@@ -4,10 +4,13 @@
 			<view class="display_flex_bet header">
 				<view class="listItem">实际销售<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</view>
-				<view class="display_flex listItem" @click="open">
+				<view class="display_flex listItem">
 					<view>
-						<view style="font-size: 24rpx;line-height: 28rpx;">{{start_date}}</view>
-						<view style="font-size: 24rpx;line-height: 28rpx;">{{end_date}}</view>
+						<picker mode="date" @change="changeTime">
+							<view style="font-size: 24rpx;line-height: 28rpx;">{{start_date}}</view>
+						</picker>
+						
+						<!--<view style="font-size: 24rpx;line-height: 28rpx;">{{end_date}}</view>-->
 					</view>
 					<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</view>
@@ -102,7 +105,7 @@
 					},
 					{
 						title: "实际销售金额",
-						key: "really_total_money",
+						key: "total_money",
 						width: '200'
 					}
 				],
@@ -118,7 +121,7 @@
 					},
 					{
 						title: "实际销售金额",
-						key: "really_total_money",
+						key: "total_money",
 						width: '200'
 					}
 				],
@@ -153,6 +156,11 @@
 
 				that.getdetail()
 			},
+			
+			changeTime(e){
+				that.start_date = e.detail.value
+				that.getdetail()
+			},
 
 			getdetail() {
 				uni.removeStorageSync("productPurchase");
@@ -166,7 +174,7 @@
 				query.equalTo("type", "==", -1);
 				query.equalTo("extra_type", "==", 1);
 				query.equalTo("createdAt", ">=", that.start_date + ' 00:00:00');
-				query.equalTo("createdAt", "<=", that.end_date + ' 23:59:59');
+				query.equalTo("createdAt", "<=", that.start_date + ' 23:59:59');
 				query.equalTo("goodsId", "==", that.productId);
 				if(that.stock && that.stock.objectId) query.equalTo("stock", "==", that.stock.objectId);
 				query.count().then(res => {
@@ -195,7 +203,7 @@
 								let originObj = resp.find(item => item.custom.objectId === obj.custom.objectId);
 								if (originObj) {
 									originObj.num += obj.num;
-									originObj.really_total_money += obj.total_money;
+									originObj.total_money += obj.total_money;
 									//originObj.reallyProfit += obj.really_total_money;
 								} else {
 									resp.push(obj)
@@ -207,7 +215,7 @@
 								let originObj1 = resp1.find(item1 => item1.opreater.objectId === obj1.opreater.objectId);
 								if (originObj1) {
 									originObj1.num += obj1.num;
-									originObj1.really_total_money += obj1.total_money;
+									originObj1.total_money += obj1.total_money;
 									//originObj1.reallyProfit += obj1.really_total_money;
 								} else {
 									resp1.push(obj1)

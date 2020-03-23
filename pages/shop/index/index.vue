@@ -17,7 +17,7 @@
 					<view class="info">
 						<view class="price">￥{{goods.retailPrice}}</view>
 						<!--<view class="slogan">已出售{{goods.sellNum?goods.sellNum:0}}{{goods.packingUnit?goods.packingUnit:''}}</view>-->
-						<view class="slogan">库存{{goods.reserve}}{{goods.packingUnit?goods.packingUnit:''}}</view>
+						<view class="slogan" v-if="userId !='b9rmzv49'">库存{{goods.reserve}}{{goods.packingUnit?goods.packingUnit:''}}</view>
 					</view>
 				</view>
 			</view>
@@ -57,7 +57,8 @@
 				orderby: "sheng",
 				page_size: 20,
 				page_num: 1,
-				orderType:'sellNum'
+				orderType:'sellNum',
+				userId:''
 			};
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
@@ -67,6 +68,7 @@
 			
 			if(option.userId){
 				uid = option.userId;
+				that.userId = option.userId;
 				that.get_productList();
 				uni.setNavigationBarTitle({
 					title: option.nickName+'的产品列表'

@@ -396,9 +396,13 @@
 			goDetail(value) {
 				console.log(value)
 				uni.setStorageSync("now_product", value);
-				if (value.order == 0 || value.order == 1) {
+				if (value.order == 0) {
 					uni.navigateTo({
 						url: "../good_det/Ngood_det?id="+value.objectId+"&type=false"
+					})
+				}else if(value.order == 1){
+					uni.navigateTo({
+						url: "../good_det/Ngood_det?id="+value.header.objectId+"&type=false"
 					})
 				} else {
 					uni.navigateTo({

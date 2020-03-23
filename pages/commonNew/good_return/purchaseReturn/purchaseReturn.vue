@@ -35,6 +35,13 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+							<view style="width: 150rpx;" class="left_content">出库仓库</view>
+							<view style="display: flex;align-items: center;">
+								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 						<!--<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
@@ -303,7 +310,15 @@
 					}
 
 					let goodsId = {}
-					tempBills.set("status", false);
+					if (that.stock && that.stock.objectId) {
+						const pointer = Bmob.Pointer('stocks');
+						let stockId = pointer.set(that.stock.objectId);
+						tempBills.set("status", true); // 操作单详情
+						tempBills.set("stock", stockId);
+						detailBills.stock = that.stock.stock_name
+					} else {
+						tempBills.set("status", false);
+					}
 					detailBills.goodsName = this.products[i].goodsName
 					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
 					detailBills.retailPrice = this.products[i].retailPrice
@@ -358,7 +373,7 @@
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						query.set("recordType", "new"); //"new"代表新版的销售记录
-						if (shop) query.set("shop", shopId);
+						//if (shop) query.set("shop", shopId);
 						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
@@ -378,35 +393,70 @@
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
 						query.set("producer", producerID);
-						query.set("status", false); // 操作单详情
+						if (that.stock) {
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(that.stock.objectId);
+							query.set("status", true); // 操作单详情
+							query.set("stock", stockId);
+						} else {
+							query.set("status", false); // 操作单详情
+						}
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							uni.hideLoading();
-							uni.removeStorageSync("customs"); //移除这个缓存
-							uni.showToast({
-								title: '采购退货成功',
-								icon: 'success',
-								duration: 1000,
-								success: function() {
-									
+							
+							if(that.stock && that.stock.objectId){
+								common.outRedGoodNumNew(that.products).then(res => {
+									uni.hideLoading();
+									uni.removeStorageSync("customs"); //移除这个缓存
 									uni.removeStorageSync("_warehouse")
 									uni.removeStorageSync("out_warehouse")
 									uni.removeStorageSync("category")
-									uni.removeStorageSync("warehouse")
 									uni.setStorageSync("is_option", true);
-									setTimeout(() => {
+								
+									uni.showToast({
+										title: "采购退货成功"
+									})
+								
+									setTimeout(function() {
+										uni.navigateBack({
+											delta: 2
+										});
 										that.button_disabled = false;
+										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" + that.products
+											.length + "商品的采购退货", 4, operationId);
+									}, 500)
+								
+								})
+							}else{
+								
+								uni.showToast({
+									title: '采购退货成功',
+									icon: 'success',
+									duration: 1000,
+									success: function() {
 										
-										common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +that.products.length + "商品的采购退货", 4, operationId);
-										
-										uni.redirectTo({
-											url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
-										})
-									}, 1000)
-
-								},
-							})
+										uni.hideLoading();
+										uni.removeStorageSync("customs"); //移除这个缓存
+										uni.removeStorageSync("_warehouse")
+										uni.removeStorageSync("out_warehouse")
+										uni.removeStorageSync("category")
+										uni.removeStorageSync("warehouse")
+										uni.setStorageSync("is_option", true);
+										setTimeout(() => {
+											that.button_disabled = false;
+											
+											common.log(uni.getStorageSync("user").nickName + "处理了'" + that.products[0].goodsName + "'等" +that.products.length + "商品的采购退货", 4, operationId);
+											
+											uni.redirectTo({
+												url: '/pages/report/EnteringHistory/returnDetail/returnDetail?id=' + operationId,
+											})
+										}, 1000)
+								
+									},
+								})
+							}
+							
 						})
 					},
 					function(error) {

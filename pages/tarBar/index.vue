@@ -199,9 +199,9 @@
 						</view>
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-							<view>1、首页优化，新旧模式分开展示，可点击左上角进行切换</view>
-							<view>2、扫码操作优化</view>
-							<view>3、产品修改优化</view>
+							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
+							<view>1、产品详情优化</view>
+							<view>2、产品管理下选择店仓不能跳转详情优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

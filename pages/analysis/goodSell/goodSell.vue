@@ -34,7 +34,7 @@
 						<view class="product_reserve display_flex_bet" style="width: 90%;">
 							<view style="font-size: 24rpx;">销售数量:<text class="text_notice">{{product._sumNum}}</text></view>
 							<view style="font-size: 24rpx;">销售笔数:<text class="text_notice">{{product._count}}</text></view>
-							<view style="font-size: 24rpx;">销售额:<text class="text_notice">{{product._sumTotal_money}}</text></view>
+							<view style="font-size: 24rpx;">销售额:<text class="text_notice">{{product._sumTotal_money.toFixed(2)}}</text></view>
 						</view>
 						<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.goodsId.createdAt}}</text></view>-->
 					</view>

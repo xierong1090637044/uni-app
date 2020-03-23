@@ -6,8 +6,10 @@
 				</view>
 				<view class="display_flex listItem" @click="open">
 					<view>
-						<view style="font-size: 24rpx;line-height: 28rpx;">{{start_date}}</view>
-						<view style="font-size: 24rpx;line-height: 28rpx;">{{end_date}}</view>
+						<picker mode="date" @change="changeTime">
+							<view style="font-size: 24rpx;line-height: 28rpx;">{{start_date}}</view>
+						</picker>
+						<!--<view style="font-size: 24rpx;line-height: 28rpx;">{{end_date}}</view>-->
 					</view>
 					<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</view>
@@ -153,6 +155,11 @@
 
 				that.getdetail()
 			},
+			
+			changeTime(e){
+				that.start_date = e.detail.value
+				that.getdetail()
+			},
 
 			getdetail() {
 				uni.removeStorageSync("productPurchase");
@@ -166,16 +173,16 @@
 				query.equalTo("type", "==", 1);
 				query.equalTo("extra_type", "==", 1);
 				query.equalTo("createdAt", ">=", that.start_date + ' 00:00:00');
-				query.equalTo("createdAt", "<=", that.end_date + ' 23:59:59');
+				query.equalTo("createdAt", "<=", that.start_date + ' 23:59:59');
 				query.equalTo("goodsId", "==", that.productId);
-				if(that.stock && that.stock.objectId) query.equalTo("stock", "==", that.stock.objectId);
+				if (that.stock && that.stock.objectId) query.equalTo("stock", "==", that.stock.objectId);
 				query.count().then(res => {
 					let count = res;
 					let newArrar = [];
 					if (count == 0) return;
 
 					for (let i = 0; i < Math.ceil(count / 500); i++) {
-						if(that.stock && that.stock.objectId) query.equalTo("stock", "==", that.stock.objectId);
+						if (that.stock && that.stock.objectId) query.equalTo("stock", "==", that.stock.objectId);
 						query.include("producer", "opreater");
 						query.limit(500);
 						query.skip(500 * i);

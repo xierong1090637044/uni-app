@@ -36,6 +36,13 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+							<view style="width: 150rpx;" class="left_content">出库仓库</view>
+							<view style="display: flex;align-items: center;">
+								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 						<!--<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;background: #fff;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">选择门店</view>
 							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
@@ -51,7 +58,8 @@
 							</view>
 						</navigator>
 
-						<view class="display_flex_bet" style="padding: 10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="custom.discount">
+						<view class="display_flex_bet" style="padding: 10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;"
+						 v-if="custom.discount">
 							<view style="width: 140rpx;">折扣率</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入折扣率" :value="discount" style="color: #d71345;text-align: right;margin-right: 20rpx;" type="number"
@@ -64,7 +72,8 @@
 								<switch :checked="wetherDebt" @change="changeDebtStatus" />
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;"
+						 v-if="wetherDebt">
 							<view>实际收款</view>
 							<view class="kaidan_rightinput"><input placeholder="输入实际收款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
 								 type="digit" /></view>
@@ -76,7 +85,8 @@
 								<input placeholder="请选择发货方式" v-model="outType.desc" disabled="true" style="text-align: right;margin-right: 20rpx;" />
 							</picker>
 						</view>
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="outType.type == 2 || outType.type == 3">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;"
+						 v-if="outType.type == 2 || outType.type == 3">
 							<view style="width: 140rpx;">快递单号</view>
 							<view class="kaidan_rightinput display_flex" :range="pickerTypes" range-key="desc" @change="select_outType">
 								<input placeholder="请输入快递单号" v-model="expressNum" style="text-align: right;margin-right: 20rpx;" />
@@ -418,10 +428,10 @@
 					detailBills.num = this.products[i].num
 					detailBills.warning_num = this.products[i].warning_num
 
-					if (shop) {
+					/*if (shop) {
 						tempBills.set("shop", shopId);
 						common.record_shopOut(shop.objectId, shop.have_out + this.products[i].num)
-					}
+					}*/
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)
@@ -457,7 +467,7 @@
 						query.set('goodsName', that.products[0].goodsName);
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
-						if (shop) query.set("shop", shopId);
+						//if (shop) query.set("shop", shopId);
 						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
@@ -513,27 +523,57 @@
 						query.save().then(res => {
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
-							uni.hideLoading();
-							uni.removeStorageSync("customs"); //移除这个缓存
-							uni.removeStorageSync("_warehouse")
-							uni.removeStorageSync("out_warehouse")
-							uni.removeStorageSync("category")
-							uni.removeStorageSync("warehouse")
-							uni.setStorageSync("is_option", true);
-							uni.showToast({
-								title: '产品销售成功',
-								icon: 'success',
-								duration: 1000,
-								success: function() {
-									setTimeout(() => {
-										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products.length + "商品，暂未出库", -11, res.objectId);
+
+							if (that.stock && that.stock.objectId) {
+								common.outRedGoodNumNew(that.products).then(res => {
+									uni.hideLoading();
+									uni.removeStorageSync("customs"); //移除这个缓存
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.setStorageSync("is_option", true);
+
+
+									uni.showToast({
+										title: "销售出库成功"
+									})
+
+									setTimeout(function() {
+										uni.navigateBack({
+											delta: 2
+										});
 										that.button_disabled = false;
-										uni.redirectTo({
-											url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-										})
-									}, 1000)
-								},
-							})
+										common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
+											.length + "商品，已经出库", -11, operationId);
+									}, 500)
+
+								})
+							} else {
+								uni.showToast({
+									title: '产品销售成功',
+									icon: 'success',
+									duration: 500,
+									success: function() {
+										setTimeout(() => {
+											uni.hideLoading();
+											uni.removeStorageSync("customs"); //移除这个缓存
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.setStorageSync("is_option", true);
+											that.button_disabled = false;
+
+											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
+												.length + "商品，暂未出库", -11, operationId);
+
+											uni.redirectTo({
+												url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
+											})
+										}, 500)
+									},
+								})
+							}
+
 						})
 					},
 					function(error) {

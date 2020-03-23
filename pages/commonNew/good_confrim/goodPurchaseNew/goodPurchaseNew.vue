@@ -41,6 +41,13 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+							<view style="width: 150rpx;" class="left_content">入库仓库</view>
+							<view style="display: flex;align-items: center;">
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money"
 						 style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
@@ -268,7 +275,15 @@
 					tempBills.set("opreater", poiID2);
 					tempBills.set('type', 1);
 					tempBills.set('extra_type', extraType);
-					tempBills.set("status", false); // 操作单详情
+					if (that.stock && that.stock.objectId) {
+						const pointer = Bmob.Pointer('stocks');
+						let stockId = pointer.set(that.stock.objectId);
+						tempBills.set("status", true); // 操作单详情
+						tempBills.set("stock", stockId);
+						detailBills.stock = that.stock.stock_name
+					} else {
+						tempBills.set("status", false);
+					}
 					tempBills.set("createdTime", {
 						"__type": "Date",
 						"iso": that.nowDay
@@ -374,7 +389,14 @@
 						}
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", false); // 操作单详情
+						if (that.stock) {
+							const pointer = Bmob.Pointer('stocks');
+							let stockId = pointer.set(that.stock.objectId);
+							query.set("status", true); // 操作单详情
+							query.set("stock", stockId);
+						} else {
+							query.set("status", false); // 操作单详情
+						}
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -382,33 +404,54 @@
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
-							uni.hideLoading();
-							uni.showToast({
-								title: '产品采购成功',
-								icon: 'success',
-								duration: 1000,
-								complete: function() {
-									//common.enterAddGoodNum(that.products) //添加产品数量
-									setTimeout(() => {
-										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName +"'等" +that.products.length + "商品", 11, operationId);
-										//自动打印
-										/*if (uni.getStorageSync("setting").auto_print) {
-											print.autoPrint(operationId);
-										}*/
-
+							
+							if(that.stock && that.stock.objectId){
+								common.enterAddGoodNumNew(that.products).then(res=>{
+									uni.hideLoading();
+									uni.removeStorageSync("customs"); //移除这个缓存
+									uni.removeStorageSync("_warehouse")
+									uni.removeStorageSync("out_warehouse")
+									uni.removeStorageSync("category")
+									uni.setStorageSync("is_option", true);
+									
+									
+									uni.showToast({
+										title: "采购入库成功"
+									})
+									
+									setTimeout(function() {
+										uni.navigateBack({
+											delta: 2
+										});
 										that.button_disabled = false;
-										uni.setStorageSync("is_option", true);
-										uni.removeStorageSync("_warehouse")
-										uni.removeStorageSync("out_warehouse")
-										uni.removeStorageSync("category")
-										uni.removeStorageSync("warehouse")
-										uni.redirectTo({
-											url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-										})
-									}, 1000)
-
-								}
-							})
+										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
+											.length + "商品，已经入库", 11, operationId);
+									}, 500)
+								})
+							}else{
+								uni.hideLoading();
+								uni.showToast({
+									title: '产品采购成功',
+									icon: 'success',
+									duration: 500,
+									complete: function() {
+										setTimeout(() => {
+											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName +"'等" +that.products.length + "商品", 11, operationId);
+											
+											that.button_disabled = false;
+											uni.setStorageSync("is_option", true);
+											uni.removeStorageSync("_warehouse")
+											uni.removeStorageSync("out_warehouse")
+											uni.removeStorageSync("category")
+											uni.redirectTo({
+												url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
+											})
+										}, 500)
+								
+									}
+								})
+							}
+							
 
 						})
 
