@@ -105,6 +105,16 @@
 			//删除商品
 			delete_good(objectId) {
 				let uid = uni.getStorageSync("uid")
+				let user = uni.getStorageSync("user")
+				
+				if(user.identity == 2){
+					uni.showToast({
+						icon:"none",
+						title:"子账户暂不支持删除"
+					})
+					return
+				}
+				
 				uni.showModal({
 					title: '提示',
 					content: '是否删除该商品',

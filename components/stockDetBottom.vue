@@ -52,6 +52,14 @@
 				query.equalTo("disabled", "!=", true);
 				query.find().then(res => {
 					if (res.length > 1) {
+						let user = uni.getStorageSync("user")
+						if(user.identity == 2){
+							uni.showToast({
+								icon:"none",
+								title:"子账户暂不支持删除"
+							})
+							return
+						}
 						that.delete_this(that.thisStock.objectId)
 					} else {
 						uni.showToast({

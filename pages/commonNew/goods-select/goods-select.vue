@@ -14,6 +14,10 @@
 					<view class="good_optionText">{{headerSelection.goodsClass.class_text || '分类'}}</view>
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
 				</view>
+				<view class="good_option" @click="selectd('stocks')">
+					<view class="good_optionText">{{headerSelection.stocks.stock_name || '店仓'}}</view>
+					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+				</view>
 				<view class="good_option" @click="selectd('order')">
 					<view class="good_optionText">{{headerSelection.order.desc || '排序'}}</view>
 					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
@@ -156,6 +160,7 @@
 
 		onLoad(option) {
 			that = this;
+			that.user = uni.getStorageSync("user");
 			this.handle_data();
 
 			if (option.type == "entering") {
@@ -182,11 +187,26 @@
 			that.value = option.value
 
 			uid = uni.getStorageSync('uid');
-			if (that.user.identity == 2 && that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1) {
-				that.canSeeCostprice = false
+			if (that.user.identity == 2) {
+				if(that.user.rights && that.user.rights.othercurrent.indexOf("0") != -1){
+						that.canSeeCostprice = false
+				}
+				
+				if(that.user.stocks && that.user.stocks.length > 0){
+					const query = Bmob.Query('stocks');
+					query.get(that.user.stocks[0]).then(res => {
+						that.headerSelection.stocks = res
+						let stockItem = {}
+						stockItem.stock = res
+						uni.setStorageSync("warehouse",[stockItem])
+					  that.get_productList();
+					}).catch(err => {
+					  console.log(err)
+					})
+				}
+			}else{
+				that.get_productList();
 			}
-			
-			that.get_productList();
 		},
 
 		onShow() {
@@ -199,8 +219,7 @@
 				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
 				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 				that.get_productList();
-			}
-			
+			}			
 		},
 
 		onUnload() {
@@ -405,9 +424,13 @@
 				const query = Bmob.Query("Goods");
 				query.include("stocks", "header");
 				query.equalTo("userId", "==", uid);
-				query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
 				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "==", 0);
+				if( that.headerSelection.stocks &&  that.headerSelection.stocks.objectId){
+					query.equalTo("stocks", "==", that.headerSelection.stocks.objectId);
+					query.equalTo("order", "==", 1);
+				}else{
+					query.equalTo("order", "==", 0);
+				}
 				if (that.headerSelection.goodsClass.type == 1) {
 					query.equalTo("goodsClass", "==", that.headerSelection.goodsClass.objectId);
 				} else {
@@ -432,6 +455,13 @@
 						if (that.type == "delivery" && product.reserve <= 0 && that.negativeOut == false) {
 							product.disabled = true
 						}
+						
+						if (product.order == 1) { // 是附属产品时的情况
+							product.packingUnit = product.header?product.header.packingUnit:''
+							product.objectId =  product.header.objectId
+							product.stocks = ''
+							product.goodsIcon =  product.header.goodsIcon
+						}
 
 						for (let item of that.nextProducts) {
 							if (item.objectId == product.objectId) {
@@ -440,13 +470,7 @@
 						}
 
 						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :0)
-						if (product.order == 1) {
-							if (product.header && product.header.packingUnit) {
-								product.packingUnit = product.header.packingUnit
-							} else {
-								product.packingUnit = ""
-							}
-						}
+						
 						key += 1
 					}
 

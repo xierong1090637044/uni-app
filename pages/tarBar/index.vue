@@ -1,14 +1,14 @@
 <template>
 	<!--当月详情-->
 	<view>
-		<view class="fristSearchView display_flex_bet" v-if="canScanCode">
+		<view class="fristSearchView display_flex_bet">
 			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision">
 				<text v-if="thisVision == 'New'">回到旧版</text>
 				<text v-if="thisVision == 'Old'">回到新版</text>
 				<i class="iconfont icon-down-trangle" style="font-size: 24rpx;margin-left: 10rpx;"></i>
 			</view>
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:65%;" />
-			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)'></i>
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:65%;"  v-if="canScanCode"/>
+			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)' v-if="canScanCode"></i>
 		</view>
 
 		<!-- #ifdef H5 -->
@@ -200,8 +200,10 @@
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、产品详情优化</view>
-							<view>2、产品管理下选择店仓不能跳转详情优化</view>
+							<view>1、新版增加仓库筛选，以及可以选择仓库进行销售、采购、退货，以省去多余的步骤</view>
+							<view>2、新版的退货操作增加撤销功能</view>
+							<view>3、子账户限制产品删除以及仓库删除</view>
+							<view>4、子账户的产品列表将会根据分配权限时选择的仓库进行加载，没有选择仓库将会产品列表将会没有</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

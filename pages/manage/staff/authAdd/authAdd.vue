@@ -8,9 +8,10 @@
 					<view style="padding: 30rpx;">
 						<checkbox-group @change="checkboxChange">
 							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">
-								<view class="display_flex">
+								<view style="display: flex;">
 									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
-									<text style="margin-left: 20rpx;">{{item.name}}</text>
+									<text style="margin-left: 20rpx;width: 280rpx;">{{item.name}}</text>
+									<text v-if="item.notice" style="font-size: 24rpx;">{{item.notice}}</text>
 								</view>
 			
 								<view v-if="item.id == 2" style="padding-left: 80rpx;">
@@ -101,6 +102,7 @@
 	let that;
 	let uid;
 	let rights = {};
+	let staff;
 	export default {
 		components: {
 			uniCollapse,
@@ -119,7 +121,8 @@
 					},
 					{
 						id: 2,
-						name: '店仓管理'
+						name: '店仓管理',
+						notice:'(勾选了下面的仓库，子账户将会自动加载勾选仓库里的产品，如不勾选，则列表为空)',
 					},
 					{
 						id: 3,
@@ -201,6 +204,7 @@
 		
 		onLoad() {
 			that = this;
+			staff = uni.getStorageSync("staff");
 			uid = uni.getStorageSync('uid');
 		},
 		
@@ -303,10 +307,31 @@
 		methods: {
 			
 			confrim(){
+				
 				uni.setStorageSync("staffRights",rights)
-				uni.navigateBack({
-					delta:1
-				})
+				if(staff){
+					const query = Bmob.Query("_User");
+					query.set("rights", rights);
+					query.set("id", staff.objectId);
+					query.save().then(res => {
+						setTimeout(function(){
+							uni.showToast({
+								title: "修改成功"
+							})
+						},1000)
+						uni.navigateBack({
+							delta:3
+						})
+					}).catch(err => {
+						console.log(err)
+					
+					})
+				}else{
+					uni.navigateBack({
+						delta:1
+					})
+				}
+				
 			},
 			
 			//店仓多选器
