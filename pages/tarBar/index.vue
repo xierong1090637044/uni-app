@@ -22,7 +22,6 @@
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存
 							<text style="color: #f30;">New</text>
-							<text style="font-size: 24rpx;">（适用于新版产品）</text>
 						</view>
 						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
 						 v-if="stockListsNew.length > 0"></i>
@@ -287,6 +286,12 @@
 						icon: 'icon-tuihuodan',
 						url: '/pages/common/goods-select/goods-select?type=returing&value=1'
 					}, {
+						name: '销售订单(新)',
+						notice: '适用新版产品',
+						type: 'New',
+						icon: 'icon-xiaoshoudingdan',
+						url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=5'
+					},{
 						name: '销售(新)',
 						notice: '适用新版产品',
 						type: 'New',
@@ -300,6 +305,7 @@
 						icon: 'icon-tuihuodan',
 						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=4'
 					},
+					
 					/*{
 						name: '连续扫码',
 						notice: '适用新版产品',
@@ -314,6 +320,12 @@
 						notice: '支持所有产品',
 						icon: 'icon-office-supplies-shopping-list',
 						url: '/pages/common/goods-select/goods-select?type=entering&value=1'
+					}, {
+						name: '采购订单(新)',
+						notice: '适用新版产品',
+						type: 'New',
+						icon: 'icon-navicon-cgdd',
+						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=5'
 					}, {
 						name: '采购(新)',
 						notice: '适用新版产品',

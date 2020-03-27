@@ -5,6 +5,13 @@
 	src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/uni.ttf') format('truetype');
 }
 
+.orderListItemBorder {
+	padding: 14rpx 20rpx;
+	background: #fff;
+}
+.borderBot{
+	border-bottom: 1rpx solid#F7F7F7;
+}
 uni-page {
 	background: #f3f3f3;
 	font-size: 28rpx;
@@ -25,9 +32,7 @@ uni-page {
 	margin-right: 20rpx;
 }
 
-.kaidan_detail {
-	
-}
+.kaidan_detail {}
 
 .kaidan_rightinput {
 	margin-left: 10rpx;

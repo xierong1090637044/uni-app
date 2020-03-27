@@ -106,6 +106,8 @@
 			"style": {
 				"navigationBarTitleText": "销售详情"
 			}
+		},{
+			"path": "pages/report/EnteringHistory/SellDetail/SellLaterDetail"
 		}, {
 			"path": "pages/report/EnteringHistory/returnDetail/returnDetail",
 			"style": {
@@ -246,6 +248,9 @@
 					}
 				},
 				{
+					"path": "goods_out/goodSellLater/goodSellLater"
+				},
+				{
 					"path": "goods_out/gooSellNew/gooSellNew",
 					"style": {
 						"navigationBarTitleText": "销售（新）"
@@ -321,7 +326,7 @@
 						"navigationBarTitleText": "盘点详情"
 					}
 				}, {
-					"path": "keepScan/keepScan",
+					"path": "good_confrim/goodPurchaseLater/goodPurchaseLater",
 					"style": {}
 				}
 			]
