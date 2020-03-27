@@ -200,10 +200,7 @@
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、新版增加仓库筛选，以及可以选择仓库进行销售、采购、退货，以省去多余的步骤</view>
-							<view>2、新版的退货操作增加撤销功能</view>
-							<view>3、子账户限制产品删除以及仓库删除</view>
-							<view>4、子账户的产品列表将会根据分配权限时选择的仓库进行加载，没有选择仓库将会产品列表将会没有</view>
+							<view>1、员工加载不出产品优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -303,6 +300,13 @@
 						icon: 'icon-tuihuodan',
 						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=4'
 					},
+					/*{
+						name: '连续扫码',
+						notice: '适用新版产品',
+						type: 'New',
+						icon: 'icon-tuihuodan',
+						url: '/pages/commonNew/keepScan/keepScan?type=entering&value=4'
+					},*/
 				],
 				purchaseLists: [{
 						name: '采购(旧)',
@@ -452,23 +456,6 @@
 				})
 
 				that.isUpdate = uni.getStorageSync("isUpdate") || false; //检测是否有更新
-
-				/*if (uni.getStorageSync("keepScan") && haveShow == false) {
-					haveShow = true
-					uni.showModal({
-						content: '是否继续上次的扫码操作',
-						success: function(res) {
-							if (res.confirm) {
-								that.scan(uni.getStorageSync("scanType"), uni.getStorageSync("scanOplists"));
-							} else if (res.cancel) {
-								haveShow == false
-								uni.removeStorageSync("keepScan")
-								uni.removeStorageSync("scanType")
-								uni.removeStorageSync("scanOplists")
-							}
-						}
-					})
-				}*/
 			} else { //未登录情况下
 				setTimeout(function() {
 					uni.showToast({

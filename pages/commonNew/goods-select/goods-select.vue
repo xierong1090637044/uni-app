@@ -115,7 +115,7 @@
 				search_text: '',
 				url: null,
 				loading: true,
-				productList: null,
+				productList: [],
 				value: '', //操作类型值
 				nextProducts: [],
 				negativeOut: false,

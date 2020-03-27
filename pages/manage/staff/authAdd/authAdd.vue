@@ -312,6 +312,7 @@
 				if(staff){
 					const query = Bmob.Query("_User");
 					query.set("rights", rights);
+					query.set("stocks", rights.select_stocks || []);
 					query.set("id", staff.objectId);
 					query.save().then(res => {
 						setTimeout(function(){

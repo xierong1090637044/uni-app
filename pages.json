@@ -250,12 +250,12 @@
 					"style": {
 						"navigationBarTitleText": "销售（新）"
 					}
-				},{
+				}, {
 					"path": "good_confrim/goodPurchaseNew/goodPurchaseNew",
 					"style": {
 						"navigationBarTitleText": "采购（新）"
 					}
-				},{
+				}, {
 					"path": "good_return/buyReturn/buyReturn",
 					"style": {
 						"navigationBarTitleText": "销售退货"
@@ -320,6 +320,9 @@
 					"style": {
 						"navigationBarTitleText": "盘点详情"
 					}
+				}, {
+					"path": "keepScan/keepScan",
+					"style": {}
 				}
 			]
 		}, {
@@ -421,12 +424,11 @@
 					"style": {
 						"navigationBarTitleText": "预警记录"
 					}
+				}, {
+					"path": "systemSetting/systemSetting",
+					"style": {}
 				}
-			    ,{
-                    "path" : "systemSetting/systemSetting",
-                    "style" : {}
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/shop",
@@ -756,12 +758,11 @@
 				, {
 					"path": "good_det/bad_history/bad_history",
 					"style": {}
+				}, {
+					"path": "customClass/customClass",
+					"style": {}
 				}
-			    ,{
-                    "path" : "customClass/customClass",
-                    "style" : {}
-                }
-            ]
+			]
 		}
 	],
 
