@@ -46,11 +46,8 @@
 							</view>
 							<view class='pro_list' style="padding: 10rpx 0;">
 								<view>调出店仓：{{item.stock}}</view>
-								<view>调拨后库存：{{item.reserve - item.num}}</view>
-							</view>
-							<view class='pro_list'>
 								<view>调入店仓：{{item.out_stock}}</view>
-								<!--<view>调拨后库存：{{item.out_reserve + item.num}}</view>-->
+								<!--<view>调拨后库存：{{item.reserve - item.num}}</view>-->
 							</view>
 							<view v-if="item.goodsId.selected_model">
 								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">

@@ -55,7 +55,7 @@
 							<view>其他费用</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入实际收款金额" v-model="otherMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
-								 type="digit" @input="inputOtherMoney"/>
+								 type="digit" @input="inputOtherMoney" />
 								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
 						</view>
@@ -63,7 +63,7 @@
 							<view>优惠金额</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入优惠金额" v-model="discountMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
-								 type="digit"  @input="inputDiscountMoney"/>
+								 type="digit" @input="inputDiscountMoney" />
 								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
 						</view>
@@ -210,7 +210,7 @@
 				],
 				expressNum: '', //快递单号
 				total_num: 0, //实际的总数量
-				
+
 				nowDay: common.getDay(0, true, true), //时间
 				otherMoney: 0, //其他金额 +
 				discountMoney: 0, //优惠金额 -
@@ -259,13 +259,13 @@
 		},
 
 		methods: {
-			
-			inputOtherMoney(e){
-				that.haveGetMoney = Number(that.all_money.toFixed(2))+Number(e.detail.value) -Number(that.discountMoney)
+
+			inputOtherMoney(e) {
+				that.haveGetMoney = Number(that.all_money.toFixed(2)) + Number(e.detail.value) - Number(that.discountMoney)
 			},
-			
-			inputDiscountMoney(e){
-				that.haveGetMoney = Number(that.all_money.toFixed(2))+Number(that.otherMoney) -Number(e.detail.value)
+
+			inputDiscountMoney(e) {
+				that.haveGetMoney = Number(that.all_money.toFixed(2)) + Number(that.otherMoney) - Number(e.detail.value)
 			},
 
 			//选择时间
@@ -362,13 +362,13 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
-				
+
 				let pointer3 = Bmob.Pointer('customs')
 				let customId = pointer3.set(uni.getStorageSync("custom").objectId)
-				
+
 				let pointer = Bmob.Pointer('stocks');
 				let stockId = '';
-				if(that.stock && that.stock.objectId){
+				if (that.stock && that.stock.objectId) {
 					stockId = pointer.set(that.stock.objectId);
 				}
 
@@ -388,7 +388,7 @@
 					let operater = pointer2.set(uni.getStorageSync("masterId"))
 					let pointer1 = Bmob.Pointer('Goods')
 					let tempGoods_id = pointer1.set(this.products[i].objectId);
-						
+
 					tempBills.set('custom', customId);
 					tempBills.set('goodsName', this.products[i].goodsName);
 					tempBills.set('retailPrice', this.products[i].modify_retailPrice);
@@ -493,19 +493,17 @@
 						});
 
 
-						if (that.custom) {
-							query.set("custom", customId);
-							if (finalDebt > 0) {
-								let query = Bmob.Query('customs');
+						query.set("custom", customId);
+						if (finalDebt > 0) {
+							let query = Bmob.Query('customs');
+							query.get(that.custom.objectId).then(res => {
+								var debt = (res.debt == null) ? 0 : res.debt;
+								debt = debt + finalDebt;
 								query.get(that.custom.objectId).then(res => {
-									var debt = (res.debt == null) ? 0 : res.debt;
-									debt = debt + finalDebt;
-									query.get(that.custom.objectId).then(res => {
-										res.set('debt', debt)
-										res.save()
-									})
+									res.set('debt', debt)
+									res.save()
 								})
-							}
+							})
 						}
 
 						if (that.outType) {
@@ -538,21 +536,26 @@
 									})
 
 									setTimeout(function() {
-		
+
 										if (that.sellLaterOrderId) {
-											
+
 											query.set('id', that.sellLaterOrderId) //需要修改的objectId
 											query.set('orderSellId', operationId) //需要修改的objectId
 											query.set("status", true)
 											query.save().then(res => {
-												uni.navigateBack({delta: 2});
+												uni.navigateBack({
+													delta: 2
+												});
 												that.button_disabled = false;
-												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
+												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+													that.products
 													.length + "商品，已经出库", -11, operationId);
 												console.log(res)
 											})
-										}else{
-											uni.navigateBack({delta: 2});
+										} else {
+											uni.navigateBack({
+												delta: 2
+											});
 											that.button_disabled = false;
 											common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
 												.length + "商品，已经出库", -11, operationId);
@@ -573,28 +576,30 @@
 											uni.removeStorageSync("out_warehouse")
 											uni.removeStorageSync("category")
 											uni.setStorageSync("is_option", true);
-											
+
 											if (that.sellLaterOrderId) {
 												query.set('id', that.sellLaterOrderId) //需要修改的objectId
 												query.set('orderSellId', operationId) //需要修改的objectId
 												query.set("status", true)
 												query.save().then(res => {
 													that.button_disabled = false;
-													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
+													common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" +
+														that.products
 														.length + "商品，暂未出库", -11, operationId);
 													uni.redirectTo({
 														url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
 													})
 												})
-											}else{
+											} else {
 												that.button_disabled = false;
-												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that.products
+												common.log(uni.getStorageSync("user").nickName + "销售了'" + that.products[0].goodsName + "'等" + that
+													.products
 													.length + "商品，暂未出库", -11, operationId);
 												uni.redirectTo({
 													url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
 												})
 											}
-											
+
 										}, 500)
 									},
 								})

@@ -5,7 +5,7 @@
 			 @click-right="goto_add" :shadow="false">
 				<view class="input-view display_flex">
 					<fa-icon type="search" size="16" color="#999"></fa-icon>
-					<input confirm-type="search" class="input" type="text" placeholder="请输入产品名字或者含量" @confirm="input_confirm" @blur="input_confirm"
+					<input confirm-type="search" class="input" type="text" placeholder="请输入名字 含量 存放位置" @confirm="input_confirm" @blur="input_confirm"
 					 :value="search_text" />
 				</view>
 			</uni-nav-bar>
@@ -438,7 +438,10 @@
 				const query2 = query.equalTo("packageContent", "==", {
 					"$regex": "" + that.search_text + ".*"
 				});
-				query.or(query1, query2);
+				const query3 = query.equalTo("position", "==", {
+					"$regex": "" + that.search_text + ".*"
+				});
+				query.or(query1, query2,query3);
 
 				/*if (that.checked) {
 					var timestamp = Date.parse(new Date());

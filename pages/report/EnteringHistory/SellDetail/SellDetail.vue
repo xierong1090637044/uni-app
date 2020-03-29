@@ -423,11 +423,8 @@
 								query.find().then(todos => {
 
 									todos.destroyAll().then(res => {
-										// 成功批量修改
 										if (that.detail.status) {
-											for (var i = 0; i < that.products.length; i++) {
-												that.delete_bill(i);
-											}
+											that.reduceAll()
 										} else {
 											uni.hideLoading();
 											uni.navigateBack({
@@ -450,6 +447,61 @@
 						}
 					}
 				})
+			},
+			
+			async reduceAll(){
+				await that.reduceAccount()
+				await that.reduceDebt()
+				await that.reduceGoods()
+			},
+			
+			reduceAccount(){
+				if (that.detail.account && that.detail.account.objectId) {
+					const accountQuery = Bmob.Query('accounts');
+					accountQuery.get( that.detail.account.objectId).then(res => {
+						if(that.detail.type == 1){
+							res.set('money', res.money + Number(that.detail.haveGetMoney));
+						}else if(that.detail.type == -1){
+							res.set('money', res.money - Number(that.detail.haveGetMoney));
+						}
+						res.save()
+					})
+				}
+			},
+			
+			reduceDebt(){
+				//如果客户或者供应商有欠款
+				if (that.detail.debt > 0) {
+					if(that.detail.type == 1){
+						let query = Bmob.Query('producers');
+						query.get(that.producer.objectId).then(res => {
+							let debt = (res.debt) ? res.debt : 0;
+							debt = debt - that.detail.debt;
+							//console.log(debt);
+							let query = Bmob.Query('producers');
+							query.get(that.producer.objectId).then(res => {
+								res.set('debt', debt)
+								res.save()
+							})
+						})
+					}else if(that.detail.type == -1){
+						let query = Bmob.Query('customs');
+						query.get(that.custom.objectId).then(res => {
+							var debt = (res.debt == null) ? 0 : res.debt;
+							debt = debt - that.detail.debt;;
+							query.get(that.custom.objectId).then(res => {
+								res.set('debt', debt)
+								res.save()
+							})
+						})
+					}
+				}
+			},
+			
+			reduceGoods(){
+				for (var i = 0; i < that.products.length; i++) {
+					that.delete_bill(i);
+				}
 			},
 
 			//审核订单
