@@ -30,7 +30,7 @@
 						<view v-if="item.selectd_model">
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
-								<text v-if="value == 1 || value == 3">采购量：</text>
+								<text v-if="value == 1 || value == 3 || value ==5">采购量：</text>
 								<text v-else-if="value == 2">入库量：</text>
 								<text v-else-if="value == 4">退货量：</text>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1'  v-if="key==0"/>
@@ -38,7 +38,7 @@
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							<text v-if="value == 1 || value == 3">采购量：</text>
+							<text v-if="value == 1 || value == 3 || value ==5">采购量：</text>
 							<text v-else-if="value == 2">入库量：</text>
 							<text v-else-if="value == 4">退货量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" value='1'/>
@@ -282,6 +282,10 @@
 				} else if (value == 4) {
 					uni.navigateTo({
 						url: "/pages/commonNew/good_return/buyReturn/buyReturn"
+					})
+				} else if (value == 5) {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_confrim/goodPurchaseLater/goodPurchaseLater"
 					})
 				}
 			},

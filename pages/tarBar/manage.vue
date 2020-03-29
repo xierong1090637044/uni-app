@@ -88,6 +88,16 @@
 			icon: 'file-o',
 			url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
 		},{
+			name: '采购订单',
+			notice: '采购订单',
+			icon: 'file-o',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=-4',
+		},{
+			name: '销售订单',
+			notice: '销售订单',
+			icon: 'file-o',
+			url: '/pages/report/EnteringHistory/EnteringHistory?type=-3',
+		},{
 			name: '货损记录',
 			notice: '货损记录',
 			icon: 'file-o',

@@ -13,20 +13,20 @@
 							<view class='pro_list' style='color:#000'>
 								<view>产品：{{item.goodsName}}
 									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
-									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
+									<text v-else>（成本价：￥{{item.costPrice}}）</text>
 								</view>
 								<view>数量：X{{item.num}}{{item.packingUnit ||''}}</view>
 							</view>
-							<view v-if="item.goodsId.selected_model">
-								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
+							<view v-if="item.selected_model">
+								<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex" v-if="model.num > 0" style="justify-content: space-between;">
 									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
 									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
 								</view>
 							</view>
 
 							<view class='pro_list'>
-								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
+								<view>建议零售价：￥{{item.retailPrice}}</view>
+								<view v-if="detail.type == -3">实际卖出价：￥{{item.modify_retailPrice}}</view>
 								<view v-else>
 									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
@@ -38,71 +38,97 @@
 					<view class='pro_allmoney'>总计：￥{{detail.all_money }}</view>
 				</view>
 
-				<view v-if="detail.type == -1">
-					<view class="kaidanmx" v-if="detail.extra_type == 1">
-						<view style="padding: 10rpx 30rpx;">销售明细</view>
-						<view v-if="detail.custom" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
+				<view v-if="detail.type == -3">
+					<view class="kaidanmx">
+						<view style="padding: 10rpx 30rpx;">销售订单明细</view>
+						<view v-if="detail.custom" class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">客户姓名</view>
 							<view>{{detail.custom.custom_name}}</view>
 						</view>
-						<view v-if="detail.discount" class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">折扣率</view>
-							<view>{{detail.discount}}%</view>
-						</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.account">
-							<view class="left_content">结算账户</view>
-							<view class="real_color">{{detail.account.name }}</view>
-						</view>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.real_money">
-							<view class="left_content">实际付款</view>
-							<view class="real_color">{{detail.real_money }}</view>
-						</view>
-						<view class="display_flex" v-if="detail.debt > 0" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view class="left_content">欠款</view>
-							<view class="real_color">{{detail.debt}}</view>
-						</view>
-						<view class="display_flex" v-if="detail.createdTime">
-							<view class="left_content">销售时间</view>
-							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
-						</view>
-
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">预收款</view>
 							<view class="display_flex">
-								<view class="left_content">发送方式</view>
-								<view class="real_color">{{detail.typeDesc}}</view>
-							</view>
-							<view class="display_flex" v-if="detail.typeDesc =='物流' || detail.typeDesc =='快递'">
-								<view class="real_color">{{detail.expressNum}}</view>
+								<view class="real_color">{{detail.haveGetMoney || 0 }}</view>
+								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
 							</view>
 						</view>
-						<view class="display_flex_bet" v-if="detail.expressNum" style="background: #fff;justify-content: flex-end;padding: 0rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
-						 @click="gotoexpressDet">
-							<view style="margin-right: 10rpx;color: #0a53c3;">查快递 </view>
-							<fa-icon type="angle-right" size="20" color="#0a53c3" />
-						</view>
-
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
-							<view class="left_content">出库情况</view>
-							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
-							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
-						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false"
-						 style="border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 150rpx;" class="left_content">出库店仓<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要出库的店仓" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">其他费用</view>
+							<view class="display_flex">
+								<view class="real_color">{{detail.otherMoney || 0 }}</view>
+								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
 							</view>
-						</navigator>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
-							<view class="left_content">出库店仓</view>
-							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
 						</view>
-						<view class="display_flex" v-if="detail.status">
-							<view class="left_content">出库时间</view>
-							<view>{{detail.updatedAt}}</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">合计应收</view>
+							<view class="display_flex">
+								<view class="real_color">{{detail.real_money || 0 }}</view>
+								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
+							</view>
 						</view>
-
+						<view class="display_flex_bet borderBot" v-if="detail.setDay">
+							<view class="left_content">订货时间</view>
+							<view>{{detail.setDay.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex_bet borderBot" v-if="detail.giveDay">
+							<view class="left_content">交货时间</view>
+							<view>{{detail.giveDay.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex_bet" style="justify-content: space-between;">
+							<view>是否已生成销售订单</view>
+							<view v-if="detail.status" class="display_flex">
+								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId" >已销售出库</navigator>
+								<fa-icon type="angle-right" size="20" color="#2ca879" ></fa-icon>
+							</view>
+							<view v-else style="color: #f30;">未生成</view>
+						</view>
+					</view>
+				</view>
+				
+				<view v-if="detail.type == -4">
+					<view class="kaidanmx">
+						<view style="padding: 10rpx 30rpx;">采购订单明细</view>
+						<view v-if="detail.producer" class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">供应商姓名</view>
+							<view>{{detail.producer.producer_name}}</view>
+						</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">预付款</view>
+							<view class="display_flex">
+								<view class="real_color">{{detail.haveGetMoney || 0 }}</view>
+								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
+							</view>
+						</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">其他费用</view>
+							<view class="display_flex">
+								<view class="real_color">{{detail.otherMoney || 0 }}</view>
+								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
+							</view>
+						</view>
+						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
+							<view class="left_content">合计应付</view>
+							<view class="display_flex">
+								<view class="real_color">{{detail.real_money || 0 }}</view>
+								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
+							</view>
+						</view>
+						<view class="display_flex_bet borderBot" v-if="detail.setDay">
+							<view class="left_content">订货时间</view>
+							<view>{{detail.setDay.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex_bet borderBot" v-if="detail.giveDay">
+							<view class="left_content">收货时间</view>
+							<view>{{detail.giveDay.iso.split(" ")[0]}}</view>
+						</view>
+						<view class="display_flex_bet" style="justify-content: space-between;">
+							<view>是否已生成采购订单</view>
+							<view v-if="detail.status" class="display_flex">
+								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId" >已采购入库</navigator>
+								<fa-icon type="angle-right" size="20" color="#2ca879" ></fa-icon>
+							</view>
+							<view v-else style="color: #f30;">未生成</view>
+						</view>
 					</view>
 				</view>
 
@@ -162,8 +188,8 @@
 				othercurrent: '',
 				bills: [],
 				loading: true,
-				products: null,
-				detail: null,
+				products: [],
+				detail: '',
 				stock: '', //店仓
 			}
 		},
@@ -194,7 +220,7 @@
 			}
 			return {
 				title: '库存表-操作单详情',
-				path: '/pages/report/EnteringHistory/detail/detail?id=' + id
+				path: '/pages/report/EnteringHistory/SellDetail/SellLaterDetail?id=' + id
 			}
 		},
 
@@ -224,48 +250,32 @@
 			//点击显示操作菜单
 			show_options() {
 				let options = ['打印'];
-				if (that.detail.type == -1 || that.detail.type == 1) {
-					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
+				if (that.detail.type == -3 || that.detail.type == -4) {
+					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1) {
 
-						options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印'] : ['采购入库', '撤销', '打印']
+						options = (that.detail.type == -3) ? ['生成销售订单', '删除'] : ['生成采购订单', '删除']
 
 						uni.showActionSheet({
 							itemList: options,
 							success: function(res) {
 								if (res.tapIndex == 0) {
-									if (that.detail.type == 1) {
+									if (that.detail.type == -4) {
 										if (that.detail.status) {
 											uni.showToast({
-												title: "该笔采购单已入库",
+												title: "该笔订单已生成采购单",
 												icon: "none"
 											})
 										} else {
-											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-												uni.showToast({
-													icon: "none",
-													title: "请选择店仓"
-												});
-												return;
-											} else {
 												that.confrimOrder()
-											}
 										}
-									} else if (that.detail.type == -1) {
+									} else if (that.detail.type == -3) {
 										if (that.detail.status) {
 											uni.showToast({
-												title: "该笔销售单已出库",
+												title: "该笔订单已生成销售单",
 												icon: "none"
 											})
 										} else {
-											if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-												uni.showToast({
-													icon: "none",
-													title: "请选择店仓"
-												});
-												return;
-											} else {
 												that.confrimOrder()
-											}
 										}
 									}
 									uni.setStorageSync("is_option", true)
@@ -295,7 +305,7 @@
 				query.get(id).then(res => {
 					console.log(res);
 					that.detail = res;
-					that.products = res.detail;
+					that.products = res.opreatGood;
 					that.bills = res.bills;
 					that.loading = false;
 				}).catch(err => {
@@ -351,414 +361,41 @@
 
 			//审核订单
 			confrimOrder() {
-				wx.showModal({
-					title: '提示',
-					content: '确定进行此操作！',
-					success(res) {
-						if (res.confirm) {
-							uni.showLoading({
-								title: '操作中，请勿退出该页面...'
-							})
-							const pointer = Bmob.Pointer('stocks');
-							let stockId = pointer.set(that.stock.objectId);
-
-							const query = Bmob.Query('order_opreations');
-							query.set('id', id) //需要修改的objectId
-							query.set("stock", stockId);
-							query.set('status', true)
-							query.save().then(res => {
-								//console.log(res)
-								let count = 0
-								if (that.detail.type == 1) {
-									for (let item of that.products) {
-										that.addOrReduceGoodReserve(item, count);
-										count += 1;
-									}
-								} else if (that.detail.type == -1) {
-									for (let item of that.products) {
-										that.ReduceGoodReserve(item, count);
-										count += 1;
-									}
-								}
-							}).catch(err => {
-								console.log(err)
-							})
-						}
-					}
-				})
-			},
-
-			//采购单确定采购入库之后改变产品库存
-			addOrReduceGoodReserve(product, count) {
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("header", "==", product.goodsId.objectId);
-				query.equalTo("stocks", "==", that.stock.objectId);
-				query.find().then(res => {
-					//console.log("店仓里的产品", res)
-					if (res.length == 0) {
-						query.get(product.goodsId.objectId).then(res => {
-							product.objectId = product.goodsId.objectId
-							product.costPrice = res.costPrice
-							product.retailPrice = res.retailPrice
-							common.upload_good_withNoCan(res, that.stock, Number(product.num)).then(res => { //上传没有的产品
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => { //计算首产品的总库存
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										common.modifyStockType(product.goodsId.objectId)
-										if (count == (that.products.length - 1)) {
-											const pointer = Bmob.Pointer('stocks');
-											let stockId = pointer.set(that.stock.objectId);
-							
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set("stock", stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-							
-													that.getdetail(id);
-													setTimeout(function() {
-														uni.showToast({
-															title: '采购入库成功'
-														})
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-						
-					} else {
-						const query1 = Bmob.Query('Goods');
-						query1.get(res[0].objectId).then(res => {
-							//console.log(res)
-							if (product.goodsId.selected_model) {
-								let num = 0;
-								for (let model of product.goodsId.selected_model) {
-									for (let item of res.models) {
-										if (item.id == model.id) {
-											item.reserve = Number(item.reserve) + Number(model.num)
-											//console.log(item.reserve)
-											num += Number(model.num)
-										}
-									}
-								}
-								//console.log(res.models)
-								res.set('models', res.models)
-								res.set('reserve', res.reserve + num);
-							} else {
-								res.set('reserve', res.reserve + product.num);
-							}
-							res.save().then(res => {
-								const pointer = Bmob.Pointer('stocks');
-								let stockId = pointer.set(that.stock.objectId);
-
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => { //计算首产品的总库存
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										if (count == (that.products.length - 1)) {
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set("stock", stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-													/*uni.navigateBack({
-														delta: 1
-													})*/
-													that.getdetail(id);
-													setTimeout(function() {
-
-														const query1 = Bmob.Query("Goods");
-														query1.equalTo("header", "==", product.goodsId.objectId);
-														query1.equalTo("order", "==", 1);
-														query1.statTo("sum", "reserve");
-														query1.find().then(res => {
-															common.modifyStockType(product.goodsId.objectId)
-															
-															let now_reserve = res[0]._sumReserve
-															const query = Bmob.Query('Goods');
-															query.set('reserve', now_reserve)
-															query.set('id', product.goodsId.objectId)
-															query.save().then(res => {
-																uni.removeStorageSync("warehouse")
-																uni.showToast({
-																	title: '采购入库成功'
-																})
-															})
-														})
-
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-					}
-
-				})
-			},
-
-			//销售单确认审核之后减少库存
-			ReduceGoodReserve(product, count) {
-
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("header", "==", product.goodsId.objectId);
-				query.equalTo("stocks", "==", that.stock.objectId);
-				query.find().then(res => {
-					//console.log("店仓里的产品", res)
-					if (res.length == 0) {
-						query.get(product.goodsId.objectId).then(res => {
-							product.objectId = product.goodsId.objectId
-							product.costPrice = res.costPrice
-							product.retailPrice = res.retailPrice
-							common.upload_good_withNoCan(res, that.stock, 0 - Number(product.num)).then(res => {
-								console.log(res)
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										
-										common.modifyStockType(product.goodsId.objectId)
-										
-										if (count == (that.products.length - 1)) {
-											const pointer = Bmob.Pointer('stocks');
-											let stockId = pointer.set(that.stock.objectId);
-							
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set('stock', stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-							
-													that.getdetail(id);
-													setTimeout(function() {
-							
-							
-														uni.removeStorageSync("warehouse")
-														uni.showToast({
-															title: '销售出库成功'
-														})
-							
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-					} else {
-						const query1 = Bmob.Query('Goods');
-						query1.get(res[0].objectId).then(res => {
-							//console.log(res)
-							if (product.goodsId.selected_model) {
-								let num = 0;
-								for (let model of product.goodsId.selected_model) {
-									for (let item of res.models) {
-										if (item.id == model.id) {
-											item.reserve = Number(item.reserve) - Number(model.num)
-											//console.log(item.reserve)
-											num += Number(model.num)
-										}
-									}
-								}
-								//console.log(res.models)
-								res.set('models', res.models)
-								res.set('reserve', res.reserve - num);
-							} else {
-								res.set('reserve', res.reserve - product.num);
-							}
-							res.save().then(res => {
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										common.modifyStockType(product.goodsId.objectId)
-										if (count == (that.products.length - 1)) {
-											const pointer = Bmob.Pointer('stocks');
-											let stockId = pointer.set(that.stock.objectId);
-
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set('stock', stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-													/*uni.navigateBack({
-														delta: 1
-													})*/
-
-													that.getdetail(id);
-													setTimeout(function() {
-
-														uni.showToast({
-															title: '销售出库成功'
-														})
-
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-					}
-
-				})
-
-			},
-
-			delete_bill: function(i) {
-				let product = that.products[i];
-				let bill = that.bills[i]
-
-				const query1 = Bmob.Query('Goods');
-				query1.equalTo("order", "==", 1);
-				query1.equalTo("header", "==", product.goodsId.objectId);
-				query1.equalTo("stocks", "==", that.detail.stock.objectId);
-				query1.find().then(res => {
-					console.log(res)
-					let thisGood = res[0];
-					query1.set('id', res[0].objectId);
-					if (product.type == 1) {
-						if (product.goodsId.selected_model) {
-							let num = 0;
-							for (let model of product.goodsId.selected_model) {
-								for (let item of thisGood.models) {
-									if (item.id == model.id) {
-										item.reserve = Number(item.reserve) - Number(model.num)
-										//console.log(item.reserve)
-										num += Number(model.num)
-									}
-								}
-							}
-							//console.log(res.models)
-							query1.set('models', res[0].models)
-							query1.set('reserve', res[0].reserve - num);
-						} else {
-							query1.set('reserve', res[0].reserve - product.num);
-						}
-					} else if (product.type == -1) {
-						if (product.goodsId.selected_model) {
-							let num = 0;
-							for (let model of product.goodsId.selected_model) {
-								for (let item of thisGood.models) {
-									if (item.id == model.id) {
-										item.reserve = Number(item.reserve) + Number(model.num)
-										//console.log(item.reserve)
-										num += Number(model.num)
-									}
-								}
-							}
-							//console.log(res.models)
-							query1.set('models', res[0].models)
-							query1.set('reserve', res[0].reserve + num);
-						} else {
-							query1.set('reserve', res[0].reserve + product.num);
-						}
-
-					}
-					query1.save().then(res => {
-						if (thisGood.header) {
-							const query1 = Bmob.Query("Goods");
-							query1.equalTo("header", "==", thisGood.header.objectId);
-							query1.equalTo("order", "==", 1);
-							query1.statTo("sum", "reserve");
-							query1.find().then(res => {
-								console.log("dasds", res)
-								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
-								query.set('reserve', now_reserve)
-								query.set('id', thisGood.header.objectId)
-								query.save().then(res => {
-									common.modifyStockType(thisGood.header.objectId)
-									if (i == (that.products.length - 1)) {
-										uni.hideLoading();
-										uni.navigateBack({
-											delta: 1
-										})
-										setTimeout(function() {
-											uni.showToast({
-												title: '撤销成功'
-											})
-										}, 1000);
-									}
-								})
-							})
-						} else {
-							common.modifyStockType(thisGood.objectId)
-							if (i == (that.products.length - 1)) {
-								uni.hideLoading();
-								uni.navigateBack({
-									delta: 1
-								})
-								setTimeout(function() {
-									uni.showToast({
-										title: '撤销成功'
-									})
-								}, 1000);
+				if(that.detail.type == -3){
+					wx.showModal({
+						title: '提示',
+						content: '是否生成销售单！',
+						success(res) {
+							if (res.confirm) {
+								 uni.setStorageSync("custom",that.detail.custom)
+								 uni.setStorageSync("products",that.detail.opreatGood)
+								 uni.setStorageSync("otherMoney",that.detail.otherMoney)
+								 uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
+								 uni.navigateTo({
+								 	url:"/pages/commonNew/goods_out/gooSellNew/gooSellNew?id="+that.detail.objectId
+								 })
 							}
 						}
-
-
 					})
-
-				}).catch(err => {
-					console.log(err)
-				})
-
-			}
+				}else if(that.detail.type == -4){
+					wx.showModal({
+						title: '提示',
+						content: '是否生成采购单！',
+						success(res) {
+							if (res.confirm) {
+								 uni.setStorageSync("producer",that.detail.producer)
+								 uni.setStorageSync("products",that.detail.opreatGood)
+								 uni.setStorageSync("otherMoney",that.detail.otherMoney)
+								 uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
+								 uni.navigateTo({
+								 	url:"/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew?id="+that.detail.objectId
+								 })
+							}
+						}
+					})
+				}
+				
+			},
 		}
 	}
 </script>
@@ -842,7 +479,7 @@
 		margin-top: 30rpx;
 	}
 
-	.display_flex {
+	.display_flex_bet {
 		display: flex;
 		align-items: center;
 		background: #FFFFFF;

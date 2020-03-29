@@ -71,6 +71,8 @@
 												</view>
 											</view>
 											<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
+											<view v-else-if='item.type == -3' class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">销售订单</view>
+											<view v-else-if='item.type == -4' class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">采购订单</view>
 											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
 											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
 											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
@@ -82,9 +84,12 @@
 											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
 											<view style="color: #999;" v-if="item.type !=-2 && item.type !=3">X{{item.real_num}}</view>
 										</view>
-
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
+										<view v-if="item.type == -3">
+											<view v-if="item.status == false" style="text-align: right;color: #f30;font-size: 24rpx;">待销售出库</view>
+											<view v-else style="text-align: right;color: #2ca879;font-size: 24rpx;">已销售出库</view>
+										</view>
 									</view>
 								</view>
 
@@ -421,17 +426,22 @@
 					})
 				} else {
 					if (item.recordType == "new") {
-						wx.navigateTo({
-							url: 'SellDetail/SellDetail?id=' + item.objectId,
-						})
+						if(item.type == -3 || item.type == -4){
+							wx.navigateTo({
+								url: 'SellDetail/SellLaterDetail?id=' + item.objectId,
+							})
+						}else{
+							wx.navigateTo({
+								url: 'SellDetail/SellDetail?id=' + item.objectId,
+							})
+						}
+						
 					} else {
 						wx.navigateTo({
 							url: 'detail/detail?id=' + item.objectId,
 						})
 					}
-
 				}
-
 			},
 		}
 	}

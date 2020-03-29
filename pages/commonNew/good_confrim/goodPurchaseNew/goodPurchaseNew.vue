@@ -30,46 +30,76 @@
 
 			<form @submit="formSubmit" report-submit="true">
 
-				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 20rpx;color: #333;font-weight: bold;">采购明细</view>
+				<view style="margin: 30rpx 0 0;">
+					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">采购明细</view>
 					<view style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/producer/producer?type=producer" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
-							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
+						<navigator class="display_flex_bet orderListItemBorder borderBot" hover-class="none" url="/pages/manage/producer/producer?type=producer">
+							<view style="width: 140rpx;">供货商<text style="color: #f30;">*</text></view>
+							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet orderListItemBorder borderBot" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
 							<view style="width: 150rpx;" class="left_content">入库仓库</view>
 							<view style="display: flex;align-items: center;">
 								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/account/account?type=producerChoose&money='+real_money"
-						 style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+
+						<view class="display_flex_bet orderListItemBorder borderBot">
+							<view>商品总价</view>
+							<view class="kaidan_rightinput display_flex">
+								<input v-model="all_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 disabled="true" />
+								<text style="color: #333;font-weight: bold;">元</text>
+							</view>
+						</view>
+						<view class="display_flex_bet orderListItemBorder borderBot">
+							<view>其他费用</view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="输入实际收款金额" v-model="otherMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit" @input="inputOtherMoney"/>
+								<text style="color: #333;font-weight: bold;">元</text>
+							</view>
+						</view>
+						<view class="display_flex_bet orderListItemBorder borderBot">
+							<view>优惠金额</view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="输入优惠金额" v-model="discountMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit"  @input="inputDiscountMoney"/>
+								<text style="color: #333;font-weight: bold;">元</text>
+							</view>
+						</view>
+
+						<navigator hover-class="none" url="/pages/finance/account/account?type=choose" class="display_flex_bet orderListItemBorder borderBot"
+						 style="margin-top:20rpx;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'"></view>
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-else>
-							<view>是否赊账</view>
-							<view class="kaidan_rightinput" style="text-align: right;">
-								<switch :checked="wetherDebt" @change="changeDebtStatus" />
+						<view class="display_flex_bet orderListItemBorder borderBot">
+							<view>现结款</view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="输入预付款" v-model="haveGetMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit" />
+								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
 						</view>
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;" v-if="wetherDebt">
-							<view>实际付款</view>
-							<view class="kaidan_rightinput"><input placeholder="输入实际付款金额" v-model="real_money" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
-								 type="digit" /></view>
+						<view class="display_flex_bet orderListItemBorder borderBot">
+							<view>现结后欠款</view>
+							<view class="kaidan_rightinput display_flex">
+								<input :value="Number(real_money) - Number(haveGetMoney) - Number(discountMoney) +Number(otherMoney)" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								 type="digit" disabled="true" />
+								<text style="color: #333;font-weight: bold;">元</text>
+							</view>
 						</view>
-						
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
+
+						<view class="display_flex_bet orderListItemBorder borderBot" style="margin-top:20rpx;">
 							<view style="width: 140rpx;">采购时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -78,39 +108,38 @@
 								</view>
 							</picker>
 						</view>
-
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+						<view class="display_flex_bet orderListItemBorder borderBot">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
-						<view style='background: #fff;padding:10rpx 20rpx;'>
-							<view style="width: 100%;">
-								<view class="upload_image display_flex">
-									<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
-										<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
-										<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: -10rpx;right: -10rpx;"
-										 @click="removeImg(index)"></fa-icon>
-									</view>
-									<view style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx"
-									 @click="upload_image" v-if="Images.length < 3">
-										<fa-icon type="plus-square-o" size="40" color="#426ab3"></fa-icon>
-									</view>
-								</view>
-							</view>
-						</view>
-
 					</view>
 				</view>
 
-				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
+				<view style='background: #fff;padding: 10rpx 20rpx;'>
+					<view class="notice_text">上传凭证图(会员可用)</view>
+
+					<view style="width: 100%;padding: 20rpx 0;">
+						<view class="upload_image display_flex">
+							<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
+								<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+								<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: -10rpx;right: -10rpx;"
+								 @click="removeImg(index)"></fa-icon>
+							</view>
+							<view style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx"
+							 @click="upload_image" v-if="Images.length < 3">
+								<fa-icon type="plus-square-o" size="40" color="#426ab3"></fa-icon>
+							</view>
+						</view>
+					</view>
+				</view>
+
+				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
 					<view style="color: #333333;font-weight: bold;">
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">合计：￥0</view>
-						<view v-else>合计：￥{{real_money}}</view>
+						<view>合计：￥{{Number(real_money) - Number(discountMoney) +Number(otherMoney)}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;"
-						 v-if="othercurrent.indexOf('1') !=-1|| identity==1">采购</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购</button>
 					</view>
 
 				</view>
@@ -153,19 +182,25 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //时间
-				wetherDebt: false,
+				otherMoney: 0, //其他金额 +
+				discountMoney: 0, //优惠金额 -
+				haveGetMoney: 0, //预付款 -
+				sellLaterOrderId: '', //预付订单id
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this;
 			uid = uni.getStorageSync("uid");
-			this.products = uni.getStorageSync("products");
-			for (let i = 0; i < this.products.length; i++) {
-				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
-				this.really_total_money = Number((this.products[i].really_total_money + this.really_total_money).toFixed(2))
-				this.total_num += Number(this.products[i].num)
+			that.products = uni.getStorageSync("products");
+			that.sellLaterOrderId = options.id || ''
+			
+			for (let i = 0; i < that.products.length; i++) {
+				that.all_money = Number((that.products[i].total_money + that.all_money).toFixed(2))
+				that.really_total_money = Number((that.products[i].really_total_money + that.really_total_money).toFixed(2))
+				that.total_num += Number(that.products[i].num)
 			}
-			this.real_money = Number(this.all_money.toFixed(2))
+			that.real_money = Number(that.all_money.toFixed(2))
+			that.haveGetMoney = Number(that.all_money.toFixed(2))
 
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
@@ -177,14 +212,23 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 			that.account = uni.getStorageSync("account")
 		},
+		
+		onUnload() {
+			uni.removeStorageSync("haveGetMoney")
+			uni.removeStorageSync("otherMoney")
+			uni.removeStorageSync("products")
+		},
+		
 		methods: {
-			changeDebtStatus(e) {
-				if (e.detail.value == false) {
-					this.real_money = Number(this.all_money.toFixed(2))
-				}
-				that.wetherDebt = e.detail.value
+			
+			inputOtherMoney(e){
+				that.haveGetMoney = Number(that.all_money.toFixed(2))+Number(e.detail.value) -Number(that.discountMoney)
 			},
-
+			
+			inputDiscountMoney(e){
+				that.haveGetMoney = Number(that.all_money.toFixed(2))+Number(that.otherMoney) -Number(e.detail.value)
+			},
+			
 			//选择时间
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
@@ -249,6 +293,19 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let producer = Bmob.Pointer('producers');
+				let producerID = producer.set(that.producer.objectId);
+
+				let pointer = Bmob.Pointer('stocks');
+				let stockId = '';
+				if (that.stock && that.stock.objectId) {
+					stockId = pointer.set(that.stock.objectId);
+				}
+
+				let finalRealMoney = Number(that.real_money) - Number(that.discountMoney) + Number(that.otherMoney); //最终应付款
+				let finalDebt = finalRealMoney - Number(that.haveGetMoney) // 最终欠款
+				let finalProft = finalRealMoney - that.allCostPrice // 最终盈利
+
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 
@@ -276,8 +333,6 @@
 					tempBills.set('type', 1);
 					tempBills.set('extra_type', extraType);
 					if (that.stock && that.stock.objectId) {
-						const pointer = Bmob.Pointer('stocks');
-						let stockId = pointer.set(that.stock.objectId);
 						tempBills.set("status", true); // 操作单详情
 						tempBills.set("stock", stockId);
 						detailBills.stock = that.stock.stock_name
@@ -288,17 +343,10 @@
 						"__type": "Date",
 						"iso": that.nowDay
 					}); // 操作单详情
-					if (that.producer) {
-						let producer = Bmob.Pointer('producers');
-						let producerID = producer.set(that.producer.objectId);
-						tempBills.set("producer", producerID);
-					}
 
+					tempBills.set("producer", producerID);
 					let goodsId = {}
-
 					if (that.stock && that.stock.objectId) {
-						const pointer = Bmob.Pointer('stocks');
-						let stockId = pointer.set(that.stock.objectId);
 						tempBills.set("stock", stockId);
 						detailBills.stock = that.stock.stock_name
 					}
@@ -349,49 +397,42 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						if (that.stock && that.stock.objectId) {
-							const pointer = Bmob.Pointer('stocks');
-							let stockId = pointer.set(that.stock.objectId);
-							query.set("stock", stockId);
-						}
 						query.set('goodsName', that.products[0].goodsName);
-						query.set('real_money', Number(that.real_money));
-						query.set('debt', that.all_money - Number(that.real_money));
+						query.set("all_money", that.all_money);
+						query.set('otherMoney', Number(that.otherMoney)); //其他金额 +
+						query.set('discountMoney', Number(that.discountMoney)); //优惠金额 -
+						query.set('haveGetMoney', Number(that.haveGetMoney)); //预付款 -
+						query.set('real_money', finalRealMoney);
+						query.set('debt', finalDebt);
 						if (that.account) {
 							let pointer4 = Bmob.Pointer('accounts')
 							let accountId = pointer4.set(that.account.objectId)
 							query.set("account", accountId);
 							const accountQuery = Bmob.Query('accounts');
 							accountQuery.get(that.account.objectId).then(res => {
-								res.set('money', res.money - Number(that.real_money));
-								res.save().then(res => {})
+								res.set('money', res.money - Number(that.haveGetMoney));
+								res.save()
 							})
 						}
 						query.set("recordType", "new"); //"new"代表新版的销售记录
-						if (that.producer) {
-							let producer = Bmob.Pointer('producers');
-							let producerID = producer.set(that.producer.objectId);
-							query.set("producer", producerID);
-							//如果客户有欠款
-							if ((that.all_money - Number(that.real_money)) > 0) {
+						query.set("producer", producerID);
+						//如果客户有欠款
+						if (finalDebt > 0) {
+							let query = Bmob.Query('producers');
+							query.get(that.producer.objectId).then(res => {
+								var debt = (res.debt) ? res.debt : 0;
+								debt = debt + finalDebt;
+								//console.log(debt);
 								let query = Bmob.Query('producers');
 								query.get(that.producer.objectId).then(res => {
-									var debt = (res.debt) ? res.debt : 0;
-									debt = debt + (that.all_money - Number(that.real_money));
-									//console.log(debt);
-									let query = Bmob.Query('producers');
-									query.get(that.producer.objectId).then(res => {
-										res.set('debt', debt)
-										res.save()
-									})
+									res.set('debt', debt)
+									res.save()
 								})
-							}
+							})
 						}
-						query.set("all_money", that.all_money);
+
 						query.set("Images", that.Images);
 						if (that.stock) {
-							const pointer = Bmob.Pointer('stocks');
-							let stockId = pointer.set(that.stock.objectId);
 							query.set("status", true); // 操作单详情
 							query.set("stock", stockId);
 						} else {
@@ -404,31 +445,48 @@
 						query.save().then(res => {
 							let operationId = res.objectId
 							//console.log("添加操作历史记录成功", res);
-							
-							if(that.stock && that.stock.objectId){
-								common.enterAddGoodNumNew(that.products).then(res=>{
+
+							if (that.stock && that.stock.objectId) {
+								common.enterAddGoodNumNew(that.products).then(res => {
 									uni.hideLoading();
-									uni.removeStorageSync("customs"); //移除这个缓存
+									uni.removeStorageSync("producers"); //移除这个缓存
 									uni.removeStorageSync("_warehouse")
 									uni.removeStorageSync("out_warehouse")
 									uni.removeStorageSync("category")
 									uni.setStorageSync("is_option", true);
-									
-									
+
+
 									uni.showToast({
 										title: "采购入库成功"
 									})
-									
+
 									setTimeout(function() {
-										uni.navigateBack({
-											delta: 2
-										});
-										that.button_disabled = false;
-										common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品，已经入库", 11, operationId);
+										if (that.sellLaterOrderId) {
+
+											query.set('id', that.sellLaterOrderId) //需要修改的objectId
+											query.set('orderSellId', operationId) //需要修改的objectId
+											query.set("status", true)
+											query.save().then(res => {
+												uni.navigateBack({
+													delta: 2
+												});
+												that.button_disabled = false;
+												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+													that.products
+													.length + "商品，已经入库", 11, operationId);
+											})
+										} else {
+											uni.navigateBack({
+												delta: 2
+											});
+											that.button_disabled = false;
+											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
+												.length + "商品，已经入库", 11, operationId);
+										}
+
 									}, 500)
 								})
-							}else{
+							} else {
 								uni.hideLoading();
 								uni.showToast({
 									title: '产品采购成功',
@@ -436,22 +494,35 @@
 									duration: 500,
 									complete: function() {
 										setTimeout(() => {
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName +"'等" +that.products.length + "商品", 11, operationId);
-											
-											that.button_disabled = false;
-											uni.setStorageSync("is_option", true);
-											uni.removeStorageSync("_warehouse")
-											uni.removeStorageSync("out_warehouse")
-											uni.removeStorageSync("category")
-											uni.redirectTo({
-												url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-											})
+											if (that.sellLaterOrderId) {
+												query.set('id', that.sellLaterOrderId) //需要修改的objectId
+												query.set('orderSellId', operationId) //需要修改的objectId
+												query.set("status", true)
+												query.save().then(res => {
+													common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
+														that.products.length + "商品", 12, operationId);
+													that.button_disabled = false;
+													uni.redirectTo({
+														url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
+													})
+												})
+											} else {
+												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
+													.products.length + "商品", 12, operationId);
+
+												that.button_disabled = false;
+
+												uni.redirectTo({
+													url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
+												})
+											}
+
 										}, 500)
-								
+
 									}
 								})
 							}
-							
+
 
 						})
 
@@ -460,42 +531,6 @@
 						// 批量新增异常处理
 						console.log("异常处理");
 					});
-			},
-
-
-			//判断此商品是否在此店仓中
-			can_addGoods() {
-				return new Promise((resolve, reject) => {
-					let products = uni.getStorageSync("products");
-					let warehouse = uni.getStorageSync("warehouse")
-					if (warehouse) {
-						for (let item of products) {
-							if (item.stocks.stock_name == '' || item.stocks.stock_name == undefined || item.stocks.stock_name !=
-								warehouse[0].stock.stock_name) {
-								uni.showModal({
-									title: "'" + item.goodsName + "'" + '没有关联到调出店仓',
-									content: "是否将它关联到此店仓",
-									showCancel: true,
-									success: res => {
-										console.log(res)
-										if (res.confirm) {
-											resolve([true, item])
-										} else {
-											resolve([false])
-										}
-									},
-									fail: () => {},
-								});
-								return;
-							} else {
-								resolve([false])
-							}
-						}
-					} else {
-						resolve([false])
-					}
-				})
-
 			},
 		}
 	}
