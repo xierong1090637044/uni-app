@@ -211,6 +211,15 @@
 			that.producer = uni.getStorageSync("producer")
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 			that.account = uni.getStorageSync("account")
+			
+			if (uni.getStorageSync("haveGetMoney")) {
+				that.haveGetMoney = Number(uni.getStorageSync("haveGetMoney").toFixed(2))
+				uni.removeStorageSync("haveGetMoney")
+			}
+			if (uni.getStorageSync("otherMoney")) {
+				that.otherMoney = Number(uni.getStorageSync("otherMoney").toFixed(2))
+				uni.removeStorageSync("otherMoney")
+			}
 		},
 		
 		onUnload() {

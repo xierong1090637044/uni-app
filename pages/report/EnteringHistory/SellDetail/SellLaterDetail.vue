@@ -205,11 +205,12 @@
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
-			that.getdetail(id);
+		
 		},
 
 		onShow() {
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+			that.getdetail(id);
 		},
 
 		//分享

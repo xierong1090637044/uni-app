@@ -244,9 +244,11 @@
 
 			if (uni.getStorageSync("haveGetMoney")) {
 				that.haveGetMoney = Number(uni.getStorageSync("haveGetMoney").toFixed(2))
+				uni.removeStorageSync("haveGetMoney")
 			}
 			if (uni.getStorageSync("otherMoney")) {
 				that.otherMoney = Number(uni.getStorageSync("otherMoney").toFixed(2))
+				uni.removeStorageSync("otherMoney")
 			}
 		},
 
