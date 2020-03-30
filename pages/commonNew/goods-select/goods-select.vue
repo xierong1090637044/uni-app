@@ -389,23 +389,47 @@
 			confrim_next() {
 				let index = 0;
 				if (that.type == "entering") {
-					for (let item of that.nextProducts) {
-						that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
-						that.nextProducts[index].num = 0;
-						that.nextProducts[index].total_money = 0 * that.nextProducts[index].costPrice;
-						that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].costPrice;
-						that.nextProducts[index].modify_retailPrice = that.nextProducts[index].costPrice;
-						index += 1;
+					if(that.value ==4){
+						for (let item of that.nextProducts) {
+							that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
+							that.nextProducts[index].num = 0;
+							that.nextProducts[index].total_money = 0 * that.nextProducts[index].retailPrice;
+							that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].retailPrice;
+							that.nextProducts[index].modify_retailPrice = that.nextProducts[index].retailPrice;
+							index += 1;
+						}
+					}else{
+						for (let item of that.nextProducts) {
+							that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
+							that.nextProducts[index].num = 0;
+							that.nextProducts[index].total_money = 0 * that.nextProducts[index].costPrice;
+							that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].costPrice;
+							that.nextProducts[index].modify_retailPrice = that.nextProducts[index].costPrice;
+							index += 1;
+						}
 					}
+					
 				} else {
-					for (let item of that.nextProducts) {
-						that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
-						that.nextProducts[index].num = 0;
-						that.nextProducts[index].total_money = 0 * that.nextProducts[index].retailPrice;
-						that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].retailPrice;
-						that.nextProducts[index].modify_retailPrice = that.nextProducts[index].retailPrice;
-						index += 1;
+					if(that.value == 4){
+						for (let item of that.nextProducts) {
+							that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
+							that.nextProducts[index].num = 0;
+							that.nextProducts[index].total_money = 0 * that.nextProducts[index].costPrice;
+							that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].costPrice;
+							that.nextProducts[index].modify_retailPrice = that.nextProducts[index].costPrice;
+							index += 1;
+						}
+					}else{
+						for (let item of that.nextProducts) {
+							that.nextProducts[index] = (typeof item == 'object') ? item : JSON.parse(item)
+							that.nextProducts[index].num = 0;
+							that.nextProducts[index].total_money = 0 * that.nextProducts[index].retailPrice;
+							that.nextProducts[index].really_total_money = 0 * that.nextProducts[index].retailPrice;
+							that.nextProducts[index].modify_retailPrice = that.nextProducts[index].retailPrice;
+							index += 1;
+						}
 					}
+					
 				}
 
 				uni.setStorageSync("products", that.nextProducts);

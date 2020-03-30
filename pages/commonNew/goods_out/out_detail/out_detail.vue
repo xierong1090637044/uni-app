@@ -6,11 +6,6 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list' style='color:#333'>
 						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
-						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
-					</view>
-
-					<view class='pro_list' style='color:#333'>
-						<view>实际零售价：￥{{item.modify_retailPrice}}</view>
 						<view>数量：X{{item.num}}</view>
 					</view>
 
@@ -71,7 +66,6 @@
 
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
 					<view>
-						<view>合计：￥{{real_money}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">

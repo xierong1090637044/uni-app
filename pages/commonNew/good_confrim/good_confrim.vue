@@ -11,13 +11,25 @@
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
 							<view>库存：{{item.reserve}}</view>
 							
-							<view>进价：
-								<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">0元</text>
-								<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
+							<view v-if="value !=2">
+								<view v-if="value == 4">零售价：
+									<text style="color: #f30;">{{item.retailPrice}}(元)</text>
+								</view>
+								<view v-else>进价：
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">0元</text>
+									<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
+								</view>
 							</view>
+							
 						</view>
 						
-						<view class="display_flex" v-if="value !=2"  style="margin-bottom: 10rpx;">
+						<!--销售退货-->
+						<view class="display_flex" v-if="value !=2 && value == 4"  style="margin-bottom: 10rpx;">
+							<text>实际退货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
+							<input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
+						</view>
+						
+						<view class="display_flex" v-if="value !=2 && value != 4"  style="margin-bottom: 10rpx;">
 							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
 							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />

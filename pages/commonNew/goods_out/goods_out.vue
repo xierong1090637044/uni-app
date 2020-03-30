@@ -11,16 +11,37 @@
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
 							<view>存放仓库：{{item.stocks.stock_name}}</view>
 						</view>
-
+						
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
 							<view>库存：{{item.reserve}}</view>
-							<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>
+							<view v-if="value !=2">
+								<view v-if="value != 4">零售价：
+									<text style="color: #f30;">{{item.retailPrice}}(元)</text>
+								</view>
+								<view v-else>进价：
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">0元</text>
+									<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
+								</view>
+							</view>
+							
 						</view>
+						
+						
 
-						<view class="display_flex_bet" v-if="value == 1 || value == 3" style="margin-bottom: 10rpx;">
+						<view class="display_flex_bet" v-if="value !=2 && value != 4" style="margin-bottom: 10rpx;">
 							<view class='input_withlabel'>
 								<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
 								<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+							</view>
+						</view>
+						
+						<view class="display_flex" v-if="value !=2 && value == 4"  style="margin-bottom: 10rpx;">
+							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
+							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
+								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
+							</view>
+							<view v-else>
+								<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
 							</view>
 						</view>
 

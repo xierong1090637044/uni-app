@@ -6,7 +6,7 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list'>
 						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
-						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
+						<view>进货价：￥{{item.costPrice?item.costPrice:0}}</view>
 					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
@@ -15,7 +15,7 @@
 						</view>
 					</view>
 					<view class='pro_list'>
-						<view>实际零售价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+						<view>实际退货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.total_money}}</view>
 					</view>
 
@@ -42,13 +42,6 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<!--<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/shops/shops?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">选择门店</view>
-							<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-								<input placeholder="选择门店" disabled="true" :value="shop_name" style="text-align: right;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>-->
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">

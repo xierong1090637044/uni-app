@@ -1,69 +1,87 @@
 <template>
-	<view>
-		<!-- #ifdef MP-WEIXIN -->
-		<camera device-position="back" flash="off" binderror="error" style="width: 300rpx;height: 300rpx;margin: 0 auto;margin-top: 30rpx;" mode="scanCode" @scancode="scanCode"></camera>
-		<!-- #endif -->
-		
-		<!--<image mode="widthFix" src="{{src}}"></image>-->
-		
-		<view>
-			<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-				<unicard :title="'品名：'+item.goodsName">
-					<view>			
-						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
-							<view>库存：{{item.reserve}}</view>
-							<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>
-						</view>
-			
-						<view class="display_flex_bet" v-if="value == 1 || value == 3" style="margin-bottom: 10rpx;">
-							<view class='input_withlabel'>
-								<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
-								<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
-							</view>
-						</view>
-			
-						<view v-if="item.selectd_model">
-							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
-								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
-								<text>数量：</text>
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0'/>
-							</view>
-						</view>
-						<view class='margin-t-5' v-else>
-							<text>数量：</text>
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='1' v-if="negativeOut" />
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else />
-						</view>
-			
-						<view class="bottom_del display_flex_bet">
-							<view>
-								<view v-if="user.identity !=2">
-									<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.objectId + '&type=false'">
-										<fa-icon type="magic" size="12" color="#fff"></fa-icon>
-										<text style="margin-left: 10rpx;">详情</text>
-									</navigator>
-								</view>
-							</view>
-							<view class='del' @click="handleDel(index)">
-								<fa-icon type="close" size="12" color="#fff"></fa-icon>
-								<text style="margin-left: 10rpx;">删除</text>
-							</view>
-						</view>
-					</view>
-				</unicard>
+	<view style="height: 100vh;background: #fff;">
+
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrim_this" />
+
+		<view class="display_flex_bet" style="width:calc(90% - 60rpx);padding: 20rpx 30rpx;background:#F7F7F7;margin: 30rpx 5%;"
+		 @click="openPopup">
+			<view>当前扫码选中产品</view>
+			<view class="display_flex">
+				<view style="color: #f30;font-weight: bold;margin-right: 10rpx;">{{products.length}}</view>
+				<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 			</view>
 		</view>
+
+		<!-- #ifdef MP-WEIXIN -->
+		<camera device-position="back" flash="off" binderror="error" style="width: 380rpx;height: 380rpx;margin: 0 auto;"
+		 mode="scanCode" @scancode="scanCode"></camera>
+		<!-- #endif -->
+
+		<!--<image mode="widthFix" src="{{src}}"></image>-->
+
+		<uni-popup ref="popup" type="bottom">
+			
+			<scroll-view style="height: 80vh;background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;" scroll-y="true">
+				<view style="padding:20rpx 30rpx;border-bottom: 1rpx solid#ddd;">扫码选中的产品</view>
+				<view class='margin-b-10' v-for="(item,index) in products" :key="index">
+					<unicard :title="'品名：'+item.goodsName">
+						<view>
+							<view class="display_flex_bet" style="margin-bottom: 10rpx;">
+								<view>库存：{{item.reserve}}</view>
+								<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>
+							</view>
+
+							<view class="display_flex_bet" v-if="value == 1" style="margin-bottom: 10rpx;">
+								<view class='input_withlabel'>
+									<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
+									<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+								</view>
+							</view>
+
+							<view v-if="item.selectd_model">
+								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+									<text>数量：</text>
+									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' />
+								</view>
+							</view>
+							<view class='margin-t-5' v-else>
+								<text>数量：</text>
+								<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='1' v-if="negativeOut" />
+								<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else />
+							</view>
+
+							<view class="bottom_del display_flex_bet">
+								<view>
+									<view v-if="user.identity !=2">
+										<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.objectId + '&type=false'">
+											<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+											<text style="margin-left: 10rpx;">详情</text>
+										</navigator>
+									</view>
+								</view>
+								<view class='del' @click="handleDel(index)">
+									<fa-icon type="close" size="12" color="#fff"></fa-icon>
+									<text style="margin-left: 10rpx;">删除</text>
+								</view>
+							</view>
+						</view>
+					</unicard>
+				</view>
+			</scroll-view>
+
+		</uni-popup>
 	</view>
 </template>
 
 <script>
-	
 	import Bmob from "hydrogen-js-sdk";
 	import unicard from '@/components/uni-card/uni-card.vue'
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+
 	let uid;
 	let that;
 	let value;
@@ -72,49 +90,123 @@
 			unicard,
 			faIcon,
 			uninumberbox,
-			uniNavBar
+			uniNavBar,
+			uniPopup
 		},
 		data() {
 			return {
-				products:[]
+				user: uni.getStorageSync("user"),
+				products: [{
+					costPrice: "12",
+					createdAt: "2020-03-29 21:58:04",
+					descrip: "",
+					goodsClass: {
+						__type: "Object",
+						className: "class_user",
+						class_text: "考虑考虑",
+						createdAt: "2020-02-26 15:19:19",
+					},
+					goodsIcon: "",
+					goodsName: "恶趣味",
+					nousetime: 1585411200000,
+					objectId: "72d071cf68",
+					order: 0,
+					originReserve: 0,
+					packageContent: "1111",
+					packingUnit: "克",
+					position: "123123123",
+					producer: "1231231",
+					productCode: "",
+					product_info: "31231231",
+					regNumber: "31312312",
+					reserve: 2,
+					retailPrice: "22",
+					second_class: {
+						__type: "Object",
+						className: "second_class",
+						class_text: "来咯哦哦44恩恩",
+						createdAt: "2020-02-26 15:19:24",
+					},
+					updatedAt: "2020-03-30 09:07:50"
+				}]
 			}
 		},
 		onLoad() {
 			that = this
 			uid = uni.getStorageSync("uid")
 			uni.setNavigationBarTitle({
-				title:"连续扫码"
+				title: "连续扫码"
 			})
 		},
-		
+
 		methods: {
-			scanCode(e){
+			openPopup() {
+				this.$refs.popup.open()
+			},
+
+			//头部确定点击
+			confrim_this() {
+				for (let item of that.products) {
+					if (item.num == 0) {
+						uni.showToast({
+							title: "0库存不能进行操作",
+							icon: "none"
+						})
+				
+						return
+					}
+				}
+				
+				if (value == 1) {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_confrim/goodPurchase/goodPurchase"
+					})
+				} else if (value == 2) {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_confrim/good_enter/good_enter"
+					})
+				} else if (value == 3) {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew"
+					})
+				} else if (value == 4) {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_return/buyReturn/buyReturn"
+					})
+				} else if (value == 5) {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_confrim/goodPurchaseLater/goodPurchaseLater"
+					})
+				}
+			},
+
+			scanCode(e) {
 				console.log(e)
 				let code = e.detail.result
 				let array = code.split("-");
-				console.log(array[0],array[1])
+				console.log(array[0], array[1])
 				uni.showLoading({
 					title: "加载中..."
 				})
 				const query = Bmob.Query('Goods');
 				if (array[1] == "false" || array[1] == false) {
-					query.equalTo("objectId", "==",array[0]);
+					query.equalTo("objectId", "==", array[0]);
 				} else {
 					query.equalTo("productCode", "==", array[0])
 				}
 				query.equalTo("userId", "==", uid);
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
-					
-					if(res.length == 0){
+
+					if (res.length == 0) {
 						uni.showToast({
-							icon:"none",
-							title:"没有此产品"
+							icon: "none",
+							title: "没有此产品"
 						})
 						uni.hideLoading();
 						return;
 					}
-					
+
 					for (let item of res) {
 						item.num = 1;
 						item.total_money = 1 * item.retailPrice;
@@ -131,20 +223,68 @@
 							item.selected_model = item.models
 						}
 					}
-					this.products =this.products.concat(res);
+					this.products = this.products.concat(res);
+					uni.setStorageSync("products", this.products)
 					uni.hideLoading()
 				})
-			}
+			},
+			
+			//数量改变
+			handleNumChange($event, index) {
+				//console.log($event,index)
+				this.products[index].num = Number($event)
+				this.products[index].total_money = Number($event) * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = Number($event) * Number(this.products[index].costPrice)
+				uni.setStorageSync("products", this.products)
+			},
+			
+			//多类型产品数量改变
+			handleModelNumChange($event, index, key, item) {
+				item.num = Number($event)
+				this.products[index].selected_model[key] = item
+				let _sumNum = 0;
+				for (let model of this.products[index].selected_model) {
+					_sumNum += model.num
+				}
+			
+				this.products[index].num = _sumNum
+				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].costPrice)
+				uni.setStorageSync("products", this.products)
+			},
+			
+			//删除点击
+			handleDel(index) {
+				console.log(index)
+				if (this.products.length == 1) {
+					uni.showToast({
+						title: "最少选择一个产品",
+						icon: "none"
+					})
+				} else {
+					this.products.splice(index, 1);
+					uni.setStorageSync("products", this.products)
+				}
+			},
+			
+			//实际价格输入
+			getrealprice($event, index) {
+				this.products[index].modify_retailPrice = $event.target.value
+				this.products[index].total_money = this.products[index].num * Number($event.target.value)
+				uni.setStorageSync("products", this.products)
+				//console.log($event,index)
+			},
 		},
-		
+
 	}
 </script>
 
 <style>
-.page {
+	.page {
 		font-size: 28rpx;
 		height: calc(100vh - 88rpx);
 		overflow: scroll;
+		background: #fff;
 	}
 
 	.margin-b-10 {

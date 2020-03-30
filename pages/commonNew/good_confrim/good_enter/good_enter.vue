@@ -6,12 +6,6 @@
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 					<view class='pro_list'>
 						<view style="width: calc(100% - 260rpx);">产品：{{item.goodsName}}</view>
-						<view v-if="user.rights&&othercurrent.indexOf('1') ==-1">期初进货价：￥0</view>
-						<view v-else>期初进货价：￥{{item.costPrice}}</view>
-					</view>
-					<view class='pro_list'>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">￥0</view>
-						<view v-else>实际进货价：￥{{item.modify_retailPrice}}</view>
 						<view>入库数量：X{{item.num}}</view>
 					</view>
 					<view v-if="item.selected_model">
@@ -72,8 +66,6 @@
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
 					<view>
-						<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">合计：￥0</view>
-						<view v-else>合计：￥{{real_money}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
