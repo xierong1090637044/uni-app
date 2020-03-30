@@ -157,8 +157,9 @@
 			},
 
 			scanCode(e) {
-				console.log(e)
+				//console.log(e)
 				let code = e.detail.result
+				//let code = ""
 				let array = code.split("-");
 				console.log(array[0], array[1])
 				uni.showLoading({
@@ -185,7 +186,7 @@
 
 					let thisProduct = res[0]
 					
-					if(that.product.length == 0){
+					if(that.products.length == 0){
 						thisProduct.num = 1;
 						thisProduct.total_money = 1 * thisProduct.retailPrice;
 						thisProduct.really_total_money = 1 * thisProduct.retailPrice;
@@ -234,7 +235,7 @@
 						}
 					}
 					
-					that.products = this.products.push(thisProduct);
+					that.products.push(thisProduct);
 					uni.setStorageSync("products", this.products)
 					uni.hideLoading()
 				})
