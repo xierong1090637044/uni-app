@@ -20,23 +20,24 @@
 		<!--<image mode="widthFix" src="{{src}}"></image>-->
 
 		<uni-popup ref="popup" type="bottom">
-			
-			<scroll-view style="height: 80vh;background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;" scroll-y="true">
+
+			<scroll-view style="height: 80vh;background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;"
+			 scroll-y="true">
 				<view style="padding:20rpx 30rpx;border-bottom: 1rpx solid#ddd;">扫码选中的产品</view>
 				<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 					<unicard :title="'品名：'+item.goodsName">
 						<view>
-							<view class="display_flex_bet" style="margin-bottom: 10rpx;">
+							<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="type=='出库' || type=='入库'||type=='调拨'||type=='盘点'">
 								<view>库存：{{item.reserve}}</view>
-								<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>
+								<!--<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>-->
 							</view>
 
-							<view class="display_flex_bet" v-if="value == 1" style="margin-bottom: 10rpx;">
+							<!--<view class="display_flex_bet" v-if="value == 1" style="margin-bottom: 10rpx;">
 								<view class='input_withlabel'>
 									<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
 									<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 								</view>
-							</view>
+							</view>-->
 
 							<view v-if="item.selectd_model">
 								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
@@ -96,47 +97,22 @@
 		data() {
 			return {
 				user: uni.getStorageSync("user"),
-				products: [{
-					costPrice: "12",
-					createdAt: "2020-03-29 21:58:04",
-					descrip: "",
-					goodsClass: {
-						__type: "Object",
-						className: "class_user",
-						class_text: "考虑考虑",
-						createdAt: "2020-02-26 15:19:19",
-					},
-					goodsIcon: "",
-					goodsName: "恶趣味",
-					nousetime: 1585411200000,
-					objectId: "72d071cf68",
-					order: 0,
-					originReserve: 0,
-					packageContent: "1111",
-					packingUnit: "克",
-					position: "123123123",
-					producer: "1231231",
-					productCode: "",
-					product_info: "31231231",
-					regNumber: "31312312",
-					reserve: 2,
-					retailPrice: "22",
-					second_class: {
-						__type: "Object",
-						className: "second_class",
-						class_text: "来咯哦哦44恩恩",
-						createdAt: "2020-02-26 15:19:24",
-					},
-					updatedAt: "2020-03-30 09:07:50"
-				}]
+				type: '',
+				negativeOut: false,
+				products: []
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			that = this
 			uid = uni.getStorageSync("uid")
+			that.type = options.type
 			uni.setNavigationBarTitle({
-				title: "连续扫码"
+				title: "连续扫码" + options.type
 			})
+
+			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
+				that.negativeOut = uni.getStorageSync("setting").negativeOut
+			}
 		},
 
 		methods: {
@@ -152,14 +128,14 @@
 							title: "0库存不能进行操作",
 							icon: "none"
 						})
-				
+
 						return
 					}
 				}
-				
-				if (value == 1) {
+
+				if (that.type == '出库') {
 					uni.navigateTo({
-						url: "/pages/commonNew/good_confrim/goodPurchase/goodPurchase"
+						url: "/pages/commonNew/goods_out/out_detail/out_detail"
 					})
 				} else if (value == 2) {
 					uni.navigateTo({
@@ -207,28 +183,63 @@
 						return;
 					}
 
-					for (let item of res) {
-						item.num = 1;
-						item.total_money = 1 * item.retailPrice;
-						item.really_total_money = 1 * item.retailPrice;
-						item.modify_retailPrice = item.retailPrice;
-						if (item.models) {
+					let thisProduct = res[0]
+					
+					if(that.product.length == 0){
+						thisProduct.num = 1;
+						thisProduct.total_money = 1 * thisProduct.retailPrice;
+						thisProduct.really_total_money = 1 * thisProduct.retailPrice;
+						thisProduct.modify_retailPrice = thisProduct.retailPrice;
+						if (thisProduct.models) {
 							let count = 0
-							for (let model of item.models) {
+							for (let model of thisProduct.models) {
 								model.num = 0
 								count += 1
 							}
-							item.num = count
-							item.selectd_model = item.models
-							item.selected_model = item.models
+							thisProduct.num = count
+							thisProduct.selectd_model = thisProduct.models
+							thisProduct.selected_model = thisProduct.models
+						}
+					}else{
+						for(let item of that.products){
+							if(item.objectId == thisProduct.objectId){
+								item.num += 1;
+								item.total_money +=  Number(thisProduct.retailPrice);
+								item.really_total_money += Number(thisProduct.retailPrice);
+								item.modify_retailPrice += Number(thisProduct.retailPrice);
+								if (item.models) {
+									for (let model of item.models) {
+										model.num = 0
+									}
+									item.num = 0
+									item.selectd_model = item.models
+									item.selected_model = item.models
+								}
+							}else{
+								thisProduct.num = 1;
+								thisProduct.total_money = 1 * thisProduct.retailPrice;
+								thisProduct.really_total_money = 1 * thisProduct.retailPrice;
+								thisProduct.modify_retailPrice = thisProduct.retailPrice;
+								if (thisProduct.models) {
+									let count = 0
+									for (let model of thisProduct.models) {
+										model.num = 0
+										count += 1
+									}
+									thisProduct.num = count
+									thisProduct.selectd_model = thisProduct.models
+									thisProduct.selected_model = thisProduct.models
+								}
+							}
 						}
 					}
-					this.products = this.products.concat(res);
+					
+					that.products = this.products.push(thisProduct);
 					uni.setStorageSync("products", this.products)
 					uni.hideLoading()
 				})
 			},
-			
+
 			//数量改变
 			handleNumChange($event, index) {
 				//console.log($event,index)
@@ -237,7 +248,7 @@
 				this.products[index].really_total_money = Number($event) * Number(this.products[index].costPrice)
 				uni.setStorageSync("products", this.products)
 			},
-			
+
 			//多类型产品数量改变
 			handleModelNumChange($event, index, key, item) {
 				item.num = Number($event)
@@ -246,13 +257,13 @@
 				for (let model of this.products[index].selected_model) {
 					_sumNum += model.num
 				}
-			
+
 				this.products[index].num = _sumNum
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
 				this.products[index].really_total_money = _sumNum * Number(this.products[index].costPrice)
 				uni.setStorageSync("products", this.products)
 			},
-			
+
 			//删除点击
 			handleDel(index) {
 				console.log(index)
@@ -266,7 +277,7 @@
 					uni.setStorageSync("products", this.products)
 				}
 			},
-			
+
 			//实际价格输入
 			getrealprice($event, index) {
 				this.products[index].modify_retailPrice = $event.target.value

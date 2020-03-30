@@ -7,7 +7,7 @@
 				<text v-if="thisVision == 'Old'">回到新版</text>
 				<i class="iconfont icon-down-trangle" style="font-size: 24rpx;margin-left: 10rpx;"></i>
 			</view>
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:65%;"  v-if="canScanCode"/>
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:65%;" v-if="canScanCode" />
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)' v-if="canScanCode"></i>
 		</view>
 
@@ -291,7 +291,7 @@
 						type: 'New',
 						icon: 'icon-xiaoshoudingdan',
 						url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=5'
-					},{
+					}, {
 						name: '销售(新)',
 						notice: '适用新版产品',
 						type: 'New',
@@ -305,7 +305,7 @@
 						icon: 'icon-tuihuodan',
 						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=4'
 					},
-					
+
 					/*{
 						name: '连续扫码',
 						notice: '适用新版产品',
@@ -594,155 +594,98 @@
 			//点击扫描产品条形码
 			scan_code: function(type) {
 				let opLists = [];
-				if(that.thisVision == "New"){
-					if (type == 0) {
-						opLists = ['产品详情']
-						uni.showActionSheet({
-							itemList: opLists,
-							success(res) {
-								that.scan(res.tapIndex, opLists);
-							},
-							fail(res) {
-								console.log(res.errMsg)
-							}
-						})
-					}else{
-						uni.navigateTo({
-							url:"/pages/commonNew/keepScan/keepScan"
-						})
-					}
-				}else{
-					if (type == 0) {
-						opLists = ['产品详情']
-					} else if (type == 1) {
-						opLists = ['入库', '出库', '调拨', '盘点']
-					} else if (type == 2) {
-						opLists = ['销售', '销售退货']
-					} else if (type == 3) {
-						opLists = ['采购', '采购退货']
-					}
-					uni.showActionSheet({
-						itemList: opLists,
-						success(res) {
-							that.scan(res.tapIndex, opLists);
-						},
-						fail(res) {
-							console.log(res.errMsg)
-						}
-					})
+
+				if (type == 0) {
+					opLists = ['产品详情']
+				} else if (type == 1) {
+					opLists = ['入库', '出库', '调拨', '盘点']
+				} else if (type == 2) {
+					opLists = ['销售', '销售退货']
+				} else if (type == 3) {
+					opLists = ['采购', '采购退货']
 				}
+				uni.showActionSheet({
+					itemList: opLists,
+					success(res) {
+						that.scan(res.tapIndex, opLists);
+					},
+					fail(res) {
+						console.log(res.errMsg)
+					}
+				})
 			},
 
 			//扫码操作
 			scan: function(type, opLists) {
-				// #ifdef H5
-				this.$wechat.scanQRCode().then(res => {
-					let result = res.result;
-					let array = result.split("-");
-					let productType = array[2]
-
-					that.returnUrl(opLists, type, array, productType)
-				})
-				// #endif
-
-				// #ifdef MP-WEIXIN
-				uni.scanCode({
-					success(res) {
-						console.log(res)
+				if(that.thisVision == "New"){
+					uni.navigateTo({
+						url:"/pages/commonNew/keepScan/keepScan?type="+opLists[type]
+					})
+				}else{
+					// #ifdef H5
+					this.$wechat.scanQRCode().then(res => {
 						let result = res.result;
 						let array = result.split("-");
 						let productType = array[2]
-
+					
 						that.returnUrl(opLists, type, array, productType)
-					},
-					fail(res) {
-						uni.showToast({
-							title: '未识别到条形码',
-							icon: "none"
-						})
-					}
-				})
-				// #endif
+					})
+					// #endif
+					
+					// #ifdef MP-WEIXIN
+					uni.scanCode({
+						success(res) {
+							console.log(res)
+							let result = res.result;
+							let array = result.split("-");
+							let productType = array[2]
+					
+							that.returnUrl(opLists, type, array, productType)
+						},
+						fail(res) {
+							uni.showToast({
+								title: '未识别到条形码',
+								icon: "none"
+							})
+						}
+					})
+					// #endif
+				}
+				
 			},
 
 			//去到之指定的链接
 			returnUrl(opLists, type, array, productType) {
 				if (opLists[type] == '出库') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
-					} else {
 						uni.navigateTo({
 							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}
 				} else if (opLists[type] == '销售') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=3",
-						})
-					} else {
 						uni.navigateTo({
 							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
 						})
-					}
 				} else if (opLists[type] == '销售退货') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] +"&value=4",
-						})
-					} else {
 						uni.navigateTo({
 							url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
 						})
-					}
 				} else if (opLists[type] == '采购退货') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] +"&value=4",
-						})
-					} else {
 						uni.navigateTo({
 							url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
 						})
-					}
-				}  else if (opLists[type] == '入库') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
-					} else {
+				} else if (opLists[type] == '入库') {
 						uni.navigateTo({
 							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}
 				} else if (opLists[type] == '采购') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=3",
-						})
-					} else {
 						uni.navigateTo({
 							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
 						})
-					}
 				} else if (opLists[type] == '盘点') {
-					if (that.thisVision == "New") {
-						uni.navigateTo({
-							url: '/pages/commonNew/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
-					} else {
 						uni.navigateTo({
 							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
 						})
-					}
 				} else if (opLists[type] == '产品详情') {
-					if (productType == "new") {
-						uni.navigateTo({
-							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
-						})
-					} else if (productType == "old") {
+				 if (productType == "old") {
 						uni.navigateTo({
 							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 						})
