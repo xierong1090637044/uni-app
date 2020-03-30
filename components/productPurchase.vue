@@ -4,7 +4,7 @@
 			<view class="display_flex_bet header">
 				<view class="listItem">实际进货<fa-icon type="angle-down" size="18" color="#999" style="margin-left: 6rpx;"></fa-icon>
 				</view>
-				<view class="display_flex listItem" @click="open">
+				<view class="display_flex listItem">
 					<view>
 						<picker mode="date" @change="changeTime">
 							<view style="font-size: 24rpx;line-height: 28rpx;">{{start_date}}</view>

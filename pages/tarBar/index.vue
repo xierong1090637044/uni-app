@@ -594,31 +594,47 @@
 			//点击扫描产品条形码
 			scan_code: function(type) {
 				let opLists = [];
-
-				if (type == 0) {
-					opLists = ['产品详情']
-				} else if (type == 1) {
-					opLists = ['入库', '出库', '调拨', '盘点']
-				} else if (type == 2) {
-					opLists = ['销售', '销售退货']
-				} else if (type == 3) {
-					opLists = ['采购', '采购退货']
-				}
-				uni.showActionSheet({
-					itemList: opLists,
-					success(res) {
-						that.scan(res.tapIndex, opLists);
-					},
-					fail(res) {
-						console.log(res.errMsg)
+				if(that.thisVision == "New"){
+					if (type == 0) {
+						opLists = ['产品详情']
+						uni.showActionSheet({
+							itemList: opLists,
+							success(res) {
+								that.scan(res.tapIndex, opLists);
+							},
+							fail(res) {
+								console.log(res.errMsg)
+							}
+						})
+					}else{
+						uni.navigateTo({
+							url:"/pages/commonNew/keepScan/keepScan"
+						})
 					}
-				})
+				}else{
+					if (type == 0) {
+						opLists = ['产品详情']
+					} else if (type == 1) {
+						opLists = ['入库', '出库', '调拨', '盘点']
+					} else if (type == 2) {
+						opLists = ['销售', '销售退货']
+					} else if (type == 3) {
+						opLists = ['采购', '采购退货']
+					}
+					uni.showActionSheet({
+						itemList: opLists,
+						success(res) {
+							that.scan(res.tapIndex, opLists);
+						},
+						fail(res) {
+							console.log(res.errMsg)
+						}
+					})
+				}
 			},
 
 			//扫码操作
 			scan: function(type, opLists) {
-				uni.setStorageSync("scanOplists", opLists);
-				uni.setStorageSync("scanType", type);
 				// #ifdef H5
 				this.$wechat.scanQRCode().then(res => {
 					let result = res.result;

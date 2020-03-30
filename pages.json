@@ -328,6 +328,9 @@
 				}, {
 					"path": "good_confrim/goodPurchaseLater/goodPurchaseLater",
 					"style": {}
+				}, {
+					"path": "keepScan/keepScan",
+					"style": {}
 				}
 			]
 		}, {
