@@ -19,7 +19,7 @@
 
 		<!--<image mode="widthFix" src="{{src}}"></image>-->
 
-		<uni-popup ref="popup" type="bottom">
+		<uniPopupNew ref="popup" type="bottom">
 
 			<view style="background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;">
 				<view style="padding:20rpx 30rpx;border-bottom: 1rpx solid#ddd;">扫码选中的产品</view>
@@ -80,7 +80,7 @@
 				
 			</view>
 
-		</uni-popup>
+		</uniPopupNew>
 	</view>
 </template>
 
@@ -90,7 +90,7 @@
 	import uninumberbox from '@/components/uni-number-box/uni-number-box.vue'
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import uniPopupNew from "@/components/uni-popup-new/uni-popup-new.vue"
 
 	let uid;
 	let that;
@@ -101,7 +101,7 @@
 			faIcon,
 			uninumberbox,
 			uniNavBar,
-			uniPopup
+			uniPopupNew
 		},
 		data() {
 			return {
