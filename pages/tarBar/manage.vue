@@ -349,7 +349,7 @@
 
 	.leftItem {
 		text-align: center;
-		line-height: 80rpx;
+		line-height: 100rpx;
 		color: #333;
 		font-weight: bold;
 	}

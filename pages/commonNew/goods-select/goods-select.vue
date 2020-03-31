@@ -43,9 +43,12 @@
 							</view>
 
 							<view style="margin:0 20rpx;width: 80%;">
-								<view class="product_reserve display_flex_bet" style="width: 100%;">
+								<view class="product_reserve display_flex_bet" style="width: 100%;"  v-if="product.packageContent && product.packingUnit">
 									<view class="product_name text_overflow">{{product.goodsName}}</view>
-									<view class="product_reserve" v-if="product.packageContent && product.packingUnit">{{product.packageContent}}*{{product.packingUnit}}</view>
+									<view class="product_reserve">{{product.packageContent}}*{{product.packingUnit}}</view>
+								</view>
+								<view class="product_reserve display_flex_bet" style="width: 100%;"  v-else>
+									<view class="product_name text_overflow" style="max-width: 100%;">{{product.goodsName}}</view>
 								</view>
 
 								<view class="product_reserve display_flex_bet" style="width: 100%;">

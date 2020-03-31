@@ -91,9 +91,9 @@
 
 								<view>数量：X{{item.num}} {{item.packingUnit}}</view>
 							</view>
-							<view class='pro_list' v-if="item.type !=7">
+							<view class='pro_list' v-if="item.type !=7&&detail.extra_type !=2">
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
+								<view v-if="item.type == -1 ">实际卖出价：￥{{item.modify_retailPrice}}</view>
 								<view v-else-if="item.type == 1">
 									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>

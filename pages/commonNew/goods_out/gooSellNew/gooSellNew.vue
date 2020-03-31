@@ -248,6 +248,7 @@
 			}
 			if (uni.getStorageSync("otherMoney")) {
 				that.otherMoney = Number(uni.getStorageSync("otherMoney").toFixed(2))
+				that.haveGetMoney = that.haveGetMoney+that.otherMoney 
 				uni.removeStorageSync("otherMoney")
 			}
 		},

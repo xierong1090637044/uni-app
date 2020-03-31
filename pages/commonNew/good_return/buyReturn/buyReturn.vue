@@ -15,7 +15,7 @@
 						</view>
 					</view>
 					<view class='pro_list'>
-						<view>实际零售价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
+						<view>实际退货价：￥{{item.modify_retailPrice}}（X{{item.num}}）</view>
 						<view>合计：￥{{item.total_money}}</view>
 					</view>
 

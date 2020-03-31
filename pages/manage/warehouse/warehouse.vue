@@ -21,7 +21,7 @@
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 142rpx)' scroll-with-animation="true"
 			 enable-back-to-top="true" v-if="stocks && stocks.length > 0">
 				<radio-group @change="select_this">
-					<label v-for="(stock,index) in stocks" :key="index" class="display_flex content">
+					<label v-for="(stock,index) in stocks" :key="index" class="display_flex content" :for="stock.objectId">
 						<view style="width: 100%;">
 							<view class="display_flex_bet" @click.stop="goto_detail(stock)" style="padding: 10rpx 0;">
 								<view class="display_flex" style="width: 100%;margin-right: 30rpx;">
@@ -46,7 +46,7 @@
 								</view>
 
 								<view v-if="is_choose">
-									<radio :value="JSON.stringify(stock)" style="transform:scale(0.7)" />
+									<radio :value="JSON.stringify(stock)" style="transform:scale(0.9)" :id="stock.objectId"/>
 								</view>
 								<fa-icon type="angle-right" size="20" color="#999" v-else />
 

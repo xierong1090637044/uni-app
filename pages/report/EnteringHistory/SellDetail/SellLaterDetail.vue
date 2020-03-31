@@ -77,14 +77,14 @@
 						<view class="display_flex_bet" style="justify-content: space-between;">
 							<view>是否已生成销售订单</view>
 							<view v-if="detail.status" class="display_flex">
-								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId" >已销售出库</navigator>
-								<fa-icon type="angle-right" size="20" color="#2ca879" ></fa-icon>
+								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId">已销售出库</navigator>
+								<fa-icon type="angle-right" size="20" color="#2ca879"></fa-icon>
 							</view>
 							<view v-else style="color: #f30;">未生成</view>
 						</view>
 					</view>
 				</view>
-				
+
 				<view v-if="detail.type == -4">
 					<view class="kaidanmx">
 						<view style="padding: 10rpx 30rpx;">采购订单明细</view>
@@ -124,8 +124,8 @@
 						<view class="display_flex_bet" style="justify-content: space-between;">
 							<view>是否已生成采购订单</view>
 							<view v-if="detail.status" class="display_flex">
-								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId" >已采购入库</navigator>
-								<fa-icon type="angle-right" size="20" color="#2ca879" ></fa-icon>
+								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId">已采购入库</navigator>
+								<fa-icon type="angle-right" size="20" color="#2ca879"></fa-icon>
 							</view>
 							<view v-else style="color: #f30;">未生成</view>
 						</view>
@@ -205,7 +205,7 @@
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
-		
+
 		},
 
 		onShow() {
@@ -267,7 +267,7 @@
 												icon: "none"
 											})
 										} else {
-												that.confrimOrder()
+											that.confrimOrder()
 										}
 									} else if (that.detail.type == -3) {
 										if (that.detail.status) {
@@ -276,12 +276,19 @@
 												icon: "none"
 											})
 										} else {
-												that.confrimOrder()
+											that.confrimOrder()
 										}
 									}
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 1) {
-									that.revoke()
+									if (that.detail.status) {
+										uni.showToast({
+											title: that.detail.type == -4?"该笔订单已生成采购单":"该笔订单已生成销售单",
+											icon: "none"
+										})
+									} else {
+										that.revoke()
+									}
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 2) {
 									print.print_operations(that.detail, that.products)
@@ -291,10 +298,10 @@
 								console.log(res.errMsg);
 							}
 						});
-					}else{
+					} else {
 						uni.showToast({
-							title:"暂无操作权限",
-							icon:"none",
+							title: "暂无操作权限",
+							icon: "none",
 						})
 					}
 				}
@@ -326,32 +333,15 @@
 							})
 							const query = Bmob.Query('order_opreations');
 							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('Bills');
-								query.containedIn("objectId", that.bills);
-								query.find().then(todos => {
-
-									todos.destroyAll().then(res => {
-										// 成功批量修改
-										if (that.detail.status) {
-											for (var i = 0; i < that.products.length; i++) {
-												that.delete_bill(i);
-											}
-										} else {
-											uni.hideLoading();
-											uni.navigateBack({
-												delta: 1
-											})
-											setTimeout(function() {
-												uni.showToast({
-													title: '撤销成功'
-												})
-											}, 1000);
-										}
-
-									}).catch(err => {
-										console.log(err)
-									});
+								uni.hideLoading();
+								uni.navigateBack({
+									delta: 1
 								})
+								setTimeout(function() {
+									uni.showToast({
+										title: '删除成功'
+									})
+								}, 1000);
 							}).catch(err => {
 								console.log(err)
 							})
@@ -362,40 +352,40 @@
 
 			//审核订单
 			confrimOrder() {
-				if(that.detail.type == -3){
+				if (that.detail.type == -3) {
 					wx.showModal({
 						title: '提示',
 						content: '是否生成销售单！',
 						success(res) {
 							if (res.confirm) {
-								 uni.setStorageSync("custom",that.detail.custom)
-								 uni.setStorageSync("products",that.detail.opreatGood)
-								 uni.setStorageSync("otherMoney",that.detail.otherMoney)
-								 uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
-								 uni.navigateTo({
-								 	url:"/pages/commonNew/goods_out/gooSellNew/gooSellNew?id="+that.detail.objectId
-								 })
+								uni.setStorageSync("custom", that.detail.custom)
+								uni.setStorageSync("products", that.detail.opreatGood)
+								uni.setStorageSync("otherMoney", that.detail.otherMoney)
+								uni.setStorageSync("haveGetMoney", that.detail.haveGetMoney)
+								uni.navigateTo({
+									url: "/pages/commonNew/goods_out/gooSellNew/gooSellNew?id=" + that.detail.objectId
+								})
 							}
 						}
 					})
-				}else if(that.detail.type == -4){
+				} else if (that.detail.type == -4) {
 					wx.showModal({
 						title: '提示',
 						content: '是否生成采购单！',
 						success(res) {
 							if (res.confirm) {
-								 uni.setStorageSync("producer",that.detail.producer)
-								 uni.setStorageSync("products",that.detail.opreatGood)
-								 uni.setStorageSync("otherMoney",that.detail.otherMoney)
-								 uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
-								 uni.navigateTo({
-								 	url:"/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew?id="+that.detail.objectId
-								 })
+								uni.setStorageSync("producer", that.detail.producer)
+								uni.setStorageSync("products", that.detail.opreatGood)
+								uni.setStorageSync("otherMoney", that.detail.otherMoney)
+								uni.setStorageSync("haveGetMoney", that.detail.haveGetMoney)
+								uni.navigateTo({
+									url: "/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew?id=" + that.detail.objectId
+								})
 							}
 						}
 					})
 				}
-				
+
 			},
 		}
 	}

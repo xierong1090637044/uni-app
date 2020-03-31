@@ -47,7 +47,7 @@
 							</view>
 
 							<view v-if="is_producer">
-								<radio :value="JSON.stringify(item)" style="transform:scale(0.7)" />
+								<radio :value="JSON.stringify(item)" style="transform:scale(0.9)" />
 							</view>
 							<fa-icon type="angle-right" size="20" color="#999" v-else />
 

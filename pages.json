@@ -130,7 +130,11 @@
 				"navigationBarTitleText": "库存预警"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/report/EnteringHistory/stockDet/stockDet",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/common",

@@ -24,6 +24,10 @@
 								<view style="text-align: right;" v-if="detail.type == 1">建议零售价：￥{{item.goodsId.retailPrice}}</view>
 								<view style="text-align: right;" v-else-if="detail.type == -1">成本价：￥{{item.goodsId.costPrice}}</view>
 							</view>
+							<view class='pro_list'>
+								<view></view>
+								<view>实际退货价：X{{item.modify_retailPrice}}</view>
+							</view>
 							<!--<view style="text-align: right;">总价：￥{{item.total_money}}</view>-->
 						</view>
 					</view>

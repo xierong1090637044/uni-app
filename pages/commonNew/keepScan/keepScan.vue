@@ -21,55 +21,64 @@
 
 		<uni-popup ref="popup" type="bottom">
 
-			<scroll-view style="height: 80vh;background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;"
-			 scroll-y="true">
+			<view style="background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;">
 				<view style="padding:20rpx 30rpx;border-bottom: 1rpx solid#ddd;">扫码选中的产品</view>
-				<view class='margin-b-10' v-for="(item,index) in products" :key="index">
-					<unicard :title="'品名：'+item.goodsName">
-						<view>
-							<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="type=='出库' || type=='入库'||type=='调拨'||type=='盘点'">
-								<view>库存：{{item.reserve}}</view>
-								<!--<view style="color: #f30;">零售价：{{item.retailPrice}}(元)</view>-->
-							</view>
-
-							<!--<view class="display_flex_bet" v-if="value == 1" style="margin-bottom: 10rpx;">
-								<view class='input_withlabel'>
-									<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
-									<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+				<scroll-view style="height: 75vh;"scroll-y="true">
+					<view class='margin-b-10' v-for="(item,index) in products" :key="index">
+						<unicard :title="'品名：'+item.goodsName">
+							<view>
+								<view class="display_flex_bet" style="margin-bottom: 10rpx;">
+									<view>库存：{{item.reserve}}</view>
+									<view style="color: #f30;" v-if="type == '销售' || type == '销售退货'">零售价：{{item.retailPrice}}(元)</view>
+									<view style="color: #f30;" v-else-if="type == '采购' || type == '采购退货'">进货价：{{item.costPrice}}(元)</view>
 								</view>
-							</view>-->
-
-							<view v-if="item.selectd_model">
-								<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
-									<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
-									<text>数量：</text>
-									<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' />
-								</view>
-							</view>
-							<view class='margin-t-5' v-else>
-								<text>数量：</text>
-								<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='1' v-if="negativeOut" />
-								<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else />
-							</view>
-
-							<view class="bottom_del display_flex_bet">
-								<view>
-									<view v-if="user.identity !=2">
-										<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.objectId + '&type=false'">
-											<fa-icon type="magic" size="12" color="#fff"></fa-icon>
-											<text style="margin-left: 10rpx;">详情</text>
-										</navigator>
+					
+								<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="type=='销售' || type == '销售退货'">
+									<view class='input_withlabel'>
+										<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
+										<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 									</view>
 								</view>
-								<view class='del' @click="handleDel(index)">
-									<fa-icon type="close" size="12" color="#fff"></fa-icon>
-									<text style="margin-left: 10rpx;">删除</text>
+								
+								<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="type=='采购' || type == '采购退货'">
+									<view class='input_withlabel'>
+										<view>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
+										<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
+									</view>
+								</view>
+					
+								<view v-if="item.selectd_model">
+									<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+										<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
+										<text>数量：</text>
+										<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' />
+									</view>
+								</view>
+								<view class='margin-t-5' v-else>
+									<text>数量：</text>
+									<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='item.num' />
+								</view>
+					
+								<view class="bottom_del display_flex_bet">
+									<view>
+										<view v-if="user.identity !=2">
+											<navigator class='del' style="background: #2ca879;" hover-class="none" :url="'/pages/manage/good_det/Ngood_det?id=' + item.objectId + '&type=false'">
+												<fa-icon type="magic" size="12" color="#fff"></fa-icon>
+												<text style="margin-left: 10rpx;">详情</text>
+											</navigator>
+										</view>
+									</view>
+									<view class='del' @click="handleDel(index)">
+										<fa-icon type="close" size="12" color="#fff"></fa-icon>
+										<text style="margin-left: 10rpx;">删除</text>
+									</view>
 								</view>
 							</view>
-						</view>
-					</unicard>
-				</view>
-			</scroll-view>
+						</unicard>
+					</view>
+				</scroll-view>
+				
+			</view>
 
 		</uni-popup>
 	</view>
@@ -109,6 +118,8 @@
 			uni.setNavigationBarTitle({
 				title: "连续扫码" + options.type
 			})
+			
+			//that.scanCode()
 
 			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
 				that.negativeOut = uni.getStorageSync("setting").negativeOut
@@ -137,21 +148,33 @@
 					uni.navigateTo({
 						url: "/pages/commonNew/goods_out/out_detail/out_detail"
 					})
-				} else if (value == 2) {
+				} else if (that.type == '入库') {
 					uni.navigateTo({
 						url: "/pages/commonNew/good_confrim/good_enter/good_enter"
 					})
-				} else if (value == 3) {
+				} else if (that.type == '调拨') {
 					uni.navigateTo({
-						url: "/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew"
+						url: "/pages/commonNew/good_allocation/allocation_detail/allocation_detail"
 					})
-				} else if (value == 4) {
+				} else if (that.type == '盘点') {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_count/count_detail/count_detail"
+					})
+				} else if (that.type == '销售') {
+					uni.navigateTo({
+						url: "/pages/commonNew/goods_out/gooSellNew/gooSellNew"
+					})
+				} else if (that.type == '销售退货') {
 					uni.navigateTo({
 						url: "/pages/commonNew/good_return/buyReturn/buyReturn"
 					})
-				} else if (value == 5) {
+				} else if (that.type == '采购') {
 					uni.navigateTo({
-						url: "/pages/commonNew/good_confrim/goodPurchaseLater/goodPurchaseLater"
+						url: "/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew"
+					})
+				} else if (that.type == '采购退货') {
+					uni.navigateTo({
+						url: "/pages/commonNew/good_return/purchaseReturn/purchaseReturn"
 					})
 				}
 			},
@@ -159,7 +182,7 @@
 			scanCode(e) {
 				//console.log(e)
 				let code = e.detail.result
-				//let code = ""
+				//let code = "3503d006cf-false-new"
 				let array = code.split("-");
 				console.log(array[0], array[1])
 				uni.showLoading({
@@ -188,21 +211,23 @@
 					
 					if(that.products.length == 0){
 						thisProduct.num = 1;
-						thisProduct.total_money = 1 * thisProduct.retailPrice;
-						thisProduct.really_total_money = 1 * thisProduct.retailPrice;
-						thisProduct.modify_retailPrice = thisProduct.retailPrice;
+						thisProduct.total_money = Number(1 * thisProduct.retailPrice);
+						thisProduct.really_total_money = Number(1 * thisProduct.retailPrice);
+						thisProduct.modify_retailPrice = Number(thisProduct.retailPrice);
 						if (thisProduct.models) {
-							let count = 0
 							for (let model of thisProduct.models) {
 								model.num = 0
-								count += 1
 							}
-							thisProduct.num = count
+							thisProduct.num = 1
 							thisProduct.selectd_model = thisProduct.models
 							thisProduct.selected_model = thisProduct.models
 						}
+						
+						that.products.push(thisProduct);
 					}else{
+						let count = 0;
 						for(let item of that.products){
+							
 							if(item.objectId == thisProduct.objectId){
 								item.num += 1;
 								item.total_money +=  Number(thisProduct.retailPrice);
@@ -212,32 +237,40 @@
 									for (let model of item.models) {
 										model.num = 0
 									}
-									item.num = 0
+									item.num = 1
 									item.selectd_model = item.models
 									item.selected_model = item.models
 								}
+								that.products[count] = item
+								uni.setStorageSync("products", that.products)
+								uni.hideLoading()
+								return
 							}else{
-								thisProduct.num = 1;
-								thisProduct.total_money = 1 * thisProduct.retailPrice;
-								thisProduct.really_total_money = 1 * thisProduct.retailPrice;
-								thisProduct.modify_retailPrice = thisProduct.retailPrice;
-								if (thisProduct.models) {
-									let count = 0
-									for (let model of thisProduct.models) {
-										model.num = 0
-										count += 1
+								if(count == that.products.length-1){
+									thisProduct.num = 1;
+									thisProduct.total_money = Number(1 * thisProduct.retailPrice);
+									thisProduct.really_total_money = Number(1 * thisProduct.retailPrice);
+									thisProduct.modify_retailPrice = Number(1 * thisProduct.retailPrice);
+									if (thisProduct.models) {
+										for (let model of thisProduct.models) {
+											model.num = 0
+										}
+										thisProduct.num = 1
+										thisProduct.selectd_model = thisProduct.models
+										thisProduct.selected_model = thisProduct.models
 									}
-									thisProduct.num = count
-									thisProduct.selectd_model = thisProduct.models
-									thisProduct.selected_model = thisProduct.models
+									that.products.push(thisProduct);
+									uni.setStorageSync("products", that.products)
+									uni.hideLoading()
+									return
 								}
 							}
+							count +=1;
 						}
 					}
 					
-					that.products.push(thisProduct);
-					uni.setStorageSync("products", this.products)
-					uni.hideLoading()
+					
+					
 				})
 			},
 

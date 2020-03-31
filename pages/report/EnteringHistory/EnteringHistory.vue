@@ -225,6 +225,7 @@
 			that = this;
 			uni.removeStorageSync("charge");
 			uni.removeStorageSync("is_option");
+			uni.removeStorageSync("warehouse");
 			opeart_type = Number(options.type);
 			extra_type = Number(options.extra_type);
 			uid = uni.getStorageSync("uid");
