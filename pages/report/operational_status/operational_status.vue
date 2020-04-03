@@ -234,11 +234,6 @@
 			},
 
 		},
-		computed: {
-			i18n() {
-				return this.$t('operational_status')
-			}
-		}
 	}
 </script>
 

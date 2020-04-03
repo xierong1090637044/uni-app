@@ -307,14 +307,6 @@
 						icon: 'icon-tuihuodan',
 						url: '/pages/commonNew/goods-select/goods-select?type=entering&value=4'
 					},
-
-					/*{
-						name: '连续扫码',
-						notice: '适用新版产品',
-						type: 'New',
-						icon: 'icon-tuihuodan',
-						url: '/pages/commonNew/keepScan/keepScan?type=entering&value=4'
-					},*/
 				],
 				purchaseLists: [{
 						name: '采购(旧)',

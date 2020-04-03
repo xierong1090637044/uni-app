@@ -6,8 +6,86 @@
 			<view v-for="(item,index) in leftOptionList" :key="index" :class="[leftSelectedIndex==index?'itemSelected':'']"
 			 class="leftItem" @click="changeView(index)">{{item}}</view>
 		</scroll-view>
+		
 		<scroll-view scroll-y="true" style="height:100vh;width: 80%;padding-left: 20rpx;background: #FFFFFF;">
-			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 0">
+			<view style="padding:0 20rpx 0 0;margin: 20rpx 0;" v-if="leftSelectedIndex == 0">
+				<sellModule></sellModule>
+			</view>
+			
+			<view style="padding:0 20rpx 0 0;margin: 20rpx 0;" v-if="leftSelectedIndex == 1">
+				<stockModule></stockModule>
+			</view>
+			
+			<view style="padding:0 20rpx 0 0;margin: 20rpx 0;" v-if="leftSelectedIndex == 2">
+				<sFinanceModule></sFinanceModule>
+			</view>
+			
+			<!--<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 1">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
+				<view class='o_list'>
+					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #426ab3;">
+							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
+						</view>
+						<span class='o_text'>{{value.name}}</span>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>
+			
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 2">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">资金</view>
+				<view class='o_list'>
+					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #426ab3;">
+							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
+						</view>
+						<span class='o_text'>{{value.name}}</span>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>
+			
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 3">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">客户</view>
+				<view class='o_list'>
+					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #426ab3;">
+							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
+						</view>
+						<span class='o_text'>{{value.name}}</span>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>
+			
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 4">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">资料</view>
+				<view class='o_list'>
+					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #426ab3;">
+							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
+						</view>
+						<span class='o_text'>{{value.name}}</span>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>
+			
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 5">
+				<view style="font-size: 30rpx;color: #333;font-weight: bold;">设置</view>
+				<view class='o_list'>
+					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
+						<view class="o_headerItem" style="background: #426ab3;">
+							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
+						</view>
+						<span class='o_text'>{{value.name}}</span>
+						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
+					</navigator>
+				</view>
+			</view>-->
+			
+			<!--<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 0">
 				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理模块</view>
 				<view class='o_list'>
 					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
@@ -56,7 +134,7 @@
 						<span class='o_text'>{{value.name}}</span>
 					</navigator>
 				</view>
-			</view>
+			</view>-->
 
 
 		</scroll-view>
@@ -68,8 +146,10 @@
 <script>
 	import Bmob from "hydrogen-js-sdk";
 	import staffs from '@/utils/staffs.js';
-	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
-
+	import sellModule from "@/components/sellModule/sellModule.vue"
+	import stockModule from "@/components/stockModule/stockModule.vue"
+	import sFinanceModule from "@/components/sFinanceModule/sFinanceModule.vue"
+	
 	let that;
 	let secOptionsLists = [{
 			name: '入库记录',
@@ -246,11 +326,12 @@
 
 	export default {
 		components: {
-			faIcon
+			sellModule,
+			stockModule
 		},
 		data() {
 			return {
-				leftOptionList: ['库存', '财务', '记录', '分析'],
+				leftOptionList: ['销售', '库存', '资金', '客户','资料','设置'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
 				setting: uni.getStorageSync("setting"),
