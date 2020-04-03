@@ -424,7 +424,7 @@
 							//console.log("添加操作历史记录成功", res);
 
 							if (that.canOpretion) {
-								common.enterAddGoodNum(that.products).then(result => { //添加产品数量
+								common.enterAddGoodNum(that.products,"purchase").then(result => { //添加产品数量
 									uni.hideLoading();
 									
 									uni.setStorageSync("is_option", true);

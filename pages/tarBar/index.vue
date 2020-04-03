@@ -201,7 +201,7 @@
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
 							<view>1、盘点单优化</view>
 							<view>2、产品名称加长显示</view>
-							<view>3、采购将自动同步上一次的采购价</view>
+							<view>3、采购将自动同步上一次的采购价(只限新版本的产品)</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

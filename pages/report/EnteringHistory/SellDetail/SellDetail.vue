@@ -192,14 +192,14 @@
 						</view>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
 							<view style="width: 150rpx;" class="left_content">入库店仓<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
+							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;justify-content: flex-end;">
 								<input placeholder="请选择要入库的店仓" disabled="true" :value="stock.stock_name" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;" v-else>
 							<view class="left_content">入库店仓</view>
-							<view>{{detail.stock.stock_name}}</view>
+							<view style="text-align: right;">{{detail.stock.stock_name}}</view>
 						</view>
 						<view class="display_flex_bet" v-if="detail.status">
 							<view class="left_content">入库时间</view>
@@ -566,6 +566,7 @@
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
 									query.set('id', product.goodsId.objectId)
+									if(product.modify_retailPrice) query.set('costPrice', product.modify_retailPrice)
 									query.save().then(res => {
 										common.modifyStockType(product.goodsId.objectId)
 										if (count == (that.products.length - 1)) {
@@ -630,6 +631,7 @@
 									let now_reserve = res[0]._sumReserve
 									const query = Bmob.Query('Goods');
 									query.set('reserve', now_reserve)
+									if(product.modify_retailPrice) query.set('costPrice', product.modify_retailPrice)
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
 										if (count == (that.products.length - 1)) {

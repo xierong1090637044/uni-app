@@ -456,13 +456,15 @@
 							}
 						}
 
-						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :
-							0)
+						product.reserve = product.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :0)
 						if (product.order == 1) {
-							if (product.header && product.header.packingUnit) {
-								product.packingUnit = product.header.packingUnit
-							} else {
-								product.packingUnit = ""
+							if (product.header && product.header.objectId) {
+								if(product.header.packingUnit){
+									product.packingUnit = product.header.packingUnit
+								}else{
+									product.packingUnit = ''
+								}
+								product.costPrice = product.header.costPrice
 							}
 						}
 						key += 1

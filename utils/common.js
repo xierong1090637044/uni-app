@@ -1,7 +1,7 @@
 import Bmob from "hydrogen-js-sdk";
 module.exports = {
 	//入库时增加产品数量
-	enterAddGoodNum(products) {
+	enterAddGoodNum(products,type) {
 		let that = this;
 		return new Promise((resolve, reject) => {
 			for (let i = 0; i < products.length; i++) {
@@ -33,10 +33,13 @@ module.exports = {
 							query1.equalTo("order", "==", 1);
 							query1.statTo("sum", "reserve");
 							query1.find().then(res => {
-								console.log("dasds", res)
+								//console.log("dasds", res)
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
+								if(type == "purchase"){
+									query.set('costPrice', products[i].modify_retailPrice)
+								}
 								query.set('id', products[i].header.objectId)
 								query.save().then(res => {
 									that.modifyStockType(products[i].header.objectId) //显示预警
