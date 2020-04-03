@@ -1,8 +1,8 @@
 {
   "navigationBarTitleText": "店仓管理",
   "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
     "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
-    "loading": "/components/Loading/index",
-    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+    "loading": "/components/Loading/index"
   }
 }

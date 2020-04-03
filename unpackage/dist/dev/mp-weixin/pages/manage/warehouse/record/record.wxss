@@ -6,7 +6,7 @@
 	color: #3D3D3D;
 	background: #fafafa;
 }
-.input_item{
+.input_item {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;

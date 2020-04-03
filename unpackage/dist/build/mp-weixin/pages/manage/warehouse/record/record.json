@@ -1,9 +1,9 @@
 {
-  "navigationBarTitleText": "仓库记录",
+  "navigationBarTitleText": "店仓记录",
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "loading": "/components/Loading/index",
     "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
-    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index"
   }
 }

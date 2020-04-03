@@ -4,7 +4,7 @@
 	background: #FAFAFA;
 	overflow: scroll;
 }
-.frist{
+.frist {
 	padding: 0 20rpx;
 	background: #FFFFFF;
 }

@@ -1,8 +1,9 @@
 {
   "navigationBarTitleText": "客户详情",
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "loading": "/components/Loading/index",
-    "uni-popup": "/components/uni-popup/uni-popup"
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "uni-calendar": "/components/uni-calendar/uni-calendar",
+    "custom-det-bottom": "/components/customDetBottom"
   }
 }

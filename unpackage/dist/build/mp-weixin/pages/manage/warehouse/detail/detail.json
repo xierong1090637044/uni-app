@@ -1,7 +1,9 @@
 {
-  "navigationBarTitleText": "仓库详情",
+  "navigationBarTitleText": "店仓详情",
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "loading": "/components/Loading/index"
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "achart": "/components/charts/AChart",
+    "stock-det-bottom": "/components/stockDetBottom",
+    "stock-goods": "/components/stockGoods"
   }
 }

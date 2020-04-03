@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "unicard": "/components/uni-card/uni-card",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uninumberbox": "/components/uni-number-box/uni-number-box",
+    "uni-popup-new": "/components/uni-popup-new/uni-popup-new"
+  }
+}

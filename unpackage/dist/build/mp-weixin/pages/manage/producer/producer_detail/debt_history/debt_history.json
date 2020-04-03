@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "付款流水",
+  "usingComponents": {
+    "loading": "/components/Loading/index"
+  }
+}

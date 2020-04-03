@@ -302,13 +302,62 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* pages/home/index/index.wxss */
 .manage_icon {
 	width: 60rpx;
 	height: 60rpx;
 	border-radius: 50%;
 }
-.item {
+.leftItem {
+	text-align: center;
+	line-height: 100rpx;
+	color: #333;
+	font-weight: bold;
+}
+.itemSelected {
+	background: #fff;
+	color: #426ab3 !important;
+	border-left: 4rpx solid #426ab3;
+}
+.leftSe .item {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -338,7 +387,7 @@
 	        flex-wrap: wrap;
 }
 .o_item {
-	width: 25%;
+	width: 33.33%;
 	text-align: center;
 	padding: 30rpx 0 0;
 }
@@ -355,7 +404,7 @@
 	font-weight: bold;
 	font-size: 24rpx;
 }
-.fa-icon{
+.fa-icon {
 	line-height: 80rpx !important;
 }
 

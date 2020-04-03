@@ -1,9 +1,6 @@
 {
   "pages": [
     "pages/tarBar/index",
-    "pages/common/goods_out/out_detail/out_detail",
-    "pages/common/good_confrim/good_enter/good_enter",
-    "pages/common/good_confrim/good_confrim",
     "pages/tarBar/manage",
     "pages/report/chart/chart",
     "pages/landing/landing",
@@ -11,42 +8,77 @@
     "pages/tarBar/mine",
     "pages/report/operational_status/operational_status",
     "pages/report/EnteringHistory/EnteringHistory",
-    "pages/common/goods-select/goods-select",
-    "pages/common/good_return/return_detail/return_detail",
     "pages/tarBar/report",
     "pages/report/EnteringHistory/detail/detail",
-    "pages/common/goods_out/goods_out",
-    "pages/common/good_return/good_return",
-    "pages/common/good_count/good_count",
-    "pages/common/good_count/count_detail/count_detail",
     "pages/staff_landing/staff_landing",
     "pages/register/user_protocol/user_protocol",
-    "pages/common/good_allocation/good_allocation",
-    "pages/common/good_allocation/allocation_detail/allocation_detail",
     "pages/report/EnteringHistory/expressDet/expressDet",
     "pages/report/matterRecord/matterRecord",
     "pages/report/matterRecord/detail/detail",
-    "pages/common/good_production/good_production",
-    "pages/common/good_production/detail/detail",
     "pages/report/EnteringHistory/productDet/productDet",
     "pages/report/EnteringHistory/productDet/matterDet/matterDet",
     "pages/report/EnteringHistory/productDet/productEnter/productEnter",
     "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
-    "pages/common/good_confrim/goodPurchase/goodPurchase",
-    "pages/common/goods_out/goodSell/goodSell",
     "pages/report/staffChart/staffChart",
-    "pages/common/goods_out/gooSellNew/gooSellNew",
     "pages/report/EnteringHistory/SellDetail/SellDetail",
-    "pages/common/good_confrim/goodPurchaseNew/goodPurchaseNew",
-    "pages/common/good_return/buyReturn/buyReturn",
-    "pages/common/good_return/purchaseReturn/purchaseReturn",
+    "pages/report/EnteringHistory/SellDetail/SellLaterDetail",
     "pages/report/EnteringHistory/returnDetail/returnDetail",
     "pages/webview/webview",
     "pages/test/test",
     "pages/thanks/thanks",
-    "pages/report/warningGoods/warningGoods"
+    "pages/report/warningGoods/warningGoods",
+    "pages/report/EnteringHistory/stockDet/stockDet"
   ],
   "subPackages": [
+    {
+      "root": "pages/common",
+      "pages": [
+        "goods_out/out_detail/out_detail",
+        "goods_out/gooSellNew/gooSellNew",
+        "good_return/buyReturn/buyReturn",
+        "good_confrim/goodPurchaseNew/goodPurchaseNew",
+        "good_return/purchaseReturn/purchaseReturn",
+        "good_confrim/goodPurchase/goodPurchase",
+        "goods_out/goodSell/goodSell",
+        "goodBad/goodBad",
+        "goodBad/badRecord/badRecord",
+        "good_production/good_production",
+        "good_production/detail/detail",
+        "good_allocation/good_allocation",
+        "good_allocation/allocation_detail/allocation_detail",
+        "good_confrim/good_enter/good_enter",
+        "good_confrim/good_confrim",
+        "goods-select/goods-select",
+        "good_return/return_detail/return_detail",
+        "goods_out/goods_out",
+        "good_return/good_return",
+        "good_count/good_count",
+        "good_count/count_detail/count_detail"
+      ]
+    },
+    {
+      "root": "pages/commonNew",
+      "pages": [
+        "goods_out/out_detail/out_detail",
+        "goods_out/goodSellLater/goodSellLater",
+        "goods_out/gooSellNew/gooSellNew",
+        "good_confrim/goodPurchaseNew/goodPurchaseNew",
+        "good_return/buyReturn/buyReturn",
+        "good_return/purchaseReturn/purchaseReturn",
+        "good_allocation/good_allocation",
+        "good_allocation/allocation_detail/allocation_detail",
+        "good_confrim/good_enter/good_enter",
+        "good_confrim/good_confrim",
+        "goods-select/goods-select",
+        "good_return/return_detail/return_detail",
+        "goods_out/goods_out",
+        "good_return/good_return",
+        "good_count/good_count",
+        "good_count/count_detail/count_detail",
+        "good_confrim/goodPurchaseLater/goodPurchaseLater",
+        "keepScan/keepScan"
+      ]
+    },
     {
       "root": "pages/production",
       "pages": [
@@ -74,7 +106,8 @@
         "setting/setting",
         "about_us/about_us",
         "home_page/home_page",
-        "warning_log/warning_log"
+        "warning_log/warning_log",
+        "systemSetting/systemSetting"
       ]
     },
     {
@@ -151,7 +184,8 @@
         "staff/detail/detail",
         "goods_add_MoreG/goods_add_MoreG",
         "goods_add_MoreG/G_More/G_More",
-        "good_det/bad_history/bad_history"
+        "good_det/bad_history/bad_history",
+        "customClass/customClass"
       ]
     }
   ],
@@ -208,5 +242,5 @@
     "nocontent": "/components/No_content",
     "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
   },
-  "sitemapLocation": "sitemap60.json"
+  "sitemapLocation": "sitemap37.json"
 }

@@ -36,6 +36,7 @@
 	padding: 20rpx 0;
 	border-radius: 16rpx;
 	line-height: 40rpx;
+	color: #333;
 }
 .price_line {
 	position: absolute;
@@ -44,7 +45,6 @@
 }
 .price_text {
 	font-size: 32rpx;
-	color: #333;
 	font-weight: bold;
 }
 .time_desc {
@@ -52,6 +52,7 @@
 }
 .selected_price_bg {
 	background: #12bcfe !important;
+	color: #fff !important;
 }
 .pay_button {
 	line-height: 90rpx;

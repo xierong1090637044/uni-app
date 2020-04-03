@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "供应商添加",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
+}

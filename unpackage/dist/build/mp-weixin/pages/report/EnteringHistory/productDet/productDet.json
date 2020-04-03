@@ -1,7 +1,7 @@
 {
   "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
     "tki-qrcode": "/components/tki-qrcode/tki-qrcode",
-    "loading": "/components/Loading/index",
-    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+    "loading": "/components/Loading/index"
   }
 }

@@ -59,7 +59,7 @@ page {
 .product_name {
   font-weight: bold;
   color: #333;
-  max-width: 60%;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

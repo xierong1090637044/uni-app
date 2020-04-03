@@ -1,7 +1,7 @@
 {
-  "navigationBarTitleText": "新增仓库",
+  "navigationBarTitleText": "新增店仓",
   "usingComponents": {
-    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
-    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }
 }

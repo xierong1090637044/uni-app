@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "添加产品",
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
 }

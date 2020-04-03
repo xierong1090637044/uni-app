@@ -1,7 +1,7 @@
 {
   "navigationBarTitleText": "退货详情",
   "usingComponents": {
-    "loading": "/components/Loading/index",
-    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "loading": "/components/Loading/index"
   }
 }
