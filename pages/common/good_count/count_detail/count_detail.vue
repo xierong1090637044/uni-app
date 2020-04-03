@@ -189,22 +189,19 @@
 							for (let i = 0; i < that.products.length; i++) {
 								let num = 0;
 								const query = Bmob.Query('Goods');
-								query.get(that.products[i].objectId).then(res => {
-									//console.log(res)
-									if (that.products[i].selectd_model) {
-										for (let item of that.products[i].selected_model) {
-											delete item.num // 清除没用的属行
-										}
-										res.set('models', that.products[i].selected_model)
-										num = Number(that.products[i].num);
-									} else {
-										num = Number(that.products[i].num);
+								query.set('id', that.products[i].objectId) //需要修改的objectId
+								if (that.products[i].selectd_model) {
+									for (let item of that.products[i].selected_model) {
+										delete item.num // 清除没用的属行
 									}
-
-									res.set('reserve', num)
-									//res.set('stocktype', (num > that.products[i].warning_num) ? 1 : 0)
-									res.save()
-
+									query.set('models', that.products[i].selected_model)
+									num = Number(that.products[i].num);
+								} else {
+									num = Number(that.products[i].num);
+								}
+								
+								query.set('reserve', num)
+								query.save().then(res => {
 									if (that.products[i].header) {
 										const query1 = Bmob.Query("Goods");
 										query1.equalTo("header", "==", that.products[i].header.objectId);
@@ -213,13 +210,12 @@
 										query1.find().then(res => {
 											//console.log("dasds", res)
 											let now_reserve = res[0]._sumReserve
-											const query = Bmob.Query('Goods');
-											query.get(that.products[i].header.objectId).then(res => {
-												res.set('reserve', now_reserve)
-												res.save()
-
+											query.set('id', that.products[i].header.objectId) //需要修改的objectId
+											query.set('reserve', now_reserve)
+											query.save().then(res => {
 												countKey += 1
 												common.modifyStockType(that.products[i].header.objectId)
+												console.log(countKey, that.products.length)
 												if (countKey == that.products.length) {
 													that.button_disabled = false;
 													uni.setStorageSync("is_option", true);
@@ -228,9 +224,8 @@
 													uni.removeStorageSync("category")
 													uni.removeStorageSync("warehouse")
 													common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName + "'等" +
-														that.products
-														.length + "商品", 3, res.objectId);
-
+														that.products.length + "商品", 3, operationId);
+												
 													//自动打印
 													if (uni.getStorageSync("setting").auto_print) {
 														print.autoPrint(operationId);
@@ -238,12 +233,12 @@
 													uni.navigateBack({
 														delta: 2
 													});
-													
-													setTimeout(function(){
+												
+													setTimeout(function() {
 														uni.showToast({
 															title: "盘点成功"
 														})
-													},500)
+													}, 500)
 												}
 											})
 										})
@@ -268,12 +263,12 @@
 											uni.navigateBack({
 												delta: 2
 											});
-											
-											setTimeout(function(){
+
+											setTimeout(function() {
 												uni.showToast({
 													title: "盘点成功"
 												})
-											},500)
+											}, 500)
 										}
 									}
 

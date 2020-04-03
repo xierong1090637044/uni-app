@@ -129,7 +129,7 @@ module.exports = {
 
 
 	//入库时增加产品数量
-	enterAddGoodNumNew(products) {
+	enterAddGoodNumNew(products,type) {
 		return new Promise((resolve, reject) => {
 			let stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 			let uid = uni.getStorageSync("uid")
@@ -151,6 +151,9 @@ module.exports = {
 								let now_reserve = res[0]._sumReserve;
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
+								if(type == "purchase"){
+									query.set('costPrice', products[i].modify_retailPrice)
+								}
 								query.save().then(res => {
 									if (i == products.length - 1) {
 										resolve(true)
@@ -185,6 +188,9 @@ module.exports = {
 							query.find().then(res => {
 								let now_reserve = res[0]._sumReserve
 								query.set('reserve', now_reserve)
+								if(type == "purchase"){
+									query.set('costPrice', products[i].modify_retailPrice)
+								}
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
 									if (i == products.length - 1) {

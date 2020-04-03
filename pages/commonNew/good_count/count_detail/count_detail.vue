@@ -223,9 +223,9 @@
 													query.find().then(res => {
 														//console.log("dasds", res)
 														let now_reserve = res[0]._sumReserve
-														query.get(that.products[i].objectId).then(res => {
-															res.set('reserve', now_reserve)
-															res.save()
+														query.set('id', that.products[i].objectId) //需要修改的objectId
+														query.set('reserve', now_reserve)
+														query.save().then(res => {
 
 															common.modifyStockType(that.products[i].objectId)
 
@@ -238,7 +238,7 @@
 																uni.removeStorageSync("warehouse")
 																common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +
 																	"'等" + that.products
-																	.length + "商品", 3, res.objectId);
+																	.length + "商品", 3, operationId);
 
 																//自动打印
 																if (uni.getStorageSync("setting").auto_print) {

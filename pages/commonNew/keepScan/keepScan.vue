@@ -14,12 +14,12 @@
 
 		<!-- #ifdef MP-WEIXIN -->
 		<camera device-position="back" flash="off" binderror="error" style="width: 380rpx;height: 380rpx;margin: 0 auto;"
-		 mode="scanCode" @scancode="scanCode"></camera>
+		 mode="scanCode" @scancode="scanCode" v-if="isOpen == false"></camera>
 		<!-- #endif -->
 
 		<!--<image mode="widthFix" src="{{src}}"></image>-->
 
-		<uniPopupNew ref="popup" type="bottom">
+		<uniPopupNew ref="popup" type="bottom" @change="changeView">
 
 			<view style="background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;">
 				<view style="padding:20rpx 30rpx;border-bottom: 1rpx solid#ddd;">扫码选中的产品</view>
@@ -105,6 +105,7 @@
 		},
 		data() {
 			return {
+				isOpen:false,
 				user: uni.getStorageSync("user"),
 				type: '',
 				negativeOut: false,
@@ -128,7 +129,16 @@
 
 		methods: {
 			openPopup() {
+				that.isOpen = true,
 				this.$refs.popup.open()
+			},
+			
+			changeView(value){
+				if(value.show == true){
+					that.isOpen = true
+				}else{
+					that.isOpen = false
+				}
 			},
 
 			//头部确定点击

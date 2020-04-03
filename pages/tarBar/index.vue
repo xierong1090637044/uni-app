@@ -199,11 +199,9 @@
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、新增销售订单</view>
-							<view>2、新增采购订单订单</view>
-							<view>3、新版扫码更换为连续扫码，可实现连续扫码功能，并进行连续操作</view>
-							<view>4、销售单、采购单开单优化</view>
-							<view>5、一些bug修复以及优化</view>
+							<view>1、盘点单优化</view>
+							<view>2、产品名称加长显示</view>
+							<view>3、采购将自动同步上一次的采购价</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

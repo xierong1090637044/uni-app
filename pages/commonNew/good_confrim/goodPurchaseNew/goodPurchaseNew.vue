@@ -457,7 +457,7 @@
 							//console.log("添加操作历史记录成功", res);
 
 							if (that.stock && that.stock.objectId) {
-								common.enterAddGoodNumNew(that.products).then(res => {
+								common.enterAddGoodNumNew(that.products,"purchase").then(res => {
 									uni.hideLoading();
 									uni.removeStorageSync("producers"); //移除这个缓存
 									uni.removeStorageSync("_warehouse")
@@ -474,7 +474,7 @@
 										if (that.sellLaterOrderId) {
 
 											query.set('id', that.sellLaterOrderId) //需要修改的objectId
-											query.set('orderSellId', operationId) //需要修改的objectId
+											query.set('orderSellId', operationId)
 											query.set("status", true)
 											query.save().then(res => {
 												uni.navigateBack({
@@ -506,7 +506,7 @@
 										setTimeout(() => {
 											if (that.sellLaterOrderId) {
 												query.set('id', that.sellLaterOrderId) //需要修改的objectId
-												query.set('orderSellId', operationId) //需要修改的objectId
+												query.set('orderSellId', operationId)
 												query.set("status", true)
 												query.save().then(res => {
 													common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +

@@ -43,12 +43,8 @@
 							</view>
 
 							<view style="margin:0 20rpx;width: 80%;">
-								<view class="product_reserve display_flex_bet" style="width: 100%;"  v-if="product.packageContent && product.packingUnit">
-									<view class="product_name text_overflow">{{product.goodsName}}</view>
-									<view class="product_reserve">{{product.packageContent}}*{{product.packingUnit}}</view>
-								</view>
-								<view class="product_reserve display_flex_bet" style="width: 100%;"  v-else>
-									<view class="product_name text_overflow" style="max-width: 100%;">{{product.goodsName}}</view>
+								<view class="product_reserve" style="width: 100%;" >
+									<view class="product_name text_overflow_2" style="max-width: 100%;">{{product.goodsName}}</view>
 								</view>
 
 								<view class="product_reserve display_flex_bet" style="width: 100%;">
@@ -59,6 +55,9 @@
 									<view style="font-size: 24rpx;" v-if="canSeeCostprice">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
 									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
 									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
+								</view>
+								<view class="product_reserve display_flex_bet" style="width: 100%;"  v-if="product.packageContent && product.packingUnit">
+									<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
 								</view>
 							</view>
 						</label>
@@ -607,9 +606,6 @@
 		font-weight: bold;
 		color: #333;
 		max-width: 60%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 	}
 
 	.product_reserve {
