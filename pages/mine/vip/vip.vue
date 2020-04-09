@@ -13,22 +13,22 @@
 			<view class="content_bg">
 				<view>开通会员可以体验全部功能哦！<text style="font-size: 20rpx;">（将于七日后恢复原价）</text></view>
 				<view class="display_flex_bet" style="margin-top: 40rpx;">
-					<view :class="['price_content',(selected_price==10)?'selected_price_bg':'']"  @click="selected_this(10)">
+					<view :class="['price_content',(selected_price==15)?'selected_price_bg':'']"  @click="selected_this(15)">
 						<view class="time_desc">一个月</view>
-						<view class="price_text">￥10</view>
+						<view class="price_text">￥15</view>
 						<view style="position: relative;font-size: 24rpx;">原价20 <view class="price_line">————</view>
 						</view>
 					</view>
-					<view :class="['price_content',(selected_price==25)?'selected_price_bg':'']" style="margin: 0 30rpx;"
-					 @click="selected_this(25)">
+					<view :class="['price_content',(selected_price==40)?'selected_price_bg':'']" style="margin: 0 30rpx;"
+					 @click="selected_this(40)">
 						<view class="time_desc">一个季度</view>
-						<view class="price_text">￥25</view>
+						<view class="price_text">￥40</view>
 						<view style="position: relative;font-size: 24rpx;">原价60 <view class="price_line">————</view>
 						</view>
 					</view>
-					<view :class="['price_content',(selected_price==100)?'selected_price_bg':'']" @click="selected_this(100)">
+					<view :class="['price_content',(selected_price==150)?'selected_price_bg':'']" @click="selected_this(150)">
 						<view class="time_desc">一年</view>
-						<view class="price_text">￥100</view>
+						<view class="price_text">￥150</view>
 						<view style="position: relative;font-size: 24rpx;">原价240 <view class="price_line">————</view>
 						</view>
 					</view>
@@ -119,15 +119,15 @@
 							const query = Bmob.Query('_User');
 							query.get(that.user.objectId).then(res => {
 							  let timestamp=new Date().getTime();
-							  if(that.selected_price == 10){
+							  if(that.selected_price == 15){
 							  	res.set('vip_time',timestamp + 2592000000)
 									res.set('vip_shouldtime',timestamp + 2592000000)
 									that.user.vip_time = timestamp + 2592000000
-							  }else if(that.selected_price == 25){
+							  }else if(that.selected_price == 40){
 							  	res.set('vip_time',timestamp + 2592000000*3)
 									res.set('vip_shouldtime',timestamp + 2592000000*3)
 									that.user.vip_time = timestamp + 2592000000*3
-							  }else if(that.selected_price == 100){
+							  }else if(that.selected_price == 150){
 							  	res.set('vip_time',timestamp + 2592000000*12)
 									res.set('vip_shouldtime',timestamp + 2592000000*12)
 									that.user.vip_time = timestamp + 2592000000*12

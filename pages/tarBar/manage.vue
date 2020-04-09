@@ -21,15 +21,7 @@
 			</view>
 
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="financeModule.length > 0 &&  leftSelectedIndex == 1">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">财务模块<text style="font-size: 20rpx;">（即将进行大幅度优化）</text></view>
-				<view class='o_list'>
-					<navigator v-for="(value,index) in financeModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem" style="background: #2ca879;">
-							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
-						</view>
-						<span class='o_text'>{{value.name}}</span>
-					</navigator>
-				</view>
+				<sFinanceModule></sFinanceModule>
 			</view>
 
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="second_optionsLists.length > 0 &&  leftSelectedIndex == 2">
@@ -69,6 +61,7 @@
 	import Bmob from "hydrogen-js-sdk";
 	import staffs from '@/utils/staffs.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
+	import sFinanceModule from "@/components/sFinanceModule/sFinanceModule.vue"
 
 	let that;
 	let secOptionsLists = [{

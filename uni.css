@@ -4,6 +4,41 @@
 	font-style: normal;
 	src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/uni.ttf') format('truetype');
 }
+.o_list {
+	background: #fff;
+}
+
+.o_headerItem {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 50%;
+	background: #2ca879;
+	line-height: 80rpx;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.o_image {
+	width: 60rpx;
+	height: 60rpx;
+	border-radius: 50%;
+	border: 3px solid#e2e2e2;
+	padding: 6rpx 6rpx 0;
+}
+
+.o_item {
+	width: 25%;
+	text-align: center;
+	display: inline-block;
+	margin-bottom: 20rpx;
+}
+
+.o_text {
+	color: #000;
+	font-weight: bold;
+	font-size: 23rpx;
+	margin-top: 6rpx;
+}
 
 .orderListItemBorder {
 	padding: 14rpx 20rpx;

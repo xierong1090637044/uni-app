@@ -22,9 +22,39 @@
 				</view>
 			</view>
 
-			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);" scroll-y>
+			<scroll-view style="height: calc(100vh - 182rpx);" scroll-y>
 				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/recordDetail/recordDetail?id='+item.objectId">
-					<view v-if="item.custom">
+					<block>
+						<view v-if="item.custom&&item.custom.custom_name" class="cpName">{{item.custom.custom_name}}</view>
+						<view v-if="item.producer&&item.producer.producer_name" class="cpName">{{item.producer.producer_name}}</view>
+					</block>
+					
+					<block v-if="type == -1">
+						<view style="padding: 0 0 10rpx;border-bottom: 1rpx solid#ddd;margin-bottom: 10rpx;">
+							<view class="display_flex">
+								<text class="leftText">收款账户：</text>
+								<text class="rightText">{{item.account.name}}</text>
+							</view>
+							<view class="display_flex" v-if="item.fristClass">
+								<text class="leftText">交易类别：</text>
+								<text>{{item.fristClass.class_text}}</text>
+								<text v-if="item.secondClass">{{item.secondClass.class_text}}</text>
+							</view>
+							<view class="display_flex">
+								<text class="leftText">收款金额：</text>
+								<text class="rightText">{{item.real_money}}</text>
+							</view>
+							<view class="display_flex">
+								<text class="leftText">收款日期：</text>
+								<text class="rightText">{{item.createdAt}}</text>
+							</view>
+						</view>
+						<view class="display_flex_bet">
+							<view>[{{item.opreater.nickName}}]</view>
+							<view class="iconClass">已收款</view>
+						</view>
+					</block>
+					<!--<view v-if="item.custom">
 						<view>客户：<text>{{item.custom.custom_name}}</text></view>
 						<view class="display_flex_bet">
 							<view>交易账户：{{item.account.name}}</view>
@@ -68,7 +98,7 @@
 					</view>
 
 					<view v-if="item.opreater"> 操作人：{{item.opreater.nickName}}</view>
-					<view style="color: #999999;">{{item.createdAt}}</view>
+					<view style="color: #999999;">{{item.createdAt}}</view>-->
 				</navigator>
 			</scroll-view>
 
@@ -89,7 +119,6 @@
 	import loading from "@/components/Loading/index.vue"
 
 	let that;
-	let accountId;
 	let uid;
 	export default {
 		components: {
@@ -105,8 +134,29 @@
 				inMoney: 0,
 				outMoney: 0,
 				debt_list: [],
+				type:'',
+				accountId:''
 			}
 		},
+		
+		onLoad(options) {
+			//console.log(options)
+			that = this;
+			uid = uni.getStorageSync("uid");
+			that.start_date_desc = that.start_date.split(" ")[0];
+			that.end_date_desc = that.end_date.split(" ")[0];
+			that.accountId = options.id;
+			that.type = options.type;
+		
+			that.getList()
+			
+			if(that.type == -1){
+				uni.setNavigationBarTitle({
+					title:"收款单管理"
+				})
+			}
+		},
+		
 		
 		methods: {
 			bindDate_startChange(e) {
@@ -127,11 +177,12 @@
 				let opreationList = []
 				uni.showLoading({title:"加载中..."})
 				const query = Bmob.Query("order_opreations");
-				if (accountId) {
-					query.equalTo("account", "==", accountId);
-				} else {
+				if (that.accountId) {
+					query.equalTo("account", "==", that.accountId);
+				}else{
 					query.equalTo("account", "!=", null);
 				}
+				if (that.type) query.equalTo("type", "==", Number(that.type));
 				query.equalTo("master", "==", uid);
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
@@ -170,20 +221,13 @@
 				})
 			}
 		},
-		onLoad(options) {
-			//console.log(options)
-			that = this;
-			uid = uni.getStorageSync("uid");
-			that.start_date_desc = that.start_date.split(" ")[0];
-			that.end_date_desc = that.end_date.split(" ")[0];
-			accountId = options.id
-
-			that.getList()
-		},
 	}
 </script>
 
 <style lang="scss">
+	page{
+		background: #F1F1F1;
+	}
 	.frist {
 		background: #FFFFFF;
 		padding: 20rpx 30rpx;
@@ -191,8 +235,9 @@
 	}
 
 	.list_item {
-		padding: 16rpx 0;
-		border-bottom: 1rpx solid#DDDDDD;
+		padding: 16rpx 30rpx;
+		margin-top: 30rpx;
+		background: #fff;
 	}
 
 	.select {
@@ -207,5 +252,28 @@
 			width: 50%;
 			text-align: center;
 		}
+	}
+	
+	.cpName{
+		font-size: 30rpx;
+		font-weight: bold;
+		color: #000;
+	}
+	
+	.rightText{
+		color: #000;
+		font-weight: bold;
+	}
+	
+	.leftText{
+		color: #333;
+	}
+	
+	.iconClass{
+		background: #2CA879;
+		color: #fff;
+		font-size: 20rpx;
+		padding: 2rpx 6rpx;
+		border-radius: 8rpx;
 	}
 </style>
