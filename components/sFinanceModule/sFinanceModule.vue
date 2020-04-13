@@ -35,7 +35,7 @@
 				fristEle: [{
 					name: '收款单',
 					icon: 'icon-fq_kucunfeiyong',
-					url: '/pages/finance/history/history?type=-1',
+					url: '/pages/finance/customInHistory/customInHistory',
 					//url: '/pages/manage/custom/custom',
 				}, {
 					name: '应收账款',

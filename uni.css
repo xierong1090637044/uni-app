@@ -4,8 +4,45 @@
 	font-style: normal;
 	src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/uni.ttf') format('truetype');
 }
+
+.font10 {
+	font-size: 20rpx;
+}
+
+.color999 {
+	color: #999;
+}
+
+.color333 {
+	color: #333;
+}
+
+.padding20 {
+	padding: 20rpx;
+}
+
 .o_list {
 	background: #fff;
+}
+
+.backgroundfff {
+	background: #fff;
+}
+
+.newOrderTitle {
+	padding: 10rpx 0;
+	font-weight: bold;
+	color: #333;
+}
+
+.moneyIcon {
+	color: #f30;
+	border: 1rpx solid#f30;
+	padding: 0rpx 12rpx;
+	font-weight: bold;
+	text-align: center;
+	font-size: 24rpx;
+	border-radius: 4rpx;
 }
 
 .o_headerItem {
@@ -44,9 +81,11 @@
 	padding: 14rpx 20rpx;
 	background: #fff;
 }
-.borderBot{
+
+.borderBot {
 	border-bottom: 1rpx solid#F7F7F7;
 }
+
 uni-page {
 	background: #f3f3f3;
 	font-size: 28rpx;

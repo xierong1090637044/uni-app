@@ -106,7 +106,7 @@
 			"style": {
 				"navigationBarTitleText": "销售详情"
 			}
-		},{
+		}, {
 			"path": "pages/report/EnteringHistory/SellDetail/SellLaterDetail"
 		}, {
 			"path": "pages/report/EnteringHistory/returnDetail/returnDetail",
@@ -129,12 +129,14 @@
 			"style": {
 				"navigationBarTitleText": "库存预警"
 			}
+		}, {
+			"path": "pages/report/EnteringHistory/stockDet/stockDet",
+			"style": {}
+		}, {
+			"path": "pages/finance/customInHistory/customInHistory",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/report/EnteringHistory/stockDet/stockDet",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/common",
@@ -545,13 +547,18 @@
 					"style": {
 						"navigationBarTitleText": "账户资金流水记录"
 					}
+				}, {
+					"path": "shouInOrder/shouInOrder",
+					"style": {}
+				}, {
+					"path": "costomInDet/costomInDet",
+					"style": {}
+				}, {
+					"path": "customInOrder/customInOrder",
+					"style": {}
 				}
 			    ,{
-                    "path" : "shouInOrder/shouInOrder",
-                    "style" : {}
-                }
-                ,{
-                    "path" : "costomInDet/costomInDet",
+                    "path" : "customInHistoryDet/customInHistoryDet",
                     "style" : {}
                 }
             ]

@@ -1,21 +1,48 @@
 <template>
 	<view>
-		<view class="display_flex_bet frist">
-			<view>
-				<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;" v-if="custom.custom_name">{{custom.custom_name}}</view>
+		<scroll-view style="height: calc(100vh - 90rpx);">
+			<view class="display_flex_bet frist">
 				<view>
-					<text>联系电话：</text>
-					<text v-if="custom.custom_phone" style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{custom.custom_phone}}</text>
-					<text v-else style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">未填写</text>
+					<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;" v-if="custom.custom_name">{{custom.custom_name}}</view>
+					<view>
+						<text>联系电话：</text>
+						<text v-if="custom.custom_phone" style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">{{custom.custom_phone}}</text>
+						<text v-else style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;">未填写</text>
+					</view>
+				</view>
+				<view class="display_flex">
+					<view class="moneyIcon">待收：￥{{custom.allDebt}}元</view>
+					<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 				</view>
 			</view>
-			<view class="display_flex">
-				<view class="moneyIcon">待收：￥{{custom.allDebt}}</view>
-				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
+
+			<view class="uni-list">
+				<checkbox-group @change="checkboxChange">
+					<label class="display_flex uni-label-pointer" v-for="(item,index) in shouldGetMoneyList" :key="index">
+						<view>
+							<checkbox :value="''+index" style="transform:scale(0.7)" :checked="item.checked"/>
+						</view>
+						<view class="borderBot" style="padding: 20rpx 0;width: calc(100% - 60rpx);">
+							<view class="font10 color333">单据编号：{{item.objectId}}</view>
+							<view class="font10 color333">单据日期：{{item.createdAt}}</view>
+							<view class="display_flex_bet">
+								<view class="font10 color333">应收金额：{{item.real_money}}元</view>
+								<view class="moneyIcon">待收：￥{{item.debt}}元</view>
+							</view>
+
+							<view class="font10 color333">已收：{{item.haveGetMoney}}元</view>
+						</view>
+					</label>
+				</checkbox-group>
 			</view>
+		</scroll-view>
+
+		<view class="display_flex_bet bottomEle">
+			<view style="margin-left: 20rpx;" class="display_flex">
+				<radio :checked="isAllSelected" @click="selectAll" style="transform:scale(0.7)"/>全选
+			</view>
+			<view style="height: 90rpx;line-height: 90rpx;background: #426ab3;color: #fff;padding: 0 30rpx;" @click="getOrderDet">生成付款单</view>
 		</view>
-		
-		<view></view>
 	</view>
 </template>
 
@@ -28,7 +55,8 @@
 			return {
 				customId: '',
 				custom: '',
-				shouldGetMoneyList: []
+				shouldGetMoneyList: [],
+				isAllSelected:false
 			}
 		},
 
@@ -38,12 +66,58 @@
 				title: "应收账款明细"
 			})
 			that.customId = options.customId
+		},
+		
+		onShow() {
 			that.loadData()
 		},
 
 		methods: {
+			
+			//生成付款单
+			getOrderDet(){
+				let orderList = []
+				for(let item of that.shouldGetMoneyList){
+					if(item.checked == true){
+						item.shouldGetMoney = item.debt
+						orderList.push(item)
+					}
+				}
+				
+				if(orderList.length == 0){
+					uni.showToast({
+						icon:"none",
+						title:"请选择要收款的单据"
+					})
+					return
+				}
+				
+				uni.setStorageSync("customInOrders",orderList)
+				uni.navigateTo({
+					url:"/pages/finance/customInOrder/customInOrder"
+				})
+			},
+			
+			
+			//选择数据
+			checkboxChange(e) {
+				let value = e.detail.value
+				
+				for(let item of value){
+					that.shouldGetMoneyList[item].checked = true
+				}
+			},
+			
+			//全选点击
+			selectAll(){
+				that.isAllSelected = !that.isAllSelected
+				for(let item of that.shouldGetMoneyList){
+					item.checked = that.isAllSelected
+				}
+			},
+
 			//加载数据
-			loadData(type) {
+			loadData() {
 				let custom
 				uni.showLoading({
 					title: "加载中..."
@@ -62,36 +136,47 @@
 					query.limit(500);
 					query.find().then(res => {
 						that.shouldGetMoneyList = res;
-						query.equalTo("type", "==", -1);
-						query.equalTo("extra_type", "==", 1);
-						query.equalTo("master", "==", uid);
-						query.equalTo("custom", "==", that.customId);
-						query.equalTo("debt", ">", 0);
-						query.limit(500);
-						query.include("account", "custom");
-						query.statTo("sum", "debt");
-						query.find().then(res => {
-							
-							custom.allDebt = res[0]._sumDebt
-							that.custom = custom
-							console.log(that.custom.allDebt)
-							uni.hideLoading()
-						})
-						console.log(res)
+						that.getDebtCount(custom)
 					})
 				})
+			},
 
+			getDebtCount(custom) {
+				const query = Bmob.Query("order_opreations");
+				query.equalTo("type", "==", -1);
+				query.equalTo("extra_type", "==", 1);
+				query.equalTo("master", "==", uid);
+				query.equalTo("custom", "==", that.customId);
+				query.equalTo("debt", ">", 0);
+				query.limit(500);
+				query.include("account", "custom");
+				query.statTo("sum", "debt");
+				query.find().then(res => {
 
+					custom.allDebt = res[0]._sumDebt
+					that.custom = custom
+					console.log(that.shouldGetMoneyList)
+					uni.hideLoading()
+				})
 			},
 		}
 	}
 </script>
 
 <style>
-	.frist{
+	.frist {
 		background: #fff;
 		padding: 20rpx 30rpx;
 	}
+	
+	.bottomEle{
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		background: #fff;
+		width: 100%;
+	}
+
 	.moneyIcon {
 		color: #f30;
 		border: 1rpx solid#f30;
@@ -121,5 +206,9 @@
 		border-bottom: 1rpx solid#ccc;
 		padding-bottom: 10rpx;
 		margin-bottom: 10rpx;
+	}
+
+	.uni-label-pointer {
+		padding: 0 20rpx;
 	}
 </style>
