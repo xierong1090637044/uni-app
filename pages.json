@@ -132,9 +132,6 @@
 		}, {
 			"path": "pages/report/EnteringHistory/stockDet/stockDet",
 			"style": {}
-		}, {
-			"path": "pages/finance/customInHistory/customInHistory",
-			"style": {}
 		}
 	],
 

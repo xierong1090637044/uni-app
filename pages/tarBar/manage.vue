@@ -239,6 +239,7 @@
 
 	export default {
 		components: {
+			sFinanceModule,
 			faIcon
 		},
 		data() {
