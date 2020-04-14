@@ -74,7 +74,7 @@
 							</view>
 						</view>
 
-						<navigator hover-class="none" url="/pages/finance/account/account?type=choose" class="display_flex_bet orderListItemBorder borderBot"
+						<navigator hover-class="none" url="/pages/finance/myData/account/account?type=choose" class="display_flex_bet orderListItemBorder borderBot"
 						 style="margin-top:20rpx;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
