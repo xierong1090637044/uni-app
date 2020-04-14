@@ -1,1 +1,7 @@
+type=1的情况
 type:-1  extra_type 5  代表收款单
+type:-1  extra_type 6  代表其他收款单
+
+type=1的情况
+type:1  extra_type 5  代表付款单
+type:1  extra_type 6  代表其他付款单

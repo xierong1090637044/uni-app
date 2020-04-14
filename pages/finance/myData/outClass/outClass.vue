@@ -1,8 +1,6 @@
 <template>
 	<view class='page'>
-		<loading v-if="loading"></loading>
-
-		<view v-else class="content">
+		<view class="content">
 			<view class="left_content">
 				<view style="height: calc(100vh - 80rpx);overflow: scroll;">
 					<view v-for="(item,index) in frist_class" :key="index" :class="selected_id===item.objectId?'selectd_item':''"

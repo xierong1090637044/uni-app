@@ -130,8 +130,7 @@
 				"navigationBarTitleText": "库存预警"
 			}
 		}, {
-			"path": "pages/report/EnteringHistory/stockDet/stockDet",
-			"style": {}
+			"path": "pages/report/EnteringHistory/stockDet/stockDet"
 		}
 	],
 
@@ -486,29 +485,29 @@
 		{
 			"root": "pages/finance",
 			"pages": [{
-					"path": "account/account",
+					"path": "myData/account/account",
 					"style": {
 						"navigationBarTitleText": "我的账户"
 					}
 				}, {
-					"path": "add/add",
+					"path": "myData/add/add",
 					"style": {
 						"navigationBarTitleText": "账户添加"
 					}
 				},
 				{
-					"path": "detail/detail",
+					"path": "myData/detail/detail",
 					"style": {
 						"navigationBarTitleText": "账户详情"
 					}
 
 				}, {
-					"path": "inClass/inClass",
+					"path": "myData/inClass/inClass",
 					"style": {
 						"navigationBarTitleText": "收入类别"
 					}
 				}, {
-					"path": "outClass/outClass",
+					"path": "myData/outClass/outClass",
 					"style": {
 						"navigationBarTitleText": "支出类别"
 					}
@@ -534,13 +533,8 @@
 					"style": {
 						"navigationBarTitleText": "供货商应付列表"
 					}
-				}, {
-					"path": "recordDetail/recordDetail",
-					"style": {
-						"navigationBarTitleText": "详情"
-					}
-				}, {
-					"path": "history/history",
+				},{
+					"path": "myData/history/history",
 					"style": {
 						"navigationBarTitleText": "账户资金流水记录"
 					}
@@ -560,7 +554,11 @@
 					"path": "CPHistory/producerOutHistory/producerOutHistory"
 				}, {
 					"path": "CPHistory/producerOutHistoryDet/producerOutHistoryDet"
-				}
+				}, {
+					"path": "otherHistory/InRecordHistory/InRecordHistory"
+				},{
+            "path" : "otherHistory/outRecordHistory/outRecordHistory"
+        }
 			]
 		},
 

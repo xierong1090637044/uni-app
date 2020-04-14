@@ -1,9 +1,7 @@
 <template>
 	<view style="height: 100vh;">
 
-		<loading v-if="loading"></loading>
-
-		<view wx:else>
+		<view>
 			<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="添加" @click-right="goto_add"></uni-nav-bar>
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 88rpx)' scroll-with-animation="true"

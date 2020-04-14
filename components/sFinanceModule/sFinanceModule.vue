@@ -66,29 +66,29 @@
 				secondEle: [{
 					name: '其他支出',
 					icon: 'icon-income',
-					url: '/pages/finance/otherHistory/outRecord/outRecord',
+					url: '/pages/finance/otherHistory/outRecordHistory/outRecordHistory',
 				}, {
 					name: '其他收入',
 					icon: 'icon-zhichu',
-					url: '/pages/finance/otherHistory/InRecord/InRecord',
-				}, {
+					url: '/pages/finance/otherHistory/InRecordHistory/InRecordHistory',
+				}, /*{
 					name: '转账',
 					icon: 'icon-icon5',
 					url: '/pages/finance/outClass/outClass',
-				}],
+				}*/],
 				
 				thridEle: [{
 					name: '我的账户',
 					icon: 'icon-zijinzhanghu',
-					url: '/pages/finance/account/account',
+					url: '/pages/finance/myData/account/account',
 				}, {
 					name: '收入类别',
 					icon: 'icon-sh_quanbu',
-					url: '/pages/finance/inClass/inClass',
+					url: '/pages/finance/myData/inClass/inClass',
 				}, {
 					name: '支出类别',
 					icon: 'icon-sh_quanbu',
-					url: '/pages/finance/outClass/outClass',
+					url: '/pages/finance/myData/outClass/outClass',
 				}],
 			};
 		}

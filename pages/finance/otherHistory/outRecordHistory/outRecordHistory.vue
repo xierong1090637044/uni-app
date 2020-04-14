@@ -23,91 +23,44 @@
 			</view>
 
 			<scroll-view style="height: calc(100vh - 182rpx);" scroll-y>
-				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/recordDetail/recordDetail?id='+item.objectId">
+				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/CPHistory/producerOutHistoryDet/producerOutHistoryDet?id='+item.objectId">					
 					<block>
-						<view v-if="item.custom&&item.custom.custom_name" class="cpName">{{item.custom.custom_name}}</view>
-						<view v-if="item.producer&&item.producer.producer_name" class="cpName">{{item.producer.producer_name}}</view>
-					</block>
-					
-					<block v-if="type == -1">
 						<view style="padding: 0 0 10rpx;border-bottom: 1rpx solid#ddd;margin-bottom: 10rpx;">
 							<view class="display_flex">
-								<text class="leftText">收款账户：</text>
+								<text class="leftText">付款账户：</text>
 								<text class="rightText">{{item.account.name}}</text>
 							</view>
 							<view class="display_flex" v-if="item.fristClass">
 								<text class="leftText">交易类别：</text>
 								<text>{{item.fristClass.class_text}}</text>
-								<text v-if="item.secondClass">{{item.secondClass.class_text}}</text>
+								<text v-if="item.secondClass">->{{item.secondClass.class_text}}</text>
 							</view>
 							<view class="display_flex">
-								<text class="leftText">收款金额：</text>
+								<text class="leftText">付款金额：</text>
 								<text class="rightText">{{item.real_money}}</text>
 							</view>
 							<view class="display_flex">
-								<text class="leftText">收款日期：</text>
+								<text class="leftText">付款日期：</text>
 								<text class="rightText">{{item.createdAt}}</text>
 							</view>
 						</view>
 						<view class="display_flex_bet">
 							<view>[{{item.opreater.nickName}}]</view>
-							<view class="iconClass">已收款</view>
+							<view class="iconClass">已付款</view>
 						</view>
 					</block>
-					<!--<view v-if="item.custom">
-						<view>客户：<text>{{item.custom.custom_name}}</text></view>
-						<view class="display_flex_bet">
-							<view>交易账户：{{item.account.name}}</view>
-							<view v-if="item.type == -1"><text style="color: #2ca879;" >+{{item.real_money}}</text></view>
-							<view v-else-if="item.type == 1"><text style="color: #f30;">-{{item.real_money}}</text></view>
-						</view>
-					</view>
-					<view v-else-if="item.producer">
-						<view>供货商：<text>{{item.producer.producer_name}}</text></view>
-
-						<view class="display_flex_bet">
-							<view>交易账户：{{item.account.name}}</view>
-							<view v-if="item.type == -1"><text style="color: #2ca879;">+{{item.real_money}}</text></view>
-							<view v-else-if="item.type == 1"><text style="color: #f30;">-{{item.real_money}}</text></view>
-						</view>
-					</view>
-					<view v-else>
-						<view v-if="item.type == -1">
-							<view>交易类别：
-							  <text v-if="item.fristClass">{{item.fristClass.class_text}}</text>
-								<text v-if="item.secondClass">{{item.secondClass.class_text}}</text>
-							</view>
-
-							<view class="display_flex_bet">
-								<view>交易账户：{{item.account.name}}</view>
-								<view><text style="color: #2ca879;">+{{item.real_money}}</text></view>
-							</view>
-						</view>
-						<view v-else-if="item.type == 1">
-							<view>交易类别：
-							  <text v-if="item.fristClass">{{item.fristClass.class_text}}</text>
-								<text v-if="item.secondClass">{{item.secondClass.class_text}}</text>
-							</view>
-						
-							<view class="display_flex_bet">
-								<view>交易账户：{{item.account.name}}</view>
-								<view><text style="color: #f30;">-{{item.real_money}}</text></view>
-							</view>
-						</view>
-
-					</view>
-
-					<view v-if="item.opreater"> 操作人：{{item.opreater.nickName}}</view>
-					<view style="color: #999999;">{{item.createdAt}}</view>-->
 				</navigator>
 			</scroll-view>
 
 			<view style="position: fixed;bottom: 0;width: 100%;background: #fff;padding:20rpx 30rpx;border-top: 1rpx solid#F4F4F4;"
 			 class="display_flex">
-				<view style="margin-right: 60rpx;">收入：<text style="color: #2ca879;font-weight: bold;">￥{{inMoney}}</text></view>
-				<view>支出：<text style="color: #f30;font-weight: bold;">￥{{outMoney}}</text></view>
+				<view style="margin-right: 60rpx;">支出：<text style="color: #2ca879;font-weight: bold;">￥{{inMoney}}</text></view>
 			</view>
 		</view>
+		
+		<navigator class="bottomButton" hover-class="none" url="/pages/finance/otherHistory/outRecord/outRecord">
+			<fa-icon type="plus" size="28" color="#fff" />
+		</navigator>
 
 	</view>
 </template>
@@ -126,7 +79,7 @@
 		},
 		data() {
 			return {
-				start_date: common.getDay(0, true),
+				start_date: common.getDay(0, true,true),
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
@@ -147,16 +100,15 @@
 			that.end_date_desc = that.end_date.split(" ")[0];
 			that.accountId = options.id;
 			that.type = options.type;
-		
-			that.getList()
 			
-			if(that.type == -1){
-				uni.setNavigationBarTitle({
-					title:"收款单管理"
-				})
-			}
+			uni.setNavigationBarTitle({
+				title:"付款单管理"
+			})
 		},
 		
+		onShow() {
+			that.getList()
+		},
 		
 		methods: {
 			bindDate_startChange(e) {
@@ -182,7 +134,8 @@
 				}else{
 					query.equalTo("account", "!=", null);
 				}
-				if (that.type) query.equalTo("type", "==", Number(that.type));
+				query.equalTo("type", "==", 1);
+				query.equalTo("extra_type", "==", 6);
 				query.equalTo("master", "==", uid);
 				query.equalTo("createdAt", ">=", that.start_date);
 				query.equalTo("createdAt", "<=", that.end_date);
@@ -201,11 +154,7 @@
 							query.skip(500 * i);
 							query.find().then(res => {
 								for (let item of res) {
-									if (item.type == -1) {
-										that.inMoney += item.real_money
-									} else if (item.type == 1) {
-										that.outMoney += item.real_money
-									}
+									that.inMoney += item.real_money
 									opreationList.push(item)
 								}
 								
@@ -227,6 +176,18 @@
 <style lang="scss">
 	page{
 		background: #F1F1F1;
+	}
+	
+	.bottomButton{
+		height: 90rpx;
+		width: 90rpx;
+		line-height: 114rpx;
+		background: #426ab3;
+		position: fixed;
+		bottom: 200rpx;
+		right: 60rpx;
+		text-align: center;
+		border-radius: 50%;
 	}
 	.frist {
 		background: #FFFFFF;

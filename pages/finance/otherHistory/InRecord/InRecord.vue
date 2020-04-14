@@ -240,6 +240,7 @@
 						if (that.category.type == 1) {
 							query.set("fristClass", fristClassId)
 						} else {
+							query.set("fristClass", fristClassId)
 							query.set("secondClass", secondClassId)
 						}
 						query.save().then(res => {
