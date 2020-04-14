@@ -6,7 +6,7 @@
 				<navigator v-for='(value,index) in fristEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<!--<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>-->
-						<i :class="'iconfont '+value.icon" style="font-size: 46rpx;color: #426ab3;line-height: 80rpx;"></i>
+						<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>
 					</view>
 					<view class='o_text'>{{value.name}}</view>
 				</navigator>
@@ -19,7 +19,7 @@
 				<navigator v-for='(value,index) in secondEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<!--<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>-->
-						<i :class="'iconfont '+value.icon" style="font-size: 46rpx;color: #426ab3;line-height: 80rpx;"></i>
+						<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>
 					</view>
 					<view class='o_text'>{{value.name}}</view>
 				</navigator>
@@ -32,7 +32,7 @@
 				<navigator v-for='(value,index) in thridEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<!--<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>-->
-						<i :class="'iconfont '+value.icon" style="font-size: 46rpx;color: #426ab3;line-height: 80rpx;"></i>
+						<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>
 					</view>
 					<view class='o_text'>{{value.name}}</view>
 				</navigator>
@@ -125,6 +125,6 @@
 	}
 
 	.o_text {
-		margin-top: unset;
+		margin-top: -10rpx;
 	}
 </style>

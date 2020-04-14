@@ -20,7 +20,7 @@
 				</view>
 			</view>
 
-			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="financeModule.length > 0 &&  leftSelectedIndex == 1">
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 1">
 				<sFinanceModule></sFinanceModule>
 			</view>
 
@@ -203,39 +203,6 @@
 		}
 	];
 
-	let financeLists = [{
-		name: '应收款',
-		icon: 'clock-o',
-		url: '/pages/manage/custom/custom',
-	}, {
-		name: '应付款',
-		icon: 'calendar ',
-		url: '/pages/manage/producer/producer',
-	}, {
-		name: '记收入',
-		icon: 'money ',
-		url: '/pages/finance/InRecord/InRecord?type=record',
-	}, {
-		name: '记支出',
-		icon: 'hand-spock-o ',
-		url: '/pages/finance/outRecord/outRecord?type=record',
-	}, {
-		name: '我的账户',
-		icon: 'gg',
-		url: '/pages/finance/account/account',
-	}, {
-		name: '收入类别',
-		icon: 'list',
-		url: '/pages/finance/inClass/inClass',
-	}, {
-		name: '支出类别',
-		icon: 'outdent',
-		url: '/pages/finance/outClass/outClass',
-	}, {
-		name: '流水记录',
-		icon: 'repeat',
-		url: '/pages/finance/history/history',
-	}, ];
 
 	export default {
 		components: {
@@ -251,7 +218,7 @@
 				now_optionsLists: [],
 				second_optionsLists: [],
 				analysisModule: [],
-				financeModule: []
+				//financeModule: []
 			}
 		},
 		onLoad() {
@@ -284,20 +251,12 @@
 									that.analysisModule = analysisLists
 								}
 
-								if (res.rights.moneyCurrent && res.rights.moneyCurrent.indexOf("0") != -1) {
-									that.financeModule = financeLists
-								}
-
 							} else {
 								rights = uni.getStorageSync("user").rights.current || [];
 								recordRights = uni.getStorageSync("user").rights.recodecurrent || [];
 
 								if (res.rights.analysisCurrent && uni.getStorageSync("user").rights.analysisCurrent.indexOf("0") != -1) {
 									that.analysisModule = analysisLists
-								}
-
-								if (res.rights.moneyCurrent && uni.getStorageSync("user").rights.moneyCurrent.indexOf("0") != -1) {
-									that.financeModule = financeLists
 								}
 							}
 							let manage_rights = []
@@ -320,7 +279,6 @@
 						that.now_optionsLists = optionsLists;
 						that.second_optionsLists = secOptionsLists
 						that.analysisModule = analysisLists
-						that.financeModule = financeLists
 					}
 				},
 			})

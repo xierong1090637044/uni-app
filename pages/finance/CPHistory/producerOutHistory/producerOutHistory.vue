@@ -50,7 +50,7 @@
 						</view>
 						<view class="display_flex_bet">
 							<view>[{{item.opreater.nickName}}]</view>
-							<view class="iconClass">已付款</view>
+							<view class="iconClass" style="background: #f30;">已付款</view>
 						</view>
 					</block>
 				</navigator>
