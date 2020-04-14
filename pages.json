@@ -514,23 +514,23 @@
 					}
 				},
 				{
-					"path": "InRecord/InRecord",
+					"path": "otherHistory/InRecord/InRecord",
 					"style": {
 						"navigationBarTitleText": "新增收款"
 					}
 				},
 				{
-					"path": "outRecord/outRecord",
+					"path": "otherHistory/outRecord/outRecord",
 					"style": {
 						"navigationBarTitleText": "新增付款"
 					}
 				}, {
-					"path": "customIn/customIn",
+					"path": "CPHistory/customIn/customIn",
 					"style": {
 						"navigationBarTitleText": "客户应收列表"
 					}
 				}, {
-					"path": "producerOut/producerOut",
+					"path": "CPHistory/producerOut/producerOut",
 					"style": {
 						"navigationBarTitleText": "供货商应付列表"
 					}
@@ -545,20 +545,23 @@
 						"navigationBarTitleText": "账户资金流水记录"
 					}
 				}, {
-					"path": "shouInOrder/shouInOrder",
-					"style": {}
+					"path": "CPHistory/costomInDet/costomInDet"
 				}, {
-					"path": "costomInDet/costomInDet",
-					"style": {}
+					"path": "CPHistory/customInOrder/customInOrder"
 				}, {
-					"path": "customInOrder/customInOrder",
-					"style": {}
+					"path": "CPHistory/customInHistoryDet/customInHistoryDet"
+				}, {
+					"path": "CPHistory/customInHistory/customInHistory"
+				}, {
+					"path": "CPHistory/producerOutDet/producerOutDet"
+				}, {
+					"path": "CPHistory/producerOutOrder/producerOutOrder"
+				}, {
+					"path": "CPHistory/producerOutHistory/producerOutHistory"
+				}, {
+					"path": "CPHistory/producerOutHistoryDet/producerOutHistoryDet"
 				}
-			    ,{
-                    "path" : "customInHistoryDet/customInHistoryDet",
-                    "style" : {}
-                }
-            ]
+			]
 		},
 
 		{

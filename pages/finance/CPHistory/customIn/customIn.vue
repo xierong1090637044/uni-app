@@ -10,7 +10,7 @@
 		<scroll-view class="content" scroll-y="true" v-if="people && people.length > 0">
 			<view class="info_item">
 				<view v-for="(item,index) in people" :key="index" class="item">
-					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/costomInDet/costomInDet?customId='+item.custom.objectId">
+					<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/CPHistory/costomInDet/costomInDet?customId='+item.custom.objectId">
 						<view>
 							<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;" v-if="item.custom &&item.custom.custom_name">{{item.custom.custom_name}}</view>
 							<view>

@@ -7,7 +7,7 @@
 					<view style="margin:0 0 10rpx 10rpx;font-size: 32rpx;color: #333;font-weight: bold;">基本信息</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
-						<view v-if="type == 'record'">
+						<view>
 							<navigator class="display_flex" hover-class="none" url="/pages/finance/outClass/outClass?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 								<view style="width: 160rpx;">支出类别<text style="color: #f30;">*</text></view>
 								<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
@@ -15,23 +15,6 @@
 									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 								</view>
 							</navigator>
-						</view>
-						<view v-else>
-							<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=producerFinance" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-								<view style="width: 140rpx;">供货商<text style="color: #f30;">*</text></view>
-								<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
-									<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
-									<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-								</view>
-							</navigator>
-
-							<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-								<view style="width: 140rpx;">应付欠款</view>
-								<view class="kaidan_rightinput display_flex" style="justify-content: flex-end;">
-									<input placeholder="应收欠款" disabled="true" :value="producer.debt || 0" style="text-align: right;margin-right: 20rpx;"
-									 type="digit" />
-								</view>
-							</view>
 						</view>
 
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/account/account?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
@@ -43,7 +26,7 @@
 						</navigator>
 
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>本次实付<text style="font-size: 20rpx;color: #f30;">*</text></view>
+							<view>本次付款<text style="font-size: 20rpx;color: #f30;">*</text></view>
 							<view class="kaidan_rightinput" style="text-align: right;"><input placeholder="输入实际付款金额" v-model="real_money"
 								 style="color: #d71345;" type="digit" /></view>
 						</view>
@@ -86,7 +69,7 @@
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
 					<view>
-						<text>本次实付：￥{{real_money || 0}}</text>
+						<text>本次付款：￥{{real_money || 0}}</text>
 					</view>
 					<view class="display_flex">
 						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#426ab3 ;">生成付款单</button>
@@ -201,24 +184,13 @@
 			formSubmit: function(e) {
 				that.button_disabled = true;
 
-				if (that.type == "record") {
-					if (uni.getStorageSync("category") == "" || uni.getStorageSync("category") == undefined) {
-						uni.showToast({
-							icon: "none",
-							title: "请选择支出类别"
-						});
-						this.button_disabled = false;
-						return;
-					}
-				} else {
-					if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
-						uni.showToast({
-							icon: "none",
-							title: "请选择供货商"
-						});
-						this.button_disabled = false;
-						return;
-					}
+				if (uni.getStorageSync("category") == "" || uni.getStorageSync("category") == undefined) {
+					uni.showToast({
+						icon: "none",
+						title: "请选择支出类别"
+					});
+					this.button_disabled = false;
+					return;
 				}
 
 				if (uni.getStorageSync("account") == "" || uni.getStorageSync("account") == undefined) {
@@ -231,142 +203,67 @@
 				} else if (that.real_money == "") {
 					uni.showToast({
 						icon: "none",
-						title: "请输入本次实付"
+						title: "请输入本次付款"
 					});
 					this.button_disabled = false;
 					return;
 				}
 
-				if (that.type == "record") {
-					const query = Bmob.Query('accounts');
-					query.get(that.account.objectId).then(res => {
-						res.set('money', res.money - Number(that.real_money));
-						res.save().then(res => {
-							
-							let account = Bmob.Pointer('accounts');
-							let accountID = account.set(that.account.objectId);
-							let pointer = Bmob.Pointer('_User')
-							let poiID = pointer.set(uid);
-							let masterId = uni.getStorageSync("masterId");
-							let pointer1 = Bmob.Pointer('_User')
-							let poiID1 = pointer1.set(masterId);
+				const query = Bmob.Query('accounts');
+				query.get(that.account.objectId).then(res => {
+					res.set('money', res.money - Number(that.real_money));
+					res.save().then(res => {
 
-							const query = Bmob.Query('order_opreations');
-							query.set("account", accountID)
-							query.set("master", poiID);
-							query.set("opreater", poiID1)
-							query.set("real_money", Number(that.real_money))
-							query.set("beizhu", that.beizhu_text)
-							query.set("createdTime", {
-								"__type": "Date",
-								"iso": that.nowDay
-							}); // 操作单详情
-							query.set("type", 1);
-							query.set("extra_type", 6);
-							query.set("Images", that.Images);
-							if (that.category.type == 1) {
-								query.set("fristClass", fristClassId)
-							} else {
-								query.set("secondClass", secondClassId)
-							}
-							query.save().then(res => {
-								this.button_disabled = false;
+						let account = Bmob.Pointer('accounts');
+						let accountID = account.set(that.account.objectId);
+						let pointer = Bmob.Pointer('_User')
+						let poiID = pointer.set(uid);
+						let masterId = uni.getStorageSync("masterId");
+						let pointer1 = Bmob.Pointer('_User')
+						let poiID1 = pointer1.set(masterId);
 
-								uni.removeStorageSync("account")
-								that.producer = res
-								common.log(uni.getStorageSync("user").nickName + "记录了付款￥" + that.real_money + "元", 6, res.objectId);
-								
-								uni.navigateBack({
-									delta: 1
-								})
-								
-								setTimeout(function() {
-									uni.showToast({
-										icon: "none",
-										title: '付款成功',
-									})
-								}, 1000)
+						const query = Bmob.Query('order_opreations');
+						query.set("account", accountID)
+						query.set("master", poiID);
+						query.set("opreater", poiID1)
+						query.set("real_money", Number(that.real_money))
+						query.set("beizhu", that.beizhu_text)
+						query.set("createdTime", {
+							"__type": "Date",
+							"iso": that.nowDay
+						}); // 操作单详情
+						query.set("type", 1);
+						query.set("extra_type", 6);
+						query.set("Images", that.Images);
+						if (that.category.type == 1) {
+							query.set("fristClass", fristClassId)
+						} else {
+							query.set("secondClass", secondClassId)
+						}
+						query.save().then(res => {
+							this.button_disabled = false;
 
-							}).catch(err => {
-								console.log(err)
+							uni.removeStorageSync("account")
+							that.producer = res
+							common.log(uni.getStorageSync("user").nickName + "记录了付款￥" + that.real_money + "元", 6, res.objectId);
+
+							uni.navigateBack({
+								delta: 1
 							})
+
+							setTimeout(function() {
+								uni.showToast({
+									icon: "none",
+									title: '付款成功',
+								})
+							}, 1000)
+
+						}).catch(err => {
+							console.log(err)
 						})
 					})
-				} else {
-					const query = Bmob.Query('producers');
-					query.get(that.producer.objectId).then(res => {
-						if (res.debt - Number(that.real_money) < 0) {
-							uni.showToast({
-								icon: "none",
-								title: '付款金额过大',
-							})
-							this.button_disabled = false;
-						} else {
-							res.set('debt', res.debt - Number(that.real_money));
-							res.save().then(res => {
-								const query = Bmob.Query('accounts');
-								query.get(that.account.objectId).then(res => {
-									res.set('money', res.money - Number(that.real_money));
-									res.save().then(res => {
-										let producer = Bmob.Pointer('producers');
-										let producerID = producer.set(that.producer.objectId);
-										let account = Bmob.Pointer('accounts');
-										let accountID = account.set(that.account.objectId);
-										let pointer = Bmob.Pointer('_User')
-										let poiID = pointer.set(uid);
-										let masterId = uni.getStorageSync("masterId");
-										let pointer1 = Bmob.Pointer('_User')
-										let poiID1 = pointer1.set(masterId);
+				})
 
-										const query = Bmob.Query('order_opreations');
-										query.set("account", accountID)
-										query.set("producer", producerID)
-										query.set("master", poiID);
-										query.set("opreater", poiID1)
-										query.set("real_money", Number(that.real_money))
-										query.set("beizhu", that.beizhu_text)
-										query.set("debt", that.producer.debt || 0)
-										query.set("createdTime", {
-											"__type": "Date",
-											"iso": that.nowDay
-										}); // 操作单详情
-										query.set("type", 1);
-										query.set("extra_type", 5);
-										query.set("Images", that.Images);
-										query.save().then(res => {
-											this.button_disabled = false;
-
-											producers.producer_detail(that.producer.objectId).then(res => {
-												uni.removeStorageSync("account")
-												that.producer = res
-												common.log(uni.getStorageSync("user").nickName + "操作'" + that.producer.producer_name +
-													"'供货商付款￥" + that.real_money + "元", 6, res.objectId);
-
-												uni.navigateBack({
-													delta: 1
-												})
-
-												setTimeout(function() {
-													uni.showToast({
-														icon: "none",
-														title: '付款成功',
-													})
-												}, 1000)
-											})
-
-										}).catch(err => {
-											console.log(err)
-										})
-									})
-								})
-
-							});
-						}
-
-					}).catch(err => {
-						console.log(err)
-					})
-				}
 
 
 

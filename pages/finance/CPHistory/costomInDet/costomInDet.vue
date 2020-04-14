@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<scroll-view style="height: calc(100vh - 90rpx);">
+		<scroll-view style="height: calc(100vh - 90rpx);" scroll-y="true">
 			<view class="display_flex_bet frist">
 				<view>
 					<view style="font-size: 30rpx;color: #3d3d3d;font-weight: bold;" v-if="custom.custom_name">{{custom.custom_name}}</view>
@@ -19,18 +19,18 @@
 			<view class="uni-list">
 				<checkbox-group @change="checkboxChange">
 					<label class="display_flex uni-label-pointer" v-for="(item,index) in shouldGetMoneyList" :key="index">
-						<view>
+						<view style="margin-right: 10rpx;">
 							<checkbox :value="''+index" style="transform:scale(0.7)" :checked="item.checked"/>
 						</view>
 						<view class="borderBot" style="padding: 20rpx 0;width: calc(100% - 60rpx);">
-							<view class="font10 color333">单据编号：{{item.objectId}}</view>
-							<view class="font10 color333">单据日期：{{item.createdAt}}</view>
+							<view class="color333">单据编号：{{item.objectId}}</view>
+							<view class="color333">单据日期：{{item.createdAt}}</view>
 							<view class="display_flex_bet">
-								<view class="font10 color333">应收金额：{{item.real_money}}元</view>
+								<view class="color333">应收金额：{{item.real_money}}元</view>
 								<view class="moneyIcon">待收：￥{{item.debt}}元</view>
 							</view>
 
-							<view class="font10 color333">已收：{{item.haveGetMoney}}元</view>
+							<view class="color333">已收：{{item.haveGetMoney}}元</view>
 						</view>
 					</label>
 				</checkbox-group>
@@ -94,7 +94,7 @@
 				
 				uni.setStorageSync("customInOrders",orderList)
 				uni.navigateTo({
-					url:"/pages/finance/customInOrder/customInOrder"
+					url:"/pages/finance/CPHistory/customInOrder/customInOrder"
 				})
 			},
 			
@@ -135,6 +135,11 @@
 					query.include("account", "custom");
 					query.limit(500);
 					query.find().then(res => {
+						for(let item of res){
+							if(item.haveGetMoney){}else{
+								item.haveGetMoney = item.real_money - item.debt
+							}
+						}
 						that.shouldGetMoneyList = res;
 						that.getDebtCount(custom)
 					})

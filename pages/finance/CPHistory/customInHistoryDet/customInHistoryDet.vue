@@ -25,17 +25,17 @@
 				<view class="newOrderTitle borderBot">已收款的单据</view>
 				<view v-if="orderDet.customInOrders&&orderDet.customInOrders.length > 0">
 					<view class="borderBot" style="padding: 20rpx 0;width: 100%;" v-for="(item,index) in orderDet.customInOrders" :key="index">
-						<view class="font10 color333">单据编号：{{item.objectId}}</view>
-						<view class="font10 color333">单据日期：{{item.createdAt}}</view>
+						<view class="color333">单据编号：{{item.objectId}}</view>
+						<view class="color333">单据日期：{{item.createdAt}}</view>
 						<view class="display_flex_bet">
-							<view class="font10 color333">应收金额：{{item.real_money}}元</view>
-							<view class="moneyIcon">待收：￥{{item.debt}}元</view>
+							<view class="color333">应收金额：{{item.real_money}}元</view>
+							<!--<view class="moneyIcon">待收：￥{{item.debt}}元</view>-->
 						</view>
 
-						<view class="font10 color333">已收：{{item.haveGetMoney}}元</view>
+						<!--<view class="color333">已收：{{item.haveGetMoney}}元</view>-->
 
 						<view class="display_flex_bet">
-							<view class="font10 color333 display_flex">本次收款<text style="color: #f30;font-size: 20rpx;">*</text></view>
+							<view class="color333 display_flex">本次收款<text style="color: #f30;font-size: 20rpx;">*</text></view>
 							<view class="display_flex">
 								<input v-model="item.shouldGetMoney" placeholder="请输入本次收款" style="text-align: right;color: #f30;font-weight: bold;"
 								 @input="inputShouldGetMoney($event,index)" type="digit" @blur="inputShouldGetMoney($event,index)" />

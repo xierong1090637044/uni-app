@@ -23,10 +23,9 @@
 			</view>
 
 			<scroll-view style="height: calc(100vh - 182rpx);" scroll-y>
-				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/customInHistoryDet/customInHistoryDet?id='+item.objectId">
+				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/CPHistory/customInHistoryDet/customInHistoryDet?id='+item.objectId">
 					<block>
 						<view v-if="item.custom&&item.custom.custom_name" class="cpName">{{item.custom.custom_name}}</view>
-						<view v-if="item.producer&&item.producer.producer_name" class="cpName">{{item.producer.producer_name}}</view>
 					</block>
 					
 					<block>
@@ -80,7 +79,7 @@
 		},
 		data() {
 			return {
-				start_date: common.getDay(0, true),
+				start_date: common.getDay(0, true,true),
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',

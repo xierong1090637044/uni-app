@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="modelItem">
-			<view class="title">采购</view>
+			<view class="title">往来账目</view>
 			<view class='o_list'>
 				<navigator v-for='(value,index) in fristEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
@@ -12,11 +12,24 @@
 				</navigator>
 			</view>
 		</view>
-
+		
 		<view class="modelItem">
-			<view class="title">资金</view>
+			<view class="title">其他账目</view>
 			<view class='o_list'>
 				<navigator v-for='(value,index) in secondEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view class="o_headerItem">
+						<!--<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>-->
+						<i :class="'iconfont '+value.icon" style="font-size: 46rpx;color: #426ab3;line-height: 80rpx;"></i>
+					</view>
+					<view class='o_text'>{{value.name}}</view>
+				</navigator>
+			</view>
+		</view>
+
+		<view class="modelItem">
+			<view class="title">资料</view>
+			<view class='o_list'>
+				<navigator v-for='(value,index) in thridEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<!--<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>-->
 						<i :class="'iconfont '+value.icon" style="font-size: 46rpx;color: #426ab3;line-height: 80rpx;"></i>
@@ -35,23 +48,36 @@
 				fristEle: [{
 					name: '收款单',
 					icon: 'icon-fq_kucunfeiyong',
-					url: '/pages/finance/customInHistory/customInHistory',
-					//url: '/pages/manage/custom/custom',
+					url: '/pages/finance/CPHistory/customInHistory/customInHistory',
 				}, {
 					name: '应收账款',
 					icon: 'icon-fq_yingshoukuan ',
-					url: '/pages/finance/customIn/customIn',
+					url: '/pages/finance/CPHistory/customIn/customIn',
 				}, {
 					name: '付款单',
 					icon: 'icon-yingshoukuan ',
-					//url: '/pages/finance/InRecord/InRecord?type=record',
+					url: '/pages/finance/CPHistory/producerOutHistory/producerOutHistory',
 				}, {
 					name: '应付账款',
 					icon: 'icon-fq_yingfukuan ',
-					//url: '/pages/finance/outRecord/outRecord?type=record',
+					url: '/pages/finance/CPHistory/producerOut/producerOut',
 				}],
 
 				secondEle: [{
+					name: '其他支出',
+					icon: 'icon-income',
+					url: '/pages/finance/otherHistory/outRecord/outRecord',
+				}, {
+					name: '其他收入',
+					icon: 'icon-zhichu',
+					url: '/pages/finance/otherHistory/InRecord/InRecord',
+				}, {
+					name: '转账',
+					icon: 'icon-icon5',
+					url: '/pages/finance/outClass/outClass',
+				}],
+				
+				thridEle: [{
 					name: '我的账户',
 					icon: 'icon-zijinzhanghu',
 					url: '/pages/finance/account/account',
@@ -63,11 +89,7 @@
 					name: '支出类别',
 					icon: 'icon-sh_quanbu',
 					url: '/pages/finance/outClass/outClass',
-				}, {
-					name: '流水记录',
-					icon: 'icon-dingdandengdai',
-					url: '/pages/finance/history/history',
-				}, ],
+				}],
 			};
 		}
 	}
@@ -77,7 +99,7 @@
 	.title {
 		color: #333;
 		font-weight: bold;
-		font-size: 32rpx;
+		font-size: 28rpx;
 	}
 
 	.modelItem {
