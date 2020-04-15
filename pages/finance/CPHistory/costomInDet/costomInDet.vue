@@ -153,11 +153,9 @@
 				query.equalTo("master", "==", uid);
 				query.equalTo("custom", "==", that.customId);
 				query.equalTo("debt", ">", 0);
-				query.limit(500);
 				query.include("account", "custom");
 				query.statTo("sum", "debt");
 				query.find().then(res => {
-
 					custom.allDebt = res[0]._sumDebt
 					that.custom = custom
 					console.log(that.shouldGetMoneyList)

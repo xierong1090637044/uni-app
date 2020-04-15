@@ -56,9 +56,8 @@
 		},
 		methods: {
 			gotopay() {
-				uni.setStorageSync("custom", that.custom)
 				uni.navigateTo({
-					url: '/pages/finance/InRecord/InRecord'
+					url: '/pages/finance/CPHistory/costomInDet/costomInDet?customId='+that.custom.objectId
 				});
 			},
 			
