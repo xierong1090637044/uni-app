@@ -183,7 +183,6 @@
 	import Bmob from "hydrogen-js-sdk";
 	import common from '@/utils/common.js';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	import uniPagination from "@/components/uni-pagination/uni-pagination.vue"
 
 	let uid;
@@ -196,8 +195,7 @@
 	export default {
 		components: {
 			uniPagination,
-			uniNavBar,
-			uniIcon
+			uniNavBar
 		},
 		data() {
 			return {
@@ -223,24 +221,17 @@
 
 		onLoad(options) {
 			that = this;
+			
 			uni.removeStorageSync("charge");
 			uni.removeStorageSync("is_option");
 			uni.removeStorageSync("warehouse");
 			opeart_type = Number(options.type);
 			extra_type = Number(options.extra_type);
 			uid = uni.getStorageSync("uid");
-
-			if (opeart_type == 1) {
-				that.operaterTypeDesc = "全部"
-				uni.setNavigationBarTitle({
-					title: "入库记录"
-				})
-			} else if (opeart_type == -1) {
-				that.operaterTypeDesc = "全部"
-				uni.setNavigationBarTitle({
-					title: "出库记录"
-				})
-			}
+			
+			uni.setNavigationBarTitle({
+				title:options.title +'列表' || "操作单列表"
+			})
 
 			that.get_list()
 		},

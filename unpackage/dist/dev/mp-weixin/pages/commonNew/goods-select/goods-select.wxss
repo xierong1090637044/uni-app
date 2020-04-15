@@ -73,9 +73,6 @@ page {
 	font-weight: bold;
 	color: #333;
 	max-width: 60%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 .product_reserve {
 	color: #6C757D;

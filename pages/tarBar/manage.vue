@@ -8,46 +8,20 @@
 		</scroll-view>
 		<scroll-view scroll-y="true" style="height:100vh;width: 80%;padding-left: 20rpx;background: #FFFFFF;">
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 0">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存管理模块</view>
-				<view class='o_list'>
-					<navigator v-for="(value,index) in now_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem" style="background: #426ab3;">
-							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
-						</view>
-						<span class='o_text'>{{value.name}}</span>
-						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
-					</navigator>
-				</view>
+				<sStockModule></sStockModule>
 			</view>
 
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 1">
 				<sFinanceModule></sFinanceModule>
 			</view>
 
-			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="second_optionsLists.length > 0 &&  leftSelectedIndex == 2">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">记录模块</view>
-				<view class='o_list'>
-					<navigator v-for="(value,index) in second_optionsLists" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem" style="background: #a8522c;">
-							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
-						</view>
-						<span class='o_text'>{{value.name}}</span>
-						<view style="font-size: 20rpx;color: #999;margin-top: -4rpx;">{{value.notice}}</view>
-					</navigator>
-				</view>
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 2">
+				<sOrderListsModule></sOrderListsModule>
 			</view>
 
 
-			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="analysisModule.length > 0 &&  leftSelectedIndex == 3">
-				<view style="font-size: 30rpx;color: #333;font-weight: bold;">分析模块</view>
-				<view class='o_list'>
-					<navigator v-for="(value,index) in analysisModule" :key="index" class='o_item' :url="(value.url)" hover-class="none">
-						<view class="o_headerItem" style="background: #2ca0a8;">
-							<fa-icon :type="value.icon" size="20" color="#fff" style="line-height: 80rpx;"></fa-icon>
-						</view>
-						<span class='o_text'>{{value.name}}</span>
-					</navigator>
-				</view>
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 3">
+				<sAnalyseModule></sAnalyseModule>
 			</view>
 
 
@@ -62,156 +36,23 @@
 	import staffs from '@/utils/staffs.js';
 	import faIcon from "@/components/kilvn-fa-icon/fa-icon.vue"
 	import sFinanceModule from "@/components/sFinanceModule/sFinanceModule.vue"
+	import sStockModule from "@/components/sStockModule/sStockModule.vue"
+	import sOrderListsModule from "@/components/sOrderListsModule/sOrderListsModule.vue"
+	import sAnalyseModule from "@/components/sAnalyseModule/sAnalyseModule.vue"
 
 	let that;
-	let secOptionsLists = [{
-			name: '入库记录',
-			notice: '入库、采购、销售退货',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=1',
-		},
-		{
-			name: '出库记录',
-			notice: '出库、销售、采购退货',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-1',
-		},
-		{
-			name: '调拨记录',
-			notice: '调拨记录',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-2',
-		},
-		{
-			name: '盘点记录',
-			notice: '盘点记录',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=3',
-		}, {
-			name: '采购订单',
-			notice: '采购订单',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-4',
-		}, {
-			name: '销售订单',
-			notice: '销售订单',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=-3',
-		}, {
-			name: '货损记录',
-			notice: '货损记录',
-			icon: 'file-o',
-			url: '/pages/report/EnteringHistory/EnteringHistory?type=7',
-		}
-	];
-
-	let optionsLists = [{
-			name: '产品管理',
-			notice: '查看,添加,编辑',
-			icon: 'envelope-open-o',
-			url: '/pages/manage/goods/goods',
-			id: 0,
-		},
-		{
-			name: '员工管理',
-			notice: '多人管理',
-			icon: 'user',
-			url: '/pages/manage/staff/staff',
-			id: 1
-		},
-		{
-			name: '店仓管理',
-			notice: '先完善好店仓',
-			icon: 'home',
-			url: '/pages/manage/warehouse/warehouse',
-			id: 2
-		},
-		/*{
-			name: '门店管理',
-			notice: '门店相关',
-			icon: 'shopping-cart',
-			url: '/pages/manage/shops/shops',
-		},*/
-		{
-			name: '客户管理',
-			notice: '客户相关资料',
-			icon: 'address-card',
-			url: '/pages/manage/custom/custom',
-			id: 3
-		},
-		{
-			name: '供应商管理',
-			notice: '供应商相关资料',
-			icon: 'address-book',
-			url: '/pages/manage/producer/producer',
-			id: 4
-		},
-		{
-			name: '产品类别管理',
-			notice: '产品类别相关',
-			icon: 'list',
-			url: '/pages/manage/category/category',
-			id: 5
-		},
-		{
-			name: '客户类别管理',
-			notice: '客户类别相关',
-			icon: 'list',
-			url: '/pages/manage/customClass/customClass',
-			id: 6
-		},
-	];
-
-	let analysisLists = [{
-			name: '畅销产品',
-			icon: 'gg',
-			url: '/pages/analysis/goodSell/goodSell',
-		}, {
-			name: '预警产品',
-			icon: 'exclamation-circle',
-			url: '/pages/report/warningGoods/warningGoods',
-		}, {
-			name: '客户销售',
-			icon: 'id-card-o',
-			url: '/pages/analysis/customSell/customSell',
-		},
-		{
-			name: '供货商采购',
-			icon: 'address-book',
-			url: '/pages/analysis/producerSell/producerSell',
-		}, {
-			name: '类别汇总',
-			icon: 'list',
-			url: '/pages/analysis/classAll/classAll',
-		}, {
-			name: '单品统计',
-			icon: 'quora',
-			url: '/pages/manage/productCount/productCount',
-		}, {
-			name: '销售业绩',
-			icon: 'area-chart',
-			url: '/pages/report/staffChart/staffChart',
-		}, {
-			name: '经营状况',
-			icon: 'recycle',
-			url: '/pages/report/operational_status/operational_status',
-		},
-		{
-			name: '报表',
-			icon: 'pie-chart',
-			url: '/pages/report/chart/chart',
-		}
-	];
-
 
 	export default {
 		components: {
 			sFinanceModule,
+			sStockModule,
+			sOrderListsModule,
+			sAnalyseModule,
 			faIcon
 		},
 		data() {
 			return {
-				leftOptionList: ['库存', '财务', '记录', '分析'],
+				leftOptionList: ['基础', '财务', '记录', '分析'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
 				setting: uni.getStorageSync("setting"),
@@ -230,8 +71,6 @@
 				key: 'identity',
 				success: function(res) {
 					if (res.data == "2") {
-						let rights;
-						let recordRights;
 						staffs.get_satffAuth().then(res => {
 							console.log(res)
 							let now_staff = uni.getStorageSync("user")
@@ -242,43 +81,8 @@
 								now_staff.is_vip = false
 								now_staff.vip_time = 0
 							}
-
-							if (res) {
-								rights = res.rights.current || [];
-								recordRights = res.rights.recodecurrent || [];
-
-								if (res.rights.analysisCurrent && res.rights.analysisCurrent.indexOf("0") != -1) {
-									that.analysisModule = analysisLists
-								}
-
-							} else {
-								rights = uni.getStorageSync("user").rights.current || [];
-								recordRights = uni.getStorageSync("user").rights.recodecurrent || [];
-
-								if (res.rights.analysisCurrent && uni.getStorageSync("user").rights.analysisCurrent.indexOf("0") != -1) {
-									that.analysisModule = analysisLists
-								}
-							}
-							let manage_rights = []
-							let record_rights = []
-							for (let item of rights) {
-								if (optionsLists[item]) {
-									manage_rights.push(optionsLists[item])
-								}
-							}
-							for (let item of recordRights) {
-								if (secOptionsLists[item]) {
-									record_rights.push(secOptionsLists[item])
-								}
-							}
-							that.now_optionsLists = manage_rights
-							that.second_optionsLists = record_rights
 							uni.setStorageSync("user", now_staff)
 						});
-					} else if (res.data == "1") {
-						that.now_optionsLists = optionsLists;
-						that.second_optionsLists = secOptionsLists
-						that.analysisModule = analysisLists
 					}
 				},
 			})

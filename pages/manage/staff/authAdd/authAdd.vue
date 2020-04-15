@@ -11,10 +11,10 @@
 								<view style="display: flex;">
 									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
 									<text style="margin-left: 20rpx;width: 280rpx;">{{item.name}}</text>
-									<text v-if="item.notice" style="font-size: 24rpx;">{{item.notice}}</text>
 								</view>
 			
 								<view v-if="item.id == 2" style="padding-left: 80rpx;">
+									<view v-if="item.notice" style="font-size: 20rpx;color: #999;"><text style="color: #f30;">注意：</text>{{item.notice}}</view>
 									<checkbox-group @change="checkstockChange" v-if="current.indexOf('2') != -1">
 										<view class="display_flex rights_item" v-for="(item,index) in stocks" :key="index">
 											<checkbox :value="item.objectId" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
@@ -122,7 +122,7 @@
 					{
 						id: 2,
 						name: '店仓管理',
-						notice:'(勾选了下面的仓库，子账户将会自动加载勾选仓库里的产品，如不勾选，则列表为空)',
+						notice:'勾选了下面的仓库，子账户将会自动加载勾选仓库里的产品，如不勾选，则列表为空',
 					},
 					{
 						id: 3,
@@ -180,6 +180,24 @@
 					{
 						id: 3,
 						name: '盘点记录'
+					},{
+						id: 4,
+						name: '销售订单'
+					},{
+						id: 5,
+						name: '销售单'
+					},{
+						id: 6,
+						name: '销售退货单'
+					},{
+						id: 7,
+						name: '采购订单'
+					},{
+						id: 8,
+						name: '采购单'
+					},{
+						id: 9,
+						name: '采购退货单'
 					},
 				],
 				others: [{

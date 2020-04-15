@@ -1,9 +1,0 @@
-
-.listItem{
-	background: #fff;
-	padding:10rpx 30rpx;
-}
-.left_content{
-	width: 160rpx;
-}
-

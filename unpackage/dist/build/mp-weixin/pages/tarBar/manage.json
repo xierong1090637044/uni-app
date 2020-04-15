@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "管理",
   "usingComponents": {
+    "s-finance-module": "/components/sFinanceModule/sFinanceModule",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }
 }
