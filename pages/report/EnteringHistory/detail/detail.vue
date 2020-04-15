@@ -158,6 +158,10 @@
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
 						<view style="padding: 10rpx 30rpx;">出库明细</view>
+						<view class="display_flex">
+							<view class="left_content">出库类型</view>
+							<view>{{detail.stockClass || '未记录'}}</view>
+						</view>
 						<view class="display_flex" v-if="detail.createdTime">
 							<view class="left_content">出库时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
@@ -202,6 +206,10 @@
 					</view>
 					<view class="kaidanmx" v-else-if="detail.extra_type == 2">
 						<view style="padding: 10rpx 30rpx;">入库明细</view>
+						<view class="display_flex">
+							<view class="left_content">入库类型</view>
+							<view>{{detail.stockClass || '未记录'}}</view>
+						</view>
 						<view class="display_flex" v-if="detail.createdTime">
 							<view class="left_content">入库时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>

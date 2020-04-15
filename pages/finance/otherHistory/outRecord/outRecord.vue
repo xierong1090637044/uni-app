@@ -8,7 +8,7 @@
 					<view class="kaidan_detail" style="line-height: 70rpx;">
 
 						<view>
-							<navigator class="display_flex" hover-class="none" url="/pages/finance/outClass/outClass?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<navigator class="display_flex" hover-class="none" url="/pages/finance/myData/outClass/outClass?type=choose" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 								<view style="width: 160rpx;">支出类别<text style="color: #f30;">*</text></view>
 								<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
 									<input placeholder="选择支出类别" disabled="true" :value="category.class_text" style="text-align: right;margin-right: 20rpx;" />

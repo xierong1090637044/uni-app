@@ -30,6 +30,13 @@
 							</view>
 						</navigator>
 						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 150rpx;" class="left_content">入库类别<text style="color: #f30;">*</text></view>
+							<view style="display: flex;align-items: center;">
+								<input placeholder="请选择要入库类别" disabled="true" :value="stockClass" style="text-align: right;margin-right: 20rpx;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">入库时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -74,7 +81,6 @@
 
 				</view>
 			</form>
-
 		</view>
 
 	</view>
@@ -109,6 +115,9 @@
 				total_num: 0, //实际的总数量
 
 				nowDay: common.getDay(0, true, true), //入库时间
+				
+				stockClass:"采购入库",
+				isChooseStockClass:false,
 			}
 		},
 		onLoad() {
@@ -142,6 +151,11 @@
 			removeImg(index) {
 				that.Images.splice(index, 1)
 				that.Images = that.Images
+			},
+			
+			chooseStockClass(desc){
+				that.stockClass = desc
+				that.isChooseStockClass = false
 			},
 
 			//上传凭证图
@@ -291,6 +305,7 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
+						query.set("stockClass", that.stockClass);
 						query.set("stockIds", stockIds);
 						query.set("stockNames", stockNames);
 						query.set('goodsName', that.products[0].goodsName);
@@ -351,6 +366,11 @@
 		font-size: 28rpx;
 		height: calc(100vh - 110rpx);
 		overflow: scroll;
+	}
+	
+	.stockClassItem{
+		line-height: 80rpx;
+		font-weight: bold;
 	}
 
 	.bottomEle {

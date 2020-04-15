@@ -71,11 +71,7 @@
 					name: '其他收入',
 					icon: 'icon-zhichu',
 					url: '/pages/finance/otherHistory/InRecordHistory/InRecordHistory',
-				}, /*{
-					name: '转账',
-					icon: 'icon-icon5',
-					url: '/pages/finance/outClass/outClass',
-				}*/],
+				}],
 				
 				thridEle: [{
 					name: '我的账户',
