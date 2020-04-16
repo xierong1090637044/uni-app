@@ -89,7 +89,7 @@
 				is_producer: false,
 				is_producer: false,
 				showOrder: false, //是否显示排序
-				showOptions:false,
+				showOptions: false,
 				type: '', //选择类型,
 				producerHeader: {
 					num: 0,
@@ -160,10 +160,10 @@
 					that.showOptions = true
 				}
 			},
-			
+
 			//选择当前排序
-			selectOrder(item){
-				for(let item of that.orders){
+			selectOrder(item) {
+				for (let item of that.orders) {
 					item.checked = false
 				}
 				item.checked = true
@@ -184,20 +184,20 @@
 					})
 				}
 			},
-			
+
 			//点击店仓去到详情
 			gotoDetail(item) {
 				if (that.is_producer) {
 					return
 				}
 				uni.navigateTo({
-					url: 'producer_detail/producer_detail?id='+item.objectId
+					url: 'producer_detail/producer_detail?id=' + item.objectId
 				})
 			},
 
 			//选择此供货商
 			select_this(e) {
-				let producer =JSON.parse(e.detail.value);
+				let producer = JSON.parse(e.detail.value);
 				if (that.type == "producerFinance") {
 					if (producer.debt == 0 || producer.debt == '') {
 						uni.showToast({
@@ -226,14 +226,16 @@
 				search_text = e.detail.value
 				that.load_data("producers")
 			},
-			
+
 			//modal重置的确认点击
 			option_reset() {
 				that.headerSelection = {
-					order: {"order":"-createdAt"},
+					order: {
+						"order": "-createdAt"
+					},
 					options: '',
 				};
-				that.orders =  [{
+				that.orders = [{
 					"desc": "应付欠款",
 					"notice": "从高到低",
 					"order": "-debt",
@@ -264,10 +266,12 @@
 
 			//加载数据
 			load_data(type) {
-				uni.showLoading({title:"加载中..."});
+				uni.showLoading({
+					title: "加载中..."
+				});
 				that.producerHeader.num = 0;
 				that.producerHeader.debtMoney = 0;
-				
+
 				const query = Bmob.Query(type);
 				query.equalTo("parent", "==", uid);
 				query.order(that.headerSelection.order.order);
@@ -281,7 +285,7 @@
 					console.log(res)
 					uni.hideLoading();
 					let thisProducer = res
-					
+
 					const query = Bmob.Query("order_opreations");
 					query.equalTo("type", "==", 1);
 					query.equalTo("extra_type", "==", 1);
@@ -289,22 +293,28 @@
 					query.statTo("sum", "debt");
 					query.statTo("groupby", "producer");
 					query.find().then(res => {
-						 let debtProducer = res
-						 for(let item1 of thisProducer){
-							 for(let item2 of debtProducer){
-								 if(item2.producer.objectId == item1.objectId){
-									 item1.debt = item2._sumDebt
-								 }
-							 }
-						 } 
-						 that.people = thisProducer;
-						 for (let item of thisProducer) {
-						 	that.producerHeader.num += 1;
-						 	that.producerHeader.debtMoney += item.debt || 0
-						 }
+						let debtProducer = res
+						for (let item1 of thisProducer) {
+							for (let item2 of debtProducer) {
+								if (item2.producer.objectId == item1.objectId) {
+									item1.debt = item2._sumDebt
+								}
+							}
+						}
+						that.people = thisProducer;
+						for (let item of thisProducer) {
+							item.debt = item.debt ? item.debt : 0
+							if (item.orginDebt) {
+								item.debt = item.debt + item.orginDebt
+							} else {
+								item.debt = item.debt + 0
+							}
+							that.producerHeader.num += 1;
+							that.producerHeader.debtMoney += item.debt || 0
+						}
 					})
 
-					
+
 				});
 			},
 
@@ -329,11 +339,13 @@
 		padding: 0rpx 30rpx;
 		background: #fff;
 	}
+
 	.stock_avatar {
 		width: 70rpx;
 		height: 70rpx;
 		margin-right: 20rpx;
 	}
+
 	.item {
 		border-bottom: 1rpx solid#ccc;
 		padding-bottom: 10rpx;

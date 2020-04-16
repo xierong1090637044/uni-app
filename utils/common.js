@@ -238,6 +238,9 @@ module.exports = {
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
+									Bmob.functions("warn_GoodNum", {"uid":uni.getStorageSync("uid"),"goodId":products[i].objectId}).then(function(res) {
+										//console.log("sss",res)
+									});
 									if (i == products.length - 1) {
 										resolve(true)
 									}
@@ -271,6 +274,9 @@ module.exports = {
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
+									Bmob.functions("warn_GoodNum", {"uid":uni.getStorageSync("uid"),"goodId":products[i].objectId}).then(function(res) {
+										//console.log("sss",res)
+									});
 									if (i == products.length - 1) {
 										resolve(true)
 									}
