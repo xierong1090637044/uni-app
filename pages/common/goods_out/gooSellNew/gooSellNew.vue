@@ -189,7 +189,7 @@
 				total_num: 0, //实际的总数量
 				wetherDebt: false, //是否欠款
 
-				nowDay: common.getDay(0, true, true), //时间
+				nowDay: common.getDay(0, true), //时间
 			}
 		},
 		onLoad() {

@@ -217,16 +217,6 @@
 			//选择此供货商
 			select_this(e) {
 				let custom =JSON.parse(e.detail.value);
-				if (that.type == "customFinance") {
-					if (custom.debt == 0 || custom.debt == '') {
-						uni.showToast({
-							icon: "none",
-							title: "没有欠款"
-						})
-						return
-					}
-				}
-
 				uni.setStorageSync("custom", custom)
 				uni.navigateBack({
 					delta: 1
@@ -324,11 +314,19 @@
 								 }
 							 }
 						 } 
-						 that.people = thisCustom;
+						 
 						 for (let item of thisCustom) {
+							 item.debt = item.debt?item.debt:0
+							 if(item.orginDebt){
+								 item.debt = item.debt + item.orginDebt
+							 }else{
+								 item.debt = item.debt + 0
+							 }
 						 	that.customHeader.num += 1;
 						 	that.customHeader.debtMoney += item.debt || 0
 						 }
+						 
+						 that.people = thisCustom;
 					})
 				});
 			},

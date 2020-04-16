@@ -160,7 +160,7 @@
 				producer: null, //制造商
 				total_num: 0, //实际的总数量
 
-				nowDay: common.getDay(0, true, true), //时间
+				nowDay: common.getDay(0, true), //时间
 				canOpretion: true,
 				shop: '', //门店
 				wetherDebt: false,

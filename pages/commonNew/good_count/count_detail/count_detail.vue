@@ -82,7 +82,7 @@
 				total_num: 0,
 				producer: null, //制造商
 				stock: {},
-				nowDay: common.getDay(0, true, true), //入库时间
+				nowDay: common.getDay(0, true), //入库时间
 			}
 		},
 		onLoad() {

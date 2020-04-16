@@ -211,7 +211,7 @@
 				expressNum: '', //快递单号
 				total_num: 0, //实际的总数量
 
-				nowDay: common.getDay(0, true, true), //时间
+				nowDay: common.getDay(0, true), //时间
 				otherMoney: 0, //其他金额 +
 				discountMoney: 0, //优惠金额 -
 				haveGetMoney: 0, //预付款 -

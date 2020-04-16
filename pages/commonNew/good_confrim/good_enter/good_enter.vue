@@ -114,7 +114,7 @@
 				really_total_money: 0, //实际的总价
 				total_num: 0, //实际的总数量
 
-				nowDay: common.getDay(0, true, true), //入库时间
+				nowDay: common.getDay(0, true), //入库时间
 				
 				stockClass:"采购入库",
 				isChooseStockClass:false,

@@ -83,8 +83,9 @@
 			</form>
 
 		</view>
-		
-		<view style="position: fixed;top: 0;left: 0;z-index: 10;width: calc(100% - 60rpx);height: 100vh;background: #fff;line-height: 60rpx;padding:20rpx 30rpx;" v-if="isChooseStockClass">
+
+		<view style="position: fixed;top: 0;left: 0;z-index: 10;width: calc(100% - 60rpx);height: 100vh;background: #fff;line-height: 60rpx;padding:20rpx 30rpx;"
+		 v-if="isChooseStockClass">
 			<view style="text-align: right;" @tap="isChooseStockClass = false">
 				<fa-icon type="times-circle-o" size="20" color="#426ab3"></fa-icon>
 			</view>
@@ -132,10 +133,10 @@
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
 				total_num: 0, //实际的总数量
-				nowDay: common.getDay(0, true, true), //入库时间
-				
-				stockClass:"销售出库",
-				isChooseStockClass:false,
+				nowDay: common.getDay(0, true), //入库时间
+
+				stockClass: "销售出库",
+				isChooseStockClass: false,
 			}
 		},
 		onLoad() {
@@ -160,8 +161,8 @@
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
 			},
-			
-			chooseStockClass(desc){
+
+			chooseStockClass(desc) {
 				that.stockClass = desc
 				that.isChooseStockClass = false
 			},
@@ -328,7 +329,7 @@
 
 						query.set("all_money", that.all_money);
 						query.set("Images", that.Images);
-						query.set("status", false); // 操作单详情
+						query.set("status", true); // 操作单详情
 						query.set("createdTime", {
 							"__type": "Date",
 							"iso": that.nowDay
@@ -337,33 +338,26 @@
 							//console.log("添加操作历史记录成功", res);
 							let operationId = res.objectId;
 							let createdAt = res.createdAt;
-
 							common.outRedGoodNumNew(that.products).then(result => { //减少产品数量
-								const query = Bmob.Query('order_opreations');
-								query.set('id', operationId) //需要修改的objectId
-								query.set('status', true)
-								query.save().then(res => {
-
-									uni.showToast({
-										title: "出库成功"
-									})
-
-									uni.hideLoading();
-									uni.setStorageSync("is_option", true);
-									uni.removeStorageSync("_warehouse")
-									uni.removeStorageSync("out_warehouse")
-									uni.removeStorageSync("category")
-									uni.removeStorageSync("warehouse")
-
-									setTimeout(() => {
-										that.button_disabled = false;
-										common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.products
-											.length + "商品", -1, operationId);
-										uni.navigateBack({
-											delta: 2
-										});
-									}, 500)
+								uni.showToast({
+									title: "出库成功"
 								})
+
+								uni.hideLoading();
+								uni.setStorageSync("is_option", true);
+								uni.removeStorageSync("_warehouse")
+								uni.removeStorageSync("out_warehouse")
+								uni.removeStorageSync("category")
+								uni.removeStorageSync("warehouse")
+
+								setTimeout(() => {
+									that.button_disabled = false;
+									common.log(uni.getStorageSync("user").nickName + "出库了'" + that.products[0].goodsName + "'等" + that.products
+										.length + "商品", -1, operationId);
+									uni.navigateBack({
+										delta: 2
+									});
+								}, 500)
 							})
 						})
 					},
@@ -387,8 +381,8 @@
 		height: calc(100vh - 110rpx);
 		overflow: scroll;
 	}
-	
-	.stockClassItem{
+
+	.stockClassItem {
 		line-height: 80rpx;
 		font-weight: bold;
 	}
