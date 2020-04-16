@@ -95,6 +95,7 @@
 			//加载数据
 			load_data(type) {
 				let opreationList = []
+				let thisPeople = []
 				uni.showLoading({
 					title: "加载中..."
 				})
@@ -107,8 +108,13 @@
 				query.statTo("groupby", "custom");
 				query.find().then(res => {
 					uni.hideLoading()
-					that.people = res
-					console.log(res)
+					for(let item of res){
+						if(item._sumDebt > 0){
+							thisPeople.push(item)
+						}
+						
+						that.people = thisPeople
+					}
 				})
 			},
 

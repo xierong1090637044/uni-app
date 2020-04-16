@@ -58,7 +58,7 @@
 
 			<view style="position: fixed;bottom: 0;width: 100%;background: #fff;padding:20rpx 30rpx;border-top: 1rpx solid#F4F4F4;"
 			 class="display_flex">
-				<view style="margin-right: 60rpx;">收入：<text style="color: #2ca879;font-weight: bold;">￥{{inMoney}}</text></view>
+				<view style="margin-right: 60rpx;">支出：<text style="color: #f30;font-weight: bold;">￥{{outMoney}}</text></view>
 			</view>
 		</view>
 
@@ -153,7 +153,7 @@
 							query.find().then(res => {
 								for (let item of res) {
 									if (item.type == 1) {
-										that.inMoney += item.real_money
+										that.outMoney += item.real_money
 									}
 									opreationList.push(item)
 								}

@@ -20,7 +20,7 @@
 							</view>
 						</view>
 						<view class="display_flex">
-							<view class="moneyIcon">待收：￥{{item._sumDebt}}</view>
+							<view class="moneyIcon">待付：￥{{item._sumDebt}}</view>
 							<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 						</view>
 					</navigator>
@@ -94,6 +94,7 @@
 			//加载数据
 			load_data(type) {
 				let opreationList = []
+				let thisPeople = []
 				uni.showLoading({
 					title: "加载中..."
 				})
@@ -106,8 +107,13 @@
 				query.statTo("groupby", "producer");
 				query.find().then(res => {
 					uni.hideLoading()
-					that.people = res
-					console.log(res)
+					for(let item of res){
+						if(item._sumDebt > 0){
+							thisPeople.push(item)
+						}
+						
+						that.people = thisPeople
+					}
 				})
 			},
 
