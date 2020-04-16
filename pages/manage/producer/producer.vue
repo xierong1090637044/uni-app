@@ -296,7 +296,7 @@
 						let debtProducer = res
 						for (let item1 of thisProducer) {
 							for (let item2 of debtProducer) {
-								if (item2.producer.objectId == item1.objectId) {
+								if (item2.producer && item2.producer.objectId == item1.objectId) {
 									item1.debt = item2._sumDebt
 								}
 							}

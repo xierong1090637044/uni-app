@@ -309,7 +309,7 @@
 						 let debtCustom = res
 						 for(let item1 of thisCustom){
 							 for(let item2 of debtCustom){
-								 if(item2.custom.objectId == item1.objectId){
+								 if(item2.custom && item2.custom.objectId == item1.objectId){
 									 item1.debt = item2._sumDebt
 								 }
 							 }
