@@ -619,7 +619,7 @@
 
 			//扫码操作
 			scan: function(type, opLists) {
-				if(that.thisVision == "New"){
+				if(that.thisVision == "New" && type !=0){
 					uni.navigateTo({
 						url:"/pages/commonNew/keepScan/keepScan?type="+opLists[type]
 					})

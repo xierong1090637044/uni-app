@@ -5,13 +5,13 @@
 			<view class="backgroundfff" style="padding: 0 20rpx;margin-top: 20rpx;">
 				<view class="newOrderTitle borderBot">基础信息</view>
 				<view>
-					<navigator class="display_flex" hover-class="none" url="/pages/manage/custom/custom?type=customFinance" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+					<view class="display_flex" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 						<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
 						<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
 							<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
-							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							<!--<fa-icon type="angle-right" size="20" color="#999"></fa-icon>-->
 						</view>
-					</navigator>
+					</view>
 
 					<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 						<view style="width: 140rpx;">收款日期</view>

@@ -305,13 +305,31 @@
 				query.include("customFristClass","customSecondClass")
 				query.find().then(res => {
 					console.log(res)
+					let thisCustom = res
 					uni.hideLoading();
-					that.people = res;
-
-					for (let item of res) {
-						that.customHeader.num += 1;
-						that.customHeader.debtMoney += item.debt || 0
-					}
+					
+					const query = Bmob.Query("order_opreations");
+					query.equalTo("type", "==", -1);
+					query.equalTo("extra_type", "==", 1);
+					query.equalTo("master", "==", uid);
+					query.include("opreater", "account", "custom", "producer", "secondClass", "fristClass");
+					query.statTo("sum", "debt");
+					query.statTo("groupby", "custom");
+					query.find().then(res => {
+						 let debtCustom = res
+						 for(let item1 of thisCustom){
+							 for(let item2 of debtCustom){
+								 if(item2.custom.objectId == item1.objectId){
+									 item1.debt = item2._sumDebt
+								 }
+							 }
+						 } 
+						 that.people = thisCustom;
+						 for (let item of thisCustom) {
+						 	that.customHeader.num += 1;
+						 	that.customHeader.debtMoney += item.debt || 0
+						 }
+					})
 				});
 			},
 

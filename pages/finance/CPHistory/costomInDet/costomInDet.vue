@@ -106,6 +106,12 @@
 				for(let item of value){
 					that.shouldGetMoneyList[item].checked = true
 				}
+				
+				if(value.length == that.shouldGetMoneyList.length){
+					that.isAllSelected = true
+				}else{
+					that.isAllSelected = false
+				}
 			},
 			
 			//全选点击
@@ -126,6 +132,7 @@
 				query1.get(that.customId).then(res => {
 					console.log(res)
 					custom = res
+					uni.setStorageSync("custom",res);
 					const query = Bmob.Query("order_opreations");
 					query.equalTo("type", "==", -1);
 					query.equalTo("extra_type", "==", 1);

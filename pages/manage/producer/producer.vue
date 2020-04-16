@@ -280,12 +280,31 @@
 				query.find().then(res => {
 					console.log(res)
 					uni.hideLoading();
-					that.people = res;
+					let thisProducer = res
+					
+					const query = Bmob.Query("order_opreations");
+					query.equalTo("type", "==", 1);
+					query.equalTo("extra_type", "==", 1);
+					query.equalTo("master", "==", uid);
+					query.statTo("sum", "debt");
+					query.statTo("groupby", "producer");
+					query.find().then(res => {
+						 let debtProducer = res
+						 for(let item1 of thisProducer){
+							 for(let item2 of debtProducer){
+								 if(item2.producer.objectId == item1.objectId){
+									 item1.debt = item2._sumDebt
+								 }
+							 }
+						 } 
+						 that.people = thisProducer;
+						 for (let item of thisProducer) {
+						 	that.producerHeader.num += 1;
+						 	that.producerHeader.debtMoney += item.debt || 0
+						 }
+					})
 
-					for (let item of res) {
-						that.producerHeader.num += 1;
-						that.producerHeader.debtMoney += item.debt || 0
-					}
+					
 				});
 			},
 

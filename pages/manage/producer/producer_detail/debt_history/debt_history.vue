@@ -25,7 +25,7 @@
 
 			<scroll-view style="height: calc(100vh - 182rpx);padding: 0 30rpx;background: #FFFFFF;width: calc(100% - 60rpx);"
 			 scroll-y>
-				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/recordDetail/recordDetail?id='+item.objectId">
+				<navigator v-for="(item,index) in debt_list" :key="index" class="list_item" hover-class="none" :url="'/pages/finance/CPHistory/producerOutHistoryDet/producerOutHistoryDet?id='+item.objectId">
 					<view class="display_flex_bet">
 						<view>还款账户：<text>{{item.account.name}}</text></view>
 						<view><text style="color: #f30;">-{{item.real_money}}</text></view>
@@ -58,7 +58,7 @@
 		},
 		data() {
 			return {
-				start_date: common.getDay(0, true),
+				start_date: common.getDay(0, true,true),
 				end_date: common.getDay(1, true),
 				start_date_desc: '',
 				end_date_desc: '',
@@ -79,7 +79,7 @@
 
 			bindDate_endChange(e) {
 				console.log(e)
-				that.end_date = e.detail.value + ' 00:00:00';
+				that.end_date = e.detail.value + ' 23:59:59';
 				that.getList()
 			},
 
@@ -90,6 +90,9 @@
 				query.equalTo("extra_type","==", 5);
 				query.equalTo("account","!=", null);
 				query.include("opreater", "account");
+				query.equalTo("createdAt", ">=", that.start_date);
+				query.equalTo("createdAt", "<=", that.end_date);
+				query.order("-createdAt");
 				query.find().then(res => {
 					that.loading = false
 					that.debt_list = res

@@ -135,6 +135,7 @@
 	import producerDetBottom from '@/components/producerDetBottom.vue'
 
 	let that;
+	let uid;
 	export default {
 		components: {
 			producerDetBottom,
@@ -164,19 +165,34 @@
 		onLoad(options) {
 			that = this;
 			that.sellParams.producerId = options.id;
+			uid = uni.getStorageSync('uid');
 			//console.log(options.id)
 		},
 		
 		onShow() {
 			producers.producer_detail(that.sellParams.producerId).then(res => {
-				//console.log(res)
-				that.producer = res
+				let producer = res
+				const query = Bmob.Query("order_opreations");
+				query.equalTo("type", "==", 1);
+				query.equalTo("extra_type", "==", 1);
+				query.equalTo("master", "==", uid);
+				query.equalTo("producer", "==", that.sellParams.producerId);
+				query.statTo("sum", "debt");
+				query.find().then(res => {
+					if(res.length > 0){
+						producer.debt = res[0]._sumDebt
+					}else{
+						producer.debt = 0
+					}
+					that.producer = producer
+				})
+				
 				that.sellParams.producerId = res.objectId
 				if(that.current == 0){
 					producers.getAllProducerSellList(that.sellParams).then(res => {
 						that.buyTotal = res
 					})
-				}else if(value == 1){
+				}else if(that.current == 1){
 					producers.getAllProducerInRecord(that.sellParams).then(res => {
 						that.getMoney = res
 					})

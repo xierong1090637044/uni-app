@@ -56,9 +56,8 @@
 		},
 		methods: {
 			gotopay() {
-				uni.setStorageSync("producer", that.producer)
 				uni.navigateTo({
-					url: '/pages/finance/outRecord/outRecord'
+					url: '/pages/finance/CPHistory/producerOutDet/producerOutDet?producerId='+that.producer.objectId
 				});
 			},
 			

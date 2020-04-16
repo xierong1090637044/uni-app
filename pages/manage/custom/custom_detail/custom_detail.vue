@@ -142,6 +142,7 @@
 	import customDetBottom from '@/components/customDetBottom.vue'
 
 	let that;
+	let uid;
 	export default {
 		components: {
 			customDetBottom,
@@ -171,19 +172,37 @@
 		onLoad(options) {
 			that = this;
 			that.sellParams.customId = options.id;
+			uid = uni.getStorageSync('uid');
 			//console.log(options.id)
 		},
 		
 		onShow() {
 			customs.custom_detail(that.sellParams.customId).then(res => {
 				//console.log(res)
-				that.custom = res
+				let custom = res
+				
+				const query = Bmob.Query("order_opreations");
+				query.equalTo("type", "==", -1);
+				query.equalTo("extra_type", "==", 1);
+				query.equalTo("master", "==", uid);
+				query.equalTo("custom", "==", that.sellParams.customId);
+				query.statTo("sum", "debt");
+				query.find().then(res => {
+					if(res.length > 0){
+						custom.debt = res[0]._sumDebt
+					}else{
+						custom.debt = 0
+					}
+					
+					that.custom = custom
+				})
+				
 				that.sellParams.customId = res.objectId
 				if(that.current == 0){
 					customs.getAllCustomSellList(that.sellParams).then(res => {
 						that.buyTotal = res
 					})
-				}else if(value == 1){
+				}else if(that.current == 1){
 					customs.getAllCustomInRecord(that.sellParams).then(res => {
 						that.getMoney = res
 					})
