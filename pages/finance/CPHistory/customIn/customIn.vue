@@ -79,17 +79,17 @@
 				console.log(e)
 				let arr = []
 				let keyWord = e.detail.value
-				if(keyWord){
+				if (keyWord) {
 					for (let i = 0; i < that.people.length; i++) {
 						if (that.people[i].custom.custom_name.split(keyWord).length > 1) {
 							arr.push(that.people[i]);
 						}
 					}
 					that.people = arr
-				}else{
+				} else {
 					that.load_data()
 				}
-				
+
 			},
 
 			//加载数据
@@ -108,11 +108,11 @@
 				query.statTo("groupby", "custom");
 				query.find().then(res => {
 					uni.hideLoading()
-					for(let item of res){
-						if(item._sumDebt > 0){
+					for (let item of res) {
+						if (item.custom && item.custom.objectId && item._sumDebt > 0) {
 							thisPeople.push(item)
 						}
-						
+
 						that.people = thisPeople
 					}
 				})

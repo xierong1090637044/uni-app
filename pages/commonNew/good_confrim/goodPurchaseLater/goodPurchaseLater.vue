@@ -162,8 +162,8 @@
 				wetherDebt: false, //是否欠款
 
 				nowDay: common.getDay(0, true), //时间
-				setDay: common.getDay(0, true, true), //订货时间
-				giveDay: common.getDay(1, true, true), //交货时间
+				setDay: common.getDay(0, true), //订货时间
+				giveDay: common.getDay(1, true), //交货时间
 				otherMoney: 0, //其他费用
 				haveGetMoney: 0, //预收款
 			}

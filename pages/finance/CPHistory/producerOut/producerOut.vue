@@ -108,7 +108,7 @@
 				query.find().then(res => {
 					uni.hideLoading()
 					for(let item of res){
-						if(item._sumDebt > 0){
+						if(item.producer && item.producer.objectId && item._sumDebt > 0){
 							thisPeople.push(item)
 						}
 						
