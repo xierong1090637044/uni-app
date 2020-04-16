@@ -192,7 +192,7 @@
 			scanCode(e) {
 				//console.log(e)
 				let code = e.detail.result
-				//let code = "3503d006cf-false-new"
+				//let code = "97de19af43-false-new"
 				let array = code.split("-");
 				console.log(array[0], array[1])
 				uni.showLoading({
@@ -234,6 +234,7 @@
 						}
 						
 						that.products.push(thisProduct);
+						uni.hideLoading()
 					}else{
 						let count = 0;
 						for(let item of that.products){
@@ -278,9 +279,6 @@
 							count +=1;
 						}
 					}
-					
-					
-					
 				})
 			},
 
@@ -310,16 +308,8 @@
 
 			//删除点击
 			handleDel(index) {
-				console.log(index)
-				if (this.products.length == 1) {
-					uni.showToast({
-						title: "最少选择一个产品",
-						icon: "none"
-					})
-				} else {
-					this.products.splice(index, 1);
-					uni.setStorageSync("products", this.products)
-				}
+				this.products.splice(index, 1);
+				uni.setStorageSync("products", this.products)
 			},
 
 			//实际价格输入

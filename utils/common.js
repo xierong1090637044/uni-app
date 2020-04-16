@@ -192,7 +192,7 @@ module.exports = {
 								let now_reserve = res[0]._sumReserve
 								query.set('reserve', now_reserve)
 								if(type == "purchase"){
-									query.set('costPrice', products[i].modify_retailPrice)
+									query.set('costPrice', products[i].modify_retailPrice.toString())
 								}
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
