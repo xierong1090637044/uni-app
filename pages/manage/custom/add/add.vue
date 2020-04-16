@@ -35,6 +35,16 @@
 				
 				<fa-icon type="angle-right" size="20" color="#999" style="margin-left: 20rpx;"></fa-icon>
 			</navigator>
+			
+			<view class="display_flex_bet item normalBorder">
+				<view style="margin-right: 20rpx;width: 320rpx;">订货平台登陆账号<text style="color: #d93a49;">*</text></view>
+				<input placeholder="系统自动生成" v-model="username" style="width: calc(100% - 200rpx)" class="rightInput" disabled="true"/>
+			</view>
+			
+			<view class="display_flex_bet item normalBorder">
+				<view style="margin-right: 20rpx;width: 320rpx;">订货平台登陆密码<text style="color: #d93a49;">*</text></view>
+				<input placeholder="订货平台登陆密码" v-model="password" style="width: calc(100% - 200rpx)" class="rightInput" maxlength="11"/>
+			</view>
 
 			<view class="display_flex_bet item normalBorder">
 				<view style="margin-right: 20rpx;width: 160rpx;">联系地址</view>
@@ -54,7 +64,7 @@
 			</view>
 
 			<view class="display_flex_bet item">
-				<view style="margin-right: 20rpx;width: 160rpx;">欠款金额</view>
+				<view style="margin-right: 20rpx;width: 160rpx;">期初欠款</view>
 				<input placeholder="请输入期初欠款金额" v-model="debt" type="digit" style="width: calc(100% - 200rpx)"  class="rightInput"/>
 			</view>
 		</view>
@@ -76,6 +86,8 @@
 		},
 		data() {
 			return {
+				username:'',
+				password:'',
 				Images:[],
 				name: '',
 				address: '',
@@ -110,6 +122,8 @@
 				that.phone = custom.custom_phone || '';
 				that.debt = custom.debt || 0;
 				that.discount = custom.discount || 100 ;
+				that.username = custom.username || '';
+				that.password = custom.password || '';
 			}else{
 				uni.setNavigationBarTitle({
 					title: '新增客户'
@@ -177,10 +191,11 @@
 					query.set("custom_name", that.name)
 					query.set("custom_phone", that.phone ? that.phone : '')
 					query.set("custom_address", that.address ? that.address : '')
-					query.set("debt", Number(that.debt))
+					query.set("orginDebt", Number(that.debt))
 					query.set("discount", Number(that.discount))
 					query.set("parent", poiID)
 					query.set("Images",that.Images)
+					query.set("password",that.password)
 					if (that.customClass.type == 1) {
 						let pointer1 = Bmob.Pointer('customFristClass')
 						let  customFristClass = pointer1.set(that.customClass.objectId) //一级分类id关联

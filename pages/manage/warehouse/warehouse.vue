@@ -35,7 +35,7 @@
 										<view class='stock_mobile' v-else>负责人：未填写</view>
 
 										<view class="display_flex_bet" style="width: 100%;">
-											<view class='stock_mobile'>地址：{{stock.address || ''}}</view>
+											<view class='stock_mobile'>地址：{{stock.address || '未填写'}}</view>
 											<view class="display_flex" @click.stop="makePhoneCall(stock.phoneNumber)">
 												<fa-icon type="phone" size="14" color="#999" />
 												<text style="margin-left: 10rpx;font-size: 24rpx;">打电话</text>

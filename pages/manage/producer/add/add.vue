@@ -40,7 +40,7 @@
 			</view>
 
 			<view class="display_flex_bet item">
-				<view style="margin-right: 20rpx;width: 160rpx;">欠款金额</view>
+				<view style="margin-right: 20rpx;width: 160rpx;">期初欠款</view>
 				<input placeholder="请输入期初欠款金额" v-model="debt" type="digit" style="width: calc(100% - 200rpx)"  class="rightInput"/>
 			</view>
 		</view>
@@ -156,7 +156,7 @@
 					query.set("producer_name", that.name)
 					query.set("producer_phone", that.phone ? that.phone : '')
 					query.set("producer_address", that.address ? that.address : '')
-					query.set("debt", Number(that.debt))
+					query.set("orginDebt", Number(that.debt))
 					//query.set("discount", Number(that.discount))
 					query.set("parent", poiID)
 					query.set("Images",that.Images)

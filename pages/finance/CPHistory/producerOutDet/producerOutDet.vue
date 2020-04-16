@@ -164,10 +164,14 @@
 				query.include("account", "producer");
 				query.statTo("sum", "debt");
 				query.find().then(res => {
-
-					producer.allDebt = res[0]._sumDebt
+					if(res.length > 0){
+						producer.allDebt = res[0]._sumDebt
+					}else{
+						producer.allDebt = 0
+					}
+					
 					that.producer = producer
-					console.log(that.shouldGetMoneyList)
+					//console.log(that.shouldGetMoneyList)
 					uni.hideLoading()
 				})
 			},

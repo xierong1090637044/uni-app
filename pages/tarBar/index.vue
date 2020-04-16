@@ -199,9 +199,13 @@
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、盘点单优化</view>
-							<view>2、产品名称加长显示</view>
-							<view>3、采购将自动同步上一次的采购价(只限新版本的产品)</view>
+							<view>1、新版扫码查看产品详情bug修复</view>
+							<view>2、客户管理功能优化</view>
+							<view>3、供应商管理功能优化</view>
+							<view>4、财务模块功能优化</view>
+							<view>5、记录模块功能优化</view>
+							<view>6、新增网上订货平台（下次更新开放）</view>
+							<view>7、一些bug修复</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -609,7 +613,7 @@
 				uni.showActionSheet({
 					itemList: opLists,
 					success(res) {
-						that.scan(res.tapIndex, opLists);
+						that.scan(res.tapIndex, opLists,type);
 					},
 					fail(res) {
 						console.log(res.errMsg)
@@ -618,8 +622,8 @@
 			},
 
 			//扫码操作
-			scan: function(type, opLists) {
-				if(that.thisVision == "New" && type !=0){
+			scan: function(type, opLists,scanType) {
+				if(that.thisVision == "New" && scanType !=0){
 					uni.navigateTo({
 						url:"/pages/commonNew/keepScan/keepScan?type="+opLists[type]
 					})
@@ -693,7 +697,7 @@
 						})
 					} else {
 						uni.navigateTo({
-							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=true",
+							url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
 						})
 					}
 				}

@@ -244,6 +244,7 @@
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", uid);
 				query.equalTo("type", '==', -1);
+				query.equalTo("extra_type", '!=', 5);
 				query.equalTo("custom", '==', id);
 				query.include("opreater");
 				query.equalTo("createdAt", ">=", that.now_day + ' 00:00:00');

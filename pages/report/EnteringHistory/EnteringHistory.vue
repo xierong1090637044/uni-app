@@ -87,12 +87,12 @@
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
 										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
 										<view v-if="item.type == -3">
-											<view v-if="item.status == false" style="text-align: right;color: #f30;font-size: 24rpx;">待销售出库</view>
-											<view v-else style="text-align: right;color: #2ca879;font-size: 24rpx;">已销售出库</view>
+											<view v-if="item.status == false" style="text-align: right;color: #f30;font-size: 24rpx;">待生成销售单</view>
+											<view v-else style="text-align: right;color: #2ca879;font-size: 24rpx;">已生成销售单</view>
 										</view>
 										<view v-if="item.type == -4">
-											<view v-if="item.status == false" style="text-align: right;color: #f30;font-size: 24rpx;">待采购入库</view>
-											<view v-else style="text-align: right;color: #2ca879;font-size: 24rpx;">已采购入库</view>
+											<view v-if="item.status == false" style="text-align: right;color: #f30;font-size: 24rpx;">待生成采购单</view>
+											<view v-else style="text-align: right;color: #2ca879;font-size: 24rpx;">已生成采购单</view>
 										</view>
 									</view>
 								</view>

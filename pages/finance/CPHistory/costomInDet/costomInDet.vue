@@ -163,9 +163,14 @@
 				query.include("account", "custom");
 				query.statTo("sum", "debt");
 				query.find().then(res => {
-					custom.allDebt = res[0]._sumDebt
+					if(res.length > 0){
+						custom.allDebt = res[0]._sumDebt
+					}else{
+						custom.allDebt = 0
+					}
+					
 					that.custom = custom
-					console.log(that.shouldGetMoneyList)
+					//console.log(that.shouldGetMoneyList)
 					uni.hideLoading()
 				})
 			},

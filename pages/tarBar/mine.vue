@@ -70,11 +70,11 @@
 				</navigator>
 			</view>
 			<view class="list">
-				<navigator class="li " hover-class="none" url="/pages/mine/update_history/update_history">
+				<!--<navigator class="li " hover-class="none" url="/pages/mine/update_history/update_history">
 					<fa-icon type="yelp" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
+				</navigator>-->
 				<!--<button plain="true" style="border: unset;padding: unset;border-bottom: 1px solid #f3f3f3;" open-type="contact" class="li">
 					<fa-icon type="comments" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">联系客服</view>

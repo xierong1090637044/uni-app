@@ -14,11 +14,25 @@
 		},
 
 		onLoad() {
-			this.modifyGoodsInfo()
+			//this.modifyGoodsInfo()
+			
+			/*for(let  i=0;i<=1001;i++){
+				let pointer2 = Bmob.Pointer('_User')
+				let userId = pointer2.set("o0wr5Ngm") //一级分类id关联
+				
+				const query = Bmob.Query('test');
+				query.set("num",1)
+				query.set("userId",userId)
+				query.save().then(res => {
+				  console.log(res)
+				}).catch(err => {
+				  console.log(err)
+				})
+			}*/
 		},
 
 		methods: {
-			modifyGoodsInfo() {
+			/*modifyGoodsInfo() {
 				for (let i = 0; i < 10; i++) {
 					let pointer2 = Bmob.Pointer('_User')
 					//let userId = pointer2.set("B6fkHvKQ") //一级分类id关联
@@ -49,7 +63,7 @@
 						});
 					})
 				}
-			},
+			},*/
 
 			modifyGoodsN() {
 				const pointer = Bmob.Pointer('_User')

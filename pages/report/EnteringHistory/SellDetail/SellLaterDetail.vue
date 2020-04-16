@@ -75,9 +75,9 @@
 							<view>{{detail.giveDay.iso.split(" ")[0]}}</view>
 						</view>
 						<view class="display_flex_bet" style="justify-content: space-between;">
-							<view>是否已生成销售订单</view>
+							<view>是否已生成销售单<text style="font-size: 20rpx;color: #999;">点击右上角操作可生成</text></view>
 							<view v-if="detail.status" class="display_flex">
-								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId">已销售出库</navigator>
+								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId">已生成</navigator>
 								<fa-icon type="angle-right" size="20" color="#2ca879"></fa-icon>
 							</view>
 							<view v-else style="color: #f30;">未生成</view>
@@ -122,9 +122,9 @@
 							<view>{{detail.giveDay.iso.split(" ")[0]}}</view>
 						</view>
 						<view class="display_flex_bet" style="justify-content: space-between;">
-							<view>是否已生成采购订单</view>
+							<view>是否已生成采购单<text style="font-size: 20rpx;color: #999;">点击右上角操作可生成</text></view>
 							<view v-if="detail.status" class="display_flex">
-								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId">已采购入库</navigator>
+								<navigator style="color: #2ca879;margin-right: 10rpx;" hover-class="none" :url="'/pages/report/EnteringHistory/SellDetail/SellDetail?id='+detail.orderSellId">已生成</navigator>
 								<fa-icon type="angle-right" size="20" color="#2ca879"></fa-icon>
 							</view>
 							<view v-else style="color: #f30;">未生成</view>
@@ -254,7 +254,7 @@
 				if (that.detail.type == -3 || that.detail.type == -4) {
 					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1) {
 
-						options = (that.detail.type == -3) ? ['生成销售订单', '删除'] : ['生成采购订单', '删除']
+						options = (that.detail.type == -3) ? ['生成销售单', '删除'] : ['生成采购单', '删除']
 
 						uni.showActionSheet({
 							itemList: options,

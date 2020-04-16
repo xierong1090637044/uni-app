@@ -11,7 +11,10 @@
 				</view>
 
 				<view style="width: calc(100% - 120rpx);">
-					<view style="color: #3d3d3d;font-weight: bold;">{{custom.custom_name}}</view>
+					<view style="color: #3d3d3d;font-weight: bold;">
+					<text>{{custom.custom_name}}</text>
+					<text style="font-size: 20rpx;color: #999" v-if="custom.orginDebt">（期初欠款：￥{{custom.orginDebt}})</text>
+					</view>
 					<view class="display_flex_bet">
 						<view class="noticeText">地址:{{custom.custom_address || "未填写"}}</view>
 						<view class="noticeText">电话:{{custom.custom_phone || "未填写"}}</view>
@@ -19,6 +22,7 @@
 					<view class="display_flex_bet">
 						<view>
 							欠款金额：<text style="color: #f30;font-weight: bold;">￥{{custom.debt}}</text>
+							
 						</view>
 						<view class="display_flex labeNotice" @click.stop="makePhoneCall(custom.custom_phone)">
 							<fa-icon type="phone" size="14" color="#fff" />

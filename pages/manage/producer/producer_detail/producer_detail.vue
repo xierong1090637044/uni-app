@@ -11,7 +11,10 @@
 				</view>
 
 				<view style="width: calc(100% - 120rpx);">
-					<view style="color: #3d3d3d;font-weight: bold;">{{producer.producer_name}}</view>
+					<view style="color: #3d3d3d;font-weight: bold;">
+					  <text>{{producer.producer_name}}</text>
+						<text style="font-size: 20rpx;color: #999" v-if="producer.orginDebt">（期初欠款：￥{{producer.orginDebt}})</text>
+				  </view>
 					<view class="display_flex_bet">
 						<view class="noticeText">地址:{{producer.producer_address || "未填写"}}</view>
 						<view class="noticeText">电话:{{producer.producer_phone || "未填写"}}</view>

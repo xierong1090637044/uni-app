@@ -41,7 +41,7 @@
 				<fa-icon type="angle-right" size="20" color="#ddd"></fa-icon>
 			</navigator>-->
 			<navigator class="display_flex_bet item normalBorder" hover-class="none" url="../../staff/staff?type=choose">
-				<view class="rightItem"><text style="margin-right: 6rpx;">负责人</text><text style="color: #d93a49;margin-right: 20rpx;">*</text></view>
+				<view class="rightItem"><text style="margin-right: 6rpx;">负责人</text></view>
 
 				<view class="display_flex">
 					<input placeholder="请选择负责人" v-model="warehouse_charge" class="leftItem" disabled="true" />
@@ -119,7 +119,7 @@
 				that.warehouse_name = warehouse.stock_name
 				that.warehouse_shop = warehouse.shop||''
 				that.warehouse_num = warehouse.num
-				that.warehouse_charge = warehouse.Ncharge.nickName
+				that.warehouse_charge =warehouse.Ncharge? warehouse.Ncharge.nickName:''
 				that.warehouse_beizhu = warehouse.beizhu||''
 				that.disabled = !warehouse.disabled;
 				that.phoneNumber = warehouse.phoneNumber||''
@@ -180,11 +180,6 @@
 						title: "请输入店仓名字",
 						icon: "none"
 					})
-				} else if (this.warehouse_charge == '' || this.warehouse_charge == null) {
-					uni.showToast({
-						title: "请选择店仓负责人",
-						icon: "none"
-					})
 				} else {
 					that.add_data()
 				}
@@ -198,8 +193,7 @@
 
 				const pointer = Bmob.Pointer('_User');
 				let poiID = pointer.set(uid);
-				const pointer1 = Bmob.Pointer("_User");
-				let chargeId = pointer1.set(charge.objectId);
+				
 
 				if (warehouse) { //修改操作
 					const query = Bmob.Query('stocks');
@@ -208,7 +202,12 @@
 					query.set("num", Number(that.warehouse_num ? that.warehouse_num : 0));
 					if (shop) query.set("shop", shopId);
 					//query.set("shop", that.warehouse_shop);
-					query.set("Ncharge", chargeId);
+					if(charge && charge.objectId){
+						const pointer1 = Bmob.Pointer("_User");
+						let chargeId = pointer1.set(charge.objectId);
+						query.set("Ncharge", chargeId);
+					}
+					
 					query.set("beizhu", that.warehouse_beizhu || '');
 					query.set("disabled", !that.disabled);
 					query.set("phoneNumber", that.phoneNumber);
@@ -244,7 +243,11 @@
 							query.set("stock_name", that.warehouse_name);
 							query.set("num", Number(that.warehouse_num));
 							if (shop) query.set("shop", shopId);
-							query.set("Ncharge", chargeId);
+							if(charge && charge.objectId){
+								const pointer1 = Bmob.Pointer("_User");
+								let chargeId = pointer1.set(charge.objectId);
+								query.set("Ncharge", chargeId);
+							}
 							query.set("beizhu", that.warehouse_beizhu);
 							query.set("disabled", !that.disabled);
 							query.set("phoneNumber", that.phoneNumber);
