@@ -75,11 +75,14 @@
 					<view class="text">历史更新</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>-->
-				<!--<button plain="true" style="border: unset;padding: unset;border-bottom: 1px solid #f3f3f3;" open-type="contact" class="li">
+				<button plain="true" style="border: unset;padding: unset;border-bottom: 1px solid #f3f3f3;" open-type="contact" class="li">
 					<fa-icon type="comments" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">联系客服</view>
-					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</button>-->
+					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 400rpx;justify-content: flex-end">
+						<text style="margin-right: 10rpx;font-size: 20rpx;">在线时间:19:00~22:00</text>
+						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+					</view>
+				</button>
 				<navigator class="li " hover-class="none" url="/pages/mine/about_us/about_us">
 					<fa-icon type="gg-circle" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">关于我们</view>
