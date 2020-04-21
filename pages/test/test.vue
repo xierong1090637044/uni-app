@@ -14,8 +14,39 @@
 		},
 
 		onLoad() {
-			//this.modifyGoodsInfo()
 			
+			setInterval(function(){
+				const query = Bmob.Query("Goods");
+				const query1 = query.equalTo("costPrice", '==', "undefined");
+				const query2 = query.equalTo("retailPrice", '==', "undefined");
+				query.or(query1, query2);
+				query.count().then(res => {
+					console.log(res)
+					query.limit(500);
+					query.find().then(res => {
+						console.log(res)
+						for (let item of res) {
+							query.set('id', item.objectId) //需要修改的objectId
+							if (item.costPrice == "undefined") {
+								query.set('costPrice', "0")
+							}
+							if (item.retailPrice == "undefined") {
+								query.set('retailPrice', "0")
+							}
+							query.save().then(res => {
+								//console.log(res)
+							}).catch(err => {
+								//console.log(err)
+							})
+						}
+					});
+				
+				});
+			},12000)
+			
+
+			//this.modifyGoodsInfo()
+
 			/*for(let  i=0;i<=1001;i++){
 				let pointer2 = Bmob.Pointer('_User')
 				let userId = pointer2.set("o0wr5Ngm") //一级分类id关联

@@ -63,11 +63,10 @@
 				<view v-else>
 					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-							<view class='pro_list_item' style='color:#000'>
-								<view>产品：{{item.goodsName}}
-									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
-									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
-								</view>
+							<view class='pro_list_item display_flex_bet' style='color:#000'>
+								<view>产品：{{item.goodsName}}</view>
+								<view v-if="(user.rights&&user.rights.othercurrent[0] != '0')&&detail.type == -1"></view>
+								<view v-else style="color: #f30;">￥{{item.modify_retailPrice}}</view>
 							</view>
 							<view v-if="item.goodsId.selected_model">
 								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
@@ -76,19 +75,10 @@
 								</view>
 							</view>
 							<view class='pro_list'>
-								<view v-if="item.type == -1">
-									<view v-if="item.stock">出库店仓:{{item.stock}}</view>
-									<view v-else>出库店仓:未填写</view>
+								<view>
+									<view v-if="item.stock">店仓:{{item.stock}}</view>
+									<view v-else>店仓:未填写</view>
 								</view>
-								<view v-else-if="item.type == 1">
-									<view v-if="item.stock">存放店仓:{{item.stock}}</view>
-									<view v-else>存放店仓:未填写</view>
-								</view>
-								<view v-else-if="item.type == 7">
-									<view v-if="item.stock">货损店仓:{{item.stock}}</view>
-									<view v-else>货损店仓:未填写</view>
-								</view>
-
 								<view>数量：X{{item.num}} {{item.packingUnit}}</view>
 							</view>
 							<view class='pro_list' v-if="item.type !=7&&detail.extra_type !=2">

@@ -28,7 +28,7 @@
 						
 						
 
-						<view class="display_flex_bet" v-if="value !=2 && value != 4" style="margin-bottom: 10rpx;">
+						<view class="display_flex_bet" v-if="value != 4" style="margin-bottom: 10rpx;">
 							<view class='input_withlabel'>
 								<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
 								<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>

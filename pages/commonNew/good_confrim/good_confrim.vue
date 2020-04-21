@@ -29,7 +29,7 @@
 							<input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
 						</view>
 						
-						<view class="display_flex" v-if="value !=2 && value != 4"  style="margin-bottom: 10rpx;">
+						<view class="display_flex" v-if="value != 4"  style="margin-bottom: 10rpx;">
 							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
 							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
@@ -42,17 +42,13 @@
 						<view v-if="item.selectd_model">
 							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
-								<text v-if="value == 1 || value == 3 || value ==5">采购量：</text>
-								<text v-else-if="value == 2">入库量：</text>
-								<text v-else-if="value == 4">退货量：</text>
+								<text>数量：</text>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1'  v-if="key==0"/>
 								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='0'  v-else/>
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
-							<text v-if="value == 1 || value == 3 || value ==5">采购量：</text>
-							<text v-else-if="value == 2">入库量：</text>
-							<text v-else-if="value == 4">退货量：</text>
+							<text>数量：</text>
 							<uninumberbox :min="1" @change="handleNumChange($event, index)" value='1'/>
 						</view>
 

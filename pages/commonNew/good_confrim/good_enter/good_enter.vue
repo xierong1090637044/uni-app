@@ -14,6 +14,9 @@
 							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
 					</view>
+					<view>
+						<view>实际进货价：<text style="color: #f30;">￥{{item.modify_retailPrice}}</text></view>
+					</view>
 				</view>
 			</view>
 
@@ -73,6 +76,7 @@
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
 					<view>
+						<view>合计：￥{{really_total_money}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">

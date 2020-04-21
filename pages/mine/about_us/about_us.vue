@@ -7,10 +7,9 @@
 		<image :src="imgurl[0]" @tap='handlePreviewImage' mode="widthFix" />
 		<view style="margin-top: 30rpx;color:#333;">长按图片,识别关注我们哦！</view>
 		<view class="copyright">
+			<view style="color: #333;">联系方式wx：xierong1090637044</view>
 			<view><text>Copyright © 谢荣 All Rights Reserved</text></view>
 		</view>
-
-
 	</view>
 </template>
 

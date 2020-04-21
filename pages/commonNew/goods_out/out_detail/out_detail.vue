@@ -15,6 +15,9 @@
 							<view style="font-size: 24rpx;color: #f30;" v-if="model">{{model.num}}</view>
 						</view>
 					</view>
+					<view>
+						<view>实际零售价：<text style="color: #f30;">￥{{item.modify_retailPrice}}</text></view>
+					</view>
 				</view>
 			</view>
 
@@ -73,6 +76,7 @@
 
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
 					<view>
+						<view>合计：￥{{really_total_money}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
@@ -131,6 +135,7 @@
 				button_disabled: false,
 				beizhu_text: "",
 				real_money: 0, //实际付款金额
+				really_total_money: 0, //实际的总价
 				all_money: 0, //总价
 				total_num: 0, //实际的总数量
 				nowDay: common.getDay(0, true), //入库时间
