@@ -202,6 +202,7 @@
 							<view>1、新版扫码优化</view>
 							<view>2、新版出入库优化</view>
 							<view>3、新版销售采购单位丢失修复</view>
+							<view>4、旧版销售退货bug修复</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -710,11 +711,12 @@
 					})
 				} else if (opLists[type] == '销售退货') {
 					uni.navigateTo({
-						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
+						url: '/pages/common/good_return/good_return?id=' + array[0] + "&isCode=" + array[1] + "&type=returing&value=1",
 					})
 				} else if (opLists[type] == '采购退货') {
-					uni.navigateTo({
-						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
+					uni.showToast({
+						icon:"none",
+						title:"旧版暂不支持"
 					})
 				} else if (opLists[type] == '入库') {
 					uni.navigateTo({
