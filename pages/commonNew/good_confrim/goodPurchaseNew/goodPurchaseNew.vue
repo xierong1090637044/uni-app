@@ -374,8 +374,8 @@
 					}
 					detailBills.goodsId = goodsId
 					detailBills.num = this.products[i].num
-
 					detailBills.type = 1
+					detailBills.packingUnit = this.products[i].packingUnit || ''
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)

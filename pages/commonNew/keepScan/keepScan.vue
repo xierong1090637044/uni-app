@@ -23,7 +23,7 @@
 
 			<view style="background: #fff;border-top-left-radius: 40rpx;border-top-right-radius: 40rpx;">
 				<view style="padding:20rpx 30rpx;border-bottom: 1rpx solid#ddd;">扫码选中的产品</view>
-				<scroll-view style="height: 75vh;"scroll-y="true">
+				<scroll-view style="height: 75vh;" scroll-y="true">
 					<view class='margin-b-10' v-for="(item,index) in products" :key="index">
 						<unicard :title="'品名：'+item.goodsName">
 							<view>
@@ -32,21 +32,21 @@
 									<view style="color: #f30;" v-if="type == '销售' || type == '销售退货'">零售价：{{item.retailPrice}}(元)</view>
 									<view style="color: #f30;" v-else-if="type == '采购' || type == '采购退货'">进货价：{{item.costPrice}}(元)</view>
 								</view>
-					
+
 								<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="type=='销售' || type == '销售退货'">
 									<view class='input_withlabel'>
 										<view>实际零售价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
 										<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 									</view>
 								</view>
-								
+
 								<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="type=='采购' || type == '采购退货'">
 									<view class='input_withlabel'>
 										<view>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</view>
 										<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 									</view>
 								</view>
-					
+
 								<view v-if="item.selectd_model">
 									<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
 										<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
@@ -58,7 +58,7 @@
 									<text>数量：</text>
 									<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='item.num' />
 								</view>
-					
+
 								<view class="bottom_del display_flex_bet">
 									<view>
 										<view v-if="user.identity !=2">
@@ -77,7 +77,7 @@
 						</unicard>
 					</view>
 				</scroll-view>
-				
+
 			</view>
 
 		</uniPopupNew>
@@ -105,7 +105,7 @@
 		},
 		data() {
 			return {
-				isOpen:false,
+				isOpen: false,
 				user: uni.getStorageSync("user"),
 				type: '',
 				negativeOut: false,
@@ -119,7 +119,7 @@
 			uni.setNavigationBarTitle({
 				title: "连续扫码" + options.type
 			})
-			
+
 			//that.scanCode()
 
 			if (uni.getStorageSync("setting") && uni.getStorageSync("setting").negativeOut) {
@@ -130,13 +130,13 @@
 		methods: {
 			openPopup() {
 				that.isOpen = true,
-				this.$refs.popup.open()
+					this.$refs.popup.open()
 			},
-			
-			changeView(value){
-				if(value.show == true){
+
+			changeView(value) {
+				if (value.show == true) {
 					that.isOpen = true
-				}else{
+				} else {
 					that.isOpen = false
 				}
 			},
@@ -208,6 +208,15 @@
 				query.equalTo("status", "!=", -1);
 				query.find().then(res => {
 
+					uni.vibrate({
+						success: function() {
+							uni.showToast({
+								icon: "none",
+								title: "扫描成功"
+							})
+						}
+					});
+					
 					if (res.length == 0) {
 						uni.showToast({
 							icon: "none",
@@ -218,8 +227,8 @@
 					}
 
 					let thisProduct = res[0]
-					
-					if(that.products.length == 0){
+
+					if (that.products.length == 0) {
 						thisProduct.num = 1;
 						thisProduct.total_money = Number(1 * thisProduct.retailPrice);
 						thisProduct.really_total_money = Number(1 * thisProduct.retailPrice);
@@ -232,16 +241,16 @@
 							thisProduct.selectd_model = thisProduct.models
 							thisProduct.selected_model = thisProduct.models
 						}
-						
+
 						that.products.push(thisProduct);
 						uni.hideLoading()
-					}else{
+					} else {
 						let count = 0;
-						for(let item of that.products){
-							
-							if(item.objectId == thisProduct.objectId){
+						for (let item of that.products) {
+
+							if (item.objectId == thisProduct.objectId) {
 								item.num += 1;
-								item.total_money +=  Number(thisProduct.retailPrice);
+								item.total_money += Number(thisProduct.retailPrice);
 								item.really_total_money += Number(thisProduct.retailPrice);
 								item.modify_retailPrice += Number(thisProduct.retailPrice);
 								if (item.models) {
@@ -256,8 +265,8 @@
 								uni.setStorageSync("products", that.products)
 								uni.hideLoading()
 								return
-							}else{
-								if(count == that.products.length-1){
+							} else {
+								if (count == that.products.length - 1) {
 									thisProduct.num = 1;
 									thisProduct.total_money = Number(1 * thisProduct.retailPrice);
 									thisProduct.really_total_money = Number(1 * thisProduct.retailPrice);
@@ -276,7 +285,7 @@
 									return
 								}
 							}
-							count +=1;
+							count += 1;
 						}
 					}
 				})

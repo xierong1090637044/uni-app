@@ -203,6 +203,7 @@
 					detailBills.goodsId = goodsId
 					detailBills.num = Number(this.products[i].num)
 					detailBills.type = -2
+					detailBills.packingUnit = this.products[i].packingUnit || ''
 
 					billsObj.push(tempBills)
 					detailObj.push(detailBills)

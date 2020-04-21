@@ -199,13 +199,9 @@
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、新版扫码查看产品详情bug修复</view>
-							<view>2、客户管理功能优化</view>
-							<view>3、供应商管理功能优化</view>
-							<view>4、财务模块功能优化</view>
-							<view>5、记录模块功能优化</view>
-							<view>6、新增网上订货平台（下次更新开放）</view>
-							<view>7、一些bug修复</view>
+							<view>1、新版扫码优化</view>
+							<view>2、新版出入库优化</view>
+							<view>3、新版销售采购单位丢失修复</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -224,7 +220,6 @@
 	import Bmob from "hydrogen-js-sdk";
 	let that;
 	let uid;
-	let haveShow = false;
 
 	export default {
 		components: {
@@ -613,7 +608,7 @@
 				uni.showActionSheet({
 					itemList: opLists,
 					success(res) {
-						that.scan(res.tapIndex, opLists,type);
+						that.scan(res.tapIndex, opLists, type);
 					},
 					fail(res) {
 						console.log(res.errMsg)
@@ -622,76 +617,119 @@
 			},
 
 			//扫码操作
-			scan: function(type, opLists,scanType) {
-				if(that.thisVision == "New" && scanType !=0){
-					uni.navigateTo({
-						url:"/pages/commonNew/keepScan/keepScan?type="+opLists[type]
-					})
-				}else{
-					// #ifdef H5
-					this.$wechat.scanQRCode().then(res => {
+			scan: function(type, opLists, scanType) {
+				// #ifdef H5
+				this.$wechat.scanQRCode().then(res => {
+					let result = res.result;
+					let array = result.split("-");
+					let productType = array[2]
+
+					if (that.thisVision == "New") {
+						that.returnUrlNew(opLists, type, array, productType)
+					} else {
+						that.returnUrl(opLists, type, array, productType)
+					}
+				})
+				// #endif
+
+				// #ifdef MP-WEIXIN
+				uni.scanCode({
+					success(res) {
+						console.log(res)
 						let result = res.result;
 						let array = result.split("-");
 						let productType = array[2]
-					
-						that.returnUrl(opLists, type, array, productType)
-					})
-					// #endif
-					
-					// #ifdef MP-WEIXIN
-					uni.scanCode({
-						success(res) {
-							console.log(res)
-							let result = res.result;
-							let array = result.split("-");
-							let productType = array[2]
-					
+
+						if (that.thisVision == "New") {
+							that.returnUrlNew(opLists, type, array, productType)
+						} else {
 							that.returnUrl(opLists, type, array, productType)
-						},
-						fail(res) {
-							uni.showToast({
-								title: '未识别到条形码',
-								icon: "none"
-							})
 						}
+
+					},
+					fail(res) {
+						uni.showToast({
+							title: '未识别到条形码',
+							icon: "none"
+						})
+					}
+				})
+				// #endif
+			},
+
+			//去到之指定的链接
+			returnUrlNew(opLists, type, array, productType) {
+				if (opLists[type] == '出库') {
+					uni.navigateTo({
+						url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
 					})
-					// #endif
+				} else if (opLists[type] == '销售') {
+					uni.navigateTo({
+						url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
+					})
+				} else if (opLists[type] == '销售退货') {
+					uni.navigateTo({
+						url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=4",
+					})
+				} else if (opLists[type] == '采购退货') {
+					uni.navigateTo({
+						url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=4",
+					})
+				} else if (opLists[type] == '入库') {
+					uni.navigateTo({
+						url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
+				} else if (opLists[type] == '采购') {
+					uni.navigateTo({
+						url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
+					})
+				} else if (opLists[type] == '调拨') {
+					uni.navigateTo({
+						url: '/pages/commonNew/good_allocation/good_allocation?id=' + array[0] + "&type=" + array[1],
+					})
+				} else if (opLists[type] == '盘点') {
+					uni.navigateTo({
+						url: '/pages/commonNew/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
+				} else if (opLists[type] == '产品详情') {
+					uni.navigateTo({
+						url: '/pages/manage/good_det/Ngood_det?id=' + array[0] + "&type=" + array[1],
+					})
 				}
-				
 			},
 
 			//去到之指定的链接
 			returnUrl(opLists, type, array, productType) {
 				if (opLists[type] == '出库') {
-						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
+					uni.navigateTo({
+						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
 				} else if (opLists[type] == '销售') {
-						uni.navigateTo({
-							url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
-						})
+					uni.navigateTo({
+						url: '/pages/common/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
+					})
 				} else if (opLists[type] == '销售退货') {
-						uni.navigateTo({
-							url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
-						})
+					uni.navigateTo({
+						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
+					})
 				} else if (opLists[type] == '采购退货') {
-						uni.navigateTo({
-							url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
-						})
+					uni.navigateTo({
+						url: '/pages/common/good_return/good_return?id=' + array[0] + "&type=" + array[1] + "&type=return&value=1",
+					})
 				} else if (opLists[type] == '入库') {
-						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
+					uni.navigateTo({
+						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
 				} else if (opLists[type] == '采购') {
-						uni.navigateTo({
-							url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
-						})
+					uni.navigateTo({
+						url: '/pages/common/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
+					})
 				} else if (opLists[type] == '盘点') {
-						uni.navigateTo({
-							url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
-						})
+					uni.navigateTo({
+						url: '/pages/common/good_count/good_count?id=' + array[0] + "&type=" + array[1] + "&value=2",
+					})
 				} else if (opLists[type] == '产品详情') {
-				 if (productType == "old") {
+					if (productType == "old") {
 						uni.navigateTo({
 							url: '/pages/manage/good_det/good_det?id=' + array[0] + "&type=" + array[1],
 						})
@@ -701,7 +739,6 @@
 						})
 					}
 				}
-				haveShow = false
 			}
 
 		}
