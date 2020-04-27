@@ -409,7 +409,7 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						query.set('goodsName', that.products.join(","));
+						query.set('goodsName', goodsName.join(","));
 						query.set("all_money", that.all_money);
 						query.set('otherMoney', Number(that.otherMoney)); //其他金额 +
 						query.set('discountMoney', Number(that.discountMoney)); //优惠金额 -
