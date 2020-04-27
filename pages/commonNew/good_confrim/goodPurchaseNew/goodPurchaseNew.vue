@@ -303,6 +303,7 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let goodsName = [];
 				let producer = Bmob.Pointer('producers');
 				let producerID = producer.set(that.producer.objectId);
 
@@ -318,6 +319,7 @@
 
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) + this.products[i].num;
+					goodsName.push(this.products[i].goodsName)
 
 					//单据
 					let detailBills = {}
@@ -407,7 +409,7 @@
 						query.set("bills", bills);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						query.set('goodsName', that.products[0].goodsName);
+						query.set('goodsName', that.products.join(","));
 						query.set("all_money", that.all_money);
 						query.set('otherMoney', Number(that.otherMoney)); //其他金额 +
 						query.set('discountMoney', Number(that.discountMoney)); //优惠金额 -

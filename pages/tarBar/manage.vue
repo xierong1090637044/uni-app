@@ -23,6 +23,10 @@
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 3">
 				<sAnalyseModule></sAnalyseModule>
 			</view>
+			
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 4">
+				<sSystemModule></sSystemModule>
+			</view>
 
 
 		</scroll-view>
@@ -39,6 +43,7 @@
 	import sStockModule from "@/components/sStockModule/sStockModule.vue"
 	import sOrderListsModule from "@/components/sOrderListsModule/sOrderListsModule.vue"
 	import sAnalyseModule from "@/components/sAnalyseModule/sAnalyseModule.vue"
+	import sSystemModule from "@/components/sSystemModule/sSystemModule.vue"
 
 	let that;
 
@@ -48,11 +53,12 @@
 			sStockModule,
 			sOrderListsModule,
 			sAnalyseModule,
+			sSystemModule,
 			faIcon
 		},
 		data() {
 			return {
-				leftOptionList: ['基础', '财务', '记录', '分析'],
+				leftOptionList: ['基础', '财务', '记录', '分析','系统'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
 				setting: uni.getStorageSync("setting"),

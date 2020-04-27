@@ -220,8 +220,10 @@
 				let detailObj = [];
 				let stockIds = [];
 				let stockNames = [];
+				let goodsName = [];
 
 				for (let i = 0; i < this.products.length; i++) {
+					goodsName.push(this.products[i].goodsName)
 					let num = Number(this.products[i].reserve) + this.products[i].num;
 
 					//单据
@@ -312,7 +314,7 @@
 						query.set("stockClass", that.stockClass);
 						query.set("stockIds", stockIds);
 						query.set("stockNames", stockNames);
-						query.set('goodsName', that.products[0].goodsName);
+						query.set('goodsName', goodsName.join(","));
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', 0);
 						query.set("all_money", that.all_money);

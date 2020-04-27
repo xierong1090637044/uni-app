@@ -251,7 +251,7 @@
 						<view class='common_style'>（操作者）</view>
 					</view>
 					<view style='padding:20rpx 0 0'>
-						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
+						<view v-if="detail.beizhu" style="word-break: break-all;">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>
 

@@ -234,8 +234,10 @@
 				let detailObj = [];
 				let stockIds = [];
 				let stockNames = [];
+				let goodsName = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
+					goodsName.push(this.products[i].goodsName)
 
 					//单据
 					let tempBills = Bmob.Query('Bills');
@@ -328,7 +330,7 @@
 						query.set("stockNames", stockNames); //仓库名字的数组
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
-						query.set('goodsName', that.products[0].goodsName);
+						query.set('goodsName', goodsName.join(","));
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 

@@ -363,6 +363,7 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let goodsName = [];
 
 				let pointer3 = Bmob.Pointer('customs')
 				let customId = pointer3.set(uni.getStorageSync("custom").objectId)
@@ -378,7 +379,7 @@
 				let finalProft = finalRealMoney - that.allCostPrice // 最终盈利
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
-
+					goodsName.push(this.products[i].goodsName)
 					//单据
 					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
@@ -466,7 +467,7 @@
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
-						query.set('goodsName', that.products[0].goodsName);
+						query.set('goodsName', goodsName.join(","));
 
 						query.set("all_money", that.all_money); //实际产品零售价X数量
 						query.set("allCostPrice", that.allCostPrice);

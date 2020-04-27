@@ -13,9 +13,38 @@
 			}
 		},
 
-		onLoad() {
+		onLoad() {			
+			const query = Bmob.Query('_User');
+			query.get('56b58ee25e').then(res => {
+			  console.log(res)
+			  res.unset('identity')
+				res.unset('rights')
+			  res.save()
+			}).catch(err => {
+			  console.log(err)
+			})
+			/*const query = Bmob.Query("Goods");
+			query.equalTo("models","!=", null);
+			query.count().then(res => {
+				console.log(res)
+				query.equalTo("models","!=", null);
+				query.limit(500);
+				query.find().then(res => {
+					console.log(res)
+					for (let item of res) {
+						for(let model of item.models){
+							
+							if(model.reserve == null || model.reserve == ''|| model.reserve =="undefined"){
+								model.reserve = 0
+								console.log(item)
+							}
+						}
+					}
+				});
 			
-			setInterval(function(){
+			});*/
+			
+			/*setInterval(function(){
 				const query = Bmob.Query("Goods");
 				const query1 = query.equalTo("costPrice", '==', "undefined");
 				const query2 = query.equalTo("retailPrice", '==', "undefined");
@@ -42,7 +71,7 @@
 					});
 				
 				});
-			},12000)
+			},12000)*/
 			
 
 			//this.modifyGoodsInfo()

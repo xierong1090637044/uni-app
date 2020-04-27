@@ -167,14 +167,14 @@
 							<view class="real_color">{{detail.account?detail.account.name:'未填写' }}</view>
 						</view>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view >现结款</view>
+							<view >预付款</view>
 							<view class="display_flex">
 								<view class="real_color">{{detail.haveGetMoney||0 }}</view>
 								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
 							</view>
 						</view>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view>现结后欠款</view>
+							<view>预付后欠款</view>
 							<view class="display_flex">
 								<view class="real_color">{{detail.debt||0}}</view>
 								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
@@ -218,7 +218,7 @@
 						<view class='common_style'>（操作者）</view>
 					</view>
 					<view style='padding:20rpx 0 0'>
-						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
+						<view v-if="detail.beizhu" style="word-break: break-all;">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>
 
@@ -451,7 +451,7 @@
 			
 			async reduceAll(){
 				await that.reduceAccount()
-				await that.reduceDebt()
+				//await that.reduceDebt()
 				await that.reduceGoods()
 			},
 			
@@ -469,7 +469,7 @@
 				}
 			},
 			
-			reduceDebt(){
+			/*reduceDebt(){
 				//如果客户或者供应商有欠款
 				if (that.detail.debt > 0) {
 					if(that.detail.type == 1){
@@ -496,7 +496,7 @@
 						})
 					}
 				}
-			},
+			},*/
 			
 			reduceGoods(){
 				for (var i = 0; i < that.products.length; i++) {

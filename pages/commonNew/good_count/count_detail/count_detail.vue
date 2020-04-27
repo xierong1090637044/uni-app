@@ -125,9 +125,11 @@
 				let operation_ids = [];
 				let billsObj = new Array();
 				let detailObj = [];
-				let stockIds = []
+				let stockIds = [];
+				let goodsName = [];
 				for (let i = 0; i < this.products.length; i++) {
 					//单据
+					goodsName.push(this.products[i].goodsName)
 					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
 
@@ -194,7 +196,7 @@
 						query.set("type", 3);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
-						query.set('goodsName', that.products[0].goodsName);
+						query.set('goodsName', goodsName.join(","));
 						query.set("stockIds", stockIds);
 						query.set("createdTime", {
 							"__type": "Date",

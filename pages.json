@@ -303,11 +303,6 @@
 					}
 				},
 				{
-					"path": "good_return/return_detail/return_detail",
-					"style": {
-						"navigationBarTitleText": "退货详情"
-					}
-				}, {
 					"path": "goods_out/goods_out",
 					"style": {
 						"navigationBarTitleText": "产品出库"

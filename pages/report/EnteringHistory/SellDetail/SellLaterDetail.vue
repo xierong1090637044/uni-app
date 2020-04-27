@@ -11,9 +11,9 @@
 					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
-								<view>产品：{{item.goodsName}}
-									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
-									<text v-else>（成本价：￥{{item.costPrice}}）</text>
+								<view style="width: 60%;">产品：{{item.goodsName}}
+									<!--<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
+									<text v-else>（成本价：￥{{item.costPrice}}）</text>-->
 								</view>
 								<view>数量：X{{item.num}}{{item.packingUnit ||''}}</view>
 							</view>
@@ -141,7 +141,7 @@
 						<view class='common_style'>（操作者）</view>
 					</view>
 					<view style='padding:20rpx 0 0'>
-						<view v-if="detail.beizhu">备注：{{detail.beizhu}}</view>
+						<view v-if="detail.beizhu" style="word-break: break-all;">备注：{{detail.beizhu}}</view>
 						<view v-else>备注：暂无</view>
 						<view>操作时间：{{detail.createdAt}}</view>
 
@@ -198,14 +198,13 @@
 			this.$wechat.share_pyq();
 			// #endif
 
-			console.log(options)
+			//console.log(options)
 			that = this;
 			id = options.id;
 			uid = uni.getStorageSync("uid");
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
-
 		},
 
 		onShow() {
@@ -316,6 +315,16 @@
 					that.products = res.opreatGood;
 					that.bills = res.bills;
 					that.loading = false;
+					
+					if(res.type == -4){
+						uni.setNavigationBarTitle({
+							title:"采购订单详情"
+						})
+					}else if(res.type == -3){
+						uni.setNavigationBarTitle({
+							title:"销售订单详情"
+						})
+					}
 				}).catch(err => {
 					console.log(err)
 				})

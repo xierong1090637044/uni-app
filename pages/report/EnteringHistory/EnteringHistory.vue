@@ -33,59 +33,40 @@
 						<view class='list-item'>
 							<view v-for="(item,index) in list" :key="index" class='item' @click='get_detail(item)'>
 								<view style='display:flex;width:100%;'>
-									<view style='line-height:80rpx'>
-										<fa-icon v-if='item.type == 1' type="sign-in" size="20" color="#2ca879" />
-										<fa-icon v-else-if='item.type == -1' type="sign-out" size="20" color="#f30" />
-										<fa-icon v-else-if='item.type == -2' type="random" size="20" color="#4e72b8" />
-										<fa-icon v-else-if='item.type == 2' type="leanpub" size="20" color="#b3b242" />
-										<fa-icon v-else-if='item.type == 3' type="check-square-o" size="20" color="#000" />
-										<fa-icon v-else-if='item.type == 5' type="tasks" size="20" color="#bba14f" />
-										<fa-icon v-else-if='item.type == 7' type="tasks" size="20" color="#bba14f" />
-									</view>
-									<view style='margin-left:20rpx;width: 100%;'>
+									<view style='width: 100%;'>
 										<view class="display_flex_bet">
 											<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
-											<view v-if='item.type == -1'>
-												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-													<text>销售</text>
+											
+											<view class="display_flex">
+												<view v-if="item.status" style="border: 1rpx solid#2ca879;color: #2ca879;" class="opreationStatus">已完成</view>
+												<view v-else style="border: 1rpx solid#f30;color: #f30;" class="opreationStatus">未完成</view>
+												
+												<view v-if="item.type == -1 && item.extra_type == 1" style="margin-left: 10rpx;">
+													<view v-if="item.debt > 0" style="border: 1rpx solid#f30;color: #f30;" class="opreationStatus">待收款</view>
+													<view v-else style="border: 1rpx solid#2ca879;color: #2ca879;" class="opreationStatus">已收款</view>
 												</view>
-												<view v-else-if="item.extra_type == 4" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-													<text>采购退货</text>
-												</view>
-												<view v-else class='order_get'>
-													<text>出库</text>
-												</view>
-											</view>
-											<view v-if='item.type == 1'>
-												<view v-if="item.extra_type == 1" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-													<text>采购</text>
-												</view>
-												<view v-else-if="item.extra_type == 3" class='order_get' style="border:1rpx solid#704fbb;color:#704fbb;font-size: 20rpx;width: 96rpx;text-align: center;">
-													<text>生产入库</text>
-												</view>
-												<view v-else-if="item.extra_type == 4" class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">
-													<text>销售退货</text>
-												</view>
-												<view v-else class='order_get'>
-													<text>入库</text>
+												
+												<view v-if="item.type == 1 && item.extra_type == 1" style="margin-left: 10rpx;">
+													<view v-if="item.debt > 0" style="border: 1rpx solid#f30;color: #f30;" class="opreationStatus">待付款</view>
+													<view v-else style="border: 1rpx solid#2ca879;color: #2ca879;" class="opreationStatus">已付款</view>
 												</view>
 											</view>
-											<view v-else-if='item.type == -2' class='order_returning' style="color: #4e72b8;border: 1rpx solid#4e72b8;">调拨</view>
-											<view v-else-if='item.type == -3' class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">销售订单</view>
-											<view v-else-if='item.type == -4' class='order_get' :style="(item.status == false)?'border:1rpx solid#f30;color:#f30':''">采购订单</view>
-											<view v-else-if='item.type == 2' class='order_returning'>退货</view>
-											<view v-else-if='item.type == 3' class='order_counting'>盘点</view>
-											<view v-else-if='item.type == 5' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">生产单</view>
-											<view v-else-if='item.type == 7' class='order_get' style="font-size: 20rpx;width: 120rpx;text-align: center;border: 1rpx solid#bba14f;color: #bba14f;">货损单</view>
+											
 										</view>
 
-										<view v-if="item.stock && item.stock.stock_name"><text style='color:#999'>店仓：</text>{{item.stock.stock_name}}</view>
+										<view v-if="item.stock && item.stock.stock_name">
+											<text style='color:#999'>店仓：</text>{{item.stock.stock_name}}
+										</view>
 										<view class="display_flex_bet">
-											<view v-if='item.goodsName'><text style='color:#999'>操作商品：</text>{{item.goodsName}} 等...</view>
-											<view style="color: #999;" v-if="item.type !=-2 && item.type !=3">X{{item.real_num}}</view>
+											<view v-if='item.goodsName'>
+												<text style='color:#999'>操作商品：</text>{{item.goodsName}}
+											</view>
+										</view>
+										<view v-if="item.type !=-2 && item.type !=3">
+											<text style="color: #999;">数量：</text>{{item.real_num}}
 										</view>
 										<view v-if="item.beizhu" class='item_beizhu'><text style='color:#999'>备注：</text>{{item.beizhu}}</view>
-										<view><text style='color:#999'>操作时间：</text>{{item.createdAt}}</view>
+										<view><text style='color:#999'>创建时间：</text>{{item.createdAt}}</view>
 										<view v-if="item.type == -3">
 											<view v-if="item.status == false" style="text-align: right;color: #f30;font-size: 24rpx;">待生成销售单</view>
 											<view v-else style="text-align: right;color: #2ca879;font-size: 24rpx;">已生成销售单</view>
@@ -214,23 +195,23 @@
 				data_change: false,
 				goodsName: "", //输入的操作产品名字
 				staff: "", //选择的操作者
-				beizhu:'',//输入的备注
+				beizhu: '', //输入的备注
 				operaterTypeDesc: '', // 操作类型描述
 			}
 		},
 
 		onLoad(options) {
 			that = this;
-			
+
 			uni.removeStorageSync("charge");
 			uni.removeStorageSync("is_option");
 			uni.removeStorageSync("warehouse");
 			opeart_type = Number(options.type);
 			extra_type = Number(options.extra_type);
 			uid = uni.getStorageSync("uid");
-			
+
 			uni.setNavigationBarTitle({
-				title:options.title +'列表' || "操作单列表"
+				title: options.title + '列表' || "操作单列表"
 			})
 
 			that.get_list()
@@ -260,13 +241,13 @@
 			//选择操作类型
 			select_operatertype() {
 				uni.showActionSheet({
-					itemList: (opeart_type == 1) ? ['全部','入库', '采购', '销售退货'] : ['全部','出库', '销售', '采购退货'],
+					itemList: (opeart_type == 1) ? ['全部', '入库', '采购', '销售退货'] : ['全部', '出库', '销售', '采购退货'],
 					success: function(res) {
 						if (opeart_type == 1) {
 							if (res.tapIndex == 0) {
 								that.operaterTypeDesc = "全部"
 								extra_type = ''
-							}else if (res.tapIndex == 1) {
+							} else if (res.tapIndex == 1) {
 								that.operaterTypeDesc = "入库"
 								extra_type = 2
 							} else if (res.tapIndex == 2) {
@@ -280,7 +261,7 @@
 							if (res.tapIndex == 0) {
 								that.operaterTypeDesc = "全部"
 								extra_type = ''
-							}else if (res.tapIndex == 1) {
+							} else if (res.tapIndex == 1) {
 								that.operaterTypeDesc = "出库"
 								extra_type = 2
 							} else if (res.tapIndex == 2) {
@@ -383,8 +364,8 @@
 				if (that.stock) query.equalTo("stockIds", "==", {
 					"$regex": "" + that.stock.objectId + ".*"
 				});
-				
-				if(that.beizhu){
+
+				if (that.beizhu) {
 					query.equalTo("beizhu", "==", {
 						"$regex": "" + that.beizhu + ".*"
 					});
@@ -422,16 +403,16 @@
 					})
 				} else {
 					if (item.recordType == "new") {
-						if(item.type == -3 || item.type == -4){
+						if (item.type == -3 || item.type == -4) {
 							wx.navigateTo({
 								url: 'SellDetail/SellLaterDetail?id=' + item.objectId,
 							})
-						}else{
+						} else {
 							wx.navigateTo({
 								url: 'SellDetail/SellDetail?id=' + item.objectId,
 							})
 						}
-						
+
 					} else {
 						wx.navigateTo({
 							url: 'detail/detail?id=' + item.objectId,
@@ -455,6 +436,12 @@
 	.status_noconfrim {
 		border: 1prx solid#f30 !important;
 		color: #f30 !important;
+	}
+
+	.opreationStatus {
+		padding: 0 8rpx;
+		font-size: 20rpx;
+		border-radius: 8rpx;
 	}
 
 	.item {

@@ -270,9 +270,11 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let goodsName = [];
 				for (let i = 0; i < this.products.length; i++) {
 					let num = Number(this.products[i].reserve) - this.products[i].num;
-
+					goodsName.push(this.products[i].goodsName)
+					
 					//单据
 					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
@@ -367,7 +369,7 @@
 						query.set("master", poiID);
 						query.set("real_num", that.total_num);
 						query.set("allCostPrice", that.allCostPrice);
-						query.set('goodsName', that.products[0].goodsName);
+						query.set('goodsName', goodsName.join(","));
 						query.set('real_money', Number(that.real_money));
 						query.set('debt', that.all_money - Number(that.real_money));
 						if (that.account) {

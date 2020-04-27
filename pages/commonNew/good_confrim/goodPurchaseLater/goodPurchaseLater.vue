@@ -40,7 +40,7 @@
 							</view>
 						</navigator>
 						<view class="display_flex_bet orderListItemBorder borderBot">
-							<view style="width: 140rpx;">预收款</view>
+							<view style="width: 140rpx;">预付款</view>
 							<input placeholder='请输入预收款' v-model="haveGetMoney" style="text-align: right;" type="digit"></input>
 						</view>
 						<view class="display_flex_bet orderListItemBorder borderBot">
@@ -173,7 +173,7 @@
 			uid = uni.getStorageSync("uid");
 			this.products = uni.getStorageSync("products");
 			uni.setNavigationBarTitle({
-				title: "销售订单"
+				title: "采购订单"
 			})
 
 			if (that.user.rights && that.user.rights.othercurrent) {
@@ -299,6 +299,11 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let goodsName = [];
+				
+				for (let i = 0; i < this.products.length; i++) {
+					goodsName.push(this.products[i].goodsName)
+				}
 				
 				let pointer3 = Bmob.Pointer('producers')
 				let producer = pointer3.set(uni.getStorageSync("producer").objectId)
@@ -321,7 +326,7 @@
 				query.set("opreater", poiID1);
 				query.set("master", poiID);
 				query.set("real_num", that.total_num);
-				query.set('goodsName', that.products[0].goodsName);
+				query.set('goodsName', goodsName.join(","));
 				
 				query.set("allCostPrice", that.allCostPrice);//总成本金额
 				query.set("all_money", that.all_money);//总销售额

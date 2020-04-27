@@ -295,6 +295,12 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let goodsName = [];
+				
+				for (let i = 0; i < this.products.length; i++) {
+					//单据
+					goodsName.push(this.products[i].goodsName)
+				}
 				
 				let pointer3 = Bmob.Pointer('customs')
 				let custom = pointer3.set(uni.getStorageSync("custom").objectId)
@@ -317,7 +323,7 @@
 				query.set("opreater", poiID1);
 				query.set("master", poiID);
 				query.set("real_num", that.total_num);
-				query.set('goodsName', that.products[0].goodsName);
+				query.set('goodsName', goodsName.join(","));
 				
 				query.set("allCostPrice", that.allCostPrice);//总成本金额
 				query.set("all_money", that.all_money);//总销售额

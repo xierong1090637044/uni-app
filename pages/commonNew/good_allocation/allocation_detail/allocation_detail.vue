@@ -163,8 +163,9 @@
 
 				let billsObj = new Array();
 				let detailObj = [];
+				let goodsName = [];
 				for (let i = 0; i < that.products.length; i++) {
-
+					goodsName.push(this.products[i].goodsName)
 					let tempBills = Bmob.Query('Bills');
 					let detailBills = {}
 
@@ -232,7 +233,7 @@
 					query.set("stock", stockId);
 					query.set("out_stock", out_stockId);
 					query.set("master", poiID);
-					query.set('goodsName', that.products[0].goodsName);
+					query.set('goodsName', goodsName.join(","));
 
 					query.save().then(res => {
 						let operationId = res.objectId;

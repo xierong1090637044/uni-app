@@ -49,11 +49,11 @@
 					<view class="text">会员中心</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>
-				<navigator class="li " hover-class="none" url="/pages/mine/systemSetting/systemSetting">
+				<!--<navigator class="li " hover-class="none" url="/pages/mine/systemSetting/systemSetting">
 					<fa-icon type="cogs" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">系统相关</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>
+				</navigator>-->
 				<!--<navigator class="li " hover-class="none" url="/pages/mine/uploadFile/uploadFile">
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
