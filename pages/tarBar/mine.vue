@@ -59,7 +59,7 @@
 					<view class="text">批量上传导出</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 				</navigator>-->
-				<navigator class="li noborder" hover-class="none" url="/pages/mine/setting/setting">
+				<!--<navigator class="li noborder" hover-class="none" url="/pages/mine/setting/setting">
 					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">我的设置</view>
 					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 300rpx;justify-content: flex-end">
@@ -67,7 +67,7 @@
 						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
 					</view>
 
-				</navigator>
+				</navigator>-->
 			</view>
 			<view class="list">
 				<!--<navigator class="li " hover-class="none" url="/pages/mine/update_history/update_history">
@@ -102,7 +102,11 @@
 				</navigator>
 			</view>
 		</view>
-
+		
+		<view style="padding:10rpx 30rpx;background: #fff;margin-top: 20rpx;">
+			<view style="font-size: 24rpx;">请使用谷歌游览器打开电脑端地址</view>
+			<view style="font-size: 24rpx;">https://www.shoujixungeng.com/</view>
+		</view>
 
 	</view>
 </template>

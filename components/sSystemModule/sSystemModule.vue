@@ -26,6 +26,19 @@
 				</view>
 			</view>
 		</view>-->
+		
+		<view class="modelItem">
+			<view class="title">系统设置</view>
+			<view class='o_list'>
+				<view v-for='(value,index) in nowThridEle' :key="index" class='o_item' @click="options(value.id)">
+					<view class="o_headerItem">
+						<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>
+					</view>
+					<view class='o_text'>{{value.name}}</view>
+					<view style="font-size: 20rpx;color: #333;font-weight: 100;" v-if="value.notice">（{{value.notice}})</view>
+				</view>
+			</view>
+		</view>
 
 	</view>
 </template>
@@ -71,9 +84,20 @@
 						id:4
 					}
 				],
+				
+				thridEle: [
+					{
+						name: '系统设置',
+						notice: '',
+						icon: 'cog',
+						url:"/pages/mine/setting/setting",
+						id:5
+					},
+				],
 
 				nowFristEle: [],
 				nowSecondEle:[],
+				nowThridEle:[],
 				user: uni.getStorageSync("user"),
 			};
 		},
@@ -83,9 +107,11 @@
 			if (that.user.identity == 2) {
 				that.nowFristEle = []
 				that.nowSecondEle = []
+				that.nowThridEle = []
 			}else{
 				that.nowFristEle = that.fristEle
 				that.nowSecondEle = that.secondEle
+				that.nowThridEle = that.thridEle
 			}
 		},
 		
@@ -93,10 +119,12 @@
 			options(id){
 				if(id == 3){
 					that.downloadDemoFile()
-				}
-				
-				if(id == 4){
+				}else if(id == 4){
 					that.uploadfile()
+				}else if(id == 5){
+					uni.navigateTo({
+						url:"/pages/mine/setting/setting"
+					})
 				}
 			},
 			
