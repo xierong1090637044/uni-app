@@ -9,7 +9,7 @@
 						<!--<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>-->
 					</view>
 					<view class='o_text'>{{value.name}}</view>
-					<view style="font-size: 12rpx;color: #333;font-weight: 100;">{{value.notice}}</view>
+					<view style="font-size: 20rpx;color: #333;font-weight: 100;">{{value.notice}}</view>
 				</navigator>
 			</view>
 		</view>
