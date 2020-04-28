@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view v-if="canUse">
 		<view class="modelItem">
 			<view class="title">往来账目</view>
 			<view class='o_list'>
@@ -39,6 +39,7 @@
 			</view>
 		</view>
 	</view>
+	<view v-else style="font-size: 32rpx;color: #333;font-weight: bold;">请联系管理员开通使用</view>
 </template>
 
 <script>
@@ -86,7 +87,19 @@
 					icon: 'icon-sh_quanbu',
 					url: '/pages/finance/myData/outClass/outClass',
 				}],
+				
+				user: uni.getStorageSync("user"),
+				identity:uni.getStorageSync("identity"),
+				canUse:true
 			};
+		},
+		
+		mounted() {
+			if (this.identity == 2) {
+				if(this.user.rights.moneyCurrent.indexOf("0") == -1){
+					this.canUse = false
+				}
+			}
 		}
 	}
 </script>

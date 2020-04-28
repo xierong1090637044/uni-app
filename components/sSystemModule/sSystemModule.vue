@@ -99,12 +99,13 @@
 				nowSecondEle:[],
 				nowThridEle:[],
 				user: uni.getStorageSync("user"),
+				identity:uni.getStorageSync("identity"),
 			};
 		},
 
 		mounted() {
 			that = this;
-			if (that.user.identity == 2) {
+			if (that.identity == 2) {
 				that.nowFristEle = []
 				that.nowSecondEle = []
 				that.nowThridEle = []

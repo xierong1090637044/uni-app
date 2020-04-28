@@ -199,9 +199,8 @@
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、销售单、采购单撤销bug修复</view>
-							<view>2、记录操作的所有产品名称</view>
-							<view>3、页面样式优化</view>
+							<view>1、员工修改，权限丢失问题</view>
+							<view>2、员工权限不起作用bug修复</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

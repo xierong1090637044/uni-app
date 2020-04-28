@@ -10,7 +10,7 @@
 							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">
 								<view style="display: flex;">
 									<checkbox :value="''+item.id" :checked="item.checked" style="transform:scale(0.9)" class="round blue" />
-									<text style="margin-left: 20rpx;width: 280rpx;">{{item.name}}</text>
+									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</view>
 			
 								<view v-if="item.id == 2" style="padding-left: 80rpx;">

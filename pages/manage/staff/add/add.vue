@@ -146,12 +146,12 @@
 					query.set("password", that.staff_password);
 					query.set("pwd", that.staff_password);
 					query.set("mobilePhoneNumber", that.staff_phone);
-					query.set("rights", rights);
+					//query.set("rights", rights);
 					query.set("address", (that.staff_address == null) ? '' : that.staff_address);
 					query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
-					query.set("masterId", poiID);
+					//query.set("masterId", poiID);
 					query.set("disabled", !that.disabled);
-					query.set("stocks", rights.select_stocks || []);
+					//query.set("stocks", rights.select_stocks || []);
 					query.set("identity", 2);
 					//if (shop) query.set("shop", shopId);
 					query.set("id", staff.objectId);
@@ -197,6 +197,7 @@
 							query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
 							query.set("masterId", poiID);
 							query.set("have_out", 0);
+							query.set("identity", 2);
 							query.set("disabled", !that.disabled);
 							query.save().then(res => {
 								console.log(res)
