@@ -74,11 +74,12 @@
 
 				nowFristEle: [],
 				user: uni.getStorageSync("user"),
+				identity:uni.getStorageSync("identity"),
 			};
 		},
 
 		mounted() {
-			if (this.user.identity == 2) {
+			if (this.identity == 2) {
 				for (let item of this.user.rights.current) {
 					//console.log(item)
 					if (this.fristEle[item]) {

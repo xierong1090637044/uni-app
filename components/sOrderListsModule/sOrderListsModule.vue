@@ -116,11 +116,12 @@
 				nowSecondEle: [],
 				nowThridEle: [],
 				user: uni.getStorageSync("user"),
+				identity:uni.getStorageSync("identity"),
 			};
 		},
 
 		mounted() {
-			if (this.user.identity == 2) {
+			if (this.identity == 2) {
 				//console.log(item)
 				for (let model1 of this.fristEle) {
 					if (this.user.rights.recodecurrent.indexOf(model1.id.toString()) >= 0) {
