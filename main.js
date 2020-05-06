@@ -7,6 +7,7 @@ import nocontent from "@/components/No_content.vue"
 import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 import uniIcon from "@/components/uni-icon/uni-icon.vue"
 import Bmob from "hydrogen-js-sdk"
+import http from '@/utils/http.js';
 // #ifdef H5
 import wechat from './utils/wechat'
 // #endif
@@ -38,6 +39,7 @@ const i18n = new VueI18n({
 
 Vue.prototype._i18n = i18n
 Vue.prototype.Bmob = Bmob
+Vue.prototype.$http = http
 // #ifdef H5
 Vue.prototype.$wechat =wechat;
 // #endif

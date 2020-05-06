@@ -11,18 +11,22 @@
 				 :disabled="inputCan" />
 			</view>
 
-			<view class="display_flex item">
+			<!--<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">打印功能</view>
 				<input class="uni-input" placeholder="需购买飞鹅云打印机,然后联系客服开通" :disabled="true" style="border-bottom: unset;" />
-			</view>
+			</view>-->
 			<!--<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
 				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" @blur="modify_setting" :disabled="inputCan" />
-			</view>
+			</view>-->
 			<view class="display_flex item">
 				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
-				<input class="uni-input" placeholder="请输入打印机编号" v-model="params.number" @blur="modify_setting" :disabled="inputCan" />
-			</view>-->
+				<input class="uni-input" placeholder="请输入打印机编号SN" v-model="params.number" @blur="addPrint" :disabled="inputCan" @confirm="addPrint"/>
+			</view>
+			<view class="display_flex item">
+				<view style="margin-right: 10rpx;width: 170rpx;">打印机识别码</view>
+				<input class="uni-input" placeholder="请输入打印机识别码KEY" v-model="params.KEY" @blur="addPrint" :disabled="inputCan" @confirm="addPrint"/>
+			</view>
 		</view>
 
 		<view style="margin-top: 30rpx;">
@@ -38,12 +42,12 @@
 					<switch @change="negativeOut" :checked="params.negativeOut" :disabled="inputCan" />
 				</view>
 			</view>
-			<view>
+			<!--<view>
 				<view class="display_flex_bet item" style="padding: 20rpx;">
 					<view>物料管理</view>
 					<switch @change="showProduction" :checked="params.production" />
 				</view>
-			</view>
+			</view>-->
 		</view>
 
 
@@ -81,6 +85,7 @@
 					USER: '',
 					UKEY: '',
 					number: 0,
+					KEY:'',
 					wx_openid: '',
 					wechat_info: false,
 					auto_print: false, //自动打印
@@ -98,9 +103,8 @@
 
 				if (res[0]) {
 					that.params.show_float = res[0].show_float ? res[0].show_float : ''
-					that.params.USER = res[0].USER ? res[0].USER : ''
-					that.params.UKEY = res[0].UKEY ? res[0].UKEY : ''
-					that.params.number = res[0].show_float ? res[0].number : 0
+					that.params.number = res[0].number ? res[0].number : ''
+					that.params.KEY = res[0].KEY ? res[0].KEY : ''
 					if (res[0].wx_openid) {
 						that.params.wechat_info = true
 					} else {

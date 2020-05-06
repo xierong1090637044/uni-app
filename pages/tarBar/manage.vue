@@ -18,14 +18,23 @@
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 2">
 				<sOrderListsModule></sOrderListsModule>
 			</view>
-
-
+			
+			<!--报表-->
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 3">
+				<sReportModule></sReportModule>
+			</view>
+			
+			<!--分析-->
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 4">
 				<sAnalyseModule></sAnalyseModule>
 			</view>
 			
-			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 4">
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 5">
 				<sSystemModule></sSystemModule>
+			</view>
+			
+			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 6">
+				<sCourseModule></sCourseModule>
 			</view>
 
 
@@ -44,6 +53,8 @@
 	import sOrderListsModule from "@/components/sOrderListsModule/sOrderListsModule.vue"
 	import sAnalyseModule from "@/components/sAnalyseModule/sAnalyseModule.vue"
 	import sSystemModule from "@/components/sSystemModule/sSystemModule.vue"
+	import sCourseModule from "@/components/sCourseModule/sCourseModule.vue"
+	import sReportModule from "@/components/sReportModule/sReportModule.vue"
 
 	let that;
 
@@ -54,11 +65,13 @@
 			sOrderListsModule,
 			sAnalyseModule,
 			sSystemModule,
+			sCourseModule,
+			sReportModule,
 			faIcon
 		},
 		data() {
 			return {
-				leftOptionList: ['基础', '财务', '记录', '分析','系统'],
+				leftOptionList: ['基础', '财务', '记录', '报表','分析','系统','教程'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
 				setting: uni.getStorageSync("setting"),

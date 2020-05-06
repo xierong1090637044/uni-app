@@ -1,8 +1,8 @@
 <template>
 	<view class="page">
 		<view class="content">
-			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" right-text="新增" @click-left="shaixuan"
-			 @click-right="goto_add" :shadow="false">
+			<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :right-text="rightText" :left-text="leftText"
+			 @click-left="batchOptions" @click-right="goto_add" :shadow="false">
 				<view class="input-view display_flex">
 					<fa-icon type="search" size="16" color="#999"></fa-icon>
 					<input confirm-type="search" class="input" type="text" placeholder="请输入名字 含量 存放位置" @confirm="input_confirm" @blur="input_confirm"
@@ -33,32 +33,40 @@
 			</view>
 			<scroll-view class="uni-product-list" scroll-y>
 				<view v-if="productList && productList.length > 0">
-					<view class="uni-product display_flex" v-for="(product,index) in productList" :key="index">
+					<checkbox-group @change="selectGoods">
+						<view class="uni-product display_flex" v-for="(product,index) in productList" :key="index">
 
-						<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon+'!upyun520//fwfh/200x200'" mode="aspectFit" @click="priviewImg(product.goodsIcon)"></image>
-						<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
+							<checkbox :value="product.objectId" style="transform:scale(0.7)" v-if="moreSelect" />
+							<view class="display_flex" style="width: 100%;">
+								<image v-if="product.goodsIcon" class="product_image" :src="product.goodsIcon+'!upyun520//fwfh/200x200'" mode="aspectFit"
+								 @click="priviewImg(product.goodsIcon)"></image>
+								<image src="/static/goods-default.png" class="product_image" v-else mode="widthFix"></image>
 
-						<view style="margin:0 20rpx;width: 80%;" @click="goDetail(product)">
-							<view class="product_reserve display_flex_bet" style="width: 100%;">
-								<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name">{{product.goodsName}}</view>
-								
+								<view style="margin:0 20rpx;width: 80%;" @click="goDetail(product)">
+									<view class="product_reserve display_flex_bet" style="width: 100%;">
+										<view :style="{ 'color': product.stocktype==0 ? '#f30' : ''} " class="product_name">{{product.goodsName}}</view>
+
+									</view>
+
+									<view class="product_reserve display_flex_bet" style="width: 100%;">
+										<view style="font-size: 24rpx;">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
+										<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
+									</view>
+
+									<view class="product_reserve display_flex_bet" style="width: 100%;">
+										<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
+										<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
+									</view>
+									<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
+										<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
+									</view>
+								</view>
+								<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
 							</view>
 
-							<view class="product_reserve display_flex_bet" style="width: 100%;">
-								<view style="font-size: 24rpx;">成本价:<text class="text_notice">{{product.costPrice || 0}}</text></view>
-								<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
-							</view>
-
-							<view class="product_reserve display_flex_bet" style="width: 100%;">
-								<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
-								<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
-							</view>
-							<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
-								<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
-							</view>
 						</view>
-						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
-					</view>
+					</checkbox-group>
+
 				</view>
 				<view v-else>
 					<view style="margin-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有商品啦!</view>
@@ -71,42 +79,16 @@
 			</view>
 		</view>
 
-		<!--筛选模板-->
-		<view v-if="showOptions" class="modal_background" @click="showOptions = false">
-			<view class="showOptions">
-				<view class="input_item1" style="padding: 10rpx 30rpx 10rpx;border-bottom: 1rpx solid#F7F7F7;">
-					<view class="display_flex">
-						<view>预警产品</view>
-						<view @click.stop="" style="margin-left: 30rpx;">
-							<switch :checked="stock_checked" @change="change_stocktatus" />
-						</view>
-					</view>
-
-					<view class="display_flex" style="padding: 0 30rpx;margin-top: 10rpx;">
-						<view>失效产品</view>
-						<view @click.stop="" style="margin-left: 30rpx;">
-							<switch :checked="checked" @change="change_timestatus" />
-						</view>
-					</view>
-				</view>
-				<view class="option_bottom">
-					<view class="selection" @click="option_reset">重置</view>
-					<view class="selection1" @click="option_confrim">确定</view>
-				</view>
-			</view>
-		</view>
-
 		<!--排序模板-->
 		<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
 			<view class="showOptionsTransparent">
-				<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;" @click="selectOrder(item)">
+				<view class="display_flex_bet" v-for="(item,index) in orders" :key="index" style="padding: 16rpx 30rpx;border-bottom: 1rpx solid#F7F7F7;"
+				 @click="selectOrder(item)">
 					<view style="color: #333;">{{item.desc}}({{item.notice}})</view>
 					<fa-icon type="check" size="18" color="#2ca879" v-if="item.checked"></fa-icon>
 				</view>
 			</view>
 		</view>
-
-
 
 	</view>
 </template>
@@ -132,10 +114,12 @@
 		data() {
 			return {
 				page_num: 1,
-				page_size:30,
+				page_size: 30,
+				rightText: "新增",
+				leftText: "批量操作",
 				showOrder: false, //是否显示排序
 				showOptions: false, //是否显示筛选
-				isPriviewImg:false,
+				isPriviewImg: false,
 
 				productList: null,
 				search_text: '',
@@ -143,35 +127,39 @@
 				headerSelection: {
 					goodsClass: '',
 					stocks: "",
-					order: {"order":"-createdAt"},
-					options:'' ,
+					order: {
+						"order": "-createdAt"
+					},
+					options: '',
 				},
 				orders: [{
 					"desc": "库存数量",
 					"notice": "从高到低",
 					"order": "-reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "库存数量",
 					"notice": "从低到高",
 					"order": "reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked":true,
+					"checked": true,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
 					"order": "createdAt",
-					"checked":false,
-				},{
+					"checked": false,
+				}, {
 					"desc": "名字",
 					"notice": "正序",
 					"order": "goodsName",
-					"checked":false,
-				}]
+					"checked": false,
+				}],
+				moreSelect: false,
+				selectOptionGoods: [],
 			}
 		},
 
@@ -189,8 +177,8 @@
 		},
 		onShow() {
 			uni.removeStorageSync("now_product");
-			
-			if(uni.getStorageSync("isClickShaiXuan")){ //判断是否下级页面进行了操作
+
+			if (uni.getStorageSync("isClickShaiXuan")) { //判断是否下级页面进行了操作
 				that.page_num = 1
 				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
 				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
@@ -217,10 +205,42 @@
 		},
 
 		methods: {
-			
+
+			//选择商品
+			selectGoods(e) {
+				that.selectOptionGoods = e.detail.value
+			},
+			//批量操作显示
+			batchOptions() {
+
+				if (that.leftText == "批量操作") {
+					wx.showActionSheet({
+						itemList: ['批量删除', '批量打印商品信息'],
+						success(res) {
+							that.moreSelect = true
+							that.leftText = "取消"
+							if (res.tapIndex == 0) {
+								that.rightText = "删除"
+							} else if (res.tapIndex == 1) {
+								that.rightText = "打印"
+							}
+						},
+						fail(res) {
+							console.log(res.errMsg)
+						}
+					})
+				} else {
+					that.selectOptionGoods = []
+					that.moreSelect = false
+					that.leftText = "批量操作"
+					that.rightText = "新增"
+				}
+			},
+
+
 			//选择当前排序
-			selectOrder(item){
-				for(let item of that.orders){
+			selectOrder(item) {
+				for (let item of that.orders) {
 					item.checked = false
 				}
 				item.checked = true
@@ -266,56 +286,124 @@
 
 			//确定点击
 			goto_add() {
-				let user = uni.getStorageSync("user")
-				let identity = uni.getStorageSync("identity")
 
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("order", "==", 0);
-				query.find().then(res => {
-					let productList = res
-					if (user.is_vip || productList.length < 30) {
-						wx.showActionSheet({
-							itemList: ['多店仓添加', '单店仓添加'],
-							success(res) {
-								if (res.tapIndex == 0) {
-									uni.navigateTo({
-										url: "../good_add/good_add?type=more"
-									})
-								} else if (res.tapIndex == 1) {
-									uni.navigateTo({
-										url: "../good_add/good_add?type=single"
-									})
-								}
-							},
-							fail(res) {
-								console.log(res.errMsg)
-							}
-						})
-					} else {
-						uni.showModal({
-							title: '提示',
-							content: '非会员最多上传30件产品',
-							confirmText: "充值会员",
-							success: function(res) {
-								if (res.confirm) {
-									if (identity == 1) {
+				if (that.rightText == "新增") {
+					let user = uni.getStorageSync("user")
+					let identity = uni.getStorageSync("identity")
+
+					const query = Bmob.Query("Goods");
+					query.equalTo("userId", "==", uid);
+					query.equalTo("order", "==", 0);
+					query.find().then(res => {
+						let productList = res
+						if (user.is_vip || productList.length < 30) {
+							wx.showActionSheet({
+								itemList: ['多店仓添加', '单店仓添加'],
+								success(res) {
+									if (res.tapIndex == 0) {
 										uni.navigateTo({
-											url: "/pages/mine/vip/vip"
+											url: "../good_add/good_add?type=more"
 										})
-									} else {
-										uni.showToast({
-											title: "员工不能充值",
-											icon: "none"
+									} else if (res.tapIndex == 1) {
+										uni.navigateTo({
+											url: "../good_add/good_add?type=single"
 										})
 									}
-								} else if (res.cancel) {
-									console.log('用户点击取消');
+								},
+								fail(res) {
+									console.log(res.errMsg)
 								}
+							})
+						} else {
+							uni.showModal({
+								title: '提示',
+								content: '非会员最多上传30件产品',
+								confirmText: "充值会员",
+								success: function(res) {
+									if (res.confirm) {
+										if (identity == 1) {
+											uni.navigateTo({
+												url: "/pages/mine/vip/vip"
+											})
+										} else {
+											uni.showToast({
+												title: "员工不能充值",
+												icon: "none"
+											})
+										}
+									} else if (res.cancel) {
+										console.log('用户点击取消');
+									}
+								}
+							})
+						}
+					})
+				} else if (that.rightText == "删除") {
+					uni.showModal({
+						title: '提示',
+						content: '是否删除这些产品',
+						success: function(res) {
+							if (res.confirm) {
+								let count = 0;
+								for (let goodId of that.selectOptionGoods) {
+									const query = Bmob.Query('Goods');
+									query.destroy(goodId).then(res => {
+										query.equalTo("header", "==", goodId);
+										query.equalTo("userId", "==", uid);
+										query.find().then(todos => {
+											todos.destroyAll().then(res => {
+												// 成功批量修改
+												console.log(res, 'ok')
+											}).catch(err => {
+												console.log(err)
+											});
+										})
+								
+										count += 1;
+										if (count == that.selectOptionGoods.length) {
+											that.selectOptionGoods = []
+											that.moreSelect = false
+											that.leftText = "批量操作"
+											that.rightText = "新增"
+											that.get_productList();
+										}
+									}).catch(err => {
+										console.log(err)
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
 							}
-						})
-					}
-				})
+						}
+					});
+				}else if (that.rightText == "打印") {
+					uni.showModal({
+						title: '提示',
+						content: '是否批量打印这些产品信息',
+						success: function(res) {
+							if (res.confirm) {
+								let count = 0;
+								for (let goodId of that.selectOptionGoods) {
+									that.$http.Post("stock_printInfo", {
+										sn:uni.getStorageSync("setting").sn,
+										type:"good",
+										id:goodId,
+									}).then(res => {
+										count += 1;
+										if (count == that.selectOptionGoods.length) {
+											that.selectOptionGoods = []
+											that.moreSelect = false
+											that.leftText = "批量操作"
+											that.rightText = "新增"
+										}
+									})
+								}
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				}
 			},
 
 			//modal重置的确认点击
@@ -325,34 +413,36 @@
 				that.headerSelection = {
 					goodsClass: '',
 					stocks: "",
-					order: {"order":"-createdAt"},
+					order: {
+						"order": "-createdAt"
+					},
 					options: '',
 				};
 				that.orders = [{
 					"desc": "库存数量",
 					"notice": "从高到低",
 					"order": "-reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "库存数量",
 					"notice": "从低到高",
 					"order": "reserve",
-					"checked":false,
+					"checked": false,
 				}, {
 					"desc": "创建日期",
 					"notice": "最新",
 					"order": "-createdAt",
-					"checked":true,
+					"checked": true,
 				}, {
 					"desc": "创建日期",
 					"notice": "最晚",
 					"order": "createdAt",
-					"checked":false,
-				},{
+					"checked": false,
+				}, {
 					"desc": "名字",
 					"notice": "正序",
 					"order": "goodsName",
-					"checked":false,
+					"checked": false,
 				}]
 				that.page_num = 1;
 				that.search_text = "";
@@ -383,13 +473,13 @@
 					uni.navigateTo({
 						url: "/pages/manage/warehouse/warehouse?type=choose"
 					})
-				}else if(type == "order"){
+				} else if (type == "order") {
 					that.showOrder = true
-				}else if(type == "options"){
+				} else if (type == "options") {
 					that.showOptions = true
 				}
-				
-				uni.setStorageSync("isClickShaiXuan",true);
+
+				uni.setStorageSync("isClickShaiXuan", true);
 			},
 
 			//点击去到详情
@@ -398,11 +488,11 @@
 				uni.setStorageSync("now_product", value);
 				if (value.order == 0) {
 					uni.navigateTo({
-						url: "../good_det/Ngood_det?id="+value.objectId+"&type=false"
+						url: "../good_det/Ngood_det?id=" + value.objectId + "&type=false"
 					})
-				}else if(value.order == 1){
+				} else if (value.order == 1) {
 					uni.navigateTo({
-						url: "../good_det/Ngood_det?id="+value.header.objectId+"&type=false"
+						url: "../good_det/Ngood_det?id=" + value.header.objectId + "&type=false"
 					})
 				} else {
 					uni.navigateTo({
@@ -441,7 +531,7 @@
 				const query3 = query.equalTo("position", "==", {
 					"$regex": "" + that.search_text + ".*"
 				});
-				query.or(query1, query2,query3);
+				query.or(query1, query2, query3);
 
 				/*if (that.checked) {
 					var timestamp = Date.parse(new Date());

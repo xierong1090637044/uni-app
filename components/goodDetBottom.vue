@@ -31,7 +31,7 @@
 	import Bmob from "hydrogen-js-sdk";
 	import common from "@/utils/common.js";
 	import print from "@/utils/print.js";
-	
+
 	let that;
 	export default {
 		props: {
@@ -49,9 +49,9 @@
 			that = this
 		},
 		methods: {
-			
+
 			//货损记录点击
-			addBadGoodRecord(){
+			addBadGoodRecord() {
 				let products = []
 				let uid = uni.getStorageSync("uid")
 				const query = Bmob.Query("Goods");
@@ -59,19 +59,19 @@
 				query.equalTo("header", "==", that.product.objectId);
 				query.include("stocks");
 				query.find().then(res => {
-					for(let item of res){
+					for (let item of res) {
 						item.num = 1;
 						item.total_money = 1 * item.costPrice;
 						item.really_total_money = 1 * item.costPrice;
 						item.modify_retailPrice = item.costPrice;
 					}
-					uni.setStorageSync("products",res)
+					uni.setStorageSync("products", res)
 					uni.navigateTo({
-						url:"/pages/common/goodBad/goodBad"
+						url: "/pages/common/goodBad/goodBad"
 					})
 				});
 			},
-			
+
 			//产品信息修改点击
 			modify() {
 				uni.navigateTo({
@@ -81,40 +81,46 @@
 
 			moreActions() {
 				uni.showActionSheet({
-					itemList: ['产品操作记录', '关联新店仓', '删除','打印'],
+					itemList: ['产品操作记录', '关联新店仓', '删除', '打印'],
 					success: function(res) {
 						let tapIndex = res.tapIndex + 1;
-						if(tapIndex == 1){
+						if (tapIndex == 1) {
 							uni.navigateTo({
-								url:'../operations/operations?objectId='+that.product.objectId+'&goodsName='+that.product.goodsName
+								url: '../operations/operations?objectId=' + that.product.objectId + '&goodsName=' + that.product.goodsName
 							})
-						}else if(tapIndex == 2){
+						} else if (tapIndex == 2) {
 							uni.navigateTo({
-								url:"/pages/manage/warehouse/warehouse?type=choose"
+								url: "/pages/manage/warehouse/warehouse?type=choose"
 							})
 							that.$emit("isChooseStock")
-						}else if(tapIndex == 3){
+						} else if (tapIndex == 3) {
 							that.delete_good(that.product.objectId);
-						}else if(tapIndex == 4){
-							print.print_goodDet(that.product);
+						} else if (tapIndex == 4) {
+							that.$http.Post("stock_printInfo", {
+								sn:uni.getStorageSync("setting").sn,
+								type:"good",
+								id:that.product.objectId,
+							}).then(res => {
+								console.log(res)
+							})
 						}
 					},
 				})
 			},
-			
+
 			//删除商品
 			delete_good(objectId) {
 				let uid = uni.getStorageSync("uid")
 				let user = uni.getStorageSync("user")
-				
-				if(user.identity == 2){
+
+				if (user.identity == 2) {
 					uni.showToast({
-						icon:"none",
-						title:"子账户暂不支持删除"
+						icon: "none",
+						title: "子账户暂不支持删除"
 					})
 					return
 				}
-				
+
 				uni.showModal({
 					title: '提示',
 					content: '是否删除该商品',
@@ -128,36 +134,36 @@
 								query.equalTo("header", "==", objectId);
 								query.equalTo("userId", "==", uid);
 								query.find().then(todos => {
-									
-									if(todos.length > 0){
+
+									if (todos.length > 0) {
 										todos.destroyAll().then(res => {
 											// 成功批量修改
 											uni.navigateBack({
 												delta: 1
-											})	
+											})
 											setTimeout(function() {
 												uni.showToast({
 													title: "删除成功"
 												})
 											}, 1000)
-													
+
 										}).catch(err => {
 											console.log(err)
 										});
-									}else{
+									} else {
 										uni.navigateBack({
 											delta: 1
 										})
-												
+
 										setTimeout(function() {
 											uni.showToast({
 												title: "删除成功"
 											})
 										}, 1000)
 									}
-									
+
 								})
-			
+
 							}).catch(err => {
 								console.log(err)
 							})

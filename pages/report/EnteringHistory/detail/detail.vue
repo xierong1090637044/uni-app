@@ -364,7 +364,7 @@
 					}
 
 				} else {
-					options = ['打印']
+					options = ['撤销','打印']
 				}
 				uni.showActionSheet({
 					itemList: options,
@@ -373,7 +373,13 @@
 							that.revoke()
 							uni.setStorageSync("is_option", true)
 						} else if (res.tapIndex == 1) {
-							print.print_operations(that.detail, that.products)
+							that.$http.Post("stock_printInfo", {
+								sn:uni.getStorageSync("setting").sn,
+								type:"opreations",
+								id:that.detail.objectId,
+							}).then(res => {
+								console.log(res)
+							})
 						} else if (res.tapIndex == 2) {
 							that.confrimOrder()
 						}
@@ -407,48 +413,56 @@
 
 			//数据撤销点击
 			revoke: function() {
-				wx.showModal({
-					title: '提示',
-					content: '数据撤销后不可恢复，请谨慎撤销！',
-					success(res) {
-						if (res.confirm) {
-							uni.showLoading({
-								title: '撤销中...'
-							})
-							const query = Bmob.Query('order_opreations');
-							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('Bills');
-								query.containedIn("objectId", that.bills);
-								query.find().then(todos => {
-
-									todos.destroyAll().then(res => {
-										// 成功批量修改
-										if (that.detail.status) {
-											for (var i = 0; i < that.products.length; i++) {
-												that.delete_bill(i);
-											}
-										} else {
-											uni.hideLoading();
-											uni.navigateBack({
-												delta: 1
-											})
-											setTimeout(function() {
-												uni.showToast({
-													title: '撤销成功'
-												})
-											}, 1000);
-										}
-
-									}).catch(err => {
-										console.log(err)
-									});
+				if(that.detail.type == 3 || that.detail.type == -2){
+					uni.showToast({
+						icon:"none",
+						title:"敬请期待"
+					})
+				}else{
+					wx.showModal({
+						title: '提示',
+						content: '数据撤销后不可恢复，请谨慎撤销！',
+						success(res) {
+							if (res.confirm) {
+								uni.showLoading({
+									title: '撤销中...'
 								})
-							}).catch(err => {
-								console.log(err)
-							})
+								const query = Bmob.Query('order_opreations');
+								query.destroy(that.detail.objectId).then(res => {
+									const query = Bmob.Query('Bills');
+									query.containedIn("objectId", that.bills);
+									query.find().then(todos => {
+					
+										todos.destroyAll().then(res => {
+											// 成功批量修改
+											if (that.detail.status) {
+												for (var i = 0; i < that.products.length; i++) {
+													that.delete_bill(i);
+												}
+											} else {
+												uni.hideLoading();
+												uni.navigateBack({
+													delta: 1
+												})
+												setTimeout(function() {
+													uni.showToast({
+														title: '撤销成功'
+													})
+												}, 1000);
+											}
+					
+										}).catch(err => {
+											console.log(err)
+										});
+									})
+								}).catch(err => {
+									console.log(err)
+								})
+							}
 						}
-					}
-				})
+					})
+				}
+				
 			},
 
 			//审核订单

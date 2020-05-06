@@ -253,7 +253,7 @@
 				if (that.detail.type == -3 || that.detail.type == -4) {
 					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1) {
 
-						options = (that.detail.type == -3) ? ['生成销售单', '删除'] : ['生成采购单', '删除']
+						options = (that.detail.type == -3) ? ['生成销售单', '删除','打印'] : ['生成采购单', '删除','打印']
 
 						uni.showActionSheet({
 							itemList: options,
@@ -290,7 +290,13 @@
 									}
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 2) {
-									print.print_operations(that.detail, that.products)
+									that.$http.Post("stock_printInfo", {
+										sn:uni.getStorageSync("setting").sn,
+										type:"opreations",
+										id:that.detail.objectId,
+									}).then(res => {
+										console.log(res)
+									})
 								}
 							},
 							fail: function(res) {

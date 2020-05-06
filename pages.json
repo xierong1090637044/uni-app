@@ -433,7 +433,11 @@
 					"path": "systemSetting/systemSetting",
 					"style": {}
 				}
-			]
+			    ,{
+                    "path" : "printSetting/printSetting",
+                    "style" : {}
+                }
+            ]
 		},
 		{
 			"root": "pages/shop",

@@ -376,7 +376,13 @@
 									that.revoke()
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 2) {
-									print.print_operations(that.detail, that.products)
+									that.$http.Post("stock_printInfo", {
+										sn:uni.getStorageSync("setting").sn,
+										type:"opreations",
+										id:that.detail.objectId,
+									}).then(res => {
+										console.log(res)
+									})
 								}
 							},
 							fail: function(res) {

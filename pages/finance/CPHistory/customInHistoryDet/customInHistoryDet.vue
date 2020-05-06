@@ -77,7 +77,7 @@
 					<view style="width: 100%;padding: 20rpx 0;">
 						<view class="upload_image display_flex">
 							<view v-if="orderDet.Images && orderDet.Images.length > 0" style="position: relative;" v-for="(url,index) in orderDet.Images" :key="index">
-								<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+								<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;" @tap="previewImg(url)"></image>
 							</view>
 						</view>
 					</view>
@@ -135,8 +135,11 @@
 
 		},
 		methods: {
-
-
+			previewImg(url){
+				uni.previewImage({
+					urls:[url]
+				})
+			}
 		}
 	}
 </script>

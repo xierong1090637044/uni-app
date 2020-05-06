@@ -28,7 +28,7 @@
 		</view>-->
 		
 		<view class="modelItem">
-			<view class="title">系统设置</view>
+			<view class="title">设置</view>
 			<view class='o_list'>
 				<view v-for='(value,index) in nowThridEle' :key="index" class='o_item' @click="options(value.id)">
 					<view class="o_headerItem">
@@ -92,6 +92,12 @@
 						icon: 'cog',
 						url:"/pages/mine/setting/setting",
 						id:5
+					},{
+						name: '打印设置',
+						notice: '',
+						icon: 'cog',
+						url:"/pages/mine/printSetting/printSetting",
+						id:6
 					},
 				],
 
@@ -125,6 +131,10 @@
 				}else if(id == 5){
 					uni.navigateTo({
 						url:"/pages/mine/setting/setting"
+					})
+				}else if(id == 6){
+					uni.navigateTo({
+						url:"/pages/mine/printSetting/printSetting"
 					})
 				}
 			},
