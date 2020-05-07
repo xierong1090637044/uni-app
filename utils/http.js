@@ -2,9 +2,10 @@ import Bmob from "hydrogen-js-sdk";
 export default {
   Post(name, params) {
     params.uid = uni.getStorageSync("uid")
+		uni.showNavigationBarLoading()
     return new Promise((resolve, reject) => {
       Bmob.functions(name, params).then(function(res) {
-        
+        uni.hideNavigationBarLoading()
         if (res.code == 1) {
 					console.log(name,res)
           resolve(res)

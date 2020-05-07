@@ -31,6 +31,17 @@
   ],
   "subPackages": [
     {
+      "root": "pages/reportAnalys",
+      "pages": [
+        "purchaseGoods/purchaseGoods",
+        "purchaseProducers/purchaseProducers",
+        "sellGoods/sellGoods",
+        "sellCustoms/sellCustoms",
+        "stockOutIn/stockOutIn",
+        "stockGoodOut/stockGoodOut"
+      ]
+    },
+    {
       "root": "pages/common",
       "pages": [
         "goods_out/out_detail/out_detail",
@@ -70,7 +81,6 @@
         "good_confrim/good_enter/good_enter",
         "good_confrim/good_confrim",
         "goods-select/goods-select",
-        "good_return/return_detail/return_detail",
         "goods_out/goods_out",
         "good_return/good_return",
         "good_count/good_count",
@@ -107,7 +117,8 @@
         "about_us/about_us",
         "home_page/home_page",
         "warning_log/warning_log",
-        "systemSetting/systemSetting"
+        "systemSetting/systemSetting",
+        "printSetting/printSetting"
       ]
     },
     {

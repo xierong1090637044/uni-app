@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "收款列表",
+  "usingComponents": {
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

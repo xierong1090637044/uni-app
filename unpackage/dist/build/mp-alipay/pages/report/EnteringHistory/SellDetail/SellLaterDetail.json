@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

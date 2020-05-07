@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "添加产品",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content"
+  }
+}

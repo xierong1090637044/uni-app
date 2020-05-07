@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "客户销售排行分析",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

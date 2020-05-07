@@ -12,7 +12,8 @@ page {
 	line-height: 120rpx;
 	width: 120rpx;
 	border-radius: 50%;
-	box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
+	-webkit-box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
+	        box-shadow: 0 20rpx 20rpx rgba(108, 158, 235);
 }
 .text_notice {
 	margin-left: 6rpx;

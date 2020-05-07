@@ -1,0 +1,10 @@
+{
+  "defaultTitle": "产品详情",
+  "usingComponents": {
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "good-det": "/components/GoodDet",
+    "good-det-bottom": "/components/goodDetBottom",
+    "product-purchase": "/components/productPurchase",
+    "product-sell": "/components/productSell"
+  }
+}

@@ -89,13 +89,13 @@
 				thridEle: [{
 						name: '入库记录',
 						icon: 'file-o',
-						url: '/pages/report/EnteringHistory/EnteringHistory?type=1&extra_type=2&title=入库记录',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=1&title=入库记录',
 						id: 0,
 					},
 					{
 						name: '出库记录',
 						icon: 'file-o',
-						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&extra_type=2&title=出库记录',
+						url: '/pages/report/EnteringHistory/EnteringHistory?type=-1&title=出库记录',
 						id: 1,
 					},
 					{

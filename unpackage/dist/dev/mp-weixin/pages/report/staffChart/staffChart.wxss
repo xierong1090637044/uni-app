@@ -29,9 +29,9 @@
   padding: 10rpx 0;
 }
 .frist .item {
-    text-align: center;
-    width: 100%;
-    color: #999;
+  text-align: center;
+  width: 100%;
+  color: #999;
 }
 .select {
   display: -webkit-box;
@@ -48,8 +48,8 @@
   border-bottom: 1rpx solid #F7F7F7;
 }
 .select .section {
-    width: 50%;
-    text-align: center;
+  width: 50%;
+  text-align: center;
 }
 .staff_name {
   font-weight: bold;

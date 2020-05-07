@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "消息中心",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

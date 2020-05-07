@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "采购（新版）",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

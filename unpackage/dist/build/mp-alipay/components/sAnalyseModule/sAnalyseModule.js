@@ -1,0 +1,10 @@
+;my.defineComponent || (my.defineComponent = Component);(my["webpackJsonp"]=my["webpackJsonp"]||[]).push([["components/sAnalyseModule/sAnalyseModule"],{1486:function(a,n,e){"use strict";e.r(n);var r=e("4165"),t=e.n(r);for(var o in r)"default"!==o&&function(a){e.d(n,a,(function(){return r[a]}))}(o);n["default"]=t.a},"30b7":function(a,n,e){},4165:function(a,n,e){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.default=void 0;var r={data:function(){return{fristEle:[{name:"畅销产品",icon:"gg",url:"/pages/analysis/goodSell/goodSell"},{name:"预警产品",icon:"exclamation-circle",url:"/pages/report/warningGoods/warningGoods"},{name:"客户销售",icon:"id-card-o",url:"/pages/analysis/customSell/customSell"},{name:"供货商采购",icon:"address-book",url:"/pages/analysis/producerSell/producerSell"},{name:"类别汇总",icon:"list",url:"/pages/analysis/classAll/classAll"},{name:"单品统计",icon:"quora",url:"/pages/manage/productCount/productCount"},{name:"销售业绩",icon:"area-chart",url:"/pages/report/staffChart/staffChart"},{name:"经营状况",icon:"recycle",url:"/pages/report/operational_status/operational_status"},{name:"报表",icon:"pie-chart",url:"/pages/report/chart/chart"}]}}};n.default=r},7627:function(a,n,e){"use strict";var r=e("30b7"),t=e.n(r);t.a},afd4:function(a,n,e){"use strict";var r,t=function(){var a=this,n=a.$createElement;a._self._c},o=[];e.d(n,"b",(function(){return t})),e.d(n,"c",(function(){return o})),e.d(n,"a",(function(){return r}))},d204:function(a,n,e){"use strict";e.r(n);var r=e("afd4"),t=e("1486");for(var o in t)"default"!==o&&function(a){e.d(n,a,(function(){return t[a]}))}(o);e("7627");var u,l=e("f0c5"),c=Object(l["a"])(t["default"],r["b"],r["c"],!1,null,null,null,!1,r["a"],u);n["default"]=c.exports}}]);
+;(my["webpackJsonp"] = my["webpackJsonp"] || []).push([
+    'components/sAnalyseModule/sAnalyseModule-create-component',
+    {
+        'components/sAnalyseModule/sAnalyseModule-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('c11b')['createComponent'](__webpack_require__("d204"))
+        })
+    },
+    [['components/sAnalyseModule/sAnalyseModule-create-component']]
+]);

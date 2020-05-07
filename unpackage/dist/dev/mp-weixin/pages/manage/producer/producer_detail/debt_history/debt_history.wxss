@@ -48,7 +48,7 @@
   background: #fff;
 }
 .select .section {
-    width: 50%;
-    text-align: center;
+  width: 50%;
+  text-align: center;
 }
 

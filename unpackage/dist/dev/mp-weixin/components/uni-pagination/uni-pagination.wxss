@@ -2,7 +2,8 @@
 @charset "UTF-8";
 .uni-pagination {
 	width: 100%;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	padding: 0 40rpx;
 	position: relative;
 	overflow: hidden;
@@ -38,7 +39,8 @@
 	padding: 0 16rpx;
 	line-height: 60rpx;
 	font-size: 28rpx;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	position: relative;
 	background-color: #f8f8f8;
 	display: -webkit-box;
@@ -67,7 +69,8 @@
 	        transform: scale(.5);
 	-webkit-transform-origin: 0 0;
 	        transform-origin: 0 0;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	border-radius: 12rpx
 }
 .uni-pagination__num {

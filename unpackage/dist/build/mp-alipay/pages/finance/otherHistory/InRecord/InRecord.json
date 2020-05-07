@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "新增收款",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

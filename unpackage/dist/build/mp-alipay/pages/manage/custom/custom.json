@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "客户管理",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content"
+  }
+}

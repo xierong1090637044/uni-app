@@ -30,24 +30,24 @@
   border-radius: 16rpx;
 }
 .Item .itemB {
-    background: #f2f2f2;
-    text-align: center;
-    padding: 42rpx 0;
-    width: 30%;
-    border-radius: 8rpx;
+  background: #f2f2f2;
+  text-align: center;
+  padding: 42rpx 0;
+  width: 30%;
+  border-radius: 8rpx;
 }
 .Item .itemC {
-    background: #f2f2f2;
-    text-align: left;
-    padding: 10rpx 20rpx;
-    border-radius: 16rpx;
+  background: #f2f2f2;
+  text-align: left;
+  padding: 10rpx 20rpx;
+  border-radius: 16rpx;
 }
 .Item .addButton {
-    color: #118FFF;
-    border: 1rpx solid #118FFF;
-    border-radius: 40rpx;
-    width: 60%;
-    margin: 0 auto;
-    margin-top: 20rpx;
+  color: #118FFF;
+  border: 1rpx solid #118FFF;
+  border-radius: 40rpx;
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 20rpx;
 }
 

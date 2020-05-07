@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "账户资金流水记录",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "loading": "/components/Loading/index"
+  }
+}

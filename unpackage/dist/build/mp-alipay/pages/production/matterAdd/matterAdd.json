@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "物料添加",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uni-collapse": "/components/uni-collapse/uni-collapse",
+    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item"
+  }
+}

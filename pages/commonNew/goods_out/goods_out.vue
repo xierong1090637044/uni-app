@@ -58,8 +58,8 @@
 							<text v-if="value == 1 || value == 3 || value == 5">销售量：</text>
 							<text v-else-if="value == 2">出库量：</text>
 							<text v-else-if="value == 4">退货量：</text>
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :value='1' v-if="negativeOut" />
-							<uninumberbox :min="1" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else />
+							<uninumberbox :min="0.01" @change="handleNumChange($event, index)" :value='1' v-if="negativeOut" />
+							<uninumberbox :min="0.01" @change="handleNumChange($event, index)" :max="Number(item.reserve)" :value='1' v-else />
 						</view>
 
 						<view class="bottom_del display_flex_bet">

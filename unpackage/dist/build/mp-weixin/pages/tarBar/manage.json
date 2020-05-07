@@ -1,7 +1,13 @@
 {
   "navigationBarTitleText": "管理",
   "usingComponents": {
+    "s-stock-module": "/components/sStockModule/sStockModule",
     "s-finance-module": "/components/sFinanceModule/sFinanceModule",
+    "s-order-lists-module": "/components/sOrderListsModule/sOrderListsModule",
+    "s-report-module": "/components/sReportModule/sReportModule",
+    "s-analyse-module": "/components/sAnalyseModule/sAnalyseModule",
+    "s-system-module": "/components/sSystemModule/sSystemModule",
+    "s-course-module": "/components/sCourseModule/sCourseModule",
     "fa-icon": "/components/kilvn-fa-icon/fa-icon"
   }
 }

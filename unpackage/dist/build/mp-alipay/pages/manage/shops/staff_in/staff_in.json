@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "员工列表",
+  "usingComponents": {
+    "loading": "/components/Loading/index",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

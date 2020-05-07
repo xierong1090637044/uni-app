@@ -1027,7 +1027,8 @@ input:focus {
   color: #999;
   font-weight: bold;
   margin-top: 15%;
-  box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
+          box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
 }
 .staff_login_button {
   width: 90%;
@@ -1038,7 +1039,8 @@ input:focus {
   color: #fff !important;
   font-weight: bold;
   margin-top: 10%;
-  box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
+          box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
 }
 .confirm_btton {
   width: 90%;
@@ -1049,7 +1051,8 @@ input:focus {
   color: #fff;
   font-weight: bold;
   margin-top: 10%;
-  box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
+          box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.1);
 }
 .bg_button {
   background: #426ab3 !important;

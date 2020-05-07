@@ -1,0 +1,11 @@
+{
+  "defaultTitle": "客户应收列表",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "uni-icon": "/components/uni-icon/uni-icon",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content",
+    "loading": "/components/Loading/index",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
+  }
+}

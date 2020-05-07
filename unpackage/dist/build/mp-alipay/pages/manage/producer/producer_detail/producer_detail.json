@@ -1,0 +1,10 @@
+{
+  "defaultTitle": "供应商详情",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "uni-calendar": "/components/uni-calendar/uni-calendar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "producer-det-bottom": "/components/producerDetBottom"
+  }
+}

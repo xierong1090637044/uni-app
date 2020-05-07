@@ -45,6 +45,7 @@
 .oBorder{
     border: none;
     border-radius: 2.5rem ;
+    -webkit-box-shadow: 0 0 60rpx 0 rgba(43,86,112,.1);
     box-shadow: 0 0 60rpx 0 rgba(43,86,112,.1);
 }
 

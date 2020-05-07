@@ -338,7 +338,8 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	padding: 0 45rpx;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	font-size: 13pt;
 	color: #666;
 	border-bottom: 1px #e5e5e5 solid;
@@ -399,7 +400,8 @@
 }
 .describe {
 	width: 100%;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	padding: 20rpx 45rpx 30rpx;
 	display: -webkit-box;
 	display: -webkit-flex;

@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "操作手册",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

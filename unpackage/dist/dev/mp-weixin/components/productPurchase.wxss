@@ -28,14 +28,14 @@
   background: #fff;
 }
 .frist .header {
-    padding: 10rpx 0;
+  padding: 10rpx 0;
 }
 .frist .listItem {
-    text-align: center;
-    width: 33.33%;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-            justify-content: center;
+  text-align: center;
+  width: 33.33%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
 .second {
   background: #fff;
@@ -43,7 +43,7 @@
   padding: 20rpx 0;
 }
 .second .secondItem {
-    width: 50%;
-    text-align: center;
+  width: 50%;
+  text-align: center;
 }
 

@@ -1,0 +1,10 @@
+{
+  "defaultTitle": "物料",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "uni-icon": "/components/uni-icon/uni-icon",
+    "uni-pagination": "/components/uni-pagination/uni-pagination",
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

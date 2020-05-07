@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "销售（新版）",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

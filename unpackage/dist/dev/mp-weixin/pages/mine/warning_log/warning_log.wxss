@@ -34,17 +34,17 @@
   width: calc(100% - 60rpx);
 }
 .content .list_item {
-    padding: 20rpx;
-    border-bottom: 1rpx solid #ccc;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #ccc;
 }
 .content .information {
-    margin-left: 20rpx;
-    color: #3d3d3d;
+  margin-left: 20rpx;
+  color: #3d3d3d;
 }
 .content .option_time {
-    font-size: 24rpx;
-    color: #999;
-    text-align: right;
-    margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #999;
+  text-align: right;
+  margin-top: 10rpx;
 }
 

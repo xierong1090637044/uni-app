@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "多规格设置",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

@@ -41,8 +41,8 @@ page {
   border-bottom: 1rpx solid #F7F7F7;
 }
 .select .section {
-    width: 50%;
-    text-align: center;
+  width: 50%;
+  text-align: center;
 }
 .text_notice {
   margin-left: 6rpx;

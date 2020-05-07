@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "商品列表",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

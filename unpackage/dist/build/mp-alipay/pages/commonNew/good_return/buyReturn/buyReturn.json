@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "销售退货",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

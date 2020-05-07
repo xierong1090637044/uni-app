@@ -1,0 +1,9 @@
+{
+  "defaultTitle": "操作单列表",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "uni-pagination": "/components/uni-pagination/uni-pagination",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content"
+  }
+}

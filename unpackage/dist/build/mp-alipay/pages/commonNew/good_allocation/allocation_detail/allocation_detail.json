@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "调拨详情",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

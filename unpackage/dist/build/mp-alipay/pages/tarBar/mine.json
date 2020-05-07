@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "我的",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

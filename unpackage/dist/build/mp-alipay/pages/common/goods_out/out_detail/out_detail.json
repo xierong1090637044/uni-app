@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "出库详情",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

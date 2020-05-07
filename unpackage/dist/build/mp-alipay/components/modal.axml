@@ -1,0 +1,1 @@
+<view><block a:if="{{is_transparent}}"><view class="modal transparent" catchtouchmove="preventD" data-event-opts="{{[['tap',[['hiddenModal',['$event']]]]]}}" onTap="__e"><slot></slot></view></block><block a:else><view class="modal light_black" catchtouchmove="preventD" data-event-opts="{{[['tap',[['hiddenModal',['$event']]]]]}}" onTap="__e"><slot></slot></view></block></view>

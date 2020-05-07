@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="modelItem">
-			<view class="title">基础资料</view>
+			<view class="title">库存基础资料</view>
 			<view class='o_list'>
 				<navigator v-for='(value,index) in nowFristEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">

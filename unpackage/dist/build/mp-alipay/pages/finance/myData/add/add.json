@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "账户添加",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "畅销产品分析",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

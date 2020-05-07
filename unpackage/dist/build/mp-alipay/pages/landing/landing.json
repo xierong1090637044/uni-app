@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "登陆",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon"
+  }
+}

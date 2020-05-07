@@ -1,0 +1,1 @@
+<view class="uni-padding-wrap"><u-parse vue-id="d9c6ecba-1" content="{{article}}" data-event-opts="{{[['^preview',[['preview']]],['^navigate',[['navigate']]]]}}" onPreview="__e" onNavigate="__e" onVueInit="__l"></u-parse></view>

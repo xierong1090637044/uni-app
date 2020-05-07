@@ -1,7 +1,7 @@
 <template>
 	<view v-if="canUse">
 		<view class="modelItem">
-			<view class="title">分析模块</view>
+			<view class="title">分析模块（即将移除）</view>
 			<view class='o_list'>
 				<navigator v-for='(value,index) in fristEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">

@@ -1,0 +1,10 @@
+;my.defineComponent || (my.defineComponent = Component);(my["webpackJsonp"]=my["webpackJsonp"]||[]).push([["components/customDetBottom"],{"02a9":function(t,o,e){"use strict";e.r(o);var n=e("f590"),c=e.n(n);for(var u in n)"default"!==u&&function(t){e.d(o,t,(function(){return n[t]}))}(u);o["default"]=c.a},"0c46":function(t,o,e){},"11f6":function(t,o,e){"use strict";var n=e("0c46"),c=e.n(n);c.a},"31bb":function(t,o,e){"use strict";var n,c=function(){var t=this,o=t.$createElement;t._self._c},u=[];e.d(o,"b",(function(){return c})),e.d(o,"c",(function(){return u})),e.d(o,"a",(function(){return n}))},"51ca":function(t,o,e){"use strict";e.r(o);var n=e("31bb"),c=e("02a9");for(var u in c)"default"!==u&&function(t){e.d(o,t,(function(){return c[t]}))}(u);e("11f6");var s,a=e("f0c5"),r=Object(a["a"])(c["default"],n["b"],n["c"],!1,null,null,null,!1,n["a"],s);o["default"]=r.exports},f590:function(t,o,e){"use strict";(function(t){Object.defineProperty(o,"__esModule",{value:!0}),o.default=void 0;var n;c(e("9546")),c(e("7fd5"));function c(t){return t&&t.__esModule?t:{default:t}}var u={props:{custom:{type:Object,default:{}}},data:function(){return{}},mounted:function(){n=this},methods:{gotopay:function(){t.navigateTo({url:"/pages/finance/CPHistory/costomInDet/costomInDet?customId="+n.custom.objectId})},edit:function(){n.custom.customSecondClass?t.setStorageSync("customCategory",n.custom.customSecondClass):n.custom.customFristClass&&t.setStorageSync("customCategory",n.custom.customFristClass),t.setStorageSync("customs",n.custom),t.navigateTo({url:"../add/add"})},sellRecord:function(){t.setStorageSync("custom",n.custom),t.navigateTo({url:"/pages/common/goods-select/goods-select?type=delivery&value=3"})}}};o.default=u}).call(this,e("c11b")["default"])}}]);
+;(my["webpackJsonp"] = my["webpackJsonp"] || []).push([
+    'components/customDetBottom-create-component',
+    {
+        'components/customDetBottom-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('c11b')['createComponent'](__webpack_require__("51ca"))
+        })
+    },
+    [['components/customDetBottom-create-component']]
+]);

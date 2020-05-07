@@ -5,6 +5,10 @@
 	height: calc(100vh - 110rpx);
 	overflow: scroll;
 }
+.stockClassItem {
+	line-height: 80rpx;
+	font-weight: bold;
+}
 .bottomEle {
 	font-weight: bold;
 	position: fixed;

@@ -1,0 +1,243 @@
+{
+  "pages": [
+    "pages/tarBar/index",
+    "pages/tarBar/manage",
+    "pages/report/chart/chart",
+    "pages/landing/landing",
+    "pages/register/register",
+    "pages/tarBar/mine",
+    "pages/report/operational_status/operational_status",
+    "pages/report/EnteringHistory/EnteringHistory",
+    "pages/tarBar/report",
+    "pages/report/EnteringHistory/detail/detail",
+    "pages/staff_landing/staff_landing",
+    "pages/register/user_protocol/user_protocol",
+    "pages/report/EnteringHistory/expressDet/expressDet",
+    "pages/report/matterRecord/matterRecord",
+    "pages/report/matterRecord/detail/detail",
+    "pages/report/EnteringHistory/productDet/productDet",
+    "pages/report/EnteringHistory/productDet/matterDet/matterDet",
+    "pages/report/EnteringHistory/productDet/productEnter/productEnter",
+    "pages/report/EnteringHistory/productDet/productEnter/enterDetail/enterDetail",
+    "pages/report/staffChart/staffChart",
+    "pages/report/EnteringHistory/SellDetail/SellDetail",
+    "pages/report/EnteringHistory/SellDetail/SellLaterDetail",
+    "pages/report/EnteringHistory/returnDetail/returnDetail",
+    "pages/webview/webview",
+    "pages/test/test",
+    "pages/thanks/thanks",
+    "pages/report/warningGoods/warningGoods",
+    "pages/report/EnteringHistory/stockDet/stockDet"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/common",
+      "pages": [
+        "goods_out/out_detail/out_detail",
+        "goods_out/gooSellNew/gooSellNew",
+        "good_return/buyReturn/buyReturn",
+        "good_confrim/goodPurchaseNew/goodPurchaseNew",
+        "good_return/purchaseReturn/purchaseReturn",
+        "good_confrim/goodPurchase/goodPurchase",
+        "goods_out/goodSell/goodSell",
+        "goodBad/goodBad",
+        "goodBad/badRecord/badRecord",
+        "good_production/good_production",
+        "good_production/detail/detail",
+        "good_allocation/good_allocation",
+        "good_allocation/allocation_detail/allocation_detail",
+        "good_confrim/good_enter/good_enter",
+        "good_confrim/good_confrim",
+        "goods-select/goods-select",
+        "good_return/return_detail/return_detail",
+        "goods_out/goods_out",
+        "good_return/good_return",
+        "good_count/good_count",
+        "good_count/count_detail/count_detail"
+      ]
+    },
+    {
+      "root": "pages/commonNew",
+      "pages": [
+        "goods_out/out_detail/out_detail",
+        "goods_out/goodSellLater/goodSellLater",
+        "goods_out/gooSellNew/gooSellNew",
+        "good_confrim/goodPurchaseNew/goodPurchaseNew",
+        "good_return/buyReturn/buyReturn",
+        "good_return/purchaseReturn/purchaseReturn",
+        "good_allocation/good_allocation",
+        "good_allocation/allocation_detail/allocation_detail",
+        "good_confrim/good_enter/good_enter",
+        "good_confrim/good_confrim",
+        "goods-select/goods-select",
+        "goods_out/goods_out",
+        "good_return/good_return",
+        "good_count/good_count",
+        "good_count/count_detail/count_detail",
+        "good_confrim/goodPurchaseLater/goodPurchaseLater",
+        "keepScan/keepScan"
+      ]
+    },
+    {
+      "root": "pages/production",
+      "pages": [
+        "matterList/matterList",
+        "matterAdd/matterAdd",
+        "matterCategroy/matterCategroy",
+        "matterDet/matterDet",
+        "editInfo/editInfo",
+        "matterSelect/matterSelect",
+        "matterEnter/matterEnter",
+        "matterEnter/enterDetail/enterDetail"
+      ]
+    },
+    {
+      "root": "pages/mine",
+      "pages": [
+        "home_page/setAccount/setAccount",
+        "manual/manual",
+        "InforCnter/InforCnter",
+        "manual/detail/detail",
+        "update_history/update_history",
+        "uploadFile/uploadFile",
+        "vip/vip",
+        "logs/logs",
+        "setting/setting",
+        "about_us/about_us",
+        "home_page/home_page",
+        "warning_log/warning_log",
+        "systemSetting/systemSetting"
+      ]
+    },
+    {
+      "root": "pages/shop",
+      "pages": [
+        "index/index",
+        "goods/goods"
+      ]
+    },
+    {
+      "root": "pages/analysis",
+      "pages": [
+        "goodSell/goodSell",
+        "customSell/customSell",
+        "producerSell/producerSell",
+        "classAll/classAll"
+      ]
+    },
+    {
+      "root": "pages/finance",
+      "pages": [
+        "myData/account/account",
+        "myData/add/add",
+        "myData/detail/detail",
+        "myData/inClass/inClass",
+        "myData/outClass/outClass",
+        "otherHistory/InRecord/InRecord",
+        "otherHistory/outRecord/outRecord",
+        "CPHistory/customIn/customIn",
+        "CPHistory/producerOut/producerOut",
+        "myData/history/history",
+        "CPHistory/costomInDet/costomInDet",
+        "CPHistory/customInOrder/customInOrder",
+        "CPHistory/customInHistoryDet/customInHistoryDet",
+        "CPHistory/customInHistory/customInHistory",
+        "CPHistory/producerOutDet/producerOutDet",
+        "CPHistory/producerOutOrder/producerOutOrder",
+        "CPHistory/producerOutHistory/producerOutHistory",
+        "CPHistory/producerOutHistoryDet/producerOutHistoryDet",
+        "otherHistory/InRecordHistory/InRecordHistory",
+        "otherHistory/outRecordHistory/outRecordHistory"
+      ]
+    },
+    {
+      "root": "pages/manage",
+      "pages": [
+        "productCount/productCount",
+        "producer/producer_detail/debt_history/debt_history",
+        "producer/producer_detail/history/history",
+        "producer/producer_detail/producer_detail",
+        "producer/add/add",
+        "producer/producer",
+        "staff/authAdd/authAdd",
+        "good_add/moreModel/moreModel",
+        "good_add/stockAdd/stockAdd",
+        "shops/detail/detail",
+        "operations/operations",
+        "shops/record/record",
+        "good_add/good_add",
+        "custom/custom_detail/history/history",
+        "goods/goods",
+        "good_det/custom_detail/custom_detail",
+        "custom/custom_detail/debt_history/debt_history",
+        "custom/custom_detail/custom_detail",
+        "good_det/good_det",
+        "good_det/Ngood_det",
+        "warehouse/detail/detail",
+        "staff/staff",
+        "shops/shops",
+        "warehouse/warehouse",
+        "warehouse/add/add",
+        "shops/add/add",
+        "staff/add/add",
+        "custom/custom",
+        "custom/add/add",
+        "category/category",
+        "shops/staff_in/staff_in",
+        "warehouse/record/record",
+        "goods_add/goods_add",
+        "staff/history/history",
+        "good_det/edit_info/edit_info",
+        "good_det/edit_stock/edit_stock",
+        "staff/detail/detail",
+        "goods_add_MoreG/goods_add_MoreG",
+        "goods_add_MoreG/G_More/G_More",
+        "good_det/bad_history/bad_history",
+        "customClass/customClass"
+      ]
+    }
+  ],
+  "window": {
+    "defaultTitle": "库存表",
+    "titleBarColor": "#426ab3",
+    "backgroundColor": "#fff"
+  },
+  "tabBar": {
+    "textColor": "#000",
+    "selectedColor": "#426ab3",
+    "backgroundColor": "#fff",
+    "items": [
+      {
+        "pagePath": "pages/tarBar/index",
+        "name": "首页",
+        "icon": "static/chuan.png",
+        "activeIcon": "static/chuan.png"
+      },
+      {
+        "pagePath": "pages/tarBar/manage",
+        "name": "管理",
+        "icon": "static/manage.png",
+        "activeIcon": "static/manage.png"
+      },
+      {
+        "pagePath": "pages/tarBar/report",
+        "name": "看板",
+        "icon": "static/report.png",
+        "activeIcon": "static/report.png"
+      },
+      {
+        "pagePath": "pages/tarBar/mine",
+        "name": "我的",
+        "icon": "static/person.png",
+        "activeIcon": "static/person.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "uni-icon": "/components/uni-icon/uni-icon",
+    "nocontent": "/components/No_content",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
+}

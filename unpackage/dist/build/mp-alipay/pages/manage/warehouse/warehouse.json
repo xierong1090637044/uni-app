@@ -1,0 +1,10 @@
+{
+  "defaultTitle": "店仓管理",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "nocontent": "/components/No_content",
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "loading": "/components/Loading/index"
+  }
+}

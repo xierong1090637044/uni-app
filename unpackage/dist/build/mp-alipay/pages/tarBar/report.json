@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "看板",
+  "usingComponents": {
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "achart": "/components/charts/AChart"
+  }
+}

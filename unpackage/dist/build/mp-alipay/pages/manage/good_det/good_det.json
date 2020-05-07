@@ -1,0 +1,11 @@
+{
+  "defaultTitle": "产品详情",
+  "usingComponents": {
+    "tki-qrcode": "/components/tki-qrcode/tki-qrcode",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "loading": "/components/Loading/index",
+    "fa-icon": "/components/kilvn-fa-icon/fa-icon",
+    "tki-barcode": "/components/tki-barcode/tki-barcode",
+    "uni-fab": "/components/uni-fab/uni-fab"
+  }
+}

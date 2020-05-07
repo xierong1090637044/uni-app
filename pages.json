@@ -135,6 +135,33 @@
 	],
 
 	"subPackages": [{
+			"root": "pages/reportAnalys",
+			"pages": [{
+					"path": "purchaseGoods/purchaseGoods",
+					"style": {}
+				},
+				{
+					"path": "purchaseProducers/purchaseProducers",
+					"style": {}
+				}
+			    ,{
+                    "path" : "sellGoods/sellGoods",
+                    "style" : {}
+                }
+                ,{
+                    "path" : "sellCustoms/sellCustoms",
+                    "style" : {}
+                }
+                ,{
+                    "path" : "stockOutIn/stockOutIn",
+                    "style" : {}
+                }
+                ,{
+                    "path" : "stockGoodOut/stockGoodOut",
+                    "style" : {}
+                }
+            ]
+		}, {
 			"root": "pages/common",
 			"pages": [{
 					"path": "goods_out/out_detail/out_detail",
@@ -432,12 +459,11 @@
 				}, {
 					"path": "systemSetting/systemSetting",
 					"style": {}
+				}, {
+					"path": "printSetting/printSetting",
+					"style": {}
 				}
-			    ,{
-                    "path" : "printSetting/printSetting",
-                    "style" : {}
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages/shop",

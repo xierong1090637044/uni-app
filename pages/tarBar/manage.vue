@@ -71,7 +71,7 @@
 		},
 		data() {
 			return {
-				leftOptionList: ['基础', '财务', '记录', '报表','分析','系统','教程'],
+				leftOptionList: ['库存', '财务', '记录', '报表','分析','系统'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
 				setting: uni.getStorageSync("setting"),

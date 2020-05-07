@@ -1,0 +1,1 @@
+<block a:if="{{!loading}}"><view class="{{(('wxParse _div')+' '+className)}}"><block a:for="{{nodes}}" a:for-item="node" a:for-index="index" a:key="index"><block><weixin-parse-template vue-id="{{'09f58fab-1-'+index}}" node="{{node}}" onVueInit="__l"></weixin-parse-template></block></block></view></block>

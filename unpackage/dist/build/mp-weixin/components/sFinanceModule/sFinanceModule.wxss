@@ -1,0 +1,1 @@
+.title{color:#333;font-weight:700;font-size:28rpx}.modelItem{padding:20rpx 30rpx;width:calc(100% - 60rpx);margin-bottom:30rpx;border-radius:40rpx;background:#f7f7f7}.o_list{background:#f7f7f7}.o_headerItem{background:#f7f7f7}.o_item{width:33.33%;font-weight:700;margin-bottom:unset}.o_text{margin-top:-10rpx}
