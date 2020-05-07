@@ -407,6 +407,12 @@
 					that.products = res.detail;
 					that.bills = res.bills;
 					that.loading = false;
+					
+					if(res.type == 1){
+						uni.setNavigationBarTitle({
+							title:"采购单详情"
+						})
+					}
 				}).catch(err => {
 					console.log(err)
 				})
@@ -474,35 +480,6 @@
 					})
 				}
 			},
-			
-			/*reduceDebt(){
-				//如果客户或者供应商有欠款
-				if (that.detail.debt > 0) {
-					if(that.detail.type == 1){
-						let query = Bmob.Query('producers');
-						query.get(that.producer.objectId).then(res => {
-							let debt = (res.debt) ? res.debt : 0;
-							debt = debt - that.detail.debt;
-							//console.log(debt);
-							let query = Bmob.Query('producers');
-							query.get(that.producer.objectId).then(res => {
-								res.set('debt', debt)
-								res.save()
-							})
-						})
-					}else if(that.detail.type == -1){
-						let query = Bmob.Query('customs');
-						query.get(that.custom.objectId).then(res => {
-							var debt = (res.debt == null) ? 0 : res.debt;
-							debt = debt - that.detail.debt;;
-							query.get(that.custom.objectId).then(res => {
-								res.set('debt', debt)
-								res.save()
-							})
-						})
-					}
-				}
-			},*/
 			
 			reduceGoods(){
 				for (var i = 0; i < that.products.length; i++) {

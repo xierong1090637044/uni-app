@@ -1,10 +1,10 @@
 <template>
 	<view style="width: 100%;display: flex;justify-content: space-between;position: fixed;bottom: 0;background: #fff;z-index: 100;padding: 12rpx 0;border-top: 1rpx solid#DDDDDD;">
-		<view class="Listitem" @click="edit">
+		<view class="Listitem" @click="addCustomFollow">
 			<view class="Icon">
 				<fa-icon type="pencil-square-o" size="18" color="#426ab3" />
 			</view>
-			<view class="Notice">编辑</view>
+			<view class="Notice">跟进</view>
 		</view>
 		
 		<view class="Listitem" @click="gotopay">
@@ -59,6 +59,13 @@
 				uni.navigateTo({
 					url: '/pages/finance/CPHistory/costomInDet/costomInDet?customId='+that.custom.objectId
 				});
+			},
+			
+			addCustomFollow(){
+				uni.setStorageSync("custom",that.custom)
+				uni.navigateTo({
+					url:"/pages/manage/customFollow/customFollow"
+				})
 			},
 			
 			edit() {

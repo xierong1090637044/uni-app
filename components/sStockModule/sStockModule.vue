@@ -14,6 +14,20 @@
 			</view>
 		</view>
 
+		<view class="modelItem">
+			<view class="title">客户</view>
+			<view class='o_list'>
+				<navigator v-for='(value,index) in nowSecondEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view class="o_headerItem">
+						<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>
+						<!--<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>-->
+					</view>
+					<view class='o_text'>{{value.name}}</view>
+					<view style="font-size: 20rpx;color: #333;font-weight: 100;">{{value.notice}}</view>
+				</navigator>
+			</view>
+		</view>
+
 	</view>
 </template>
 
@@ -42,13 +56,7 @@
 						url: '/pages/manage/warehouse/warehouse',
 						id: 2
 					},
-					{
-						name: '客户管理',
-						notice: '客户资料',
-						icon: 'address-card',
-						url: '/pages/manage/custom/custom',
-						id: 3
-					},
+					
 					{
 						name: '供应商管理',
 						notice: '供应商资料',
@@ -63,18 +71,31 @@
 						url: '/pages/manage/category/category',
 						id: 5
 					},
+					
+				],
+				secondEle: [{
+						name: '客户管理',
+						notice: '客户资料',
+						icon: 'address-card',
+						url: '/pages/manage/custom/custom',
+					},
+					{
+						name: '客户跟进',
+						notice: '客户跟进',
+						icon: 'id-badge',
+						url: '/pages/manage/customFollowHistory/customFollowHistory',
+					},
 					{
 						name: '客户类别管理',
 						notice: '客户类别相关',
 						icon: 'list',
 						url: '/pages/manage/customClass/customClass',
-						id: 6
-					},
-				],
+					}],
 
 				nowFristEle: [],
+				nowSecondEle:[],
 				user: uni.getStorageSync("user"),
-				identity:uni.getStorageSync("identity"),
+				identity: uni.getStorageSync("identity"),
 			};
 		},
 
@@ -86,8 +107,13 @@
 						this.nowFristEle.push(this.fristEle[item])
 					}
 				}
-			}else{
+				
+				if(this.user.rights.current.length > 0 && this.user.rights.current.indexOf("3") ==-1){
+					this.nowSecondEle = []
+				}
+			} else {
 				this.nowFristEle = this.fristEle
+				this.nowSecondEle = this.secondEle
 			}
 		},
 	}

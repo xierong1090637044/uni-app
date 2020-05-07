@@ -812,7 +812,15 @@
 					"path": "customClass/customClass",
 					"style": {}
 				}
-			]
+			    ,{
+                    "path" : "customFollow/customFollow",
+                    "style" : {}
+                }
+                ,{
+                    "path" : "customFollowHistory/customFollowHistory",
+                    "style" : {}
+                }
+            ]
 		}
 	],
 

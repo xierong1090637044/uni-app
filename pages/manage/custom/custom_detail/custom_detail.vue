@@ -126,6 +126,23 @@
 					</view>
 				</view>
 			</view>
+			
+			<!--跟进记录-->
+			<view v-if="current ==2" style="background: #fff;padding: 10rpx 20rpx 0;">
+				<view class="display_flex_bet" style="border-bottom: 1rpx solid#ddd;padding-bottom: 10rpx;">
+					<view>跟进情况</view>
+					<view style="color: #f30;" @click="customFollowMore">更多</view>
+				</view>
+				<view style="padding: 0 20rpx;">
+					<view v-for="(item,index) in CustomFollowList" :key="index" style="border-bottom: 1rpx solid#ddd;">
+						<view style="min-height: 120rpx;border-bottom: 1rpx solid#ddd;border-bottom-style: dashed;">{{item.content}}</view>
+						<view class="display_flex_bet" style="padding: 10rpx 0;">
+							<view style="font-size: 20rpx;">{{item.nowTime.iso}}</view>
+							<view style="font-size: 20rpx;">下次跟进时间：{{item.nextTime.iso}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
 
 		</view>
 
@@ -156,7 +173,7 @@
 
 		data() {
 			return {
-				items: ['销售情况', '收款记录'],
+				items: ['销售情况', '收款记录','跟进记录'],
 				current: 0,
 				sellType: 0,
 
@@ -168,6 +185,15 @@
 					type: -1,
 					extra_type: 1,
 				}, //获取销售情况参数
+				
+				getParams:{
+					type:"get",
+					custom_name:'',
+					pageSize:3,
+					pageNum:1,
+				},
+				CustomFollowList:[],
+				
 				buyTotal: {},//销售情况记录
 				getMoney:{},//收款情况记录
 			}
@@ -184,7 +210,7 @@
 			customs.custom_detail(that.sellParams.customId).then(res => {
 				//console.log(res)
 				let custom = res
-				
+				that.getParams.custom_name = res.custom_name
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("type", "==", -1);
 				query.equalTo("extra_type", "==", 1);
@@ -210,11 +236,21 @@
 					customs.getAllCustomInRecord(that.sellParams).then(res => {
 						that.getMoney = res
 					})
+				}else if(that.current == 2){
+					this.$http.Post("stock_customFollow", this.getParams).then(res => {
+						this.CustomFollowList = res.data
+					})
 				}
 			})
 		},
 		
 		methods: {
+			
+			customFollowMore(){
+				uni.navigateTo({
+					url:"/pages/manage/customFollowHistory/customFollowHistory?custom_name="+that.custom.custom_name
+				})
+			},
 
 			showOptions() {
 				uni.showActionSheet({
@@ -272,6 +308,10 @@
 					customs.getAllCustomInRecord(that.sellParams).then(res => {
 						console.log(res)
 						that.getMoney = res
+					})
+				}else if(that.current == 2){
+					this.$http.Post("stock_customFollow", this.getParams).then(res => {
+						this.CustomFollowList = res.data
 					})
 				}
 			},

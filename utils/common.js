@@ -1,13 +1,13 @@
 import Bmob from "hydrogen-js-sdk";
 module.exports = {
 	//入库时增加产品数量
-	enterAddGoodNum(products,type) {
+	enterAddGoodNum(products, type) {
 		let that = this;
 		return new Promise((resolve, reject) => {
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				query.get(products[i].objectId).then(res=>{
+				query.get(products[i].objectId).then(res => {
 					let goodInfo = res
 					if (products[i].selectd_model) {
 						for (let model of products[i].selected_model) {
@@ -37,7 +37,7 @@ module.exports = {
 								let now_reserve = res[0]._sumReserve
 								const query = Bmob.Query('Goods');
 								query.set('reserve', now_reserve)
-								if(type == "purchase"){
+								if (type == "purchase") {
 									query.set('costPrice', products[i].modify_retailPrice)
 								}
 								query.set('id', products[i].header.objectId)
@@ -54,12 +54,12 @@ module.exports = {
 								resolve(true)
 							}
 						}
-					
+
 					}).catch(err => {
 						console.log(err)
 					})
 				})
-				
+
 			}
 		})
 	},
@@ -72,9 +72,9 @@ module.exports = {
 			for (let i = 0; i < products.length; i++) {
 				let num = 0;
 				const query = Bmob.Query('Goods');
-				query.get(products[i].objectId).then(res=>{
+				query.get(products[i].objectId).then(res => {
 					let goodInfo = res
-					
+
 					if (products[i].selectd_model) {
 						for (let model of products[i].selected_model) {
 							for (let item of goodInfo.models) {
@@ -90,12 +90,12 @@ module.exports = {
 					} else {
 						num = Number(goodInfo.reserve) - Number(products[i].num);
 					}
-					
+
 					query.set('reserve', num)
 					query.set('id', products[i].objectId) //需要修改的objectId
 					query.save().then(res => {
 						//that.record_staffOut(Number(products[i].num))
-					
+
 						if (products[i].header) {
 							const query1 = Bmob.Query("Goods");
 							query1.equalTo("header", "==", products[i].header.objectId);
@@ -114,9 +114,9 @@ module.exports = {
 									}
 								})
 							})
-					
+
 						} else {
-							that.modifyStockType(products[i].objectId)//修改库存类型
+							that.modifyStockType(products[i].objectId) //修改库存类型
 							if (i == products.length - 1) {
 								resolve(true)
 							}
@@ -125,14 +125,14 @@ module.exports = {
 						console.log(err)
 					})
 				})
-				
+
 			}
 		})
 	},
 
 
 	//入库时增加产品数量
-	enterAddGoodNumNew(products,type) {
+	enterAddGoodNumNew(products, type) {
 		return new Promise((resolve, reject) => {
 			let stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 			let uid = uni.getStorageSync("uid")
@@ -154,7 +154,7 @@ module.exports = {
 								let now_reserve = res[0]._sumReserve;
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
-								if(type == "purchase"){
+								if (type == "purchase") {
 									query.set('costPrice', products[i].modify_retailPrice)
 								}
 								query.save().then(res => {
@@ -167,7 +167,7 @@ module.exports = {
 					} else {
 						let thisProduct = res[0];
 						const query = Bmob.Query('Goods');
-						
+
 						if (products[i].selected_model) {
 							for (let model of products[i].selected_model) {
 								for (let item of thisProduct.models) {
@@ -191,7 +191,7 @@ module.exports = {
 							query.find().then(res => {
 								let now_reserve = res[0]._sumReserve
 								query.set('reserve', now_reserve)
-								if(type == "purchase"){
+								if (type == "purchase") {
 									query.set('costPrice', products[i].modify_retailPrice.toString())
 								}
 								query.set('id', products[i].objectId)
@@ -205,14 +205,14 @@ module.exports = {
 							console.log(err)
 						})
 					}
-	
+
 				})
-	
+
 			}
 		})
 	},
-	
-	
+
+
 	//出库时减少产品数量
 	outRedGoodNumNew(products) {
 		return new Promise((resolve, reject) => {
@@ -227,7 +227,7 @@ module.exports = {
 				query.equalTo("stocks", "==", stock.objectId);
 				query.find().then(res => {
 					//console.log("仓库里的产品", res)
-					
+
 					if (res.length == 0) {
 						this.upload_good_withNoCan(products[i], stock, Number(products[i].num), "out").then(res => {
 							query.equalTo("header", "==", products[i].objectId);
@@ -238,7 +238,10 @@ module.exports = {
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
-									Bmob.functions("warn_GoodNum", {"uid":uni.getStorageSync("uid"),"goodId":products[i].objectId}).then(function(res) {
+									Bmob.functions("warn_GoodNum", {
+										"uid": uni.getStorageSync("uid"),
+										"goodId": products[i].objectId
+									}).then(function(res) {
 										//console.log("sss",res)
 									});
 									if (i == products.length - 1) {
@@ -274,7 +277,10 @@ module.exports = {
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
-									Bmob.functions("warn_GoodNum", {"uid":uni.getStorageSync("uid"),"goodId":products[i].objectId}).then(function(res) {
+									Bmob.functions("warn_GoodNum", {
+										"uid": uni.getStorageSync("uid"),
+										"goodId": products[i].objectId
+									}).then(function(res) {
 										//console.log("sss",res)
 									});
 									if (i == products.length - 1) {
@@ -286,9 +292,9 @@ module.exports = {
 							console.log(err)
 						})
 					}
-	
+
 				})
-	
+
 			}
 		})
 	},
@@ -316,21 +322,21 @@ module.exports = {
 			query.set("goodsIcon", good.goodsIcon)
 			if (type == "out") {
 				query.set("reserve", 0 - Number(reserve))
-				if(good.goodsId && good.goodsId.models){
-					for(let model of good.goodsId.models){
-						model.reserve =  0 - Number(model.num)
+				if (good.goodsId && good.goodsId.models) {
+					for (let model of good.goodsId.models) {
+						model.reserve = 0 - Number(model.num)
 					}
 					query.set("models", good.goodsId.models)
-				}else if(good.models && good.models.length > 0){
-					for(let model of good.models){
-						model.reserve =  0 - Number(model.num)
+				} else if (good.models && good.models.length > 0) {
+					for (let model of good.models) {
+						model.reserve = 0 - Number(model.num)
 					}
 					query.set("models", good.models)
 				}
-			}else if(type =="allocation"){
+			} else if (type == "allocation") {
 				query.set("reserve", Number(reserve))
-				if(good.selected_model && good.selected_model.length > 0){
-					for(let model of good.selected_model){
+				if (good.selected_model && good.selected_model.length > 0) {
+					for (let model of good.selected_model) {
 						model.reserve = Number(model.num)
 						delete model.num
 					}
@@ -338,19 +344,19 @@ module.exports = {
 				}
 			} else {
 				query.set("reserve", Number(reserve))
-				if(good.goodsId && good.goodsId.models){
-					for(let model of good.goodsId.models){
+				if (good.goodsId && good.goodsId.models) {
+					for (let model of good.goodsId.models) {
 						model.reserve = Number(model.num)
 					}
 					query.set("models", good.goodsId.models)
-				}else if(good.models && good.models.length > 0){
-					for(let model of good.models){
-						model.reserve =  Number(model.num?model.num:0)
+				} else if (good.models && good.models.length > 0) {
+					for (let model of good.models) {
+						model.reserve = Number(model.num ? model.num : 0)
 					}
 					query.set("models", good.models)
 				}
 			}
-			
+
 			query.set("stocks", p_stock_id)
 			query.set("userId", userid)
 			query.set("header", p_good_id)
@@ -385,7 +391,7 @@ module.exports = {
 		if (type == -2) {
 			let pointer1 = Bmob.Pointer('Goods')
 			let goodId = pointer1.set(id);
-			
+
 			const query = Bmob.Query('logs');
 			query.equalTo("goodId", "==", id);
 			query.find().then(res => {
@@ -425,11 +431,11 @@ module.exports = {
 			let good = res
 			if (good.warning_num == "" && good.max_num == "") {
 				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
-			}else if(good.warning_num == undefined && good.max_num == undefined){
+			} else if (good.warning_num == undefined && good.max_num == undefined) {
 				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
-			} else if(good.warning_num == null && good.max_num == null){
+			} else if (good.warning_num == null && good.max_num == null) {
 				res.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足  2代表库存过足
-			}else {
+			} else {
 				if (good.warning_num != "") {
 					if (good.warning_num >= good.reserve) {
 						res.set("stocktype", 0)
@@ -502,8 +508,8 @@ module.exports = {
 	},
 
 	//获取时间
-	
-	getDay: function(day, is_full,isStartDay) {
+
+	getDay: function(day, is_full, isStartDay, isNow) {
 		var that = this;
 		var today = new Date();
 		var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
@@ -511,15 +517,21 @@ module.exports = {
 		var tYear = today.getFullYear();
 		var tMonth = today.getMonth();
 		var tDate = today.getDate();
+
 		tMonth = that.handleMonth(tMonth + 1);
 		tDate = that.handleMonth(tDate);
+
+		let tH = today.getHours() < 10 ? '0' + today.getHours() : today.getHours()
+		let tM = today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes()
+		let tS = today.getSeconds() < 10 ? '0' + today.getSeconds() : today.getSeconds()
 		if (is_full) {
-			if(isStartDay){
-				return tYear + "-" + tMonth + "-01"  + " 00:00:00";
-			}else{
+			if (isStartDay) {
+				return tYear + "-" + tMonth + "-01" + " 00:00:00";
+			} else if (isNow) {
+				return tYear + "-" + tMonth + "-" + tDate + " " + tH + ":" + tM + ":" + tS;
+			} else {
 				return tYear + "-" + tMonth + "-" + tDate + " 00:00:00";
 			}
-			
 		} else {
 			return tYear + "-" + tMonth + "-" + tDate;
 		}

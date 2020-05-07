@@ -41,7 +41,7 @@
 			<view style="margin-left: 20rpx;" class="display_flex">
 				<radio :checked="isAllSelected" @click="selectAll" style="transform:scale(0.8)"/>全选
 			</view>
-			<view style="height: 90rpx;line-height: 90rpx;background: #426ab3;color: #fff;padding: 0 30rpx;" @click="getOrderDet">生成付款单</view>
+			<view style="height: 90rpx;line-height: 90rpx;background: #426ab3;color: #fff;padding: 0 30rpx;" @click="getOrderDet">生成收款单</view>
 		</view>
 	</view>
 </template>
