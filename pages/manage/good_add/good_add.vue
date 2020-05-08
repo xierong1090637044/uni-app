@@ -52,6 +52,7 @@
 						<view class="left_item">包装单位</view>
 						<view class="right_input"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
 					</view>
+					
 					<view class="input_item">
 						<view class="left_item">多规格</view>
 						<view class="right_input">
@@ -66,6 +67,11 @@
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</navigator>
+					
+					<view class="input_item" v-else>
+						<view class="left_item">产品规格</view>
+						<view class="right_input"><input placeholder="产品规格" name="packModel" :value="packModel"></input></view>
+					</view>
 				</view>
 
 				<view class="frist" style="margin: 30rpx 0;" v-if="addType == 'more'">
@@ -155,7 +161,7 @@
 								</view>
 							</view>
 							<view class="input_item">
-								<view class="left_item">货架位置</view>
+								<view class="left_item">存放位置</view>
 								<view class="right_input"><input placeholder="货架位置" name="position" :value="position"></input></view>
 							</view>
 							<view class="input_item">
@@ -209,6 +215,7 @@
 				retailPrice: '', //售价
 				packageContent: '', //包装含量
 				packingUnit: '', //包装单位
+				packModel:'',//包装规格
 				warning_num: '', //预警库存
 				max_num: '', //合理值
 				producer: '', //生产厂家
@@ -249,6 +256,7 @@
 				that.costPrice = Number(now_product.costPrice) //进价
 				that.retailPrice = Number(now_product.retailPrice) //售价
 				that.packageContent = now_product.packageContent //包装含量
+				that.packModel = now_product.packModel //包装含量
 				that.packingUnit = now_product.packingUnit //包装单位
 				that.warning_num = now_product.warning_num //预警库存
 				that.producer = now_product.producer //生产厂家
@@ -628,6 +636,7 @@
 				query.set("producer", good.producer)
 				query.set("packingUnit", good.packingUnit)
 				query.set("packageContent", good.packageContent)
+				query.set("packModel", good.packModel)
 				query.set("position", good.position)
 
 				if (good.warning_num == "" && good.max_num == "") {
@@ -759,9 +768,9 @@
 				query.set("product_info", good.product_info)
 				query.set("producer", good.producer)
 				query.set("packingUnit", good.packingUnit)
+				query.set("packModel", good.packModel)
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
-
 				if (good.warning_num != "") {
 					query.set("warning_num", Number(good.warning_num))
 					query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足

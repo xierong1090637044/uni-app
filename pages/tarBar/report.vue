@@ -2,7 +2,7 @@
 	<!--当月详情-->
 	<scroll-view style="padding: 0 10rpx;height: 100vh;width: calc(100% - 20rpx);" scroll-y="true" v-if="identity == 1 ||staffCan.see">
 		<view class="Item">
-			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">商品分析</view>
+			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">商品分析（下次更新优化）</view>
 			<view class="display_flex_bet">
 				<view class="itemB">
 					<view>全部商品</view>
@@ -52,7 +52,7 @@
 			<achart :now_day="now_day" :type="2" :show="achartShow"></achart>
 		</view>
 
-		<view class="Item" style="margin-top: 20rpx;">
+		<!--<view class="Item" style="margin-top: 20rpx;">
 			<view style="color: #3D3D3D;margin-bottom: 10rpx;font-size: 32rpx;font-weight: bold;">客户分析</view>
 			<view class="display_flex_bet">
 				<view class="itemB">
@@ -114,7 +114,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view>-->
 
 	</scroll-view>
 

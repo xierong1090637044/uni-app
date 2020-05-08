@@ -175,7 +175,7 @@
 					}
 				}
 				
-				for (let model4 of this.thridEle) {
+				for (let model4 of this.fourEle) {
 					if (this.user.rights.recodecurrent.indexOf(model4.id.toString()) >= 0) {
 						this.nowFourEle.push(model4)
 					}

@@ -57,8 +57,9 @@
 										<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 										<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 									</view>
-									<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
-										<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
+									<view class="product_reserve display_flex_bet" style="width: 100%;">
+										<view class="product_reserve"  v-if="product.packageContent && product.packingUnit">包装：{{product.packageContent}}*{{product.packingUnit}}</view>
+										<view class="product_reserve"  v-if="product.packModel">规格：{{product.packModel}}</view>
 									</view>
 								</view>
 								<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>

@@ -56,8 +56,9 @@
 									<view style="font-size: 24rpx;" v-else>成本价:<text class="text_notice">0</text></view>
 									<view style="font-size: 24rpx;">零售价:{{product.retailPrice || 0}}</text></view>
 								</view>
-								<view class="product_reserve display_flex_bet" style="width: 100%;"  v-if="product.packageContent && product.packingUnit">
-									<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
+								<view class="product_reserve display_flex_bet" style="width: 100%;">
+									<view class="product_reserve"  v-if="product.packageContent && product.packingUnit">包装：{{product.packageContent}}*{{product.packingUnit}}</view>
+									<view class="product_reserve"  v-if="product.packModel">规格：{{product.packModel}}</view>
 								</view>
 							</view>
 						</label>

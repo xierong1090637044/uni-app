@@ -14,7 +14,7 @@
 						<view class="noticeText">零售价: {{product.retailPrice}}</text></view>
 					</view>
 					<view class="display_flex_bet">
-						<view class="noticeText">期初库存:{{product.originReserve||"未记录"}}</text></view>
+						<view class="noticeText">期初库存:{{product.originReserve||0}}</text></view>
 						<view class="noticeText" v-if="product.all_reserve">库存:{{product.all_reserve}}</text></view>
 					</view>
 					

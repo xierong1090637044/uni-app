@@ -4,7 +4,7 @@
 		
 		<scroll-view style="height: calc(100vh - 80rpx);" scroll-y="true">
 			<uni-collapse style="margin-top: 0rpx;">
-				<uni-collapse-item :show-animation="true" title="库存管理模块权限" :open="true">
+				<uni-collapse-item :show-animation="true" title="库存管理模块权限(修改完请退出员工账号,重新登陆)" :open="true">
 					<view style="padding: 30rpx;">
 						<checkbox-group @change="checkboxChange">
 							<view class="rights_item" v-for="(item,index) in manage" :key="''+index">

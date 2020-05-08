@@ -198,9 +198,12 @@
 						</view>
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-							<!--<view>1、新版销售采购以及退货可以直接选择仓库进行操作</view>-->
-							<view>1、员工修改，权限丢失问题</view>
-							<view>2、员工权限不起作用bug修复</view>
+							<view>1、新增报表模块。</view>
+							<view>2、新增客户跟进功能，用于记录客户的跟进情况</view>
+							<view>3、优化操作单打印功能，新增打印设置功能</view>
+							<view>4、记录模块增加明细查看功能，更加方便对账</view>
+							<view>5、产品预警优化，增加过期预警</view>
+							<view>6、一些bug修复，以及页面优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

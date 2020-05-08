@@ -101,15 +101,14 @@
 
 		mounted() {
 			if (this.identity == 2) {
-				for (let item of this.user.rights.current) {
-					//console.log(item)
-					if (this.fristEle[item]) {
-						this.nowFristEle.push(this.fristEle[item])
+				for (let model1 of this.fristEle) {
+					if (this.user.rights.current.indexOf(model1.id.toString()) >= 0) {
+						this.nowFristEle.push(model1)
 					}
 				}
 				
-				if(this.user.rights.current.length > 0 && this.user.rights.current.indexOf("3") ==-1){
-					this.nowSecondEle = []
+				if(this.user.rights.current.length > 0 && this.user.rights.current.indexOf("3") !=-1){
+					this.nowSecondEle = this.secondEle
 				}
 			} else {
 				this.nowFristEle = this.fristEle

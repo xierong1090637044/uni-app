@@ -1,4 +1,5 @@
 import Bmob from "hydrogen-js-sdk";
+import http from "@/utils/http.js";
 export default {
 
 	//得到记录的总条数
@@ -43,7 +44,7 @@ export default {
 					debt = (debt / 10000).toFixed(2) + "十万"
 				}
 				params.debt = debt
-				
+
 				const query = Bmob.Query("order_opreations");
 				query.equalTo("master", "==", userid);
 				query.equalTo("type", "==", -1);
@@ -194,25 +195,25 @@ export default {
 					for (var i = 0; i < res.length; i++) {
 						if (res[i].type == 1) {
 							get_reserve += res[i].num;
-							if(res[i].goodsId){
+							if (res[i].goodsId) {
 								get_reserve_real_money += res[i].num * res[i].goodsId.retailPrice;
-							}else{
+							} else {
 								get_reserve_real_money += 0;
 							}
-							
+
 							//get_reserve_num += res[i].total_money;
 							if (res[i].extra_type == 1) {
 								purchaseNum += res[i].num;
 							}
 						} else if (res[i].type == -1) {
 							out_reserve += res[i].num;
-							
-							if(res[i].goodsId){
+
+							if (res[i].goodsId) {
 								out_reserve_real_money += res[i].num * res[i].goodsId.costPrice;
-							}else{
+							} else {
 								out_reserve_real_money += 0;
 							}
-							
+
 							//out_reserve_num += res[i].total_money;
 							if (res[i].extra_type == 1) {
 								sellNum += res[i].num;
@@ -308,25 +309,28 @@ export default {
 								total_money = 0
 							}
 							if (Number(total_reserve) > 1000 && Number(total_reserve) < 10000) {
-								total_reserve = Number(total_reserve) / 1000 + "千"
+								total_reserve = (Number(total_money) / 1000).toFixed(2) + "千"
 							} else if (Number(total_reserve) >= 10000 && Number(total_money) < 100000) {
-								total_reserve = Number(total_reserve) / 10000 + "万"
+								total_reserve = (Number(total_money) / 10000).toFixed(2) + "万"
 							} else if (Number(total_reserve) >= 100000) {
-								total_reserve = Number(total_reserve) / 10000 + "十万"
+								total_reserve = (Number(total_money) / 100000).toFixed(2) + "十万"
 							}
 
 							if (Number(total_money) > 1000 && Number(total_money) < 10000) {
 								total_money = (Number(total_money) / 1000).toFixed(2) + "千"
 							} else if (Number(total_money) >= 10000 && Number(total_money) < 100000) {
-								total_money = (Number(total_money) / 10000).toFixed(4) + "万"
+								total_money = (Number(total_money) / 10000).toFixed(2) + "万"
 							} else if (Number(total_money) >= 100000) {
-								total_money = (Number(total_money) / 100000).toFixed(4) + "十万"
+								total_money = (Number(total_money) / 100000).toFixed(2) + "十万"
 							}
-							params.total_money = total_money,
+							http.Post("stock_goodWarnList", {}).then(res => {
+								params.warn_num = res.data.reserveWarnGoods.length
+								params.over_num = res.data.reserveOverGoods.length
+								
+								params.total_money = total_money,
 								params.total_reserve = total_reserve,
-								params.warn_num = warn_num
-							params.over_num = over_num
-							resolve(params)
+								resolve(params)
+							})
 						}
 					});
 				}

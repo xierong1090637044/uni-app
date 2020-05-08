@@ -17,7 +17,8 @@
 							<view style="font-size: 24rpx;">库存数量:<text class="text_notice">{{product.reserve}}</text></view>
 							<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 						</view>
-						<view class="product_reserve" v-if="product.packageContent && product.packingUnit">规格:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+						<view class="product_reserve" v-if="product.packageContent && product.packingUnit">包装:<text class="text_notice">{{product.packageContent}}*{{product.packingUnit}}</text></view>
+						<view class="product_reserve" v-if="product.packModel">规格:<text class="text_notice">{{product.packModel}}</text></view>
 						<!--<view class="product_reserve">创建时间:<text class="text_notice">{{product.createdAt}}</text></view>-->
 					</view>
 		
@@ -46,7 +47,7 @@
 		data() {
 			return {
 				productList:[],
-				items: ['低库存预警', '高库存预警'],
+				items: ['低库存预警', '高库存预警','保质期预警'],
 				current: 0,
 			}
 		},
@@ -68,6 +69,9 @@
 					}
 					if(that.current == 1){
 						that.productList = res.data.reserveOverGoods.flat()
+					}
+					if(that.current == 2){
+						that.productList = res.data.reserveTimeGoods.flat()
 					}
 				})
 			},

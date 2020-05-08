@@ -61,7 +61,7 @@
 									<view style="font-size: 24rpx;">库存:<text class="text_notice">{{product.reserve}}</text></view>
 								</view>
 								<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
-									<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
+									<view class="product_reserve">包装：{{product.packageContent}}*{{product.packingUnit}}</view>
 								</view>
 							</view>
 						</label>

@@ -1,8 +1,9 @@
 <template>
 	<view class="second">
 		<view class="second_one">
-			<view>品牌: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
-			<view>型号: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
+			<view>生产厂家: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
+			<view>包装: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
+			<view>规格: <text class="second_right_text">{{product.packModel?product.packModel:"未填写"}}</text></view>
 			<view>简介: <text class="second_right_text">{{product.product_info?product.product_info:"未填写"}}</text></view>
 			<view>存放位置: <text style="margin-left: 20rpx;color: #3D3D3D;">{{product.position?product.position:"未填写"}}</text></view>
 

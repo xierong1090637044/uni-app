@@ -42,7 +42,7 @@
 								<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 							</view>
 							<view class="product_reserve display_flex_bet" style="width: 100%;" v-if="product.packageContent && product.packingUnit">
-								<view class="product_reserve">规格：{{product.packageContent}}*{{product.packingUnit}}</view>
+								<view class="product_reserve">包装：{{product.packageContent}}*{{product.packingUnit}}</view>
 							</view>
 						</view>
 						<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
