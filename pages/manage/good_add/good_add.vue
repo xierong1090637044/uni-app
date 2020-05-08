@@ -636,7 +636,7 @@
 				query.set("producer", good.producer)
 				query.set("packingUnit", good.packingUnit)
 				query.set("packageContent", good.packageContent)
-				query.set("packModel", good.packModel)
+				good.packModel?query.set("packModel", good.packModel):''
 				query.set("position", good.position)
 
 				if (good.warning_num == "" && good.max_num == "") {
@@ -768,7 +768,7 @@
 				query.set("product_info", good.product_info)
 				query.set("producer", good.producer)
 				query.set("packingUnit", good.packingUnit)
-				query.set("packModel", good.packModel)
+				good.packModel?query.set("packModel", good.packModel):''
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
 				if (good.warning_num != "") {
