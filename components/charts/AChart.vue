@@ -28,7 +28,7 @@
 		
 		<view scroll-y="true"  v-else-if="type == 2">
 			<view class="qiun-charts1">
-				<canvas canvas-id="canvasLineA" id="canvasLineA" style="width: 100%;height: 500upx;" disable-scroll=true @touchstart="touchLineA($event,'A')"
+				<canvas canvas-id="canvasLineA" id="canvasLineA" style="width: 100%;height: 400upx;" disable-scroll=true @touchstart="touchLineA($event,'A')"
 				 @touchmove="moveLineA($event,'A')" @touchend="touchEndLineA($event,'A')"></canvas>
 			</view>
 		</view>
@@ -77,7 +77,7 @@
 		mounted() {
 			_self = this;
 			this.cWidth = uni.upx2px(750);
-			this.cHeight = uni.upx2px(500);
+			this.cHeight = uni.upx2px(400);
 			this.getServerData();
 		},
 
@@ -271,18 +271,18 @@
 	/*样式的width和height一定要与定义的cWidth和cHeight相对应*/
 	.qiun-charts {
 		width: 750upx;
-		height: 500upx;
+		height: 400upx;
 		background-color: #FFFFFF;
 	}
 	
 	.qiun-charts1 {
 		width: 750upx;
-		height: 500upx;
+		height: 400upx;
 	}
 
 	.charts {
 		width: 750upx;
-		height: 500upx;
+		height: 400upx;
 		background-color: #FFFFFF;
 	}
 

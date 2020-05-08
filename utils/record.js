@@ -309,9 +309,9 @@ export default {
 								total_money = 0
 							}
 							if (Number(total_reserve) > 1000 && Number(total_reserve) < 10000) {
-								total_reserve = (Number(total_money) / 1000).toFixed(2) + "千"
+								total_reserve = (Number(total_reserve) / 1000).toFixed(2) + "千"
 							} else if (Number(total_reserve) >= 10000 && Number(total_money) < 100000) {
-								total_reserve = (Number(total_money) / 10000).toFixed(2) + "万"
+								total_reserve = (Number(total_reserve) / 10000).toFixed(2) + "万"
 							} else if (Number(total_reserve) >= 100000) {
 								total_reserve = (Number(total_reserve) / 100000).toFixed(2) + "十万"
 							}
