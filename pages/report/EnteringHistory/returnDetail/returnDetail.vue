@@ -410,7 +410,7 @@
 									query.set('reserve', now_reserve)
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
-										common.modifyStockType(product.goodsId.objectId)
+										//common.modifyStockType(product.goodsId.objectId)
 										if (count == (that.products.length - 1)) {
 											const pointer = Bmob.Pointer('stocks');
 											let stockId = pointer.set(that.stock.objectId);
@@ -552,7 +552,7 @@
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
 
-										common.modifyStockType(product.goodsId.objectId)
+										//scommon.modifyStockType(product.goodsId.objectId)
 
 										if (count == (that.products.length - 1)) {
 											const pointer = Bmob.Pointer('stocks');
@@ -617,7 +617,7 @@
 									query.set('reserve', now_reserve)
 									query.set('id', product.goodsId.objectId)
 									query.save().then(res => {
-										common.modifyStockType(product.goodsId.objectId)
+										//common.modifyStockType(product.goodsId.objectId)
 										if (count == (that.products.length - 1)) {
 											const pointer = Bmob.Pointer('stocks');
 											let stockId = pointer.set(that.stock.objectId);
@@ -720,7 +720,7 @@
 							query.set('reserve', now_reserve)
 							query.set('id', thisGood.header.objectId)
 							query.save().then(res => {
-								common.modifyStockType(thisGood.header.objectId) //修改产品的预警类型
+								//common.modifyStockType(thisGood.header.objectId) //修改产品的预警类型
 								if (i == (that.products.length - 1)) {
 									uni.hideLoading();
 									uni.navigateBack({

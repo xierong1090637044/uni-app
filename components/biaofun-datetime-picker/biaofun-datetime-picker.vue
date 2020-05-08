@@ -350,7 +350,7 @@ export default {
 			if (!this.defaultValue) {
 				dateDefault = new Date();
 			} else {
-				dateDefault = new Date(this.defaultValue);
+				dateDefault = new Date(this.defaultValue.replace(/-/g, "/"));
 			}
 			if (dateDefault < dateStart || dateDefault > dateEnd) {
 				dateDefault = new Date(this.start);

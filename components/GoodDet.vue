@@ -116,7 +116,7 @@
 									query.set('reserve', now_reserve)
 									query.set('id', that.product.objectId)
 									query.save().then(res => {
-										common.modifyStockType(that.product.objectId);
+										//common.modifyStockType(that.product.objectId);
 								    that.$emit("deleteSingle",true);
 										uni.setStorageSync("isClickShaiXuan",true)
 										uni.showToast({title:"删除成功"});

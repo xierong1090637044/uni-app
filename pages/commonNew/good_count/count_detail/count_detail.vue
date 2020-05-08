@@ -229,7 +229,7 @@
 														query.set('reserve', now_reserve)
 														query.save().then(res => {
 
-															common.modifyStockType(that.products[i].objectId)
+															//common.modifyStockType(that.products[i].objectId)
 
 															that.button_disabled = false;
 															uni.setStorageSync("is_option", true);
@@ -279,7 +279,7 @@
 															res.set('reserve', now_reserve)
 															res.save()
 
-															common.modifyStockType(that.products[i].objectId)
+															//common.modifyStockType(that.products[i].objectId)
 
 															that.button_disabled = false;
 															uni.setStorageSync("is_option", true);

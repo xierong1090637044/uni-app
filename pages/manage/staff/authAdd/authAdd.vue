@@ -62,7 +62,7 @@
 			
 			<view>
 				<uni-collapse>
-					<uni-collapse-item :show-animation="true" title="分析模块权限">
+					<uni-collapse-item :show-animation="true" title="报表和分析模块权限">
 						<view style="padding: 30rpx;">
 							<checkbox-group @change="checkboxChangeAnalysis">
 								<view class="display_flex rights_item" v-for="(item,index) in analysisAuth" :key="''+index">
@@ -160,7 +160,7 @@
 				//分析模块权限
 				analysisAuth:[{
 						id: 0,
-						name: '分析模块查看'
+						name: '报表和分析模块查看'
 					}
 				],
 				
@@ -198,6 +198,15 @@
 					},{
 						id: 9,
 						name: '采购退货单'
+					},{
+						id: 10,
+						name: '销售明细'
+					},{
+						id: 11,
+						name: '采购明细'
+					},{
+						id: 12,
+						name: '出入库明细'
 					},
 				],
 				others: [{

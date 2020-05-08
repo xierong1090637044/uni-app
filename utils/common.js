@@ -42,14 +42,14 @@ module.exports = {
 								}
 								query.set('id', products[i].header.objectId)
 								query.save().then(res => {
-									that.modifyStockType(products[i].header.objectId) //显示预警
+									//that.modifyStockType(products[i].header.objectId) //显示预警
 									if (i == products.length - 1) {
 										resolve(true)
 									}
 								})
 							})
 						} else {
-							that.modifyStockType(products[i].objectId) //显示预警
+							//that.modifyStockType(products[i].objectId) //显示预警
 							if (i == products.length - 1) {
 								resolve(true)
 							}
@@ -108,7 +108,7 @@ module.exports = {
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].header.objectId)
 								query.save().then(res => {
-									that.modifyStockType(products[i].header.objectId) //修改库存类型
+									//that.modifyStockType(products[i].header.objectId) //修改库存类型
 									if (i == products.length - 1) {
 										resolve(true)
 									}
@@ -116,7 +116,7 @@ module.exports = {
 							})
 
 						} else {
-							that.modifyStockType(products[i].objectId) //修改库存类型
+							//that.modifyStockType(products[i].objectId) //修改库存类型
 							if (i == products.length - 1) {
 								resolve(true)
 							}
@@ -277,12 +277,7 @@ module.exports = {
 								query.set('reserve', now_reserve)
 								query.set('id', products[i].objectId)
 								query.save().then(res => {
-									Bmob.functions("warn_GoodNum", {
-										"uid": uni.getStorageSync("uid"),
-										"goodId": products[i].objectId
-									}).then(function(res) {
-										//console.log("sss",res)
-									});
+									
 									if (i == products.length - 1) {
 										resolve(true)
 									}

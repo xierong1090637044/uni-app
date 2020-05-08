@@ -132,7 +132,15 @@
 		}, {
 			"path": "pages/report/EnteringHistory/stockDet/stockDet"
 		}
-	],
+	    ,{
+            "path" : "pages/report/sellPurchaseDetList/sellPurchaseDetList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/report/stockOutInDetList/stockOutInDetList",
+            "style" : {}
+        }
+    ],
 
 	"subPackages": [{
 			"root": "pages/reportAnalys",

@@ -214,8 +214,8 @@
 											query.set('reserve', now_reserve)
 											query.save().then(res => {
 												countKey += 1
-												common.modifyStockType(that.products[i].header.objectId)
-												console.log(countKey, that.products.length)
+												//common.modifyStockType(that.products[i].header.objectId)
+												//console.log(countKey, that.products.length)
 												if (countKey == that.products.length) {
 													that.button_disabled = false;
 													uni.setStorageSync("is_option", true);
@@ -244,7 +244,7 @@
 										})
 									} else {
 										countKey += 1
-										common.modifyStockType(that.products[i].header.objectId)
+										//common.modifyStockType(that.products[i].header.objectId)
 										if (countKey == that.products.length) {
 											that.button_disabled = false;
 											uni.setStorageSync("is_option", true);

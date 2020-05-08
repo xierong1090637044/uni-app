@@ -3,7 +3,7 @@
 		<view class="uni-common-mt">
 			<uni-segmented-control :current="current" :values="items" style-type="button" active-color="#426ab3" @clickItem="onClickItem" />
 		</view>
-		<scroll-view class="uni-product-list" scroll-y>
+		<scroll-view class="uni-product-list" scroll-y style="height: calc(100vh - 108rpx);">
 			<view v-if="productList.length > 0">
 				<view class="uni-product" v-for="(product,index) in productList" :key="index">
 					<view>
@@ -25,7 +25,7 @@
 				</view>
 			</view>
 			<view v-else>
-				<view style="margin-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有商品啦!</view>
+				<view style="padding-top: 100rpx;color:#333;font-weight: bold;text-align: center;font-size: 36rpx;">没有商品啦!</view>
 			</view>
 		
 		</scroll-view>
@@ -48,23 +48,28 @@
 				productList:[],
 				items: ['低库存预警', '高库存预警'],
 				current: 0,
-				search_text:'',
 			}
 		},
 		
 		onLoad() {
 			that = this;
-			uid = uni.getStorageSync("uid");
-			that.get_productList(0);
+			that.getWarnGoodsList()
 		},
 		methods: {
 			onClickItem(e){
-				that.productList = []
-				if(e == 1){
-					that.get_productList(2)
-				}else if(e == 0){
-					that.get_productList(0)
-				}
+				that.current = e
+				that.getWarnGoodsList()
+			},
+			
+			getWarnGoodsList(){
+				that.$http.Post("stock_goodWarnList", {}).then(res => {
+					if(that.current == 0){
+						that.productList = res.data.reserveWarnGoods.flat()
+					}
+					if(that.current == 1){
+						that.productList = res.data.reserveOverGoods.flat()
+					}
+				})
 			},
 			
 			//点击去到详情
@@ -80,27 +85,6 @@
 						url: "/pages/manage/good_det/good_det"
 					})
 				}
-			},
-			
-			//查询产品列表
-			get_productList(stocktype) {
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				
-				query.equalTo("status", "!=", -1);
-				query.equalTo("order", "!=", 1);
-				query.equalTo("stocktype", "==", stocktype);
-				query.limit(500);
-				//query.skip(that.page_size * (that.page_num - 1));
-				query.order("-createdAt"); //按照条件降序
-				query.include("goodsClass", "stocks", "second_class");
-				query.find().then(res => {
-					//console.log(res)
-					for (let item of res) {
-						item.reserve = item.reserve.toFixed(uni.getStorageSync("setting") ? uni.getStorageSync("setting").show_float :0)
-					}
-					that.productList = res;
-				});
 			},
 			
 		}

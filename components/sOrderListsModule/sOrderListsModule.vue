@@ -39,6 +39,19 @@
 				</navigator>
 			</view>
 		</view>
+		
+		<view class="modelItem">
+			<view class="title">明细</view>
+			<view class='o_list'>
+				<navigator v-for='(value,index) in nowFourEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view class="o_headerItem">
+						<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>
+						<!--<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>-->
+					</view>
+					<view class='o_text'>{{value.name}}</view>
+				</navigator>
+			</view>
+		</view>
 
 	</view>
 </template>
@@ -111,10 +124,31 @@
 						id: 3,
 					},
 				],
+				
+				fourEle: [{
+						name: '销售明细',
+						icon: 'file-archive-o',
+						url: '/pages/report/sellPurchaseDetList/sellPurchaseDetList?type=-1&extra_type=1&title=销售明细',
+						id: 10,
+					},
+					{
+						name: '采购明细',
+						icon: 'file-archive-o',
+						url: '/pages/report/sellPurchaseDetList/sellPurchaseDetList?type=1&extra_type=1&title=采购明细',
+						id: 11,
+					},
+					{
+						name: '出入库明细',
+						icon: 'file-archive-o',
+						url: '/pages/report/stockOutInDetList/stockOutInDetList',
+						id: 12,
+					},
+				],
 
 				nowFristEle: [],
 				nowSecondEle: [],
 				nowThridEle: [],
+				nowFourEle:[],
 				user: uni.getStorageSync("user"),
 				identity:uni.getStorageSync("identity"),
 			};
@@ -140,10 +174,17 @@
 						this.nowThridEle.push(model3)
 					}
 				}
+				
+				for (let model4 of this.thridEle) {
+					if (this.user.rights.recodecurrent.indexOf(model4.id.toString()) >= 0) {
+						this.nowFourEle.push(model4)
+					}
+				}
 			} else {
 				this.nowFristEle = this.fristEle
 				this.nowSecondEle = this.secondEle
 				this.nowThridEle = this.thridEle
+				this.nowFourEle = this.fourEle
 			}
 		},
 	}
@@ -157,7 +198,7 @@
 	}
 
 	.modelItem {
-		padding: 20rpx 30rpx;
+		padding: 10rpx 30rpx;
 		width: calc(100% - 60rpx);
 		margin-bottom: 30rpx;
 		border-radius: 40rpx;
