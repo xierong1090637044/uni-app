@@ -360,6 +360,7 @@
 
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
+						query.set("opreatGood", that.products);
 						query.set("detail", detailObj);
 						query.set("bills", bills);
 						query.set("beizhu", e.detail.value.input_beizhu);

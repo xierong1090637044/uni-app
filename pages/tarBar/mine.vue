@@ -104,7 +104,8 @@
 		</view>
 		
 		<view style="padding:10rpx 30rpx;background: #fff;margin-top: 20rpx;">
-			<view style="font-size: 24rpx;">请使用谷歌游览器打开电脑端地址</view>
+			<view style="font-size: 20rpx;">请使用谷歌游览器打开电脑端地址</view>
+			<view style="font-size: 20rpx;">电脑端还不是很完善，不推荐操作</view>
 			<view style="font-size: 24rpx;">https://www.shoujixungeng.com/</view>
 		</view>
 

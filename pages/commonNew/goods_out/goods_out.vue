@@ -11,7 +11,7 @@
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;" v-if="item.stocks && item.stocks.stock_name">
 							<view>存放仓库：{{item.stocks.stock_name}}</view>
 						</view>
-						
+
 						<view class="display_flex_bet" style="margin-bottom: 10rpx;">
 							<view>库存：{{item.reserve}}</view>
 							<view v-if="value !=2">
@@ -23,10 +23,10 @@
 									<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
 								</view>
 							</view>
-							
+
 						</view>
-						
-						
+
+
 
 						<view class="display_flex_bet" v-if="value != 4" style="margin-bottom: 10rpx;">
 							<view class='input_withlabel'>
@@ -34,14 +34,14 @@
 								<view><input :placeholder='item.retailPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 							</view>
 						</view>
-						
-						<view class="display_flex" v-if="value !=2 && value == 4"  style="margin-bottom: 10rpx;">
+
+						<view class="display_flex" v-if="value !=2 && value == 4" style="margin-bottom: 10rpx;">
 							<text>实际进货价<text style="font-size: 24rpx;color: #999;">(可修改)</text>：</text>
 							<view v-if="user.rights&&user.rights.othercurrent[0] != '0'">
 								<input placeholder='0' @input='getrealprice($event, index)' class='input_label' type='digit' />
 							</view>
 							<view v-else>
-								<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit'/>
+								<input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' />
 							</view>
 						</view>
 
@@ -51,7 +51,7 @@
 								<text v-if="value == 1 || value == 3 || value == 5">销售量：</text>
 								<text v-else-if="value == 2">出库量：</text>
 								<text v-else-if="value == 4">退货量：</text>
-								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0'/>
+								<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' />
 							</view>
 						</view>
 						<view class='margin-t-5' v-else>
@@ -108,7 +108,8 @@
 				products: [],
 				user: uni.getStorageSync("user"),
 				value: '',
-				negativeOut: false
+				negativeOut: false,
+				option: '',
 			}
 		},
 
@@ -118,6 +119,7 @@
 			uid = uni.getStorageSync("uid")
 			that = this
 			value = options.value
+			that.option = options.option
 			that.value = options.value
 			if (options.id) { // 扫码进入的情况
 				uni.showLoading({
@@ -133,16 +135,16 @@
 				query.equalTo("status", "!=", -1);
 				query.include("stocks");
 				query.find().then(res => {
-					
-					if(res.length == 0){
+
+					if (res.length == 0) {
 						uni.showToast({
-							icon:"none",
-							title:"没有此产品"
+							icon: "none",
+							title: "没有此产品"
 						})
 						uni.hideLoading();
 						return;
 					}
-					
+
 					for (let item of res) {
 						item.num = 1;
 						item.total_money = 1 * item.retailPrice;
@@ -208,15 +210,15 @@
 						query.include("stocks");
 						query.find().then(res => {
 							console.log(res)
-							if(res.length == 0){
+							if (res.length == 0) {
 								uni.showToast({
-									icon:"none",
-									title:"没有此产品"
+									icon: "none",
+									title: "没有此产品"
 								})
 								uni.hideLoading();
 								return;
 							}
-							
+
 							if (res[0].order == 0) {
 								query.equalTo("userId", "==", uid);
 								query.equalTo("objectId", "==", res[0].objectId);
@@ -285,15 +287,21 @@
 						return
 					}
 				}
-				
+
 				if (value == 2) {
 					uni.navigateTo({
 						url: "/pages/commonNew/goods_out/out_detail/out_detail"
 					})
 				} else if (value == 3) { //新版的销售流程
-					uni.navigateTo({
-						url: "/pages/commonNew/goods_out/gooSellNew/gooSellNew"
-					})
+					if (that.option == "edit") {
+						uni.navigateTo({
+							url: "/pages/commonNew/goods_out/goodSellNewEdit/goodSellNewEdit"
+						})
+					} else {
+						uni.navigateTo({
+							url: "/pages/commonNew/goods_out/gooSellNew/gooSellNew"
+						})
+					}
 				} else if (value == 4) { //新版的采购退货流程
 					uni.navigateTo({
 						url: "/pages/commonNew/good_return/purchaseReturn/purchaseReturn"

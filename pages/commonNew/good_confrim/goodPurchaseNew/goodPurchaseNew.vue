@@ -402,6 +402,7 @@
 						let query = Bmob.Query('order_opreations');
 						//query.set("relations", relID);
 						query.set("beizhu", e.detail.value.input_beizhu);
+						query.set("opreatGood", that.products);
 						query.set("detail", detailObj);
 						query.set("real_num", that.total_num);
 						query.set("type", 1);

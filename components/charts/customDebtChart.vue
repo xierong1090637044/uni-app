@@ -1,7 +1,7 @@
 <template>
 	<view class="qiun-columns">
 		<view class="qiun-charts">
-			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn" disable-scroll=true></canvas>
+			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 		</view>
 	</view>
 </template>

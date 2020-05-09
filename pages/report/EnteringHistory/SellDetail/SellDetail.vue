@@ -8,12 +8,40 @@
 				<view style='line-height:70rpx;padding: 0 20rpx;'>操作产品</view>
 
 				<view>
-					<view>
+					<view v-if="detail.opreatGood && detail.opreatGood.length>0">
+						<view v-for="(item,index) in detail.opreatGood" :key="index" class='pro_listitem'>
+							<view class='pro_list' style='color:#000'>
+								<view style="max-width: 60%;">产品：{{item.goodsName}}
+									<!--<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
+									<text v-else>（成本价：￥{{item.costPrice}}）</text>-->
+								</view>
+								<view>数量：X{{item.num}}{{item.packingUnit ||''}}</view>
+							</view>
+							<view v-if="item.selected_model">
+								<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex" v-if="model.num > 0" style="justify-content: space-between;">
+									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
+								</view>
+							</view>
+
+							<view class='pro_list'>
+								<view>建议零售价：￥{{item.retailPrice}}</view>
+								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
+								<view v-else>
+									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
+									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
+								</view>
+							</view>
+
+						</view>
+					</view>
+					
+					<view v-else>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
-								<view>产品：{{item.goodsName}}
-									<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
-									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>
+								<view style="max-width: 60%;">产品：{{item.goodsName}}
+									<!--<text v-if="(user.rights&&user.rights.othercurrent[0] != '0') || detail.type == -1"></text>
+									<text v-else>（成本价：￥{{item.goodsId.costPrice}}）</text>-->
 								</view>
 								<view>数量：X{{item.num}}{{item.packingUnit ||''}}</view>
 							</view>
@@ -23,7 +51,7 @@
 									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
 								</view>
 							</view>
-
+					
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
 								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
@@ -32,7 +60,7 @@
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
 								</view>
 							</view>
-
+					
 						</view>
 					</view>
 					<view class='pro_allmoney'>总计：￥{{detail.all_money }}</view>
@@ -330,7 +358,8 @@
 				if (that.detail.type == -1 || that.detail.type == 1) {
 					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
 
-						options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印'] : ['采购入库', '撤销', '打印']
+						options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印','生成退货单','编辑'] : ['采购入库', '撤销', '打印','生成退货单','编辑']
+						//options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印'] : ['采购入库', '撤销', '打印']
 
 						uni.showActionSheet({
 							itemList: options,
@@ -373,8 +402,22 @@
 									}
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 1) {
-									that.revoke()
-									uni.setStorageSync("is_option", true)
+									that.$http.Post("order_opreationSellPurchaseRevoke", {
+										orderId:that.detail.objectId,
+									}).then(res => {
+										if(res.code == 1){
+											uni.setStorageSync("is_option", true)
+											uni.hideLoading();
+											uni.navigateBack({
+												delta: 1
+											})
+											setTimeout(function() {
+												uni.showToast({
+													title: '撤销成功'
+												})
+											}, 1000);
+										}
+									})
 								} else if (res.tapIndex == 2) {
 									that.$http.Post("stock_printInfo", {
 										sn:uni.getStorageSync("setting").sn,
@@ -383,6 +426,25 @@
 									}).then(res => {
 										console.log(res)
 									})
+								} else if (res.tapIndex == 3) {
+									
+								} else if (res.tapIndex == 4) {
+									if(that.detail.type == -1 ){
+										let stock = {}
+										stock.stock = that.detail.stock
+										uni.setStorageSync("discountMoney",that.detail.discountMoney)
+										uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
+										uni.setStorageSync("otherMoney",that.detail.otherMoney)
+										uni.setStorageSync("custom",that.detail.custom)
+										uni.setStorageSync("account",that.detail.account)
+										uni.setStorageSync("warehouse",[stock])
+										
+										uni.setStorageSync("products",that.detail.opreatGood)
+										uni.setStorageSync("orderId",that.detail.objectId)
+										uni.navigateTo({
+											url:"/pages/commonNew/goods_out/goods_out?value=3&option=edit"
+										})
+									}
 								}
 							},
 							fail: function(res) {

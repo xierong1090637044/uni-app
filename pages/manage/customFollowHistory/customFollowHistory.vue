@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :shadow="false" rightText="新增更进" @click-right="addCustomFollow">
+		<uni-nav-bar :fixed="false" color="#333333" background-color="#FFFFFF" :shadow="false" rightText="新增跟进" @click-right="addCustomFollow">
 			<view class="input-view display_flex">
 				<fa-icon type="search" size="16" color="#999"></fa-icon>
 				<input confirm-type="search" class="input" type="text" placeholder="请输入客户名字" @confirm="input_confirm" :value="params.custom_name"/>

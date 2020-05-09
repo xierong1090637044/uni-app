@@ -72,7 +72,7 @@
 			sellRecord(){
 				uni.setStorageSync("producer",that.producer)
 				uni.navigateTo({
-					url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
+					url: '/pages/common/goods-select/goods-select?type=entering&value=3'
 				});
 			},
 		}

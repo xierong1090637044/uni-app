@@ -379,11 +379,11 @@
 						query.equalTo("createdAt", "<=", that.option_end_day + ' 00:00:00');
 					}
 				}
-
 				query.limit(page_size);
 				query.skip(page_size * (page_num - 1));
 				query.include("opreater", "stock");
 				query.order("-createdAt");
+				query.select("opreater,stock,goodsName,opreater,type,extra_type,real_num,beizhu,status,debt,recordType"),
 				query.find().then(res => {
 					//console.log(res)
 					this.list = res;

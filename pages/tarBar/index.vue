@@ -20,9 +20,7 @@
 
 				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;">
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
-						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存
-							<text style="color: #f30;">New</text>
-						</view>
+						<view style="font-size: 30rpx;color: #333;font-weight: bold;">库存</view>
 						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold;" @click='scan_code(1)'
 						 v-if="stockListsNew.length > 0"></i>
 					</view>
@@ -43,7 +41,7 @@
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view class="display_flex">
 							<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">销售</view>
-							<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
+							
 						</view>
 						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(2)'
 						 v-if="sellLists.length > 0"></i>
@@ -67,7 +65,6 @@
 					<view class="display_flex_bet" style="padding-bottom: 10rpx;">
 						<view class="display_flex">
 							<view style="font-size: 30rpx;color: #333;font-weight: bold;margin-right: 20rpx;">采购</view>
-							<fa-icon type="question-circle" size="20" color="#426ab3" @click="gotoNotice()"></fa-icon>
 						</view>
 
 						<i class="iconfont icon-saoma" style="color: #426ab3;font-size: 36rpx;font-weight: bold" @click='scan_code(3)'

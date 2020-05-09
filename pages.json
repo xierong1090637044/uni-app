@@ -131,16 +131,14 @@
 			}
 		}, {
 			"path": "pages/report/EnteringHistory/stockDet/stockDet"
+		}, {
+			"path": "pages/report/sellPurchaseDetList/sellPurchaseDetList",
+			"style": {}
+		}, {
+			"path": "pages/report/stockOutInDetList/stockOutInDetList",
+			"style": {}
 		}
-	    ,{
-            "path" : "pages/report/sellPurchaseDetList/sellPurchaseDetList",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/report/stockOutInDetList/stockOutInDetList",
-            "style" : {}
-        }
-    ],
+	],
 
 	"subPackages": [{
 			"root": "pages/reportAnalys",
@@ -151,24 +149,20 @@
 				{
 					"path": "purchaseProducers/purchaseProducers",
 					"style": {}
+				}, {
+					"path": "sellGoods/sellGoods",
+					"style": {}
+				}, {
+					"path": "sellCustoms/sellCustoms",
+					"style": {}
+				}, {
+					"path": "stockOutIn/stockOutIn",
+					"style": {}
+				}, {
+					"path": "stockGoodOut/stockGoodOut",
+					"style": {}
 				}
-			    ,{
-                    "path" : "sellGoods/sellGoods",
-                    "style" : {}
-                }
-                ,{
-                    "path" : "sellCustoms/sellCustoms",
-                    "style" : {}
-                }
-                ,{
-                    "path" : "stockOutIn/stockOutIn",
-                    "style" : {}
-                }
-                ,{
-                    "path" : "stockGoodOut/stockGoodOut",
-                    "style" : {}
-                }
-            ]
+			]
 		}, {
 			"root": "pages/common",
 			"pages": [{
@@ -362,6 +356,9 @@
 					"style": {}
 				}, {
 					"path": "keepScan/keepScan",
+					"style": {}
+				}, {
+					"path": "goods_out/goodSellNewEdit/goodSellNewEdit",
 					"style": {}
 				}
 			]
@@ -819,16 +816,14 @@
 				}, {
 					"path": "customClass/customClass",
 					"style": {}
+				}, {
+					"path": "customFollow/customFollow",
+					"style": {}
+				}, {
+					"path": "customFollowHistory/customFollowHistory",
+					"style": {}
 				}
-			    ,{
-                    "path" : "customFollow/customFollow",
-                    "style" : {}
-                }
-                ,{
-                    "path" : "customFollowHistory/customFollowHistory",
-                    "style" : {}
-                }
-            ]
+			]
 		}
 	],
 
