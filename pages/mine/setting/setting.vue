@@ -10,32 +10,9 @@
 				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting"
 				 :disabled="inputCan" />
 			</view>
-
-			<!--<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">打印功能</view>
-				<input class="uni-input" placeholder="需购买飞鹅云打印机,然后联系客服开通" :disabled="true" style="border-bottom: unset;" />
-			</view>-->
-			<!--<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">UKEY账号</view>
-				<input class="uni-input" placeholder="请输入UKEY账号" v-model="params.UKEY" @blur="modify_setting" :disabled="inputCan" />
-			</view>-->
-			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">打印机编号</view>
-				<input class="uni-input" placeholder="请输入打印机编号SN" v-model="params.number" @blur="addPrint" :disabled="inputCan" @confirm="addPrint"/>
-			</view>
-			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">打印机识别码</view>
-				<input class="uni-input" placeholder="请输入打印机识别码KEY" v-model="params.KEY" @blur="addPrint" :disabled="inputCan" @confirm="addPrint"/>
-			</view>
 		</view>
 
 		<view style="margin-top: 30rpx;">
-			<view>
-				<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
-					<view>自动打印</view>
-					<switch @change="auto_print" :checked="params.auto_print" :disabled="inputCan" />
-				</view>
-			</view>
 			<view>
 				<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
 					<view>负出库</view>

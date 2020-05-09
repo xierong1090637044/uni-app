@@ -561,4 +561,14 @@ module.exports = {
 		}
 		return m;
 	},
+	
+	clearOrderDetStorage(){
+		uni.removeStorageSync("haveGetMoney")
+		uni.removeStorageSync("otherMoney")
+		uni.removeStorageSync("products")
+		uni.removeStorageSync("discountMoney")
+		uni.removeStorageSync("beizhu_text")
+		uni.removeStorageSync("Images")
+		uni.removeStorageSync("orderId")
+	},
 }

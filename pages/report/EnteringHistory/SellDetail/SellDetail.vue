@@ -26,7 +26,7 @@
 
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.retailPrice}}</view>
-								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
+								<view v-if="detail.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
 								<view v-else>
 									<text v-if="user.rights&&user.rights.othercurrent[0] != '0'">实际进货价：￥0</text>
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
@@ -358,7 +358,7 @@
 				if (that.detail.type == -1 || that.detail.type == 1) {
 					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
 
-						options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印','生成退货单','编辑'] : ['采购入库', '撤销', '打印','生成退货单','编辑']
+						options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印','编辑'] : ['采购入库', '撤销', '打印','编辑']
 						//options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印'] : ['采购入库', '撤销', '打印']
 
 						uni.showActionSheet({
@@ -426,23 +426,26 @@
 									}).then(res => {
 										console.log(res)
 									})
-								} else if (res.tapIndex == 3) {
-									
-								} else if (res.tapIndex == 4) {
+								} else if (res.tapIndex == 3) {//编辑操作单
+									let stock = {}
+									stock.stock = that.detail.stock
+									uni.setStorageSync("discountMoney",that.detail.discountMoney)
+									uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
+									uni.setStorageSync("otherMoney",that.detail.otherMoney)
+									uni.setStorageSync("custom",that.detail.custom)
+									uni.setStorageSync("account",that.detail.account)
+									uni.setStorageSync("warehouse",[stock])
+									uni.setStorageSync("products",that.detail.opreatGood)
+									uni.setStorageSync("orderId",that.detail.objectId)
+									uni.setStorageSync("beizhu_text",that.detail.beizhu)
+									uni.setStorageSync("Images",that.detail.Images)
 									if(that.detail.type == -1 ){
-										let stock = {}
-										stock.stock = that.detail.stock
-										uni.setStorageSync("discountMoney",that.detail.discountMoney)
-										uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
-										uni.setStorageSync("otherMoney",that.detail.otherMoney)
-										uni.setStorageSync("custom",that.detail.custom)
-										uni.setStorageSync("account",that.detail.account)
-										uni.setStorageSync("warehouse",[stock])
-										
-										uni.setStorageSync("products",that.detail.opreatGood)
-										uni.setStorageSync("orderId",that.detail.objectId)
 										uni.navigateTo({
 											url:"/pages/commonNew/goods_out/goods_out?value=3&option=edit"
+										})
+									}else if(that.detail.type == 1){
+										uni.navigateTo({
+											url:"/pages/commonNew/good_confrim/good_confrim?value=3&option=edit"
 										})
 									}
 								}

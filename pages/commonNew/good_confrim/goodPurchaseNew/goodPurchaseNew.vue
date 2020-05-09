@@ -286,7 +286,6 @@
 
 				//console.log(e)
 				this.button_disabled = true;
-				let fromid = e.detail.formId
 				let extraType = 1 // 判断是采购还是入库  2是入库  1是采购
 				uni.showLoading({
 					title: "上传中..."
@@ -300,8 +299,41 @@
 					this.button_disabled = false;
 					return;
 				}
+				
+				that.$http.Post("stock_goodEnterPurchase", {
+					goods:that.products,
+					beizhu:e.detail.value.input_beizhu,
+					real_num:that.total_num,
+					stockId:that.stock?that.stock.objectId:'',
+					stockName:that.stock?that.stock.stock_name:'',
+					otherMoney:that.otherMoney,
+					discountMoney:that.discountMoney,
+					haveGetMoney:that.haveGetMoney,
+					real_money:that.real_money,
+					all_money:that.all_money,
+					accountId:that.account?that.account.objectId:'',
+					producerId:that.producer.objectId,
+					Images:that.Images,
+					opreater:uni.getStorageSync("masterId"),
+					nowDay:that.nowDay,
+				}).then(res => {
+					if(res.code == 1){
+						uni.hideLoading();
+						uni.setStorageSync("is_option", true);
+						uni.showToast({
+							title: "采购入库成功"
+						});
+						
+						setTimeout(function(){
+							uni.navigateBack({
+								delta: 2
+							});
+							that.button_disabled = false;
+						},1000)
+					}
+				})
 
-				let billsObj = new Array();
+				/*let billsObj = new Array();
 				let detailObj = [];
 				let goodsName = [];
 				let producer = Bmob.Pointer('producers');
@@ -543,7 +575,7 @@
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
-					});
+					});*/
 			},
 		}
 	}

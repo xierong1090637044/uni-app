@@ -481,7 +481,7 @@
 				})
 			}
 
-			uni.removeStorageSync("now_product")
+			that.common.clearOrderDetStorage()
 		},
 
 		//分享

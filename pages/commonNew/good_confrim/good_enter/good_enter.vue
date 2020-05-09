@@ -215,8 +215,39 @@
 				uni.showLoading({
 					title: "请勿退出..."
 				});
+				
+				that.$http.Post("stock_goodEnter", {
+					"goods": that.products,
+					"beizhu": e.detail.value.input_beizhu,
+					"real_num": that.total_num,
+					"stockClass": that.stockClass,
+					"stockId": that.stock.objectId,
+					"stockName": that.stock.stock_name,
+					"real_money": that.real_money,
+					"debt": 0,
+					"all_money": that.all_money,
+					"Images": that.Images,
+					"opreater":uni.getStorageSync("masterId") ,
+					"nowDay": that.nowDay
+				}).then(res => {
+					if (res.code == 1) {
+						uni.hideLoading();
+						uni.setStorageSync("is_option", true);
+						
+						uni.showToast({
+							title: "入库成功"
+						})
+						setTimeout(function() {
+							that.button_disabled = false;
+							uni.navigateBack({
+								delta: 2
+							});
+						}, 500)
+				
+					}
+				})
 
-				let billsObj = new Array();
+				/*let billsObj = new Array();
 				let detailObj = [];
 				let stockIds = [];
 				let stockNames = [];
@@ -360,7 +391,7 @@
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
-					});
+					});*/
 			},
 
 		}

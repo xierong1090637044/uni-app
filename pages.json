@@ -360,6 +360,9 @@
 				}, {
 					"path": "goods_out/goodSellNewEdit/goodSellNewEdit",
 					"style": {}
+				}, {
+					"path": "good_confrim/goodPurchaseNewEdit/goodPurchaseNewEdit",
+					"style": {}
 				}
 			]
 		}, {

@@ -360,8 +360,8 @@
 					return;
 				}
 				
-				/*this.$http.Post("stock_goodOutBuy", {
-					goods:this.products,
+				that.$http.Post("stock_goodOutBuy", {
+					goods:that.products,
 					beizhu:e.detail.value.input_beizhu,
 					real_num:that.total_num,
 					stockId:that.stock?that.stock.objectId:'',
@@ -377,10 +377,26 @@
 					Images:that.Images,
 					opreater:uni.getStorageSync("masterId"),
 					nowDay:that.nowDay,
+					typeDesc:that.typeDesc,
+					expressNum:that.expressNum,
 				}).then(res => {
-				})*/
+					if(res.code == 1){
+						uni.hideLoading();
+						uni.setStorageSync("is_option", true);
+						uni.showToast({
+							title: "销售出库成功"
+						});
+						
+						setTimeout(function(){
+							uni.navigateBack({
+								delta: 2
+							});
+							that.button_disabled = false;
+						},1000)
+					}
+				})
 
-				let billsObj = new Array();
+				/*let billsObj = new Array();
 				let detailObj = [];
 				let goodsName = [];
 
@@ -628,7 +644,7 @@
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
-					});
+					});*/
 
 			}
 		}

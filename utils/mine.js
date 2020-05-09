@@ -34,10 +34,10 @@ export default {
 			if (setting.objectId) query.set("id", setting.objectId)
 			query.set("show_float", Number(params.show_float))
 			
-			query.set("sn",params.number)
-			query.set("key",params.key)
-			query.set("remark",params.remark)
-			query.set("carnum",params.carnum)
+			//query.set("sn",params.number)
+			//query.set("key",params.key)
+			//query.set("remark",params.remark)
+			//query.set("carnum",params.carnum)
 			
 			query.set("wx_openid", params.wx_openid)
 			query.set("auto_print", params.auto_print)

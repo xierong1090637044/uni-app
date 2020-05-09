@@ -98,6 +98,7 @@
 				value: '',
 				products: [],
 				user: uni.getStorageSync("user"),
+				option: '',
 			}
 		},
 
@@ -108,6 +109,7 @@
 			uid = uni.getStorageSync("uid")
 			value = options.value
 			that.value = options.value
+			that.option = options.option
 
 			if (value == 1) {
 				uni.setNavigationBarTitle({
@@ -284,9 +286,15 @@
 						url: "/pages/commonNew/good_confrim/good_enter/good_enter"
 					})
 				} else if (value == 3) {
-					uni.navigateTo({
-						url: "/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew"
-					})
+					if (that.option == "edit") {
+						uni.navigateTo({
+							url: "/pages/commonNew/good_confrim/goodPurchaseNewEdit/goodPurchaseNewEdit"
+						})
+					}else{
+						uni.navigateTo({
+							url: "/pages/commonNew/good_confrim/goodPurchaseNew/goodPurchaseNew"
+						})
+					}
 				} else if (value == 4) {
 					uni.navigateTo({
 						url: "/pages/commonNew/good_return/buyReturn/buyReturn"
