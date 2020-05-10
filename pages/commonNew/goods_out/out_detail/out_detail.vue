@@ -242,7 +242,9 @@
 					"all_money": that.all_money,
 					"Images": that.Images,
 					"opreater":uni.getStorageSync("masterId") ,
-					"nowDay": that.nowDay
+					"nowDay": that.nowDay,
+					negativeOut:getApp().globalData.setting.negativeOut,
+					autoRetailPrice:getApp().globalData.setting.autoRetailPrice,
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
@@ -256,7 +258,6 @@
 								delta: 2
 							});
 						}, 500)
-				
 					}
 				})
 

@@ -429,7 +429,11 @@
 			if (uni.getStorageSync("user")) { //登陆情况下进行的操作
 				that.thisVision = uni.getStorageSync("thisVision") || "New"
 				that.user = uni.getStorageSync("user")
-				mine.query_setting();
+				
+				that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
+					getApp().globalData.setting = res.data
+					uni.setStorageSync("setting", res.data)
+				})
 				if (that.user.identity == 2 && that.user.rights) {
 					that.othercurrent = that.user.rights.othercurrent || []
 
@@ -481,7 +485,7 @@
 				})
 			}
 
-			that.common.clearOrderDetStorage()
+			that.common.clearOrderDetStorage()//清除一些订单的缓存
 		},
 
 		//分享

@@ -212,14 +212,11 @@
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 			that.account = uni.getStorageSync("account")
 			
-			if (uni.getStorageSync("haveGetMoney")) {
-				that.haveGetMoney = Number(uni.getStorageSync("haveGetMoney").toFixed(2))
-				uni.removeStorageSync("haveGetMoney")
+			if (uni.getStorageSync("haveGetMoney")>=0) {
+				that.haveGetMoney = uni.getStorageSync("haveGetMoney")||0
 			}
-			if (uni.getStorageSync("otherMoney")) {
-				that.otherMoney = Number(uni.getStorageSync("otherMoney").toFixed(2))
-				that.haveGetMoney = that.haveGetMoney+that.otherMoney 
-				uni.removeStorageSync("otherMoney")
+			if (uni.getStorageSync("otherMoney")>=0) {
+				that.otherMoney = uni.getStorageSync("otherMoney")||0
 			}
 		},
 		
@@ -316,6 +313,8 @@
 					Images:that.Images,
 					opreater:uni.getStorageSync("masterId"),
 					nowDay:that.nowDay,
+					autoCostPrice:getApp().globalData.setting.autoCostPrice,
+					sellLaterOrderId:that.sellLaterOrderId,
 				}).then(res => {
 					if(res.code == 1){
 						uni.hideLoading();

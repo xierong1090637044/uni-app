@@ -260,8 +260,40 @@
 					this.button_disabled = false;
 					return;
 				}
+				
+				that.$http.Post("stock_goodEnterPurchaseReturn", {
+					goods:that.products,
+					beizhu:e.detail.value.input_beizhu,
+					real_num:that.total_num,
+					stockId:that.stock?that.stock.objectId:'',
+					stockName:that.stock?that.stock.stock_name:'',
+					allCostPrice:that.allCostPrice,
+					real_money:that.real_money,
+					all_money:that.all_money,
+					accountId:that.account?that.account.objectId:'',
+					customId:that.custom.objectId,
+					Images:that.Images,
+					opreater:uni.getStorageSync("masterId"),
+					nowDay:that.nowDay,
+					negativeOut:getApp().globalData.setting.negativeOut,
+				}).then(res => {
+					if(res.code == 1){
+						uni.hideLoading();
+						uni.setStorageSync("is_option", true);
+						uni.showToast({
+							title: "采购退货成功"
+						});
+						
+						setTimeout(function(){
+							uni.navigateBack({
+								delta: 2
+							});
+							that.button_disabled = false;
+						},1000)
+					}
+				})
 
-				let billsObj = new Array();
+				/*let billsObj = new Array();
 				let detailObj = [];
 				let goodsName = [];
 				for (let i = 0; i < this.products.length; i++) {
@@ -458,7 +490,7 @@
 					function(error) {
 						// 批量新增异常处理
 						console.log("异常处理");
-					});
+					});*/
 
 			}
 		}

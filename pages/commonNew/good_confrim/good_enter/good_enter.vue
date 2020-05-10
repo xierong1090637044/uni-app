@@ -228,7 +228,8 @@
 					"all_money": that.all_money,
 					"Images": that.Images,
 					"opreater":uni.getStorageSync("masterId") ,
-					"nowDay": that.nowDay
+					"nowDay": that.nowDay,
+					"autoCostPrice":getApp().globalData.setting.autoCostPrice,
 				}).then(res => {
 					if (res.code == 1) {
 						uni.hideLoading();

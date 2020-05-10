@@ -1,47 +1,67 @@
 <template>
 	<view>
-		<view class="uni-form-item uni-column">
-			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">登陆网址</view>
-				<input class="uni-input" value="https://www.shoujixungeng.com" disabled="true" />
-			</view>
-			<view class="display_flex item">
-				<view style="margin-right: 10rpx;width: 170rpx;">显示精度</view>
-				<input class="uni-input" type="number" placeholder="有效值0,1,2" v-model="params.show_float" @blur="modify_setting"
-				 :disabled="inputCan" />
-			</view>
-		</view>
 
-		<view style="margin-top: 30rpx;">
-			<view>
-				<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
-					<view>负出库</view>
-					<switch @change="negativeOut" :checked="params.negativeOut" :disabled="inputCan" />
+		<form @submit="modify_setting">
+			<view style="background: #fff;padding: 0 20rpx;">
+				<view class="listTitle">销售参数</view>
+				<view>
+					<view class="display_flex_bet listItem">
+						<view>负库存销售</view>
+						<view>
+							<switch style="transform:scale(0.8);" name="negativeOut" :checked="params.negativeOut"/>
+						</view>
+					</view>
+					<view class="display_flex_bet listItem">
+						<view>自动同步上次销售价</view>
+						<view>
+							<switch style="transform:scale(0.8);" name="autoRetailPrice" :checked="params.autoRetailPrice"/>
+						</view>
+					</view>
 				</view>
 			</view>
-			<!--<view>
-				<view class="display_flex_bet item" style="padding: 20rpx;">
-					<view>物料管理</view>
-					<switch @change="showProduction" :checked="params.production" />
+
+			<view style="background: #fff;padding: 0 20rpx;margin-top: 10rpx;">
+				<view class="listTitle">进货参数</view>
+				<view>
+					<view class="display_flex_bet listItem">
+						<view>自动同步上次采购价</view>
+						<view>
+							<switch style="transform:scale(0.8);"  name="autoCostPrice" :checked="params.autoCostPrice"/>
+						</view>
+					</view>
 				</view>
-			</view>-->
-		</view>
-
-
-		<view style="margin-top: 30rpx;" v-if="identity == 1">
-			<view class="display_flex_bet item normalBorder" style="padding: 20rpx;">
-				<view>关联微信通知</view>
-				<switch @change="link_wechatinfo" :checked="params.wechat_info" />
 			</view>
 
-			<!-- #ifdef MP-WEIXIN -->
-			<view class="display_flex_bet item" style="padding: 20rpx;">
-				<view>订阅小程序通知</view>
-				<button style="margin: unset;font-size: 28rpx;line-height: unset;" plain="true" @click="orderThisInfo">订阅</button>
+			<view style="background: #fff;padding: 0 20rpx;margin-top: 10rpx;">
+				<view class="listTitle">库存参数</view>
+				<view>
+					<view class="display_flex_bet listItem">
+						<view>库存显示精度</view>
+						<view>
+							<picker :range="[0,1,2]" name="show_float" @change="changeShowFolat" :value="params.show_float">
+								<text>{{params.show_float}}</text>
+							</picker>
+						</view>
+					</view>
+				</view>
 			</view>
-			<!-- #endif -->
 
-		</view>
+			<view style="background: #fff;padding: 0 20rpx;margin-top: 10rpx;">
+				<view class="listTitle">其他设置</view>
+				<view>
+					<view class="display_flex_bet listItem">
+						<view>关联微信通知</view>
+						<view>
+							<switch @change="link_wechatinfo" :checked="params.wechat_info" name="wechat_info"/>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<view class="bottomButton">
+				<button form-type="submit" plain="true" style="padding: unset;margin: unset;border: unset;color: #fff;">保存</button>
+			</view>
+		</form>
 
 	</view>
 </template>
@@ -57,18 +77,7 @@
 				identity: "", //身份码，
 				user: "",
 				inputCan: (uni.getStorageSync("identity") == 1) ? false : true,
-				params: {
-					show_float: '',
-					USER: '',
-					UKEY: '',
-					number: 0,
-					KEY:'',
-					wx_openid: '',
-					wechat_info: false,
-					auto_print: false, //自动打印
-					negativeOut: false, //负出库
-					production: true
-				},
+				params: getApp().globalData.setting,
 			}
 		},
 		onLoad() {
@@ -76,74 +85,61 @@
 			uid = wx.getStorageSync("uid")
 
 			that.identity = uni.getStorageSync("identity");
-			mine.query_setting().then(res => {
-
-				if (res[0]) {
-					that.params.show_float = res[0].show_float ? res[0].show_float : ''
-					that.params.number = res[0].number ? res[0].number : ''
-					that.params.KEY = res[0].KEY ? res[0].KEY : ''
-					if (res[0].wx_openid) {
-						that.params.wechat_info = true
-					} else {
-						that.params.wechat_info = false
-					}
-
-					if (res[0].auto_print) {
-						that.params.auto_print = true
-					} else {
-						that.params.auto_print = false
-					}
-
-					if (res[0].negativeOut) {
-						that.params.negativeOut = true
-					} else {
-						that.params.negativeOut = false
-					}
-
-					if (res[0].production == true) {
-						that.params.production = true
-					} else if (res[0].production == false) {
-						that.params.production = false
-					} else {
-						that.params.production = true
+			uni.setNavigationBarTitle({
+				title: "系统设置"
+			})
+			
+			that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
+				for(let item in that.params){
+					if(res.data[item]!=undefined){
+						that.params[item] = res.data[item]
 					}
 				}
+				uni.setStorageSync("setting", res.data)
 			})
 		},
 		methods: {
+			changeShowFolat(e){
+				that.params.show_float = e.detail.value
+			},
+			
+			getSetting(){
+				that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
+					for(let item in that.params){
+						if(res.data[item]!=undefined){
+							that.params[item] = res.data[item]
+						}
+					}
+					uni.setStorageSync("setting", res.data)
+				})
+			},
 
-			//订阅微信通知
-			orderThisInfo() {
-				wx.requestSubscribeMessage({
-					tmplIds: ['G2UJEDEyAtGuBdO-Yv96yBi-UnTLhaInr-KzEXqZ-48','BKT2_0OuWF3mLZGvFmpRzWFa_Dyr4EIppl_LFF1uRLE'],
-					success(res) {
-						console.log(res)
+			modify_setting(e) {
+				console.log(e)
+				let params = e.detail.value
+				that.$http.Post("stock_systemSetting",params ).then(res => {
+					if(res.code == 1){
 						uni.showToast({
-							title:"订阅成功",
+							icon:"none",
+							title:"保存成功"
 						})
+						
+						that.getSetting()
 					}
 				})
 			},
 
-			modify_setting() {
-				mine.modify_setting(that.params)
-			},
-
-			//修改是否显示物料管理
-			showProduction(e) {
-				that.params.production = e.detail.value
-				mine.modify_setting(that.params)
-			},
-
-			//修改是否自动打印
-			auto_print(e) {
-				that.params.auto_print = e.detail.value
-				mine.modify_setting(that.params)
-			},
-
-			negativeOut(e) {
-				that.params.negativeOut = e.detail.value
-				mine.modify_setting(that.params)
+			//订阅微信通知
+			orderThisInfo() {
+				wx.requestSubscribeMessage({
+					tmplIds: ['G2UJEDEyAtGuBdO-Yv96yBi-UnTLhaInr-KzEXqZ-48', 'BKT2_0OuWF3mLZGvFmpRzWFa_Dyr4EIppl_LFF1uRLE'],
+					success(res) {
+						console.log(res)
+						uni.showToast({
+							title: "订阅成功",
+						})
+					}
+				})
 			},
 
 			link_wechatinfo(e) {
@@ -215,15 +211,26 @@
 	}
 </script>
 
-<style>
-	.item {
-		background: #fff;
-		padding: 4rpx 30rpx;
-		font-size: 24rpx;
+<style lang="scss">
+	.listItem {
+		padding: 10rpx 30rpx;
+		border-bottom: 1rpx solid#ddd;
 	}
 
-	.uni-input {
-		border-bottom: 1rpx solid#ccc;
-		padding: 10rpx 0;
+	.listTitle {
+		padding: 8rpx 0;
+		border-bottom: 1rpx solid#ddd;
+		font-weight: bold;
+	}
+
+	.bottomButton {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: 0rpx 0;
+		background: $main-color;
+		color: #fff;
+		text-align: center;
 	}
 </style>

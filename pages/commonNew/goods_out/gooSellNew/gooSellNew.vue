@@ -241,14 +241,11 @@
 			that.account = uni.getStorageSync("account")
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 
-			if (uni.getStorageSync("haveGetMoney")) {
-				that.haveGetMoney = Number(uni.getStorageSync("haveGetMoney").toFixed(2))
-				uni.removeStorageSync("haveGetMoney")
+			if (uni.getStorageSync("haveGetMoney")>=0) {
+				that.haveGetMoney = uni.getStorageSync("haveGetMoney") || 0
 			}
-			if (uni.getStorageSync("otherMoney")) {
-				that.otherMoney = Number(uni.getStorageSync("otherMoney").toFixed(2))
-				that.haveGetMoney = that.haveGetMoney+that.otherMoney 
-				uni.removeStorageSync("otherMoney")
+			if (uni.getStorageSync("otherMoney")>=0) {
+				that.otherMoney = uni.getStorageSync("otherMoney") || 0
 			}
 		},
 
@@ -379,6 +376,9 @@
 					nowDay:that.nowDay,
 					typeDesc:that.typeDesc,
 					expressNum:that.expressNum,
+					negativeOut:getApp().globalData.setting.negativeOut,
+					autoRetailPrice:getApp().globalData.setting.autoRetailPrice,
+					sellLaterOrderId:that.sellLaterOrderId,//销售订单id
 				}).then(res => {
 					if(res.code == 1){
 						uni.hideLoading();
