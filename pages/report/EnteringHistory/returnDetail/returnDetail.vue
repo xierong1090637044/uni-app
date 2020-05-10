@@ -10,8 +10,9 @@
 				<view>
 					<view>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-							<view class='pro_list_item' style='color:#000'>
+							<view class='pro_list' style='color:#000'>
 								<view>产品：{{item.goodsName}}</view>
+								<view>退货数量：X{{item.num}}</view>
 							</view>
 							<view v-if="item.goodsId.selected_model">
 								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
@@ -20,15 +21,9 @@
 								</view>
 							</view>
 							<view class='pro_list'>
-								<view>退货数量：X{{item.num}}</view>
-								<view style="text-align: right;" v-if="detail.type == 1">建议零售价：￥{{item.goodsId.retailPrice}}</view>
-								<view style="text-align: right;" v-else-if="detail.type == -1">成本价：￥{{item.goodsId.costPrice}}</view>
-							</view>
-							<view class='pro_list'>
 								<view></view>
-								<view>实际退货价：X{{item.modify_retailPrice}}</view>
+								<view>实际退货价：￥{{item.modify_retailPrice}}</view>
 							</view>
-							<!--<view style="text-align: right;">总价：￥{{item.total_money}}</view>-->
 						</view>
 					</view>
 					<view class='pro_allmoney'>总计：￥{{detail.all_money}}</view>
@@ -224,9 +219,9 @@
 			show_options() {
 				let options;
 				if (that.detail.type == 1) {
-					options = ['销售退货', '撤销', '打印'];
+					options = ['销售退货', '撤销', '打印', '修改'];
 				} else if (that.detail.type == -1) {
-					options = ['采购退货', '撤销', '打印'];
+					options = ['采购退货', '撤销', '打印', '修改'];
 				}
 				uni.showActionSheet({
 					itemList: options,
@@ -268,17 +263,59 @@
 								}
 							}
 							uni.setStorageSync("is_option", true)
-						} else if (res.tapIndex == 1) {
-							that.revoke()
-							uni.setStorageSync("is_option", true)
-						} else if (res.tapIndex == 2) {
+						} else if (res.tapIndex == 1) {//撤销
+							uni.showModal({
+								title: '是否确定撤销',
+								content: '撤销后数据无法恢复',
+								success: function(res) {
+									if (res.confirm) {
+										that.$http.Post("order_opreationSellPurchaseRevoke", {
+											orderId: that.detail.objectId,
+										}).then(res => {
+											if (res.code == 1) {
+												uni.setStorageSync("is_option", true)
+												uni.hideLoading();
+												uni.navigateBack({
+													delta: 1
+												})
+												setTimeout(function() {
+													uni.showToast({
+														title: '撤销成功'
+													})
+												}, 1000);
+											}
+										})
+									}
+								}
+							});
+						} else if (res.tapIndex == 2) { //打印
 							that.$http.Post("stock_printInfo", {
-								sn:uni.getStorageSync("setting").sn,
-								type:"opreations",
-								id:that.detail.objectId,
+								sn: uni.getStorageSync("setting").sn,
+								type: "opreations",
+								id: that.detail.objectId,
 							}).then(res => {
 								console.log(res)
 							})
+						} else if (res.tapIndex == 3) { //编辑
+							let stock = {}
+							stock.stock = that.detail.stock
+							uni.setStorageSync("account", that.detail.account)
+							uni.setStorageSync("warehouse", [stock])
+							uni.setStorageSync("products", that.detail.opreatGood)
+							uni.setStorageSync("orderId", that.detail.objectId)
+							uni.setStorageSync("beizhu_text", that.detail.beizhu)
+							uni.setStorageSync("Images", that.detail.Images)
+							if (that.detail.type == -1) {
+								uni.setStorageSync("custom", that.detail.custom)
+								uni.navigateTo({
+									url: "/pages/commonNew/goods_out/goods_out?value=4&option=edit"
+								})
+							} else if (that.detail.type == 1) {
+								uni.setStorageSync("producer",that.detail.producer)
+								uni.navigateTo({
+									url: "/pages/commonNew/good_confrim/good_confrim?value=4&option=edit"
+								})
+							}
 						}
 					},
 					fail: function(res) {
@@ -298,52 +335,6 @@
 					that.loading = false;
 				}).catch(err => {
 					console.log(err)
-				})
-			},
-
-			//数据撤销点击
-			revoke: function() {
-				wx.showModal({
-					title: '提示',
-					content: '数据撤销后不可恢复，请谨慎撤销！',
-					success(res) {
-						if (res.confirm) {
-							uni.showLoading({
-								title: '撤销中...'
-							})
-							const query = Bmob.Query('order_opreations');
-							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('Bills');
-								query.containedIn("objectId", that.bills);
-								query.find().then(todos => {
-
-									todos.destroyAll().then(res => {
-										// 成功批量修改
-										if (that.detail.status) {
-											for (var i = 0; i < that.products.length; i++) {
-												that.delete_bill(i);
-											}
-										} else {
-											uni.hideLoading();
-											uni.navigateBack({
-												delta: 1
-											})
-											setTimeout(function() {
-												uni.showToast({
-													title: '撤销成功'
-												})
-											}, 1000);
-										}
-
-									}).catch(err => {
-										console.log(err)
-									});
-								})
-							}).catch(err => {
-								console.log(err)
-							})
-						}
-					}
 				})
 			},
 

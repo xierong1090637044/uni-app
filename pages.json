@@ -363,6 +363,12 @@
 				}, {
 					"path": "good_confrim/goodPurchaseNewEdit/goodPurchaseNewEdit",
 					"style": {}
+				}, {
+					"path": "good_return/buyReturnEdit/buyReturnEdit",
+					"style": {}
+				}, {
+					"path": "good_return/purchaseReturnEdit/purchaseReturnEdit",
+					"style": {}
 				}
 			]
 		}, {

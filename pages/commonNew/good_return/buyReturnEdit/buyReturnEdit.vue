@@ -1,12 +1,12 @@
 <template>
 	<view>
 		<view class='page'>
-			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #3D3D3D;font-weight: bold;'>已选产品</view>
+			<view style='line-height:70rpx;padding: 20rpx 20rpx 0;color: #333;font-weight: bold;'>已选产品</view>
 			<view>
 				<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
-					<view class='pro_list'>
+					<view class='pro_list' style='color:#3D3D3D'>
 						<view style="width: calc(100% - 200rpx);">产品：{{item.goodsName}}</view>
-						<view>进货价：￥{{item.costPrice?item.costPrice:0}}</view>
+						<view>零售价：￥{{item.retailPrice?item.retailPrice:0}}</view>
 					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
@@ -25,24 +25,25 @@
 			<form @submit="formSubmit" report-submit="true">
 
 				<view style="margin: 30rpx 0;">
-					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">采购退货明细</view>
+					<view style="margin:0 0 10rpx 20rpx;color: #333;font-weight: bold;">销售退货明细</view>
 					<view style="line-height: 70rpx;">
 
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/producer/producer?type=producer" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
-							<view style="width: 140rpx;">供应商<text style="color: #f30;">*</text></view>
-							<view class="kaidan_rightinput display_flex" style="width: 100%;justify-content: flex-end;">
-								<input placeholder="选择供货商" disabled="true" :value="producer.producer_name" style="text-align: right;margin-right: 20rpx;" />
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/custom/custom?type=custom" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;">
+							<view style="width: 140rpx;">客户<text style="color: #f30;">*</text></view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="选择客户" disabled="true" :value="custom.custom_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
-							<view style="width: 150rpx;" class="left_content">出库仓库</view>
+							<view style="width: 150rpx;" class="left_content">入库仓库</view>
 							<view style="display: flex;align-items: center;">
-								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
+								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/finance/myData/account/account?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
+						<navigator class="display_flex_bet" hover-class="none" :url="'/pages/finance/myData/account/account?type=customChoose&money='+real_money"
+						 style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
 							<view style="width: 140rpx;">结算账户</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择结算账户" disabled="true" :value="account.name" style="text-align: right;margin-right: 20rpx;" />
@@ -55,7 +56,7 @@
 								 type="digit" /></view>
 						</view>
 						
-						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;margin-top:20px;">
+						<view class="display_flex_bet" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7; margin-top: 20rpx;">
 							<view style="width: 140rpx;">退货时间</view>
 							<picker mode="date" :value="nowDay" :end="nowDay" @change.stop="bindDateChange" @click.stop>
 								<view style="display: flex;align-items: center;">
@@ -69,7 +70,6 @@
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
-
 						<view style='background: #fff;padding:10rpx 20rpx;'>
 							<view class="notice_text">上传凭证图(会员可用)</view>
 
@@ -91,12 +91,12 @@
 				</view>
 
 				<view style="padding: 0 30rpx;" class="bottomEle display_flex_bet">
-					<view style="color: #333333;font-weight: bold;">
+					<view style="color: #333;font-weight: bold;">
 						<view>合计：￥{{real_money}}</view>
 						<view>总数：{{total_num}}</view>
 					</view>
 					<view class="display_flex">
-						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">采购退货</button>
+						<button class='confrim_button' :disabled='button_disabled' form-type="submit" data-type="1" style="background:#a1aa16 ;">编辑</button>
 					</view>
 
 				</view>
@@ -135,8 +135,8 @@
 				all_money: 0, //总价
 				allCostPrice: 0, //成本总额
 				really_total_money: 0,
-				producer: null, //制造商
-				account: '', //账户
+				custom: null, //制造商
+				account: '', //结算账户
 				outType: '', //发货方式
 				discount: '', //会员率
 				pickerTypes: [{
@@ -170,6 +170,10 @@
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
+			
+			uni.setNavigationBarTitle({
+				title:"编辑销售退货"
+			})
 		},
 		onShow() {
 			this.really_total_money = 0
@@ -178,16 +182,9 @@
 			this.total_num = 0
 			that.allCostPrice = 0
 
-			that.producer = uni.getStorageSync("producer")
-			that.account = uni.getStorageSync("account")
+			that.custom = uni.getStorageSync("custom")
 			shop = uni.getStorageSync("shop");
-
-			if (shop) {
-				that.shop_name = shop.name
-
-				const pointer = Bmob.Pointer('shops');
-				shopId = pointer.set(shop.objectId);
-			}
+			that.account = uni.getStorageSync("account")
 
 			for (let i = 0; i < this.products.length; i++) {
 				this.all_money = Number((this.products[i].total_money + this.all_money).toFixed(2))
@@ -252,47 +249,55 @@
 					title: "上传中..."
 				});
 
-				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
+				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
 					uni.showToast({
 						icon: "none",
-						title: "请选择供应商"
+						title: "请选择客户"
 					});
 					this.button_disabled = false;
 					return;
 				}
 				
-				that.$http.Post("stock_goodEnterPurchaseReturn", {
-					goods:that.products,
-					beizhu:e.detail.value.input_beizhu,
-					real_num:that.total_num,
-					stockId:that.stock?that.stock.objectId:'',
-					stockName:that.stock?that.stock.stock_name:'',
-					allCostPrice:that.allCostPrice,
-					real_money:that.real_money,
-					all_money:that.all_money,
-					accountId:that.account?that.account.objectId:'',
-					producerId:that.producer.objectId,
-					Images:that.Images,
-					opreater:uni.getStorageSync("masterId"),
-					nowDay:that.nowDay,
-					negativeOut:getApp().globalData.setting.negativeOut,
+				that.$http.Post("order_opreationSellPurchaseRevoke", {
+					orderId: uni.getStorageSync("orderId"),
+					orderOldId: uni.getStorageSync("orderId")
 				}).then(res => {
-					if(res.code == 1){
-						uni.hideLoading();
-						uni.setStorageSync("is_option", true);
-						uni.showToast({
-							title: "采购退货成功"
-						});
-						
-						setTimeout(function(){
-							uni.navigateBack({
-								delta: 2
-							});
-							that.button_disabled = false;
-						},1000)
+					if (res.code == 1) {
+						that.$http.Post("stock_goodOutBuyReturn", {
+							goods:that.products,
+							beizhu:e.detail.value.input_beizhu,
+							real_num:that.total_num,
+							stockId:that.stock?that.stock.objectId:'',
+							stockName:that.stock?that.stock.stock_name:'',
+							allCostPrice:that.allCostPrice,
+							real_money:that.real_money,
+							all_money:that.all_money,
+							accountId:that.account?that.account.objectId:'',
+							customId:that.custom.objectId,
+							Images:that.Images,
+							opreater:uni.getStorageSync("masterId"),
+							nowDay:that.nowDay,
+							orderOldId: uni.getStorageSync("orderId")
+						}).then(res => {
+							if(res.code == 1){
+								uni.hideLoading();
+								uni.setStorageSync("is_option", true);
+								uni.showToast({
+									title: "编辑成功"
+								});
+								
+								setTimeout(function(){
+									uni.navigateBack({
+										delta: 2
+									});
+									that.button_disabled = false;
+								},1000)
+							}
+						})
 					}
 				})
-
+				
+				
 			}
 		}
 	}

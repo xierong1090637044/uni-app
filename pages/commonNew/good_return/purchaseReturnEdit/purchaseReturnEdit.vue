@@ -170,6 +170,10 @@
 			if (that.user.rights && that.user.rights.othercurrent) {
 				that.othercurrent = that.user.rights.othercurrent
 			}
+			
+			uni.setNavigationBarTitle({
+				title:"编辑采购退货"
+			})
 		},
 		onShow() {
 			this.really_total_money = 0
@@ -260,39 +264,46 @@
 					this.button_disabled = false;
 					return;
 				}
-				
-				that.$http.Post("stock_goodEnterPurchaseReturn", {
-					goods:that.products,
-					beizhu:e.detail.value.input_beizhu,
-					real_num:that.total_num,
-					stockId:that.stock?that.stock.objectId:'',
-					stockName:that.stock?that.stock.stock_name:'',
-					allCostPrice:that.allCostPrice,
-					real_money:that.real_money,
-					all_money:that.all_money,
-					accountId:that.account?that.account.objectId:'',
-					producerId:that.producer.objectId,
-					Images:that.Images,
-					opreater:uni.getStorageSync("masterId"),
-					nowDay:that.nowDay,
-					negativeOut:getApp().globalData.setting.negativeOut,
+				that.$http.Post("order_opreationSellPurchaseRevoke", {
+					orderId: uni.getStorageSync("orderId"),
+					orderOldId: uni.getStorageSync("orderId")
 				}).then(res => {
-					if(res.code == 1){
-						uni.hideLoading();
-						uni.setStorageSync("is_option", true);
-						uni.showToast({
-							title: "采购退货成功"
-						});
-						
-						setTimeout(function(){
-							uni.navigateBack({
-								delta: 2
-							});
-							that.button_disabled = false;
-						},1000)
+					if (res.code == 1) {
+						that.$http.Post("stock_goodEnterPurchaseReturn", {
+							goods:that.products,
+							beizhu:e.detail.value.input_beizhu,
+							real_num:that.total_num,
+							stockId:that.stock?that.stock.objectId:'',
+							stockName:that.stock?that.stock.stock_name:'',
+							allCostPrice:that.allCostPrice,
+							real_money:that.real_money,
+							all_money:that.all_money,
+							accountId:that.account?that.account.objectId:'',
+							producerId:that.producer.objectId,
+							Images:that.Images,
+							opreater:uni.getStorageSync("masterId"),
+							nowDay:that.nowDay,
+							negativeOut:getApp().globalData.setting.negativeOut,
+							orderOldId: uni.getStorageSync("orderId")
+						}).then(res => {
+							if(res.code == 1){
+								uni.hideLoading();
+								uni.setStorageSync("is_option", true);
+								uni.showToast({
+									title: "采购退货成功"
+								});
+								
+								setTimeout(function(){
+									uni.navigateBack({
+										delta: 2
+									});
+									that.button_disabled = false;
+								},1000)
+							}
+						})
 					}
 				})
-
+				
 			}
 		}
 	}

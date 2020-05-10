@@ -296,9 +296,15 @@
 						})
 					}
 				} else if (value == 4) {
-					uni.navigateTo({
-						url: "/pages/commonNew/good_return/buyReturn/buyReturn"
-					})
+					if (that.option == "edit") {
+						uni.navigateTo({
+							url: "/pages/commonNew/good_return/buyReturnEdit/buyReturnEdit"
+						})
+					}else{
+						uni.navigateTo({
+							url: "/pages/commonNew/good_return/buyReturn/buyReturn"
+						})
+					}
 				} else if (value == 5) {
 					uni.navigateTo({
 						url: "/pages/commonNew/good_confrim/goodPurchaseLater/goodPurchaseLater"

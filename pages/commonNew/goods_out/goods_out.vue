@@ -303,9 +303,15 @@
 						})
 					}
 				} else if (value == 4) { //新版的采购退货流程
-					uni.navigateTo({
-						url: "/pages/commonNew/good_return/purchaseReturn/purchaseReturn"
-					})
+					if (that.option == "edit") {
+						uni.navigateTo({
+							url: "/pages/commonNew/good_return/purchaseReturnEdit/purchaseReturnEdit"
+						})
+					}else{
+						uni.navigateTo({
+							url: "/pages/commonNew/good_return/purchaseReturn/purchaseReturn"
+						})
+					}
 				} else if (value == 5) { //新版的采购退货流程
 					uni.navigateTo({
 						url: "/pages/commonNew/goods_out/goodSellLater/goodSellLater"

@@ -119,7 +119,7 @@
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
 
-						<view class="display_flex_bet" v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
+						<view v-if="detail.typeDesc" style="background: #fff;border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
 							<view class="display_flex_bet">
 								<view class="left_content">发送方式</view>
 								<view class="real_color">{{detail.typeDesc}}</view>
@@ -401,7 +401,7 @@
 										}
 									}
 									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {
+								} else if (res.tapIndex == 1) {//撤销
 									that.$http.Post("order_opreationSellPurchaseRevoke", {
 										orderId:that.detail.objectId,
 									}).then(res => {
@@ -432,7 +432,7 @@
 									uni.setStorageSync("discountMoney",that.detail.discountMoney)
 									uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
 									uni.setStorageSync("otherMoney",that.detail.otherMoney)
-									uni.setStorageSync("custom",that.detail.custom)
+									
 									uni.setStorageSync("account",that.detail.account)
 									uni.setStorageSync("warehouse",[stock])
 									uni.setStorageSync("products",that.detail.opreatGood)
@@ -440,10 +440,12 @@
 									uni.setStorageSync("beizhu_text",that.detail.beizhu)
 									uni.setStorageSync("Images",that.detail.Images)
 									if(that.detail.type == -1 ){
+										uni.setStorageSync("custom",that.detail.custom)
 										uni.navigateTo({
 											url:"/pages/commonNew/goods_out/goods_out?value=3&option=edit"
 										})
 									}else if(that.detail.type == 1){
+										uni.setStorageSync("producer",that.detail.producer)
 										uni.navigateTo({
 											url:"/pages/commonNew/good_confrim/good_confrim?value=3&option=edit"
 										})

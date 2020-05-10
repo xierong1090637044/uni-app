@@ -241,11 +241,11 @@
 			that.account = uni.getStorageSync("account")
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 
-			if (uni.getStorageSync("haveGetMoney")>=0) {
-				that.haveGetMoney = uni.getStorageSync("haveGetMoney") || 0
+			if (uni.getStorageSync("haveGetMoney")) {
+				that.haveGetMoney = uni.getStorageSync("haveGetMoney")
 			}
-			if (uni.getStorageSync("otherMoney")>=0) {
-				that.otherMoney = uni.getStorageSync("otherMoney") || 0
+			if (uni.getStorageSync("otherMoney")) {
+				that.otherMoney = uni.getStorageSync("otherMoney")
 			}
 		},
 
@@ -374,7 +374,7 @@
 					Images:that.Images,
 					opreater:uni.getStorageSync("masterId"),
 					nowDay:that.nowDay,
-					typeDesc:that.typeDesc,
+					typeDesc:that.outType.desc,
 					expressNum:that.expressNum,
 					negativeOut:getApp().globalData.setting.negativeOut,
 					autoRetailPrice:getApp().globalData.setting.autoRetailPrice,
