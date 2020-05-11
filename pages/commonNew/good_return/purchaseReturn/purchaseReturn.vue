@@ -245,7 +245,7 @@
 				this.button_disabled = true;
 				that.$http.Post("stock_goodEnterPurchaseReturn", {
 					goods:that.products,
-					beizhu:e.detail.value.input_beizhu,
+					beizhu:input_beizhu,
 					real_num:that.total_num,
 					stockId:that.stock?that.stock.objectId:'',
 					stockName:that.stock?that.stock.stock_name:'',

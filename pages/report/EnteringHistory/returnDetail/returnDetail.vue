@@ -352,6 +352,7 @@
 								stockName:that.stock.stock_name,
 							}).then(res => {
 								if(res.code == 1){
+									that.getdetail(id);
 									uni.showToast({
 										icon:"none",
 										title:that.detail.type == 1?"销售退货成功":"采购退货成功"
