@@ -9,11 +9,10 @@
 						</view>
 						<fa-icon type="vimeo" size="18" color="#ffcd00" v-if="user.is_vip" class="vip_logo"></fa-icon>
 						<view class="phone-number">
-							<fa-icon type="mobile" size="18" color="#130c0e"></fa-icon>
-							<text style="margin-left: 10rpx;">{{user.mobilePhoneNumber}}</text>
+							<text style="margin-left: 10rpx;">{{user.nickName}}</text>
 						</view>
 					</view>
-					<view class="box-bd">
+					<!--<view class="box-bd">
 						<navigator class="item" hover-class="none" url="/pages/mine/logs/logs">
 							<view class="icon">
 								<image src="/static/logs.png"></image>
@@ -32,12 +31,18 @@
 							</view>
 							<view class="text">账号信息</view>
 						</navigator>
-					</view>
+					</view>-->
 				</view>
 			</view>
 		</view>
 		<view class="list-content">
 			<view class="list">
+				<navigator class="li " hover-class="none" url="/pages/mine/home_page/home_page">
+					<fa-icon type="user-circle-o" size="18" color="#3d3d3d3"></fa-icon>
+					<view class="text display_flex">账号信息<view class="weidu"></view>
+					</view>
+					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
+				</navigator>
 				<navigator class="li " hover-class="none" url="/pages/mine/InforCnter/InforCnter">
 					<fa-icon type="instagram" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text display_flex">消息中心<view class="weidu" v-if="noticeState"></view>
@@ -190,14 +195,13 @@
 
 	.header {
 		background: #fff;
-		height: 290rpx;
-		padding-bottom: 110rpx;
 
 		.bg {
 			width: 100%;
-			height: 200rpx;
+			height: 120rpx;
 			padding-top: 100rpx;
 			background-color: #426ab3;
+			margin-bottom: 60rpx;
 		}
 	}
 
@@ -216,7 +220,6 @@
 
 	.box {
 		width: 650rpx;
-		height: 280rpx;
 		border-radius: 20rpx;
 		margin: 0 auto;
 		background: #fff;

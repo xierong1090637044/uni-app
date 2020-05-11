@@ -240,27 +240,9 @@
 					})
 				}
 			},
-
-			formSubmit: function(e) {
-				//console.log(e)
-				//console.log(res)
-				let identity = uni.getStorageSync("identity") // 身份识别标志
+			
+			confirmOrder(input_beizhu){
 				this.button_disabled = true;
-				let fromid = e.detail.formId
-
-				uni.showLoading({
-					title: "上传中..."
-				});
-
-				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
-					uni.showToast({
-						icon: "none",
-						title: "请选择供应商"
-					});
-					this.button_disabled = false;
-					return;
-				}
-				
 				that.$http.Post("stock_goodEnterPurchaseReturn", {
 					goods:that.products,
 					beizhu:e.detail.value.input_beizhu,
@@ -292,6 +274,31 @@
 						},1000)
 					}
 				})
+			},
+
+			formSubmit: function(e) {
+				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
+					uni.showToast({
+						icon: "none",
+						title: "请选择供应商"
+					});
+					this.button_disabled = false;
+					return;
+				}
+				
+				if (that.stock == null || that.stock == "" || that.stock == undefined) {
+					 uni.showModal({
+					 	content: '当前没有选择仓库，是否继续采购',
+					 	success: function(res) {
+					 		if (res.confirm) {
+								that.confirmOrder(e.detail.value.input_beizhu)
+							}
+						},
+					})
+					return
+				}
+				
+				that.confirmOrder(e.detail.value.input_beizhu)
 
 			}
 		}

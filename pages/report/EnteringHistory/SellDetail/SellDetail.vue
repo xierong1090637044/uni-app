@@ -402,22 +402,30 @@
 									}
 									uni.setStorageSync("is_option", true)
 								} else if (res.tapIndex == 1) {//撤销
-									that.$http.Post("order_opreationSellPurchaseRevoke", {
-										orderId:that.detail.objectId,
-									}).then(res => {
-										if(res.code == 1){
-											uni.setStorageSync("is_option", true)
-											uni.hideLoading();
-											uni.navigateBack({
-												delta: 1
-											})
-											setTimeout(function() {
-												uni.showToast({
-													title: '撤销成功'
+									uni.showModal({
+										title: '是否确定撤销',
+										content: '撤销后数据无法恢复',
+										success: function(res) {
+											if (res.confirm) {
+												that.$http.Post("order_opreationSellPurchaseRevoke", {
+													orderId: that.detail.objectId,
+												}).then(res => {
+													if (res.code == 1) {
+														uni.setStorageSync("is_option", true)
+														uni.hideLoading();
+														uni.navigateBack({
+															delta: 1
+														})
+														setTimeout(function() {
+															uni.showToast({
+																title: '撤销成功'
+															})
+														}, 1000);
+													}
 												})
-											}, 1000);
+											}
 										}
-									})
+									});
 								} else if (res.tapIndex == 2) {
 									that.$http.Post("stock_printInfo", {
 										sn:uni.getStorageSync("setting").sn,
@@ -429,10 +437,6 @@
 								} else if (res.tapIndex == 3) {//编辑操作单
 									let stock = {}
 									stock.stock = that.detail.stock
-									uni.setStorageSync("discountMoney",that.detail.discountMoney)
-									uni.setStorageSync("haveGetMoney",that.detail.haveGetMoney)
-									uni.setStorageSync("otherMoney",that.detail.otherMoney)
-									
 									uni.setStorageSync("account",that.detail.account)
 									uni.setStorageSync("warehouse",[stock])
 									uni.setStorageSync("products",that.detail.opreatGood)
@@ -485,75 +489,6 @@
 				})
 			},
 
-			//数据撤销点击
-			revoke: function() {
-				wx.showModal({
-					title: '提示',
-					content: '数据撤销后不可恢复，请谨慎撤销！',
-					success(res) {
-						if (res.confirm) {
-							uni.showLoading({
-								title: '撤销中...'
-							})
-							const query = Bmob.Query('order_opreations');
-							query.destroy(that.detail.objectId).then(res => {
-								const query = Bmob.Query('Bills');
-								query.containedIn("objectId", that.bills);
-								query.find().then(todos => {
-
-									todos.destroyAll().then(res => {
-										if (that.detail.status) {
-											that.reduceAll()
-										} else {
-											uni.hideLoading();
-											uni.navigateBack({
-												delta: 1
-											})
-											setTimeout(function() {
-												uni.showToast({
-													title: '撤销成功'
-												})
-											}, 1000);
-										}
-
-									}).catch(err => {
-										console.log(err)
-									});
-								})
-							}).catch(err => {
-								console.log(err)
-							})
-						}
-					}
-				})
-			},
-			
-			async reduceAll(){
-				await that.reduceAccount()
-				//await that.reduceDebt()
-				await that.reduceGoods()
-			},
-			
-			reduceAccount(){
-				if (that.detail.account && that.detail.account.objectId) {
-					const accountQuery = Bmob.Query('accounts');
-					accountQuery.get( that.detail.account.objectId).then(res => {
-						if(that.detail.type == 1){
-							res.set('money', res.money + Number(that.detail.haveGetMoney));
-						}else if(that.detail.type == -1){
-							res.set('money', res.money - Number(that.detail.haveGetMoney));
-						}
-						res.save()
-					})
-				}
-			},
-			
-			reduceGoods(){
-				for (var i = 0; i < that.products.length; i++) {
-					that.delete_bill(i);
-				}
-			},
-
 			//审核订单
 			confrimOrder() {
 				wx.showModal({
@@ -561,411 +496,22 @@
 					content: '确定进行此操作！',
 					success(res) {
 						if (res.confirm) {
-							uni.showLoading({
-								title: '操作中，请勿退出该页面...'
-							})
-							const pointer = Bmob.Pointer('stocks');
-							let stockId = pointer.set(that.stock.objectId);
-
-							const query = Bmob.Query('order_opreations');
-							query.set('id', id) //需要修改的objectId
-							query.set("stock", stockId);
-							query.set('status', true)
-							query.save().then(res => {
-								//console.log(res)
-								let count = 0
-								if (that.detail.type == 1) {
-									for (let item of that.products) {
-										that.addOrReduceGoodReserve(item, count);
-										count += 1;
-									}
-								} else if (that.detail.type == -1) {
-									for (let item of that.products) {
-										that.ReduceGoodReserve(item, count);
-										count += 1;
-									}
-								}
-							}).catch(err => {
-								console.log(err)
-							})
-						}
-					}
-				})
-			},
-
-			//采购单确定采购入库之后改变产品库存
-			addOrReduceGoodReserve(product, count) {
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("header", "==", product.goodsId.objectId);
-				query.equalTo("stocks", "==", that.stock.objectId);
-				query.find().then(res => {
-					//console.log("店仓里的产品", res)
-					if (res.length == 0) {
-						query.get(product.goodsId.objectId).then(res => {
-							product.objectId = product.goodsId.objectId
-							product.costPrice = res.costPrice
-							product.retailPrice = res.retailPrice
-							common.upload_good_withNoCan(res, that.stock, Number(product.num)).then(res => { //上传没有的产品
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => { //计算首产品的总库存
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									if(product.modify_retailPrice) query.set('costPrice', product.modify_retailPrice)
-									query.save().then(res => {
-										//common.modifyStockType(product.goodsId.objectId)
-										if (count == (that.products.length - 1)) {
-											const pointer = Bmob.Pointer('stocks');
-											let stockId = pointer.set(that.stock.objectId);
-							
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set("stock", stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-							
-													that.getdetail(id);
-													setTimeout(function() {
-														uni.showToast({
-															title: '采购入库成功'
-														})
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-						
-					} else {
-						const query1 = Bmob.Query('Goods');
-						query1.get(res[0].objectId).then(res => {
-							//console.log(res)
-							if (product.goodsId.selected_model) {
-								let num = 0;
-								for (let model of product.goodsId.selected_model) {
-									for (let item of res.models) {
-										if (item.id == model.id) {
-											item.reserve = Number(item.reserve) + Number(model.num)
-											//console.log(item.reserve)
-											num += Number(model.num)
-										}
-									}
-								}
-								//console.log(res.models)
-								res.set('models', res.models)
-								res.set('reserve', res.reserve + num);
-							} else {
-								res.set('reserve', res.reserve + product.num);
-							}
-							res.save().then(res => {
-								const pointer = Bmob.Pointer('stocks');
-								let stockId = pointer.set(that.stock.objectId);
-
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => { //计算首产品的总库存
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									if(product.modify_retailPrice) query.set('costPrice', product.modify_retailPrice)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										if (count == (that.products.length - 1)) {
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set("stock", stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-													/*uni.navigateBack({
-														delta: 1
-													})*/
-													that.getdetail(id);
-													setTimeout(function() {
-
-														const query1 = Bmob.Query("Goods");
-														query1.equalTo("header", "==", product.goodsId.objectId);
-														query1.equalTo("order", "==", 1);
-														query1.statTo("sum", "reserve");
-														query1.find().then(res => {
-															common.modifyStockType(product.goodsId.objectId)
-															
-															let now_reserve = res[0]._sumReserve
-															const query = Bmob.Query('Goods');
-															query.set('reserve', now_reserve)
-															query.set('id', product.goodsId.objectId)
-															query.save().then(res => {
-																uni.removeStorageSync("warehouse")
-																uni.showToast({
-																	title: '采购入库成功'
-																})
-															})
-														})
-
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-					}
-
-				})
-			},
-
-			//销售单确认审核之后减少库存
-			ReduceGoodReserve(product, count) {
-
-				const query = Bmob.Query("Goods");
-				query.equalTo("userId", "==", uid);
-				query.equalTo("header", "==", product.goodsId.objectId);
-				query.equalTo("stocks", "==", that.stock.objectId);
-				query.find().then(res => {
-					//console.log("店仓里的产品", res)
-					if (res.length == 0) {
-						query.get(product.goodsId.objectId).then(res => {
-							product.objectId = product.goodsId.objectId
-							product.costPrice = res.costPrice
-							product.retailPrice = res.retailPrice
-							common.upload_good_withNoCan(res, that.stock, 0 - Number(product.num)).then(res => {
-								console.log(res)
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										
-										//common.modifyStockType(product.goodsId.objectId)
-										
-										if (count == (that.products.length - 1)) {
-											const pointer = Bmob.Pointer('stocks');
-											let stockId = pointer.set(that.stock.objectId);
-							
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set('stock', stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-							
-													that.getdetail(id);
-													setTimeout(function() {
-							
-							
-														uni.removeStorageSync("warehouse")
-														uni.showToast({
-															title: '销售出库成功'
-														})
-							
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-					} else {
-						const query1 = Bmob.Query('Goods');
-						query1.get(res[0].objectId).then(res => {
-							//console.log(res)
-							if (product.goodsId.selected_model) {
-								let num = 0;
-								for (let model of product.goodsId.selected_model) {
-									for (let item of res.models) {
-										if (item.id == model.id) {
-											item.reserve = Number(item.reserve) - Number(model.num)
-											//console.log(item.reserve)
-											num += Number(model.num)
-										}
-									}
-								}
-								//console.log(res.models)
-								res.set('models', res.models)
-								res.set('reserve', res.reserve - num);
-							} else {
-								res.set('reserve', res.reserve - product.num);
-							}
-							res.save().then(res => {
-								const query1 = Bmob.Query("Goods");
-								query1.equalTo("header", "==", product.goodsId.objectId);
-								query1.equalTo("order", "==", 1);
-								query1.statTo("sum", "reserve");
-								query1.find().then(res => {
-									let now_reserve = res[0]._sumReserve
-									const query = Bmob.Query('Goods');
-									query.set('reserve', now_reserve)
-									query.set('id', product.goodsId.objectId)
-									query.save().then(res => {
-										//common.modifyStockType(product.goodsId.objectId)
-										if (count == (that.products.length - 1)) {
-											const pointer = Bmob.Pointer('stocks');
-											let stockId = pointer.set(that.stock.objectId);
-
-											const query = Bmob.Query('Bills');
-											query.containedIn("objectId", that.bills);
-											query.find().then(todos => {
-												todos.set('status', true);
-												todos.set('stock', stockId);
-												todos.saveAll().then(res => {
-													uni.hideLoading();
-													/*uni.navigateBack({
-														delta: 1
-													})*/
-
-													that.getdetail(id);
-													setTimeout(function() {
-
-														uni.showToast({
-															title: '销售出库成功'
-														})
-
-													}, 1000);
-													//console.log(res, 'ok')
-												}).catch(err => {
-													console.log(err)
-												});
-											})
-										}
-									})
-								})
-							})
-						})
-					}
-
-				})
-
-			},
-
-			delete_bill: function(i) {
-				let product = that.products[i];
-				let bill = that.bills[i]
-
-				const query1 = Bmob.Query('Goods');
-				query1.equalTo("order", "==", 1);
-				query1.equalTo("header", "==", product.goodsId.objectId);
-				query1.equalTo("stocks", "==", that.detail.stock.objectId);
-				query1.find().then(res => {
-					console.log(res)
-					let thisGood = res[0];
-					query1.set('id', res[0].objectId);
-					if (product.type == 1) {
-						if (product.goodsId.selected_model) {
-							let num = 0;
-							for (let model of product.goodsId.selected_model) {
-								for (let item of thisGood.models) {
-									if (item.id == model.id) {
-										item.reserve = Number(item.reserve) - Number(model.num)
-										//console.log(item.reserve)
-										num += Number(model.num)
-									}
-								}
-							}
-							//console.log(res.models)
-							query1.set('models', res[0].models)
-							query1.set('reserve', res[0].reserve - num);
-						} else {
-							query1.set('reserve', res[0].reserve - product.num);
-						}
-					} else if (product.type == -1) {
-						if (product.goodsId.selected_model) {
-							let num = 0;
-							for (let model of product.goodsId.selected_model) {
-								for (let item of thisGood.models) {
-									if (item.id == model.id) {
-										item.reserve = Number(item.reserve) + Number(model.num)
-										//console.log(item.reserve)
-										num += Number(model.num)
-									}
-								}
-							}
-							//console.log(res.models)
-							query1.set('models', res[0].models)
-							query1.set('reserve', res[0].reserve + num);
-						} else {
-							query1.set('reserve', res[0].reserve + product.num);
-						}
-
-					}
-					query1.save().then(res => {
-						if (thisGood.header) {
-							const query1 = Bmob.Query("Goods");
-							query1.equalTo("header", "==", thisGood.header.objectId);
-							query1.equalTo("order", "==", 1);
-							query1.statTo("sum", "reserve");
-							query1.find().then(res => {
-								console.log("dasds", res)
-								let now_reserve = res[0]._sumReserve
-								const query = Bmob.Query('Goods');
-								query.set('reserve', now_reserve)
-								query.set('id', thisGood.header.objectId)
-								query.save().then(res => {
-									//common.modifyStockType(thisGood.header.objectId)
-									if (i == (that.products.length - 1)) {
-										uni.hideLoading();
-										uni.navigateBack({
-											delta: 1
-										})
-										setTimeout(function() {
-											uni.showToast({
-												title: '撤销成功'
-											})
-										}, 1000);
-									}
-								})
-							})
-						} else {
-							//common.modifyStockType(thisGood.objectId)
-							if (i == (that.products.length - 1)) {
-								uni.hideLoading();
-								uni.navigateBack({
-									delta: 1
-								})
-								setTimeout(function() {
+							that.$http.Post("confrim_orderStatus", {
+								orderId:that.detail.objectId,
+								stockId:that.stock.objectId,
+								stockName:that.stock.stock_name,
+							}).then(res => {
+								if(res.code == 1){
 									uni.showToast({
-										title: '撤销成功'
+										icon:"none",
+										title:that.detail.type == 1?"采购入库成功":"销售出库成功"
 									})
-								}, 1000);
-							}
+								}
+							})
 						}
-
-
-					})
-
-				}).catch(err => {
-					console.log(err)
+					}
 				})
-
-			}
+			},
 		}
 	}
 </script>

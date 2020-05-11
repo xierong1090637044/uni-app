@@ -308,22 +308,12 @@
 					query.find().then(res => {
 						 let debtCustom = res
 						 for(let item1 of thisCustom){
+							 item1.debt = item1.orginDebt
 							 for(let item2 of debtCustom){
 								 if(item2.custom && item2.custom.objectId == item1.objectId){
 									 item1.debt = item2._sumDebt
 								 }
 							 }
-						 } 
-						 
-						 for (let item of thisCustom) {
-							 item.debt = item.debt?item.debt:0
-							 if(item.orginDebt){
-								 item.debt = item.debt + item.orginDebt
-							 }else{
-								 item.debt = item.debt + 0
-							 }
-						 	that.customHeader.num += 1;
-						 	that.customHeader.debtMoney += item.debt || 0
 						 }
 						 
 						 that.people = thisCustom;

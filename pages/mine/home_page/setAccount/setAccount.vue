@@ -78,13 +78,14 @@
 					return false;
 				}
 				that.isRotate = true
-
+				
 				const query = Bmob.Query('_User');
-				query.set('username', that.phoneData)
-				query.set('password', that.passData)
-				query.set('pwd', that.passData)
-				query.set('id', that.user.objectId) //需要修改的objectId
-				query.save().then(res => {
+				query.get(that.user.objectId).then(res => {
+				  res.set('username', that.phoneData)
+				  res.set('password', that.passData)
+				  res.set('pwd', that.passData)
+				  res.save()
+					
 					that.user.pwd = that.passData
 					uni.showToast({
 						title:"设置成功",
@@ -92,12 +93,7 @@
 					})
 					that.isRotate = false
 				}).catch(err => {
-					uni.showToast({
-						title:"该账号已存在",
-						icon:'none'
-					})
-					that.isRotate = false
-					console.log(err)
+				  console.log(err)
 				})
 			}
 		}

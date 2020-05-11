@@ -29,12 +29,17 @@
 					<fa-icon type="wechat" size="18" color="#26cf23" style="margin-right: 20rpx;"></fa-icon>
 					<view style="font-size: 24rpx;">微信注册</view>
 				</button>
-
-				<view class="footer">
-					<text @tap="isShowAgree" :class="showAgree?'cuIcon-radiobox':'cuIcon-round'" style="margin-right: 10rpx;"></text>
-					<text>同意</text>
-					<!-- 协议地址 -->
-					<navigator url="user_protocol/user_protocol" open-type="navigate" style="font-size: 24rpx;">《用户协议》</navigator>
+				
+				<view class="display_flex" style="position: absolute;bottom: 400rpx;left: 20%;font-size: 24rpx;">
+					<radio-group @change="isShowAgree">
+						<label class="display_flex">
+							<view>
+								<radio style="transform:scale(0.7)" color="#426ab3" :checked="showAgree"></radio>
+							</view>
+							<view style="margin-left: 10rpx;">我已阅读并同意<text @click.stop="gotoNext" class="fuwu">《用户协议》</text></view>
+						</label>
+					</radio-group>
+				
 				</view>
 
 			</form>
@@ -52,6 +57,7 @@
 	export default {
 		data() {
 			return {
+				selected:true,
 				showAgree: true, //协议是否选择
 				code_text: "验证码",
 				code_button_state: false
@@ -61,6 +67,12 @@
 			that = this;
 		},
 		methods: {
+			
+			gotoNext(){
+				uni.navigateTo({
+					url:"user_protocol/user_protocol"
+				})
+			},
 			//添加默认店仓
 			addMoRenStock(uid) {
 				const pointer = Bmob.Pointer('_User');
@@ -91,40 +103,20 @@
 					wx.Bmob.User.decryption(res).then(res => {
 						console.log(res)
 						let phone = res.phoneNumber
-						let timestamp = new Date().getTime();
-						let params = {
-							username: String(phone),
-							password: String(phone),
-							mobilePhoneNumber: String(phone),
-							nickName: String(phone),
-							avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png",
-							//is_vip:true,
-							//vip_time:timestamp+7*24*60*60*1000
-						}
-						Bmob.User.register(params).then(res => {
-							console.log(res)
-							uni.showToast({
-									title: "注册成功"
-								}),
-								Bmob.User.login(String(phone), String(phone)).then(res => {
-									uni.setStorageSync("user", res)
-									uni.setStorageSync("masterId", res.objectId)
-									uni.setStorageSync("identity", 1); //1是老板，2是员工
-									uni.setStorageSync("uid", res.objectId)
-									uni.switchTab({
-										url: "/pages/tarBar/index"
-									});
-									that.addMoRenStock(res.objectId)
-								}).catch(err => {
-									console.log(err)
-								});
-						}).catch(err => {
-							console.log(err)
-							uni.showToast({
-								icon: "none",
-								title: "该手机号已注册"
-							})
-						});
+						
+						that.$http.Post("accountRegister", {
+							phone: String(phone),
+						}).then(res => {
+							let userInfo = res.data
+							uni.setStorageSync("user", userInfo)
+							uni.setStorageSync("masterId", userInfo.objectId)
+							uni.setStorageSync("identity", 1); //1是老板，2是员工
+							uni.setStorageSync("uid", userInfo.objectId)
+							uni.switchTab({
+								url: "/pages/tarBar/index"
+							});
+						})
+						
 					})
 				}
 
@@ -200,56 +192,33 @@
 						icon: "none"
 					})
 				} else {
-					let timestamp = new Date().getTime();
-					let params = {
-						username: String(phone),
-						password: String(phone),
-						mobilePhoneNumber: String(phone),
-						nickName: String(phone),
-						avatarUrl: "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png",
-						//is_vip:true,
-						//vip_time:timestamp+7*24*60*60*1000
-					}
-					Bmob.User.register(params).then(res => {
-						console.log(res)
-						uni.showToast({
-								title: "注册成功"
-							}),
-							Bmob.User.login(String(phone), String(phone)).then(res => {
-								uni.setStorageSync("user", res)
-								uni.setStorageSync("masterId", res.objectId)
-								uni.setStorageSync("identity", 1); //1是老板，2是员工
-								uni.setStorageSync("uid", res.objectId)
-								uni.switchTab({
-									url: "/pages/tarBar/index"
-								});
-								that.addMoRenStock(res.objectId)
-							}).catch(err => {
-								console.log(err)
-							});
-					}).catch(err => {
-						uni.showToast({
-								icon: "none",
-								title: "该手机号已注册"
-							}),
-							console.log(err)
-					});
+					
+					that.$http.Post("accountRegister", {
+						phone: String(phone),
+					}).then(res => {
+						let userInfo = res.data
+						uni.setStorageSync("user", userInfo)
+						uni.setStorageSync("masterId", userInfo.objectId)
+						uni.setStorageSync("identity", 1); //1是老板，2是员工
+						uni.setStorageSync("uid", userInfo.objectId)
+						uni.switchTab({
+							url: "/pages/tarBar/index"
+						});
+					})
 				}
-
 			},
-
 		}
 	}
 </script>
 
 <style lang="scss">
-	@import url("icon.css");
 
 	page {
 		background: #fff;
 		text-align: center;
 		font-size: 28rpx;
 		color: #3D3D3D;
+		height: 100vh;
 	}
 
 	input:focus {

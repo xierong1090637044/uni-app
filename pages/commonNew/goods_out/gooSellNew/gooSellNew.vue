@@ -249,12 +249,6 @@
 			}
 		},
 
-		onUnload() {
-			uni.removeStorageSync("haveGetMoney")
-			uni.removeStorageSync("otherMoney")
-			uni.removeStorageSync("products")
-		},
-
 		methods: {
 
 			inputOtherMoney(e) {
@@ -335,31 +329,12 @@
 					that.expressNum = ''
 				}
 			},
-
-			formSubmit: function(e) {
-				//console.log(e)
-				//console.log(res)
-				let identity = uni.getStorageSync("identity") // 身份识别标志
+			
+			confirmOrder(input_beizhu){
 				this.button_disabled = true;
-				let fromid = e.detail.formId
-				let extraType = 1 // 判断是销售还是出库
-
-				uni.showLoading({
-					title: "上传中..."
-				});
-
-				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
-					uni.showToast({
-						icon: "none",
-						title: "请选择客户"
-					});
-					this.button_disabled = false;
-					return;
-				}
-				
 				that.$http.Post("stock_goodOutBuy", {
 					goods:that.products,
-					beizhu:e.detail.value.input_beizhu,
+					beizhu:input_beizhu,
 					real_num:that.total_num,
 					stockId:that.stock?that.stock.objectId:'',
 					stockName:that.stock?that.stock.stock_name:'',
@@ -395,6 +370,35 @@
 						},1000)
 					}
 				})
+			},
+
+			formSubmit: function(e) {
+				//console.log(e)
+				//console.log(res)
+				let identity = uni.getStorageSync("identity") // 身份识别标志
+
+				if (uni.getStorageSync("custom") == "" || uni.getStorageSync("custom") == undefined) {
+					uni.showToast({
+						icon: "none",
+						title: "请选择客户"
+					});
+					return;
+				}
+				
+				if (that.stock == null || that.stock == "" || that.stock == undefined) {
+					 uni.showModal({
+					 	content: '当前没有选择仓库，是否继续采购',
+					 	success: function(res) {
+					 		if (res.confirm) {
+								that.confirmOrder(e.detail.value.input_beizhu)
+							}
+						},
+					})
+					
+					return
+				}
+				
+				that.confirmOrder(e.detail.value.input_beizhu)
 
 				/*let billsObj = new Array();
 				let detailObj = [];

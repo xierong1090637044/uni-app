@@ -262,10 +262,6 @@
 			that.Images = uni.getStorageSync("Images") || []
 		},
 
-		onUnload() {
-			that.common.clearOrderDetStorage()
-		},
-
 		methods: {
 
 			inputOtherMoney(e) {
@@ -395,15 +391,16 @@
 						}).then(res => {
 							if (res.code == 1) {
 								uni.hideLoading();
-								that.clearStorage()
+								that.common.clearOrderDetStorage();
 								uni.showToast({
 									title: "修改成功"
 								});
 								
 								setTimeout(function(){
 									uni.navigateBack({
-										delta: 2
+										delta: 3
 									});
+									uni.setStorageSync("is_option",true)
 									that.button_disabled = false;
 								},1000)
 							}

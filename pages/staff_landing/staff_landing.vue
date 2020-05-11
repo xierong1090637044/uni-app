@@ -58,44 +58,39 @@
 					uni.showLoading({
 						title: "登录中..."
 					})
-
-					Bmob.User.login(that.phone, that.password).then(res => {
-						console.log(res)
-						if ((res.masterId && res.masterId.objectId) || res.identity == 2) {
-							let now_staff = res
-							let master = res.masterId
-							uni.hideLoading();
-							if (master.is_vip) {
-								now_staff.is_vip = true
-								now_staff.vip_time = master.vip_time
+					
+					that.$http.Post("account_login", {
+						account: that.phone,
+						password: that.password,
+					}).then(res => {
+						if(res.code == 1){
+							if ((res.data.masterId && res.data.masterId.objectId) || res.data.identity == 2) {
+								let now_staff = res.data
+								let master = res.data.masterId
+								uni.hideLoading();
+								if (master.is_vip) {
+									now_staff.is_vip = true
+									now_staff.vip_time = master.vip_time
+								} else {
+									now_staff.is_vip = false
+									now_staff.vip_time = 0
+								}
+							
+								uni.setStorageSync("user", now_staff)
+								uni.setStorageSync("identity", 2) //1是老板，2是员工
+								uni.setStorageSync("masterId", res.data.objectId)
+								uni.setStorageSync("uid", master.objectId)
 							} else {
-								now_staff.is_vip = false
-								now_staff.vip_time = 0
+								uni.setStorageSync("user", res)
+								uni.setStorageSync("masterId", res.data.objectId)
+								uni.setStorageSync("identity", 1); //1是老板，2是员工
+								uni.setStorageSync("uid", res.data.objectId)
 							}
-
-							uni.setStorageSync("user", now_staff)
-							uni.setStorageSync("identity", 2) //1是老板，2是员工
-							uni.setStorageSync("masterId", res.objectId)
-							uni.setStorageSync("uid", master.objectId)
-						} else {
-							uni.setStorageSync("user", res)
-							uni.setStorageSync("masterId", res.objectId)
-							uni.setStorageSync("identity", 1); //1是老板，2是员工
-							uni.setStorageSync("uid", res.objectId)
+							uni.switchTab({
+								url: "/pages/tarBar/index"
+							});
 						}
-						uni.switchTab({
-							url: "/pages/tarBar/index"
-						});
-
-					}).catch(err => {
-						console.log(err)
-						if (err.code == 101) {
-							uni.showToast({
-								title: "账号密码不正确",
-								icon: 'none'
-							})
-						}
-					});
+					})
 				}
 			}
 		},
@@ -105,6 +100,7 @@
 <style>
 	page {
 		background: #fff;
+		height: 100vh;
 		text-align: center;
 	}
 

@@ -295,6 +295,7 @@
 					query.find().then(res => {
 						let debtProducer = res
 						for (let item1 of thisProducer) {
+							item1.debt = item1.orginDebt
 							for (let item2 of debtProducer) {
 								if (item2.producer && item2.producer.objectId == item1.objectId) {
 									item1.debt = item2._sumDebt
@@ -302,19 +303,7 @@
 							}
 						}
 						that.people = thisProducer;
-						for (let item of thisProducer) {
-							item.debt = item.debt ? item.debt : 0
-							if (item.orginDebt) {
-								item.debt = item.debt + item.orginDebt
-							} else {
-								item.debt = item.debt + 0
-							}
-							that.producerHeader.num += 1;
-							that.producerHeader.debtMoney += item.debt || 0
-						}
 					})
-
-
 				});
 			},
 

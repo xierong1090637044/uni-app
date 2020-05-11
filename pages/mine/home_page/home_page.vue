@@ -118,8 +118,13 @@
 		},
 
 		onShow() {
-			that.userInfo = uni.getStorageSync("user")
-			that.userInfo.vip_time = common.js_date_time(that.userInfo.vip_time)
+			that.$http.Post("account_getInfo", {}).then(res => {
+				if(res.code == 1){
+					uni.setStorageSync("user",res.data)
+					that.userInfo = res.data
+					that.userInfo.vip_time = common.js_date_time(res.data.vip_time)
+				}
+			})
 		},
 
 		methods: {

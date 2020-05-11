@@ -220,12 +220,6 @@
 			}
 		},
 		
-		onUnload() {
-			uni.removeStorageSync("haveGetMoney")
-			uni.removeStorageSync("otherMoney")
-			uni.removeStorageSync("products")
-		},
-		
 		methods: {
 			
 			inputOtherMoney(e){
@@ -276,30 +270,12 @@
 					})
 				}
 			},
-
-			//表单提交
-			formSubmit: function(e) {
-				let identity = uni.getStorageSync("identity") // 身份识别标志
-
-				//console.log(e)
-				this.button_disabled = true;
-				let extraType = 1 // 判断是采购还是入库  2是入库  1是采购
-				uni.showLoading({
-					title: "上传中..."
-				});
-
-				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
-					uni.showToast({
-						icon: "none",
-						title: "请选择供应商"
-					});
-					this.button_disabled = false;
-					return;
-				}
-				
+			
+			confirmOrder(input_beizhu){
+				that.button_disabled = true;
 				that.$http.Post("stock_goodEnterPurchase", {
 					goods:that.products,
-					beizhu:e.detail.value.input_beizhu,
+					beizhu:input_beizhu,
 					real_num:that.total_num,
 					stockId:that.stock?that.stock.objectId:'',
 					stockName:that.stock?that.stock.stock_name:'',
@@ -317,7 +293,6 @@
 					sellLaterOrderId:that.sellLaterOrderId,
 				}).then(res => {
 					if(res.code == 1){
-						uni.hideLoading();
 						uni.setStorageSync("is_option", true);
 						uni.showToast({
 							title: "采购入库成功"
@@ -331,6 +306,34 @@
 						},1000)
 					}
 				})
+			},
+
+			//表单提交
+			formSubmit: function(e) {
+				let identity = uni.getStorageSync("identity") // 身份识别标志
+
+				if (uni.getStorageSync("producer") == "" || uni.getStorageSync("producer") == undefined) {
+					uni.showToast({
+						icon: "none",
+						title: "请选择供应商"
+					});
+					return;
+				}
+				
+				if (that.stock == null || that.stock == "" || that.stock == undefined) {
+					 uni.showModal({
+					 	content: '当前没有选择仓库，是否继续采购',
+					 	success: function(res) {
+					 		if (res.confirm) {
+								that.confirmOrder(e.detail.value.input_beizhu)
+							}
+						},
+					})
+					
+					return
+				}
+				
+				that.confirmOrder(e.detail.value.input_beizhu)
 
 				/*let billsObj = new Array();
 				let detailObj = [];
