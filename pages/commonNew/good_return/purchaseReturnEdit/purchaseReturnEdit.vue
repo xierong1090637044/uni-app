@@ -295,7 +295,7 @@
 								
 								setTimeout(function(){
 									uni.navigateBack({
-										delta: 2
+										delta: 4
 									});
 									that.button_disabled = false;
 								},1000)

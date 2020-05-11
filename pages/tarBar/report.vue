@@ -54,12 +54,12 @@
 		
 		<view class="Item" style="padding: 10rpx 0;overflow: hidden;margin-bottom: 20rpx;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;padding:20rpx 30rpx 0;">客户欠款</view>
-			<customDebtChart :show="achartShow"></customDebtChart>
+			<customDebtChart v-if="achartShow"></customDebtChart>
 		</view>
 
 		<view class="Item" style="padding: 10rpx 0;overflow: hidden;margin-bottom: 20rpx;">
 			<view style="font-size: 32rpx;color: #3D3D3D;font-weight: bold;padding:20rpx 30rpx 0;">资产情况</view>
-			<userMoneyPieChart :show="achartShow"></userMoneyPieChart>
+			<userMoneyPieChart v-if="achartShow"></userMoneyPieChart>
 		</view>
 
 	</scroll-view>

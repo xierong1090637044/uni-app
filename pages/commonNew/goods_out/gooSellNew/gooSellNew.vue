@@ -387,7 +387,7 @@
 				
 				if (that.stock == null || that.stock == "" || that.stock == undefined) {
 					 uni.showModal({
-					 	content: '当前没有选择仓库，是否继续采购',
+					 	content: '当前没有选择仓库，是否继续销售',
 					 	success: function(res) {
 					 		if (res.confirm) {
 								that.confirmOrder(e.detail.value.input_beizhu)

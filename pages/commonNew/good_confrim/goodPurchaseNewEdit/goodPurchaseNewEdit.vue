@@ -335,7 +335,7 @@
 								
 								setTimeout(function(){
 									uni.navigateBack({
-										delta: 2
+										delta: 4
 									});
 									uni.setStorageSync("is_option",true)
 									that.button_disabled = false;
