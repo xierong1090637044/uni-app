@@ -20,8 +20,8 @@
 							<view><input :placeholder='item.costPrice' @input='getrealprice($event, index)' class='input_label' type='digit' /></view>
 						</view>
 
-						<view v-if="item.selectd_model">
-							<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+						<view v-if="item.selected_model">
+							<view class='margin-t-5' v-for="(model,key) in (item.selected_model)" :key="key" style="margin-bottom: 10rpx;">
 								<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
 								<view v-if="type=='production'">
 									数量：<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" value='1' />
@@ -119,7 +119,7 @@
 								count += 1
 							}
 							item.num = count
-							item.selectd_model = item.models
+							item.selected_model = item.models
 							item.selected_model = item.models
 						}
 					}
@@ -136,7 +136,7 @@
 							count += 1
 						}
 						item.num = count
-						item.selectd_model = item.models
+						item.selected_model = item.models
 						item.selected_model = item.models
 					}
 				}
@@ -177,7 +177,7 @@
 										count += 1
 									}
 									item.num = count
-									item.selectd_model = item.models
+									item.selected_model = item.models
 									item.selected_model = item.models
 								}
 							}

@@ -128,7 +128,7 @@
 		data() {
 			return {
 				identity: uni.getStorageSync("identity"),
-				selectd_model: '',
+				selected_model: '',
 				models_good: '',
 				models_good_key: '',
 				page_num: 1,

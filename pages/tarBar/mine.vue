@@ -4,34 +4,12 @@
 			<view class="bg">
 				<view class="box">
 					<view class="box-hd" style="position: relative;">
-						<view class="avator">
-							<img :src="user.avatarUrl">
-						</view>
+						<image :src="user.avatarUrl" class="avator" mode="aspectFill"/>
 						<fa-icon type="vimeo" size="18" color="#ffcd00" v-if="user.is_vip" class="vip_logo"></fa-icon>
 						<view class="phone-number">
 							<text style="margin-left: 10rpx;">{{user.nickName}}</text>
 						</view>
 					</view>
-					<!--<view class="box-bd">
-						<navigator class="item" hover-class="none" url="/pages/mine/logs/logs">
-							<view class="icon">
-								<image src="/static/logs.png"></image>
-							</view>
-							<view class="text">操作记录</view>
-						</navigator>
-						<navigator class="item" hover-class="none" url="/pages/mine/warning_log/warning_log">
-							<view class="icon">
-								<image src="/static/warning.png"></image>
-							</view>
-							<view class="text">预警记录</view>
-						</navigator>
-						<navigator class="item" hover-class="none" url="/pages/mine/home_page/home_page">
-							<view class="icon">
-								<image src="/static/account.png"></image>
-							</view>
-							<view class="text">账号信息</view>
-						</navigator>
-					</view>-->
 				</view>
 			</view>
 		</view>
@@ -63,15 +41,6 @@
 					<fa-icon type="cloud-upload" size="18" color="#3d3d3d3"></fa-icon>
 					<view class="text">批量上传导出</view>
 					<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-				</navigator>-->
-				<!--<navigator class="li noborder" hover-class="none" url="/pages/mine/setting/setting">
-					<fa-icon type="cog" size="18" color="#3d3d3d3"></fa-icon>
-					<view class="text">我的设置</view>
-					<view class="display_flex" style="font-size: 24rpx;color: #999;width: 300rpx;justify-content: flex-end">
-						<text style="margin-right: 10rpx;">(电脑版网址)</text>
-						<fa-icon type="angle-right" size="18" color="#999"></fa-icon>
-					</view>
-
 				</navigator>-->
 			</view>
 			<view class="list">

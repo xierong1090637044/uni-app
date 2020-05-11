@@ -339,7 +339,7 @@
 										goodsId.retailPrice = that.matters[i].retailPrice
 										goodsId.objectId = that.matters[i].objectId
 										goodsId.reserve = num
-										if (that.matters[i].selectd_model) {
+										if (that.matters[i].selected_model) {
 											goodsId.selected_model = that.matters[i].selected_model
 											goodsId.models = that.matters[i].models
 										}

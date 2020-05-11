@@ -576,6 +576,7 @@
 
 			//上传商品
 			upload_good(good) {
+				console.log(good)
 				uni.showLoading({
 					title: "上传中..."
 				});
@@ -639,19 +640,24 @@
 				good.packModel?query.set("packModel", good.packModel):''
 				query.set("position", good.position)
 
-				if (good.warning_num == "" && good.max_num == "") {
-					query.set("stocktype", 1) //库存数量类型 0代表库存不足 1代表库存充足
-				} else {
+				
 					if (good.warning_num != "") {
 						query.set("warning_num", Number(good.warning_num))
-						query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
+					}else{
+						query.get(now_product.objectId).then(res => {
+							res.unset('warning_num')
+							res.save()
+						})
 					}
 
 					if (good.max_num != "") {
 						query.set("max_num", Number(good.max_num))
-						query.set("stocktype", (Number(good.max_num) <= Number(that.reserve)) ? 2 : 1) //库存数量类型 2代表库存过足 1代表库存充足
+					}else{
+						query.get(now_product.objectId).then(res => {
+							res.unset('max_num')
+							res.save()
+						})
 					}
-				}
 
 				///query.set("product_state", good.product_state) //改产品是否是半成品
 				if(that.productMoreG){
@@ -699,9 +705,14 @@
 
 								if (good.warning_num != "") {
 									res.set("warning_num", Number(good.warning_num))
+								}else{
+									res.unset('warning_num')
 								}
+								
 								if (good.max_num != "") {
 									res.set("max_num", Number(good.max_num))
+								}else{
+									res.unset('max_num')
 								}
 
 								if (uni.getStorageSync("category")) { //存在此缓存证明选择了店仓

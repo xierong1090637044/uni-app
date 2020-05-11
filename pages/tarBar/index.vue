@@ -195,9 +195,8 @@
 						</view>
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-							<view>1、设置模块重构，支持负出库设置。</view>
-							<view>2、操作单详情优化，新单据支持单据修改</view>
-							<view>3、其他bug修复</view>
+							<view>1、产品编辑可以取消预警设置</view>
+							<view>2、盘点、调拨优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

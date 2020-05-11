@@ -306,7 +306,7 @@
 					goodsId.retailPrice = this.products[i].retailPrice
 					goodsId.objectId = this.products[i].objectId
 					goodsId.reserve = num
-					if (this.products[i].selectd_model) {
+					if (this.products[i].selected_model) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 					}
@@ -494,7 +494,7 @@
 						query.get(products[i].objectId).then(res => {
 							console.log(products[i])
 					
-							if (products[i].selectd_model) {
+							if (products[i].selected_model) {
 								for (let model of products[i].selected_model) {
 									for (let item of products[i].models) {
 										if (item.id == model.id) {

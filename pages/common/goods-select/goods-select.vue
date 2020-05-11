@@ -114,7 +114,7 @@
 			return {
 				showOrder: false,
 				user: uni.getStorageSync("user"),
-				selectd_model: '',
+				selected_model: '',
 				models_good: '',
 				models_good_key: '',
 				page_num: 1,

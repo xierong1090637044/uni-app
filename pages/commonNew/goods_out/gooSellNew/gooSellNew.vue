@@ -463,7 +463,7 @@
 					goodsId.retailPrice = this.products[i].retailPrice
 					goodsId.objectId = this.products[i].objectId
 					goodsId.reserve = num
-					if (this.products[i].selectd_model) {
+					if (this.products[i].selected_model) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 					}

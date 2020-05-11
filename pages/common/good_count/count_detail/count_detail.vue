@@ -144,7 +144,7 @@
 					}
 
 					let goodsId = {}
-					if (this.products[i].selectd_model) {
+					if (this.products[i].selected_model) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 						detailBills.goodsId = goodsId
@@ -190,7 +190,7 @@
 								let num = 0;
 								const query = Bmob.Query('Goods');
 								query.set('id', that.products[i].objectId) //需要修改的objectId
-								if (that.products[i].selectd_model) {
+								if (that.products[i].selected_model) {
 									for (let item of that.products[i].selected_model) {
 										delete item.num // 清除没用的属行
 									}

@@ -201,7 +201,7 @@
 					//goodsId.out_objectId = out_products[0].objectId
 					//goodsId.reserve = num
 					//goodsId.out_reserve = num1
-					if (this.products[i].selectd_model) {
+					if (this.products[i].selected_model) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 					}
@@ -361,7 +361,7 @@
 						let num1
 						if (res.length == 0) {
 							//console.log(that.products[i].goodsName)
-							if (that.products[i].selectd_model) {
+							if (that.products[i].selected_model) {
 								uni.showToast({
 									icon: "none",
 									title: "此多规格产品未关联到此店仓"
@@ -423,7 +423,7 @@
 									goodsId.out_objectId = out_products[0].objectId
 									goodsId.reserve = num
 									goodsId.out_reserve = num1
-									if (this.products[i].selectd_model) {
+									if (this.products[i].selected_model) {
 										goodsId.selected_model = this.products[i].selected_model
 										goodsId.models = this.products[i].models
 									}
@@ -517,7 +517,7 @@
 								query.get(out_products[0].objectId).then(res => {
 									console.log(res)
 									let nowOutProducts = res
-									if (this.products[i].selectd_model) {
+									if (this.products[i].selected_model) {
 										for (let model of this.products[i].selected_model) {
 											for (let item of nowOutProducts.models) {
 												if (item.id == model.id) {
@@ -533,7 +533,7 @@
 
 									query.get(that.products[i].objectId).then(res => {
 										let nowThisProduct = res
-										if (this.products[i].selectd_model) {
+										if (this.products[i].selected_model) {
 											for (let model of this.products[i].selected_model) {
 												for (let item of this.products[i].models) {
 													if (item.id == model.id) {
@@ -582,7 +582,7 @@
 							goodsId.out_objectId = out_products[0].objectId
 							goodsId.reserve = num
 							goodsId.out_reserve = num1
-							if (this.products[i].selectd_model) {
+							if (this.products[i].selected_model) {
 								goodsId.selected_model = this.products[i].selected_model
 								goodsId.models = this.products[i].models
 							}

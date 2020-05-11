@@ -47,8 +47,8 @@
 									</view>
 								</view>
 
-								<view v-if="item.selectd_model">
-									<view class='margin-t-5' v-for="(model,key) in (item.selectd_model)" :key="key" style="margin-bottom: 10rpx;">
+								<view v-if="item.selected_model">
+									<view class='margin-t-5' v-for="(model,key) in (item.selected_model)" :key="key" style="margin-bottom: 10rpx;">
 										<text style="color: #f30;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</text>
 										<text>数量：</text>
 										<uninumberbox :min="0" @change="handleModelNumChange($event, index,key,model)" :value='key==0?1:0' />
@@ -238,7 +238,7 @@
 								model.num = 0
 							}
 							thisProduct.num = 1
-							thisProduct.selectd_model = thisProduct.models
+							thisProduct.selected_model = thisProduct.models
 							thisProduct.selected_model = thisProduct.models
 						}
 
@@ -258,7 +258,7 @@
 										model.num = 0
 									}
 									item.num = 1
-									item.selectd_model = item.models
+									item.selected_model = item.models
 									item.selected_model = item.models
 								}
 								that.products[count] = item
@@ -276,7 +276,7 @@
 											model.num = 0
 										}
 										thisProduct.num = 1
-										thisProduct.selectd_model = thisProduct.models
+										thisProduct.selected_model = thisProduct.models
 										thisProduct.selected_model = thisProduct.models
 									}
 									that.products.push(thisProduct);

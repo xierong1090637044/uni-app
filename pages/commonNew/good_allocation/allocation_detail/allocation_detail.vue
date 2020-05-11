@@ -197,7 +197,7 @@
 					//goodsId.out_objectId = out_products[0].objectId
 					//goodsId.reserve = num
 					//goodsId.out_reserve = num1
-					if (this.products[i].selectd_model) {
+					if (this.products[i].selected_modell) {
 						goodsId.selected_model = this.products[i].selected_model
 						goodsId.models = this.products[i].models
 					}
@@ -266,7 +266,7 @@
 											} else {
 
 												if (that.products[j].selected_model) {
-													for (let model of that.products[j].selectd_model) {
+													for (let model of that.products[j].selected_model) {
 														for (let item of in_products[0].models) {
 															if (item.id == model.id) {
 																item.reserve = Number(item.reserve) - Number(model.num)
@@ -292,7 +292,7 @@
 									})
 								} else {
 									if (that.products[j].selected_model) {
-										for (let model of that.products[j].selectd_model) {
+										for (let model of that.products[j].selected_modell) {
 											for (let item of out_products[0].models) {
 												if (item.id == model.id) {
 													item.reserve = Number(item.reserve) + Number(model.num)
@@ -311,7 +311,7 @@
 										query.find().then(res => {
 											in_products = res
 											if (in_products.length == 0) {
-												common.upload_good_withNoCan(that.products[j], that.in_stock, Number(that.products[j].num),
+												common.upload_good_withNoCan(that.products[j], that.in_stock, 0-Number(that.products[j].num),
 													"allocation").then(res => {
 													if (j == that.products.length - 1) {
 														that.showHideFunction()
@@ -319,7 +319,7 @@
 												})
 											} else {
 												if (that.products[j].selected_model) {
-													for (let model of that.products[j].selectd_model) {
+													for (let model of that.products[j].selected_modell) {
 														for (let item of in_products[0].models) {
 															if (item.id == model.id) {
 																item.reserve = Number(item.reserve) - Number(model.num)
