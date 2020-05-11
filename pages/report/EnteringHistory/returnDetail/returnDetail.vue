@@ -271,6 +271,7 @@
 									if (res.confirm) {
 										that.$http.Post("order_opreationSellPurchaseRevoke", {
 											orderId: that.detail.objectId,
+											negativeOut:getApp().globalData.setting.negativeOut,
 										}).then(res => {
 											if (res.code == 1) {
 												uni.setStorageSync("is_option", true)

@@ -74,7 +74,6 @@
 				leftOptionList: ['库存', '财务', '记录', '报表','分析','系统'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
-				setting: uni.getStorageSync("setting"),
 				now_optionsLists: [],
 				second_optionsLists: [],
 				analysisModule: [],
@@ -85,7 +84,12 @@
 			that = this;
 		},
 		onShow() {
-			that.setting = uni.getStorageSync("setting")
+			that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
+				if(res.data){
+					getApp().globalData.setting = res.data
+				}
+				uni.setStorageSync("setting", res.data)
+			})
 			uni.getStorage({
 				key: 'identity',
 				success: function(res) {

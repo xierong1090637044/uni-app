@@ -30,7 +30,7 @@
 					<view style="font-size: 24rpx;">微信注册</view>
 				</button>
 				
-				<view class="display_flex" style="position: absolute;bottom: 400rpx;left: 20%;font-size: 24rpx;">
+				<view style="font-size: 24rpx;display: inline-block;margin: 0 auto;">
 					<radio-group @change="isShowAgree">
 						<label class="display_flex">
 							<view>

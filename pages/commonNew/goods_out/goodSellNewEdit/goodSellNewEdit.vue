@@ -365,7 +365,8 @@
 				}
 				that.$http.Post("order_opreationSellPurchaseRevoke", {
 					orderId: uni.getStorageSync("orderId"),
-					orderOldId: uni.getStorageSync("orderId")
+					orderOldId: uni.getStorageSync("orderId"),
+					negativeOut:getApp().globalData.setting.negativeOut,
 				}).then(res => {
 					if (res.code == 1) {
 						that.$http.Post("stock_goodOutBuy", {

@@ -90,11 +90,14 @@
 			})
 			
 			that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
-				for(let item in that.params){
-					if(res.data[item]!=undefined){
-						that.params[item] = res.data[item]
+				if(res.data){
+					for(let item in that.params){
+						if(res.data[item]!=undefined && res.data[item]!=null){
+							that.params[item] = res.data[item]
+						}
 					}
 				}
+				
 				uni.setStorageSync("setting", res.data)
 			})
 		},
