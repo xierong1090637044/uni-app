@@ -172,21 +172,9 @@
 					}
 				},
 				{
-					"path": "goods_out/gooSellNew/gooSellNew",
-					"style": {
-						"navigationBarTitleText": "销售（新版）"
-					}
-				},
-				{
 					"path": "good_return/buyReturn/buyReturn",
 					"style": {
 						"navigationBarTitleText": "销售退货（新版）"
-					}
-				},
-				{
-					"path": "good_confrim/goodPurchaseNew/goodPurchaseNew",
-					"style": {
-						"navigationBarTitleText": "采购（新版）"
 					}
 				},
 				{
@@ -832,7 +820,11 @@
 					"path": "customFollowHistory/customFollowHistory",
 					"style": {}
 				}
-			]
+			    ,{
+                    "path" : "product_brand/product_brand",
+                    "style" : {}
+                }
+            ]
 		}
 	],
 

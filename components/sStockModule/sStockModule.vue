@@ -1,9 +1,10 @@
 <template>
 	<view>
+
 		<view class="modelItem">
-			<view class="title">库存基础资料</view>
+			<view class="title">商品资料</view>
 			<view class='o_list'>
-				<navigator v-for='(value,index) in nowFristEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+				<navigator v-for='(value,index) in nowThridEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
 						<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>
 						<!--<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>-->
@@ -15,7 +16,7 @@
 		</view>
 
 		<view class="modelItem">
-			<view class="title">客户</view>
+			<view class="title">客户资料</view>
 			<view class='o_list'>
 				<navigator v-for='(value,index) in nowSecondEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
 					<view class="o_headerItem">
@@ -28,6 +29,22 @@
 			</view>
 		</view>
 
+		<view class="modelItem">
+			<view class="title">其他资料</view>
+			<view class='o_list'>
+				<navigator v-for='(value,index) in nowFristEle' :key="index" class='o_item' :url="(value.url)" hover-class="none">
+					<view class="o_headerItem">
+						<fa-icon :type="value.icon" size="20" color="#426ab3" style="line-height: 80rpx;"></fa-icon>
+						<!--<i :class="'iconfont '+value.icon" style="font-size: 56rpx;color: #426ab3;line-height: 80rpx;"></i>-->
+					</view>
+					<view class='o_text'>{{value.name}}</view>
+					<view style="font-size: 20rpx;color: #333;font-weight: 100;">{{value.notice}}</view>
+				</navigator>
+			</view>
+		</view>
+
+
+
 	</view>
 </template>
 
@@ -35,13 +52,7 @@
 	export default {
 		data() {
 			return {
-				fristEle: [{
-						name: '产品管理',
-						notice: '产品添加',
-						icon: 'envelope-open-o',
-						url: '/pages/manage/goods/goods',
-						id: 0,
-					},
+				fristEle: [
 					{
 						name: '员工管理',
 						notice: '多人协同',
@@ -56,7 +67,7 @@
 						url: '/pages/manage/warehouse/warehouse',
 						id: 2
 					},
-					
+
 					{
 						name: '供应商管理',
 						notice: '供应商资料',
@@ -64,14 +75,6 @@
 						url: '/pages/manage/producer/producer',
 						id: 4
 					},
-					{
-						name: '产品类别管理',
-						notice: '产品类别编辑',
-						icon: 'list',
-						url: '/pages/manage/category/category',
-						id: 5
-					},
-					
 				],
 				secondEle: [{
 						name: '客户管理',
@@ -90,10 +93,34 @@
 						notice: '客户类别相关',
 						icon: 'list',
 						url: '/pages/manage/customClass/customClass',
-					}],
+					}
+				],
+
+				thridEle: [{
+						name: '产品管理',
+						notice: '产品添加',
+						icon: 'envelope-open-o',
+						url: '/pages/manage/goods/goods',
+						id: 0,
+					},
+					{
+						name: '产品类别管理',
+						notice: '产品类别编辑',
+						icon: 'list',
+						url: '/pages/manage/category/category',
+						id: 5
+					},
+					{
+						name: '商品品牌管理',
+						notice: '商品品牌编辑',
+						icon: 'pinterest-p',
+						url: '/pages/manage/product_brand/product_brand',
+					}
+				],
 
 				nowFristEle: [],
-				nowSecondEle:[],
+				nowSecondEle: [],
+				nowThridEle: [],
 				user: uni.getStorageSync("user"),
 				identity: uni.getStorageSync("identity"),
 			};
@@ -106,13 +133,18 @@
 						this.nowFristEle.push(model1)
 					}
 				}
-				
-				if(this.user.rights.current.length > 0 && this.user.rights.current.indexOf("3") !=-1){
+
+				if (this.user.rights.current.length > 0 && this.user.rights.current.indexOf("3") != -1) {
 					this.nowSecondEle = this.secondEle
+				}
+				
+				if (this.user.rights.current.length > 0 && this.user.rights.current.indexOf("0") != -1) {
+					this.nowThridEle = this.thridEle
 				}
 			} else {
 				this.nowFristEle = this.fristEle
 				this.nowSecondEle = this.secondEle
+				this.nowThridEle = this.thridEle
 			}
 		},
 	}

@@ -1,6 +1,7 @@
 <template>
 	<view class="second">
 		<view class="second_one">
+			<view>品牌: <text class="second_right_text">{{product.brand?product.brand:"未填写"}}</text></view>
 			<view>生产厂家: <text class="second_right_text">{{product.producer?product.producer:"未填写"}}</text></view>
 			<view>包装: <text class="second_right_text">{{product.packageContent?product.packageContent:"未填写"}}*{{product.packingUnit?product.packingUnit:"未填写"}}</text></view>
 			<view>规格: <text class="second_right_text">{{product.packModel?product.packModel:"未填写"}}</text></view>

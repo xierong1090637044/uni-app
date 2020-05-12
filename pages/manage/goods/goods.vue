@@ -12,15 +12,19 @@
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('goodsClass')">
 					<view class="good_optionText">{{headerSelection.goodsClass.class_text || '分类'}}</view>
-					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
+				</view>
+				<view class="good_option" @click="selectd('brand')">
+					<view class="good_optionText">{{headerSelection.brand || '品牌'}}</view>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('stocks')">
 					<view class="good_optionText">{{headerSelection.stocks.stock_name || '店仓'}}</view>
-					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('order')">
 					<view class="good_optionText">{{headerSelection.order.desc || '排序'}}</view>
-					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
 				</view>
 				<!--<view class="good_option" @click="selectd('options')">
 					<view class="good_optionText">筛选</view>
@@ -28,7 +32,7 @@
 				</view>-->
 				<view class="good_option" @click="option_reset">
 					<view class="good_optionText">重置</view>
-					<fa-icon type="repeat" size="16" color="#999"></fa-icon>
+					<fa-icon type="repeat" size="12" color="#999"></fa-icon>
 				</view>
 			</view>
 			<scroll-view class="uni-product-list" scroll-y>
@@ -57,8 +61,8 @@
 										<view v-if="product.warning_num" style="font-size: 24rpx;">预警数量:<text class="text_notice">{{product.warning_num}}</text></view>
 									</view>
 									<view class="product_reserve display_flex_bet" style="width: 100%;">
-										<view class="product_reserve"  v-if="product.packageContent && product.packingUnit">包装：{{product.packageContent}}*{{product.packingUnit}}</view>
-										<view class="product_reserve"  v-if="product.packModel">规格：{{product.packModel}}</view>
+										<view class="product_reserve" v-if="product.packageContent && product.packingUnit">包装：{{product.packageContent}}*{{product.packingUnit}}</view>
+										<view class="product_reserve" v-if="product.packModel">规格：{{product.packModel}}</view>
 									</view>
 								</view>
 								<fa-icon type="angle-right" size="20" color="#426ab3"></fa-icon>
@@ -125,6 +129,7 @@
 				search_text: '',
 				user: uni.getStorageSync("user"),
 				headerSelection: {
+					brand: '',
 					goodsClass: '',
 					stocks: "",
 					order: {
@@ -177,13 +182,18 @@
 		},
 		onShow() {
 			uni.removeStorageSync("now_product");
-
+			uni.$once('chooseBrand', (value) => {
+				that.headerSelection.brand = value.name
+			})
 			if (uni.getStorageSync("isClickShaiXuan")) { //判断是否下级页面进行了操作
+				
 				that.page_num = 1
 				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
 				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 				that.get_productList();
 			}
+
+
 		},
 
 		//分享
@@ -358,7 +368,7 @@
 												console.log(err)
 											});
 										})
-								
+
 										count += 1;
 										if (count == that.selectOptionGoods.length) {
 											that.selectOptionGoods = []
@@ -376,7 +386,7 @@
 							}
 						}
 					});
-				}else if (that.rightText == "打印") {
+				} else if (that.rightText == "打印") {
 					uni.showModal({
 						title: '提示',
 						content: '是否批量打印这些产品信息',
@@ -385,9 +395,9 @@
 								let count = 0;
 								for (let goodId of that.selectOptionGoods) {
 									that.$http.Post("stock_printInfo", {
-										sn:uni.getStorageSync("setting").sn,
-										type:"good",
-										id:goodId,
+										sn: uni.getStorageSync("setting").sn,
+										type: "good",
+										id: goodId,
 									}).then(res => {
 										count += 1;
 										if (count == that.selectOptionGoods.length) {
@@ -411,6 +421,7 @@
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.headerSelection = {
+					brand: '',
 					goodsClass: '',
 					stocks: "",
 					order: {
@@ -473,6 +484,10 @@
 					uni.navigateTo({
 						url: "/pages/manage/warehouse/warehouse?type=choose"
 					})
+				} else if (type == "brand") {
+					uni.navigateTo({
+						url: "/pages/manage/product_brand/product_brand?type=choose"
+					})
 				} else if (type == "order") {
 					that.showOrder = true
 				} else if (type == "options") {
@@ -521,6 +536,9 @@
 					query.equalTo("goodsClass", "==", that.headerSelection.goodsClass.objectId);
 				} else {
 					query.equalTo("second_class", "==", that.headerSelection.goodsClass.objectId);
+				}
+				if (that.headerSelection.brand) {
+					query.equalTo("brand", "==", that.headerSelection.brand);
 				}
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + that.search_text + ".*"
@@ -573,8 +591,8 @@
 	.text_notice {
 		margin-left: 6rpx;
 	}
-	
-	.text_reserve{
+
+	.text_reserve {
 		margin-left: 6rpx;
 		color: #f30;
 		font-weight: bold;

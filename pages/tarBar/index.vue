@@ -197,6 +197,7 @@
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<view>1、产品编辑可以取消预警设置</view>
 							<view>2、盘点、调拨优化</view>
+							<view>3、增加商品品牌属行</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

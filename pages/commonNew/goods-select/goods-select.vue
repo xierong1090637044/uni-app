@@ -12,19 +12,23 @@
 			<view class="display_flex good_option_view">
 				<view class="good_option" @click="selectd('goodsClass')">
 					<view class="good_optionText">{{headerSelection.goodsClass.class_text || '分类'}}</view>
-					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
+				</view>
+				<view class="good_option" @click="selectd('brand')">
+					<view class="good_optionText">{{headerSelection.brand || '品牌'}}</view>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('stocks')">
 					<view class="good_optionText">{{headerSelection.stocks.stock_name || '店仓'}}</view>
-					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="selectd('order')">
 					<view class="good_optionText">{{headerSelection.order.desc || '排序'}}</view>
-					<fa-icon type="angle-down" size="18" color="#999"></fa-icon>
+					<fa-icon type="angle-down" size="16" color="#999"></fa-icon>
 				</view>
 				<view class="good_option" @click="option_reset">
 					<view class="good_optionText">重置</view>
-					<fa-icon type="repeat" size="16" color="#999"></fa-icon>
+					<fa-icon type="repeat" size="12" color="#999"></fa-icon>
 				</view>
 			</view>
 
@@ -124,6 +128,7 @@
 				negativeOut: false,
 
 				headerSelection: {
+					brand: '',
 					goodsClass: '',
 					stocks: "",
 					order: {
@@ -213,6 +218,9 @@
 		},
 
 		onShow() {
+			uni.$once('chooseBrand', (value) => {
+				that.headerSelection.brand = value.name
+			})
 			if (uni.getStorageSync("is_option")) {
 				that.nextProducts = [];
 				that.get_productList();
@@ -275,6 +283,7 @@
 				uni.removeStorageSync("category");
 				uni.removeStorageSync("warehouse");
 				that.headerSelection = {
+					brand: '',
 					goodsClass: '',
 					stocks: "",
 					order: {
@@ -339,7 +348,11 @@
 					uni.navigateTo({
 						url: "/pages/manage/warehouse/warehouse?type=choose"
 					})
-				} else if (type == "order") {
+				} else if (type == "brand") {
+					uni.navigateTo({
+						url: "/pages/manage/product_brand/product_brand?type=choose"
+					})
+				}  else if (type == "order") {
 					that.showOrder = true
 				} else if (type == "options") {
 					that.showOptions = true
@@ -462,6 +475,9 @@
 					query.equalTo("goodsClass", "==", that.headerSelection.goodsClass.objectId);
 				} else {
 					query.equalTo("second_class", "==", that.headerSelection.goodsClass.objectId);
+				}
+				if (that.headerSelection.brand) {
+					query.equalTo("brand", "==", that.headerSelection.brand);
 				}
 				const query1 = query.equalTo("goodsName", "==", {
 					"$regex": "" + search_text + ".*"

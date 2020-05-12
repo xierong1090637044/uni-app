@@ -35,6 +35,17 @@
 						</view>
 					</navigator>
 
+					<navigator class="input_item1" hover-class="none" url="/pages/manage/product_brand/product_brand?type=choose">
+						<view style="display: flex;align-items: center;width: 100%;">
+							<view class="left_item">品牌</view>
+							<view class="right_input"><input placeholder="产品品牌" name="brand" :value="brand" disabled="true"></input></view>
+						</view>
+
+						<view>
+							<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+						</view>
+					</navigator>
+
 					<view class="input_item">
 						<view class="left_item">进价</view>
 						<view class="right_input"><input placeholder="产品进价" name="costPrice" type="digit" :value="costPrice"></input></view>
@@ -52,7 +63,7 @@
 						<view class="left_item">包装单位</view>
 						<view class="right_input"><input placeholder="包装单位" name="packingUnit" :value="packingUnit"></input></view>
 					</view>
-					
+
 					<view class="input_item">
 						<view class="left_item">多规格</view>
 						<view class="right_input">
@@ -67,7 +78,7 @@
 						</view>
 						<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 					</navigator>
-					
+
 					<view class="input_item" v-else>
 						<view class="left_item">产品规格</view>
 						<view class="right_input"><input placeholder="产品规格" name="packModel" :value="packModel"></input></view>
@@ -215,7 +226,7 @@
 				retailPrice: '', //售价
 				packageContent: '', //包装含量
 				packingUnit: '', //包装单位
-				packModel:'',//包装规格
+				packModel: '', //包装规格
 				warning_num: '', //预警库存
 				max_num: '', //合理值
 				producer: '', //生产厂家
@@ -232,6 +243,7 @@
 				nousetime: "",
 				productMoreG: false, //产品是否是多规格
 				//isMoreModelAdd: uni.getStorageSync("addMoreModel"),
+				brand: '', //产品品牌
 				addType: '', //添加类型
 				modelsValue: '', //产品规格数据
 				haveSetProductMoreG: false, //是否设置了多规格
@@ -253,6 +265,7 @@
 
 				that.text_desc = "修改"
 				that.goodsName = now_product.goodsName
+				that.brand = now_product.brand
 				that.costPrice = Number(now_product.costPrice) //进价
 				that.retailPrice = Number(now_product.retailPrice) //售价
 				that.packageContent = now_product.packageContent //包装含量
@@ -422,13 +435,18 @@
 					let pointer2 = Bmob.Pointer('class_user')
 					p_class_user_id = pointer2.set(that.category.objectId) //一级分类id关联
 				}
-
 			}
+
+			uni.$once('chooseBrand', (value) => {
+				console.log(value)
+				that.brand = value.name
+			})
 
 		},
 
 		onUnload() {
 			uni.removeStorageSync("now_model");
+			
 			p_class_user_id = "";
 			p_second_class_id = "";
 
@@ -637,32 +655,32 @@
 				query.set("producer", good.producer)
 				query.set("packingUnit", good.packingUnit)
 				query.set("packageContent", good.packageContent)
-				good.packModel?query.set("packModel", good.packModel):''
+				good.packModel ? query.set("packModel", good.packModel) : ''
 				query.set("position", good.position)
+				query.set("brand", good.brand)
 
-				
-					if (good.warning_num != "") {
-						query.set("warning_num", Number(good.warning_num))
-					}else{
-						query.get(now_product.objectId).then(res => {
-							res.unset('warning_num')
-							res.save()
-						})
-					}
+				if (good.warning_num != "") {
+					query.set("warning_num", Number(good.warning_num))
+				} else {
+					query.get(now_product.objectId).then(res => {
+						res.unset('warning_num')
+						res.save()
+					})
+				}
 
-					if (good.max_num != "") {
-						query.set("max_num", Number(good.max_num))
-					}else{
-						query.get(now_product.objectId).then(res => {
-							res.unset('max_num')
-							res.save()
-						})
-					}
+				if (good.max_num != "") {
+					query.set("max_num", Number(good.max_num))
+				} else {
+					query.get(now_product.objectId).then(res => {
+						res.unset('max_num')
+						res.save()
+					})
+				}
 
 				///query.set("product_state", good.product_state) //改产品是否是半成品
-				if(that.productMoreG){
+				if (that.productMoreG) {
 					query.set("models", uni.getStorageSync("now_model"))
-				}else{
+				} else {
 					query.get(now_product.objectId).then(res => {
 						res.unset('models')
 						res.save()
@@ -705,13 +723,13 @@
 
 								if (good.warning_num != "") {
 									res.set("warning_num", Number(good.warning_num))
-								}else{
+								} else {
 									res.unset('warning_num')
 								}
-								
+
 								if (good.max_num != "") {
 									res.set("max_num", Number(good.max_num))
-								}else{
+								} else {
 									res.unset('max_num')
 								}
 
@@ -725,10 +743,10 @@
 										res.set("second_class", p_second_class_id)
 									}
 								}
-								
-								if(that.productMoreG){
+
+								if (that.productMoreG) {
 									res.set("models", item.now_model)
-								}else{
+								} else {
 									res.unset('models')
 								}
 								res.save()
@@ -774,14 +792,15 @@
 				}
 				query.set("regNumber", good.regNumber)
 				query.set("reserve", Number(good.reserve))
-				query.set("originReserve", Number(good.reserve))//期初库存
+				query.set("originReserve", Number(good.reserve)) //期初库存
 				query.set("productCode", good.productCode)
 				query.set("product_info", good.product_info)
 				query.set("producer", good.producer)
 				query.set("packingUnit", good.packingUnit)
-				good.packModel?query.set("packModel", good.packModel):''
+				good.packModel ? query.set("packModel", good.packModel) : ''
 				query.set("packageContent", good.packageContent)
 				query.set("position", good.position)
+				query.set("brand", good.brand)
 				if (good.warning_num != "") {
 					query.set("warning_num", Number(good.warning_num))
 					query.set("stocktype", (Number(good.warning_num) >= Number(that.reserve)) ? 0 : 1) //库存数量类型 0代表库存不足 1代表库存充足
@@ -792,9 +811,9 @@
 				}
 
 				//query.set("product_state", good.product_state) //改产品是否是半成品
-				if(that.productMoreG){
+				if (that.productMoreG) {
 					query.set("models", uni.getStorageSync("now_model"))
-					query.set("originModels", uni.getStorageSync("now_model"))//期初各规格数量
+					query.set("originModels", uni.getStorageSync("now_model")) //期初各规格数量
 				}
 				if (stocksReserve.length > 0) {
 					query.set("order", 0)

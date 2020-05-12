@@ -4,7 +4,7 @@
 			<view class='display_flex_bet item' @click="setheaderimg()">
 				<view>头像</view>
 				<view class='display_flex'>
-					<image :src='userInfo.avatarUrl' class='avatar'></image>
+					<image :src='userInfo.avatarUrl' class='avatar' mode="aspectFill"></image>
 					<fa-icon type="angle-right" size="18" color="#999" style="margin-left: 10rpx;"></fa-icon>
 				</view>
 			</view>
