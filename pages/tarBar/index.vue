@@ -85,7 +85,7 @@
 				</view>
 
 				<!--其他模块-->
-				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;" v-if="user.identity !=2">
+				<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;" v-if="canScanCode">
 					<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
 					<view class='o_list'>
 						<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url,index)">
