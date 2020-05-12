@@ -9,7 +9,7 @@ module.exports = {
 				const query = Bmob.Query('Goods');
 				query.get(products[i].objectId).then(res => {
 					let goodInfo = res
-					if (products[i].selectd_model) {
+					if (products[i].selected_model) {
 						for (let model of products[i].selected_model) {
 							for (let item of goodInfo.models) {
 								if (item.id == model.id) {
@@ -75,7 +75,7 @@ module.exports = {
 				query.get(products[i].objectId).then(res => {
 					let goodInfo = res
 
-					if (products[i].selectd_model) {
+					if (products[i].selected_model) {
 						for (let model of products[i].selected_model) {
 							for (let item of goodInfo.models) {
 								num += Number(item.reserve)
@@ -570,5 +570,12 @@ module.exports = {
 		uni.removeStorageSync("beizhu_text")
 		uni.removeStorageSync("Images")
 		uni.removeStorageSync("orderId")
+	},
+	
+	showToast(title){
+		uni.showToast({
+			icon:"none",
+			title:title
+		})
 	},
 }
