@@ -112,7 +112,6 @@
 							}
 							item.num = count
 							item.selected_model = item.models
-							item.selected_model = item.models
 						}
 					}
 					this.products = res;
@@ -125,7 +124,6 @@
 						for(let model of item.models){
 							model.num = model.reserve?model.reserve:0
 						}
-						item.selected_model = item.models
 						item.selected_model = item.models
 					}
 				}
@@ -234,16 +232,16 @@
 			//多类型产品数量改变
 			handleModelNumChange($event, index, key, item) {
 			
-				item.reserve = Number($event)
+				item.num = Number($event)
 				this.products[index].selected_model[key] = item
 				let _sumNum = 0;
 				for (let model of this.products[index].selected_model) {
-					_sumNum += model.reserve
+					_sumNum += model.num
 				}
 				
 				this.products[index].num = _sumNum
 				this.products[index].total_money = _sumNum * Number(this.products[index].modify_retailPrice)
-				this.products[index].really_total_money = _sumNum * Number(this.products[index].really_total_money)
+				this.products[index].really_total_money = _sumNum * Number(this.products[index].costPrice)
 				uni.setStorageSync("products", this.products)
 			},
 

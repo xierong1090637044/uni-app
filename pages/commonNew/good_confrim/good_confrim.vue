@@ -154,7 +154,6 @@
 							}
 							item.num = count
 							item.selected_model = item.models
-							item.selected_model = item.models
 						}
 					}
 					that.products = res;
@@ -171,7 +170,6 @@
 							count += 1
 						}
 						item.num = count
-						item.selected_model = item.models
 						item.selected_model = item.models
 					}
 				}

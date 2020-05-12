@@ -11,7 +11,7 @@
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet">
 							<view style="font-size: 24rpx;color: #999;" v-if="model">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
-							<view style="font-size: 24rpx;color: #f30;" v-if="model">盘点后库存：{{model.reserve}}</view>
+							<view style="font-size: 24rpx;color: #f30;" v-if="model">盘点后库存：{{model.num}}</view>
 						</view>
 					</view>
 					<view class='pro_list' v-else>
@@ -42,12 +42,30 @@
 								</view>
 							</picker>
 						</view>
-						<view class="display_flex_bet" style="padding: 10rpx 0;">
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view style="width: 140rpx;">备注</view>
 							<input placeholder='请输入备注' class='beizhu_style' name="input_beizhu"></input>
 						</view>
 					</view>
+					<view style='background: #fff;padding: 10rpx 20rpx;'>
+						<view class="notice_text">上传凭证图(会员可用)</view>
+					
+						<view style="width: 100%;padding: 20rpx 0;">
+							<view class="upload_image display_flex">
+								<view v-if="Images && Images.length > 0" style="position: relative;" v-for="(url,index) in Images" :key="index">
+									<image :src="url" style="width: 180rpx;height: 180rpx;margin-right: 10rpx;"></image>
+									<fa-icon type="times-circle-o" size="20" color="#426ab3" style="position: absolute;top: -10rpx;right: -10rpx;"
+									 @click="removeImg(index)"></fa-icon>
+								</view>
+								<view style="width: 180rpx;height: 180rpx;line-height:220rpx;text-align:center;border:1rpx solid#ccc;border-radius:16rpx"
+								 @click="upload_image" v-if="Images.length < 3">
+									<fa-icon type="plus-square-o" size="40" color="#426ab3"></fa-icon>
+								</view>
+							</view>
+						</view>
+					</view>
 				</view>
+				
 
 				<view style="padding: 0 30rpx;margin-top: 60rpx;" class="bottomEle display_flex_bet">
 					<view>总数：{{total_num}}</view>
@@ -77,12 +95,14 @@
 				products: null,
 				button_disabled: false,
 				beizhu_text: "",
+				Images: [], //上传凭证图
 				real_money: 0, //实际付款金额
 				all_money: 0, //总价
 				total_num: 0,
 				producer: null, //制造商
 				stock: {},
 				nowDay: common.getDay(0, true), //入库时间
+				user: uni.getStorageSync("user"),
 			}
 		},
 		onLoad() {
@@ -104,6 +124,42 @@
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
 			},
+			
+			//移除此张照片
+			removeImg(index) {
+				that.Images.splice(index, 1)
+				that.Images = that.Images
+			},
+			
+			//上传凭证图
+			upload_image() {
+				if (that.user.is_vip) {
+					uni.chooseImage({
+						count: 3, //默认9
+						sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+						sourceType: ['album', 'camera'], //从相册选择
+						success: function(res) {
+							//console.log(res);
+							let timestamp = Date.parse(new Date());
+							let tempFilePaths = res.tempFilePaths
+							let file;
+							for (let item of tempFilePaths) {
+								file = Bmob.File(timestamp + '.jpg', item);
+							}
+							file.save().then(res => {
+								for (let item of res) {
+									that.Images.push(item.url);
+								}
+							})
+						},
+					});
+				} else {
+					uni.showToast({
+						title: "您还不是会员，无法使用",
+						icon: 'none'
+					})
+				}
+			},
 
 			formSubmit: function(e) {
 				console.log(e)
@@ -121,201 +177,35 @@
 					this.button_disabled = false;
 					return
 				}
-
-				let operation_ids = [];
-				let billsObj = new Array();
-				let detailObj = [];
-				let stockIds = [];
-				let goodsName = [];
-				for (let i = 0; i < this.products.length; i++) {
-					//单据
-					goodsName.push(this.products[i].goodsName)
-					let tempBills = Bmob.Query('Bills');
-					let detailBills = {}
-
-					let pointer = Bmob.Pointer('_User')
-					let user = pointer.set(uid)
-					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].header ? this.products[i].header.objectId : this.products[i].objectId);
-
-					let masterId = uni.getStorageSync("masterId");
-					let pointer2 = Bmob.Pointer('_User')
-					let poiID2 = pointer2.set(masterId);
-
-					tempBills.set('goodsName', this.products[i].goodsName);
-					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', Number(this.products[i].num));
-					tempBills.set('reserve', Number(this.products[i].reserve));
-					tempBills.set('now_reserve', this.products[i].num);
-					tempBills.set('total_money', this.products[i].total_money);
-					tempBills.set('opreater', poiID2);
-					tempBills.set('goodsId', tempGoods_id);
-					tempBills.set('userId', user);
-					tempBills.set('type', 3);
-					tempBills.set("createdTime", {
-						"__type": "Date",
-						"iso": that.nowDay
-					}); // 操作单详情
-					if (that.stock && that.stock.objectId) {
-						let pointer3 = Bmob.Pointer('stocks')
-						let poiID3 = pointer3.set(that.stock.objectId);
-
-						tempBills.set('stock', poiID3);
-						stockIds.push(that.stock.objectId)
-						detailBills.stock = that.stock.stock_name
-					}
-
-					let goodsId = {}
-					if (this.products[i].selected_model) {
-						goodsId.selected_model = this.products[i].selected_model
-						goodsId.models = this.products[i].models
-						detailBills.goodsId = goodsId
-					}
-					detailBills.goodsName = this.products[i].goodsName
-					detailBills.reserve = this.products[i].reserve
-					detailBills.now_reserve = this.products[i].num.toString()
-					detailBills.packingUnit = this.products[i].packingUnit
-
-					billsObj.push(tempBills)
-					detailObj.push(detailBills)
-				}
-				//插入单据
-				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
-						//console.log("批量新增单据成功", res);
-
-						let pointer = Bmob.Pointer('_User')
-						let poiID = pointer.set(uid);
-
-						let masterId = uni.getStorageSync("masterId");
-						let pointer1 = Bmob.Pointer('_User')
-						let poiID1 = pointer1.set(masterId);
-
-						let query = Bmob.Query('order_opreations');
-						query.set("beizhu", e.detail.value.input_beizhu);
-						query.set("detail", detailObj);
-						query.set("type", 3);
-						query.set("opreater", poiID1);
-						query.set("master", poiID);
-						query.set('goodsName', goodsName.join(","));
-						query.set("stockIds", stockIds);
-						query.set("createdTime", {
-							"__type": "Date",
-							"iso": that.nowDay
-						}); // 操作单详情
-						query.save().then(res => {
-							let operationId = res.objectId;
-							//console.log("添加操作历史记录成功", res);
-							uni.hideLoading();
-							uni.showToast({
-								title: '产品盘点成功',
-								icon: 'success',
-								success: function() {
-									for (let i = 0; i < that.products.length; i++) {
-										let num = 0;
-										const query = Bmob.Query('Goods');
-										query.equalTo("header", "==", that.products[i].objectId);
-										query.equalTo("stocks", "==", that.stock.objectId);
-										query.find().then(res => {
-
-											if (res.length == 0) {
-												common.upload_good_withNoCan(that.products[i], that.stock, Number(that.products[i].num)).then(res => {
-													query.equalTo("header", "==", that.products[i].objectId);
-													query.equalTo("order", "==", 1);
-													query.statTo("sum", "reserve");
-													query.find().then(res => {
-														//console.log("dasds", res)
-														let now_reserve = res[0]._sumReserve
-														query.set('id', that.products[i].objectId) //需要修改的objectId
-														query.set('reserve', now_reserve)
-														query.save().then(res => {
-
-															//common.modifyStockType(that.products[i].objectId)
-
-															that.button_disabled = false;
-															uni.setStorageSync("is_option", true);
-															setTimeout(() => {
-																uni.removeStorageSync("_warehouse")
-																uni.removeStorageSync("out_warehouse")
-																uni.removeStorageSync("category")
-																uni.removeStorageSync("warehouse")
-																common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +
-																	"'等" + that.products
-																	.length + "商品", 3, operationId);
-
-																//自动打印
-																if (uni.getStorageSync("setting").auto_print) {
-																	print.autoPrint(operationId);
-																}
-																uni.navigateBack({
-																	delta: 2
-																});
-															}, 500)
-														})
-													})
-												})
-											} else {
-												let thisGood = res[0]
-
-												query.set('id', thisGood.objectId) //需要修改的objectId
-												if (that.products[i].selected_model) {
-													for (let item of that.products[i].selected_model) {
-														delete item.num // 清除没用的属行
-													}
-													query.set('models', that.products[i].selected_model)
-													num = Number(that.products[i].num);
-												} else {
-													num = Number(that.products[i].num);
-												}
-
-												query.set('reserve', num)
-												query.save().then(res => {
-													query.equalTo("header", "==", that.products[i].objectId);
-													query.equalTo("order", "==", 1);
-													query.statTo("sum", "reserve");
-													query.find().then(res => {
-														//console.log("dasds", res)
-														let now_reserve = res[0]._sumReserve
-														query.get(that.products[i].objectId).then(res => {
-															res.set('reserve', now_reserve)
-															res.save()
-
-															//common.modifyStockType(that.products[i].objectId)
-
-															that.button_disabled = false;
-															uni.setStorageSync("is_option", true);
-															setTimeout(() => {
-																uni.removeStorageSync("_warehouse")
-																uni.removeStorageSync("out_warehouse")
-																uni.removeStorageSync("category")
-																uni.removeStorageSync("warehouse")
-																common.log(uni.getStorageSync("user").nickName + "盘点了'" + that.products[0].goodsName +
-																	"'等" + that.products
-																	.length + "商品", 3, res.objectId);
-
-																//自动打印
-																if (uni.getStorageSync("setting").auto_print) {
-																	print.autoPrint(operationId);
-																}
-																uni.navigateBack({
-																	delta: 2
-																});
-															}, 500)
-														})
-													})
-												}).catch(err => {
-													console.log(err)
-												})
-											}
-										})
-									}
-								}
-							})
+				
+				that.$http.Post("stock_goodCount", {
+					"goods": that.products,
+					"beizhu": e.detail.value.input_beizhu,
+					"stockId": that.stock.objectId,
+					"stockName": that.stock.stock_name,
+					"Images": that.Images,
+					"opreater":uni.getStorageSync("masterId") ,
+					"nowDay": that.nowDay,
+					"autoCostPrice":getApp().globalData.setting.autoCostPrice,
+				}).then(res => {
+					if (res.code == 1) {
+						uni.hideLoading();
+						uni.setStorageSync("is_option", true);
+						
+						uni.showToast({
+							title: "盘点成功"
 						})
-					},
-					function(error) {
-						// 批量新增异常处理
-						console.log("异常处理");
-					});
+						setTimeout(function() {
+							that.button_disabled = false;
+							uni.navigateBack({
+								delta: 2
+							});
+						}, 500)
+				
+					}
+				})
+				
+				
 			}
 		}
 	}
