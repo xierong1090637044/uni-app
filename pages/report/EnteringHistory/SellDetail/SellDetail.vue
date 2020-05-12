@@ -35,7 +35,7 @@
 
 						</view>
 					</view>
-					
+					<!--2020-06-12可去掉此判断-->
 					<view v-else>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
@@ -240,7 +240,7 @@
 				<view style='margin-top:20px' class='detail_bottom'>
 					<view style='display:flex;border-bottom:1px solid#ddd;padding-bottom: 20upx;'>
 						<view>
-							<image :src='detail.opreater.avatarUrl' class='avatar'></image>
+							<image :src='detail.opreater.avatarUrl' class='avatar' mode="aspectFill"></image>
 						</view>
 						<view class='common_style'>{{detail.opreater.nickName}}</view>
 						<view class='common_style'>（操作者）</view>

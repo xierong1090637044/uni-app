@@ -7,7 +7,7 @@
 				<view class="itemB">
 					<view>全部商品</view>
 					<view style="font-size: 30rpx;font-weight: bold;">{{goodsAnalysis.total_products}}种</view>
-					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=more" class="addButton" v-if="user.is_vip">新增</navigator>
+					<navigator hover-class="none" url="/pages/manage/good_add/good_add?type=single" class="addButton" v-if="user.is_vip">新增</navigator>
 					<view class="addButton" v-else @click="showNotice">新增</view>
 				</view>
 				<view style="width: 35%;">

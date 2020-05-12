@@ -23,10 +23,7 @@
 									<text v-else style="color: #f30;">{{item.costPrice}}(元)</text>
 								</view>
 							</view>
-
 						</view>
-
-
 
 						<view class="display_flex_bet" v-if="value != 4" style="margin-bottom: 10rpx;">
 							<view class='input_withlabel'>

@@ -118,13 +118,18 @@
 		},
 
 		onShow() {
-			that.$http.Post("account_getInfo", {}).then(res => {
-				if(res.code == 1){
-					uni.setStorageSync("user",res.data)
-					that.userInfo = res.data
-					that.userInfo.vip_time = common.js_date_time(res.data.vip_time)
-				}
-			})
+			if(that.user.identity == 1){
+				that.$http.Post("account_getInfo", {}).then(res => {
+					if(res.code == 1){
+						uni.setStorageSync("user",res.data)
+						that.userInfo = res.data
+						that.userInfo.vip_time = common.js_date_time(res.data.vip_time)
+					}
+				})
+			}else{
+				that.userInfo = that.user
+				that.userInfo.vip_time = common.js_date_time(that.user.vip_time)
+			}
 		},
 
 		methods: {

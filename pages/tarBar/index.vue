@@ -174,7 +174,7 @@
 					</view>
 
 					<!--其他模块-->
-					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;" v-if="user.identity !=2">
+					<view style="background: #FFFFFF;padding: 10rpx 20rpx 0;margin-top: 20rpx;" v-if="canScanCode">
 						<view style="font-size: 30rpx;color: #333;font-weight: bold;padding-bottom: 10rpx;">其他</view>
 						<view class='o_list'>
 							<view v-for='(value,index) in optionsLists' :key="index" class='o_item' @click="otherFunctions(value.url,index)">
@@ -197,7 +197,9 @@
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
 							<view>1、产品编辑可以取消预警设置</view>
 							<view>2、盘点、调拨优化</view>
-							<view>3、增加商品品牌属行</view>
+							<view>3、增加商品品牌属性</view>
+							<view>4、图片显示优化</view>
+							<view>5、添加员工优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -341,7 +343,7 @@
 				optionsLists: [{
 						name: '产品添加',
 						icon: 'icon-wodechanpin',
-						url: '/pages/manage/good_add/good_add?type=more'
+						url: '/pages/manage/good_add/good_add?type=single'
 					}, {
 						name: '扫码添加产品',
 						icon: 'icon-saoma',
@@ -433,6 +435,7 @@
 					}
 					uni.setStorageSync("setting", res.data)
 				})
+				
 				if (that.user.identity == 2 && that.user.rights) {
 					that.othercurrent = that.user.rights.othercurrent || []
 
@@ -557,7 +560,7 @@
 								let result = res.result;
 								if (user.is_vip) {
 									uni.navigateTo({
-										url: '/pages/manage/good_add/good_add?id=' + result + '&type=more',
+										url: '/pages/manage/good_add/good_add?id=' + result + '&type=single',
 									})
 								} else {
 									uni.showToast({
@@ -667,7 +670,7 @@
 					})
 				} else if (opLists[type] == '销售') {
 					uni.navigateTo({
-						url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=1",
+						url: '/pages/commonNew/goods_out/goods_out?id=' + array[0] + "&type=" + array[1] + "&value=3",
 					})
 				} else if (opLists[type] == '销售退货') {
 					uni.navigateTo({
@@ -683,7 +686,7 @@
 					})
 				} else if (opLists[type] == '采购') {
 					uni.navigateTo({
-						url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=1",
+						url: '/pages/commonNew/good_confrim/good_confrim?id=' + array[0] + "&type=" + array[1] + "&value=3",
 					})
 				} else if (opLists[type] == '调拨') {
 					uni.navigateTo({

@@ -8,7 +8,27 @@
 				<view style='line-height:70rpx;padding: 0 20rpx;'>操作产品</view>
 
 				<view>
-					<view>
+					<view v-if="detail.opreatGood && detail.opreatGood.length>0">
+						<view v-for="(item,index) in detail.opreatGood" :key="index" class='pro_listitem'>
+							<view class='pro_list' style='color:#000'>
+								<view>产品：{{item.goodsName}}</view>
+								<view>退货数量：X{{item.num}}</view>
+							</view>
+							<view v-if="item.selected_model">
+								<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
+									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
+									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
+								</view>
+							</view>
+							<view class='pro_list'>
+								<view></view>
+								<view>实际退货价：￥{{item.modify_retailPrice}}</view>
+							</view>
+						</view>
+					</view>
+					
+					<!--2020-06-12可去掉此判断-->
+					<view v-else>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
 							<view class='pro_list' style='color:#000'>
 								<view>产品：{{item.goodsName}}</view>
@@ -105,7 +125,7 @@
 				<view style='margin-top:20px' class='detail_bottom'>
 					<view style='display:flex;border-bottom:1px solid#ddd;padding-bottom: 20upx;'>
 						<view>
-							<image :src='detail.opreater.avatarUrl' class='avatar'></image>
+							<image :src='detail.opreater.avatarUrl' class='avatar' mode="aspectFill"></image>
 						</view>
 						<view class='common_style'>{{detail.opreater.nickName}}</view>
 						<view class='common_style'>（操作者）</view>

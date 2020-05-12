@@ -54,7 +54,13 @@
 	let shop; //门店
 	let staff;
 	let uid;
-	let rights = {};
+	let rights = {
+		current:[],
+		analysisCurrent:[],
+		moneyCurrent:[],
+		recodecurrent:[],
+		othercurrent:[],
+	};
 	export default {
 		components: {
 			faIcon,
@@ -79,8 +85,9 @@
 
 		onShow() {
 			staff = uni.getStorageSync("staff");
-			shop = uni.getStorageSync("shop");
-			rights = uni.getStorageSync("staffRights") || {}
+			if(uni.getStorageSync("staffRights")){
+				rights = uni.getStorageSync("staffRights")
+			}
 			
 			if (staff) {
 				uni.setNavigationBarTitle({
@@ -186,15 +193,15 @@
 
 							const query = Bmob.Query("_User");
 							query.set("username", that.staff_phone);
-							if (shop) query.set("shop", shopId);
+							//if (shop) query.set("shop", shopId);
 							query.set("stocks", rights.select_stocks || []);
 							query.set("nickName", that.staff_name);
 							query.set("password", that.staff_password);
 							query.set("pwd", that.staff_password);
 							query.set("mobilePhoneNumber", that.staff_phone);
 							query.set("rights", rights);
-							query.set("address", (that.staff_address == null) ? '' : that.staff_address);
-							query.set("avatarUrl", "http://bmob-cdn-23134.b0.upaiyun.com/2019/04/29/4705b31340bfff8080c068f52fd17e2c.png");
+							query.set("address", that.staff_address || '');
+							query.set("avatarUrl", "https://bmob-cdn-23134.bmobcloud.com/2019/07/09/575f6d96402ae0588042d73e90f2ed79.png");
 							query.set("masterId", poiID);
 							query.set("have_out", 0);
 							query.set("identity", 2);
@@ -208,6 +215,7 @@
 								that.select_stocks = []
 								uni.removeStorageSync("staffRights")
 							}).catch(err => {
+								console.log(err)
 								if (err.code == 209) {
 									uni.showToast({
 										title: "已存在此账号",
