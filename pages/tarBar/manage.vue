@@ -18,21 +18,21 @@
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 2">
 				<sOrderListsModule></sOrderListsModule>
 			</view>
-			
+
 			<!--报表-->
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 3">
 				<sReportModule></sReportModule>
 			</view>
-			
+
 			<!--分析-->
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 4">
 				<sAnalyseModule></sAnalyseModule>
 			</view>
-			
+
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 5">
 				<sSystemModule></sSystemModule>
 			</view>
-			
+
 			<view style="padding:20rpx 20rpx 20rpx 0;" v-if="leftSelectedIndex == 6">
 				<sCourseModule></sCourseModule>
 			</view>
@@ -71,7 +71,7 @@
 		},
 		data() {
 			return {
-				leftOptionList: ['库存', '财务', '记录', '报表','分析','系统'],
+				leftOptionList: ['库存', '财务', '记录', '报表', '分析', '系统'],
 				leftSelectedIndex: 0,
 				identity: uni.getStorageSync("identity"),
 				now_optionsLists: [],
@@ -84,34 +84,31 @@
 			that = this;
 		},
 		onShow() {
-			that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
-				if(res.data){
+			that.$http.Post("stock_systemSetting", {type: "query"}).then(res => {
+				if (res.data) {
 					getApp().globalData.setting = res.data
-				}
-				uni.setStorageSync("setting", res.data)
+					uni.setStorageSync("setting", res.data)
+				}			
 			})
-			uni.getStorage({
-				key: 'identity',
-				success: function(res) {
-					if (res.data == "2") {
-						staffs.get_satffAuth().then(res => {
-							console.log(res)
-							let now_staff = uni.getStorageSync("user")
-							if (res.masterId.is_vip) {
-								now_staff.is_vip = true
-								now_staff.vip_time = now_staff.masterId.vip_time
-							} else {
-								now_staff.is_vip = false
-								now_staff.vip_time = 0
-							}
-							uni.setStorageSync("user", now_staff)
-						});
+
+			if (that.identity == 2) {
+				staffs.get_satffAuth().then(res => {
+					console.log(res)
+					let now_staff = uni.getStorageSync("user")
+					if (res.masterId.is_vip) {
+						now_staff.is_vip = true
+						now_staff.vip_time = now_staff.masterId.vip_time
+					} else {
+						now_staff.is_vip = false
+						now_staff.vip_time = 0
 					}
-				},
-			})
+					uni.setStorageSync("user", now_staff)
+				});
+			}
+			
 		},
 		methods: {
-			changeView(index){
+			changeView(index) {
 				that.leftSelectedIndex = index
 			}
 		}

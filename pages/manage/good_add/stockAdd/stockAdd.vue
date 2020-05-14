@@ -1,5 +1,5 @@
 <template>
-	<view style="height: 100vh;overflow: scroll;">
+	<view style="height: 100vh;overflow: scroll;" v-if="identity == 2">
 		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrimThis">
 			<view></view>
 		</uni-nav-bar>
@@ -39,6 +39,7 @@
 
 		<nocontent v-if="stocks.length == 0" :type="1"></nocontent>
 	</view>
+	<view v-else style="height: 100vh;background: #fff;padding: 30rpx;font-size: 32rpx;font-weight: bold;">暂不支持修改</view>
 </template>
 
 <script>
@@ -51,6 +52,7 @@
 				stocks: [],
 				productMoreG: '',
 				isEdit:false,
+				identity:uni.getStorageSync("identity")
 			}
 		},
 

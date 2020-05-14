@@ -20,43 +20,32 @@
 
 			<scroll-view scroll-y class="indexes" style='height:calc(100vh - 142rpx)' scroll-with-animation="true"
 			 enable-back-to-top="true" v-if="stocks && stocks.length > 0">
-				<radio-group @change="select_this">
-					<label v-for="(stock,index) in stocks" :key="index" class="display_flex content" :for="stock.objectId">
+				<view style="width: calc(100% - 60rpx);padding: 10rpx 30rpx;" v-for="(stock,index) in stocks" :key="index" class="display_flex_bet content normalBorder"
+				 @click.stop="goto_detail(stock)">
+					<view class="display_flex" style="width: 100%;margin-right: 30rpx;">
+						<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])"
+						 mode="aspectFit"></image>
+						<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
 						<view style="width: 100%;">
-							<view class="display_flex_bet" @click.stop="goto_detail(stock)" style="padding: 10rpx 0;">
-								<view class="display_flex" style="width: 100%;margin-right: 30rpx;">
-									<image v-if="stock.Image && stock.Image.length> 0 " :src="stock.Image[0]" class="stock_avatar" @click.stop="priviewImg(stock.Image[0])"
-									 mode="aspectFit"></image>
-									<image src="/static/warehouse.png" class="stock_avatar" v-else></image>
-									<view style="width: 100%;">
-										<view class='stock_name'>{{stock.stock_name}}</view>
-										<view class='stock_mobile' v-if="stock.charge &&stock.charge.nickName">负责人：{{stock.charge.nickName}}</view>
-										<view class='stock_mobile' v-else-if="stock.Ncharge &&stock.Ncharge.nickName">负责人：{{stock.Ncharge.nickName}}</view>
-										<view class='stock_mobile' v-else>负责人：未填写</view>
+							<view class='stock_name'>{{stock.stock_name}}</view>
+							<view class='stock_mobile' v-if="stock.charge &&stock.charge.nickName">负责人：{{stock.charge.nickName}}</view>
+							<view class='stock_mobile' v-else-if="stock.Ncharge &&stock.Ncharge.nickName">负责人：{{stock.Ncharge.nickName}}</view>
+							<view class='stock_mobile' v-else>负责人：未填写</view>
 
-										<view class="display_flex_bet" style="width: 100%;">
-											<view class='stock_mobile'>地址：{{stock.address || '未填写'}}</view>
-											<view class="display_flex" @click.stop="makePhoneCall(stock.phoneNumber)">
-												<fa-icon type="phone" size="14" color="#999" />
-												<text style="margin-left: 10rpx;font-size: 24rpx;">打电话</text>
-											</view>
-										</view>
-
-									</view>
+							<view class="display_flex_bet" style="width: 100%;">
+								<view class='stock_mobile'>地址：{{stock.address || '未填写'}}</view>
+								<view class="display_flex" @click.stop="makePhoneCall(stock.phoneNumber)">
+									<fa-icon type="phone" size="14" color="#999" />
+									<text style="margin-left: 10rpx;font-size: 24rpx;">打电话</text>
 								</view>
-
-								<view v-if="is_choose">
-									<radio :value="JSON.stringify(stock)" style="transform:scale(0.9)" :id="stock.objectId"/>
-								</view>
-								<fa-icon type="angle-right" size="20" color="#999" v-else />
-
 							</view>
-
-							<view class="right_item normalBorder"></view>
 						</view>
+					</view>
+					
+					<view v-if="is_choose" @click="select_this(stock)" style="width: 100rpx;text-align: right;color: #f30;font-weight: bold;">选择</view>
+					<fa-icon type="angle-right" size="20" color="#999" v-else />
 
-					</label>
-				</radio-group>
+				</view>
 			</scroll-view>
 			<nocontent v-else :type="1"></nocontent>
 
@@ -102,7 +91,8 @@
 			uid = uni.getStorageSync('uid');
 
 			//console.log(options)
-			if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more" || options.type =="in_choose") {
+			if (options.type == "choose" || options.type == "out_choose" || options.type == "choose_more" || options.type ==
+				"in_choose") {
 				that.is_choose = true
 				that.type = options.type
 			}
@@ -164,9 +154,7 @@
 			},
 
 			//选择此仓库
-			select_this(e) {
-				console.log(e)
-				let item = JSON.parse(e.detail.value);
+			select_this(item) {
 				let warehouse;
 				if (that.type == "choose_more") {
 					warehouse = uni.getStorageSync("warehouse") || [];
@@ -184,9 +172,9 @@
 					warehouse.push(_stocks);
 					if (that.type == "out_choose") {
 						uni.setStorageSync("out_warehouse", warehouse)
-					} else if(that.type == "in_choose"){
+					} else if (that.type == "in_choose") {
 						uni.setStorageSync("in_warehouse", warehouse)
-					}else {
+					} else {
 						uni.setStorageSync("warehouse", warehouse)
 					}
 					uni.navigateBack({

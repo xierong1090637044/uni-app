@@ -38,8 +38,8 @@
 											<view><text style='color:#999'>操作者：</text>{{item.opreater.nickName}}</view>
 											
 											<view class="display_flex">
-												<view v-if="item.status || item.type == -2 || item.type == 3" style="border: 1rpx solid#2ca879;color: #2ca879;" class="opreationStatus">已完成</view>
-												<view v-else style="border: 1rpx solid#f30;color: #f30;" class="opreationStatus">未完成</view>
+												<view v-if="item.status" style="border: 1rpx solid#2ca879;color: #2ca879;" class="opreationStatus">已审核</view>
+												<view v-else style="border: 1rpx solid#f30;color: #f30;" class="opreationStatus">未审核</view>
 												
 												<view v-if="item.type == -1 && item.extra_type == 1" style="margin-left: 10rpx;">
 													<view v-if="item.debt > 0" style="border: 1rpx solid#f30;color: #f30;" class="opreationStatus">待收款</view>

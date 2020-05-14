@@ -7,7 +7,7 @@
 					<view class='pro_list'>产品：{{item.goodsName}}</view>
 					<view class='pro_list'>
 						<view>库存：{{item.reserve}}</view>
-						<view>调出库存：{{item.num}}</view>
+						<view>调拨数量：{{item.num}}</view>
 					</view>
 					<view v-if="item.selected_model">
 						<view v-for="(model,index) in item.selected_model" :key="index" class="display_flex_bet" v-if="model.num > 0">
@@ -98,6 +98,7 @@
 	export default {
 		data() {
 			return {
+				identity: uni.getStorageSync("identity"),
 				products: [],
 				in_stock: '', //调出仓库
 				out_stock: '', //调入仓库
@@ -184,7 +185,7 @@
 					return
 				}
 				
-				that.$http.Post("stock_goodAllocation", {
+				let params = {
 					"goods": that.products,
 					"beizhu": e.detail.value.input_beizhu,
 					"stockId": that.in_stock.objectId,
@@ -195,7 +196,16 @@
 					"opreater":uni.getStorageSync("masterId") ,
 					"nowDay": that.nowDay,
 					"autoCostPrice":getApp().globalData.setting.autoCostPrice,
-				}).then(res => {
+				}
+				if(that.identity == 2){
+					if(uni.getStorageSync("setting")){
+						params.isChecked = uni.getStorageSync("setting").isChecked
+					}else{
+						params.isChecked = false
+					}
+				}
+				
+				that.$http.Post("stock_goodAllocation", params).then(res => {
 					if (res.code == 1) {
 						that.button_disabled = false;
 						uni.setStorageSync("is_option", true);

@@ -36,7 +36,7 @@
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" style="padding:10rpx 20rpx;border-bottom: 1rpx solid#F7F7F7;background: #fff;">
-							<view style="width: 150rpx;" class="left_content">出库仓库</view>
+							<view style="width: 150rpx;" class="left_content">出库仓库<text style="color: #f30;">*</text></view>
 							<view style="display: flex;align-items: center;">
 								<input placeholder="请选择要出库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -243,7 +243,8 @@
 			
 			confirmOrder(input_beizhu){
 				this.button_disabled = true;
-				that.$http.Post("stock_goodEnterPurchaseReturn", {
+				
+				let params = {
 					goods:that.products,
 					beizhu:input_beizhu,
 					real_num:that.total_num,
@@ -258,7 +259,17 @@
 					opreater:uni.getStorageSync("masterId"),
 					nowDay:that.nowDay,
 					negativeOut:getApp().globalData.setting.negativeOut,
-				}).then(res => {
+				}
+				
+				if(that.identity == 2){
+					if(uni.getStorageSync("setting")){
+						params.isChecked = uni.getStorageSync("setting").isChecked
+					}else{
+						params.isChecked = false
+					}
+				}
+				
+				that.$http.Post("stock_goodEnterPurchaseReturn", params).then(res => {
 					if(res.code == 1){
 						uni.hideLoading();
 						uni.setStorageSync("is_option", true);
@@ -287,15 +298,11 @@
 				}
 				
 				if (that.stock == null || that.stock == "" || that.stock == undefined) {
-					 uni.showModal({
-					 	content: '当前没有选择仓库，是否继续退货',
-					 	success: function(res) {
-					 		if (res.confirm) {
-								that.confirmOrder(e.detail.value.input_beizhu)
-							}
-						},
-					})
-					return
+					 uni.showToast({
+					 	icon: "none",
+					 	title: "请选择仓库"
+					 });
+					 return;
 				}
 				
 				that.confirmOrder(e.detail.value.input_beizhu)

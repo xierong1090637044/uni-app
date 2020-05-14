@@ -7,7 +7,7 @@
 						<image :src="user.avatarUrl" class="avator" mode="aspectFill"/>
 						<fa-icon type="vimeo" size="18" color="#ffcd00" v-if="user.is_vip" class="vip_logo"></fa-icon>
 						<view class="phone-number">
-							<text style="margin-left: 10rpx;">{{user.nickName}}</text>
+							<view>{{user.nickName}}</view>
 						</view>
 					</view>
 				</view>

@@ -8,13 +8,13 @@
 					<view class="display_flex_bet listItem">
 						<view>负库存销售</view>
 						<view>
-							<switch style="transform:scale(0.8);" name="negativeOut" :checked="params.negativeOut"/>
+							<switch style="transform:scale(0.8);" name="negativeOut" :checked="params.negativeOut" />
 						</view>
 					</view>
 					<view class="display_flex_bet listItem">
 						<view>自动同步上次销售价</view>
 						<view>
-							<switch style="transform:scale(0.8);" name="autoRetailPrice" :checked="params.autoRetailPrice"/>
+							<switch style="transform:scale(0.8);" name="autoRetailPrice" :checked="params.autoRetailPrice" />
 						</view>
 					</view>
 				</view>
@@ -26,7 +26,7 @@
 					<view class="display_flex_bet listItem">
 						<view>自动同步上次采购价</view>
 						<view>
-							<switch style="transform:scale(0.8);"  name="autoCostPrice" :checked="params.autoCostPrice"/>
+							<switch style="transform:scale(0.8);" name="autoCostPrice" :checked="params.autoCostPrice" />
 						</view>
 					</view>
 				</view>
@@ -43,6 +43,15 @@
 							</picker>
 						</view>
 					</view>
+					<view class="display_flex_bet listItem">
+						<view class="display_flex">
+							<text>操作审核</text>
+							<fa-icon type="question-circle" size="16" color="#426ab3" style="margin-left: 10rpx;" @click="showNotice(1)"></fa-icon>
+						</view>
+						<view>
+							<switch style="transform:scale(0.8);" name="isChecked" :checked="params.isChecked" />
+						</view>
+					</view>
 				</view>
 			</view>
 
@@ -52,7 +61,16 @@
 					<view class="display_flex_bet listItem">
 						<view>关联微信通知</view>
 						<view>
-							<switch @change="link_wechatinfo" :checked="params.wechat_info" name="wechat_info"/>
+							<switch @change="link_wechatinfo" :checked="params.wechat_info" name="wechat_info" />
+						</view>
+					</view>
+					<view class="display_flex_bet listItem">
+						<view class="display_flex">
+							<text>隐藏旧版</text>
+							<fa-icon type="question-circle" size="16" color="#426ab3" style="margin-left: 10rpx;" @click="showNotice(2)"></fa-icon>
+						</view>
+						<view>
+							<switch style="transform:scale(0.8);" name="isChecked" :checked="params.canUseOldVer" />
 						</view>
 					</view>
 				</view>
@@ -88,28 +106,62 @@
 			uni.setNavigationBarTitle({
 				title: "系统设置"
 			})
-			
-			that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
-				if(res.data){
-					for(let item in that.params){
-						if(res.data[item]!=undefined && res.data[item]!=null){
+
+			that.$http.Post("stock_systemSetting", {
+				type: "query"
+			}).then(res => {
+				if (res.data) {
+					for (let item in that.params) {
+						if (res.data[item] != undefined && res.data[item] != null) {
 							that.params[item] = res.data[item]
 						}
 					}
 				}
-				
+
 				uni.setStorageSync("setting", res.data)
 			})
 		},
 		methods: {
-			changeShowFolat(e){
+
+			showNotice(type) {
+				if(type == 1){
+					uni.showModal({
+						title: '提示',
+						content: '开启此权限后，员工的出入库、盘点、调拨等操作都需审核之后才能生效',
+						success: function(res) {
+							if (res.confirm) {
+								console.log('用户点击确定');
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				}else if(type == 2){
+					uni.showModal({
+						title: '提示',
+						content: '开启此权限后，员工和管理员将看不到旧版的入口',
+						success: function(res) {
+							if (res.confirm) {
+								console.log('用户点击确定');
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				}
+				
+			},
+
+			changeShowFolat(e) {
 				that.params.show_float = e.detail.value
 			},
-			
-			getSetting(){
-				that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
-					for(let item in that.params){
-						if(res.data[item]!=undefined){
+
+			getSetting() {
+				that.$http.Post("stock_systemSetting", {
+					type: "query"
+				}).then(res => {
+					for (let item in that.params) {
+						if (res.data[item] != undefined) {
 							that.params[item] = res.data[item]
 						}
 					}
@@ -120,13 +172,13 @@
 			modify_setting(e) {
 				console.log(e)
 				let params = e.detail.value
-				that.$http.Post("stock_systemSetting",params ).then(res => {
-					if(res.code == 1){
+				that.$http.Post("stock_systemSetting", params).then(res => {
+					if (res.code == 1) {
 						uni.showToast({
-							icon:"none",
-							title:"保存成功"
+							icon: "none",
+							title: "保存成功"
 						})
-						
+
 						that.getSetting()
 					}
 				})

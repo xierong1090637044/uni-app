@@ -42,7 +42,7 @@
 							</view>
 						</navigator>
 						<navigator class="display_flex_bet orderListItemBorder borderBot" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose">
-							<view style="width: 150rpx;" class="left_content">入库仓库</view>
+							<view style="width: 150rpx;" class="left_content">入库仓库<text style="color: #f30;">*</text></view>
 							<view style="display: flex;align-items: center;">
 								<input placeholder="请选择要入库的仓库" disabled="true" :value="stock.stock_name" style="text-align: right;margin-right: 20rpx;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
@@ -61,7 +61,7 @@
 							<view>其他费用</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入实际收款金额" v-model="otherMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
-								 type="digit" @input="inputOtherMoney"/>
+								 type="digit" @input="inputOtherMoney" />
 								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
 						</view>
@@ -69,7 +69,7 @@
 							<view>优惠金额</view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="输入优惠金额" v-model="discountMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
-								 type="digit"  @input="inputDiscountMoney"/>
+								 type="digit" @input="inputDiscountMoney" />
 								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
 						</view>
@@ -193,7 +193,7 @@
 			uid = uni.getStorageSync("uid");
 			that.products = uni.getStorageSync("products");
 			that.sellLaterOrderId = options.id || ''
-			
+
 			for (let i = 0; i < that.products.length; i++) {
 				that.all_money = Number((that.products[i].total_money + that.all_money).toFixed(2))
 				that.really_total_money = Number((that.products[i].really_total_money + that.really_total_money).toFixed(2))
@@ -211,7 +211,7 @@
 			that.producer = uni.getStorageSync("producer")
 			that.stock = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
 			that.account = uni.getStorageSync("account")
-			
+
 			if (uni.getStorageSync("haveGetMoney")) {
 				that.haveGetMoney = uni.getStorageSync("haveGetMoney")
 			}
@@ -219,17 +219,17 @@
 				that.otherMoney = uni.getStorageSync("otherMoney")
 			}
 		},
-		
+
 		methods: {
-			
-			inputOtherMoney(e){
-				that.haveGetMoney = Number(that.all_money.toFixed(2))+Number(e.detail.value) -Number(that.discountMoney)
+
+			inputOtherMoney(e) {
+				that.haveGetMoney = Number(that.all_money.toFixed(2)) + Number(e.detail.value) - Number(that.discountMoney)
 			},
-			
-			inputDiscountMoney(e){
-				that.haveGetMoney = Number(that.all_money.toFixed(2))+Number(that.otherMoney) -Number(e.detail.value)
+
+			inputDiscountMoney(e) {
+				that.haveGetMoney = Number(that.all_money.toFixed(2)) + Number(that.otherMoney) - Number(e.detail.value)
 			},
-			
+
 			//选择时间
 			bindDateChange(e) {
 				that.nowDay = e.detail.value + " 00:00:00"
@@ -270,40 +270,51 @@
 					})
 				}
 			},
-			
-			confirmOrder(input_beizhu){
+
+			confirmOrder(input_beizhu) {
 				that.button_disabled = true;
-				that.$http.Post("stock_goodEnterPurchase", {
-					goods:that.products,
-					beizhu:input_beizhu,
-					real_num:that.total_num,
-					stockId:that.stock?that.stock.objectId:'',
-					stockName:that.stock?that.stock.stock_name:'',
-					otherMoney:that.otherMoney,
-					discountMoney:that.discountMoney,
-					haveGetMoney:that.haveGetMoney,
-					real_money:that.real_money,
-					all_money:that.all_money,
-					accountId:that.account?that.account.objectId:'',
-					producerId:that.producer.objectId,
-					Images:that.Images,
-					opreater:uni.getStorageSync("masterId"),
-					nowDay:that.nowDay,
-					autoCostPrice:getApp().globalData.setting.autoCostPrice,
-					sellLaterOrderId:that.sellLaterOrderId,
-				}).then(res => {
-					if(res.code == 1){
+				
+				let params = {
+					goods: that.products,
+					beizhu: input_beizhu,
+					real_num: that.total_num,
+					stockId: that.stock ? that.stock.objectId : '',
+					stockName: that.stock ? that.stock.stock_name : '',
+					otherMoney: that.otherMoney,
+					discountMoney: that.discountMoney,
+					haveGetMoney: that.haveGetMoney,
+					real_money: that.real_money,
+					all_money: that.all_money,
+					accountId: that.account ? that.account.objectId : '',
+					producerId: that.producer.objectId,
+					Images: that.Images,
+					opreater: uni.getStorageSync("masterId"),
+					nowDay: that.nowDay,
+					autoCostPrice: getApp().globalData.setting.autoCostPrice,
+					sellLaterOrderId: that.sellLaterOrderId,
+				}
+				
+				if(that.identity == 2){
+					if(uni.getStorageSync("setting")){
+						params.isChecked = uni.getStorageSync("setting").isChecked
+					}else{
+						params.isChecked = false
+					}
+				}
+				
+				that.$http.Post("stock_goodEnterPurchase", params).then(res => {
+					if (res.code == 1) {
 						uni.setStorageSync("is_option", true);
 						uni.showToast({
 							title: "采购入库成功"
 						});
-						
-						setTimeout(function(){
+
+						setTimeout(function() {
 							uni.navigateBack({
 								delta: 2
 							});
 							that.button_disabled = false;
-						},1000)
+						}, 1000)
 					}
 				})
 			},
@@ -319,265 +330,17 @@
 					});
 					return;
 				}
-				
+
 				if (that.stock == null || that.stock == "" || that.stock == undefined) {
-					 uni.showModal({
-					 	content: '当前没有选择仓库，是否继续采购',
-					 	success: function(res) {
-					 		if (res.confirm) {
-								that.confirmOrder(e.detail.value.input_beizhu)
-							}
-						},
-					})
-					
-					return
+					uni.showToast({
+						icon: "none",
+						title: "请选择仓库"
+					});
+					return;
 				}
-				
+
 				that.confirmOrder(e.detail.value.input_beizhu)
 
-				/*let billsObj = new Array();
-				let detailObj = [];
-				let goodsName = [];
-				let producer = Bmob.Pointer('producers');
-				let producerID = producer.set(that.producer.objectId);
-
-				let pointer = Bmob.Pointer('stocks');
-				let stockId = '';
-				if (that.stock && that.stock.objectId) {
-					stockId = pointer.set(that.stock.objectId);
-				}
-
-				let finalRealMoney = Number(that.real_money) - Number(that.discountMoney) + Number(that.otherMoney); //最终应付款
-				let finalDebt = finalRealMoney - Number(that.haveGetMoney) // 最终欠款
-				let finalProft = finalRealMoney - that.allCostPrice // 最终盈利
-
-				for (let i = 0; i < this.products.length; i++) {
-					let num = Number(this.products[i].reserve) + this.products[i].num;
-					goodsName.push(this.products[i].goodsName)
-
-					//单据
-					let detailBills = {}
-					let tempBills = Bmob.Query('Bills');
-
-					let pointer = Bmob.Pointer('_User')
-					let user = pointer.set(uid)
-					let pointer1 = Bmob.Pointer('Goods')
-					let tempGoods_id = pointer1.set(this.products[i].objectId);
-
-					let masterId = uni.getStorageSync("masterId");
-					let pointer2 = Bmob.Pointer('_User')
-					let poiID2 = pointer2.set(masterId);
-
-					tempBills.set('goodsName', this.products[i].goodsName);
-					tempBills.set('retailPrice', (this.products[i].modify_retailPrice).toString());
-					tempBills.set('num', Number(this.products[i].num));
-					tempBills.set('total_money', Number(this.products[i].total_money));
-					tempBills.set('really_total_money', Number(this.products[i].really_total_money));
-					tempBills.set('goodsId', tempGoods_id);
-					tempBills.set('userId', user);
-					tempBills.set("opreater", poiID2);
-					tempBills.set('type', 1);
-					tempBills.set('extra_type', extraType);
-					if (that.stock && that.stock.objectId) {
-						tempBills.set("status", true); // 操作单详情
-						tempBills.set("stock", stockId);
-						detailBills.stock = that.stock.stock_name
-					} else {
-						tempBills.set("status", false);
-					}
-					tempBills.set("createdTime", {
-						"__type": "Date",
-						"iso": that.nowDay
-					}); // 操作单详情
-
-					tempBills.set("producer", producerID);
-					let goodsId = {}
-					if (that.stock && that.stock.objectId) {
-						tempBills.set("stock", stockId);
-						detailBills.stock = that.stock.stock_name
-					}
-					detailBills.goodsName = this.products[i].goodsName
-					detailBills.modify_retailPrice = (this.products[i].modify_retailPrice).toString()
-					detailBills.retailPrice = this.products[i].retailPrice
-					detailBills.total_money = this.products[i].total_money
-					goodsId.costPrice = this.products[i].costPrice
-					goodsId.retailPrice = this.products[i].retailPrice
-					goodsId.objectId = this.products[i].objectId
-					goodsId.reserve = num
-					if (this.products[i].selected_model) {
-						goodsId.selected_model = this.products[i].selected_model
-						goodsId.models = this.products[i].models
-					}
-					detailBills.goodsId = goodsId
-					detailBills.num = this.products[i].num
-					detailBills.type = 1
-					detailBills.packingUnit = this.products[i].packingUnit || ''
-
-					billsObj.push(tempBills)
-					detailObj.push(detailBills)
-
-				}
-				//插入单据
-				Bmob.Query('Bills').saveAll(billsObj).then(function(res) {
-						//console.log("批量新增单据成功", res);
-						let bills = []
-						for (let i = 0; i < res.length; i++) {
-							bills.push(res[i].success.objectId)
-						}
-
-
-						let pointer = Bmob.Pointer('_User')
-						let poiID = pointer.set(uid);
-
-						let masterId = uni.getStorageSync("masterId");
-						let pointer1 = Bmob.Pointer('_User')
-						let poiID1 = pointer1.set(masterId);
-
-						let query = Bmob.Query('order_opreations');
-						//query.set("relations", relID);
-						query.set("beizhu", e.detail.value.input_beizhu);
-						query.set("opreatGood", that.products);
-						query.set("detail", detailObj);
-						query.set("real_num", that.total_num);
-						query.set("type", 1);
-						query.set("extra_type", extraType);
-						query.set("bills", bills);
-						query.set("opreater", poiID1);
-						query.set("master", poiID);
-						query.set('goodsName', goodsName.join(","));
-						query.set("all_money", that.all_money);
-						query.set('otherMoney', Number(that.otherMoney)); //其他金额 +
-						query.set('discountMoney', Number(that.discountMoney)); //优惠金额 -
-						query.set('haveGetMoney', Number(that.haveGetMoney)); //预付款 -
-						query.set('real_money', finalRealMoney);
-						query.set('debt', finalDebt);
-						if (that.account) {
-							let pointer4 = Bmob.Pointer('accounts')
-							let accountId = pointer4.set(that.account.objectId)
-							query.set("account", accountId);
-							const accountQuery = Bmob.Query('accounts');
-							accountQuery.get(that.account.objectId).then(res => {
-								res.set('money', res.money - Number(that.haveGetMoney));
-								res.save()
-							})
-						}
-						query.set("recordType", "new"); //"new"代表新版的销售记录
-						query.set("producer", producerID);
-						//如果客户有欠款
-						if (finalDebt > 0) {
-							let query = Bmob.Query('producers');
-							query.get(that.producer.objectId).then(res => {
-								var debt = (res.debt) ? res.debt : 0;
-								debt = debt + finalDebt;
-								//console.log(debt);
-								let query = Bmob.Query('producers');
-								query.get(that.producer.objectId).then(res => {
-									res.set('debt', debt)
-									res.save()
-								})
-							})
-						}
-
-						query.set("Images", that.Images);
-						if (that.stock) {
-							query.set("status", true); // 操作单详情
-							query.set("stock", stockId);
-						} else {
-							query.set("status", false); // 操作单详情
-						}
-						query.set("createdTime", {
-							"__type": "Date",
-							"iso": that.nowDay
-						});
-						query.save().then(res => {
-							let operationId = res.objectId
-							//console.log("添加操作历史记录成功", res);
-
-							if (that.stock && that.stock.objectId) {
-								common.enterAddGoodNumNew(that.products,"purchase").then(res => {
-									uni.hideLoading();
-									uni.removeStorageSync("producers"); //移除这个缓存
-									uni.removeStorageSync("_warehouse")
-									uni.removeStorageSync("out_warehouse")
-									uni.removeStorageSync("category")
-									uni.setStorageSync("is_option", true);
-
-
-									uni.showToast({
-										title: "采购入库成功"
-									})
-
-									setTimeout(function() {
-										if (that.sellLaterOrderId) {
-
-											query.set('id', that.sellLaterOrderId) //需要修改的objectId
-											query.set('orderSellId', operationId)
-											query.set("status", true)
-											query.save().then(res => {
-												uni.navigateBack({
-													delta: 2
-												});
-												that.button_disabled = false;
-												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-													that.products
-													.length + "商品，已经入库", 11, operationId);
-											})
-										} else {
-											uni.navigateBack({
-												delta: 2
-											});
-											that.button_disabled = false;
-											common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that.products
-												.length + "商品，已经入库", 11, operationId);
-										}
-
-									}, 500)
-								})
-							} else {
-								uni.hideLoading();
-								uni.showToast({
-									title: '产品采购成功',
-									icon: 'success',
-									duration: 500,
-									complete: function() {
-										setTimeout(() => {
-											if (that.sellLaterOrderId) {
-												query.set('id', that.sellLaterOrderId) //需要修改的objectId
-												query.set('orderSellId', operationId)
-												query.set("status", true)
-												query.save().then(res => {
-													common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" +
-														that.products.length + "商品", 12, operationId);
-													that.button_disabled = false;
-													uni.redirectTo({
-														url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-													})
-												})
-											} else {
-												common.log(uni.getStorageSync("user").nickName + "采购了'" + that.products[0].goodsName + "'等" + that
-													.products.length + "商品", 12, operationId);
-
-												that.button_disabled = false;
-
-												uni.redirectTo({
-													url: '/pages/report/EnteringHistory/SellDetail/SellDetail?id=' + operationId,
-												})
-											}
-
-										}, 500)
-
-									}
-								})
-							}
-
-
-						})
-
-					},
-					function(error) {
-						// 批量新增异常处理
-						console.log("异常处理");
-					});*/
 			},
 		}
 	}

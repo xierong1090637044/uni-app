@@ -162,7 +162,15 @@
 					"path": "stockGoodOut/stockGoodOut",
 					"style": {}
 				}
-			]
+			    ,{
+                    "path" : "brandSellPurchase/brandSellPurchase",
+                    "style" : {}
+                }
+                ,{
+                    "path" : "stockGoods/stockGoods",
+                    "style" : {}
+                }
+            ]
 		}, {
 			"root": "pages/common",
 			"pages": [{

@@ -228,7 +228,10 @@
 			
 			if(uni.getStorageSync("isClickShaiXuan")){
 				that.headerSelection.goodsClass = uni.getStorageSync("category") || ''
-				that.headerSelection.stocks = uni.getStorageSync("warehouse") ? uni.getStorageSync("warehouse")[0].stock : ''
+				if(uni.getStorageSync("warehouse")){
+					that.headerSelection.stocks = uni.getStorageSync("warehouse")[0].stock
+					that.nextProducts = []
+				}
 				that.get_productList();
 			}			
 		},
@@ -397,9 +400,21 @@
 						title: "请选择产品",
 						icon: "none"
 					})
-				} else {
-					that.confrim_next()
+					
+					return
 				}
+				
+				if(that.type == "counting"){
+					if(that.headerSelection.stocks == ''){
+						uni.showToast({
+							title: "请在筛选中选择仓库",
+							icon: "none"
+						})
+						return
+					}
+				}
+				
+				that.confrim_next()
 			},
 
 			confrim_next() {

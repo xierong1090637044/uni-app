@@ -33,8 +33,7 @@
 
 		<scroll-view class="content" scroll-y="true" v-if="people && people.length > 0">
 			<view class="info_item">
-				<radio-group @change="select_this">
-					<label v-for="(item,index) in people" :key="index" style="width: 100%;padding: 20rpx 0 20rpx;" class="normalBorder display_flex_bet">
+					<view v-for="(item,index) in people" :key="index" style="width: 100%;padding: 20rpx 0 20rpx;" class="normalBorder display_flex_bet">
 						<view class="display_flex_bet" @click="gotoDetail(item)" style="width: 100%;">
 							<image v-if="item.Images && item.Images.length> 0 " :src="item.Images[0]" class="stock_avatar" @click.stop="priviewImg(item.Images[0])"
 							 mode="aspectFit"></image>
@@ -50,14 +49,11 @@
 								</view>
 							</view>
 
-							<view v-if="is_custom">
-								<radio :value="JSON.stringify(item)" style="transform:scale(0.9)" />
-							</view>
+							<view v-if="is_custom" @click="select_this(item)" style="width: 100rpx;text-align: right;color: #f30;font-weight: bold;">选择</view>
 							<fa-icon type="angle-right" size="20" color="#999" v-else />
 
 						</view>
-					</label>
-				</radio-group>
+					</view>
 
 				<!--排序模板-->
 				<view v-if="showOrder" class="modal_backgroundTransparent" @click="showOrder = false">
@@ -215,8 +211,7 @@
 			},
 
 			//选择此供货商
-			select_this(e) {
-				let custom =JSON.parse(e.detail.value);
+			select_this(custom) {
 				uni.setStorageSync("custom", custom)
 				uni.navigateBack({
 					delta: 1

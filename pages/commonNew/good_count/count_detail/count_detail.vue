@@ -92,6 +92,7 @@
 	export default {
 		data() {
 			return {
+				identity: uni.getStorageSync("identity"),
 				products: null,
 				button_disabled: false,
 				beizhu_text: "",
@@ -178,7 +179,7 @@
 					return
 				}
 				
-				that.$http.Post("stock_goodCount", {
+				let params ={
 					"goods": that.products,
 					"beizhu": e.detail.value.input_beizhu,
 					"stockId": that.stock.objectId,
@@ -187,7 +188,17 @@
 					"opreater":uni.getStorageSync("masterId") ,
 					"nowDay": that.nowDay,
 					"autoCostPrice":getApp().globalData.setting.autoCostPrice,
-				}).then(res => {
+				}
+				
+				if(that.identity == 2){
+					if(uni.getStorageSync("setting")){
+						params.isChecked = uni.getStorageSync("setting").isChecked
+					}else{
+						params.isChecked = false
+					}
+				}
+				
+				that.$http.Post("stock_goodCount", params).then(res => {
 					if (res.code == 1) {
 						uni.hideLoading();
 						uni.setStorageSync("is_option", true);

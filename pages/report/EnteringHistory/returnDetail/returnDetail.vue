@@ -69,18 +69,11 @@
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
 						<view class="display_flex" style="margin-top: 20rpx;">
-							<view class="left_content">入库情况</view>
-							<view v-if="detail.status" style="color: #2ca879;">已入库</view>
-							<view v-else style="color: #f30;">未入库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+							<view class="left_content">审核情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已审核</view>
+							<view v-else style="color: #f30;">未审核<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text></view>
 						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 150rpx;" class="left_content">入库店仓<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要入库的店仓" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">入库店仓</view>
 							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
 						</view>
@@ -104,18 +97,11 @@
 							<view class="real_color">{{detail.real_money == null ?'未填写':detail.real_money }}</view>
 						</view>
 						<view class="display_flex">
-							<view class="left_content">出库情况</view>
-							<view v-if="detail.status" style="color: #2ca879;">已出库</view>
-							<view v-else style="color: #f30;">未出库<text style="font-size: 20rpx;">（请点击右上角操作进行入库）</text></view>
+							<view class="left_content">审核情况</view>
+							<view v-if="detail.status" style="color: #2ca879;">已审核</view>
+							<view v-else style="color: #f30;">未审核<text style="font-size: 20rpx;">（请点击右上角操作进行审核）</text></view>
 						</view>
-						<navigator class="display_flex" hover-class="none" url="/pages/manage/warehouse/warehouse?type=choose" v-if="detail.status == false">
-							<view style="width: 150rpx;" class="left_content">出库店仓<text style="color: #f30;">*</text></view>
-							<view style="width: calc(100% - 160rpx);display: flex;align-items: center;">
-								<input placeholder="请选择要出库的店仓" disabled="true" :value="stock.stock_name" style="text-align: left;margin-right: 20rpx;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
-						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;" v-if="detail.status">
+						<view class="display_flex" style="border-bottom: 1rpx solid#F7F7F7;">
 							<view class="left_content">出库店仓</view>
 							<view style="color: #2ca879;">{{detail.stock.stock_name}}</view>
 						</view>
@@ -237,12 +223,7 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options;
-				if (that.detail.type == 1) {
-					options = ['销售退货', '撤销', '打印', '修改'];
-				} else if (that.detail.type == -1) {
-					options = ['采购退货', '撤销', '打印', '修改'];
-				}
+				let options = ['审核', '撤销', '打印', '修改'];;
 				uni.showActionSheet({
 					itemList: options,
 					success: function(res) {
@@ -250,36 +231,20 @@
 							if (that.detail.type == 1) {
 								if (that.detail.status) {
 									uni.showToast({
-										title: "该笔销售退货单已入库",
+										title: "该笔销售退货单已审核",
 										icon: "none"
 									})
 								} else {
-									if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-										uni.showToast({
-											icon: "none",
-											title: "请选择店仓"
-										});
-										return;
-									} else {
-										that.confrimOrder()
-									}
+									that.confrimOrder()
 								}
 							} else if (that.detail.type == -1) {
 								if (that.detail.status) {
 									uni.showToast({
-										title: "该笔采购退货单已出库",
+										title: "该笔采购退货单已审核",
 										icon: "none"
 									})
 								} else {
-									if (uni.getStorageSync("warehouse") == "" || uni.getStorageSync("warehouse") == undefined) {
-										uni.showToast({
-											icon: "none",
-											title: "请选择店仓"
-										});
-										return;
-									} else {
-										that.confrimOrder()
-									}
+									that.confrimOrder()
 								}
 							}
 							uni.setStorageSync("is_option", true)
@@ -368,14 +333,14 @@
 						if (res.confirm) {
 							that.$http.Post("confrim_orderStatus", {
 								orderId:that.detail.objectId,
-								stockId:that.stock.objectId,
-								stockName:that.stock.stock_name,
+								stockId:that.detail.stock.objectId,
+								stockName:that.detail.stock.stock_name,
 							}).then(res => {
 								if(res.code == 1){
 									that.getdetail(id);
 									uni.showToast({
 										icon:"none",
-										title:that.detail.type == 1?"销售退货成功":"采购退货成功"
+										title:"审核成功！"
 									})
 								}
 							})

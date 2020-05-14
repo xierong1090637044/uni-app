@@ -2,12 +2,12 @@
 	<!--当月详情-->
 	<view>
 		<view class="fristSearchView display_flex_bet">
-			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision">
+			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision" v-if="thisSetting.canUseOldVer !=false">
 				<text v-if="thisVision == 'New'">回到旧版</text>
 				<text v-if="thisVision == 'Old'">回到新版</text>
 				<i class="iconfont icon-down-trangle" style="font-size: 24rpx;margin-left: 10rpx;"></i>
 			</view>
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" style="width:65%;" v-if="canScanCode" />
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" :style="thisSetting.canUseOldVer !=false?'width:65%':'width:85%'" v-if="canScanCode" />
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)' v-if="canScanCode"></i>
 		</view>
 
@@ -195,11 +195,11 @@
 						</view>
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-							<view>1、产品编辑可以取消预警设置</view>
-							<view>2、盘点、调拨优化</view>
-							<view>3、增加商品品牌属性</view>
-							<view>4、图片显示优化</view>
-							<view>5、添加员工优化</view>
+							<view>1、增加操作审核机制！具体可在系统设置里面查看</view>
+							<view>2、增加隐藏旧版入库的权限</view>
+							<view>3、增加商品品牌采购、销售报表</view>
+							<view>4、增加仓库统计报表</view>
+							<view>5、一些细节优化及bug修复</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>
@@ -370,6 +370,7 @@
 				isUpdate: false,
 				canScanCode: true, //根据权限判断是否可以扫码操作
 				thisVision: "New",
+				thisSetting:getApp().globalData.setting,
 			}
 		},
 		onLoad(options) {
@@ -431,6 +432,7 @@
 				
 				that.$http.Post("stock_systemSetting", {type:"query"}).then(res => {
 					if(res.data){
+						that.thisSetting = res.data
 						getApp().globalData.setting = res.data
 					}
 					uni.setStorageSync("setting", res.data)

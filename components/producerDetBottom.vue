@@ -68,11 +68,11 @@
 				})
 			},
 			
-			//销售单点击
+			//采购单点击
 			sellRecord(){
 				uni.setStorageSync("producer",that.producer)
 				uni.navigateTo({
-					url: '/pages/common/goods-select/goods-select?type=entering&value=3'
+					url: '/pages/commonNew/goods-select/goods-select?type=entering&value=3'
 				});
 			},
 		}

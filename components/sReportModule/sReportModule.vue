@@ -49,10 +49,10 @@
 				},{
 					name: '供应商采购统计',
 					url: '/pages/reportAnalys/purchaseProducers/purchaseProducers',
-				},/*{
+				},{
 					name: '品牌采购统计',
-					url: '/pages/reportAnalys/purchaseProducers/purchaseProducers',
-				}*/],
+					url: '/pages/reportAnalys/brandSellPurchase/brandSellPurchase?type=1',
+				}],
 
 				sellReport: [{
 					name: '商品销售统计',
@@ -60,15 +60,19 @@
 				},{
 					name: '客户销售统计',
 					url: '/pages/reportAnalys/sellCustoms/sellCustoms',
-				},/*{
+				},{
 					name: '品牌销售统计',
-					url: '/pages/reportAnalys/purchaseProducers/purchaseProducers',
-				}*/],
+					url: '/pages/reportAnalys/brandSellPurchase/brandSellPurchase?type=-1',
+				}],
 				
 				stockReport: [{
 					name: '出入库统计',
 					icon: 'icon-zijinzhanghu',
 					url: '/pages/reportAnalys/stockOutIn/stockOutIn',
+				},{
+					name: '仓库统计',
+					icon: 'icon-zijinzhanghu',
+					url: '/pages/reportAnalys/stockGoods/stockGoods',
 				},{
 					name: '商品出库统计',
 					icon: 'icon-zijinzhanghu',

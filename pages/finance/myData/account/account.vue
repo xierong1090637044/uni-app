@@ -19,15 +19,10 @@
 									<view class='account_money'>余额：<text style="color: #f30;">￥{{account.money}}</text></view>
 								</view>
 							</view>
-
-							<fa-icon type="angle-right" size="20" color="#999" />
+							<view v-if="is_choose" @click="select_this(account)" style="width: 100rpx;text-align: right;color: #f30;font-weight: bold;">选择</view>
+							<fa-icon type="angle-right" size="20" color="#999" v-else/>
 						</view>
 						
-						<view class="right_item">
-							<view class="display_flex" style="justify-content: flex-end;width: 100%;" v-if="is_choose" @click="select_this(account)">
-								<text style="color: #d93a49;">选择</text>
-							</view>
-						</view>
 					</view>
 				</view>
 			</scroll-view>

@@ -84,7 +84,7 @@
 			sellRecord(){
 				uni.setStorageSync("custom",that.custom)
 				uni.navigateTo({
-					url: '/pages/common/goods-select/goods-select?type=delivery&value=3'
+					url: '/pages/commonNew/goods-select/goods-select?type=delivery&value=3'
 				});
 			},
 		}
