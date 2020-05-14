@@ -61,7 +61,7 @@
 					<view class="display_flex_bet listItem">
 						<view>关联微信通知</view>
 						<view>
-							<switch @change="link_wechatinfo" :checked="params.wechat_info" name="wechat_info" />
+							<switch @change="link_wechatinfo" :checked="params.wechat_info" name="wechat_info"  style="transform:scale(0.8);"/>
 						</view>
 					</view>
 					<view class="display_flex_bet listItem">
@@ -70,7 +70,7 @@
 							<fa-icon type="question-circle" size="16" color="#426ab3" style="margin-left: 10rpx;" @click="showNotice(2)"></fa-icon>
 						</view>
 						<view>
-							<switch style="transform:scale(0.8);" name="isChecked" :checked="params.canUseOldVer" />
+							<switch style="transform:scale(0.8);" name="canUseOldVer" :checked="params.canUseOldVer" />
 						</view>
 					</view>
 				</view>

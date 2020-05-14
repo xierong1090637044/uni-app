@@ -13,16 +13,27 @@
 			}
 		},
 
-		onLoad() {			
-			const query = Bmob.Query('_User');
-			query.get('56b58ee25e').then(res => {
-			  console.log(res)
-			  res.unset('identity')
-				res.unset('rights')
-			  res.save()
-			}).catch(err => {
-			  console.log(err)
-			})
+		onLoad() {
+			/*const query = Bmob.Query("order_opreations");
+			const query1 = query.equalTo("type", '==', 3);
+			const query2 = query.equalTo("type", '==', -2);
+			query.equalTo("status", "!=", true);
+			query.limit(500)
+			query.order("-createdAt");
+			query.or(query1, query2);
+			query.find().then(res => {
+				for (let item of res) {
+					const query = Bmob.Query("order_opreations");
+					query.set('id', item.objectId) //需要修改的objectId
+					query.set('status', true)
+					query.save().then(res => {
+						console.log(res)
+					}).catch(err => {
+						console.log(err)
+					})
+				}
+				console.log(res)
+			});*/
 			/*const query = Bmob.Query("Goods");
 			query.equalTo("models","!=", null);
 			query.count().then(res => {
@@ -43,7 +54,7 @@
 				});
 			
 			});*/
-			
+
 			/*setInterval(function(){
 				const query = Bmob.Query("Goods");
 				const query1 = query.equalTo("costPrice", '==', "undefined");
@@ -72,7 +83,7 @@
 				
 				});
 			},12000)*/
-			
+
 
 			//this.modifyGoodsInfo()
 

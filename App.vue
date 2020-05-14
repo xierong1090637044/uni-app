@@ -14,7 +14,7 @@
 				autoRetailPrice:true,//自动同步进价
 				autoCostPrice:true,//自动同步采购价
 				isChecked:false,//审核
-				canUseOldVer:true,//是否准许员工使用旧版
+				canUseOldVer:false,//是否准许员工使用旧版
 			},//用户设置
 			uid:'',//最高权限id
 			user:{}//用户相关信息

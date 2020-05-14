@@ -1,5 +1,5 @@
 <template>
-	<view style="height: 100vh;overflow: scroll;" v-if="identity == 2">
+	<view style="height: 100vh;overflow: scroll;" v-if="identity == 1 || isEdit == false">
 		<uni-nav-bar :fixed="true" color="#333333" background-color="#FFFFFF" right-text="确定" @click-right="confrimThis">
 			<view></view>
 		</uni-nav-bar>

@@ -1,6 +1,8 @@
 {
   "navigationBarTitleText": "看板",
   "usingComponents": {
-    "achart": "/components/charts/AChart"
+    "achart": "/components/charts/AChart",
+    "user-money-pie-chart": "/components/charts/userMoneyPieChart",
+    "custom-debt-chart": "/components/charts/customDebtChart"
   }
 }

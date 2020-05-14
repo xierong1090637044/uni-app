@@ -33,7 +33,7 @@
 		onLoad() {
 			that = this
 			uni.setNavigationBarTitle({
-				title: "出入库统计"
+				title: "仓库统计"
 			})
 			uni.removeStorageSync("warehouse")
 		},

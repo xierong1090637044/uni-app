@@ -27,7 +27,9 @@
     "pages/test/test",
     "pages/thanks/thanks",
     "pages/report/warningGoods/warningGoods",
-    "pages/report/EnteringHistory/stockDet/stockDet"
+    "pages/report/EnteringHistory/stockDet/stockDet",
+    "pages/report/sellPurchaseDetList/sellPurchaseDetList",
+    "pages/report/stockOutInDetList/stockOutInDetList"
   ],
   "subPackages": [
     {
@@ -38,16 +40,16 @@
         "sellGoods/sellGoods",
         "sellCustoms/sellCustoms",
         "stockOutIn/stockOutIn",
-        "stockGoodOut/stockGoodOut"
+        "stockGoodOut/stockGoodOut",
+        "brandSellPurchase/brandSellPurchase",
+        "stockGoods/stockGoods"
       ]
     },
     {
       "root": "pages/common",
       "pages": [
         "goods_out/out_detail/out_detail",
-        "goods_out/gooSellNew/gooSellNew",
         "good_return/buyReturn/buyReturn",
-        "good_confrim/goodPurchaseNew/goodPurchaseNew",
         "good_return/purchaseReturn/purchaseReturn",
         "good_confrim/goodPurchase/goodPurchase",
         "goods_out/goodSell/goodSell",
@@ -86,7 +88,11 @@
         "good_count/good_count",
         "good_count/count_detail/count_detail",
         "good_confrim/goodPurchaseLater/goodPurchaseLater",
-        "keepScan/keepScan"
+        "keepScan/keepScan",
+        "goods_out/goodSellNewEdit/goodSellNewEdit",
+        "good_confrim/goodPurchaseNewEdit/goodPurchaseNewEdit",
+        "good_return/buyReturnEdit/buyReturnEdit",
+        "good_return/purchaseReturnEdit/purchaseReturnEdit"
       ]
     },
     {
@@ -205,7 +211,10 @@
         "goods_add_MoreG/goods_add_MoreG",
         "goods_add_MoreG/G_More/G_More",
         "good_det/bad_history/bad_history",
-        "customClass/customClass"
+        "customClass/customClass",
+        "customFollow/customFollow",
+        "customFollowHistory/customFollowHistory",
+        "product_brand/product_brand"
       ]
     }
   ],

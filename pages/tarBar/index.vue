@@ -2,12 +2,12 @@
 	<!--当月详情-->
 	<view>
 		<view class="fristSearchView display_flex_bet">
-			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision" v-if="thisSetting.canUseOldVer !=false">
+			<view class="display_flex" style="color: #fff;font-weight: bold;" @click="changeVision" v-if="thisSetting.canUseOldVer !=true">
 				<text v-if="thisVision == 'New'">回到旧版</text>
 				<text v-if="thisVision == 'Old'">回到新版</text>
 				<i class="iconfont icon-down-trangle" style="font-size: 24rpx;margin-left: 10rpx;"></i>
 			</view>
-			<uni-search-bar :radius="100" @confirm="search" color="#fff" :style="thisSetting.canUseOldVer !=false?'width:65%':'width:85%'" v-if="canScanCode" />
+			<uni-search-bar :radius="100" @confirm="search" color="#fff" :style="thisSetting.canUseOldVer !=true?'width:65%':'width:85%'" v-if="canScanCode" />
 			<i class="iconfont icon-saoma" style="color: #fff;font-size: 36rpx;margin-left: 30rpx;" @click='scan_code(0)' v-if="canScanCode"></i>
 		</view>
 

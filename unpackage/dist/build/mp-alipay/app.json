@@ -27,9 +27,22 @@
     "pages/test/test",
     "pages/thanks/thanks",
     "pages/report/warningGoods/warningGoods",
-    "pages/report/EnteringHistory/stockDet/stockDet"
+    "pages/report/EnteringHistory/stockDet/stockDet",
+    "pages/report/sellPurchaseDetList/sellPurchaseDetList",
+    "pages/report/stockOutInDetList/stockOutInDetList"
   ],
   "subPackages": [
+    {
+      "root": "pages/reportAnalys",
+      "pages": [
+        "purchaseGoods/purchaseGoods",
+        "purchaseProducers/purchaseProducers",
+        "sellGoods/sellGoods",
+        "sellCustoms/sellCustoms",
+        "stockOutIn/stockOutIn",
+        "stockGoodOut/stockGoodOut"
+      ]
+    },
     {
       "root": "pages/common",
       "pages": [
@@ -106,7 +119,8 @@
         "about_us/about_us",
         "home_page/home_page",
         "warning_log/warning_log",
-        "systemSetting/systemSetting"
+        "systemSetting/systemSetting",
+        "printSetting/printSetting"
       ]
     },
     {
@@ -193,7 +207,9 @@
         "goods_add_MoreG/goods_add_MoreG",
         "goods_add_MoreG/G_More/G_More",
         "good_det/bad_history/bad_history",
-        "customClass/customClass"
+        "customClass/customClass",
+        "customFollow/customFollow",
+        "customFollowHistory/customFollowHistory"
       ]
     }
   ],
