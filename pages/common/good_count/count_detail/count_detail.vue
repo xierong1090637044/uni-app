@@ -172,6 +172,7 @@
 						query.set("beizhu", e.detail.value.input_beizhu);
 						query.set("detail", detailObj);
 						query.set("type", 3);
+						query.set("status", true);
 						query.set("opreater", poiID1);
 						query.set("master", poiID);
 						query.set('goodsName', that.products[0].goodsName);

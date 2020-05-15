@@ -195,11 +195,8 @@
 						</view>
 						<view style="color: #333;font-weight: bold;">*本次更新内容</view>
 						<view style="margin-left: 20rpx;font-size: 24rpx;color: #333;">
-							<view>1、增加操作审核机制！具体可在系统设置里面查看</view>
-							<view>2、增加隐藏旧版入库的权限</view>
-							<view>3、增加商品品牌采购、销售报表</view>
-							<view>4、增加仓库统计报表</view>
-							<view>5、一些细节优化及bug修复</view>
+							<view>1、入库类别增加</view>
+							<view>2、细节优化</view>
 						</view>
 						<view style="font-size: 20rpx;color: #999;text-align: center;margin-top: 10rpx;">感谢大家一如既往的支持！</view>
 					</view>

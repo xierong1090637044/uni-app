@@ -46,12 +46,13 @@
 								<view>数量：X{{item.num}}{{item.packingUnit ||''}}</view>
 							</view>
 							<view v-if="item.goodsId.selected_model">
-								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex" v-if="model.num > 0" style="justify-content: space-between;">
+								<view v-for="(model,index) in item.goodsId.selected_model" :key="index" class="display_flex" v-if="model.num > 0"
+								 style="justify-content: space-between;">
 									<view style="font-size: 24rpx;color: #999;">{{model.custom1.value + model.custom2.value + model.custom3.value + model.custom4.value}}</view>
 									<view style="font-size: 24rpx;color: #f30;">{{model.num}}</view>
 								</view>
 							</view>
-					
+
 							<view class='pro_list'>
 								<view>建议零售价：￥{{item.goodsId.retailPrice}}</view>
 								<view v-if="item.type == -1">实际卖出价：￥{{item.modify_retailPrice}}</view>
@@ -60,7 +61,7 @@
 									<text v-else>实际进货价：￥{{item.modify_retailPrice}}</text>
 								</view>
 							</view>
-					
+
 						</view>
 					</view>
 					<view class='pro_allmoney'>总计：￥{{detail.all_money }}</view>
@@ -93,15 +94,15 @@
 								<view class="real_color">{{detail.discountMoney || 0}}</view>
 								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
 							</view>
-							
+
 						</view>
-						
+
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
 							<view class="left_content">结算账户</view>
 							<view class="real_color">{{detail.account?detail.account.name:'未填写' }}</view>
 						</view>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view >现结（预付）款</view>
+							<view>现结（预付）款</view>
 							<view class="display_flex">
 								<view class="real_color">{{detail.haveGetMoney||0 }}</view>
 								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
@@ -181,13 +182,13 @@
 								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
 							</view>
 						</view>
-						
+
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;margin-top: 20rpx;">
 							<view class="left_content">结算账户</view>
 							<view class="real_color">{{detail.account?detail.account.name:'未填写' }}</view>
 						</view>
 						<view class="display_flex_bet" style="border-bottom: 1rpx solid#F7F7F7;">
-							<view >预付款</view>
+							<view>预付款</view>
 							<view class="display_flex">
 								<view class="real_color">{{detail.haveGetMoney||0 }}</view>
 								<text style="color: #333;font-weight: bold;margin-left: 6rpx;">元</text>
@@ -204,7 +205,7 @@
 							<view class="left_content">采购时间</view>
 							<view>{{detail.createdTime.iso.split(" ")[0]}}</view>
 						</view>
-						
+
 						<view class="display_flex_bet" style="margin-top: 20rpx;">
 							<view class="left_content">审核情况</view>
 							<view v-if="detail.status" style="color: #2ca879;">已审核</view>
@@ -339,103 +340,100 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = ['打印'];
-				if (that.detail.type == -1 || that.detail.type == 1) {
-					if (that.othercurrent.indexOf("1") != -1 || that.identity == 1 && that.detail.extra_type == 1) {
+				if (that.othercurrent.indexOf("1") != -1 || that.identity == 1) {
 
-						options = ['审核', '撤销', '打印','编辑']
-						//options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印'] : ['采购入库', '撤销', '打印']
+					let options = ['审核', '撤销', '打印', '编辑']
+					//options = (that.detail.type == -1) ? ['销售出库', '撤销', '打印'] : ['采购入库', '撤销', '打印']
 
-						uni.showActionSheet({
-							itemList: options,
-							success: function(res) {
-								if (res.tapIndex == 0) {
-									if (that.detail.type == 1) {
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔采购单已审核",
-												icon: "none"
-											})
-										} else {
-											that.confrimOrder()
-										}
-									} else if (that.detail.type == -1) {
-										if (that.detail.status) {
-											uni.showToast({
-												title: "该笔销售单已审核",
-												icon: "none"
-											})
-										} else {
-											that.confrimOrder()
-										}
+					uni.showActionSheet({
+						itemList: options,
+						success: function(res) {
+							if (res.tapIndex == 0) {
+								if (that.detail.type == 1) {
+									if (that.detail.status) {
+										uni.showToast({
+											title: "该笔采购单已审核",
+											icon: "none"
+										})
+									} else {
+										that.confrimOrder()
 									}
-									uni.setStorageSync("is_option", true)
-								} else if (res.tapIndex == 1) {//撤销
-									uni.showModal({
-										title: '是否确定撤销',
-										content: '撤销后数据无法恢复',
-										success: function(res) {
-											if (res.confirm) {
-												that.$http.Post("order_opreationSellPurchaseRevoke", {
-													orderId: that.detail.objectId,
-													negativeOut:getApp().globalData.setting.negativeOut,
-												}).then(res => {
-													if (res.code == 1) {
-														uni.setStorageSync("is_option", true)
-														uni.hideLoading();
-														uni.navigateBack({
-															delta: 1
-														})
-														setTimeout(function() {
-															uni.showToast({
-																title: '撤销成功'
-															})
-														}, 1000);
-													}
-												})
-											}
-										}
-									});
-								} else if (res.tapIndex == 2) {
-									that.$http.Post("stock_printInfo", {
-										sn:uni.getStorageSync("setting").sn,
-										type:"opreations",
-										id:that.detail.objectId,
-									}).then(res => {
-										console.log(res)
-									})
-								} else if (res.tapIndex == 3) {//编辑操作单
-									let stock = {}
-									stock.stock = that.detail.stock
-									uni.setStorageSync("account",that.detail.account)
-									uni.setStorageSync("warehouse",[stock])
-									uni.setStorageSync("products",that.detail.opreatGood)
-									uni.setStorageSync("orderId",that.detail.objectId)
-									uni.setStorageSync("beizhu_text",that.detail.beizhu)
-									uni.setStorageSync("Images",that.detail.Images)
-									if(that.detail.type == -1 ){
-										uni.setStorageSync("custom",that.detail.custom)
-										uni.navigateTo({
-											url:"/pages/commonNew/goods_out/goods_out?value=3&option=edit"
+								} else if (that.detail.type == -1) {
+									if (that.detail.status) {
+										uni.showToast({
+											title: "该笔销售单已审核",
+											icon: "none"
 										})
-									}else if(that.detail.type == 1){
-										uni.setStorageSync("producer",that.detail.producer)
-										uni.navigateTo({
-											url:"/pages/commonNew/good_confrim/good_confrim?value=3&option=edit"
-										})
+									} else {
+										that.confrimOrder()
 									}
 								}
-							},
-							fail: function(res) {
-								console.log(res.errMsg);
+								uni.setStorageSync("is_option", true)
+							} else if (res.tapIndex == 1) { //撤销
+								uni.showModal({
+									title: '是否确定撤销',
+									content: '撤销后数据无法恢复',
+									success: function(res) {
+										if (res.confirm) {
+											that.$http.Post("order_opreationSellPurchaseRevoke", {
+												orderId: that.detail.objectId,
+												negativeOut: getApp().globalData.setting.negativeOut,
+											}).then(res => {
+												if (res.code == 1) {
+													uni.setStorageSync("is_option", true)
+													uni.hideLoading();
+													uni.navigateBack({
+														delta: 1
+													})
+													setTimeout(function() {
+														uni.showToast({
+															title: '撤销成功'
+														})
+													}, 1000);
+												}
+											})
+										}
+									}
+								});
+							} else if (res.tapIndex == 2) {
+								that.$http.Post("stock_printInfo", {
+									sn: uni.getStorageSync("setting").sn,
+									type: "opreations",
+									id: that.detail.objectId,
+								}).then(res => {
+									console.log(res)
+								})
+							} else if (res.tapIndex == 3) { //编辑操作单
+								let stock = {}
+								stock.stock = that.detail.stock
+								uni.setStorageSync("account", that.detail.account)
+								uni.setStorageSync("warehouse", [stock])
+								uni.setStorageSync("products", that.detail.opreatGood)
+								uni.setStorageSync("orderId", that.detail.objectId)
+								uni.setStorageSync("beizhu_text", that.detail.beizhu)
+								uni.setStorageSync("Images", that.detail.Images)
+								if (that.detail.type == -1) {
+									uni.setStorageSync("custom", that.detail.custom)
+									uni.navigateTo({
+										url: "/pages/commonNew/goods_out/goods_out?value=3&option=edit"
+									})
+								} else if (that.detail.type == 1) {
+									uni.setStorageSync("producer", that.detail.producer)
+									uni.navigateTo({
+										url: "/pages/commonNew/good_confrim/good_confrim?value=3&option=edit"
+									})
+								}
 							}
-						});
-					}else{
-						uni.showToast({
-							title:"暂无操作权限",
-							icon:"none",
-						})
-					}
+						},
+						fail: function(res) {
+							console.log(res.errMsg);
+						}
+					});
+				} else {
+					uni.showToast({
+						title: "暂无操作权限",
+						icon: "none",
+					})
 				}
 			},
 
@@ -448,10 +446,10 @@
 					that.products = res.detail;
 					that.bills = res.bills;
 					that.loading = false;
-					
-					if(res.type == 1){
+
+					if (res.type == 1) {
 						uni.setNavigationBarTitle({
-							title:"采购单详情"
+							title: "采购单详情"
 						})
 					}
 				}).catch(err => {
@@ -467,15 +465,15 @@
 					success(res) {
 						if (res.confirm) {
 							that.$http.Post("confrim_orderStatus", {
-								orderId:that.detail.objectId,
-								stockId:that.detail.stock.objectId,
-								stockName:that.detail.stock.stock_name,
+								orderId: that.detail.objectId,
+								stockId: that.detail.stock.objectId,
+								stockName: that.detail.stock.stock_name,
 							}).then(res => {
-								if(res.code == 1){
+								if (res.code == 1) {
 									that.getdetail(id);
 									uni.showToast({
-										icon:"none",
-										title:"审核成功！"
+										icon: "none",
+										title: "审核成功！"
 									})
 								}
 							})

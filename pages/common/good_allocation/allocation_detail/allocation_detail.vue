@@ -255,6 +255,7 @@
 					query.set("out_stock", out_stockId);
 					query.set("master", poiID);
 					query.set('goodsName', that.products[0].goodsName);
+					query.set("status", true);
 
 					query.save().then(res => {
 						let operationId = res.objectId;

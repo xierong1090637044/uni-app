@@ -226,7 +226,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view v-else-if="detail.type == -2">
 					<view class="kaidanmx">
 						<view style="padding: 10rpx 30rpx;">调拨明细</view>
@@ -237,7 +237,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<view v-else-if="detail.type == 3">
 					<view class="kaidanmx">
 						<view style="padding: 10rpx 30rpx;">盘点明细</view>
@@ -374,31 +374,36 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = []
-
-				options = ['撤销', '打印', '审核']
-				uni.showActionSheet({
-					itemList: options,
-					success: function(res) {
-						if (res.tapIndex == 0) {
-							that.revoke()
-							uni.setStorageSync("is_option", true)
-						} else if (res.tapIndex == 1) {
-							that.$http.Post("stock_printInfo", {
-								sn: uni.getStorageSync("setting").sn,
-								type: "opreations",
-								id: that.detail.objectId,
-							}).then(res => {
-								console.log(res)
-							})
-						} else if (res.tapIndex == 2) {
-							that.confrimOrder()
+				if (that.othercurrent.indexOf("1") != -1 || that.identity == 1) {
+					let options = ['撤销', '打印', '审核']
+					uni.showActionSheet({
+						itemList: options,
+						success: function(res) {
+							if (res.tapIndex == 0) {
+								that.revoke()
+								uni.setStorageSync("is_option", true)
+							} else if (res.tapIndex == 1) {
+								that.$http.Post("stock_printInfo", {
+									sn: uni.getStorageSync("setting").sn,
+									type: "opreations",
+									id: that.detail.objectId,
+								}).then(res => {
+									console.log(res)
+								})
+							} else if (res.tapIndex == 2) {
+								that.confrimOrder()
+							}
+						},
+						fail: function(res) {
+							console.log(res.errMsg);
 						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
+					});
+				} else {
+					uni.showToast({
+						title: "暂无操作权限",
+						icon: "none",
+					})
+				}
 			},
 
 			getdetail: function(id) {

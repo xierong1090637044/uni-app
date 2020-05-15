@@ -60,7 +60,7 @@
 						<view class="display_flex_bet orderListItemBorder borderBot">
 							<view>其他费用</view>
 							<view class="kaidan_rightinput display_flex">
-								<input placeholder="输入实际收款金额" v-model="otherMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								<input placeholder="输入其他费用"  style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
 								 type="digit" @input="inputOtherMoney" />
 								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
@@ -68,7 +68,7 @@
 						<view class="display_flex_bet orderListItemBorder borderBot">
 							<view>优惠金额</view>
 							<view class="kaidan_rightinput display_flex">
-								<input placeholder="输入优惠金额" v-model="discountMoney" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
+								<input placeholder="输入优惠金额" style="color: #d71345;text-align: right;margin-right: 20rpx;font-size: 30rpx;"
 								 type="digit" @input="inputDiscountMoney" />
 								<text style="color: #333;font-weight: bold;">元</text>
 							</view>
@@ -223,10 +223,12 @@
 		methods: {
 
 			inputOtherMoney(e) {
+				that.otherMoney =  Number(e.detail.value)
 				that.haveGetMoney = Number(that.all_money.toFixed(2)) + Number(e.detail.value) - Number(that.discountMoney)
 			},
 
 			inputDiscountMoney(e) {
+				that.discountMoney =  Number(e.detail.value)
 				that.haveGetMoney = Number(that.all_money.toFixed(2)) + Number(that.otherMoney) - Number(e.detail.value)
 			},
 

@@ -32,7 +32,7 @@
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>
-						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+						<view class="display_flex_bet" style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;" @click="isChooseStockClass = true">
 							<view style="width: 150rpx;" class="left_content">入库类别<text style="color: #f30;">*</text></view>
 							<view style="display: flex;align-items: center;">
 								<input placeholder="请选择要入库类别" disabled="true" :value="stockClass" style="text-align: right;margin-right: 20rpx;" />
@@ -85,6 +85,16 @@
 
 				</view>
 			</form>
+		</view>
+		
+		<view style="position: fixed;top: 0;left: 0;z-index: 10;width: calc(100% - 60rpx);height: 100vh;background: #fff;line-height: 60rpx;padding:20rpx 30rpx;"
+		 v-if="isChooseStockClass">
+			<view style="text-align: right;" @tap="isChooseStockClass = false">
+				<fa-icon type="times-circle-o" size="20" color="#426ab3"></fa-icon>
+			</view>
+			<view class="borderBot stockClassItem" @click="chooseStockClass('生产入库')">生产入库</view>
+			<view class="borderBot stockClassItem" @click="chooseStockClass('退换入库')">退换入库</view>
+			<view class="borderBot stockClassItem" @click="chooseStockClass('采购入库')">采购入库</view>
 		</view>
 
 	</view>

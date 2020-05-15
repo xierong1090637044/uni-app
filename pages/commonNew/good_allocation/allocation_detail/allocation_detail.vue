@@ -23,19 +23,19 @@
 				<view style="margin: 30rpx 0;">
 					<view style="margin:0 0 10rpx 20rpx;color: #3D3D3D;font-weight: bold;">调拨明细</view>
 					<view class="kaidan_detail" style="line-height: 70rpx;">
-						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=in_choose"
-						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
-							<view>调入仓库</text></view>
-							<view class="kaidan_rightinput display_flex">
-								<input placeholder="选择调入仓库" disabled="true" :value="in_stock.stock_name" style="margin-right: 20rpx;text-align: right;" />
-								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
-							</view>
-						</navigator>
 						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=out_choose"
 						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
 							<view>调出仓库</text></view>
 							<view class="kaidan_rightinput display_flex">
 								<input placeholder="选择调出仓库" disabled="true" :value="out_stock.stock_name" style="margin-right: 20rpx;text-align: right;" />
+								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
+							</view>
+						</navigator>
+						<navigator class="display_flex_bet" hover-class="none" url="/pages/manage/warehouse/warehouse?type=in_choose"
+						 style="padding: 10rpx 0;border-bottom: 1rpx solid#F7F7F7;">
+							<view>调入仓库</text></view>
+							<view class="kaidan_rightinput display_flex">
+								<input placeholder="选择调入仓库" disabled="true" :value="in_stock.stock_name" style="margin-right: 20rpx;text-align: right;" />
 								<fa-icon type="angle-right" size="20" color="#999"></fa-icon>
 							</view>
 						</navigator>

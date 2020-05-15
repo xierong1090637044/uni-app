@@ -175,7 +175,22 @@
 				}
 				that.products = this.products
 			}
-
+		},
+		
+		onShow() {
+			/*that.$http.Post("order_opreationLaster", {
+				type: 1,
+			}).then(res => {
+				if(res.data){
+					res.data.producer?uni.setStorageSync("producer",res.data.producer):''
+					res.data.accounts?uni.setStorageSync("accounts",res.data.accounts):''
+					if(res.data.stock){
+						let warehouse = {}
+						warehouse.stock = res.data.stock
+						uni.setStorageSync("warehouse",[warehouse])
+					}
+				}
+			})*/
 		},
 
 		methods: {

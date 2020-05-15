@@ -26,7 +26,7 @@
 							</view>
 						</view>
 					</view>
-					
+
 					<!--2020-06-12可去掉此判断-->
 					<view v-else>
 						<view v-for="(item,index) in products" :key="index" class='pro_listitem'>
@@ -223,91 +223,98 @@
 
 			//点击显示操作菜单
 			show_options() {
-				let options = ['审核', '撤销', '打印', '修改'];;
-				uni.showActionSheet({
-					itemList: options,
-					success: function(res) {
-						if (res.tapIndex == 0) {
-							if (that.detail.type == 1) {
-								if (that.detail.status) {
-									uni.showToast({
-										title: "该笔销售退货单已审核",
-										icon: "none"
-									})
-								} else {
-									that.confrimOrder()
-								}
-							} else if (that.detail.type == -1) {
-								if (that.detail.status) {
-									uni.showToast({
-										title: "该笔采购退货单已审核",
-										icon: "none"
-									})
-								} else {
-									that.confrimOrder()
-								}
-							}
-							uni.setStorageSync("is_option", true)
-						} else if (res.tapIndex == 1) {//撤销
-							uni.showModal({
-								title: '是否确定撤销',
-								content: '撤销后数据无法恢复',
-								success: function(res) {
-									if (res.confirm) {
-										that.$http.Post("order_opreationSellPurchaseRevoke", {
-											orderId: that.detail.objectId,
-											negativeOut:getApp().globalData.setting.negativeOut,
-										}).then(res => {
-											if (res.code == 1) {
-												uni.setStorageSync("is_option", true)
-												uni.hideLoading();
-												uni.navigateBack({
-													delta: 1
-												})
-												setTimeout(function() {
-													uni.showToast({
-														title: '撤销成功'
-													})
-												}, 1000);
-											}
+				if (that.othercurrent.indexOf("1") != -1 || that.identity == 1) {
+					let options = ['审核', '撤销', '打印', '修改'];;
+					uni.showActionSheet({
+						itemList: options,
+						success: function(res) {
+							if (res.tapIndex == 0) {
+								if (that.detail.type == 1) {
+									if (that.detail.status) {
+										uni.showToast({
+											title: "该笔销售退货单已审核",
+											icon: "none"
 										})
+									} else {
+										that.confrimOrder()
+									}
+								} else if (that.detail.type == -1) {
+									if (that.detail.status) {
+										uni.showToast({
+											title: "该笔采购退货单已审核",
+											icon: "none"
+										})
+									} else {
+										that.confrimOrder()
 									}
 								}
-							});
-						} else if (res.tapIndex == 2) { //打印
-							that.$http.Post("stock_printInfo", {
-								sn: uni.getStorageSync("setting").sn,
-								type: "opreations",
-								id: that.detail.objectId,
-							}).then(res => {
-								console.log(res)
-							})
-						} else if (res.tapIndex == 3) { //编辑
-							let stock = {}
-							stock.stock = that.detail.stock
-							uni.setStorageSync("account", that.detail.account)
-							uni.setStorageSync("warehouse", [stock])
-							uni.setStorageSync("products", that.detail.opreatGood)
-							uni.setStorageSync("orderId", that.detail.objectId)
-							uni.setStorageSync("beizhu_text", that.detail.beizhu)
-							uni.setStorageSync("Images", that.detail.Images)
-							if (that.detail.type == -1) {
-								uni.setStorageSync("custom", that.detail.custom)
-								uni.navigateTo({
-									url: "/pages/commonNew/goods_out/goods_out?value=4&option=edit"
+								uni.setStorageSync("is_option", true)
+							} else if (res.tapIndex == 1) { //撤销
+								uni.showModal({
+									title: '是否确定撤销',
+									content: '撤销后数据无法恢复',
+									success: function(res) {
+										if (res.confirm) {
+											that.$http.Post("order_opreationSellPurchaseRevoke", {
+												orderId: that.detail.objectId,
+												negativeOut: getApp().globalData.setting.negativeOut,
+											}).then(res => {
+												if (res.code == 1) {
+													uni.setStorageSync("is_option", true)
+													uni.hideLoading();
+													uni.navigateBack({
+														delta: 1
+													})
+													setTimeout(function() {
+														uni.showToast({
+															title: '撤销成功'
+														})
+													}, 1000);
+												}
+											})
+										}
+									}
+								});
+							} else if (res.tapIndex == 2) { //打印
+								that.$http.Post("stock_printInfo", {
+									sn: uni.getStorageSync("setting").sn,
+									type: "opreations",
+									id: that.detail.objectId,
+								}).then(res => {
+									console.log(res)
 								})
-							} else if (that.detail.type == 1) {
-								uni.setStorageSync("producer",that.detail.producer)
-								uni.navigateTo({
-									url: "/pages/commonNew/good_confrim/good_confrim?value=4&option=edit"
-								})
+							} else if (res.tapIndex == 3) { //编辑
+								let stock = {}
+								stock.stock = that.detail.stock
+								uni.setStorageSync("account", that.detail.account)
+								uni.setStorageSync("warehouse", [stock])
+								uni.setStorageSync("products", that.detail.opreatGood)
+								uni.setStorageSync("orderId", that.detail.objectId)
+								uni.setStorageSync("beizhu_text", that.detail.beizhu)
+								uni.setStorageSync("Images", that.detail.Images)
+								if (that.detail.type == -1) {
+									uni.setStorageSync("custom", that.detail.custom)
+									uni.navigateTo({
+										url: "/pages/commonNew/goods_out/goods_out?value=4&option=edit"
+									})
+								} else if (that.detail.type == 1) {
+									uni.setStorageSync("producer", that.detail.producer)
+									uni.navigateTo({
+										url: "/pages/commonNew/good_confrim/good_confrim?value=4&option=edit"
+									})
+								}
 							}
+						},
+						fail: function(res) {
+							console.log(res.errMsg);
 						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
+					});
+				} else {
+					uni.showToast({
+						title: "暂无操作权限",
+						icon: "none",
+					})
+				}
 			},
 
 			getdetail: function(id) {
@@ -332,15 +339,15 @@
 					success(res) {
 						if (res.confirm) {
 							that.$http.Post("confrim_orderStatus", {
-								orderId:that.detail.objectId,
-								stockId:that.detail.stock.objectId,
-								stockName:that.detail.stock.stock_name,
+								orderId: that.detail.objectId,
+								stockId: that.detail.stock.objectId,
+								stockName: that.detail.stock.stock_name,
 							}).then(res => {
-								if(res.code == 1){
+								if (res.code == 1) {
 									that.getdetail(id);
 									uni.showToast({
-										icon:"none",
-										title:"审核成功！"
+										icon: "none",
+										title: "审核成功！"
 									})
 								}
 							})
